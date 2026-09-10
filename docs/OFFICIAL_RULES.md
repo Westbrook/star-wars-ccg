@@ -23,7 +23,7 @@ The custom archive contains 3,824 current PC card records: 2,546 Decipher and 1,
 
 The custom deck editor preserves main/outside cards, asks GEMP for format checks, rejects unknown IDs before save, and reads saved cards back to detect loss. There is no invented four-copy restriction. Open uses 60 cards; Open 40 is labeled as GEMP's variant. Actual table creation validates the selected format again.
 
-The CPU launcher uses official Death Star II preconstructed decks or GEMP's defined 40-card starters. CPU decisions run inside GEMP. Multiplayer and the battlefield currently use the complete existing GEMP client inside the app, with presentation-only CSS. This retains all seven decision types and complete board behavior. The frame owns the game channel exclusively. The custom responsive battle renderer remains unfinished; an iframe is not completion of that original UX scope.
+The CPU launcher uses official Death Star II preconstructed decks or GEMP's defined 40-card starters. CPU decisions run inside GEMP. Multiplayer and the battlefield currently use the complete existing GEMP client inside the app, with presentation CSS and a no-action continuation adapter. This retains all seven decision types and complete board behavior. The frame owns the game channel exclusively. The custom responsive battle renderer remains unfinished; an iframe is not completion of that original UX scope.
 
 Sealed products, collation and isolated league collections must come from GEMP. Existing sealed leagues permit human opponents and reject CPU play. Sealed CPU practice with strict pool validation is still unfinished; the app does not invent a replacement format or silently treat an unrestricted deck as sealed.
 
@@ -39,3 +39,11 @@ The browser presentation has not been tested interactively. All current checks a
 2. Replace the embedded battle presentation with a complete device-specific client that preserves every GEMP decision/event, without calculating legality in the UI.
 3. Complete a guided sealed experience using real engine products/collections; preserve the engine's format and ownership checks. Decide how to implement CPU practice without claiming engine league support.
 4. Run full-match regression cases and user-authorized browser checks before claiming a complete polished official-rules game.
+
+## No-action countdown
+
+The Holotable client automatically submits GEMP’s empty pass result after a visible two-second countdown only for `CARD_ACTION_CHOICE` decisions addressed to the local player with no card/action entries and explicit `noPass=false`. This includes empty phase and response windows. Pause/Resume and Continue now remain available. Existing automatic `EMPTY` decisions keep their engine-specified behavior; choices, Force drawing, selections, and readiness confirmations stay manual. The native broader auto-pass path is disabled in this wrapper so it cannot discard playable choices.
+
+Timers use a local decision occurrence token because GEMP reuses decision IDs. The current decision is recorded when its response arrives, before GEMP queues its display behind animations. New decisions/events, channel or participant changes, manual responses, errors, navigation and disconnects invalidate the timer. An error also blocks queued prompts until a new game session starts. Clock-only updates retain the deadline; hidden tabs pause it, and manual pauses survive visibility changes. No rules, card effects, or server legality checks change.
+
+`node tests/auto-continue.test.mjs` checks eligibility, elapsed-time countdowns, pause/resume, duplicate submission protection, reused IDs, queued prompts, changed channels, connection/session cleanup, replay/spectator exclusion and suppression of native auto-pass for playable choices. `node tests/engine-bridge.test.mjs` checks visibility/navigation/disconnection handling and safe initialization on hall/login pages.

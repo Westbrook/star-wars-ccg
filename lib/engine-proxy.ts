@@ -15,7 +15,7 @@ export async function engineProxy(request:Request){
   out.set('Cache-Control','no-store');
   for(const cookie of response.headers.getSetCookie()){if(cookie.startsWith('loggedUser='))out.append('set-cookie',cookie.replace(/;\s*Domain=[^;]*/ig,'').replace(/;\s*Path=[^;]*/ig,'')+'; Path=/; HttpOnly; SameSite=Lax'+(incoming.protocol==='https:'?'; Secure':''))}
   const location=response.headers.get('location');if(location){const dest=new URL(location,base);if(dest.origin!==base)return new Response(null,{status:502});out.set('location',dest.pathname+dest.search+dest.hash)}
-  if(out.get('content-type')?.includes('text/html')){let html=await response.text();html=html.replace('</head>','<link rel="stylesheet" href="/engine-client.css"><script defer src="/engine-bridge.js"></script></head>');return new Response(html,{status:response.status,headers:out})}
+  if(out.get('content-type')?.includes('text/html')){let html=await response.text();html=html.replace('</head>','<link rel="stylesheet" href="/engine-client.css"><script type="module" src="/engine-bridge.js"></script></head>');return new Response(html,{status:response.status,headers:out})}
   return new Response(response.body,{status:response.status,headers:out});
  }catch{return Response.json({error:'The rules service is currently unavailable.'},{status:503,headers:{'Cache-Control':'no-store'}})}
 }
