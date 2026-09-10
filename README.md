@@ -3,7 +3,7 @@
 A responsive card archive and interface for the Players Committee's GEMP SWCCG rules engine. The earlier simplified game has been retired; card abilities and game legality are never inferred from catalog stats.
 
 - **Archive:** 3,824 current Decipher/PC virtual records, printed text, original scans, expansion filters and both faces.
-- **Decks:** custom editor with GEMP validation, separate outside-deck cards and save/readback checks.
+- **Decks:** four authored starter lists, available to inspect/customize without a rules connection. Open 60 uses the PC/GEMP Open Demo pair; GEMP Open 40 uses its beginner pair. Saving and starting games check the rules service. Custom decks retain separate outside-deck cards and save/readback checks.
 - **Games:** GEMP computer and human opponents. Open 60 and explicitly labeled GEMP Open 40 formats. The battlefield currently embeds GEMP's complete client.
 - **In progress:** custom battle UX for phone/tablet/desktop, guided sealed workflows and persistent hosted engine deployment.
 

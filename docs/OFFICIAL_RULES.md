@@ -23,7 +23,7 @@ The custom archive contains 3,824 current PC card records: 2,546 Decipher and 1,
 
 The custom deck editor preserves main/outside cards, asks GEMP for format checks, rejects unknown IDs before save, and reads saved cards back to detect loss. There is no invented four-copy restriction. Open uses 60 cards; Open 40 is labeled as GEMP's variant. Actual table creation validates the selected format again.
 
-The CPU launcher uses official Death Star II preconstructed decks or GEMP's defined 40-card starters. CPU decisions run inside GEMP. Multiplayer and the battlefield currently use the complete existing GEMP client inside the app, with presentation CSS and a no-action continuation adapter. This retains all seven decision types and complete board behavior. The frame owns the game channel exclusively. The custom responsive battle renderer remains unfinished; an iframe is not completion of that original UX scope.
+The CPU launcher uses the Players Committee/GEMP Open Demo pair for Open 60 and GEMP's authored 40-card beginner pair. Both the player's default and the computer opponent use these lists. CPU decisions run inside GEMP. Multiplayer and the battlefield currently use the complete existing GEMP client inside the app, with presentation CSS and a no-action continuation adapter. This retains all seven decision types and complete board behavior. The frame owns the game channel exclusively. The custom responsive battle renderer remains unfinished; an iframe is not completion of that original UX scope.
 
 Sealed products, collation and isolated league collections must come from GEMP. Existing sealed leagues permit human opponents and reject CPU play. Sealed CPU practice with strict pool validation is still unfinished; the app does not invent a replacement format or silently treat an unrestricted deck as sealed.
 
@@ -57,3 +57,18 @@ The wrapper checks the current pilot session before mounting the game. If sign-i
 Only the native iframe requests the game state. Its initial GET creates a fresh communication channel for the same game and restores the board and pending decision; it does not create a new match. Another tab's older channel for that player becomes stale. Links cannot recover games that GEMP has removed or lost after a server restart, and do not pause the game clock.
 
 `node tests/game-links.test.mjs` and `node tests/engine-navigation.test.mjs` cover URL reconstruction, navigation, sanitization, lobby links and client error handling. `python3 tests/game-reconnect-smoke.py` checks actual local engine reconnection, identical pending choice, resumed submission, stale-channel rejection, authentication and private-game access. Browser refresh interaction has not been tested through automation.
+
+## Current starter decks
+
+`data/starter-decks.json` stores exact authored GEMP lists, source commit, card-list fingerprints and verification evidence. The selected upstream rows were compared with public master on 2026-09-10 and were unchanged from the pinned engine source. These are the current upstream teaching lists, not newly invented 2026 competitive decks.
+
+| Format | Light | Dark |
+| --- | --- | --- |
+| Open · 60 cards | Precon Open Demo Deck (Light) — City In The Clouds | Precon Open Demo Deck (Dark) — Twin Suns Of Tatooine |
+| GEMP Open 40 variant | Open 40 card - Beginner Light — Wookiees of Kashyyyk | Open 40 card - Beginner Dark — Imperial Fleet |
+
+The [Players Committee's demo-deck guide](https://www.starwarsccg.org/star-wars-demo-decks-for-beginners/) explains why the Open demos introduce newer cards and objective-based play. The [current new-player page](https://www.starwarsccg.org/new-returning-players/) continues to recommend the demo decks. Authored lists are preserved exactly: 60/40 main cards and zero outside-deck cards. No starter cards or rules were invented, and optional teaching exercises with arranged hands are not implemented. The original Death Star II lists remain available in GEMP's full deck library.
+
+Lobby cards, workshop cards and both sides of the CPU launcher share this single starter registry. Viewing and customizing a source starter work without GEMP; saving and gameplay require a connected service. Before creating a CPU table, the app checks the current library list against its displayed snapshot and requires the exact selected format's valid result. A changed starter, missing archive card, missing library deck or failed legality check stops launch rather than silently substituting a deck. GEMP also performs its authoritative table-creation validation.
+
+`node tests/starters.test.mjs` checks every card ID, side, count, format and source fingerprint. `python3 tests/starters-engine-smoke.py` checks all four lists against the local engine, requires the selected format to pass and the wrong-size format to fail, saves/reads back disposable copies, and starts/concedes CPU games with the human on both sides. This covers setup and format acceptance, not complete games or strategic AI quality. Browser interaction has not been tested.
