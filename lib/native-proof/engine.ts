@@ -124,8 +124,8 @@ export function prompt(m:Match):Prompt|null{
   }
   if(f.stage==='damage'){
    const s=b.next;return {...base,side:s,title:'Satisfy battle losses',detail:'Attrition '+b.attrition[s]+' · battle damage '+b.damage[s]+'. A forfeit reduces both totals. Losing Force pays only battle damage.',choices:[
-    ...members(m,s).map(id=>({id:'forfeit:'+id,label:'Forfeit '+name(m,id)+' · '+printed(m.cards[id].blueprint,'forfeit'),card:id})),
-    ...(b.damage[s]>0&&mayLose(m,s)?lossChoices(m,s):[]),
+    ...members(m,s).map(id=>{const value=printed(m.cards[id].blueprint,'forfeit');return {id:'forfeit:'+id,label:'Forfeit '+name(m,id)+' · '+value,card:id,lossPreview:{kind:'forfeit' as const,value,attrition:Math.max(0,b.attrition[s]-value),damage:Math.max(0,b.damage[s]-value)}}}),
+    ...(b.damage[s]>0&&mayLose(m,s)?lossChoices(m,s).map(c=>({...c,lossPreview:{kind:'force' as const,value:1,attrition:b.attrition[s],damage:Math.max(0,b.damage[s]-1)}})):[]),
    ]};
   }
  }
@@ -190,5 +190,12 @@ function publicCard(m:Match,id:string):PublicCard{const c=m.cards[id],d=definiti
 export function project(m:Match,seat:Side):Projection{
  assertMatch(m);const p=prompt(m);const players={} as Projection['players'];
  for(const s of sides){const source=m.players[s];players[s]={counts:Object.fromEntries(piles.map(z=>[z,source[z].length])) as Projection['players'][Side]['counts'],life:life(m,s),hand:s===seat?source.hand.map(id=>publicCard(m,id)):[],lost:source.lost.slice(0,1).map(id=>publicCard(m,id)),destiny:source.destiny.map(id=>publicCard(m,id))};}
- return {scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:m.battle?structuredClone(m.battle):null};
+ const b=m.battle;const frame=m.stack.find(f=>f.kind==='battle');
+ // Active saves expose totals only after calculation, including nested response
+ // windows. In this closed fixture a completed battle with both destiny choices
+ // recorded has resolved losses; leaving before initiation has neither choice.
+ // This also reads existing native-proof-1 saves without changing stored rules.
+ const ready=!!b&&(frame?.stage==='damage'||frame?.stage==='end'||m.complete&&b.drawn.light&&b.drawn.dark);
+ const losses=ready?Object.fromEntries(sides.map(s=>[s,{attrition:b!.attrition[s],damage:b!.damage[s],initialAttrition:b!.destiny[other(s)]??0,initialDamage:Math.max(0,b!.power[other(s)]-b!.power[s])}])) as Record<Side,import('./types').LossBalance>:null;
+ return {scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses};
 }
