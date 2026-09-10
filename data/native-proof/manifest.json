@@ -1,0 +1,1296 @@
+{
+  "schemaVersion": 1,
+  "engineSource": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "rulesSource": "https://www.starwarsccg.org/rules/",
+  "decks": [
+    {
+      "id": "intro-light",
+      "title": "Premiere Introductory Two-Player Game",
+      "side": "light",
+      "size": 60,
+      "libraryName": "Precon Premiere Intro 2PG (Light)",
+      "main": [
+        "1_12",
+        "1_12",
+        "1_30",
+        "1_30",
+        "1_30",
+        "1_31",
+        "1_31",
+        "1_31",
+        "1_6",
+        "1_18",
+        "1_18",
+        "101_2",
+        "101_2",
+        "101_2",
+        "1_26",
+        "1_26",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_35",
+        "1_40",
+        "1_40",
+        "1_64",
+        "1_77",
+        "1_80",
+        "1_80",
+        "1_84",
+        "1_91",
+        "1_90",
+        "1_90",
+        "1_98",
+        "1_100",
+        "1_105",
+        "1_106",
+        "101_3",
+        "101_3",
+        "101_3",
+        "1_113",
+        "1_113",
+        "1_115",
+        "1_120",
+        "1_124",
+        "101_1",
+        "101_1",
+        "1_129",
+        "1_129",
+        "1_130",
+        "1_131",
+        "1_131",
+        "1_132",
+        "1_152",
+        "1_152",
+        "1_153",
+        "1_162",
+        "1_162",
+        "1_162"
+      ],
+      "outside": [],
+      "uniqueCards": 33,
+      "contentsSha256": "bd7c0dc780e3503c8837640700e4671142cd4788bf5349327e9c71c2fabc0133"
+    },
+    {
+      "id": "intro-dark",
+      "title": "Premiere Introductory Two-Player Game",
+      "side": "dark",
+      "size": 60,
+      "libraryName": "Precon Premiere Intro 2PG (Dark)",
+      "main": [
+        "1_182",
+        "1_182",
+        "1_196",
+        "1_196",
+        "1_196",
+        "1_196",
+        "1_196",
+        "1_186",
+        "1_186",
+        "1_170",
+        "1_170",
+        "1_181",
+        "1_181",
+        "1_194",
+        "1_194",
+        "1_194",
+        "1_194",
+        "1_194",
+        "1_194",
+        "1_194",
+        "101_5",
+        "101_5",
+        "101_5",
+        "1_201",
+        "1_207",
+        "1_207",
+        "1_221",
+        "1_224",
+        "1_237",
+        "1_238",
+        "1_238",
+        "1_249",
+        "1_251",
+        "1_252",
+        "1_254",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_269",
+        "1_275",
+        "101_6",
+        "101_6",
+        "101_6",
+        "1_279",
+        "1_284",
+        "1_285",
+        "1_285",
+        "101_4",
+        "101_4",
+        "1_291",
+        "1_292",
+        "1_293",
+        "1_295",
+        "1_312",
+        "1_315",
+        "1_317",
+        "1_317",
+        "1_322",
+        "1_322",
+        "1_322"
+      ],
+      "outside": [],
+      "uniqueCards": 35,
+      "contentsSha256": "6787fd07eed8f0ca4aa2ffc4d436e8e334e9e3aa5a9616677e1fa3ee2dfb40f7"
+    }
+  ],
+  "coverage": {
+    "fullMatchesEnabled": false,
+    "reason": "The native service currently executes named conformance scenarios. Full starter games remain gated until every reachable card behavior is verified."
+  },
+  "cards": [
+    {
+      "gempId": "101_1",
+      "name": "Death Star: Level 6 Core Shaft Corridor",
+      "side": "light",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/PremiereIntroductoryTwoPlayerGame-Light/large/deathstarlevel6coreshaftcorridor.gif",
+      "text": "Light: If you control, Luke and Obi-Wan are power +2 on Death Star. Dark: If you control, opponent needs 2 ability to control each Death Star site.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Interior",
+        "Mobile"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_001.java"
+    },
+    {
+      "gempId": "101_2",
+      "name": "Luke",
+      "side": "light",
+      "type": "Character",
+      "subType": "Rebel",
+      "image": "https://res.starwarsccg.org/cards/PremiereIntroductoryTwoPlayerGame-Light/large/luke.gif",
+      "text": "Must deploy on Tatooine, but may move elsewhere. May not be deployed if two or more of opponent's unique (\u2022) characters on table. Your warriors at same site as Luke, or adjacent sites are forfeit +1.",
+      "stats": {
+        "deploy": "4",
+        "power": "2",
+        "ability": "3",
+        "destiny": "1",
+        "forfeit": "4"
+      },
+      "icons": [
+        "Warrior"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_002.java"
+    },
+    {
+      "gempId": "101_3",
+      "name": "Run Luke, Run!",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/PremiereIntroductoryTwoPlayerGame-Light/large/runlukerun.gif",
+      "text": "At any time, move Luke as a regular move (using landspeed for free) to a battle just initiated at an adjacent site. Luke is power +2 during that battle, unless Vader is present or adjacent to the battle site. OR You may cancel Vader's Obsession.",
+      "stats": {
+        "destiny": "6"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_003.java"
+    },
+    {
+      "gempId": "101_4",
+      "name": "Death Star: Docking Control Room 327",
+      "side": "dark",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/PremiereIntroductoryTwoPlayerGame-Dark/large/deathstardockingcontrolroom327.gif",
+      "text": "Dark: If you control, may deploy a docking bay directly from your Reserve Deck. Reshuffle deck. Light: If you control, with a Rebel with ability > 2 present, Force drain +2 here.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Interior",
+        "Mobile",
+        "Scomp Link"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_004.java"
+    },
+    {
+      "gempId": "101_5",
+      "name": "Vader",
+      "side": "dark",
+      "type": "Character",
+      "subType": "Imperial",
+      "image": "https://res.starwarsccg.org/cards/PremiereIntroductoryTwoPlayerGame-Dark/large/vader.gif",
+      "text": "Must deploy on Death Star, but may move elsewhere. May not be deployed if two or more of opponent's unique (\u2022) characters on table. If in a losing battle, draw destiny. If destiny > 4, 'choke' (lose) one Imperial present (your choice).",
+      "stats": {
+        "deploy": "7",
+        "power": "4",
+        "ability": "6",
+        "destiny": "1",
+        "forfeit": "5"
+      },
+      "icons": [
+        "Warrior"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_005.java"
+    },
+    {
+      "gempId": "101_6",
+      "name": "Vader's Obsession",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/PremiereIntroductoryTwoPlayerGame-Dark/large/vadersobsession.gif",
+      "text": "During your move phase, if Vader moves to Luke's site from an adjacent site, begin a duel between them. Each adds two destiny to power. Winner retrieves lost Force equal to the difference. Loser loses same amount of Force, plus the character.",
+      "stats": {
+        "destiny": "6"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_006.java"
+    },
+    {
+      "gempId": "1_100",
+      "name": "Old Ben",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/oldben.gif",
+      "text": "Use 1 Force if any of your characters (except Obi-Wan) was just forfeited from a Tatooine site. Mysterious 'crazy wizard' steps in and revives (returns from Lost Pile) that character back to same site.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_100.java"
+    },
+    {
+      "gempId": "1_105",
+      "name": "Rebel Barrier",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/rebelbarrier.gif",
+      "text": "Use 1 Force to prevent any character or starship just deployed by the opponent from battling or moving for the remainder of this turn.",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_105.java"
+    },
+    {
+      "gempId": "1_106",
+      "name": "Rebel Reinforcements",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/rebelreinforcements.gif",
+      "text": "If Opponent outnumbers you in total characters and starships on table, use 1 Force to draw destiny. That number of Rebel Troopers and/or Y-Wings, may be retrieved from Lost Pile.",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_106.java"
+    },
+    {
+      "gempId": "1_113",
+      "name": "Surprise Assault",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/surpriseassault.gif",
+      "text": "Use 1 Force to cancel a Force drain at one location. Draw one destiny for each character, starship and vehicle the opponent has present. Compare your destiny total to opponent's power total. Player with lowest total loses Force equal to the difference.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_113.java"
+    },
+    {
+      "gempId": "1_115",
+      "name": "The Bith Shuffle",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/thebithshuffle.gif",
+      "text": "Shuffle any player's Reserve Deck or Lost Pile or Used Pile.",
+      "stats": {
+        "destiny": "5"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_115.java"
+    },
+    {
+      "gempId": "1_12",
+      "name": "Jawa",
+      "side": "light",
+      "type": "Character",
+      "subType": "Alien",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/jawa.gif",
+      "text": "*To deploy, requires 1 Force from each players' Force Pile. Cannot deploy otherwise. Deploy only on Tatooine, but may move elsewhere.",
+      "stats": {
+        "deploy": "*",
+        "power": "1",
+        "ability": "1",
+        "destiny": "3",
+        "forfeit": "1"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_012.java"
+    },
+    {
+      "gempId": "1_120",
+      "name": "We're Doomed",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/weredoomed.gif",
+      "text": "If you have less than 15 Life Force, play during opponent's control phase. For remainder of turn, each time you must lose Force, the loss is cut in half (round up). If R2-D2 or C-3PO on table, round down.",
+      "stats": {
+        "destiny": "5"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_120.java"
+    },
+    {
+      "gempId": "1_124",
+      "name": "Death Star: Docking Bay 327",
+      "side": "light",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/deathstardockingbay327.gif",
+      "text": "Light: Your docking bay transit from here requires 1 Force. Dark: Your docking bay transit from here requires 1 Force.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Interior",
+        "Mobile",
+        "Scomp Link"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_124.java"
+    },
+    {
+      "gempId": "1_129",
+      "name": "Tatooine: Docking Bay 94",
+      "side": "light",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/tatooinedockingbay94.gif",
+      "text": "Light: Your docking bay transit from here requires 1 Force. Dark: Your docking bay transit from here requires 2 Force.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Interior",
+        "Planet",
+        "Scomp Link"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_129.java"
+    },
+    {
+      "gempId": "1_130",
+      "name": "Tatooine: Dune Sea",
+      "side": "light",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/tatooinedunesea.gif",
+      "text": "Light: Blank. Dark: Total ability of 6 or more required for you to draw battle destiny here.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Planet"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_130.java"
+    },
+    {
+      "gempId": "1_131",
+      "name": "Tatooine: Jawa Camp",
+      "side": "light",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/tatooinejawacamp.gif",
+      "text": "Light: Your Jawas deploy here for 1 Force from you only, for free if Sandcrawler present. Dark: -",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Planet"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_131.java"
+    },
+    {
+      "gempId": "1_132",
+      "name": "Tatooine: Lars' Moisture Farm",
+      "side": "light",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/tatooinelarsmoisturefarm.gif",
+      "text": "Light: Beru Lars and Luke deploy -1 here. Dark: Add 1 to each of your weapon destiny draws here.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Planet",
+        "Scomp Link"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_132.java"
+    },
+    {
+      "gempId": "1_152",
+      "name": "Blaster",
+      "side": "light",
+      "type": "Weapon",
+      "subType": "Character",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/blaster.gif",
+      "text": "Use 1 Force to deploy on your warrior. May target a character, creature or vehicle using 1 Force. Draw destiny. Target hit if destiny > defense value.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_152.java"
+    },
+    {
+      "gempId": "1_153",
+      "name": "Blaster Rifle",
+      "side": "light",
+      "type": "Weapon",
+      "subType": "Character",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/blasterrifle.gif",
+      "text": "Use 2 Force to deploy on your warrior. May target a character, creature or vehicle using 2 Force. Draw destiny. Target hit if destiny +1 > defense value.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_153.java"
+    },
+    {
+      "gempId": "1_162",
+      "name": "Timer Mine",
+      "side": "light",
+      "type": "Weapon",
+      "subType": "Automated",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/timermine.gif",
+      "text": "Deploy on opponent's side at same site as one of your mining droids. 'Explodes' at beginning of your next turn. Draw destiny. That number of opponent's characters there are immediately lost (owner's choice). Timer Mine is also lost.",
+      "stats": {
+        "destiny": "2"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_162.java"
+    },
+    {
+      "gempId": "1_170",
+      "name": "Death Star Trooper",
+      "side": "dark",
+      "type": "Character",
+      "subType": "Imperial",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/deathstartrooper.gif",
+      "text": "Deploy only on Death Star, but may move elsewhere. Power -1 at a site other than a Death Star site.",
+      "stats": {
+        "deploy": "2",
+        "power": "2",
+        "ability": "1",
+        "destiny": "3",
+        "forfeit": "3"
+      },
+      "icons": [
+        "Warrior"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_170.java"
+    },
+    {
+      "gempId": "1_18",
+      "name": "LIN-V8K (Elleyein-Veeatekay)",
+      "side": "light",
+      "type": "Character",
+      "subType": "Droid",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/linv8k.gif",
+      "text": "At any time during your turn, may use 1 Force to 'defuse' (lose) any one mine at same site.",
+      "stats": {
+        "deploy": "2",
+        "power": "0",
+        "destiny": "3",
+        "forfeit": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_018.java"
+    },
+    {
+      "gempId": "1_181",
+      "name": "Imperial Trooper Guard",
+      "side": "dark",
+      "type": "Character",
+      "subType": "Imperial",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/imperialtrooperguard.gif",
+      "text": "Power +4 when defending a battle. Cannot move.",
+      "stats": {
+        "deploy": "2",
+        "power": "0",
+        "ability": "1",
+        "destiny": "3",
+        "forfeit": "1"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_181.java"
+    },
+    {
+      "gempId": "1_182",
+      "name": "Jawa",
+      "side": "dark",
+      "type": "Character",
+      "subType": "Alien",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/jawa.gif",
+      "text": "To deploy, requires 1 Force from each players' Force Pile. Cannot deploy otherwise. Deploy only on Tatooine, but may move elsewhere.",
+      "stats": {
+        "deploy": "*",
+        "power": "1",
+        "ability": "1",
+        "destiny": "3",
+        "forfeit": "1"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_182.java"
+    },
+    {
+      "gempId": "1_186",
+      "name": "LIN-V8M (Elleyein-Veeateemm)",
+      "side": "dark",
+      "type": "Character",
+      "subType": "Droid",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/linv8m.gif",
+      "text": "At any time during your turn, may use 1 Force to 'defuse' (lose) any one mine at same site.",
+      "stats": {
+        "deploy": "2",
+        "power": "0",
+        "destiny": "3",
+        "forfeit": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_186.java"
+    },
+    {
+      "gempId": "1_194",
+      "name": "Stormtrooper",
+      "side": "dark",
+      "type": "Character",
+      "subType": "Imperial",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/stormtrooper.gif",
+      "text": "Deploys free to same site as one of your Imperials with ability > 2.",
+      "stats": {
+        "deploy": "1",
+        "power": "1",
+        "ability": "1",
+        "destiny": "1",
+        "forfeit": "2"
+      },
+      "icons": [
+        "Warrior"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_194.java"
+    },
+    {
+      "gempId": "1_196",
+      "name": "Tusken Raider",
+      "side": "dark",
+      "type": "Character",
+      "subType": "Alien",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tuskenraider.gif",
+      "text": "Deploys only on Tatooine. Power +1 if another non-unique Tusken Raider present. If you have four or more non-unique Tusken Raiders present, your total power here is +2.",
+      "stats": {
+        "deploy": "2",
+        "power": "1",
+        "ability": "1",
+        "destiny": "2",
+        "forfeit": "1"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_196.java"
+    },
+    {
+      "gempId": "1_201",
+      "name": "Comlink",
+      "side": "dark",
+      "type": "Device",
+      "subType": "",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/comlink.gif",
+      "text": "Use 1 Force to deploy on any character. If opponent has just initiated a battle or Force drain at Comlink's location or an adjacent site, you may 'react' by deploying cards (at normal use of the Force) to that battle or Force drain location.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_201.java"
+    },
+    {
+      "gempId": "1_207",
+      "name": "Stormtrooper Utility Belt",
+      "side": "dark",
+      "type": "Device",
+      "subType": "",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/stormtrooperutilitybelt.gif",
+      "text": "Use 1 Force to deploy on any Imperial or alien. Character's power and forfeit are +1. If on Death Star, power and forfeit are +2.",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_207.java"
+    },
+    {
+      "gempId": "1_221",
+      "name": "Ket Maliss",
+      "side": "dark",
+      "type": "Effect",
+      "subType": "",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/ketmaliss.gif",
+      "text": "Deploy on your non-warrior character (except droids) to give that character [Warrior] skill. OR Deploy on your warrior. That character is power +1. (Immune to Alter.)",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_221.java"
+    },
+    {
+      "gempId": "1_224",
+      "name": "Macroscan",
+      "side": "dark",
+      "type": "Effect",
+      "subType": "",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/macroscan.gif",
+      "text": "Use 2 Force to deploy near opponent's Reserve Deck. At any time, you may use 1 Force to peek at the top card of that deck. If 'nighttime conditions' exist anywhere on table, you may peek at the top three cards.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_224.java"
+    },
+    {
+      "gempId": "1_237",
+      "name": "Collateral Damage",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/collateraldamage.gif",
+      "text": "An accident occurs at the beginning of a battle at any site where opponent has at least two characters and one weapon. Draw destiny. If destiny < number of opponent's characters at that site, one is lost. (Opponent's choice.)",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_237.java"
+    },
+    {
+      "gempId": "1_238",
+      "name": "Counter Assault",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/counterassault.gif",
+      "text": "Use 1 Force to cancel a Force drain at one location. Draw one destiny for each character, starship and vehicle the opponent has present. Compare your destiny total to opponent's power total. Player with lowest total loses Force equal to the difference.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_238.java"
+    },
+    {
+      "gempId": "1_249",
+      "name": "Imperial Barrier",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/imperialbarrier.gif",
+      "text": "Use 1 Force to prevent any character or starship just deployed by the opponent from battling or moving for the remainder of this turn.",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_249.java"
+    },
+    {
+      "gempId": "1_251",
+      "name": "Imperial Reinforcements",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/imperialreinforcements.gif",
+      "text": "If opponent has more total characters and starships on table than you have, use 1 Force to draw destiny. Retrieve that number of Stormtroopers and/or TIE/lns.",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_251.java"
+    },
+    {
+      "gempId": "1_252",
+      "name": "It's Worse",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/itsworse.gif",
+      "text": "If It Could Be Worse was just played, it is canceled and you may use X Force to raise damage against opponent by X amount. OR If opponent just lost Force from a battle, play to increase loss by 1 Force.",
+      "stats": {
+        "destiny": "6"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_252.java"
+    },
+    {
+      "gempId": "1_254",
+      "name": "Kintan Strider",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/kintanstrider.gif",
+      "text": "If opponent just forfeited or lost a character, use 1 Force to regenerate one of your own characters. Retrieve the character closest to the top of your Lost Pile into your hand.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_254.java"
+    },
+    {
+      "gempId": "1_26",
+      "name": "Rebel Guard",
+      "side": "light",
+      "type": "Character",
+      "subType": "Rebel",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/rebelguard.gif",
+      "text": "Power +4 when defending a battle. Cannot move.",
+      "stats": {
+        "deploy": "2",
+        "power": "0",
+        "ability": "1",
+        "destiny": "3",
+        "forfeit": "1"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_026.java"
+    },
+    {
+      "gempId": "1_262",
+      "name": "Ommni Box",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/ommnibox.gif",
+      "text": "Shuffle any player's Reserve Deck or Lost Pile or Used Pile.",
+      "stats": {
+        "destiny": "5"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_262.java"
+    },
+    {
+      "gempId": "1_266",
+      "name": "Scanning Crew",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/scanningcrew.gif",
+      "text": "Use 1 Force to glance at the cards in the opponent's hand for 10 seconds. You may move any one Rebel you find there to the top of opponent's Used Pile.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_266.java"
+    },
+    {
+      "gempId": "1_268",
+      "name": "Set For Stun",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/setforstun.gif",
+      "text": "Use 2 Force to target one opponent's character. Draw destiny. If destiny > character's ability, character immediately returns to opponent's hand. (Also, any cards deployed on character return to owners' hands.)",
+      "stats": {
+        "destiny": "2"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_268.java"
+    },
+    {
+      "gempId": "1_269",
+      "name": "Takeel",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/takeel.gif",
+      "text": "If both players just drew one battle destiny, use 1 Force to switch numbers.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_269.java"
+    },
+    {
+      "gempId": "1_275",
+      "name": "Tusken Scavengers",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tuskenscavengers.gif",
+      "text": "Use 1 Force to draw destiny. If destiny < the number of Tusken Raiders on table, you may scavenge (search through) the opponent's Used Pile. All vehicles, weapons or devices you find there are lost.",
+      "stats": {
+        "destiny": "5"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_275.java"
+    },
+    {
+      "gempId": "1_279",
+      "name": "You Overestimate Their Chances",
+      "side": "dark",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/youoverestimatetheirchances.gif",
+      "text": "If an opponent has just initiated a battle, triple the resulting battle damage for the eventual loser. OR Triple the result of Don't Underestimate Our Chances.",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_279.java"
+    },
+    {
+      "gempId": "1_28",
+      "name": "Rebel Trooper",
+      "side": "light",
+      "type": "Character",
+      "subType": "Rebel",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/rebeltrooper.gif",
+      "text": "Deploys free to same site as one of your Rebels with ability > 2.",
+      "stats": {
+        "deploy": "1",
+        "power": "1",
+        "ability": "1",
+        "destiny": "1",
+        "forfeit": "2"
+      },
+      "icons": [
+        "Warrior"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_028.java"
+    },
+    {
+      "gempId": "1_284",
+      "name": "Death Star: Detention Block Corridor",
+      "side": "dark",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/deathstardetentionblockcorridor.gif",
+      "text": "Dark: Add 1 to each of your weapon destiny draws here. Light: If you control, Force drain +1 here.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Interior",
+        "Mobile"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_284.java"
+    },
+    {
+      "gempId": "1_285",
+      "name": "Death Star: Docking Bay 327",
+      "side": "dark",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/deathstardockingbay327.gif",
+      "text": "Dark: Your docking bay transit from here is free. Light: Your docking bay transit from here requires 2 Force.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Interior",
+        "Mobile",
+        "Scomp Link"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_285.java"
+    },
+    {
+      "gempId": "1_291",
+      "name": "Tatooine: Docking Bay 94",
+      "side": "dark",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tatooinedockingbay94.gif",
+      "text": "Dark: Your docking bay transit from here requires 1 Force. Light: Your docking bay transit from here requires 2 Force.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Interior",
+        "Planet",
+        "Scomp Link"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_291.java"
+    },
+    {
+      "gempId": "1_292",
+      "name": "Tatooine: Jawa Camp",
+      "side": "dark",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tatooinejawacamp.gif",
+      "text": "Dark: Your Jawas deploy here for 1 Force from you only. Light: All your Jawas are power and forfeit -1 here.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Planet"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_292.java"
+    },
+    {
+      "gempId": "1_293",
+      "name": "Tatooine: Jundland Wastes",
+      "side": "dark",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tatooinejundlandwastes.gif",
+      "text": "Dark: Your Tusken Raiders here are each forfeit +1. If you control, Force drain +1 here. Light: Total ability of 6 or more required for you to draw battle destiny here.",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Planet"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_293.java"
+    },
+    {
+      "gempId": "1_295",
+      "name": "Tatooine: Mos Eisley",
+      "side": "dark",
+      "type": "Location",
+      "subType": "Site",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tatooinemoseisley.gif",
+      "text": "Dark: Your spies, thieves, bounty hunters and smugglers are each power and forfeit +1 here. Light:",
+      "stats": {
+        "destiny": "0"
+      },
+      "icons": [
+        "Exterior",
+        "Planet"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_295.java"
+    },
+    {
+      "gempId": "1_30",
+      "name": "Shistavanen Wolfman",
+      "side": "light",
+      "type": "Character",
+      "subType": "Alien",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/shistavanenwolfman.gif",
+      "text": "May move to an adjacent site as a 'react'.",
+      "stats": {
+        "deploy": "3",
+        "power": "2",
+        "ability": "1",
+        "destiny": "2",
+        "forfeit": "2"
+      },
+      "icons": [
+        "Warrior"
+      ],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_030.java"
+    },
+    {
+      "gempId": "1_31",
+      "name": "Talz",
+      "side": "light",
+      "type": "Character",
+      "subType": "Alien",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/talz.gif",
+      "text": "May forfeit in place of any other character hit by a weapon at same site, restoring that character to normal. Any Talz is power +2 under 'nighttime conditions'.",
+      "stats": {
+        "deploy": "1",
+        "power": "1",
+        "ability": "1",
+        "destiny": "3",
+        "forfeit": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_031.java"
+    },
+    {
+      "gempId": "1_312",
+      "name": "Blaster Rifle",
+      "side": "dark",
+      "type": "Weapon",
+      "subType": "Character",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/blasterrifle.gif",
+      "text": "Use 2 Force to deploy on your warrior. May target a character, creature or vehicle using 2 Force. Draw destiny. Target hit if destiny +1 > defense value.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_312.java"
+    },
+    {
+      "gempId": "1_315",
+      "name": "Gaderffii Stick",
+      "side": "dark",
+      "type": "Weapon",
+      "subType": "Character",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/gaderffiistick.gif",
+      "text": "Use 2 Force to deploy on any Tusken Raider. If a battle has just been initiated where present, target a character for free; draw two destiny. If total destiny > 5, target's weapons are 'knocked away' (may not be used this battle).",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_315.java"
+    },
+    {
+      "gempId": "1_317",
+      "name": "Imperial Blaster",
+      "side": "dark",
+      "type": "Weapon",
+      "subType": "Character",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/imperialblaster.gif",
+      "text": "Use 1 Force to deploy on your warrior. May target a character, creature or vehicle using 1 Force. Draw destiny. Target hit if destiny > defense value.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_317.java"
+    },
+    {
+      "gempId": "1_322",
+      "name": "Timer Mine",
+      "side": "dark",
+      "type": "Weapon",
+      "subType": "Automated",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/timermine.gif",
+      "text": "Deploy on opponent's side at same site as one of your mining droids. 'Explodes' at beginning of your next turn. Draw destiny. That number of opponent's characters there are immediately lost (owner's choice). Timer Mine is also lost.",
+      "stats": {
+        "destiny": "2"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_322.java"
+    },
+    {
+      "gempId": "1_35",
+      "name": "Electrobinoculars",
+      "side": "light",
+      "type": "Device",
+      "subType": "",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/electrobinoculars.gif",
+      "text": "Use 1 Force to deploy on any warrior. At any time, you may peek at the top card of your Reserve Deck by using 2 Force. You may choose to move that card to the top of your Force Pile.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_035.java"
+    },
+    {
+      "gempId": "1_40",
+      "name": "Tatooine Utility Belt",
+      "side": "light",
+      "type": "Device",
+      "subType": "",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/tatooineutilitybelt.gif",
+      "text": "Use 1 Force to deploy on any Rebel or alien. While on Tatooine, that character's power and forfeit are +2.",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_040.java"
+    },
+    {
+      "gempId": "1_6",
+      "name": "CZ-3 (Seezee-Three)",
+      "side": "light",
+      "type": "Character",
+      "subType": "Droid",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/cz3.gif",
+      "text": "If opponent has just initiated a battle or Force drain at CZ-3's location or an adjacent site, you may 'react' by deploying cards (at normal use of the Force) to that battle or Force drain location.",
+      "stats": {
+        "deploy": "1",
+        "power": "1",
+        "destiny": "3",
+        "forfeit": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_006.java"
+    },
+    {
+      "gempId": "1_64",
+      "name": "Sai'torr Kal Fas",
+      "side": "light",
+      "type": "Effect",
+      "subType": "",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/saitorrkalfas.gif",
+      "text": "Deploy on your non-warrior character (except droids) to give that character [Warrior] skill. OR Deploy on your warrior. That character is power +1. (Immune to Alter.)",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_064.java"
+    },
+    {
+      "gempId": "1_77",
+      "name": "Don't Underestimate Our Chances",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/dontunderestimateourchances.gif",
+      "text": "If an opponent has just initiated a battle, triple the resulting battle damage for the eventual loser. OR Triple the result of You Overestimate Their Chances.",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_077.java"
+    },
+    {
+      "gempId": "1_80",
+      "name": "Friendly Fire",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Lost",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/friendlyfire.gif",
+      "text": "An accident occurs at the beginning of a battle at any site where opponent has at least two characters and one weapon. Draw destiny. If destiny < number of opponent's characters at that site, one is lost. (Opponent's choice.)",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_080.java"
+    },
+    {
+      "gempId": "1_84",
+      "name": "Han's Dice",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/hansdice.gif",
+      "text": "If one of your characters of ability > 2 is in a battle, use 1 Force to draw another battle destiny instead of the one you just drew.",
+      "stats": {
+        "destiny": "3"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_084.java"
+    },
+    {
+      "gempId": "1_90",
+      "name": "It Could Be Worse",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/itcouldbeworse.gif",
+      "text": "If you must lose Force for any reason, reduce the loss by X amount by using X Force.",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_090.java"
+    },
+    {
+      "gempId": "1_91",
+      "name": "I've Got A Bad Feeling About This",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/ivegotabadfeelingaboutthis.gif",
+      "text": "If you just initiated a battle at a location where you have less power than the opponent, double opponent's battle damage if you win the battle (if Han is present at the battle location, triple opponent's battle damage).",
+      "stats": {
+        "destiny": "4"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_091.java"
+    },
+    {
+      "gempId": "1_98",
+      "name": "Narrow Escape",
+      "side": "light",
+      "type": "Interrupt",
+      "subType": "Used",
+      "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/narrowescape.gif",
+      "text": "If opponent just initiated battle at a site where you have a Rebel of ability > 2 present, move all of your cards with ability there away (using their landspeed).",
+      "stats": {
+        "destiny": "5"
+      },
+      "icons": [],
+      "status": "pending",
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_098.java"
+    }
+  ]
+}
