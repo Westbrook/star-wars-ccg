@@ -47,3 +47,13 @@ The Holotable client automatically submits GEMP’s empty pass result after a vi
 Timers use a local decision occurrence token because GEMP reuses decision IDs. The current decision is recorded when its response arrives, before GEMP queues its display behind animations. New decisions/events, channel or participant changes, manual responses, errors, navigation and disconnects invalidate the timer. An error also blocks queued prompts until a new game session starts. Clock-only updates retain the deadline; hidden tabs pause it, and manual pauses survive visibility changes. No rules, card effects, or server legality checks change.
 
 `node tests/auto-continue.test.mjs` checks eligibility, elapsed-time countdowns, pause/resume, duplicate submission protection, reused IDs, queued prompts, changed channels, connection/session cleanup, replay/spectator exclusion and suppression of native auto-pass for playable choices. `node tests/engine-bridge.test.mjs` checks visibility/navigation/disconnection handling and safe initialization on hall/login pages.
+
+## Game links and refresh
+
+Every game opened from the CPU launcher or native lobby gets a wrapper URL of the form `/?view=table&gameId=<engine-id>`. Copy game link copies this address. Refresh and browser back/forward reconstruct the selected table from the URL, including the Developer UI report flag when present. Each selected iframe has its own React key so parent navigation does not also create an independent iframe history step.
+
+The wrapper checks the current pilot session before mounting the game. If sign-in expires, it retains the game link and remounts the same game after authentication. Private-game access failures and missing/expired games display recovery messages. URLs contain the game identifier, never an engine session token, channel number, player override, or board state. GEMP still decides whether the signed-in pilot can play or watch.
+
+Only the native iframe requests the game state. Its initial GET creates a fresh communication channel for the same game and restores the board and pending decision; it does not create a new match. Another tab's older channel for that player becomes stale. Links cannot recover games that GEMP has removed or lost after a server restart, and do not pause the game clock.
+
+`node tests/game-links.test.mjs` and `node tests/engine-navigation.test.mjs` cover URL reconstruction, navigation, sanitization, lobby links and client error handling. `python3 tests/game-reconnect-smoke.py` checks actual local engine reconnection, identical pending choice, resumed submission, stale-channel rejection, authentication and private-game access. Browser refresh interaction has not been tested through automation.
