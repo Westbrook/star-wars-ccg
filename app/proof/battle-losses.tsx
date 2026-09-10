@@ -1,27 +1,29 @@
-import {Minus,ArrowRight,Check,Layers3,ShieldCheck} from 'lucide-react';
+import {Minus,ArrowRight,Check,Layers3} from 'lucide-react';
 import type {Choice,LossBalance,Side} from '@/lib/native-proof/types';
 
-export function BattleLosses({losses,seat,mandatoryHits=0}:{losses:Record<Side,LossBalance>;seat:Side;mandatoryHits?:number}){
- const current=losses[seat],opponent=seat==='dark'?'light':'dark',numericClear=current.attrition===0&&current.damage===0,clear=numericClear&&mandatoryHits===0;
- return <section className="proof-losses" aria-label={'Your losses — '+seat+' side'}>
-  <div className="proof-losses-heading"><h3>Your losses</h3><span>{seat==='dark'?'Dark side':'Light side'}</span></div>
-  <div className="proof-loss-counters">
-   <LossCounter label="Attrition" remaining={current.attrition} initial={current.initialAttrition} explanation="Satisfy by forfeiting" tone="attrition"/>
-   <LossCounter label="Battle damage" remaining={current.damage} initial={current.initialDamage} explanation="Forfeit or lose Force" tone="damage"/>
-  </div>
-  <div className={'proof-loss-guidance '+(clear?'cleared':'')}>
-   {clear?<ShieldCheck size={18}/>:current.damage===0?<Check size={18}/>:<Layers3 size={18}/>}
-   <p>{clear?'Your losses are clear.':numericClear?'Damage and attrition are cleared. Hit troopers still need to be forfeited.':current.damage===0?'No battle damage remains. You still need to forfeit for attrition.':current.attrition===0?'Attrition is clear. Satisfy the remaining battle damage by forfeiting or losing Force.':'Each card’s forfeit value reduces both totals at once.'}</p>
-  </div>
-  <div className="proof-opponent-losses"><span>{opponent==='dark'?'Dark':'Light'} side</span><span>Attrition <b>{losses[opponent].attrition}</b></span><span>Damage <b>{losses[opponent].damage}</b></span></div>
+export function BattleLosses({losses,seat,mandatoryHits,battleComplete=false}:{losses:Record<Side,LossBalance>;seat:Side;mandatoryHits?:Record<Side,number>;battleComplete?:boolean}){
+ return <section className="proof-losses proof-battle-losses" aria-label="Battle losses — both sides">
+  <div className="proof-losses-heading"><h3>Battle losses</h3><span>{battleComplete?'Final totals':'Remaining'}</span></div>
+  <div className="proof-battle-sides">{(['dark','light'] as const).map(side=>{
+   const current=losses[side],hits=mandatoryHits?.[side]??0,numericClear=current.attrition===0&&current.damage===0,clear=numericClear&&hits===0;
+   return <section key={side} className={'proof-loss-side '+side} aria-label={(side==='dark'?'Dark':'Light')+' side losses'}>
+    <header><h4>{side==='dark'?'Dark side':'Light side'}</h4>{seat===side&&<span>Your losses</span>}</header>
+    <div className="proof-loss-counters">
+     <LossCounter label="Attrition" remaining={current.attrition} initial={current.initialAttrition} tone="attrition"/>
+     <LossCounter label="Battle damage" remaining={current.damage} initial={current.initialDamage} tone="damage"/>
+    </div>
+    <p className={'proof-loss-side-status '+(clear?'cleared':'')}>{clear?<><Check size={13}/>Losses clear</>:<>{numericClear?'Totals cleared. ':current.damage===0?'No battle damage remains. ':''}{hits>0?`${hits} hit ${hits===1?'trooper':'troopers'} still to forfeit.`:current.damage===0?'Forfeit for remaining attrition.':current.attrition===0?'Forfeit or lose Force for remaining damage.':'Forfeit reduces both totals.'}</>}</p>
+   </section>;
+  })}</div>
+  <div className="proof-loss-guidance"><Layers3 size={16}/><p>Each card’s forfeit value reduces both totals at once. Losing Force reduces only battle damage.</p></div>
  </section>;
 }
-function LossCounter({label,remaining,initial,explanation,tone}:{label:string;remaining:number;initial:number;explanation:string;tone:string}){
+function LossCounter({label,remaining,initial,tone}:{label:string;remaining:number;initial:number;tone:string}){
  const clear=remaining===0;
  return <div className={'proof-loss-counter '+tone+(clear?' cleared':'')}>
   <h4>{label}</h4><div className="proof-loss-value"><strong>{remaining}</strong><span>{clear?<><Check size={13}/>{initial===0?'None incurred':'Cleared'}</>:'remaining'}</span></div>
   <div className="proof-loss-meter" aria-hidden="true"><i style={{width:(initial?Math.min(100,remaining/initial*100):0)+'%'}}/></div>
-  <p>{explanation}</p><small>{initial} at battle result</small>
+  <small>{initial} at battle result</small>
  </div>;
 }
 export function LossChoice({choice,balance,hit=false}:{choice:Choice;balance:LossBalance;hit?:boolean}){
