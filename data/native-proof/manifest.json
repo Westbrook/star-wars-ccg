@@ -508,7 +508,25 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_152.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_152.java",
+      "conformance": {
+        "engine": "native-proof-4",
+        "scenarios": [
+          "weapons",
+          "rebel-weapons"
+        ],
+        "verifiedBehavior": [
+          "Deploy and transfer to own present warrior for 1 Force",
+          "Fire for 1 Force; destiny must be greater than target defense",
+          "Each weapon once per battle; ordinary warrior uses one different weapon per turn",
+          "Persist paid firing and revealed destiny before resolving hit",
+          "Hit bearer retains power, ability and firing eligibility; hit alone does not reduce forfeit",
+          "Mandatory hit forfeits remain after numeric losses clear; ordinary losses may be chosen first",
+          "Attached weapons leave with bearer; owner chooses Lost order; only bearer adds forfeit credit"
+        ],
+        "scope": "Closed four-trooper-per-side Bay fixture only. Creature/vehicle targets, other warriors, weapon modifiers/cancellations and full starter execution remain pending.",
+        "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=94"
+      }
     },
     {
       "gempId": "1_153",
@@ -523,7 +541,25 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_153.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_153.java",
+      "conformance": {
+        "engine": "native-proof-4",
+        "scenarios": [
+          "weapons",
+          "rebel-weapons"
+        ],
+        "verifiedBehavior": [
+          "Deploy and transfer to own present warrior for 2 Force",
+          "Fire for 2 Force; destiny +1 must be greater than target defense",
+          "Each weapon once per battle; ordinary warrior uses one different weapon per turn",
+          "Persist paid firing and revealed destiny before resolving hit",
+          "Hit bearer retains power, ability and firing eligibility; hit alone does not reduce forfeit",
+          "Mandatory hit forfeits remain after numeric losses clear; ordinary losses may be chosen first",
+          "Attached weapons leave with bearer; owner chooses Lost order; only bearer adds forfeit credit"
+        ],
+        "scope": "Closed four-trooper-per-side Bay fixture only. Creature/vehicle targets, other warriors, weapon modifiers/cancellations and full starter execution remain pending.",
+        "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=94"
+      }
     },
     {
       "gempId": "1_162",
@@ -1191,7 +1227,25 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_312.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_312.java",
+      "conformance": {
+        "engine": "native-proof-4",
+        "scenarios": [
+          "weapons",
+          "rebel-weapons"
+        ],
+        "verifiedBehavior": [
+          "Deploy and transfer to own present warrior for 2 Force",
+          "Fire for 2 Force; destiny +1 must be greater than target defense",
+          "Each weapon once per battle; ordinary warrior uses one different weapon per turn",
+          "Persist paid firing and revealed destiny before resolving hit",
+          "Hit bearer retains power, ability and firing eligibility; hit alone does not reduce forfeit",
+          "Mandatory hit forfeits remain after numeric losses clear; ordinary losses may be chosen first",
+          "Attached weapons leave with bearer; owner chooses Lost order; only bearer adds forfeit credit"
+        ],
+        "scope": "Closed four-trooper-per-side Bay fixture only. Creature/vehicle targets, other warriors, weapon modifiers/cancellations and full starter execution remain pending.",
+        "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=94"
+      }
     },
     {
       "gempId": "1_315",
@@ -1221,7 +1275,25 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_317.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_317.java",
+      "conformance": {
+        "engine": "native-proof-4",
+        "scenarios": [
+          "weapons",
+          "rebel-weapons"
+        ],
+        "verifiedBehavior": [
+          "Deploy and transfer to own present warrior for 1 Force",
+          "Fire for 1 Force; destiny must be greater than target defense",
+          "Each weapon once per battle; ordinary warrior uses one different weapon per turn",
+          "Persist paid firing and revealed destiny before resolving hit",
+          "Hit bearer retains power, ability and firing eligibility; hit alone does not reduce forfeit",
+          "Mandatory hit forfeits remain after numeric losses clear; ordinary losses may be chosen first",
+          "Attached weapons leave with bearer; owner chooses Lost order; only bearer adds forfeit credit"
+        ],
+        "scope": "Closed four-trooper-per-side Bay fixture only. Creature/vehicle targets, other warriors, weapon modifiers/cancellations and full starter execution remain pending.",
+        "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=94"
+      }
     },
     {
       "gempId": "1_322",

@@ -1,0 +1,316 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "testClass": "com.gempukku.swccgo.rules.battle.NativeProofWeaponOracleTests",
+  "testSourceSha256": "c73a83d33459e63f08b70bf3902741643f9c9b80cc22206edcddb6bef66118b9",
+  "command": "docker exec -w /opt/gemp-swccg/src swccg-official-app-1 mvn -pl gemp-swccg-server -am -Dtest=NativeProofWeaponOracleTests -Dsurefire.failIfNoSpecifiedTests=false test",
+  "containerWorkingDirectory": "/opt/gemp-swccg/src",
+  "finishedAt": "2026-09-10T21:50:13Z",
+  "tests": 8,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "testSeconds": 7.195,
+  "mavenSeconds": 13.005,
+  "result": "BUILD SUCCESS",
+  "branchCount": 18,
+  "fixture": {
+    "decks": "Authored Precon Premiere Intro 2PG, exactly60cards per side from pinned sample_decks.sql. No synthetic destiny or filler cards are introduced.",
+    "site": "1_124",
+    "troopersOnTableEachSide": 4,
+    "active": {
+      "force": 8,
+      "hand": [
+        "basicweapon",
+        "rifle"
+      ],
+      "reserve": {
+        "dark": 46,
+        "light": 45
+      }
+    },
+    "opponent": {
+      "force": 4,
+      "hand": [],
+      "attached": {
+        "trooper1": "basicweapon",
+        "trooper2": "rifle"
+      },
+      "reserve": {
+        "dark": 50,
+        "light": 49
+      }
+    },
+    "reserveTopEachSide": [
+      {
+        "kind": "ordinarytrooper",
+        "destiny": 1
+      },
+      {
+        "kind": "Jawa",
+        "destiny": 3
+      },
+      {
+        "kind": "location",
+        "destiny": 0
+      }
+    ],
+    "ordering": "After table/Hand/attachments, remaining cards are in authored order. Protect the first remaining ordinarytrooper, Jawa, location as Reserve positions0,1,2. Move current Reserve position3 to top Force eight times for active/four for defender. Rest remains Reserve. This exactly matches root fixture algorithm.",
+    "startup": "Framework starts Dark at authored1_291, restores that card to Reserve, resets authored Reserve order and creates studied board before Deploy. No production rules are modified.",
+    "variants": [
+      "The Rifle equality-miss case moves the already-authored zero-destiny location above the protected trooper/Jawa; all120physicalcards remain present.",
+      "Same-bearer and affordability cases are separate instances of the exact original fixture, with deployment and transfers paid through GEMP actions."
+    ]
+  },
+  "rules": {
+    "weapons": {
+      "lightBasic": "1_152",
+      "darkBasic": "1_317",
+      "lightRifle": "1_153",
+      "darkRifle": "1_312"
+    },
+    "basic": {
+      "deploy": 1,
+      "transfer": 1,
+      "fire": 1,
+      "modifier": 0,
+      "hitTest": "destiny > defense"
+    },
+    "rifle": {
+      "deploy": 2,
+      "transfer": 2,
+      "fire": 2,
+      "modifier": 1,
+      "hitTest": "destiny +1 > defense"
+    },
+    "troopers": {
+      "power": 1,
+      "ability": 1,
+      "defense": 1,
+      "forfeit": 2
+    },
+    "hitDoesNotRemovePowerAbilityOrFiring": true,
+    "alreadyHitTargetMayBeTargetedAgain": true,
+    "oneDifferentWeaponUsedPerWarriorPerTurn": true,
+    "eachWeaponOncePerBattle": true,
+    "hitDoesNotHaveToBeForfeitedFirst": true,
+    "hitMustBeForfeitedEvenAtZeroRemainingLosses": true,
+    "attachmentsDoNotAddForfeitCredit": true,
+    "ownerChoosesLostPileOrder": true
+  },
+  "timing": [
+    "Weapon deployment selects an own warrior, then empty UseForce responses occur before the weapon leaves Hand or cost is paid. It attaches after payment; no extra meaningful cancellation window exists in this fixture.",
+    "Transfer selects another own warrior present, pays full printeddeploycost, then changes bearer. Multiple transfers are legal while affordable.",
+    "Firing selects an opponent trooper target, including already-hit troopers. Empty Force-use responses precede payment; the following FireWeapon response has payment in Used, target chosen, and no new destiny revealed or hit applied.",
+    "DESTINY_DRAWN is reached with target hit status unchanged. Complete destiny responses, then ABOUT_TO_BE_HIT and HIT, then FIRED_WEAPON. Weapon destiny goes to Used, above firing costs. Existing hit characters remain hit if targeted again.",
+    "Battle destiny is optional and stillavailable at totalability4 even with hit characters. Hit characters contribute printedpower before mandatoryforfeit.",
+    "After hostforfeit and about-to-leave responses, host and attachedweapons are all VOID while owner chooses the Lost ordering. Each chosen card goes on top in sequence; the final card is automatic. Forfeit credit equals only hostforfeit2, independently of one or two attached weapons.",
+    "While battle damage/attrition remains, the player may choose hit or healthy eligible troopers. At zero remaining totals, only hit troopers remain mandatorychoices."
+  ],
+  "branches": [
+    {
+      "modifier": 1,
+      "hit": false,
+      "weaponDestiny": 0,
+      "forceAfterFire": 3,
+      "defense": 1,
+      "name": "dark-rifle-equality-miss"
+    },
+    {
+      "modifier": 1,
+      "hit": false,
+      "weaponDestiny": 0,
+      "forceAfterFire": 3,
+      "defense": 1,
+      "name": "light-rifle-equality-miss"
+    },
+    {
+      "forceAfterBattle": 4,
+      "forceAfterDeploy": 5,
+      "hit": false,
+      "forceAfterFire": 3,
+      "name": "dark-basic-equality-miss",
+      "usedAfterFire": 6
+    },
+    {
+      "forceAfterBattle": 4,
+      "forceAfterDeploy": 5,
+      "hit": false,
+      "forceAfterFire": 3,
+      "name": "light-basic-equality-miss",
+      "usedAfterFire": 6
+    },
+    {
+      "rifleTransferCost": 2,
+      "forceWhenUseLimitChecked": 3,
+      "sameBearerDifferentWeaponAvailable": false,
+      "name": "dark-transfer-same-bearer",
+      "repeatFireAvailable": false,
+      "forceAfterTransfers": 0,
+      "threeBasicTransfersCost": 3,
+      "deployCost": 3
+    },
+    {
+      "rifleTransferCost": 2,
+      "forceWhenUseLimitChecked": 3,
+      "sameBearerDifferentWeaponAvailable": false,
+      "name": "light-transfer-same-bearer",
+      "repeatFireAvailable": false,
+      "forceAfterTransfers": 0,
+      "threeBasicTransfersCost": 3,
+      "deployCost": 3
+    },
+    {
+      "opponentLost": [
+        "1_28",
+        "1_153",
+        "1_152",
+        "1_28"
+      ],
+      "opponentForce": 1,
+      "activeLost": [
+        "1_194",
+        "1_312"
+      ],
+      "battleDestinyBoth": 0,
+      "name": "dark-crossfire-zero-losses",
+      "mandatoryHitForfeits": 3,
+      "powerBoth": 4,
+      "activeForce": 1
+    },
+    {
+      "opponentLost": [
+        "1_194",
+        "1_312",
+        "1_317",
+        "1_194"
+      ],
+      "opponentForce": 1,
+      "activeLost": [
+        "1_28",
+        "1_153"
+      ],
+      "battleDestinyBoth": 0,
+      "name": "light-crossfire-zero-losses",
+      "mandatoryHitForfeits": 3,
+      "powerBoth": 4,
+      "activeForce": 1
+    },
+    {
+      "hostCredit": 2,
+      "physicalCardsLost": 3,
+      "afterHostForfeitDamage": 0,
+      "afterHostForfeitAttrition": 1,
+      "name": "dark-two-attachments-loss-order",
+      "lostOrder": [
+        "1_312",
+        "1_194",
+        "1_317"
+      ],
+      "initialAttrition": 3,
+      "initialDamage": 2
+    },
+    {
+      "hostCredit": 2,
+      "physicalCardsLost": 3,
+      "afterHostForfeitDamage": 0,
+      "afterHostForfeitAttrition": 1,
+      "name": "light-two-attachments-loss-order",
+      "lostOrder": [
+        "1_153",
+        "1_28",
+        "1_152"
+      ],
+      "initialAttrition": 3,
+      "initialDamage": 2
+    },
+    {
+      "rifleAvailable": false,
+      "name": "dark-affordability-and-hit-target",
+      "alreadyHitTargetLegal": true,
+      "basicAvailable": true,
+      "forceAfterBasic": 0,
+      "forceAtFireChoice": 1,
+      "secondHitChangedObligation": false
+    },
+    {
+      "rifleAvailable": false,
+      "name": "light-affordability-and-hit-target",
+      "alreadyHitTargetLegal": true,
+      "basicAvailable": true,
+      "forceAfterBasic": 0,
+      "forceAtFireChoice": 1,
+      "secondHitChangedObligation": false
+    },
+    {
+      "name": "dark-healthy-first",
+      "opponentInitialAttrition": 3,
+      "finalOpponentLost": [
+        "1_152",
+        "1_28",
+        "1_28"
+      ],
+      "afterFirstForfeitDamage": 0,
+      "afterFirstForfeitAttrition": 1,
+      "activePower": 7,
+      "afterFirstForfeitLost": 1,
+      "opponentInitialDamage": 2,
+      "opponentPower": 5
+    },
+    {
+      "name": "dark-hit-first",
+      "opponentInitialAttrition": 3,
+      "finalOpponentLost": [
+        "1_28",
+        "1_152",
+        "1_28"
+      ],
+      "afterFirstForfeitDamage": 0,
+      "afterFirstForfeitAttrition": 1,
+      "activePower": 7,
+      "afterFirstForfeitLost": 2,
+      "opponentInitialDamage": 2,
+      "opponentPower": 5
+    },
+    {
+      "name": "light-healthy-first",
+      "opponentInitialAttrition": 3,
+      "finalOpponentLost": [
+        "1_317",
+        "1_194",
+        "1_194"
+      ],
+      "afterFirstForfeitDamage": 0,
+      "afterFirstForfeitAttrition": 1,
+      "activePower": 7,
+      "afterFirstForfeitLost": 1,
+      "opponentInitialDamage": 2,
+      "opponentPower": 5
+    },
+    {
+      "name": "light-hit-first",
+      "opponentInitialAttrition": 3,
+      "finalOpponentLost": [
+        "1_194",
+        "1_317",
+        "1_194"
+      ],
+      "afterFirstForfeitDamage": 0,
+      "afterFirstForfeitAttrition": 1,
+      "activePower": 7,
+      "afterFirstForfeitLost": 2,
+      "opponentInitialDamage": 2,
+      "opponentPower": 5
+    },
+    {
+      "force": 3,
+      "name": "dark-rifle-once",
+      "repeatAvailable": false
+    },
+    {
+      "force": 3,
+      "name": "light-rifle-once",
+      "repeatAvailable": false
+    }
+  ],
+  "scope": "Closed mirrored Deploy and one character-weapon battle using the four named weapons and ordinarytroopers at DockingBay327. Includes legal deploy, transfer, firing, destiny timing, hit rules and attachment cleanup. Does not claim other weapons, warrior text, vehicles/creatures, card-play responses outside fixture, or full native matches."
+}

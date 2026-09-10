@@ -1,6 +1,6 @@
 # Sites-native focused proof
 
-The `/proof` lab executes seven **closed conformance scenarios**, backed by a TypeScript Cloudflare Worker and D1. It is the beginning of the accepted proof, not a complete SWCCG game engine. Existing GEMP paths remain available.
+The `/proof` lab executes nine **closed conformance scenarios**, backed by a TypeScript Cloudflare Worker and D1. It is the beginning of the accepted proof, not a complete SWCCG game engine. Existing GEMP paths remain available.
 
 ## Verified in this iteration
 
@@ -10,10 +10,11 @@ The `/proof` lab executes seven **closed conformance scenarios**, backed by a Ty
 | Force drain | Drain attempt recorded, response opportunities, loss from hand or top Reserve/Force/Used | A Stormtrooper controls an uncontested one-icon site; generic control/eligibility not implemented |
 | Battle | Initiation cost, optional destiny, unresolved destiny, power, attrition, damage, alternating forfeits/losses | Four printed troopers per side, no weapons, interrupts or modifiers |
 | Recirculation | Both players, current player first, Used appended under Reserve in order | Fixed end-of-turn checkpoint, no end-of-turn card effects |
+| Weapons / Blasters at the ready / Return fire | Deploy/transfer weapons, firing, hit participants, mandatory hit forfeits, attachment cleanup and owner-selected Lost order | Four ordinary troopers per side; two weapon profiles, no other playable hand actions, ends after one battle |
 | Deployment / Reinforcements under fire / The Imperial blockade | Printed deployment, just-deployed Barrier response, restricted battle/movement, optional draw, recirculation and expiry | Mirrored one-turn fixtures, two ordinary troopers in hand, one opposing trooper, two adjacent sites, one Barrier; no other card actions |
 | Takeel / A turn of destiny | Optional response, Force cost, pending played Interrupt, destiny-number switch, Lost disposition | Separate four-trooper battle; one Takeel in Dark hand, no other Interrupts or modifiers |
 
-Each scenario preserves all 120 physical cards from the authored GEMP `Precon Premiere Intro 2PG (Light/Dark)` lists. These are fixture inventories, **not** a claim that all 68 unique card behaviors are supported. Full-game card implementation status remains pending in `data/native-proof/manifest.json`; Takeel, both Barriers, troopers and the two study sites record bounded scenario conformance separately; full-match creation is unavailable and rejected by the API. Fixtures have controlled pile order, not randomized opening hands. No native AI or sealed engine is implemented.
+Each scenario preserves all 120 physical cards from the authored GEMP `Precon Premiere Intro 2PG (Light/Dark)` lists. These are fixture inventories, **not** a claim that all 68 unique card behaviors are supported. Full-game card implementation status remains pending in `data/native-proof/manifest.json`; Takeel, both Barriers, four weapons, troopers and the two study sites record bounded scenario conformance separately; full-match creation is unavailable and rejected by the API. Fixtures have controlled pile order, not randomized opening hands. No native AI or sealed engine is implemented.
 
 ## Validation and evidence
 
@@ -65,6 +66,25 @@ Selected meaningful continuations are persisted. Unavailable Force-cost, movemen
 - `node tests/native-proof/barrier-smoke.mjs`: 407 requests to a fresh built Worker on port8793; both mirrored scenarios, eight concurrent retries per play, competing Play/Pass, paid-Barrier process restarts, full-turn recovery and authenticated opposing-seat privacy. No database migration required.
 
 The UI shows both locations, exact troop IDs, pending Barrier, restrictions, excluded participants, move usage and expiry. Layout adapts to narrow phone, tablet and desktop widths. Type/build/source and local HTTP checks pass; browser interaction/visual QA and hosted capacity testing were not performed.
+
+
+## Character weapons and hit results
+
+`Blasters at the ready` (Dark active) and `Return fire` (Light active) use `native-proof-4`. Both begin in Deploy, with four ordinary troopers per side at Light Docking Bay 327. The active side has the basic Blaster and Rifle in hand plus eight Force; the defender has a basic weapon on trooper1, Rifle on trooper2, four Force and no hand. All 120 authored cards are conserved. After table/hand setup, each Reserve begins with a remaining trooper (destiny1), Jawa (3), location (0); Force is allocated from the remaining authored Reserve order. These are private controlled fixtures. Weapon shots consume real Reserve cards; later battle destiny draws the next actual card, not a scripted replacement.
+
+`lib/native-proof/weapon-rules.ts` contains reusable explicit profiles for Light Blaster1_152 / Imperial Blaster1_317 (deploy, transfer, fire1; no bonus) and both Blaster Rifles1_153 /1_312 (deploy, transfer, fire2; +1 weapon destiny). Each requires a strict greater-than result against trooper defense1. Deployment and transfer allow multiple weapons on one warrior; it may use only one different weapon per turn, and each weapon fires at most once per battle. Insufficient Force or empty Reserve makes firing unavailable. Already-hit participating targets remain legal.
+
+The persisted shot has paid cost/target, then a revealed destiny continuation, then its result. A hit does not remove power/ability or prevent return fire and does not change printed forfeit. Damage resolution retains mandatory hit forfeits after numerical debts reach zero, while allowing ordinary legal losses first. Forfeiting an armed trooper removes it and every attachment together into a held `leaving` zone. A saved owner decision places cards on top of Lost one at a time; the final card is automatic. Only the trooper's forfeit credits attrition/damage. All six orders of a bearer plus two weapons are supported.
+
+The UI identifies bearer/weapon/target, shows pending and resolved shots, retains hit markers and weapon-use status, and calls out mandatory hit forfeits separately from damage/attrition. The primary loss guidance does not claim all losses are cleared while hits remain. A phone layout uses compact paired trooper columns; tablet and desktop retain attachment detail.
+
+- Official source: [Advanced Rulebook pp11,53–56,79,94–96](https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf), plus the four printed card texts. Pinned GEMP references include `FireSingleWeaponAction`, `HitCardEffect`, `BattleDamageSegmentAction`, `ForfeitCardsFromTableSimultaneouslyEffect` and `PutCardsInCardPileEffect`.
+- `gemp/NativeProofWeaponOracleTests.java`: eight executed JUnit tests /18 mirrored branches, zero failures/errors (7.195 seconds) on pinned GEMP. Results retained in `gemp/weapon-oracle-result.json` and `.txt`; reproduce with the Maven invocation above substituting `NativeProofWeaponOracleTests`.
+- `node --test tests/native-proof/weapons.test.mjs`: 19 tests, including native comparisons with all18 recorded oracle branches; saved-state reconstruction after each choice, strict thresholds, affordable use limits, return fire, hit-loss sequencing and all six attachment orders.
+- `node tests/native-proof/weapons-smoke.mjs`: 669 requests against a fresh built Worker on port8794. Mirrored eight-way firing/order retries, conflicting choices, process restarts at paid shots, revealed destiny, full/partial three-card Lost ordering, complete battle recovery and separate-seat privacy. No schema migration required.
+- Independent audits compared all seven old scenarios against the prior release:241 routes,6,040 decisions,6,281 states and62,810 byte-equality comparisons. A further400 seeded weapon runs /12,267 decisions checked conservation, projection privacy,261 shots and110 ordering prompts. No hit obligation remained at a completed battle.
+
+Unavailable internal Force-use, destiny-cost, about-to-hit/hit and about-to-leave responses settle internally in this closed fixture. General cancellation/modifier timing is not claimed. Other weapons, creature/vehicle targets, other warrior text, and full starter matches remain gated. The study ends after battle so unsupported Force cards cannot be drawn into playable hands. Browser interaction/visual QA and hosted capacity testing were not performed.
 
 ## Durable service
 
