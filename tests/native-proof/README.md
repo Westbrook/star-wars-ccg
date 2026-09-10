@@ -1,6 +1,6 @@
-# Sites-native focused proof — milestone 1
+# Sites-native focused proof
 
-The `/proof` lab executes four **closed conformance scenarios**, backed by a TypeScript Cloudflare Worker and D1. It is the beginning of the accepted proof, not a complete SWCCG game engine. Existing GEMP paths remain available.
+The `/proof` lab executes five **closed conformance scenarios**, backed by a TypeScript Cloudflare Worker and D1. It is the beginning of the accepted proof, not a complete SWCCG game engine. Existing GEMP paths remain available.
 
 ## Verified in this iteration
 
@@ -10,8 +10,9 @@ The `/proof` lab executes four **closed conformance scenarios**, backed by a Typ
 | Force drain | Drain attempt recorded, response opportunities, loss from hand or top Reserve/Force/Used | A Stormtrooper controls an uncontested one-icon site; generic control/eligibility not implemented |
 | Battle | Initiation cost, optional destiny, unresolved destiny, power, attrition, damage, alternating forfeits/losses | Four printed troopers per side, no weapons, interrupts or modifiers |
 | Recirculation | Both players, current player first, Used appended under Reserve in order | Fixed end-of-turn checkpoint, no end-of-turn card effects |
+| Takeel / A turn of destiny | Optional response, Force cost, pending played Interrupt, destiny-number switch, Lost disposition | Separate four-trooper battle; one Takeel in Dark hand, no other Interrupts or modifiers |
 
-Each scenario preserves all 120 physical cards from the authored GEMP `Precon Premiere Intro 2PG (Light/Dark)` lists. These are fixture inventories, **not** a claim that all 68 unique card behaviors are supported. Every card's implementation status remains pending in `data/native-proof/manifest.json`; full-match creation is unavailable and rejected by the API. Fixtures have controlled pile order, not randomized opening hands. No native AI or sealed engine is implemented.
+Each scenario preserves all 120 physical cards from the authored GEMP `Precon Premiere Intro 2PG (Light/Dark)` lists. These are fixture inventories, **not** a claim that all 68 unique card behaviors are supported. Full-game card implementation status remains pending in `data/native-proof/manifest.json`; Takeel now records its bounded scenario conformance separately; full-match creation is unavailable and rejected by the API. Fixtures have controlled pile order, not randomized opening hands. No native AI or sealed engine is implemented.
 
 ## Validation and evidence
 
@@ -26,6 +27,23 @@ mvn -q -pl gemp-swccg-server -am -Dtest=NativeProofBattleOracleTests -Dsurefire.
 ```
 
 Official rules and current rulings remain normative: <https://www.starwarsccg.org/rules/>. GEMP is the executable reference: <https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85>. Conflicts must be reconciled with the official rules, never silently copied.
+
+
+## Takeel response coverage
+
+`A turn of destiny` uses `native-proof-2`. The four prior scenarios retain `native-proof-1`, unchanged; a source comparison checked 17 legacy routes and 270 saved states, including both player projections. Existing saved games are not upgraded implicitly.
+
+Dark starts with two Force: one to initiate battle and one for the optional Takeel. Both players must actually finish exactly one battle destiny; zero is a valid value, skipping is not a draw. Light receives the first response to the both-complete event. Dark's subsequent Play/Pass choice never auto-continues. Passing retains the card and Force. Playing atomically pays one Force to Used and moves Takeel into a public off-table `playing` zone, held by a persisted Interrupt frame. The result waits for Light and Dark responses, then switches the destiny values and moves Takeel to Lost. The original response opportunity resumes with Light and zero consecutive passes. Empty before-use-Force, Force-used and pile-placement windows settle internally because no card in this fixture can respond to them; broad timing parity is not claimed.
+
+The UI compares drawn and current destiny numbers, shows the played card while it resolves, previews the switch beside the Play action, and explains skipped-destiny ineligibility. It preserves optional drawing, private hands, existing countdown guards and restart links.
+
+- Normative rules: [Advanced Rulebook pp15–17,55,83 and Takeel ruling p153](https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=153).
+- Executable reference: pinned [Card1_269](https://github.com/PlayersCommittee/gemp-swccg-public/blob/bbd94d183b29c2e82458293df0327c3b946f3d85/src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_269.java), `PlayInterruptAction`, `SwitchBattleDestinyNumbersEffect`, `BattleState`, and `PlayoutOptionalAfterResponsesEffect`.
+- `node --test tests/native-proof/response.test.mjs`: 13 tests cover legal timing, play/pass, all missing-destiny combinations, zero destiny, insufficient Force, both loss strategies, saved pending resolution, private projection, conservation and engine version checks; the final test compares native outcomes with all six branches in the recorded GEMP result.
+- `node tests/native-proof/response-smoke.mjs`: starts a fresh local built Worker on port8792, makes 155 API requests, races eight copies of one paid play plus competing Play/Pass choices, restarts the process while Takeel is unresolved, checks retries after resolution cannot swap again, and verifies shared-seat privacy. No new D1 schema is required.
+- `gemp/NativeProofTakeelOracleTests.java`: four executed GEMP tests exercise play, decline, all three missing-draw combinations and unavailable Force. The play branch confirms pending VOID, payment, Lost disposition, physical destiny ownership, switched values1/3, power5/7, attrition3/1 and Light damage2. First Light forfeit leaves attrition1/damage0. Results retained in `gemp/takeel-oracle-result.txt`.
+
+The draw modifiers, cancellation cards, repeated copies, arbitrary decks and full native matches are outside this closed slice. No browser interaction/visual QA or hosted capacity benchmark was performed.
 
 ## Durable service
 

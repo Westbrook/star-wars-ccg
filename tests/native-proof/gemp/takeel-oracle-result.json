@@ -1,0 +1,119 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "testClass": "com.gempukku.swccgo.rules.battle.NativeProofTakeelOracleTests",
+  "testSourceSha256": "9ca5ba69b5ffe3b899db1d158bd6cb8c520753b0825f0f1e4760a73b319c967b",
+  "command": "docker exec swccg-official-app-1 mvn -pl gemp-swccg-server -am -Dtest=NativeProofTakeelOracleTests -Dsurefire.failIfNoSpecifiedTests=false test",
+  "containerWorkingDirectory": "/opt/gemp-swccg/src",
+  "finishedAt": "2026-09-10T20:56:13Z",
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "testSeconds": 3.723,
+  "mavenSeconds": 8.018,
+  "result": "BUILD SUCCESS",
+  "branches": [
+    {
+      "name": "play",
+      "destiny": {
+        "light": 1,
+        "dark": 3
+      },
+      "power": {
+        "light": 5,
+        "dark": 7
+      },
+      "attrition": {
+        "light": 3,
+        "dark": 1
+      },
+      "damage": {
+        "light": 2,
+        "dark": 0
+      },
+      "forceAfterInitiation": 1,
+      "forceAfterPlay": 0,
+      "takeelDestination": "Lost",
+      "forfeitSequence": [
+        "dark",
+        "light",
+        "light"
+      ],
+      "firstLightForfeitRemaining": {
+        "attrition": 1,
+        "damage": 0
+      }
+    },
+    {
+      "name": "decline",
+      "destiny": {
+        "light": 3,
+        "dark": 1
+      },
+      "power": {
+        "light": 7,
+        "dark": 5
+      },
+      "attrition": {
+        "light": 1,
+        "dark": 3
+      },
+      "damage": {
+        "light": 0,
+        "dark": 2
+      },
+      "forceAfterDecline": 1,
+      "takeelDestination": "Hand"
+    },
+    {
+      "name": "dark-skips",
+      "darkDraws": false,
+      "lightDraws": true,
+      "takeelAvailable": false,
+      "power": {
+        "light": 7,
+        "dark": 4
+      }
+    },
+    {
+      "name": "light-skips",
+      "darkDraws": true,
+      "lightDraws": false,
+      "takeelAvailable": false,
+      "power": {
+        "light": 4,
+        "dark": 5
+      }
+    },
+    {
+      "name": "both-skip",
+      "darkDraws": false,
+      "lightDraws": false,
+      "takeelAvailable": false,
+      "power": {
+        "light": 4,
+        "dark": 4
+      }
+    },
+    {
+      "name": "insufficient-force",
+      "darkDraws": true,
+      "lightDraws": true,
+      "forceAfterInitiation": 0,
+      "takeelAvailable": false,
+      "power": {
+        "light": 7,
+        "dark": 5
+      }
+    }
+  ],
+  "timing": [
+    "No Takeel action during battle initiation, weapons, before drawing, either individual destiny draw, or individual draw-complete responses.",
+    "After both players complete destiny drawing, Light receives the first optional response. After Light passes, Dark can play Takeel if both drew exactly one and 1 Force remains.",
+    "Selecting Takeel opens an empty Use 1 Force optional response while Takeel remains in Hand and Force remains 1.",
+    "After passing Force-use responses, 1 Force is in Used, Takeel is in VOID, and numbers have not yet switched.",
+    "After card-play responses, numbers switch, Takeel reaches Lost (GEMP represents top card as TOP_OF_LOST_PILE), and a post-placement response resolves before returning to the original both-draws response window."
+  ],
+  "physicalDestinies": "Light Jawa and Dark Stormtrooper remain in their respective owners Used piles before and after Takeel; only destiny numbers switch.",
+  "scope": "Closed Intro 2PG fixture: original 60 cards per side, four troopers each at Docking Bay 327, Dark 2 Force/Light 1 Force, Takeel in Dark hand. One additional missing-Force fixture starts Dark with 1 Force. No upstream production rule code changed."
+}

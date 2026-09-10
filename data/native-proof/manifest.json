@@ -874,7 +874,22 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_269.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_269.java",
+      "conformance": {
+        "engine": "native-proof-2",
+        "scenarios": [
+          "takeel"
+        ],
+        "verifiedBehavior": [
+          "Exactly one completed battle destiny per player and 1 available Force required",
+          "Opponent-first response priority and explicit play/pass",
+          "Pay 1 Force before a persisted pending Interrupt resolves",
+          "Switch individual battle destiny numbers; preserve physical card owners and piles",
+          "Lost Interrupt disposition; reset parent response passes"
+        ],
+        "scope": "Closed unmodified four-trooper fixture only; full starter card execution remains pending.",
+        "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=153"
+      }
     },
     {
       "gempId": "1_275",
