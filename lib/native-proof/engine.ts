@@ -187,7 +187,24 @@ export function assertMatch(m:Match){
 }
 
 function publicCard(m:Match,id:string):PublicCard{const c=m.cards[id],d=definition(c.blueprint);return {id,blueprint:c.blueprint,name:d.name,image:d.image,side:c.owner,type:d.type,text:d.text,stats:d.stats as Record<string,string>,...(c.location?{location:c.location}:{})};}
-export function project(m:Match,seat:Side):Projection{
+// This baseline is the immutable native-proof-1 fixture, including for older
+// saves. Changing its initial card order requires a new supported engine version.
+// Current piles always come from the actual saved match, never the expected result.
+function recirculationStudy(m:Match):import('./types').RecirculationStudy{
+ const initial=createScenario('recirculation');
+ const same=(a:string[],b:string[])=>a.length===b.length&&a.every((id,i)=>id===b[i]);
+ const copy=(p:Player)=>({reserve:[...p.reserve],used:[...p.used],force:[...p.force]});
+ const frame=m.stack.find(f=>f.kind==='recirculation');
+ return {
+  cards:Object.fromEntries(Object.values(m.cards).filter(c=>c.zone!=='table').map(c=>{const d=definition(c.blueprint);return [c.id,{id:c.id,name:d.name,image:d.image}]})),
+  players:Object.fromEntries(sides.map(s=>{
+   const before=copy(initial.players[s]),current=copy(m.players[s]);
+   const resolved=m.complete||!!frame&&frame.next!==m.active&&s===m.active;
+   return [s,{before,current,resolved,orderPreserved:resolved?current.used.length===0&&same(current.reserve,[...before.reserve,...before.used]):null,reserveUnchanged:same(current.reserve.slice(0,before.reserve.length),before.reserve),forceUnchanged:same(current.force,before.force)}];
+  })) as import('./types').RecirculationStudy['players'],
+ };
+}
+export function project(m:Match,seat:Side,includeStudy=false):Projection{
  assertMatch(m);const p=prompt(m);const players={} as Projection['players'];
  for(const s of sides){const source=m.players[s];players[s]={counts:Object.fromEntries(piles.map(z=>[z,source[z].length])) as Projection['players'][Side]['counts'],life:life(m,s),hand:s===seat?source.hand.map(id=>publicCard(m,id)):[],lost:source.lost.slice(0,1).map(id=>publicCard(m,id)),destiny:source.destiny.map(id=>publicCard(m,id))};}
  const b=m.battle;const frame=m.stack.find(f=>f.kind==='battle');
@@ -197,5 +214,5 @@ export function project(m:Match,seat:Side):Projection{
  // This also reads existing native-proof-1 saves without changing stored rules.
  const ready=!!b&&(frame?.stage==='damage'||frame?.stage==='end'||m.complete&&b.drawn.light&&b.drawn.dark);
  const losses=ready?Object.fromEntries(sides.map(s=>[s,{attrition:b!.attrition[s],damage:b!.damage[s],initialAttrition:b!.destiny[other(s)]??0,initialDamage:Math.max(0,b!.power[other(s)]-b!.power[s])}])) as Record<Side,import('./types').LossBalance>:null;
- return {scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses};
+ return {scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
 }

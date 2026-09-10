@@ -31,7 +31,7 @@ function seat(row:Row,actor:string,requested?:unknown):Side{
  return assigned;
 }
 async function rowFor(id:string){if(!validId(id))throw new ProofError('Invalid checkpoint link.');const r=await db().prepare('SELECT * FROM proof_matches WHERE id = ?').bind(id).first<Row>();if(!r)throw new ProofError('This checkpoint was not found.',404);return r;}
-function response(row:Row,actor:string,requested?:unknown){const s=seat(row,actor,requested);return {id:row.id,mode:row.mode,waitingForOpponent:row.mode==='shared'&&!row.guest,created:row.created,updated:row.updated,game:project(parse(row),s)};}
+function response(row:Row,actor:string,requested?:unknown){const s=seat(row,actor,requested);return {id:row.id,mode:row.mode,waitingForOpponent:row.mode==='shared'&&!row.guest,created:row.created,updated:row.updated,game:project(parse(row),s,row.mode==='solo'&&row.owner===actor)};}
 export async function listMatches(actor:string){const r=await db().prepare('SELECT id, mode, scenario, version, created, updated FROM proof_matches WHERE owner = ? OR guest = ? ORDER BY updated DESC LIMIT 12').bind(actor,actor).all();return r.results;}
 export async function readMatch(id:string,actor:string,requested?:unknown){return response(await rowFor(id),actor,requested);}
 export async function createMatch(actor:string,body:Record<string,unknown>){

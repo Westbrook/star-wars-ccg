@@ -23,8 +23,13 @@ export type Choice = {id:string;label:string;card?:string;tone?:'primary'|'dange
 export type Prompt = {id:string;side:Side;title:string;detail:string;choices:Choice[];automatic:boolean};
 export type Command = {choice:string;prompt:string};
 export type PublicCard = {id:string;blueprint:string;name:string;image:string;side:Side;type:string;text:string;stats:Record<string,string>;location?:string};
+export type StudyPiles = Pick<Player,'reserve'|'used'|'force'>;
+export type RecirculationStudy = {
+ cards:Record<string,Pick<PublicCard,'id'|'name'|'image'>>;
+ players:Record<Side,{before:StudyPiles;current:StudyPiles;resolved:boolean;orderPreserved:boolean|null;reserveUnchanged:boolean;forceUnchanged:boolean}>;
+};
 export type Projection = {
  scenario:ScenarioId;engine:string;revision:number;active:Side;phase:string;seat:Side;complete:boolean;winner:Side|null;
  players:Record<Side,{counts:Record<Exclude<Zone,'table'>,number>;life:number;hand:PublicCard[];lost:PublicCard[];destiny:PublicCard[]}>;
- locations:PublicCard[];table:PublicCard[];prompt:Prompt|null;log:Match['log'];battle:Battle|null;losses:Record<Side,LossBalance>|null;
+ locations:PublicCard[];table:PublicCard[];prompt:Prompt|null;log:Match['log'];battle:Battle|null;losses:Record<Side,LossBalance>|null;recirculationStudy?:RecirculationStudy;
 };
