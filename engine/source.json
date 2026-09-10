@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "license": "MIT",
+  "rulesAuthority": "https://www.starwarsccg.org/rules/",
+  "note": "Unmodified engine rules and card implementations. Source is fetched separately; runtime is not bundled in the Cloudflare site."
+}

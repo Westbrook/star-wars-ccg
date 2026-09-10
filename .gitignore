@@ -46,3 +46,6 @@ next-env.d.ts
 
 # Local incremental type-check cache
 *.tsbuildinfo
+
+# Local GEMP source/runtime
+/.engine/

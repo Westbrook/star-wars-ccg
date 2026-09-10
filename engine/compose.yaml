@@ -1,0 +1,44 @@
+name: swccg-official
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: gemp-swccg
+      MARIADB_USER: gemp
+      MARIADB_PASSWORD: ${SWCCG_DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${SWCCG_DB_ROOT_PASSWORD}
+    volumes:
+      - database:/var/lib/mysql
+      - ${SWCCG_ENGINE_SOURCE}/src/db-scripts/database_creation_script.sql:/docker-entrypoint-initdb.d/10-schema.sql:ro
+      - ${SWCCG_ENGINE_SOURCE}/src/db-scripts/initial_user_setup.sql:/docker-entrypoint-initdb.d/20-users.sql:ro
+      - ${SWCCG_ENGINE_SOURCE}/src/db-scripts/sample_decks.sql:/docker-entrypoint-initdb.d/30-decks.sql:ro
+      - ${SWCCG_ENGINE_SOURCE}/src/db-scripts/utinni_sample_decks.sql:/docker-entrypoint-initdb.d/40-decks.sql:ro
+      - ./local-settings.sql:/docker-entrypoint-initdb.d/90-local.sql:ro
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  app:
+    image: maven:3.9.6-eclipse-temurin-21
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_CONTAINER_NAME: db
+      MYSQL_DATABASE: gemp-swccg
+      MYSQL_USER: gemp
+      MYSQL_PASSWORD: ${SWCCG_DB_PASSWORD}
+      APPLICATION_ROOT: /opt/gemp-swccg
+      WEB_PATH: /opt/gemp-swccg/src/gemp-swccg-async/src/main/web/
+      INTERNAL_PORT: 8080
+    ports:
+      - 127.0.0.1:17181:8080
+    volumes:
+      - ${SWCCG_ENGINE_SOURCE}:/opt/gemp-swccg
+      - logs:/logs
+    working_dir: /opt/gemp-swccg/src
+    command: [java, -Xmx2g, -Dlog4j.configurationFile=/opt/gemp-swccg/src/gemp-swccg-async/src/main/resources/prod-log4j.xml, -jar, gemp-swccg-async/target/web.jar]
+volumes:
+  database:
+  logs:

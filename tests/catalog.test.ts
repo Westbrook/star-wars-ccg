@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {searchCards,deckContents,sameCards,type CatalogCard} from '../lib/catalog';
+const cards=JSON.parse(readFileSync('public/catalog/cards.json','utf8')) as CatalogCard[];
+const manifest=JSON.parse(readFileSync('public/catalog/manifest.json','utf8'));
+assert.equal(cards.length,3824);assert.equal(cards.length,manifest.count);assert.equal(new Set(cards.map(c=>c.id)).size,cards.length);
+assert.equal(cards.filter(c=>c.era==='decipher').length,2546);assert.equal(cards.filter(c=>c.era==='virtual').length,1278);
+assert.ok(cards.some(c=>Object.values(c.stats).some(v=>/[X*]/.test(v))),'Variable printed stats must survive');
+assert.ok(cards.some(c=>c.back?.text));assert.ok(cards.every(c=>c.image.startsWith('https://res.starwarsccg.org/')));
+assert.ok(cards.every(c=>!('playableId' in c)&&!('support' in c)&&!('cost' in c)),'No simplified executable cards');
+const luke=searchCards(cards,'luke skywalker','light','Character','all','all');assert.ok(luke.length>5);assert.ok(luke.every(c=>c.side==='light'&&c.type==='Character'));
+const premiere=searchCards(cards,'','all','all','1','decipher');assert.ok(premiere.length>200);assert.ok(premiere.every(c=>c.setIds.includes('1')));
+assert.equal(searchCards(cards,'nonexistentzzz','all','all','all','all').length,0);
+assert.equal(deckContents(['1_1','1_1'],['13_1']),'1_1,1_1|13_1');assert.ok(sameCards(['a','b','a'],['b','a','a']));assert.ok(!sameCards(['a','a'],['a','b']));
+console.log('Catalog provenance/counts, printed variable stats, multi-filter search and deck identity checks passed.');

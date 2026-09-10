@@ -1,0 +1,6 @@
+export type PrintedFace={title:string;image:string;text:string;lore:string;stats:Record<string,string>;icons:string[]};
+export type CatalogCard=PrintedFace & {id:string;sourceId:number;gempId:string|null;name:string;side:'light'|'dark';type:string;subType:string;setId:string;setName:string;setIds:string[];era:'decipher'|'virtual';rarity:string;personas:string[];characteristics:string[];uniqueness:string;back:PrintedFace|null};
+export type CatalogManifest={count:number;commit:string;source:string;eras:Record<string,number>;types:Record<string,number>;sets:{id:string;name:string;count:number}[]};
+export function searchCards(cards:CatalogCard[],query:string,side:string,type:string,set:string,era:string){const terms=query.toLowerCase().trim().split(/\s+/).filter(Boolean);return cards.filter(c=>(side==='all'||c.side===side)&&(type==='all'||c.type===type)&&(set==='all'||c.setIds.includes(set))&&(era==='all'||c.era===era)&&(!terms.length||terms.every(t=>[c.name,c.text,c.back?.text??'',c.setName,...c.personas,...c.characteristics].join(' ').toLowerCase().includes(t))))}
+export function deckContents(main:string[],outside:string[]){return main.join(',')+'|'+outside.join(',')}
+export function sameCards(a:string[],b:string[]){return a.length===b.length&&[...a].sort().every((x,i)=>x===[...b].sort()[i])}

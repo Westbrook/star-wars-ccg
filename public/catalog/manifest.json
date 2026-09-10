@@ -1,0 +1,395 @@
+{
+  "source": "https://github.com/swccgpc/swccg-card-json",
+  "commit": "6632336c00a87dfdb90920cc3d851786349b29b2",
+  "importedAt": "2026-09-10T16:09:04.651564+00:00",
+  "files": {
+    "Light.json": {
+      "url": "https://raw.githubusercontent.com/swccgpc/swccg-card-json/6632336c00a87dfdb90920cc3d851786349b29b2/Light.json",
+      "sha256": "4c3b305a7a7742225e80f81a20a24d89e86f7771f73236a87db95f47b6852579"
+    },
+    "Dark.json": {
+      "url": "https://raw.githubusercontent.com/swccgpc/swccg-card-json/6632336c00a87dfdb90920cc3d851786349b29b2/Dark.json",
+      "sha256": "aec076de4423897bbce170ea7b073f721ad3a5e20c483d8dabe33f6fd49c71b0"
+    },
+    "sets.json": {
+      "url": "https://raw.githubusercontent.com/swccgpc/swccg-card-json/6632336c00a87dfdb90920cc3d851786349b29b2/sets.json",
+      "sha256": "06e412fa5c779dba775c723d0b015c50de6f138a966c936b905585fc32925226"
+    },
+    "LICENSE": {
+      "url": "https://raw.githubusercontent.com/swccgpc/swccg-card-json/6632336c00a87dfdb90920cc3d851786349b29b2/LICENSE",
+      "sha256": "8a8a70b595996d6a9eca9ba59206b0b66ac3a1c0c545f708dccb4685f2a1430e"
+    }
+  },
+  "count": 3824,
+  "eras": {
+    "decipher": 2546,
+    "virtual": 1278
+  },
+  "types": {
+    "Character": 1197,
+    "Effect": 599,
+    "Weapon": 172,
+    "Defensive Shield": 63,
+    "Interrupt": 747,
+    "Objective": 58,
+    "Jedi Test #2": 1,
+    "Epic Event": 30,
+    "Starship": 272,
+    "Vehicle": 80,
+    "Location": 482,
+    "Podracer": 5,
+    "Device": 71,
+    "Admiral's Order": 16,
+    "Creature": 23,
+    "Jedi Test #3": 1,
+    "Jedi Test #1": 1,
+    "Game Aid": 2,
+    "Jedi Test #5": 2,
+    "Jedi Test #4": 1,
+    "Jedi Test #6": 1
+  },
+  "sets": [
+    {
+      "id": "1",
+      "name": "Premiere",
+      "release": "1995-12-01",
+      "count": 324
+    },
+    {
+      "id": "101",
+      "name": "Premiere Introductory Two Player Game",
+      "release": "1996-02-01",
+      "count": 6
+    },
+    {
+      "id": "102",
+      "name": "Jedi Pack",
+      "release": "1996-10-01",
+      "count": 11
+    },
+    {
+      "id": "103",
+      "name": "Rebel Leader Pack",
+      "release": "1996-04-01",
+      "count": 2
+    },
+    {
+      "id": "2",
+      "name": "A New Hope",
+      "release": "1996-07-01",
+      "count": 162
+    },
+    {
+      "id": "3",
+      "name": "Hoth",
+      "release": "1996-11-01",
+      "count": 162
+    },
+    {
+      "id": "104",
+      "name": "Empire Strikes Back Introductory Two Player Game",
+      "release": "1997-03-01",
+      "count": 7
+    },
+    {
+      "id": "4",
+      "name": "Dagobah",
+      "release": "1997-04-23",
+      "count": 180
+    },
+    {
+      "id": "105",
+      "name": "First Anthology",
+      "release": "1997-05-01",
+      "count": 6
+    },
+    {
+      "id": "5",
+      "name": "Cloud City",
+      "release": "1997-11-01",
+      "count": 181
+    },
+    {
+      "id": "6",
+      "name": "Jabba's Palace",
+      "release": "1998-05-01",
+      "count": 180
+    },
+    {
+      "id": "106",
+      "name": "Official Tournament Sealed Deck",
+      "release": "1998-05-01",
+      "count": 18
+    },
+    {
+      "id": "107",
+      "name": "Second Anthology",
+      "release": "1998-07-01",
+      "count": 6
+    },
+    {
+      "id": "7",
+      "name": "Special Edition",
+      "release": "1998-11-01",
+      "count": 324
+    },
+    {
+      "id": "108",
+      "name": "Enhanced Premiere",
+      "release": "1998-11-01",
+      "count": 6
+    },
+    {
+      "id": "8",
+      "name": "Endor",
+      "release": "1999-06-01",
+      "count": 180
+    },
+    {
+      "id": "109",
+      "name": "Enhanced Cloud City",
+      "release": "1999-12-01",
+      "count": 12
+    },
+    {
+      "id": "110",
+      "name": "Enhanced Jabba's Palace",
+      "release": "2000-01-01",
+      "count": 12
+    },
+    {
+      "id": "111",
+      "name": "Third Anthology",
+      "release": "2000-06-01",
+      "count": 6
+    },
+    {
+      "id": "9",
+      "name": "Death Star II",
+      "release": "2000-07-01",
+      "count": 182
+    },
+    {
+      "id": "112",
+      "name": "Jabba's Palace Sealed Deck",
+      "release": "2000-10-01",
+      "count": 20
+    },
+    {
+      "id": "10",
+      "name": "Reflections 2",
+      "release": "2001-01-01",
+      "count": 54
+    },
+    {
+      "id": "11",
+      "name": "Tatooine",
+      "release": "2001-05-01",
+      "count": 99
+    },
+    {
+      "id": "12",
+      "name": "Coruscant",
+      "release": "2001-08-01",
+      "count": 189
+    },
+    {
+      "id": "13",
+      "name": "Reflections 3",
+      "release": "2001-10-01",
+      "count": 100
+    },
+    {
+      "id": "14",
+      "name": "Theed Palace",
+      "release": "2001-11-01",
+      "count": 129
+    },
+    {
+      "id": "200",
+      "name": "Virtual Set 0",
+      "release": "2014-09-24",
+      "count": 158
+    },
+    {
+      "id": "201",
+      "name": "Virtual Set 1",
+      "release": "2015-03-27",
+      "count": 50
+    },
+    {
+      "id": "202",
+      "name": "Virtual Set 2",
+      "release": "2015-07-17",
+      "count": 20
+    },
+    {
+      "id": "203",
+      "name": "Virtual Set 3",
+      "release": "2015-12-04",
+      "count": 45
+    },
+    {
+      "id": "204",
+      "name": "Virtual Set 4",
+      "release": "2016-06-29",
+      "count": 78
+    },
+    {
+      "id": "205",
+      "name": "Virtual Set 5",
+      "release": "2016-11-23",
+      "count": 26
+    },
+    {
+      "id": "206",
+      "name": "Virtual Set 6",
+      "release": "2017-04-14",
+      "count": 16
+    },
+    {
+      "id": "207",
+      "name": "Virtual Set 7",
+      "release": "2017-07-13",
+      "count": 35
+    },
+    {
+      "id": "208",
+      "name": "Virtual Set 8",
+      "release": "2017-11-30",
+      "count": 64
+    },
+    {
+      "id": "209",
+      "name": "Virtual Set 9",
+      "release": "2018-07-06",
+      "count": 63
+    },
+    {
+      "id": "210",
+      "name": "Virtual Set 10",
+      "release": "2019-01-08",
+      "count": 44
+    },
+    {
+      "id": "211",
+      "name": "Virtual Set 11",
+      "release": "2019-08-02",
+      "count": 63
+    },
+    {
+      "id": "212",
+      "name": "Virtual Set 12",
+      "release": "2020-03-22",
+      "count": 9
+    },
+    {
+      "id": "213",
+      "name": "Virtual Set 13",
+      "release": "2020-11-09",
+      "count": 63
+    },
+    {
+      "id": "214",
+      "name": "Virtual Set 14",
+      "release": "2021-03-18",
+      "count": 28
+    },
+    {
+      "id": "215",
+      "name": "Virtual Set 15",
+      "release": "2021-06-23",
+      "count": 28
+    },
+    {
+      "id": "216",
+      "name": "Virtual Set 16",
+      "release": "2021-09-03",
+      "count": 57
+    },
+    {
+      "id": "217",
+      "name": "Virtual Set 17",
+      "release": "2021-12-20",
+      "count": 54
+    },
+    {
+      "id": "218",
+      "name": "Virtual Set 18",
+      "release": "2022-04-21",
+      "count": 34
+    },
+    {
+      "id": "219",
+      "name": "Virtual Set 19",
+      "release": "2022-08-15",
+      "count": 51
+    },
+    {
+      "id": "220",
+      "name": "Virtual Set 20",
+      "release": "2022-12-12",
+      "count": 10
+    },
+    {
+      "id": "221",
+      "name": "Virtual Set 21",
+      "release": "2023-06-19",
+      "count": 75
+    },
+    {
+      "id": "222",
+      "name": "Virtual Set 22",
+      "release": "2023-10-02",
+      "count": 30
+    },
+    {
+      "id": "223",
+      "name": "Virtual Set 23",
+      "release": "2024-07-22",
+      "count": 49
+    },
+    {
+      "id": "224",
+      "name": "Virtual Set 24",
+      "release": "2024-12-30",
+      "count": 23
+    },
+    {
+      "id": "225",
+      "name": "Virtual Set 25",
+      "release": "2025-08-08",
+      "count": 60
+    },
+    {
+      "id": "226",
+      "name": "Virtual Set 26",
+      "release": "2025-12-08",
+      "count": 28
+    },
+    {
+      "id": "227",
+      "name": "Virtual Set 27",
+      "release": "2026-08-24",
+      "count": 6
+    },
+    {
+      "id": "301",
+      "name": "Demo Deck",
+      "release": "2017-02-24",
+      "count": 11
+    },
+    {
+      "id": "200d",
+      "name": "Virtual Defensive Shields",
+      "release": "2014-09-24",
+      "count": 29
+    }
+  ],
+  "notes": [
+    "Current main Light and Dark JSON are imported; historical legacy virtual files are excluded.",
+    "Alternate artwork/printings may share a GEMP blueprint. Record count is not a count of verified playable implementations.",
+    "Card text and variable stats are preserved; the rules engine determines legality and executes abilities.",
+    "Artwork loads from the source archive on demand."
+  ]
+}

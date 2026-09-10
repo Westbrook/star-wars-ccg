@@ -1,0 +1,2 @@
+import {engineOrigin} from '@/lib/engine-proxy';
+export async function GET(){const origin=engineOrigin();if(!origin)return Response.json({connected:false,reason:'not_configured'},{headers:{'Cache-Control':'no-store'}});try{const response=await fetch(origin+'/gemp-swccg/index.html',{signal:AbortSignal.timeout(5000)});return Response.json({connected:response.ok,reason:response.ok?null:'unavailable'},{headers:{'Cache-Control':'no-store'}})}catch{return Response.json({connected:false,reason:'unavailable'},{headers:{'Cache-Control':'no-store'}})}}
