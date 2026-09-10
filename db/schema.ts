@@ -1,0 +1,4 @@
+import {sqliteTable,text,integer,index} from 'drizzle-orm/sqlite-core';
+export const decks=sqliteTable('decks',{id:text('id').primaryKey(),owner:text('owner').notNull(),data:text('data').notNull(),updated:integer('updated').notNull()},t=>[index('idx_decks_owner').on(t.owner)]);
+export const pools=sqliteTable('pools',{id:text('id').primaryKey(),owner:text('owner').notNull(),data:text('data').notNull(),created:integer('created').notNull()},t=>[index('idx_pools_owner').on(t.owner)]);
+export const games=sqliteTable('games',{id:text('id').primaryKey(),code:text('code').notNull().unique(),owner:text('owner').notNull(),guest:text('guest'),state:text('state').notNull(),version:integer('version').notNull().default(0),updated:integer('updated').notNull()},t=>[index('idx_games_owner').on(t.owner),index('idx_games_guest').on(t.guest)]);
