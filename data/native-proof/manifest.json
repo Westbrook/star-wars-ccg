@@ -291,7 +291,23 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_105.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_105.java",
+      "conformance": {
+        "engine": "native-proof-3",
+        "scenarios": [
+          "barrier",
+          "imperial-barrier"
+        ],
+        "verifiedBehavior": [
+          "Opponent just-deployed ordinary trooper, exact target and 1 available Force required",
+          "Pay 1 Force atomically with persisted pending Interrupt; no restriction until resolution",
+          "Used disposition above paid Force; retains ordinary presence outside battle",
+          "Cannot initiate battle alone, is excluded from a battle with another participant, cannot move",
+          "Restriction persists through recirculation and expires after both players finish"
+        ],
+        "scope": "Closed one-turn trooper fixture only; starships, modifiers, cancellations and full starter execution remain pending.",
+        "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=61"
+      }
     },
     {
       "gempId": "1_106",
@@ -390,7 +406,19 @@
         "Scomp Link"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_124.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_124.java",
+      "conformance": {
+        "engine": "native-proof-3",
+        "scenarios": [
+          "barrier",
+          "imperial-barrier"
+        ],
+        "verifiedBehavior": [
+          "Adjacent interior sites for regular landspeed movement",
+          "Own Force icon or presence allows deployment; movement does not require an icon"
+        ],
+        "scope": "Pre-arranged board; docking-bay transit, location deployment, Corridor weapon destiny and drain modifiers are not exercised."
+      }
     },
     {
       "gempId": "1_129",
@@ -626,7 +654,21 @@
         "Warrior"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_194.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_194.java",
+      "conformance": {
+        "engine": "native-proof-3",
+        "scenarios": [
+          "barrier",
+          "imperial-barrier"
+        ],
+        "verifiedBehavior": [
+          "Deploy for printed cost 1 to a site with own Force icon or presence",
+          "Printed power 1, ability 1 and forfeit 2; no base battle destiny below ability 4",
+          "One regular adjacent-site move per turn costs 1 Force",
+          "Draw from top of Force into hand during Draw phase"
+        ],
+        "scope": "Closed two-site fixture; free-deploy condition is inactive because no allied Rebel/Imperial with ability greater than 2 is present. General card execution remains pending."
+      }
     },
     {
       "gempId": "1_196",
@@ -750,7 +792,23 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_249.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_249.java",
+      "conformance": {
+        "engine": "native-proof-3",
+        "scenarios": [
+          "barrier",
+          "imperial-barrier"
+        ],
+        "verifiedBehavior": [
+          "Opponent just-deployed ordinary trooper, exact target and 1 available Force required",
+          "Pay 1 Force atomically with persisted pending Interrupt; no restriction until resolution",
+          "Used disposition above paid Force; retains ordinary presence outside battle",
+          "Cannot initiate battle alone, is excluded from a battle with another participant, cannot move",
+          "Restriction persists through recirculation and expires after both players finish"
+        ],
+        "scope": "Closed one-turn trooper fixture only; starships, modifiers, cancellations and full starter execution remain pending.",
+        "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=61"
+      }
     },
     {
       "gempId": "1_251",
@@ -940,7 +998,21 @@
         "Warrior"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_028.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_028.java",
+      "conformance": {
+        "engine": "native-proof-3",
+        "scenarios": [
+          "barrier",
+          "imperial-barrier"
+        ],
+        "verifiedBehavior": [
+          "Deploy for printed cost 1 to a site with own Force icon or presence",
+          "Printed power 1, ability 1 and forfeit 2; no base battle destiny below ability 4",
+          "One regular adjacent-site move per turn costs 1 Force",
+          "Draw from top of Force into hand during Draw phase"
+        ],
+        "scope": "Closed two-site fixture; free-deploy condition is inactive because no allied Rebel/Imperial with ability greater than 2 is present. General card execution remains pending."
+      }
     },
     {
       "gempId": "1_284",
@@ -958,7 +1030,19 @@
         "Mobile"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_284.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_284.java",
+      "conformance": {
+        "engine": "native-proof-3",
+        "scenarios": [
+          "barrier",
+          "imperial-barrier"
+        ],
+        "verifiedBehavior": [
+          "Adjacent interior sites for regular landspeed movement",
+          "Own Force icon or presence allows deployment; movement does not require an icon"
+        ],
+        "scope": "Pre-arranged board; docking-bay transit, location deployment, Corridor weapon destiny and drain modifiers are not exercised."
+      }
     },
     {
       "gempId": "1_285",

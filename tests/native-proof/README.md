@@ -1,6 +1,6 @@
 # Sites-native focused proof
 
-The `/proof` lab executes five **closed conformance scenarios**, backed by a TypeScript Cloudflare Worker and D1. It is the beginning of the accepted proof, not a complete SWCCG game engine. Existing GEMP paths remain available.
+The `/proof` lab executes seven **closed conformance scenarios**, backed by a TypeScript Cloudflare Worker and D1. It is the beginning of the accepted proof, not a complete SWCCG game engine. Existing GEMP paths remain available.
 
 ## Verified in this iteration
 
@@ -10,9 +10,10 @@ The `/proof` lab executes five **closed conformance scenarios**, backed by a Typ
 | Force drain | Drain attempt recorded, response opportunities, loss from hand or top Reserve/Force/Used | A Stormtrooper controls an uncontested one-icon site; generic control/eligibility not implemented |
 | Battle | Initiation cost, optional destiny, unresolved destiny, power, attrition, damage, alternating forfeits/losses | Four printed troopers per side, no weapons, interrupts or modifiers |
 | Recirculation | Both players, current player first, Used appended under Reserve in order | Fixed end-of-turn checkpoint, no end-of-turn card effects |
+| Deployment / Reinforcements under fire / The Imperial blockade | Printed deployment, just-deployed Barrier response, restricted battle/movement, optional draw, recirculation and expiry | Mirrored one-turn fixtures, two ordinary troopers in hand, one opposing trooper, two adjacent sites, one Barrier; no other card actions |
 | Takeel / A turn of destiny | Optional response, Force cost, pending played Interrupt, destiny-number switch, Lost disposition | Separate four-trooper battle; one Takeel in Dark hand, no other Interrupts or modifiers |
 
-Each scenario preserves all 120 physical cards from the authored GEMP `Precon Premiere Intro 2PG (Light/Dark)` lists. These are fixture inventories, **not** a claim that all 68 unique card behaviors are supported. Full-game card implementation status remains pending in `data/native-proof/manifest.json`; Takeel now records its bounded scenario conformance separately; full-match creation is unavailable and rejected by the API. Fixtures have controlled pile order, not randomized opening hands. No native AI or sealed engine is implemented.
+Each scenario preserves all 120 physical cards from the authored GEMP `Precon Premiere Intro 2PG (Light/Dark)` lists. These are fixture inventories, **not** a claim that all 68 unique card behaviors are supported. Full-game card implementation status remains pending in `data/native-proof/manifest.json`; Takeel, both Barriers, troopers and the two study sites record bounded scenario conformance separately; full-match creation is unavailable and rejected by the API. Fixtures have controlled pile order, not randomized opening hands. No native AI or sealed engine is implemented.
 
 ## Validation and evidence
 
@@ -45,6 +46,26 @@ The UI compares drawn and current destiny numbers, shows the played card while i
 
 The draw modifiers, cancellation cards, repeated copies, arbitrary decks and full native matches are outside this closed slice. No browser interaction/visual QA or hosted capacity benchmark was performed.
 
+
+## Deployment and Barrier turn studies
+
+`Reinforcements under fire` (Dark deploys, Rebel Barrier) and `The Imperial blockade` (Light deploys, Imperial Barrier) use `native-proof-3`. The prior five fixtures retain their engine versions and exact state/projection behavior: an independent current-vs-HEAD audit compared 95 routes, 2,217 commands, 2,312 states and 23,120 byte-equality checks.
+
+Both start in Deploy with two ordinary troopers in hand and five in Force; the opponent has a trooper at Light Docking Bay 327, one in Force and one matching Barrier in hand. Dark Detention Block Corridor is adjacent. All remaining authored cards stay in Reserve. Dark can initially deploy at either site. Light can deploy at the Bay but cannot initially deploy at the Corridor (no Light icon/presence); regular movement there is legal. The troopers' free-deploy condition is inactive.
+
+Each trooper costs one Force. The opponent may play or pass Barrier for that exact newly deployed trooper. Passing the first response still allows targeting the second deployment. Barrier pays one Force, remains public off-table while responses resolve, then goes to Used above its payment. It leaves the target at its site with ordinary presence, excludes it from battle and prevents movement until turn end. A sole barred trooper cannot initiate battle; a second eligible trooper can battle without it. At most two ability participates, so no base battle destiny is offered. A two-versus-one unbarred battle causes one damage, zero attrition, payable with Force or forfeit.
+
+Regular adjacent movement costs one Force per character, once per turn; battle does not consume that move. Draw is optional, one top Force card at a time, with alternating action priority. The study ends after active-then-opponent recirculation; only then do Barrier restrictions expire. It does not offer movement during the new opponent turn. This is a closed turn study, not general turn setup or full card support.
+
+Selected meaningful continuations are persisted. Unavailable Force-cost, movement-in-progress, pile-placement and recirculation response windows settle internally in this exact fixture. GEMP observes these windows, but no fixture card can respond; complete timing-window parity is not claimed. New playable cards require revisiting those internal settlements.
+
+- Normative reference: [Advanced Rulebook pp17–20,47,61,66–67,73](https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf). Printed Rebel/Imperial Barrier and trooper texts are retained in the manifest.
+- Executed reference: `gemp/NativeProofBarrierOracleTests.java`, pinned GEMP commit `bbd94d183b29c2e82458293df0327c3b946f3d85`. Six JUnit tests cover 15 mirrored play/pass/no-Force, target, battle-loss and destination branches, with zero failures/errors (4.155 seconds). Results: `gemp/barrier-oracle-result.json` and `.txt`. Run with the same Maven command above, substituting `NativeProofBarrierOracleTests`.
+- `node --test tests/native-proof/barrier.test.mjs`: 17 tests, including direct native outcome comparisons with all 15 recorded GEMP branches. JSON reconstruction occurs after every decision. The total native suite now has 51 passing tests.
+- `node tests/native-proof/barrier-smoke.mjs`: 407 requests to a fresh built Worker on port8793; both mirrored scenarios, eight concurrent retries per play, competing Play/Pass, paid-Barrier process restarts, full-turn recovery and authenticated opposing-seat privacy. No database migration required.
+
+The UI shows both locations, exact troop IDs, pending Barrier, restrictions, excluded participants, move usage and expiry. Layout adapts to narrow phone, tablet and desktop widths. Type/build/source and local HTTP checks pass; browser interaction/visual QA and hosted capacity testing were not performed.
+
 ## Durable service
 
 `proof_matches` stores versioned snapshots and continuation frames. `proof_commands` stores immutable request hashes and receipt versions. A D1 transaction inserts a uniquely claimed receipt and conditionally advances the expected match revision. Duplicate requests cannot advance twice; conflicting choices receive 409. A retry returns state at least as recent as its accepted command. The UI keeps an unconfirmed command's original ID for retry, including refresh in the same tab. Server state is the authority.
@@ -59,4 +80,4 @@ The production-code HTTP run performed 179 API requests, recovering all 49 scena
 
 ## Remaining accepted proof work
 
-Implement complete setup/deploy/movement/draw and every reachable behavior of the 68-card pair; preserve all timing and modifiers; add bounded legal CPU play; execute full games and broader GEMP differential traces; extend fresh-worker reconstruction tests to full games, and test resource limits and hosted concurrency at realistic load. Keep native full matches gated until that work passes. Do not upgrade live snapshots to new rules implicitly: retain their engine version or provide a verified migration.
+Extend the closed deployment/movement/draw slice to complete setup and every reachable behavior of the 68-card pair; preserve all timing and modifiers; add bounded legal CPU play; execute full games and broader GEMP differential traces; extend fresh-worker reconstruction tests to full games, and test resource limits and hosted concurrency at realistic load. Keep native full matches gated until that work passes. Do not upgrade live snapshots to new rules implicitly: retain their engine version or provide a verified migration.

@@ -1,0 +1,441 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "testClass": "com.gempukku.swccgo.rules.battle.NativeProofBarrierOracleTests",
+  "testSourceSha256": "51995db809283f5e8dc37030167f2b62357b2a8492f920e3e93d58110eb1fd8e",
+  "command": "docker exec swccg-official-app-1 mvn -pl gemp-swccg-server -am -Dtest=NativeProofBarrierOracleTests -Dsurefire.failIfNoSpecifiedTests=false test",
+  "containerWorkingDirectory": "/opt/gemp-swccg/src",
+  "finishedAt": "2026-09-10T21:20:03Z",
+  "tests": 6,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "testSeconds": 4.155,
+  "mavenSeconds": 9.189,
+  "result": "BUILD SUCCESS",
+  "branchCount": 15,
+  "fixture": {
+    "decks": "Authored Precon Premiere Intro 2PG, 60 cards per side from pinned GEMP sample_decks.sql. No other authored-deck cards outside the specified piles/table.",
+    "sites": [
+      "1_124",
+      "1_284"
+    ],
+    "active": {
+      "hand": "two ordinary troopers",
+      "force": 5,
+      "reserve": 52
+    },
+    "opponent": {
+      "table": "one ordinary trooper at Docking Bay 327",
+      "hand": "matching Barrier",
+      "force": 1,
+      "reserve": 56
+    },
+    "insufficientForceVariant": {
+      "opponentForce": 0,
+      "opponentReserve": 57
+    },
+    "startup": "The framework starts Dark at authored-deck 1_291, then restores that card to Reserve and places 1_284 before arranging the tested fixture. This avoids treating mobile Detention Block Corridor as a legal starting location."
+  },
+  "deployment": {
+    "cost": 1,
+    "darkDestinations": [
+      "1_124",
+      "1_284"
+    ],
+    "lightInitialDestinations": [
+      "1_124"
+    ],
+    "secondLightDestinationsAfterFirstAtBay": [
+      "1_124"
+    ]
+  },
+  "timing": [
+    "Selecting a deployment destination opens Use 1 Force responses while the character is in Hand. Barrier is unavailable. After those empty responses, pay 1 Force, place the character, and offer the opponent the just-deployed response.",
+    "Barrier is available only in the matching just-deployed response with 1 Force. After selecting it, the empty Force-use response still has Barrier in Hand and Force unpaid. After paying, Barrier is VOID, cost is Used, and the target is not yet restricted.",
+    "After playing-card responses resolve, the target receives until-end-of-turn battle/movement restrictions and the Used Interrupt reaches Used. The target still supplies presence.",
+    "After the just-deployed responses, the nonactive player has an empty top-level Deploy opportunity before another active deployment. Tests pass it explicitly, rather than mistaking wrong-side priority for action illegality.",
+    "Movement destination selection opens empty Use 1 Force responses. After cost payment, the character remains at origin during empty MOVING_USING_LANDSPEED responses. Resolving these completes movement to the adjacent site; remaining responses are empty in this fixture.",
+    "Repeat regular-move rejection is checked after active-player priority returns and while sufficient Force remains. Light may move to Corridor despite having no Light icon or pre-existing Light presence there.",
+    "Restrictions persist through both recirculation response windows. After both players recirculate, the restriction is removed before the next Activate phase. Both exact Reserve sequences equal their pre-end-turn Reserve followed by Used; remaining Force is unchanged."
+  ],
+  "branches": [
+    {
+      "name": "dark-barrier-sole",
+      "active": "dark",
+      "barrier": "1_105",
+      "forceAfterDeploy": 4,
+      "opponentForceAfterBarrier": 0,
+      "opponentUsedAfterBarrier": 2,
+      "targetPresence": true,
+      "canInitiateBattle": false,
+      "canMove": false,
+      "afterRecirculation": {
+        "usedBoth": 0,
+        "activeForce": 4,
+        "opponentForce": 0,
+        "barrierZone": "reserve",
+        "targetLocation": "1_124",
+        "targetRestricted": false,
+        "exactReserveAppendOrder": true
+      }
+    },
+    {
+      "name": "dark-decline-move",
+      "active": "dark",
+      "barrierAvailable": true,
+      "barrierZone": "hand",
+      "opponentForce": 1,
+      "forceAfterDeploy": 4,
+      "canInitiateBattle": true,
+      "move": {
+        "from": "1_124",
+        "to": "1_284",
+        "cost": 1,
+        "forceAfter": 3,
+        "repeatRegularMove": false
+      }
+    },
+    {
+      "name": "dark-barrier-target-1-battle-move",
+      "active": "dark",
+      "barredTrooper": 1,
+      "forceAfterTwoDeploys": 3,
+      "forceAfterBattle": 2,
+      "participants": {
+        "active": 1,
+        "opponent": 1
+      },
+      "power": {
+        "light": 1,
+        "dark": 1
+      },
+      "destiny": {
+        "light": 0,
+        "dark": 0
+      },
+      "attrition": {
+        "light": 0,
+        "dark": 0
+      },
+      "damage": {
+        "light": 0,
+        "dark": 0
+      },
+      "unbarredTrooperMove": {
+        "to": "1_284",
+        "forceAfter": 1,
+        "repeatRegularMove": false
+      },
+      "barredTrooperLocation": "1_124"
+    },
+    {
+      "name": "dark-barrier-target-2-battle-move",
+      "active": "dark",
+      "barredTrooper": 2,
+      "forceAfterTwoDeploys": 3,
+      "forceAfterBattle": 2,
+      "participants": {
+        "active": 1,
+        "opponent": 1
+      },
+      "power": {
+        "light": 1,
+        "dark": 1
+      },
+      "destiny": {
+        "light": 0,
+        "dark": 0
+      },
+      "attrition": {
+        "light": 0,
+        "dark": 0
+      },
+      "damage": {
+        "light": 0,
+        "dark": 0
+      },
+      "unbarredTrooperMove": {
+        "to": "1_284",
+        "forceAfter": 1,
+        "repeatRegularMove": false
+      },
+      "barredTrooperLocation": "1_124"
+    },
+    {
+      "name": "dark-insufficient-force",
+      "active": "dark",
+      "opponentForce": 0,
+      "barrierAvailable": false,
+      "barrierZone": "hand",
+      "targetRestricted": false,
+      "canInitiateBattle": true,
+      "move": {
+        "to": "1_284",
+        "forceAfter": 3,
+        "repeatRegularMove": false
+      }
+    },
+    {
+      "name": "dark-decline-battle-reserve",
+      "active": "dark",
+      "forceAfterTwoDeploys": 3,
+      "forceAfterBattle": 2,
+      "participants": {
+        "active": 2,
+        "opponent": 1
+      },
+      "power": {
+        "active": 2,
+        "opponent": 1
+      },
+      "destiny": {
+        "light": 0,
+        "dark": 0
+      },
+      "attrition": {
+        "light": 0,
+        "dark": 0
+      },
+      "damage": {
+        "active": 0,
+        "opponent": 1
+      },
+      "payment": "reserve",
+      "afterPayment": {
+        "battleComplete": true,
+        "opponentLost": 1,
+        "defenderZone": "table",
+        "barrierZone": "hand",
+        "opponentForce": 1
+      }
+    },
+    {
+      "name": "dark-decline-battle-forfeit",
+      "active": "dark",
+      "forceAfterTwoDeploys": 3,
+      "forceAfterBattle": 2,
+      "participants": {
+        "active": 2,
+        "opponent": 1
+      },
+      "power": {
+        "active": 2,
+        "opponent": 1
+      },
+      "destiny": {
+        "light": 0,
+        "dark": 0
+      },
+      "attrition": {
+        "light": 0,
+        "dark": 0
+      },
+      "damage": {
+        "active": 0,
+        "opponent": 1
+      },
+      "payment": "forfeit",
+      "afterPayment": {
+        "battleComplete": true,
+        "opponentLost": 1,
+        "defenderZone": "lost",
+        "barrierZone": "hand",
+        "opponentForce": 1
+      }
+    },
+    {
+      "name": "light-barrier-sole",
+      "active": "light",
+      "barrier": "1_249",
+      "forceAfterDeploy": 4,
+      "opponentForceAfterBarrier": 0,
+      "opponentUsedAfterBarrier": 2,
+      "targetPresence": true,
+      "canInitiateBattle": false,
+      "canMove": false,
+      "afterRecirculation": {
+        "usedBoth": 0,
+        "activeForce": 4,
+        "opponentForce": 0,
+        "barrierZone": "reserve",
+        "targetLocation": "1_124",
+        "targetRestricted": false,
+        "exactReserveAppendOrder": true
+      }
+    },
+    {
+      "name": "light-decline-move",
+      "active": "light",
+      "barrierAvailable": true,
+      "barrierZone": "hand",
+      "opponentForce": 1,
+      "forceAfterDeploy": 4,
+      "canInitiateBattle": true,
+      "move": {
+        "from": "1_124",
+        "to": "1_284",
+        "cost": 1,
+        "forceAfter": 3,
+        "repeatRegularMove": false
+      }
+    },
+    {
+      "name": "light-barrier-target-1-battle-move",
+      "active": "light",
+      "barredTrooper": 1,
+      "forceAfterTwoDeploys": 3,
+      "forceAfterBattle": 2,
+      "participants": {
+        "active": 1,
+        "opponent": 1
+      },
+      "power": {
+        "light": 1,
+        "dark": 1
+      },
+      "destiny": {
+        "light": 0,
+        "dark": 0
+      },
+      "attrition": {
+        "light": 0,
+        "dark": 0
+      },
+      "damage": {
+        "light": 0,
+        "dark": 0
+      },
+      "unbarredTrooperMove": {
+        "to": "1_284",
+        "forceAfter": 1,
+        "repeatRegularMove": false
+      },
+      "barredTrooperLocation": "1_124"
+    },
+    {
+      "name": "light-barrier-target-2-battle-move",
+      "active": "light",
+      "barredTrooper": 2,
+      "forceAfterTwoDeploys": 3,
+      "forceAfterBattle": 2,
+      "participants": {
+        "active": 1,
+        "opponent": 1
+      },
+      "power": {
+        "light": 1,
+        "dark": 1
+      },
+      "destiny": {
+        "light": 0,
+        "dark": 0
+      },
+      "attrition": {
+        "light": 0,
+        "dark": 0
+      },
+      "damage": {
+        "light": 0,
+        "dark": 0
+      },
+      "unbarredTrooperMove": {
+        "to": "1_284",
+        "forceAfter": 1,
+        "repeatRegularMove": false
+      },
+      "barredTrooperLocation": "1_124"
+    },
+    {
+      "name": "light-insufficient-force",
+      "active": "light",
+      "opponentForce": 0,
+      "barrierAvailable": false,
+      "barrierZone": "hand",
+      "targetRestricted": false,
+      "canInitiateBattle": true,
+      "move": {
+        "to": "1_284",
+        "forceAfter": 3,
+        "repeatRegularMove": false
+      }
+    },
+    {
+      "name": "light-decline-battle-reserve",
+      "active": "light",
+      "forceAfterTwoDeploys": 3,
+      "forceAfterBattle": 2,
+      "participants": {
+        "active": 2,
+        "opponent": 1
+      },
+      "power": {
+        "active": 2,
+        "opponent": 1
+      },
+      "destiny": {
+        "light": 0,
+        "dark": 0
+      },
+      "attrition": {
+        "light": 0,
+        "dark": 0
+      },
+      "damage": {
+        "active": 0,
+        "opponent": 1
+      },
+      "payment": "reserve",
+      "afterPayment": {
+        "battleComplete": true,
+        "opponentLost": 1,
+        "defenderZone": "table",
+        "barrierZone": "hand",
+        "opponentForce": 1
+      }
+    },
+    {
+      "name": "light-decline-battle-forfeit",
+      "active": "light",
+      "forceAfterTwoDeploys": 3,
+      "forceAfterBattle": 2,
+      "participants": {
+        "active": 2,
+        "opponent": 1
+      },
+      "power": {
+        "active": 2,
+        "opponent": 1
+      },
+      "destiny": {
+        "light": 0,
+        "dark": 0
+      },
+      "attrition": {
+        "light": 0,
+        "dark": 0
+      },
+      "damage": {
+        "active": 0,
+        "opponent": 1
+      },
+      "payment": "forfeit",
+      "afterPayment": {
+        "battleComplete": true,
+        "opponentLost": 1,
+        "defenderZone": "lost",
+        "barrierZone": "hand",
+        "opponentForce": 1
+      }
+    },
+    {
+      "name": "dark-deploy-corridor",
+      "active": "dark",
+      "destination": "1_284",
+      "forceAfterDeploy": 4,
+      "rebelBarrierAvailable": true,
+      "barrierPlayed": true,
+      "canMoveTarget": false
+    }
+  ],
+  "scope": "Closed mirrored deployment/Barrier short turns only: character deployment, one specific Used Interrupt response, small no-destiny battles, adjacent regular movement, passing Draw and end-turn recirculation. No upstream production rules changed. Full starter games, other interrupts, weapons, starships, generic movement and arbitrary timing are not claimed."
+}

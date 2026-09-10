@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.gempukku.swccgo.rules.battle.NativeProofBarrierOracleTests
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.155 s - in com.gempukku.swccgo.rules.battle.NativeProofBarrierOracleTests
