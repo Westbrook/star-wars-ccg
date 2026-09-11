@@ -16,6 +16,7 @@ const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
  takeel:['battle','interrupts'],barrier:['deployment','interrupts','battle'],
  'imperial-barrier':['deployment','interrupts','battle'],weapons:['deployment','weapons','battle'],
  'rebel-weapons':['deployment','weapons','battle'],
+ 'next-turn':['force','battle','interrupts','deployment'],
 };
 // Featured cards only: Reserve filler is not a claim of playable card coverage.
 const featuredCards:Record<ScenarioId,string[]>={
@@ -25,6 +26,7 @@ const featuredCards:Record<ScenarioId,string[]>={
  'imperial-barrier':['1_124','1_284','1_194','1_28','1_249'],
  weapons:['1_124','1_194','1_28','1_152','1_153','1_317','1_312'],
  'rebel-weapons':['1_124','1_194','1_28','1_152','1_153','1_317','1_312'],
+ 'next-turn':['1_124','1_284','1_194','1_28','1_105','1_249'],
 };
 // Index the mechanics exercised by the fixture, including mirrored coverage
 // that its short description may not repeat. Do not index unsupported card text.
@@ -41,6 +43,7 @@ const searchableRules:Record<ScenarioId,string>={
  'imperial-barrier':battleRules+' '+turnRules+' Imperial Barrier Used Interrupt response blocks battle and movement',
  weapons:battleRules+' '+weaponRules+' optional battle destiny draw',
  'rebel-weapons':battleRules+' '+weaponRules+' optional battle destiny draw',
+ 'next-turn':battleRules+' '+turnRules+' Force generation activation control Force drain start turn end turn handoff retained Force per-turn limits Rebel Barrier Imperial Barrier response',
 };
 export const studies=scenarios.map((scenario,index)=>({...scenario,number:String(index+1).padStart(2,'0'),topics:coverage[scenario.id],cards:featuredCards[scenario.id].map(id=>definition(id).name)}));
 const normalize=(text:string)=>text.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();

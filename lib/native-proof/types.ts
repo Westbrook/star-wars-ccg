@@ -1,10 +1,12 @@
 export type Side = 'light' | 'dark';
 export type Zone = 'reserve' | 'force' | 'used' | 'lost' | 'hand' | 'destiny' | 'table' | 'playing' | 'leaving';
 export type Pile = Exclude<Zone,'table'|'playing'|'leaving'>;
-export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons';
-export type TurnStage = 'deploy'|'battle'|'move'|'draw'|'end'|'complete';
+export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons' | 'next-turn';
+export type TurnStage = 'start'|'activate'|'control'|'deploy'|'battle'|'move'|'draw'|'end'|'complete';
 export type Restriction = {target:string;source:string;expiresTurn:number};
 export type StudyTurn = {number:number;deployer:Side;stage:TurnStage;restrictions:Restriction[];expired:Restriction[];moved:string[];battled:string[]};
+export type TurnRecord = {number:number;side:Side;generation:number;activated:number;carriedForce:Record<Side,number>;recirculated:Record<Side,number>;expired:number};
+export type TurnCycle = {generation:number;activated:number;recirculated:Record<Side,number>;history:TurnRecord[]};
 export type Card = {id:string; blueprint:string; owner:Side; zone:Zone; location?:string;attachedTo?:string;hit?:boolean};
 export type Player = {reserve:string[];force:string[];used:string[];lost:string[];hand:string[];destiny:string[]};
 export type Shot = {weapon:string;user:string;target:string;side:Side;cost:number;bonus:number;defense:number;status:'pending'|'drawn'|'resolved';card?:string;destiny?:number;hit?:boolean};
@@ -17,6 +19,8 @@ export type Frame =
  | {kind:'interrupt';card:string;side:Side;effect:'switch-battle-destiny'}
  | {kind:'interrupt';card:string;side:Side;effect:'barrier';target:string;expiresTurn:number}
  | {kind:'turn';priority:Side;passes:number}
+ | {kind:'turn-start'}
+ | {kind:'turn-end';stage:'automatic'|'handoff'}
  | {kind:'armory';priority:Side;passes:number}
  | {kind:'weapons';priority:Side;passes:number}
  | {kind:'shot';index:number;stage:'draw'|'resolve'}
@@ -25,9 +29,9 @@ export type Frame =
  | {kind:'recirculation';next:Side}
  | {kind:'finish';message:string};
 export type Match = {
- schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4';scenario:ScenarioId;revision:number;active:Side;phase:string;
+ schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5';scenario:ScenarioId;revision:number;active:Side;phase:string;
  cards:Record<string,Card>;players:Record<Side,Player>;locations:string[];stack:Frame[];
- battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;turn?:StudyTurn;
+ battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;turn?:StudyTurn;cycle?:TurnCycle;
 };
 export type LossBalance = {attrition:number;damage:number;initialAttrition:number;initialDamage:number};
 export type LossPreview = {kind:'forfeit'|'force';value:number;attrition:number;damage:number};
@@ -45,5 +49,6 @@ export type Projection = {
  players:Record<Side,{counts:Record<Pile,number>;life:number;hand:PublicCard[];lost:PublicCard[];destiny:PublicCard[]}>;
  locations:PublicCard[];table:PublicCard[];prompt:Prompt|null;log:Match['log'];battle:Battle|null;losses:Record<Side,LossBalance>|null;recirculationStudy?:RecirculationStudy;playing?:PublicCard[];
  turn?:StudyTurn & {deploymentSites:{site:string;allowed:boolean;reason:string}[]};
+ cycle?:TurnCycle;
  weaponStudy?:{stage:'deploy'|'battle'|'complete';hits:Record<Side,string[]>;lostOrder:{side:Side;remaining:PublicCard[];placed:PublicCard[]}|null};
 };

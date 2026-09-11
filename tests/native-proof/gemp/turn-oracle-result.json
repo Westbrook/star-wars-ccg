@@ -1,0 +1,344 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "testClass": "com.gempukku.swccgo.rules.battle.NativeProofTurnOracleTests",
+  "testSourceSha256": "6b198ab890fb1eeb260f3d6f2be2980bffd24d0815cee41795cb84c2d7142630",
+  "command": "docker exec -w /opt/gemp-swccg/src swccg-official-app-1 mvn -pl gemp-swccg-server -am -Dtest=NativeProofTurnOracleTests -Dsurefire.failIfNoSpecifiedTests=false test",
+  "containerWorkingDirectory": "/opt/gemp-swccg/src",
+  "finishedAt": "2026-09-11T16:07:33Z",
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "testSeconds": 5.233,
+  "mavenSeconds": 10.703,
+  "result": "BUILD SUCCESS",
+  "branchCount": 5,
+  "fixture": {
+    "decks": "Exactly 120 authored Intro 2PG cards from pinned sample_decks.sql; no synthetic cards or modified production rules.",
+    "sites": [
+      "1_124",
+      "1_284"
+    ],
+    "dark": {
+      "table": "first Stormtrooper at Docking Bay 327",
+      "hand": [
+        "second Stormtrooper",
+        "Imperial Barrier"
+      ],
+      "force": "third Stormtrooper",
+      "reserveCount": 55
+    },
+    "light": {
+      "table": "first Rebel Trooper at Detention Block Corridor",
+      "hand": [
+        "second Rebel Trooper",
+        "Rebel Barrier"
+      ],
+      "force": "third Rebel Trooper",
+      "reserveCount": 55
+    },
+    "reserveOrder": "Four remaining ordinary troopers, two Jawas, then remaining cards in authored order.",
+    "start": "Fixture is arranged during a prior Light Draw phase. GEMP then executes the real transition into Dark start and Activate. The two studied turns are normalized as Dark turn 1 and Light turn 2; the endpoint is Dark turn 3 Activate.",
+    "variants": [
+      "The controlled zero-drain test swaps only the initial troopers between the existing sites, preserving all cards and piles.",
+      "One diagnostic continuation activates Dark on relative turn 3 and checks that a previously moved trooper can move; this extends beyond the native study endpoint only to verify rule reuse."
+    ]
+  },
+  "instrumentation": "A test-only AbstractActionProxy observes existing required-after events and always returns null. It adds no rule action, card effect, or trigger. Identity deduplication records each emitted event once per observer.",
+  "turnBoundaryOrder": [
+    "Recirculate outgoing Used beneath that player\u2019s Reserve without reversing order; outgoing side remains active.",
+    "Recirculate opponent Used beneath that player\u2019s Reserve without reversing order; outgoing side remains active.",
+    "Expire until-end-of-turn modifiers, including Barrier.",
+    "Emit outgoing EndOfTurnResult while outgoing side remains active; per-turn movement and battle counters are still present.",
+    "Clear per-turn counters and action proxies, then change active side.",
+    "Emit incoming StartOfTurnResult with expired Barrier and cleared movement/battle counters.",
+    "Calculate Force generation, then enter Activate."
+  ],
+  "phaseOrder": [
+    "ACTIVATE",
+    "CONTROL",
+    "DEPLOY",
+    "BATTLE",
+    "MOVE",
+    "DRAW"
+  ],
+  "generation": {
+    "dark": 3,
+    "light": 2,
+    "personalForceIncluded": 1,
+    "unspentForceRetained": true
+  },
+  "drains": {
+    "darkBay": 1,
+    "lightCorridor": 2,
+    "darkCorridor": 0,
+    "initiationCost": 0,
+    "controlledZeroDrainIsLegal": true,
+    "eachSiteOncePerTurn": true
+  },
+  "branches": [
+    {
+      "reserveAppendOrder": true,
+      "generationDark": 3,
+      "darkForceAtTurn3": 1,
+      "phases": [
+        "Dark Side Player:ACTIVATE",
+        "Dark Side Player:CONTROL",
+        "Dark Side Player:DEPLOY",
+        "Dark Side Player:BATTLE",
+        "Dark Side Player:MOVE",
+        "Dark Side Player:DRAW",
+        "Light Side Player:ACTIVATE",
+        "Light Side Player:CONTROL",
+        "Light Side Player:DEPLOY",
+        "Light Side Player:BATTLE",
+        "Light Side Player:MOVE",
+        "Light Side Player:DRAW",
+        "Dark Side Player:ACTIVATE"
+      ],
+      "darkBoundary": [
+        {
+          "event": "RecirculateResult",
+          "active": "Dark Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 2,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 2,
+          "barred": true,
+          "moved": true,
+          "outgoingBattles": 0,
+          "bayBattled": false,
+          "corridorBattled": false
+        },
+        {
+          "event": "RecirculateResult",
+          "active": "Dark Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 2,
+          "barred": true,
+          "moved": true,
+          "outgoingBattles": 0,
+          "bayBattled": false,
+          "corridorBattled": false
+        },
+        {
+          "event": "EndOfTurnResult",
+          "active": "Dark Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 2,
+          "barred": false,
+          "moved": true,
+          "outgoingBattles": 0,
+          "bayBattled": false,
+          "corridorBattled": false
+        },
+        {
+          "event": "StartOfTurnResult",
+          "active": "Light Side Player",
+          "phase": "BETWEEN_TURNS",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 2,
+          "barred": false,
+          "moved": false,
+          "outgoingBattles": 0,
+          "bayBattled": false,
+          "corridorBattled": false
+        }
+      ],
+      "lightForceAtTurn3": 0,
+      "generationLight": 2,
+      "name": "exact-two-turns-both-barriers",
+      "lightBoundary": [
+        {
+          "event": "RecirculateResult",
+          "active": "Light Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 0,
+          "darkUsed": 2,
+          "lightForce": 0,
+          "darkForce": 1,
+          "barred": true,
+          "moved": false,
+          "outgoingBattles": 1,
+          "bayBattled": false,
+          "corridorBattled": true
+        },
+        {
+          "event": "RecirculateResult",
+          "active": "Light Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 1,
+          "barred": true,
+          "moved": false,
+          "outgoingBattles": 1,
+          "bayBattled": false,
+          "corridorBattled": true
+        },
+        {
+          "event": "EndOfTurnResult",
+          "active": "Light Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 1,
+          "barred": false,
+          "moved": false,
+          "outgoingBattles": 1,
+          "bayBattled": false,
+          "corridorBattled": true
+        },
+        {
+          "event": "StartOfTurnResult",
+          "active": "Dark Side Player",
+          "phase": "BETWEEN_TURNS",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 1,
+          "barred": false,
+          "moved": false,
+          "outgoingBattles": 0,
+          "bayBattled": false,
+          "corridorBattled": false
+        }
+      ]
+    },
+    {
+      "drainCost": 0,
+      "lightLost": 1,
+      "repeatSameTurnDrain": false,
+      "darkCorridorDrain": 0,
+      "darkLost": 2,
+      "darkForce": 4,
+      "darkBayDrain": 1,
+      "name": "exact-force-drains",
+      "lightForce": 3,
+      "lightCorridorDrain": 2
+    },
+    {
+      "events": [
+        {
+          "event": "RecirculateResult",
+          "active": "Dark Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 1,
+          "darkForce": 1,
+          "barred": false,
+          "moved": true,
+          "outgoingBattles": 1,
+          "bayBattled": false,
+          "corridorBattled": true
+        },
+        {
+          "event": "EndOfTurnResult",
+          "active": "Dark Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 1,
+          "darkForce": 1,
+          "barred": false,
+          "moved": true,
+          "outgoingBattles": 1,
+          "bayBattled": false,
+          "corridorBattled": true
+        },
+        {
+          "event": "StartOfTurnResult",
+          "active": "Light Side Player",
+          "phase": "BETWEEN_TURNS",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 1,
+          "darkForce": 1,
+          "barred": false,
+          "moved": false,
+          "outgoingBattles": 0,
+          "bayBattled": false,
+          "corridorBattled": false
+        },
+        {
+          "event": "RecirculateResult",
+          "active": "Light Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 1,
+          "barred": false,
+          "moved": false,
+          "outgoingBattles": 0,
+          "bayBattled": false,
+          "corridorBattled": true
+        },
+        {
+          "event": "EndOfTurnResult",
+          "active": "Light Side Player",
+          "phase": "END_OF_TURN",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 1,
+          "barred": false,
+          "moved": false,
+          "outgoingBattles": 0,
+          "bayBattled": false,
+          "corridorBattled": true
+        },
+        {
+          "event": "StartOfTurnResult",
+          "active": "Dark Side Player",
+          "phase": "BETWEEN_TURNS",
+          "lightUsed": 0,
+          "darkUsed": 0,
+          "lightForce": 0,
+          "darkForce": 1,
+          "barred": false,
+          "moved": false,
+          "outgoingBattles": 0,
+          "bayBattled": false,
+          "corridorBattled": false
+        }
+      ],
+      "battleNextOpposingTurn": true,
+      "firstBattleParticipantsEach": 1,
+      "darkRetainedForceTurn3": 1,
+      "movementCounterReset": true,
+      "lightRetainedForceTurn3": 0,
+      "secondBattleParticipantsEach": 2,
+      "repeatBattleSameTurn": false,
+      "name": "same-corridor-battle-on-both-turns"
+    },
+    {
+      "retainedForce": 1,
+      "previouslyMovedTrooperCanMove": true,
+      "name": "diagnostic-next-own-turn-activation-and-move",
+      "forceAfterActivation": 4,
+      "generation": 3
+    },
+    {
+      "repeatOffered": false,
+      "offered": true,
+      "amount": 0,
+      "darkForce": 4,
+      "name": "controlled-zero-drain",
+      "lightLost": 0
+    }
+  ],
+  "scope": "Two complete turns in the fixed trooper/Barrier fixture, both-player ordered recirculation, outgoing and incoming event ordering, expiry, turn limits, Force generation and specified Force drains. Includes same-site battles on opposing turns. Does not claim arbitrary cards, complete starter games, extra-turn effects, all start/end triggers, or full native matches."
+}

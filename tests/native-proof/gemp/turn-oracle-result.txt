@@ -1,0 +1,147 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] gemp-swccg                                                         [pom]
+[INFO] gemp-swccg-common                                                  [jar]
+[INFO] gemp-swccg-logic                                                   [jar]
+[INFO] gemp-swccg-cards                                                   [jar]
+[INFO] gemp-swccg-server                                                  [jar]
+[INFO] 
+[INFO] -------------------< com.gempukku.swccgo:gemp-swccg >-------------------
+[INFO] Building gemp-swccg 1.0-SNAPSHOT                                   [1/5]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] ---------------< com.gempukku.swccgo:gemp-swccg-common >----------------
+[INFO] Building gemp-swccg-common 1.0-SNAPSHOT                            [2/5]
+[INFO]   from gemp-swccg-common/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ gemp-swccg-common ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.8.1:compile (default-compile) @ gemp-swccg-common ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ gemp-swccg-common ---
+[INFO] skip non existing resourceDirectory /opt/gemp-swccg/src/gemp-swccg-common/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.8.1:testCompile (default-testCompile) @ gemp-swccg-common ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.2.2:test (default-test) @ gemp-swccg-common ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ----------------< com.gempukku.swccgo:gemp-swccg-logic >----------------
+[INFO] Building gemp-swccg-logic 1.0-SNAPSHOT                             [3/5]
+[INFO]   from gemp-swccg-logic/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ gemp-swccg-logic ---
+[INFO] skip non existing resourceDirectory /opt/gemp-swccg/src/gemp-swccg-logic/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.8.1:compile (default-compile) @ gemp-swccg-logic ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ gemp-swccg-logic ---
+[INFO] skip non existing resourceDirectory /opt/gemp-swccg/src/gemp-swccg-logic/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.8.1:testCompile (default-testCompile) @ gemp-swccg-logic ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ gemp-swccg-logic ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ----------------< com.gempukku.swccgo:gemp-swccg-cards >----------------
+[INFO] Building gemp-swccg-cards 1.0-SNAPSHOT                             [4/5]
+[INFO]   from gemp-swccg-cards/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ gemp-swccg-cards ---
+[INFO] Copying 60 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.8.1:compile (default-compile) @ gemp-swccg-cards ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ gemp-swccg-cards ---
+[INFO] skip non existing resourceDirectory /opt/gemp-swccg/src/gemp-swccg-cards/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.8.1:testCompile (default-testCompile) @ gemp-swccg-cards ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.2.2:test (default-test) @ gemp-swccg-cards ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------< com.gempukku.swccgo:gemp-swccg-server >----------------
+[INFO] Building gemp-swccg-server 1.0-SNAPSHOT                            [5/5]
+[INFO]   from gemp-swccg-server/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ gemp-swccg-server ---
+[INFO] Copying 26 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.8.1:compile (default-compile) @ gemp-swccg-server ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ gemp-swccg-server ---
+[INFO] skip non existing resourceDirectory /opt/gemp-swccg/src/gemp-swccg-server/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.8.1:testCompile (default-testCompile) @ gemp-swccg-server ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 138 source files to /opt/gemp-swccg/src/gemp-swccg-server/target/test-classes
+[INFO] /opt/gemp-swccg/src/gemp-swccg-server/src/test/java/com/gempukku/swccgo/framework/CardProperties.java: /opt/gemp-swccg/src/gemp-swccg-server/src/test/java/com/gempukku/swccgo/framework/CardProperties.java uses unchecked or unsafe operations.
+[INFO] /opt/gemp-swccg/src/gemp-swccg-server/src/test/java/com/gempukku/swccgo/framework/CardProperties.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ gemp-swccg-server ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.gempukku.swccgo.rules.battle.NativeProofTurnOracleTests
+BARRIER_SELECT Use 1 Force - Optional responses; zone=HAND
+BARRIER_PENDING Playing <div class='cardHint' value='1_105'>Rebel Barrier</div> - Optional responses; zone=VOID
+BARRIER_RESOLVED Dark Side Player target barred, still presence; opponent Force=0 Used=2; target=AT_LOCATION Barrier=TOP_OF_USED_PILE
+MOVE_COST_PENDING Use 1 Force - Optional responses; location=1_124
+MOVE_AFTER MOVING_USING_LANDSPEED - Optional responses; location=1_124
+TURN_EVENT {event=RecirculateResult, active=Dark Side Player, phase=END_OF_TURN, lightUsed=2, darkUsed=0, lightForce=0, darkForce=2, barred=true, moved=true, outgoingBattles=0, bayBattled=false, corridorBattled=false}
+TURN_EVENT {event=RecirculateResult, active=Dark Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=0, darkForce=2, barred=true, moved=true, outgoingBattles=0, bayBattled=false, corridorBattled=false}
+TURN_EVENT {event=EndOfTurnResult, active=Dark Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=0, darkForce=2, barred=false, moved=true, outgoingBattles=0, bayBattled=false, corridorBattled=false}
+TURN_EVENT {event=StartOfTurnResult, active=Light Side Player, phase=BETWEEN_TURNS, lightUsed=0, darkUsed=0, lightForce=0, darkForce=2, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=false}
+TURN_EVENT {event=RecirculateResult, active=Light Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=2, lightForce=0, darkForce=1, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=RecirculateResult, active=Light Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=2, lightForce=0, darkForce=1, barred=true, moved=false, outgoingBattles=1, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=RecirculateResult, active=Light Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=0, darkForce=1, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=RecirculateResult, active=Light Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=0, darkForce=1, barred=true, moved=false, outgoingBattles=1, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=EndOfTurnResult, active=Light Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=0, darkForce=1, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=EndOfTurnResult, active=Light Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=0, darkForce=1, barred=false, moved=false, outgoingBattles=1, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=StartOfTurnResult, active=Dark Side Player, phase=BETWEEN_TURNS, lightUsed=0, darkUsed=0, lightForce=0, darkForce=1, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=false}
+TURN_EVENT {event=StartOfTurnResult, active=Dark Side Player, phase=BETWEEN_TURNS, lightUsed=0, darkUsed=0, lightForce=0, darkForce=1, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=false}
+MOVE_COST_PENDING Use 1 Force - Optional responses; location=1_124
+MOVE_AFTER MOVING_USING_LANDSPEED - Optional responses; location=1_124
+TURN_EVENT {event=RecirculateResult, active=Dark Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=1, darkForce=1, barred=false, moved=true, outgoingBattles=1, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=EndOfTurnResult, active=Dark Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=1, darkForce=1, barred=false, moved=true, outgoingBattles=1, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=StartOfTurnResult, active=Light Side Player, phase=BETWEEN_TURNS, lightUsed=0, darkUsed=0, lightForce=1, darkForce=1, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=false}
+TURN_EVENT {event=RecirculateResult, active=Light Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=0, darkForce=1, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=EndOfTurnResult, active=Light Side Player, phase=END_OF_TURN, lightUsed=0, darkUsed=0, lightForce=0, darkForce=1, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=true}
+TURN_EVENT {event=StartOfTurnResult, active=Dark Side Player, phase=BETWEEN_TURNS, lightUsed=0, darkUsed=0, lightForce=0, darkForce=1, barred=false, moved=false, outgoingBattles=0, bayBattled=false, corridorBattled=false}
+ZERO_DRAIN_AVAILABLE true
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.233 s - in com.gempukku.swccgo.rules.battle.NativeProofTurnOracleTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for gemp-swccg 1.0-SNAPSHOT:
+[INFO] 
+[INFO] gemp-swccg ......................................... SUCCESS [  0.001 s]
+[INFO] gemp-swccg-common .................................. SUCCESS [  0.518 s]
+[INFO] gemp-swccg-logic ................................... SUCCESS [  0.237 s]
+[INFO] gemp-swccg-cards ................................... SUCCESS [  0.370 s]
+[INFO] gemp-swccg-server .................................. SUCCESS [  9.502 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.703 s
+[INFO] Finished at: 2026-09-11T16:07:33Z
+[INFO] ------------------------------------------------------------------------

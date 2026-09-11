@@ -24,8 +24,8 @@ function pull(m:Match,s:Side,blueprint:string,zone:Zone,location?:string){
 function putTop(m:Match,s:Side,blueprint:string){const a=m.players[s].reserve;const n=a.findIndex(id=>m.cards[id].blueprint===blueprint);if(n<0)throw Error('Fixture card unavailable.');a.unshift(...a.splice(n,1));}
 function window(m:Match,text:string,priority:Side,event?:'battle-destiny-complete'|'character-deployed',target?:string){m.stack.push({kind:'window',label:text,priority,passes:0,...(event?{event}:{}),...(target?{target}:{})});}
 function finish(m:Match,text:string){m.stack=[];m.complete=true;log(m,text);}
-const isTurnStudy=(scenario:ScenarioId)=>scenario==='barrier'||scenario==='imperial-barrier';
-const engineFor=(scenario:ScenarioId)=>isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
+const isTurnStudy=(scenario:ScenarioId)=>scenario==='barrier'||scenario==='imperial-barrier'||scenario==='next-turn';
+const engineFor=(scenario:ScenarioId)=>scenario==='next-turn'?'native-proof-5':isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
 const trooper=(side:Side)=>side==='light'?'1_28':'1_194';
 const barrier=(side:Side)=>side==='light'?'1_105':'1_249';
 
@@ -34,7 +34,22 @@ export function createScenario(scenario:ScenarioId):Match{
  const m:Match={schema:1,engine:engineFor(scenario),scenario,revision:0,active:scenario==='imperial-barrier'||scenario==='rebel-weapons'?'light':'dark',phase:scenarios.find(s=>s.id===scenario)!.phase,cards:{},players:{light:empty(),dark:empty()},locations:[],stack:[],battle:null,drained:[],log:[],complete:false,winner:null};
  for(const deck of manifest.decks){const s=deck.side as Side;for(const [i,b]of deck.main.entries()){const id=s[0]+String(i+1).padStart(3,'0');m.cards[id]={id,blueprint:b,owner:s,zone:'reserve'};m.players[s].reserve.push(id);}}
  const site=pull(m,'light','1_124','table');m.locations.push(site);
- if(isWeaponStudy(scenario)){
+ if(scenario==='next-turn'){
+  const corridor=pull(m,'dark','1_284','table');m.locations.push(corridor);
+  for(const side of sides){
+   pull(m,side,trooper(side),'table',side==='dark'?site:corridor);
+   pull(m,side,trooper(side),'hand');pull(m,side,barrier(side),'hand');pull(m,side,trooper(side),'force');
+   // Four remaining troopers, then two Death-Star-ineligible Jawas. Across
+   // these two turns every card reachable through activation/draw is supported.
+   const reserve=m.players[side].reserve,jawa=side==='light'?'1_12':'1_182';
+   m.players[side].reserve=[...reserve.filter(id=>m.cards[id].blueprint===trooper(side)),...reserve.filter(id=>m.cards[id].blueprint===jawa),...reserve.filter(id=>![trooper(side),jawa].includes(m.cards[id].blueprint))];
+  }
+  m.turn={number:1,deployer:'dark',stage:'start',restrictions:[],expired:[],moved:[],battled:[]};
+  m.cycle={generation:0,activated:0,recirculated:{light:0,dark:0},history:[]};
+  log(m,'Fixed two-turn study: Dark holds Docking Bay 327; Light holds the Detention Block Corridor. Each has one trooper and a Barrier in hand, and 1 Force.');
+  log(m,'Only ordinary troopers and Barriers can enter play. The study stops at global turn 3 — Dark’s next turn — before any further activation.');
+  beginTurn(m);
+ }else if(isWeaponStudy(scenario)){
   const participants={light:[] as string[],dark:[] as string[]};
   for(const s of sides){
    for(let n=0;n<4;n++)participants[s].push(pull(m,s,trooper(s),'table',site));
@@ -88,9 +103,20 @@ export function createScenario(scenario:ScenarioId):Match{
 function atSite(m:Match,side:Side,site:string){return Object.values(m.cards).filter(c=>c.zone==='table'&&c.location===site&&c.owner===side&&definition(c.blueprint).type==='Character').map(c=>c.id);}
 function barred(m:Match,id:string){return !!m.turn?.restrictions.some(r=>r.target===id&&r.expiresTurn>=m.turn!.number);}
 function deploySite(m:Match,side:Side,site:string){return (sites[m.cards[site].blueprint]?.[side]||0)>0||atSite(m,side,site).some(id=>printed(m.cards[id].blueprint,'ability')>0);}
+function beginTurn(m:Match){
+ m.phase='Start of turn';m.turn!.stage='start';m.cycle!.generation=0;m.cycle!.activated=0;m.cycle!.recirculated={light:0,dark:0};
+ m.stack.push({kind:'turn-start'});log(m,'Turn '+m.turn!.number+' begins: '+label(m.active)+'. Start-of-turn actions precede Force generation.');
+ // No mandatory start/end effects or optional timed cards exist in this
+ // fixture. Preserve optional timing windows; do not admit ordinary actions.
+ window(m,label(m.active)+' start of turn actions',m.active);
+}
+function forceGeneration(m:Match,side:Side){return 1+m.locations.reduce((sum,id)=>sum+sites[m.cards[id].blueprint][side],0);}
+function drainAmount(m:Match,site:string){const blueprint=m.cards[site].blueprint;return sites[blueprint][other(m.active)]+(m.active==='light'&&blueprint==='1_284'?1:0);}
+function controls(m:Match,side:Side,site:string){return atSite(m,side,site).some(id=>printed(m.cards[id].blueprint,'ability')>0)&&!atSite(m,other(side),site).some(id=>printed(m.cards[id].blueprint,'ability')>0);}
 function turnChoices(m:Match,f:Extract<Frame,{kind:'turn'}>):Prompt['choices']{
  if(f.priority!==m.active)return [];
  const t=m.turn!,p=m.players[m.active];
+ if(t.stage==='control')return m.locations.filter(site=>controls(m,m.active,site)&&!m.drained.includes(site)).map(site=>({id:'drain:'+site,label:'Force drain at '+name(m,site)+' · '+drainAmount(m,site)+' Force',tone:'primary' as const}));
  if(t.stage==='deploy')return p.hand.flatMap(id=>m.cards[id].blueprint===trooper(m.active)&&p.force.length>=1?m.locations.filter(site=>deploySite(m,m.active,site)).map(site=>({id:'deploy:'+id+':'+site,card:id,label:'Deploy '+name(m,id)+' '+id.toUpperCase()+' · '+name(m,site)+' · 1 Force',tone:'primary' as const})):[]);
  if(t.stage==='battle')return p.force.length>=1?m.locations.filter(site=>!t.battled.includes(site)&&[m.active,other(m.active)].every(s=>atSite(m,s,site).some(id=>!barred(m,id)&&printed(m.cards[id].blueprint,'ability')>0))).map(site=>({id:'battle:'+site,label:'Battle at '+name(m,site)+' · 1 Force',tone:'primary' as const})):[];
  if(t.stage==='move')return p.force.length>=1?m.locations.flatMap(from=>atSite(m,m.active,from).filter(id=>!barred(m,id)&&!t.moved.includes(id)).flatMap(id=>m.locations.filter(to=>Math.abs(m.locations.indexOf(to)-m.locations.indexOf(from))===1).map(to=>({id:'move:'+id+':'+to,card:id,label:'Move '+name(m,id)+' '+id.toUpperCase()+' → '+name(m,to)+' · 1 Force',tone:'primary' as const})))):[];
@@ -98,7 +124,7 @@ function turnChoices(m:Match,f:Extract<Frame,{kind:'turn'}>):Prompt['choices']{
  return [];
 }
 function nextTurnStage(m:Match,f:Extract<Frame,{kind:'turn'}>){
- const t=m.turn!;const stages=['deploy','battle','move','draw','end'] as const;
+ const t=m.turn!;const stages:readonly import('./types').TurnStage[]=m.cycle?['control','deploy','battle','move','draw','end']:['deploy','battle','move','draw','end'];
  t.stage=stages[stages.indexOf(t.stage as typeof stages[number])+1];f.priority=m.active;f.passes=0;
  m.phase=t.stage==='end'?'End of turn':t.stage[0].toUpperCase()+t.stage.slice(1);
  log(m,m.phase+' begins.');
@@ -123,6 +149,23 @@ function settle(m:Match){
   if(checkLife(m))return;
   const f=top(m);if(!f){finish(m,'Conformance checkpoint complete.');return;}
   if(f.kind==='finish'){finish(m,f.message);return;}
+  if(f.kind==='turn-start'){
+   m.stack.pop();m.turn!.stage='activate';m.phase='Activate';const generation=forceGeneration(m,m.active);m.cycle!.generation=generation;
+   log(m,label(m.active)+' counts Force generation '+generation+' (personal Force and own location icons).');
+   if(m.turn!.number===3){finish(m,'Two turns complete. Dark’s next Activate phase is ready: the same board and piles remain, and turn limits have reset.');return;}
+   m.stack.push({kind:'activation',used:0,generation,priority:m.active,passes:0});continue;
+  }
+  if(f.kind==='turn-end'){
+   const t=m.turn!,cycle=m.cycle!;
+   if(f.stage==='automatic'){
+    t.expired.push(...t.restrictions);const count=t.restrictions.length;t.restrictions=[];f.stage='handoff';
+    log(m,'Both players have recirculated. '+count+' Barrier restriction'+(count===1?'':'s')+' expire. '+label(m.active)+' remains active during end-of-turn actions.');
+    window(m,label(m.active)+' end of turn actions',m.active);continue;
+   }
+   cycle.history.push({number:t.number,side:m.active,generation:cycle.generation,activated:cycle.activated,carriedForce:{light:m.players.light.force.length,dark:m.players.dark.force.length},recirculated:{...cycle.recirculated},expired:t.expired.filter(r=>r.expiresTurn===t.number).length});
+   m.stack.pop();log(m,label(m.active)+' finishes end-of-turn actions. Turn limits now reset for both players.');
+   t.number++;m.active=other(m.active);t.deployer=m.active;t.moved=[];t.battled=[];m.drained=[];m.battle=null;beginTurn(m);continue;
+  }
   if(f.kind==='lost-order'){
    if(f.remaining.length>1)return;
    if(f.remaining.length)move(m,f.remaining[0],'lost');m.stack.pop();window(m,'Card forfeited responses',other(f.side));continue;
@@ -157,7 +200,7 @@ function settle(m:Match){
   }
   if(f.kind==='drain'){
    if(f.stage==='loss'&&f.remaining===0){f.stage='end';window(m,'Force drain completed responses',other(m.active));continue;}
-   if(f.stage==='end'){finish(m,'Force drain checkpoint complete. The drain attempt remains recorded.');return;}
+   if(f.stage==='end'){if(m.cycle){m.stack.pop();continue;}finish(m,'Force drain checkpoint complete. The drain attempt remains recorded.');return;}
   }
   if(f.kind==='battle'){
    const b=m.battle!;
@@ -211,11 +254,11 @@ export function prompt(m:Match):Prompt|null{
  if(f.kind==='window'){
   const actions=responseChoices(m,f);
   const deployment=f.event==='character-deployed';
-  return {...base,side:f.priority,title:actions.length?deployment?'Deployment response':'Battle destiny response':f.label,detail:deployment?'The character has deployed. This opportunity can respond only to that newly deployed character.':f.event?'Both players have finished their battle destiny choices. Responses happen before the totals are applied.':'Neither player has a legal response in this exact fixture. The empty opportunity is preserved in the saved continuation.',choices:[...actions,{id:'pass',label:actions.length?deployment?'Pass this response':'Pass · keep the destiny numbers':'Pass empty opportunity'}],automatic:actions.length===0};
+  return {...base,side:f.priority,title:actions.length?deployment?'Deployment response':'Battle destiny response':f.label,detail:deployment?'The character has deployed. This opportunity can respond only to that newly deployed character.':f.event?'Both players have finished their battle destiny choices. Responses happen before the totals are applied.':m.cycle?'Neither player has a legal action at this timing point in the fixed study. The turn and saved continuation stay in order.':'Neither player has a legal response in this exact fixture. The empty opportunity is preserved in the saved continuation.',choices:[...actions,{id:'pass',label:actions.length?deployment?'Pass this response':'Pass · keep the destiny numbers':'Pass empty opportunity'}],automatic:actions.length===0};
  }
  if(f.kind==='turn'){
   const actions=turnChoices(m,f),stage=m.turn!.stage;
-  const detail=stage==='deploy'?'Troopers cost 1 Force here. Deploy where you have your Force icon or presence. Each deployment gives the opponent a response.':stage==='battle'?'Initiate for 1 Force where both sides have eligible presence. Barriered characters cannot participate.':stage==='move'?'An unbarriered trooper may move to the adjacent site for 1 Force, once this turn. Movement does not require your Force icon.':'Draw cards from the top of your Force Pile into hand, one at a time. Drawing is optional.';
+  const detail=stage==='control'?'Drain at a site you control, once per site this turn. Light adds 1 to its drain at the Detention Block Corridor. A zero drain is legal.':stage==='deploy'?'Troopers cost 1 Force here. Deploy where you have your Force icon or presence. Each deployment gives the opponent a response.':stage==='battle'?'Initiate for 1 Force where both sides have eligible presence. Barriered characters cannot participate.':stage==='move'?'An unbarriered trooper may move to the adjacent site for 1 Force, once this turn. Movement does not require your Force icon.':'Draw cards from the top of your Force Pile into hand, one at a time. Drawing is optional.';
   return {...base,side:f.priority,title:label(f.priority)+' '+stage+' opportunity',detail,choices:[...actions,{id:'pass',label:actions.length?'Pass '+stage+' opportunity':'Pass empty opportunity'}],automatic:actions.length===0};
  }
  if(f.kind==='activation'){
@@ -296,7 +339,10 @@ export function applyCommand(before:Match,side:Side,command:Command):Match{
   if(choice==='pass'){f.passes++;if(f.passes===2)nextTurnStage(m,f);else f.priority=other(side);}
   else{
    f.passes=0;f.priority=other(side);const [action,id,target]=choice.split(':');
-   if(action==='draw'){const card=m.players[side].force[0];move(m,card,'hand');log(m,label(side)+' draws 1 card from Force into hand.');window(m,'Force card drawn responses',other(side));}
+   if(action==='drain'){
+    m.drained.push(id);const amount=drainAmount(m,id);m.stack.push({kind:'drain',stage:'loss',site:id,remaining:amount});
+    log(m,label(side)+' initiates a Force drain of '+amount+' at '+name(m,id)+'.');window(m,'Force drain initiated responses',other(side));
+   }else if(action==='draw'){const card=m.players[side].force[0];move(m,card,'hand');log(m,label(side)+' draws 1 card from Force into hand.');window(m,'Force card drawn responses',other(side));}
    else{
     move(m,m.players[side].force[0],'used');
     if(action==='deploy'){
@@ -317,8 +363,11 @@ export function applyCommand(before:Match,side:Side,command:Command):Match{
   }
  }else if(f.kind==='activation'){
   if(choice==='activate'){
-   const id=m.players[m.active].reserve[0];move(m,id,'force');f.used++;f.passes=0;f.priority=other(m.active);log(m,label(m.active)+' activates 1 Force.');window(m,'Force activation responses',other(m.active));
-  }else{f.passes++;if(f.passes===2)finish(m,'Activation checkpoint complete: '+f.used+' Force activated.');else f.priority=other(f.priority);}
+   const id=m.players[m.active].reserve[0];move(m,id,'force');f.used++;if(m.cycle)m.cycle.activated=f.used;f.passes=0;f.priority=other(m.active);log(m,label(m.active)+' activates 1 Force.');window(m,'Force activation responses',other(m.active));
+  }else{f.passes++;if(f.passes===2){
+   if(m.cycle){m.stack.pop();m.turn!.stage='control';m.phase='Control';m.stack.push({kind:'turn',priority:m.active,passes:0});log(m,'Control begins. '+label(m.active)+' activated '+f.used+' of '+f.generation+' generated Force.');}
+   else finish(m,'Activation checkpoint complete: '+f.used+' Force activated.');
+  }else f.priority=other(f.priority);}
  }else if(f.kind==='drain'){
   if(choice==='drain'){
    if(m.drained.includes(f.site))throw Error('This location already attempted a drain.');
@@ -343,7 +392,9 @@ export function applyCommand(before:Match,side:Side,command:Command):Match{
   }else{lose(m,side,choice);b.damage[side]--;b.next=other(side);window(m,'Battle damage loss responses',other(side));}
  }else if(f.kind==='recirculation'){
   const p=m.players[side];for(const id of p.used)m.cards[id].zone='reserve';p.reserve.push(...p.used);const count=p.used.length;p.used=[];log(m,label(side)+' recirculates '+count+' cards beneath Reserve.');
+  if(m.cycle)m.cycle.recirculated[side]=count;
   if(side===m.active)f.next=other(side);
+  else if(m.cycle){m.stack.pop();m.stack.push({kind:'turn-end',stage:'automatic'});}
   else if(m.turn){
    m.turn.expired=m.turn.restrictions;m.turn.restrictions=[];m.turn.number++;m.turn.stage='complete';m.active=other(m.active);m.phase='Start of turn';
    finish(m,'Both players recirculated. The turn ends and Barrier restrictions expire. '+label(m.active)+'’s turn is next; the study stops here.');
@@ -361,6 +412,7 @@ function lose(m:Match,s:Side,choice:string){
 export function assertMatch(m:Match){
  if(m.schema!==1||m.engine!==engineFor(m.scenario)||!scenarios.some(s=>s.id===m.scenario))throw Error('Unsupported saved engine version.');
  if(isTurnStudy(m.scenario)!==!!m.turn)throw Error('Missing or unexpected turn study.');
+ if((m.scenario==='next-turn')!==!!m.cycle)throw Error('Missing or unexpected turn cycle.');
  if(!Number.isSafeInteger(m.revision)||m.revision<0||m.stack.length>24)throw Error('Invalid saved continuation.');
  const seen=new Set<string>();for(const s of sides){for(const z of piles)for(const id of m.players[s][z]){if(seen.has(id)||m.cards[id]?.owner!==s||m.cards[id]?.zone!==z)throw Error('Card conservation failed.');seen.add(id);}}
  for(const f of m.stack)if(f.kind==='interrupt'){
@@ -373,8 +425,24 @@ export function assertMatch(m:Match){
  }
  if(m.turn){
   const t=m.turn;
-  if(t.deployer!==(m.scenario==='barrier'?'dark':'light')||!['deploy','battle','move','draw','end','complete'].includes(t.stage)||t.number!==(m.complete?2:1))throw Error('Invalid study turn.');
-  for(const r of [...t.restrictions,...t.expired])if(m.cards[r.target]?.owner!==t.deployer||m.cards[r.target]?.blueprint!==trooper(t.deployer)||m.cards[r.source]?.blueprint!==barrier(other(t.deployer))||r.expiresTurn!==1)throw Error('Invalid saved Barrier restriction.');
+  if(m.cycle){
+   const cycle=m.cycle,expected=t.number%2?'dark':'light';
+   if(!Number.isInteger(t.number)||t.number<1||t.number>3||t.deployer!==expected||m.active!==expected||!['start','activate','control','deploy','battle','move','draw','end'].includes(t.stage))throw Error('Invalid continuous turn.');
+   if(cycle.history.length!==t.number-1||cycle.generation!==(t.stage==='start'?0:forceGeneration(m,m.active))||!Number.isInteger(cycle.activated)||cycle.activated<0||cycle.activated>cycle.generation)throw Error('Invalid saved Force generation.');
+   if(m.complete&&!m.winner&&(t.number!==3||t.stage!=='activate'))throw Error('Premature continuous turn completion.');
+   const count=(n:number)=>Number.isInteger(n)&&n>=0&&n<=60;
+   if(!sides.every(side=>count(cycle.recirculated[side])))throw Error('Invalid recirculation count.');
+   for(const [i,record] of cycle.history.entries())if(record.number!==i+1||record.side!==(i%2?'light':'dark')||record.generation!==(i%2?2:3)||!count(record.activated)||record.activated>record.generation||!count(record.expired)||!sides.every(side=>count(record.carriedForce[side])&&count(record.recirculated[side])))throw Error('Invalid completed turn record.');
+   for(const r of [...t.restrictions,...t.expired]){const owner=m.cards[r.target]?.owner;if(!owner||m.cards[r.target].blueprint!==trooper(owner)||m.cards[r.source]?.blueprint!==barrier(other(owner))||!Number.isInteger(r.expiresTurn)||r.expiresTurn<1||r.expiresTurn>t.number||r.expiresTurn>2)throw Error('Invalid continuous Barrier restriction.');}
+   if(t.restrictions.some(r=>r.expiresTurn!==t.number||m.cards[r.target].owner!==m.active)||new Set(t.battled).size!==t.battled.length||new Set(m.drained).size!==m.drained.length||m.drained.some(id=>!m.locations.includes(id)))throw Error('Invalid continuous turn limits.');
+   for(const side of sides){
+    const safe=[trooper(side),side==='light'?'1_12':'1_182'];
+    if(m.players[side].force.some(id=>!safe.includes(m.cards[id].blueprint))||m.players[side].hand.some(id=>![...safe,barrier(side)].includes(m.cards[id].blueprint)))throw Error('Unsupported card reached the continuous study hand or Force.');
+   }
+  }else{
+   if(t.deployer!==(m.scenario==='barrier'?'dark':'light')||!['deploy','battle','move','draw','end','complete'].includes(t.stage)||t.number!==(m.complete?2:1))throw Error('Invalid study turn.');
+   for(const r of [...t.restrictions,...t.expired])if(m.cards[r.target]?.owner!==t.deployer||m.cards[r.target]?.blueprint!==trooper(t.deployer)||m.cards[r.source]?.blueprint!==barrier(other(t.deployer))||r.expiresTurn!==1)throw Error('Invalid saved Barrier restriction.');
+  }
   if(t.moved.some(id=>m.cards[id]?.owner!==t.deployer)||new Set(t.moved).size!==t.moved.length||t.battled.some(id=>!m.locations.includes(id)))throw Error('Invalid turn action history.');
  }
  for(const f of m.stack)if(f.kind==='lost-order')for(const id of f.remaining){if(seen.has(id)||m.cards[id]?.zone!=='leaving'||m.cards[id]?.owner!==f.side)throw Error('Invalid pending loss.');seen.add(id);}
@@ -419,5 +487,5 @@ export function project(m:Match,seat:Side,includeStudy=false):Projection{
  const ready=!!b&&(frame?.stage==='damage'||frame?.stage==='end'||b.resolved||m.complete&&b.drawn.light&&b.drawn.dark);
  const losses=ready?Object.fromEntries(sides.map(s=>[s,{attrition:b!.attrition[s],damage:b!.damage[s],initialAttrition:b!.destiny[other(s)]??0,initialDamage:Math.max(0,b!.power[other(s)]-b!.power[s])}])) as Record<Side,import('./types').LossBalance>:null;
  const order=m.stack.find(f=>f.kind==='lost-order');
- return {scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.scenario==='takeel'||m.turn?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
+ return {scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.cycle?{cycle:structuredClone(m.cycle)}:{}),...(m.scenario==='takeel'||m.turn?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
 }
