@@ -7,7 +7,7 @@ export const weaponRules:Record<string,{deploy:number;fire:number;bonus:number}>
  '1_152':{deploy:1,fire:1,bonus:0},'1_317':{deploy:1,fire:1,bonus:0},
  '1_153':{deploy:2,fire:2,bonus:1},'1_312':{deploy:2,fire:2,bonus:1},
 };
-export const isWeaponStudy=(s:string)=>s==='weapons'||s==='rebel-weapons';
+export const isWeaponStudy=(s:string)=>s==='weapons'||s==='rebel-weapons'||s==='first-contact';
 export const hitMembers=(m:Match,side:Side)=>m.battle?.participants[side].filter(id=>m.cards[id].zone==='table'&&m.cards[id].hit)||[];
 export function armoryChoices(m:Match,side:Side):Choice[]{
  if(side!==m.active)return [];

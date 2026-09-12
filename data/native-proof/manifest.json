@@ -307,6 +307,12 @@
         ],
         "scope": "Closed one-turn trooper fixture only; starships, modifiers, cancellations and full starter execution remain pending.",
         "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=61"
+      },
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
       }
     },
     {
@@ -371,7 +377,13 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_012.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_012.java",
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      }
     },
     {
       "gempId": "1_120",
@@ -418,6 +430,12 @@
           "Own Force icon or presence allows deployment; movement does not require an icon"
         ],
         "scope": "Pre-arranged board; docking-bay transit, location deployment, Corridor weapon destiny and drain modifiers are not exercised."
+      },
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
       }
     },
     {
@@ -526,6 +544,12 @@
         ],
         "scope": "Closed four-trooper-per-side Bay fixture only. Creature/vehicle targets, other warriors, weapon modifiers/cancellations and full starter execution remain pending.",
         "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=94"
+      },
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
       }
     },
     {
@@ -651,7 +675,13 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_182.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_182.java",
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      }
     },
     {
       "gempId": "1_186",
@@ -704,6 +734,12 @@
           "Draw from top of Force into hand during Draw phase"
         ],
         "scope": "Closed two-site fixture; free-deploy condition is inactive because no allied Rebel/Imperial with ability greater than 2 is present. General card execution remains pending."
+      },
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
       }
     },
     {
@@ -844,6 +880,12 @@
         ],
         "scope": "Closed one-turn trooper fixture only; starships, modifiers, cancellations and full starter execution remain pending.",
         "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=61"
+      },
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
       }
     },
     {
@@ -1048,6 +1090,12 @@
           "Draw from top of Force into hand during Draw phase"
         ],
         "scope": "Closed two-site fixture; free-deploy condition is inactive because no allied Rebel/Imperial with ability greater than 2 is present. General card execution remains pending."
+      },
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
       }
     },
     {
@@ -1078,6 +1126,12 @@
           "Own Force icon or presence allows deployment; movement does not require an icon"
         ],
         "scope": "Pre-arranged board; docking-bay transit, location deployment, Corridor weapon destiny and drain modifiers are not exercised."
+      },
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
       }
     },
     {
@@ -1293,6 +1347,12 @@
         ],
         "scope": "Closed four-trooper-per-side Bay fixture only. Creature/vehicle targets, other warriors, weapon modifiers/cancellations and full starter execution remain pending.",
         "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=94"
+      },
+      "openingIntegration": {
+        "engine": "native-proof-7",
+        "scenario": "first-contact",
+        "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
       }
     },
     {

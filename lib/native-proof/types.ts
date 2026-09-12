@@ -1,7 +1,7 @@
 export type Side = 'light' | 'dark';
 export type Zone = 'reserve' | 'force' | 'used' | 'lost' | 'hand' | 'destiny' | 'table' | 'playing' | 'leaving';
 export type Pile = Exclude<Zone,'table'|'playing'|'leaving'>;
-export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons' | 'next-turn' | 'opening-table';
+export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons' | 'next-turn' | 'opening-table' | 'first-contact';
 export type TurnStage = 'start'|'activate'|'control'|'deploy'|'battle'|'move'|'draw'|'end'|'complete';
 export type Restriction = {target:string;source:string;expiresTurn:number};
 export type StudyTurn = {number:number;deployer:Side;stage:TurnStage;restrictions:Restriction[];expired:Restriction[];moved:string[];battled:string[]};
@@ -31,16 +31,16 @@ export type Frame =
  | {kind:'recirculation';next:Side}
  | {kind:'finish';message:string};
 export type Match = {
- schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5'|'native-proof-6';scenario:ScenarioId;revision:number;active:Side;phase:string;
+ schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5'|'native-proof-6'|'native-proof-7';scenario:ScenarioId;revision:number;active:Side;phase:string;
  cards:Record<string,Card>;players:Record<Side,Player>;locations:string[];stack:Frame[];
  battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;turn?:StudyTurn;cycle?:TurnCycle;setup?:SetupState;
 };
 export type LossBalance = {attrition:number;damage:number;initialAttrition:number;initialDamage:number};
 export type LossPreview = {kind:'forfeit'|'force';value:number;attrition:number;damage:number};
-export type Choice = {id:string;label:string;card?:string;tone?:'primary'|'danger';lossPreview?:LossPreview;destinyPreview?:Record<Side,number>;barrierTarget?:string;weaponPreview?:{user:string;target:string;cost:number;bonus:number;defense:number}};
+export type Choice = {id:string;label:string;card?:string;tone?:'primary'|'danger';lossPreview?:LossPreview;destinyPreview?:Record<Side,number>;barrierTarget?:string;forceIcons?:Record<Side,number>;weaponPreview?:{user:string;target:string;cost:number;bonus:number;defense:number}};
 export type Prompt = {id:string;side:Side;title:string;detail:string;choices:Choice[];automatic:boolean};
 export type Command = {choice:string;prompt:string};
-export type PublicCard = {id:string;blueprint:string;name:string;image:string;side:Side;type:string;text:string;stats:Record<string,string>;location?:string;attachedTo?:string;hit?:boolean};
+export type PublicCard = {id:string;blueprint:string;name:string;image:string;side:Side;type:string;text:string;stats:Record<string,string>;forceIcons?:Record<Side,number>;location?:string;attachedTo?:string;hit?:boolean};
 export type StudyPiles = Pick<Player,'reserve'|'used'|'force'>;
 export type RecirculationStudy = {
  cards:Record<string,Pick<PublicCard,'id'|'name'|'image'>>;

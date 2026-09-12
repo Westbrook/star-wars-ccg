@@ -1,0 +1,22 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "completedAt": "2026-09-12T18:17:01.786667+00:00",
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "command": "docker exec -w /opt/gemp-swccg/src swccg-official-app-1 mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeProofOpeningOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "productionRulesModified": false,
+  "fixtureBoundary": "Uses the authored 120-card pool. Arranges a post-setup checkpoint during a prior Draw phase, then executes real incoming generation and both turns. No production effect or timing process is modified. Pregame choice/draw behavior is covered separately by the retained setup oracle; this test does not claim an unmodified random game opening.",
+  "scope": [
+    "Eight-card hands, 51 Reserve and zero activated Force per side",
+    "Both turns passed",
+    "Blasters deployed by both sides; Dark carrier movement preserves attachment",
+    "Imperial Barrier paid using carried Force, expires after Light turn",
+    "Defensive Imperial Blaster hit, zero numeric battle losses, mandatory forfeit and continued turn"
+  ],
+  "sha256": {
+    "NativeProofOpeningOracleTests.java": "30e3d94354cabe8a3e0f5bb3045b91dfe816366713fd19439267433e1773fb5b",
+    "opening-oracle-result.json": "6d9f376796145b6c35240c3549a4886034fb9944728f38e1908937215248d5ef",
+    "opening-oracle-result.txt": "afa59101c9be5736809b8e73043c67a6555d406d9d5622e182d3f45b8ef032e8"
+  }
+}

@@ -19,6 +19,7 @@ const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
  'rebel-weapons':['deployment','weapons','battle'],
  'next-turn':['force','battle','interrupts','deployment'],
  'opening-table':['setup','force'],
+ 'first-contact':['setup','force','deployment','battle','interrupts','weapons'],
 };
 // Featured cards only: Reserve filler is not a claim of playable card coverage.
 const featuredCards:Record<ScenarioId,string[]>={
@@ -29,6 +30,7 @@ const featuredCards:Record<ScenarioId,string[]>={
  weapons:['1_124','1_194','1_28','1_152','1_153','1_317','1_312'],
  'rebel-weapons':['1_124','1_194','1_28','1_152','1_153','1_317','1_312'],
  'next-turn':['1_124','1_284','1_194','1_28','1_105','1_249'],
+ 'first-contact':['1_124','1_284','1_194','1_28','1_105','1_249','1_152','1_317','1_12','1_182'],
  'opening-table':['101_1','101_4','1_124','1_129','1_130','1_131','1_132','1_284','1_285','1_291','1_292','1_293','1_295'],
 };
 // Index the mechanics exercised by the fixture, including mirrored coverage
@@ -47,6 +49,7 @@ const searchableRules:Record<ScenarioId,string>={
  weapons:battleRules+' '+weaponRules+' optional battle destiny draw',
  'rebel-weapons':battleRules+' '+weaponRules+' optional battle destiny draw',
  'next-turn':battleRules+' '+turnRules+' Force generation activation control Force drain start turn end turn handoff retained Force per-turn limits Rebel Barrier Imperial Barrier response',
+ 'first-contact':battleRules+' '+turnRules+' '+weaponRules+' starting setup eight-card hands first turn Barrier defensive fire carried weapons',
  'opening-table':'pregame setup starting location secret private simultaneous reveal conversion converted supporting location same title choose another physical copy shuffle cut opening eight card hand Dark first Force generation start turn',
 };
 export const studies=scenarios.map((scenario,index)=>({...scenario,number:String(index+1).padStart(2,'0'),topics:coverage[scenario.id],cards:featuredCards[scenario.id].map(id=>definition(id).name)}));
