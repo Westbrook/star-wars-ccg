@@ -1,0 +1,31 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "branches": [
+    {
+      "modifier": 2,
+      "destiny": 0,
+      "name": "corridor-rifle-zero",
+      "hit": true
+    },
+    {
+      "darkHit": false,
+      "lightHit": true,
+      "darkUsed": 4,
+      "lightUsed": 2,
+      "darkForce": 5,
+      "lightForce": 3,
+      "printedDestiny": 1,
+      "name": "corridor-basic"
+    },
+    {
+      "darkHit": false,
+      "lightHit": true,
+      "darkUsed": 6,
+      "lightUsed": 2,
+      "darkForce": 3,
+      "lightForce": 3,
+      "printedDestiny": 1,
+      "name": "corridor-rifle"
+    }
+  ]
+}

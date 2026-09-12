@@ -550,6 +550,12 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "corridorConformance": {
+        "engine": "native-proof-8",
+        "scenario": "corridor-crossfire",
+        "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
       }
     },
     {
@@ -583,6 +589,12 @@
         ],
         "scope": "Closed four-trooper-per-side Bay fixture only. Creature/vehicle targets, other warriors, weapon modifiers/cancellations and full starter execution remain pending.",
         "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=94"
+      },
+      "corridorConformance": {
+        "engine": "native-proof-8",
+        "scenario": "corridor-crossfire",
+        "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
       }
     },
     {
@@ -619,7 +631,16 @@
         "Warrior"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_170.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_170.java",
+      "garrisonConformance": {
+        "engine": "native-proof-8",
+        "scenarios": [
+          "guard-post",
+          "rebel-post"
+        ],
+        "scope": "Fixed Death Star sites, printed costs, presence at zero power, defending-only guard power, guard immobility independent of Barrier, Death Star Trooper power/forfeit/movement. Off-station power is a handler diagnostic, not a playable fixture path. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/garrison-oracle-result.json"
+      }
     },
     {
       "gempId": "1_18",
@@ -656,7 +677,16 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_181.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_181.java",
+      "garrisonConformance": {
+        "engine": "native-proof-8",
+        "scenarios": [
+          "guard-post",
+          "rebel-post"
+        ],
+        "scope": "Fixed Death Star sites, printed costs, presence at zero power, defending-only guard power, guard immobility independent of Barrier, Death Star Trooper power/forfeit/movement. Off-station power is a handler diagnostic, not a playable fixture path. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/garrison-oracle-result.json"
+      }
     },
     {
       "gempId": "1_182",
@@ -950,7 +980,16 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_026.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_026.java",
+      "garrisonConformance": {
+        "engine": "native-proof-8",
+        "scenarios": [
+          "guard-post",
+          "rebel-post"
+        ],
+        "scope": "Fixed Death Star sites, printed costs, presence at zero power, defending-only guard power, guard immobility independent of Barrier, Death Star Trooper power/forfeit/movement. Off-station power is a handler diagnostic, not a playable fixture path. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/garrison-oracle-result.json"
+      }
     },
     {
       "gempId": "1_262",
@@ -1132,6 +1171,12 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "corridorConformance": {
+        "engine": "native-proof-8",
+        "scenario": "corridor-crossfire",
+        "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
       }
     },
     {
@@ -1299,6 +1344,12 @@
         ],
         "scope": "Closed four-trooper-per-side Bay fixture only. Creature/vehicle targets, other warriors, weapon modifiers/cancellations and full starter execution remain pending.",
         "rulesReference": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=94"
+      },
+      "corridorConformance": {
+        "engine": "native-proof-8",
+        "scenario": "corridor-crossfire",
+        "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
       }
     },
     {
@@ -1353,6 +1404,12 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "corridorConformance": {
+        "engine": "native-proof-8",
+        "scenario": "corridor-crossfire",
+        "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
       }
     },
     {

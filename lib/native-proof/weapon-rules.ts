@@ -7,7 +7,11 @@ export const weaponRules:Record<string,{deploy:number;fire:number;bonus:number}>
  '1_152':{deploy:1,fire:1,bonus:0},'1_317':{deploy:1,fire:1,bonus:0},
  '1_153':{deploy:2,fire:2,bonus:1},'1_312':{deploy:2,fire:2,bonus:1},
 };
-export const isWeaponStudy=(s:string)=>s==='weapons'||s==='rebel-weapons'||s==='first-contact';
+export const isWeaponStudy=(s:string)=>s==='weapons'||s==='rebel-weapons'||s==='first-contact'||s==='corridor-crossfire';
+export function weaponBonus(m:Match,id:string){
+ const weapon=m.cards[id];
+ return weaponRules[weapon.blueprint].bonus+(m.scenario==='corridor-crossfire'&&weapon.owner==='dark'&&weapon.location&&m.cards[weapon.location].blueprint==='1_284'?1:0);
+}
 export const hitMembers=(m:Match,side:Side)=>m.battle?.participants[side].filter(id=>m.cards[id].zone==='table'&&m.cards[id].hit)||[];
 export function armoryChoices(m:Match,side:Side):Choice[]{
  if(side!==m.active)return [];
@@ -23,6 +27,6 @@ export function firingChoices(m:Match,side:Side):Choice[]{
  return Object.values(m.cards).flatMap(w=>{
   const rule=weaponRules[w.blueprint],user=w.attachedTo?m.cards[w.attachedTo]:null;
   if(!rule||w.zone!=='table'||w.owner!==side||!user||user.zone!=='table'||!b.participants[side].includes(user.id)||b.fired!.includes(w.id)||b.weaponUsers![user.id]&&b.weaponUsers![user.id]!==w.id||m.players[side].force.length<rule.fire)return [];
-  return b.participants[other(side)].filter(id=>m.cards[id].zone==='table'&&m.cards[id].location===user.location).map(target=>({id:'fire:'+w.id+':'+target,card:w.id,label:'Fire '+definition(w.blueprint).name+' → '+definition(m.cards[target].blueprint).name+' '+target.toUpperCase(),tone:'primary' as const,weaponPreview:{user:user.id,target,cost:rule.fire,bonus:rule.bonus,defense:printed(m.cards[target].blueprint,'ability')}}));
+  return b.participants[other(side)].filter(id=>m.cards[id].zone==='table'&&m.cards[id].location===user.location).map(target=>({id:'fire:'+w.id+':'+target,card:w.id,label:'Fire '+definition(w.blueprint).name+' → '+definition(m.cards[target].blueprint).name+' '+target.toUpperCase(),tone:'primary' as const,weaponPreview:{user:user.id,target,cost:rule.fire,bonus:weaponBonus(m,w.id),defense:printed(m.cards[target].blueprint,'ability')}}));
  });
 }

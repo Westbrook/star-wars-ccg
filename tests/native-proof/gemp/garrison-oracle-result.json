@@ -1,0 +1,46 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "branches": [
+    {
+      "powerOnDeathStar": 2,
+      "name": "death-star-trooper",
+      "powerElsewhere": 1,
+      "damageAgainstGuard": 2,
+      "regularMoveCost": 1,
+      "deployCost": 2,
+      "forfeit": 3
+    },
+    {
+      "afterGuardForfeitDamage": 3,
+      "damage": 4,
+      "guardMayMove": false,
+      "forceAfterDeploy": 4,
+      "forceAfterBattle": 3,
+      "defendingPower": 4,
+      "name": "guard-post",
+      "attackingPower": 0
+    },
+    {
+      "afterGuardForfeitDamage": 3,
+      "damage": 4,
+      "guardMayMove": false,
+      "forceAfterDeploy": 4,
+      "forceAfterBattle": 3,
+      "defendingPower": 4,
+      "name": "rebel-post",
+      "attackingPower": 0
+    },
+    {
+      "guardMayMove": false,
+      "name": "imperial-barrier-expired",
+      "force": 4,
+      "barrierExpired": true
+    },
+    {
+      "guardMayMove": false,
+      "name": "rebel-barrier-expired",
+      "force": 4,
+      "barrierExpired": true
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "executedAt": "2026-09-12T18:56:41.502291+00:00",
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeProofGarrisonOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "fixture": "Authored 120-card starter pool, deterministic mid-turn checkpoint. Production GEMP rules unchanged. Off-station power and zero-destiny tests are explicit handler diagnostics, not extra playable board choices.",
+  "sha256": {
+    "NativeProofGarrisonOracleTests.java": "97bb666adc3239cc79dad9e9b54b13aed2cfd6674c837dc26d3401ffa7503026",
+    "garrison-oracle-result.json": "b14194be3124e4cc58ad6d5da775b27e9d8764876356fa755ba60c4a95d1bde0",
+    "garrison-oracle-result.txt": "b45a444f1ac7d840bead0f587ff5ddf10d020169d1548d53b6c8036841741af5"
+  }
+}
