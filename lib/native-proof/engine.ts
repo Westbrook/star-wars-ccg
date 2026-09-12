@@ -1,5 +1,6 @@
 import {definition,manifest,other,printed,scenarios,sites} from './catalog';
 import {armoryChoices,firingChoices,hitMembers,isWeaponStudy,weaponRules} from './weapon-rules';
+import {applySetup,assertSetup,initializeSetup,projectSetup,setupPrompt} from './setup-rules';
 import type {Battle,Card,Command,Frame,Match,Pile,Player,Projection,Prompt,PublicCard,ScenarioId,Side,Zone} from './types';
 
 // A deliberately closed conformance runner. It does not infer card abilities from
@@ -25,7 +26,7 @@ function putTop(m:Match,s:Side,blueprint:string){const a=m.players[s].reserve;co
 function window(m:Match,text:string,priority:Side,event?:'battle-destiny-complete'|'character-deployed',target?:string){m.stack.push({kind:'window',label:text,priority,passes:0,...(event?{event}:{}),...(target?{target}:{})});}
 function finish(m:Match,text:string){m.stack=[];m.complete=true;log(m,text);}
 const isTurnStudy=(scenario:ScenarioId)=>scenario==='barrier'||scenario==='imperial-barrier'||scenario==='next-turn';
-const engineFor=(scenario:ScenarioId)=>scenario==='next-turn'?'native-proof-5':isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
+const engineFor=(scenario:ScenarioId)=>scenario==='opening-table'?'native-proof-6':scenario==='next-turn'?'native-proof-5':isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
 const trooper=(side:Side)=>side==='light'?'1_28':'1_194';
 const barrier=(side:Side)=>side==='light'?'1_105':'1_249';
 
@@ -33,6 +34,7 @@ export function createScenario(scenario:ScenarioId):Match{
  if(!scenarios.some(s=>s.id===scenario))throw Error('Unknown conformance scenario.');
  const m:Match={schema:1,engine:engineFor(scenario),scenario,revision:0,active:scenario==='imperial-barrier'||scenario==='rebel-weapons'?'light':'dark',phase:scenarios.find(s=>s.id===scenario)!.phase,cards:{},players:{light:empty(),dark:empty()},locations:[],stack:[],battle:null,drained:[],log:[],complete:false,winner:null};
  for(const deck of manifest.decks){const s=deck.side as Side;for(const [i,b]of deck.main.entries()){const id=s[0]+String(i+1).padStart(3,'0');m.cards[id]={id,blueprint:b,owner:s,zone:'reserve'};m.players[s].reserve.push(id);}}
+ if(scenario==='opening-table'){initializeSetup(m);assertMatch(m);return m;}
  const site=pull(m,'light','1_124','table');m.locations.push(site);
  if(scenario==='next-turn'){
   const corridor=pull(m,'dark','1_284','table');m.locations.push(corridor);
@@ -244,6 +246,7 @@ function responseChoices(m:Match,f:Extract<Frame,{kind:'window'}>):Prompt['choic
 }
 
 export function prompt(m:Match):Prompt|null{
+ if(m.setup)return setupPrompt(m);
  if(m.complete)return null;const f=top(m);if(!f)return null;
  const base={id:m.engine+':'+m.revision,side:m.active,title:'',detail:'',choices:[] as Prompt['choices'],automatic:false};
  if(f.kind==='armory'||f.kind==='weapons'){
@@ -288,6 +291,7 @@ export function prompt(m:Match):Prompt|null{
 }
 
 export function applyCommand(before:Match,side:Side,command:Command):Match{
+ if(before.scenario==='opening-table'){assertMatch(before);const after=applySetup(before,side,command);assertMatch(after);return after;}
  assertMatch(before);const p=prompt(before);if(!p||p.side!==side)throw Error('This seat has no pending choice.');
  if(command.prompt!==p.id)throw Error('This choice is stale. Refresh the saved match.');
  if(!p.choices.some(c=>c.id===command.choice))throw Error('This choice is not legal in the current fixture.');
@@ -413,6 +417,9 @@ export function assertMatch(m:Match){
  if(m.schema!==1||m.engine!==engineFor(m.scenario)||!scenarios.some(s=>s.id===m.scenario))throw Error('Unsupported saved engine version.');
  if(isTurnStudy(m.scenario)!==!!m.turn)throw Error('Missing or unexpected turn study.');
  if((m.scenario==='next-turn')!==!!m.cycle)throw Error('Missing or unexpected turn cycle.');
+ if((m.scenario==='opening-table')!==!!m.setup)throw Error('Missing or unexpected setup study.');
+ if(m.setup)assertSetup(m);
+ else if(Object.values(m.cards).some(c=>c.coveredBy!==undefined))throw Error('Unexpected covered starting location.');
  if(!Number.isSafeInteger(m.revision)||m.revision<0||m.stack.length>24)throw Error('Invalid saved continuation.');
  const seen=new Set<string>();for(const s of sides){for(const z of piles)for(const id of m.players[s][z]){if(seen.has(id)||m.cards[id]?.owner!==s||m.cards[id]?.zone!==z)throw Error('Card conservation failed.');seen.add(id);}}
  for(const f of m.stack)if(f.kind==='interrupt'){
@@ -477,7 +484,7 @@ function recirculationStudy(m:Match):import('./types').RecirculationStudy{
  };
 }
 export function project(m:Match,seat:Side,includeStudy=false):Projection{
- assertMatch(m);const p=prompt(m);const players={} as Projection['players'];
+ assertMatch(m);const p=m.setup?setupPrompt(m,seat):prompt(m);const players={} as Projection['players'];
  for(const s of sides){const source=m.players[s];players[s]={counts:Object.fromEntries(piles.map(z=>[z,source[z].length])) as Projection['players'][Side]['counts'],life:life(m,s),hand:s===seat?source.hand.map(id=>publicCard(m,id)):[],lost:source.lost.slice(0,1).map(id=>publicCard(m,id)),destiny:source.destiny.map(id=>publicCard(m,id))};}
  const b=m.battle;const frame=m.stack.find(f=>f.kind==='battle');
  // Active saves expose totals only after calculation, including nested response
@@ -487,5 +494,5 @@ export function project(m:Match,seat:Side,includeStudy=false):Projection{
  const ready=!!b&&(frame?.stage==='damage'||frame?.stage==='end'||b.resolved||m.complete&&b.drawn.light&&b.drawn.dark);
  const losses=ready?Object.fromEntries(sides.map(s=>[s,{attrition:b!.attrition[s],damage:b!.damage[s],initialAttrition:b!.destiny[other(s)]??0,initialDamage:Math.max(0,b!.power[other(s)]-b!.power[s])}])) as Record<Side,import('./types').LossBalance>:null;
  const order=m.stack.find(f=>f.kind==='lost-order');
- return {scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.cycle?{cycle:structuredClone(m.cycle)}:{}),...(m.scenario==='takeel'||m.turn?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
+ return {scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)&&!c.coveredBy).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.setup?{setup:projectSetup(m,seat,includeStudy,id=>publicCard(m,id))}:{}),...(m.cycle?{cycle:structuredClone(m.cycle)}:{}),...(m.scenario==='takeel'||m.turn?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
 }

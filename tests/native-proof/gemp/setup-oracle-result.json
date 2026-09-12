@@ -1,0 +1,6622 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "testClass": "NativeProofSetupOracleTests",
+  "randomSeed": 2026091206,
+  "randomFixture": "java.util.Collections private Random seeded before DefaultSwccgGame.startGame; all production shuffle calls run unmodified. Observed opening draw is from bottom, followed by reshuffle.",
+  "idMapping": "l/d + 1-based authored sample_decks.sql list index padded to 3; duplicates assigned in permanent physical-card-id order.",
+  "branches": [
+    {
+      "name": "both-decline-reselect",
+      "initialReserve": {
+        "dark": [
+          "d053",
+          "d024",
+          "d031",
+          "d047",
+          "d016",
+          "d048",
+          "d025",
+          "d028",
+          "d009",
+          "d013",
+          "d057",
+          "d010",
+          "d034",
+          "d035",
+          "d027",
+          "d054",
+          "d017",
+          "d005",
+          "d043",
+          "d033",
+          "d032",
+          "d014",
+          "d037",
+          "d023",
+          "d021",
+          "d007",
+          "d050",
+          "d006",
+          "d018",
+          "d052",
+          "d040",
+          "d001",
+          "d004",
+          "d003",
+          "d058",
+          "d020",
+          "d049",
+          "d038",
+          "d044",
+          "d008",
+          "d060",
+          "d019",
+          "d041",
+          "d045",
+          "d051",
+          "d029",
+          "d059",
+          "d055",
+          "d039",
+          "d002",
+          "d030",
+          "d056",
+          "d036",
+          "d015",
+          "d022",
+          "d042",
+          "d011",
+          "d012",
+          "d026",
+          "d046"
+        ],
+        "light": [
+          "l051",
+          "l006",
+          "l007",
+          "l011",
+          "l030",
+          "l014",
+          "l029",
+          "l020",
+          "l024",
+          "l041",
+          "l045",
+          "l035",
+          "l027",
+          "l012",
+          "l059",
+          "l023",
+          "l008",
+          "l048",
+          "l003",
+          "l026",
+          "l033",
+          "l050",
+          "l031",
+          "l056",
+          "l009",
+          "l004",
+          "l025",
+          "l042",
+          "l055",
+          "l017",
+          "l039",
+          "l052",
+          "l053",
+          "l002",
+          "l047",
+          "l057",
+          "l037",
+          "l034",
+          "l032",
+          "l058",
+          "l040",
+          "l046",
+          "l019",
+          "l016",
+          "l018",
+          "l005",
+          "l013",
+          "l001",
+          "l054",
+          "l043",
+          "l028",
+          "l021",
+          "l044",
+          "l060",
+          "l022",
+          "l036",
+          "l049",
+          "l010",
+          "l038",
+          "l015"
+        ]
+      },
+      "noObjectivesStartingEffectsOrStartingInterrupts": true,
+      "initialChoices": {
+        "dark": [
+          {
+            "blueprint": "1_295",
+            "id": "d053",
+            "title": "Tatooine: Mos Eisley"
+          },
+          {
+            "blueprint": "1_285",
+            "id": "d047",
+            "title": "Death Star: Docking Bay 327"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d048",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_291",
+            "id": "d050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_293",
+            "id": "d052",
+            "title": "Tatooine: Jundland Wastes"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d049",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_284",
+            "id": "d045",
+            "title": "Death Star: Detention Block Corridor"
+          },
+          {
+            "blueprint": "1_292",
+            "id": "d051",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "1_285",
+            "id": "d046",
+            "title": "Death Star: Docking Bay 327"
+          }
+        ],
+        "light": [
+          {
+            "blueprint": "1_130",
+            "id": "l051",
+            "title": "Tatooine: Dune Sea"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l048",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l052",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l053",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l047",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_124",
+            "id": "l046",
+            "title": "Death Star: Docking Bay 327"
+          },
+          {
+            "blueprint": "1_132",
+            "id": "l054",
+            "title": "Tatooine: Lars\u0027 Moisture Farm"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l049",
+            "title": "Tatooine: Docking Bay 94"
+          }
+        ]
+      },
+      "bothChoicesPendingBeforeSelection": true,
+      "firstChoiceLeavesAllCardsInReserveAndNothingRevealedOnTable": true,
+      "choicesAfterBothDecline": {
+        "light": [
+          {
+            "blueprint": "1_130",
+            "id": "l051",
+            "title": "Tatooine: Dune Sea"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l048",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l052",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l053",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l047",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_132",
+            "id": "l054",
+            "title": "Tatooine: Lars\u0027 Moisture Farm"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l049",
+            "title": "Tatooine: Docking Bay 94"
+          }
+        ],
+        "dark": [
+          {
+            "blueprint": "1_295",
+            "id": "d053",
+            "title": "Tatooine: Mos Eisley"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d048",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_291",
+            "id": "d050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_293",
+            "id": "d052",
+            "title": "Tatooine: Jundland Wastes"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d049",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_284",
+            "id": "d045",
+            "title": "Death Star: Detention Block Corridor"
+          },
+          {
+            "blueprint": "1_292",
+            "id": "d051",
+            "title": "Tatooine: Jawa Camp"
+          }
+        ]
+      },
+      "gempExcludesAllCopiesOfPreviouslyDeclinedTitle": true,
+      "shuffles": [
+        {
+          "hand": [],
+          "reserve": [
+            "d043",
+            "d060",
+            "d010",
+            "d012",
+            "d055",
+            "d031",
+            "d014",
+            "d048",
+            "d024",
+            "d049",
+            "d053",
+            "d025",
+            "d011",
+            "d002",
+            "d022",
+            "d019",
+            "d001",
+            "d035",
+            "d039",
+            "d046",
+            "d040",
+            "d005",
+            "d042",
+            "d058",
+            "d030",
+            "d052",
+            "d044",
+            "d006",
+            "d028",
+            "d021",
+            "d032",
+            "d026",
+            "d054",
+            "d023",
+            "d009",
+            "d038",
+            "d018",
+            "d033",
+            "d020",
+            "d056",
+            "d017",
+            "d047",
+            "d008",
+            "d004",
+            "d003",
+            "d016",
+            "d037",
+            "d007",
+            "d059",
+            "d045",
+            "d015",
+            "d034",
+            "d013",
+            "d051",
+            "d036",
+            "d027",
+            "d029",
+            "d041",
+            "d057"
+          ],
+          "side": "dark"
+        },
+        {
+          "hand": [
+            "d057",
+            "d041",
+            "d029",
+            "d027",
+            "d036",
+            "d051",
+            "d013",
+            "d034"
+          ],
+          "reserve": [
+            "d049",
+            "d033",
+            "d002",
+            "d018",
+            "d047",
+            "d026",
+            "d004",
+            "d017",
+            "d028",
+            "d003",
+            "d011",
+            "d022",
+            "d045",
+            "d056",
+            "d006",
+            "d007",
+            "d032",
+            "d001",
+            "d025",
+            "d015",
+            "d019",
+            "d039",
+            "d052",
+            "d054",
+            "d016",
+            "d053",
+            "d043",
+            "d024",
+            "d009",
+            "d031",
+            "d044",
+            "d055",
+            "d008",
+            "d030",
+            "d010",
+            "d058",
+            "d035",
+            "d037",
+            "d059",
+            "d020",
+            "d048",
+            "d046",
+            "d005",
+            "d012",
+            "d021",
+            "d040",
+            "d023",
+            "d038",
+            "d060",
+            "d042",
+            "d014"
+          ],
+          "side": "dark"
+        },
+        {
+          "hand": [],
+          "reserve": [
+            "l044",
+            "l006",
+            "l058",
+            "l053",
+            "l020",
+            "l028",
+            "l060",
+            "l011",
+            "l037",
+            "l010",
+            "l007",
+            "l022",
+            "l038",
+            "l048",
+            "l008",
+            "l024",
+            "l002",
+            "l035",
+            "l026",
+            "l032",
+            "l023",
+            "l045",
+            "l014",
+            "l043",
+            "l055",
+            "l012",
+            "l027",
+            "l013",
+            "l031",
+            "l049",
+            "l047",
+            "l025",
+            "l051",
+            "l034",
+            "l033",
+            "l052",
+            "l041",
+            "l009",
+            "l015",
+            "l059",
+            "l029",
+            "l019",
+            "l046",
+            "l039",
+            "l004",
+            "l003",
+            "l056",
+            "l005",
+            "l036",
+            "l018",
+            "l021",
+            "l042",
+            "l040",
+            "l030",
+            "l050",
+            "l016",
+            "l001",
+            "l017",
+            "l057"
+          ],
+          "side": "light"
+        },
+        {
+          "hand": [
+            "l057",
+            "l017",
+            "l001",
+            "l016",
+            "l050",
+            "l030",
+            "l040",
+            "l042"
+          ],
+          "reserve": [
+            "l029",
+            "l038",
+            "l055",
+            "l005",
+            "l049",
+            "l022",
+            "l037",
+            "l008",
+            "l031",
+            "l013",
+            "l048",
+            "l034",
+            "l006",
+            "l032",
+            "l039",
+            "l015",
+            "l007",
+            "l024",
+            "l014",
+            "l056",
+            "l020",
+            "l004",
+            "l028",
+            "l041",
+            "l023",
+            "l047",
+            "l021",
+            "l060",
+            "l025",
+            "l009",
+            "l019",
+            "l002",
+            "l043",
+            "l046",
+            "l026",
+            "l011",
+            "l052",
+            "l018",
+            "l003",
+            "l035",
+            "l033",
+            "l053",
+            "l036",
+            "l045",
+            "l051",
+            "l027",
+            "l058",
+            "l044",
+            "l012",
+            "l010",
+            "l059"
+          ],
+          "side": "light"
+        }
+      ],
+      "decisions": [
+        {
+          "side": "dark",
+          "text": "Select OK to start game",
+          "response": "0"
+        },
+        {
+          "side": "light",
+          "text": "Select OK to start game",
+          "response": "0"
+        },
+        {
+          "side": "dark",
+          "text": "Choose starting location",
+          "response": "temp8"
+        },
+        {
+          "side": "light",
+          "text": "Choose starting location",
+          "response": "temp6"
+        },
+        {
+          "side": "dark",
+          "text": "Both players have chosen the same starting location. Will you allow the other player to convert \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_285\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e with \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_124\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e",
+          "response": "1"
+        },
+        {
+          "side": "light",
+          "text": "Both players have chosen the same starting location. Will you allow the other player to convert \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_124\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e with \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_285\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e",
+          "response": "1"
+        },
+        {
+          "side": "dark",
+          "text": "Choose starting location",
+          "response": "temp2"
+        },
+        {
+          "side": "light",
+          "text": "Choose starting location",
+          "response": "temp6"
+        },
+        {
+          "side": "light",
+          "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+          "response": "0"
+        }
+      ],
+      "messages": [
+        "dark deploys \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e from Reserve Deck",
+        "light deploys \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e from Reserve Deck",
+        "Dark Side goes first",
+        "dark shuffles dark\u0027s Reserve Deck",
+        "dark draws 8 cards into hand",
+        "light shuffles light\u0027s Reserve Deck",
+        "light draws 8 cards into hand",
+        "Start of dark\u0027s turn #1",
+        "dark\u0027s Force generation for this turn is 3",
+        "light\u0027s Force generation for this turn is 4"
+      ],
+      "phase": "ACTIVATE",
+      "active": "dark",
+      "darkTurnNumber": 1,
+      "hands": {
+        "dark": [
+          "d057",
+          "d041",
+          "d029",
+          "d027",
+          "d036",
+          "d051",
+          "d013",
+          "d034"
+        ],
+        "light": [
+          "l057",
+          "l017",
+          "l001",
+          "l016",
+          "l050",
+          "l030",
+          "l040",
+          "l042"
+        ]
+      },
+      "reserve": {
+        "dark": [
+          "d049",
+          "d033",
+          "d002",
+          "d018",
+          "d047",
+          "d026",
+          "d004",
+          "d017",
+          "d028",
+          "d003",
+          "d011",
+          "d022",
+          "d045",
+          "d056",
+          "d006",
+          "d007",
+          "d032",
+          "d001",
+          "d025",
+          "d015",
+          "d019",
+          "d039",
+          "d052",
+          "d054",
+          "d016",
+          "d053",
+          "d043",
+          "d024",
+          "d009",
+          "d031",
+          "d044",
+          "d055",
+          "d008",
+          "d030",
+          "d010",
+          "d058",
+          "d035",
+          "d037",
+          "d059",
+          "d020",
+          "d048",
+          "d046",
+          "d005",
+          "d012",
+          "d021",
+          "d040",
+          "d023",
+          "d038",
+          "d060",
+          "d042",
+          "d014"
+        ],
+        "light": [
+          "l029",
+          "l038",
+          "l055",
+          "l005",
+          "l049",
+          "l022",
+          "l037",
+          "l008",
+          "l031",
+          "l013",
+          "l048",
+          "l034",
+          "l006",
+          "l032",
+          "l039",
+          "l015",
+          "l007",
+          "l024",
+          "l014",
+          "l056",
+          "l020",
+          "l004",
+          "l028",
+          "l041",
+          "l023",
+          "l047",
+          "l021",
+          "l060",
+          "l025",
+          "l009",
+          "l019",
+          "l002",
+          "l043",
+          "l046",
+          "l026",
+          "l011",
+          "l052",
+          "l018",
+          "l003",
+          "l035",
+          "l033",
+          "l053",
+          "l036",
+          "l045",
+          "l051",
+          "l027",
+          "l058",
+          "l044",
+          "l012",
+          "l010",
+          "l059"
+        ]
+      },
+      "generation": {
+        "dark": 3.0,
+        "light": 4.0
+      },
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        },
+        {
+          "under": [],
+          "blueprint": "1_291",
+          "id": "d050"
+        }
+      ],
+      "zones": {
+        "d001": "RESERVE_DECK",
+        "d002": "RESERVE_DECK",
+        "d003": "RESERVE_DECK",
+        "d004": "RESERVE_DECK",
+        "d005": "RESERVE_DECK",
+        "d006": "RESERVE_DECK",
+        "d007": "RESERVE_DECK",
+        "d008": "RESERVE_DECK",
+        "d009": "RESERVE_DECK",
+        "d010": "RESERVE_DECK",
+        "d011": "RESERVE_DECK",
+        "d012": "RESERVE_DECK",
+        "d013": "HAND",
+        "d014": "RESERVE_DECK",
+        "d015": "RESERVE_DECK",
+        "d016": "RESERVE_DECK",
+        "d017": "RESERVE_DECK",
+        "d018": "RESERVE_DECK",
+        "d019": "RESERVE_DECK",
+        "d020": "RESERVE_DECK",
+        "d021": "RESERVE_DECK",
+        "d022": "RESERVE_DECK",
+        "d023": "RESERVE_DECK",
+        "d024": "RESERVE_DECK",
+        "d025": "RESERVE_DECK",
+        "d026": "RESERVE_DECK",
+        "d027": "HAND",
+        "d028": "RESERVE_DECK",
+        "d029": "HAND",
+        "d030": "RESERVE_DECK",
+        "d031": "RESERVE_DECK",
+        "d032": "RESERVE_DECK",
+        "d033": "RESERVE_DECK",
+        "d034": "HAND",
+        "d035": "RESERVE_DECK",
+        "d036": "HAND",
+        "d037": "RESERVE_DECK",
+        "d038": "RESERVE_DECK",
+        "d039": "RESERVE_DECK",
+        "d040": "RESERVE_DECK",
+        "d041": "HAND",
+        "d042": "RESERVE_DECK",
+        "d043": "RESERVE_DECK",
+        "d044": "RESERVE_DECK",
+        "d045": "RESERVE_DECK",
+        "d046": "RESERVE_DECK",
+        "d047": "RESERVE_DECK",
+        "d048": "RESERVE_DECK",
+        "d049": "TOP_OF_RESERVE_DECK",
+        "d050": "LOCATIONS",
+        "d051": "HAND",
+        "d052": "RESERVE_DECK",
+        "d053": "RESERVE_DECK",
+        "d054": "RESERVE_DECK",
+        "d055": "RESERVE_DECK",
+        "d056": "RESERVE_DECK",
+        "d057": "HAND",
+        "d058": "RESERVE_DECK",
+        "d059": "RESERVE_DECK",
+        "d060": "RESERVE_DECK",
+        "l001": "HAND",
+        "l002": "RESERVE_DECK",
+        "l003": "RESERVE_DECK",
+        "l004": "RESERVE_DECK",
+        "l005": "RESERVE_DECK",
+        "l006": "RESERVE_DECK",
+        "l007": "RESERVE_DECK",
+        "l008": "RESERVE_DECK",
+        "l009": "RESERVE_DECK",
+        "l010": "RESERVE_DECK",
+        "l011": "RESERVE_DECK",
+        "l012": "RESERVE_DECK",
+        "l013": "RESERVE_DECK",
+        "l014": "RESERVE_DECK",
+        "l015": "RESERVE_DECK",
+        "l016": "HAND",
+        "l017": "HAND",
+        "l018": "RESERVE_DECK",
+        "l019": "RESERVE_DECK",
+        "l020": "RESERVE_DECK",
+        "l021": "RESERVE_DECK",
+        "l022": "RESERVE_DECK",
+        "l023": "RESERVE_DECK",
+        "l024": "RESERVE_DECK",
+        "l025": "RESERVE_DECK",
+        "l026": "RESERVE_DECK",
+        "l027": "RESERVE_DECK",
+        "l028": "RESERVE_DECK",
+        "l029": "TOP_OF_RESERVE_DECK",
+        "l030": "HAND",
+        "l031": "RESERVE_DECK",
+        "l032": "RESERVE_DECK",
+        "l033": "RESERVE_DECK",
+        "l034": "RESERVE_DECK",
+        "l035": "RESERVE_DECK",
+        "l036": "RESERVE_DECK",
+        "l037": "RESERVE_DECK",
+        "l038": "RESERVE_DECK",
+        "l039": "RESERVE_DECK",
+        "l040": "HAND",
+        "l041": "RESERVE_DECK",
+        "l042": "HAND",
+        "l043": "RESERVE_DECK",
+        "l044": "RESERVE_DECK",
+        "l045": "RESERVE_DECK",
+        "l046": "RESERVE_DECK",
+        "l047": "RESERVE_DECK",
+        "l048": "RESERVE_DECK",
+        "l049": "RESERVE_DECK",
+        "l050": "HAND",
+        "l051": "RESERVE_DECK",
+        "l052": "RESERVE_DECK",
+        "l053": "RESERVE_DECK",
+        "l054": "LOCATIONS",
+        "l055": "RESERVE_DECK",
+        "l056": "RESERVE_DECK",
+        "l057": "HAND",
+        "l058": "RESERVE_DECK",
+        "l059": "RESERVE_DECK",
+        "l060": "RESERVE_DECK"
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "dark-allows-conversion",
+      "initialReserve": {
+        "dark": [
+          "d053",
+          "d024",
+          "d031",
+          "d047",
+          "d016",
+          "d048",
+          "d025",
+          "d028",
+          "d009",
+          "d013",
+          "d057",
+          "d010",
+          "d034",
+          "d035",
+          "d027",
+          "d054",
+          "d017",
+          "d005",
+          "d043",
+          "d033",
+          "d032",
+          "d014",
+          "d037",
+          "d023",
+          "d021",
+          "d007",
+          "d050",
+          "d006",
+          "d018",
+          "d052",
+          "d040",
+          "d001",
+          "d004",
+          "d003",
+          "d058",
+          "d020",
+          "d049",
+          "d038",
+          "d044",
+          "d008",
+          "d060",
+          "d019",
+          "d041",
+          "d045",
+          "d051",
+          "d029",
+          "d059",
+          "d055",
+          "d039",
+          "d002",
+          "d030",
+          "d056",
+          "d036",
+          "d015",
+          "d022",
+          "d042",
+          "d011",
+          "d012",
+          "d026",
+          "d046"
+        ],
+        "light": [
+          "l051",
+          "l006",
+          "l007",
+          "l011",
+          "l030",
+          "l014",
+          "l029",
+          "l020",
+          "l024",
+          "l041",
+          "l045",
+          "l035",
+          "l027",
+          "l012",
+          "l059",
+          "l023",
+          "l008",
+          "l048",
+          "l003",
+          "l026",
+          "l033",
+          "l050",
+          "l031",
+          "l056",
+          "l009",
+          "l004",
+          "l025",
+          "l042",
+          "l055",
+          "l017",
+          "l039",
+          "l052",
+          "l053",
+          "l002",
+          "l047",
+          "l057",
+          "l037",
+          "l034",
+          "l032",
+          "l058",
+          "l040",
+          "l046",
+          "l019",
+          "l016",
+          "l018",
+          "l005",
+          "l013",
+          "l001",
+          "l054",
+          "l043",
+          "l028",
+          "l021",
+          "l044",
+          "l060",
+          "l022",
+          "l036",
+          "l049",
+          "l010",
+          "l038",
+          "l015"
+        ]
+      },
+      "noObjectivesStartingEffectsOrStartingInterrupts": true,
+      "initialChoices": {
+        "dark": [
+          {
+            "blueprint": "1_295",
+            "id": "d053",
+            "title": "Tatooine: Mos Eisley"
+          },
+          {
+            "blueprint": "1_285",
+            "id": "d047",
+            "title": "Death Star: Docking Bay 327"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d048",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_291",
+            "id": "d050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_293",
+            "id": "d052",
+            "title": "Tatooine: Jundland Wastes"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d049",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_284",
+            "id": "d045",
+            "title": "Death Star: Detention Block Corridor"
+          },
+          {
+            "blueprint": "1_292",
+            "id": "d051",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "1_285",
+            "id": "d046",
+            "title": "Death Star: Docking Bay 327"
+          }
+        ],
+        "light": [
+          {
+            "blueprint": "1_130",
+            "id": "l051",
+            "title": "Tatooine: Dune Sea"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l048",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l052",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l053",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l047",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_124",
+            "id": "l046",
+            "title": "Death Star: Docking Bay 327"
+          },
+          {
+            "blueprint": "1_132",
+            "id": "l054",
+            "title": "Tatooine: Lars\u0027 Moisture Farm"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l049",
+            "title": "Tatooine: Docking Bay 94"
+          }
+        ]
+      },
+      "bothChoicesPendingBeforeSelection": true,
+      "firstChoiceLeavesAllCardsInReserveAndNothingRevealedOnTable": true,
+      "shuffles": [
+        {
+          "hand": [],
+          "reserve": [
+            "d043",
+            "d008",
+            "d010",
+            "d011",
+            "d059",
+            "d031",
+            "d014",
+            "d048",
+            "d024",
+            "d020",
+            "d053",
+            "d025",
+            "d042",
+            "d039",
+            "d015",
+            "d060",
+            "d040",
+            "d035",
+            "d055",
+            "d026",
+            "d052",
+            "d005",
+            "d022",
+            "d003",
+            "d002",
+            "d018",
+            "d038",
+            "d050",
+            "d028",
+            "d021",
+            "d032",
+            "d012",
+            "d054",
+            "d023",
+            "d009",
+            "d049",
+            "d006",
+            "d033",
+            "d058",
+            "d030",
+            "d017",
+            "d047",
+            "d044",
+            "d001",
+            "d004",
+            "d016",
+            "d037",
+            "d007",
+            "d029",
+            "d041",
+            "d036",
+            "d034",
+            "d013",
+            "d045",
+            "d056",
+            "d027",
+            "d051",
+            "d019",
+            "d057"
+          ],
+          "side": "dark"
+        },
+        {
+          "hand": [
+            "d057",
+            "d019",
+            "d051",
+            "d027",
+            "d056",
+            "d045",
+            "d013",
+            "d034"
+          ],
+          "reserve": [
+            "d020",
+            "d033",
+            "d039",
+            "d006",
+            "d047",
+            "d012",
+            "d001",
+            "d017",
+            "d028",
+            "d004",
+            "d042",
+            "d015",
+            "d041",
+            "d030",
+            "d050",
+            "d007",
+            "d032",
+            "d040",
+            "d025",
+            "d036",
+            "d060",
+            "d055",
+            "d018",
+            "d054",
+            "d016",
+            "d053",
+            "d043",
+            "d024",
+            "d009",
+            "d031",
+            "d038",
+            "d059",
+            "d044",
+            "d002",
+            "d010",
+            "d003",
+            "d035",
+            "d037",
+            "d029",
+            "d058",
+            "d048",
+            "d026",
+            "d005",
+            "d011",
+            "d021",
+            "d052",
+            "d023",
+            "d049",
+            "d008",
+            "d022",
+            "d014"
+          ],
+          "side": "dark"
+        },
+        {
+          "hand": [],
+          "reserve": [
+            "l044",
+            "l006",
+            "l058",
+            "l053",
+            "l020",
+            "l028",
+            "l060",
+            "l011",
+            "l037",
+            "l010",
+            "l007",
+            "l022",
+            "l038",
+            "l048",
+            "l008",
+            "l024",
+            "l002",
+            "l035",
+            "l026",
+            "l032",
+            "l023",
+            "l045",
+            "l014",
+            "l043",
+            "l055",
+            "l012",
+            "l027",
+            "l001",
+            "l031",
+            "l049",
+            "l047",
+            "l025",
+            "l051",
+            "l034",
+            "l033",
+            "l052",
+            "l041",
+            "l009",
+            "l015",
+            "l059",
+            "l029",
+            "l016",
+            "l019",
+            "l039",
+            "l004",
+            "l003",
+            "l056",
+            "l013",
+            "l036",
+            "l005",
+            "l021",
+            "l042",
+            "l040",
+            "l030",
+            "l050",
+            "l018",
+            "l054",
+            "l017",
+            "l057"
+          ],
+          "side": "light"
+        },
+        {
+          "hand": [
+            "l057",
+            "l017",
+            "l054",
+            "l018",
+            "l050",
+            "l030",
+            "l040",
+            "l042"
+          ],
+          "reserve": [
+            "l029",
+            "l038",
+            "l055",
+            "l013",
+            "l049",
+            "l022",
+            "l037",
+            "l008",
+            "l031",
+            "l001",
+            "l048",
+            "l034",
+            "l006",
+            "l032",
+            "l039",
+            "l015",
+            "l007",
+            "l024",
+            "l014",
+            "l056",
+            "l020",
+            "l004",
+            "l028",
+            "l041",
+            "l023",
+            "l047",
+            "l021",
+            "l060",
+            "l025",
+            "l009",
+            "l016",
+            "l002",
+            "l043",
+            "l019",
+            "l026",
+            "l011",
+            "l052",
+            "l005",
+            "l003",
+            "l035",
+            "l033",
+            "l053",
+            "l036",
+            "l045",
+            "l051",
+            "l027",
+            "l058",
+            "l044",
+            "l012",
+            "l010",
+            "l059"
+          ],
+          "side": "light"
+        }
+      ],
+      "decisions": [
+        {
+          "side": "dark",
+          "text": "Select OK to start game",
+          "response": "0"
+        },
+        {
+          "side": "light",
+          "text": "Select OK to start game",
+          "response": "0"
+        },
+        {
+          "side": "dark",
+          "text": "Choose starting location",
+          "response": "temp8"
+        },
+        {
+          "side": "light",
+          "text": "Choose starting location",
+          "response": "temp6"
+        },
+        {
+          "side": "dark",
+          "text": "Both players have chosen the same starting location. Will you allow the other player to convert \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_285\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e with \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_124\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e",
+          "response": "0"
+        }
+      ],
+      "messages": [
+        "dark deploys \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_285\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e from Reserve Deck",
+        "light deploys \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_124\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e from Reserve Deck to convert \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_285\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e",
+        "Dark Side goes first",
+        "dark shuffles dark\u0027s Reserve Deck",
+        "dark draws 8 cards into hand",
+        "light shuffles light\u0027s Reserve Deck",
+        "light draws 8 cards into hand",
+        "Start of dark\u0027s turn #1",
+        "dark\u0027s Force generation for this turn is 2",
+        "light\u0027s Force generation for this turn is 2"
+      ],
+      "phase": "ACTIVATE",
+      "active": "dark",
+      "darkTurnNumber": 1,
+      "hands": {
+        "dark": [
+          "d057",
+          "d019",
+          "d051",
+          "d027",
+          "d056",
+          "d045",
+          "d013",
+          "d034"
+        ],
+        "light": [
+          "l057",
+          "l017",
+          "l054",
+          "l018",
+          "l050",
+          "l030",
+          "l040",
+          "l042"
+        ]
+      },
+      "reserve": {
+        "dark": [
+          "d020",
+          "d033",
+          "d039",
+          "d006",
+          "d047",
+          "d012",
+          "d001",
+          "d017",
+          "d028",
+          "d004",
+          "d042",
+          "d015",
+          "d041",
+          "d030",
+          "d050",
+          "d007",
+          "d032",
+          "d040",
+          "d025",
+          "d036",
+          "d060",
+          "d055",
+          "d018",
+          "d054",
+          "d016",
+          "d053",
+          "d043",
+          "d024",
+          "d009",
+          "d031",
+          "d038",
+          "d059",
+          "d044",
+          "d002",
+          "d010",
+          "d003",
+          "d035",
+          "d037",
+          "d029",
+          "d058",
+          "d048",
+          "d026",
+          "d005",
+          "d011",
+          "d021",
+          "d052",
+          "d023",
+          "d049",
+          "d008",
+          "d022",
+          "d014"
+        ],
+        "light": [
+          "l029",
+          "l038",
+          "l055",
+          "l013",
+          "l049",
+          "l022",
+          "l037",
+          "l008",
+          "l031",
+          "l001",
+          "l048",
+          "l034",
+          "l006",
+          "l032",
+          "l039",
+          "l015",
+          "l007",
+          "l024",
+          "l014",
+          "l056",
+          "l020",
+          "l004",
+          "l028",
+          "l041",
+          "l023",
+          "l047",
+          "l021",
+          "l060",
+          "l025",
+          "l009",
+          "l016",
+          "l002",
+          "l043",
+          "l019",
+          "l026",
+          "l011",
+          "l052",
+          "l005",
+          "l003",
+          "l035",
+          "l033",
+          "l053",
+          "l036",
+          "l045",
+          "l051",
+          "l027",
+          "l058",
+          "l044",
+          "l012",
+          "l010",
+          "l059"
+        ]
+      },
+      "generation": {
+        "dark": 2.0,
+        "light": 2.0
+      },
+      "table": [
+        {
+          "under": [
+            "d046"
+          ],
+          "blueprint": "1_124",
+          "id": "l046"
+        }
+      ],
+      "zones": {
+        "d001": "RESERVE_DECK",
+        "d002": "RESERVE_DECK",
+        "d003": "RESERVE_DECK",
+        "d004": "RESERVE_DECK",
+        "d005": "RESERVE_DECK",
+        "d006": "RESERVE_DECK",
+        "d007": "RESERVE_DECK",
+        "d008": "RESERVE_DECK",
+        "d009": "RESERVE_DECK",
+        "d010": "RESERVE_DECK",
+        "d011": "RESERVE_DECK",
+        "d012": "RESERVE_DECK",
+        "d013": "HAND",
+        "d014": "RESERVE_DECK",
+        "d015": "RESERVE_DECK",
+        "d016": "RESERVE_DECK",
+        "d017": "RESERVE_DECK",
+        "d018": "RESERVE_DECK",
+        "d019": "HAND",
+        "d020": "TOP_OF_RESERVE_DECK",
+        "d021": "RESERVE_DECK",
+        "d022": "RESERVE_DECK",
+        "d023": "RESERVE_DECK",
+        "d024": "RESERVE_DECK",
+        "d025": "RESERVE_DECK",
+        "d026": "RESERVE_DECK",
+        "d027": "HAND",
+        "d028": "RESERVE_DECK",
+        "d029": "RESERVE_DECK",
+        "d030": "RESERVE_DECK",
+        "d031": "RESERVE_DECK",
+        "d032": "RESERVE_DECK",
+        "d033": "RESERVE_DECK",
+        "d034": "HAND",
+        "d035": "RESERVE_DECK",
+        "d036": "RESERVE_DECK",
+        "d037": "RESERVE_DECK",
+        "d038": "RESERVE_DECK",
+        "d039": "RESERVE_DECK",
+        "d040": "RESERVE_DECK",
+        "d041": "RESERVE_DECK",
+        "d042": "RESERVE_DECK",
+        "d043": "RESERVE_DECK",
+        "d044": "RESERVE_DECK",
+        "d045": "HAND",
+        "d046": "CONVERTED_LOCATIONS",
+        "d047": "RESERVE_DECK",
+        "d048": "RESERVE_DECK",
+        "d049": "RESERVE_DECK",
+        "d050": "RESERVE_DECK",
+        "d051": "HAND",
+        "d052": "RESERVE_DECK",
+        "d053": "RESERVE_DECK",
+        "d054": "RESERVE_DECK",
+        "d055": "RESERVE_DECK",
+        "d056": "HAND",
+        "d057": "HAND",
+        "d058": "RESERVE_DECK",
+        "d059": "RESERVE_DECK",
+        "d060": "RESERVE_DECK",
+        "l001": "RESERVE_DECK",
+        "l002": "RESERVE_DECK",
+        "l003": "RESERVE_DECK",
+        "l004": "RESERVE_DECK",
+        "l005": "RESERVE_DECK",
+        "l006": "RESERVE_DECK",
+        "l007": "RESERVE_DECK",
+        "l008": "RESERVE_DECK",
+        "l009": "RESERVE_DECK",
+        "l010": "RESERVE_DECK",
+        "l011": "RESERVE_DECK",
+        "l012": "RESERVE_DECK",
+        "l013": "RESERVE_DECK",
+        "l014": "RESERVE_DECK",
+        "l015": "RESERVE_DECK",
+        "l016": "RESERVE_DECK",
+        "l017": "HAND",
+        "l018": "HAND",
+        "l019": "RESERVE_DECK",
+        "l020": "RESERVE_DECK",
+        "l021": "RESERVE_DECK",
+        "l022": "RESERVE_DECK",
+        "l023": "RESERVE_DECK",
+        "l024": "RESERVE_DECK",
+        "l025": "RESERVE_DECK",
+        "l026": "RESERVE_DECK",
+        "l027": "RESERVE_DECK",
+        "l028": "RESERVE_DECK",
+        "l029": "TOP_OF_RESERVE_DECK",
+        "l030": "HAND",
+        "l031": "RESERVE_DECK",
+        "l032": "RESERVE_DECK",
+        "l033": "RESERVE_DECK",
+        "l034": "RESERVE_DECK",
+        "l035": "RESERVE_DECK",
+        "l036": "RESERVE_DECK",
+        "l037": "RESERVE_DECK",
+        "l038": "RESERVE_DECK",
+        "l039": "RESERVE_DECK",
+        "l040": "HAND",
+        "l041": "RESERVE_DECK",
+        "l042": "HAND",
+        "l043": "RESERVE_DECK",
+        "l044": "RESERVE_DECK",
+        "l045": "RESERVE_DECK",
+        "l046": "LOCATIONS",
+        "l047": "RESERVE_DECK",
+        "l048": "RESERVE_DECK",
+        "l049": "RESERVE_DECK",
+        "l050": "HAND",
+        "l051": "RESERVE_DECK",
+        "l052": "RESERVE_DECK",
+        "l053": "RESERVE_DECK",
+        "l054": "HAND",
+        "l055": "RESERVE_DECK",
+        "l056": "RESERVE_DECK",
+        "l057": "HAND",
+        "l058": "RESERVE_DECK",
+        "l059": "RESERVE_DECK",
+        "l060": "RESERVE_DECK"
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "distinct-locations",
+      "initialReserve": {
+        "dark": [
+          "d053",
+          "d024",
+          "d031",
+          "d047",
+          "d016",
+          "d048",
+          "d025",
+          "d028",
+          "d009",
+          "d013",
+          "d057",
+          "d010",
+          "d034",
+          "d035",
+          "d027",
+          "d054",
+          "d017",
+          "d005",
+          "d043",
+          "d033",
+          "d032",
+          "d014",
+          "d037",
+          "d023",
+          "d021",
+          "d007",
+          "d050",
+          "d006",
+          "d018",
+          "d052",
+          "d040",
+          "d001",
+          "d004",
+          "d003",
+          "d058",
+          "d020",
+          "d049",
+          "d038",
+          "d044",
+          "d008",
+          "d060",
+          "d019",
+          "d041",
+          "d045",
+          "d051",
+          "d029",
+          "d059",
+          "d055",
+          "d039",
+          "d002",
+          "d030",
+          "d056",
+          "d036",
+          "d015",
+          "d022",
+          "d042",
+          "d011",
+          "d012",
+          "d026",
+          "d046"
+        ],
+        "light": [
+          "l051",
+          "l006",
+          "l007",
+          "l011",
+          "l030",
+          "l014",
+          "l029",
+          "l020",
+          "l024",
+          "l041",
+          "l045",
+          "l035",
+          "l027",
+          "l012",
+          "l059",
+          "l023",
+          "l008",
+          "l048",
+          "l003",
+          "l026",
+          "l033",
+          "l050",
+          "l031",
+          "l056",
+          "l009",
+          "l004",
+          "l025",
+          "l042",
+          "l055",
+          "l017",
+          "l039",
+          "l052",
+          "l053",
+          "l002",
+          "l047",
+          "l057",
+          "l037",
+          "l034",
+          "l032",
+          "l058",
+          "l040",
+          "l046",
+          "l019",
+          "l016",
+          "l018",
+          "l005",
+          "l013",
+          "l001",
+          "l054",
+          "l043",
+          "l028",
+          "l021",
+          "l044",
+          "l060",
+          "l022",
+          "l036",
+          "l049",
+          "l010",
+          "l038",
+          "l015"
+        ]
+      },
+      "noObjectivesStartingEffectsOrStartingInterrupts": true,
+      "initialChoices": {
+        "dark": [
+          {
+            "blueprint": "1_295",
+            "id": "d053",
+            "title": "Tatooine: Mos Eisley"
+          },
+          {
+            "blueprint": "1_285",
+            "id": "d047",
+            "title": "Death Star: Docking Bay 327"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d048",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_291",
+            "id": "d050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_293",
+            "id": "d052",
+            "title": "Tatooine: Jundland Wastes"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d049",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_284",
+            "id": "d045",
+            "title": "Death Star: Detention Block Corridor"
+          },
+          {
+            "blueprint": "1_292",
+            "id": "d051",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "1_285",
+            "id": "d046",
+            "title": "Death Star: Docking Bay 327"
+          }
+        ],
+        "light": [
+          {
+            "blueprint": "1_130",
+            "id": "l051",
+            "title": "Tatooine: Dune Sea"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l048",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l052",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l053",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l047",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_124",
+            "id": "l046",
+            "title": "Death Star: Docking Bay 327"
+          },
+          {
+            "blueprint": "1_132",
+            "id": "l054",
+            "title": "Tatooine: Lars\u0027 Moisture Farm"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l049",
+            "title": "Tatooine: Docking Bay 94"
+          }
+        ]
+      },
+      "bothChoicesPendingBeforeSelection": true,
+      "firstChoiceLeavesAllCardsInReserveAndNothingRevealedOnTable": true,
+      "shuffles": [
+        {
+          "hand": [],
+          "reserve": [
+            "d043",
+            "d060",
+            "d010",
+            "d012",
+            "d055",
+            "d031",
+            "d014",
+            "d048",
+            "d024",
+            "d049",
+            "d053",
+            "d025",
+            "d011",
+            "d002",
+            "d022",
+            "d019",
+            "d001",
+            "d035",
+            "d039",
+            "d046",
+            "d040",
+            "d005",
+            "d042",
+            "d058",
+            "d030",
+            "d052",
+            "d044",
+            "d006",
+            "d028",
+            "d021",
+            "d032",
+            "d026",
+            "d054",
+            "d023",
+            "d009",
+            "d038",
+            "d018",
+            "d033",
+            "d020",
+            "d056",
+            "d017",
+            "d047",
+            "d008",
+            "d004",
+            "d003",
+            "d016",
+            "d037",
+            "d007",
+            "d059",
+            "d045",
+            "d015",
+            "d034",
+            "d013",
+            "d051",
+            "d036",
+            "d027",
+            "d029",
+            "d041",
+            "d057"
+          ],
+          "side": "dark"
+        },
+        {
+          "hand": [
+            "d057",
+            "d041",
+            "d029",
+            "d027",
+            "d036",
+            "d051",
+            "d013",
+            "d034"
+          ],
+          "reserve": [
+            "d049",
+            "d033",
+            "d002",
+            "d018",
+            "d047",
+            "d026",
+            "d004",
+            "d017",
+            "d028",
+            "d003",
+            "d011",
+            "d022",
+            "d045",
+            "d056",
+            "d006",
+            "d007",
+            "d032",
+            "d001",
+            "d025",
+            "d015",
+            "d019",
+            "d039",
+            "d052",
+            "d054",
+            "d016",
+            "d053",
+            "d043",
+            "d024",
+            "d009",
+            "d031",
+            "d044",
+            "d055",
+            "d008",
+            "d030",
+            "d010",
+            "d058",
+            "d035",
+            "d037",
+            "d059",
+            "d020",
+            "d048",
+            "d046",
+            "d005",
+            "d012",
+            "d021",
+            "d040",
+            "d023",
+            "d038",
+            "d060",
+            "d042",
+            "d014"
+          ],
+          "side": "dark"
+        },
+        {
+          "hand": [],
+          "reserve": [
+            "l044",
+            "l006",
+            "l058",
+            "l053",
+            "l020",
+            "l028",
+            "l060",
+            "l011",
+            "l037",
+            "l010",
+            "l007",
+            "l022",
+            "l038",
+            "l048",
+            "l008",
+            "l024",
+            "l002",
+            "l035",
+            "l026",
+            "l032",
+            "l023",
+            "l045",
+            "l014",
+            "l043",
+            "l055",
+            "l012",
+            "l027",
+            "l001",
+            "l031",
+            "l049",
+            "l047",
+            "l025",
+            "l051",
+            "l034",
+            "l033",
+            "l052",
+            "l041",
+            "l009",
+            "l015",
+            "l059",
+            "l029",
+            "l016",
+            "l019",
+            "l039",
+            "l004",
+            "l003",
+            "l056",
+            "l013",
+            "l036",
+            "l005",
+            "l021",
+            "l042",
+            "l040",
+            "l030",
+            "l050",
+            "l018",
+            "l054",
+            "l017",
+            "l057"
+          ],
+          "side": "light"
+        },
+        {
+          "hand": [
+            "l057",
+            "l017",
+            "l054",
+            "l018",
+            "l050",
+            "l030",
+            "l040",
+            "l042"
+          ],
+          "reserve": [
+            "l029",
+            "l038",
+            "l055",
+            "l013",
+            "l049",
+            "l022",
+            "l037",
+            "l008",
+            "l031",
+            "l001",
+            "l048",
+            "l034",
+            "l006",
+            "l032",
+            "l039",
+            "l015",
+            "l007",
+            "l024",
+            "l014",
+            "l056",
+            "l020",
+            "l004",
+            "l028",
+            "l041",
+            "l023",
+            "l047",
+            "l021",
+            "l060",
+            "l025",
+            "l009",
+            "l016",
+            "l002",
+            "l043",
+            "l019",
+            "l026",
+            "l011",
+            "l052",
+            "l005",
+            "l003",
+            "l035",
+            "l033",
+            "l053",
+            "l036",
+            "l045",
+            "l051",
+            "l027",
+            "l058",
+            "l044",
+            "l012",
+            "l010",
+            "l059"
+          ],
+          "side": "light"
+        }
+      ],
+      "decisions": [
+        {
+          "side": "dark",
+          "text": "Select OK to start game",
+          "response": "0"
+        },
+        {
+          "side": "light",
+          "text": "Select OK to start game",
+          "response": "0"
+        },
+        {
+          "side": "dark",
+          "text": "Choose starting location",
+          "response": "temp3"
+        },
+        {
+          "side": "light",
+          "text": "Choose starting location",
+          "response": "temp6"
+        }
+      ],
+      "messages": [
+        "dark deploys \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e from Reserve Deck",
+        "light deploys \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_124\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e from Reserve Deck",
+        "Dark Side goes first",
+        "dark shuffles dark\u0027s Reserve Deck",
+        "dark draws 8 cards into hand",
+        "light shuffles light\u0027s Reserve Deck",
+        "light draws 8 cards into hand",
+        "Start of dark\u0027s turn #1",
+        "dark\u0027s Force generation for this turn is 3",
+        "light\u0027s Force generation for this turn is 3"
+      ],
+      "phase": "ACTIVATE",
+      "active": "dark",
+      "darkTurnNumber": 1,
+      "hands": {
+        "dark": [
+          "d057",
+          "d041",
+          "d029",
+          "d027",
+          "d036",
+          "d051",
+          "d013",
+          "d034"
+        ],
+        "light": [
+          "l057",
+          "l017",
+          "l054",
+          "l018",
+          "l050",
+          "l030",
+          "l040",
+          "l042"
+        ]
+      },
+      "reserve": {
+        "dark": [
+          "d049",
+          "d033",
+          "d002",
+          "d018",
+          "d047",
+          "d026",
+          "d004",
+          "d017",
+          "d028",
+          "d003",
+          "d011",
+          "d022",
+          "d045",
+          "d056",
+          "d006",
+          "d007",
+          "d032",
+          "d001",
+          "d025",
+          "d015",
+          "d019",
+          "d039",
+          "d052",
+          "d054",
+          "d016",
+          "d053",
+          "d043",
+          "d024",
+          "d009",
+          "d031",
+          "d044",
+          "d055",
+          "d008",
+          "d030",
+          "d010",
+          "d058",
+          "d035",
+          "d037",
+          "d059",
+          "d020",
+          "d048",
+          "d046",
+          "d005",
+          "d012",
+          "d021",
+          "d040",
+          "d023",
+          "d038",
+          "d060",
+          "d042",
+          "d014"
+        ],
+        "light": [
+          "l029",
+          "l038",
+          "l055",
+          "l013",
+          "l049",
+          "l022",
+          "l037",
+          "l008",
+          "l031",
+          "l001",
+          "l048",
+          "l034",
+          "l006",
+          "l032",
+          "l039",
+          "l015",
+          "l007",
+          "l024",
+          "l014",
+          "l056",
+          "l020",
+          "l004",
+          "l028",
+          "l041",
+          "l023",
+          "l047",
+          "l021",
+          "l060",
+          "l025",
+          "l009",
+          "l016",
+          "l002",
+          "l043",
+          "l019",
+          "l026",
+          "l011",
+          "l052",
+          "l005",
+          "l003",
+          "l035",
+          "l033",
+          "l053",
+          "l036",
+          "l045",
+          "l051",
+          "l027",
+          "l058",
+          "l044",
+          "l012",
+          "l010",
+          "l059"
+        ]
+      },
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_124",
+          "id": "l046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_291",
+          "id": "d050"
+        }
+      ],
+      "zones": {
+        "d001": "RESERVE_DECK",
+        "d002": "RESERVE_DECK",
+        "d003": "RESERVE_DECK",
+        "d004": "RESERVE_DECK",
+        "d005": "RESERVE_DECK",
+        "d006": "RESERVE_DECK",
+        "d007": "RESERVE_DECK",
+        "d008": "RESERVE_DECK",
+        "d009": "RESERVE_DECK",
+        "d010": "RESERVE_DECK",
+        "d011": "RESERVE_DECK",
+        "d012": "RESERVE_DECK",
+        "d013": "HAND",
+        "d014": "RESERVE_DECK",
+        "d015": "RESERVE_DECK",
+        "d016": "RESERVE_DECK",
+        "d017": "RESERVE_DECK",
+        "d018": "RESERVE_DECK",
+        "d019": "RESERVE_DECK",
+        "d020": "RESERVE_DECK",
+        "d021": "RESERVE_DECK",
+        "d022": "RESERVE_DECK",
+        "d023": "RESERVE_DECK",
+        "d024": "RESERVE_DECK",
+        "d025": "RESERVE_DECK",
+        "d026": "RESERVE_DECK",
+        "d027": "HAND",
+        "d028": "RESERVE_DECK",
+        "d029": "HAND",
+        "d030": "RESERVE_DECK",
+        "d031": "RESERVE_DECK",
+        "d032": "RESERVE_DECK",
+        "d033": "RESERVE_DECK",
+        "d034": "HAND",
+        "d035": "RESERVE_DECK",
+        "d036": "HAND",
+        "d037": "RESERVE_DECK",
+        "d038": "RESERVE_DECK",
+        "d039": "RESERVE_DECK",
+        "d040": "RESERVE_DECK",
+        "d041": "HAND",
+        "d042": "RESERVE_DECK",
+        "d043": "RESERVE_DECK",
+        "d044": "RESERVE_DECK",
+        "d045": "RESERVE_DECK",
+        "d046": "RESERVE_DECK",
+        "d047": "RESERVE_DECK",
+        "d048": "RESERVE_DECK",
+        "d049": "TOP_OF_RESERVE_DECK",
+        "d050": "LOCATIONS",
+        "d051": "HAND",
+        "d052": "RESERVE_DECK",
+        "d053": "RESERVE_DECK",
+        "d054": "RESERVE_DECK",
+        "d055": "RESERVE_DECK",
+        "d056": "RESERVE_DECK",
+        "d057": "HAND",
+        "d058": "RESERVE_DECK",
+        "d059": "RESERVE_DECK",
+        "d060": "RESERVE_DECK",
+        "l001": "RESERVE_DECK",
+        "l002": "RESERVE_DECK",
+        "l003": "RESERVE_DECK",
+        "l004": "RESERVE_DECK",
+        "l005": "RESERVE_DECK",
+        "l006": "RESERVE_DECK",
+        "l007": "RESERVE_DECK",
+        "l008": "RESERVE_DECK",
+        "l009": "RESERVE_DECK",
+        "l010": "RESERVE_DECK",
+        "l011": "RESERVE_DECK",
+        "l012": "RESERVE_DECK",
+        "l013": "RESERVE_DECK",
+        "l014": "RESERVE_DECK",
+        "l015": "RESERVE_DECK",
+        "l016": "RESERVE_DECK",
+        "l017": "HAND",
+        "l018": "HAND",
+        "l019": "RESERVE_DECK",
+        "l020": "RESERVE_DECK",
+        "l021": "RESERVE_DECK",
+        "l022": "RESERVE_DECK",
+        "l023": "RESERVE_DECK",
+        "l024": "RESERVE_DECK",
+        "l025": "RESERVE_DECK",
+        "l026": "RESERVE_DECK",
+        "l027": "RESERVE_DECK",
+        "l028": "RESERVE_DECK",
+        "l029": "TOP_OF_RESERVE_DECK",
+        "l030": "HAND",
+        "l031": "RESERVE_DECK",
+        "l032": "RESERVE_DECK",
+        "l033": "RESERVE_DECK",
+        "l034": "RESERVE_DECK",
+        "l035": "RESERVE_DECK",
+        "l036": "RESERVE_DECK",
+        "l037": "RESERVE_DECK",
+        "l038": "RESERVE_DECK",
+        "l039": "RESERVE_DECK",
+        "l040": "HAND",
+        "l041": "RESERVE_DECK",
+        "l042": "HAND",
+        "l043": "RESERVE_DECK",
+        "l044": "RESERVE_DECK",
+        "l045": "RESERVE_DECK",
+        "l046": "LOCATIONS",
+        "l047": "RESERVE_DECK",
+        "l048": "RESERVE_DECK",
+        "l049": "RESERVE_DECK",
+        "l050": "HAND",
+        "l051": "RESERVE_DECK",
+        "l052": "RESERVE_DECK",
+        "l053": "RESERVE_DECK",
+        "l054": "HAND",
+        "l055": "RESERVE_DECK",
+        "l056": "RESERVE_DECK",
+        "l057": "HAND",
+        "l058": "RESERVE_DECK",
+        "l059": "RESERVE_DECK",
+        "l060": "RESERVE_DECK"
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "light-allows-conversion",
+      "initialReserve": {
+        "dark": [
+          "d053",
+          "d024",
+          "d031",
+          "d047",
+          "d016",
+          "d048",
+          "d025",
+          "d028",
+          "d009",
+          "d013",
+          "d057",
+          "d010",
+          "d034",
+          "d035",
+          "d027",
+          "d054",
+          "d017",
+          "d005",
+          "d043",
+          "d033",
+          "d032",
+          "d014",
+          "d037",
+          "d023",
+          "d021",
+          "d007",
+          "d050",
+          "d006",
+          "d018",
+          "d052",
+          "d040",
+          "d001",
+          "d004",
+          "d003",
+          "d058",
+          "d020",
+          "d049",
+          "d038",
+          "d044",
+          "d008",
+          "d060",
+          "d019",
+          "d041",
+          "d045",
+          "d051",
+          "d029",
+          "d059",
+          "d055",
+          "d039",
+          "d002",
+          "d030",
+          "d056",
+          "d036",
+          "d015",
+          "d022",
+          "d042",
+          "d011",
+          "d012",
+          "d026",
+          "d046"
+        ],
+        "light": [
+          "l051",
+          "l006",
+          "l007",
+          "l011",
+          "l030",
+          "l014",
+          "l029",
+          "l020",
+          "l024",
+          "l041",
+          "l045",
+          "l035",
+          "l027",
+          "l012",
+          "l059",
+          "l023",
+          "l008",
+          "l048",
+          "l003",
+          "l026",
+          "l033",
+          "l050",
+          "l031",
+          "l056",
+          "l009",
+          "l004",
+          "l025",
+          "l042",
+          "l055",
+          "l017",
+          "l039",
+          "l052",
+          "l053",
+          "l002",
+          "l047",
+          "l057",
+          "l037",
+          "l034",
+          "l032",
+          "l058",
+          "l040",
+          "l046",
+          "l019",
+          "l016",
+          "l018",
+          "l005",
+          "l013",
+          "l001",
+          "l054",
+          "l043",
+          "l028",
+          "l021",
+          "l044",
+          "l060",
+          "l022",
+          "l036",
+          "l049",
+          "l010",
+          "l038",
+          "l015"
+        ]
+      },
+      "noObjectivesStartingEffectsOrStartingInterrupts": true,
+      "initialChoices": {
+        "dark": [
+          {
+            "blueprint": "1_295",
+            "id": "d053",
+            "title": "Tatooine: Mos Eisley"
+          },
+          {
+            "blueprint": "1_285",
+            "id": "d047",
+            "title": "Death Star: Docking Bay 327"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d048",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_291",
+            "id": "d050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_293",
+            "id": "d052",
+            "title": "Tatooine: Jundland Wastes"
+          },
+          {
+            "blueprint": "101_4",
+            "id": "d049",
+            "title": "Death Star: Docking Control Room 327"
+          },
+          {
+            "blueprint": "1_284",
+            "id": "d045",
+            "title": "Death Star: Detention Block Corridor"
+          },
+          {
+            "blueprint": "1_292",
+            "id": "d051",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "1_285",
+            "id": "d046",
+            "title": "Death Star: Docking Bay 327"
+          }
+        ],
+        "light": [
+          {
+            "blueprint": "1_130",
+            "id": "l051",
+            "title": "Tatooine: Dune Sea"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l048",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l050",
+            "title": "Tatooine: Docking Bay 94"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l052",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "1_131",
+            "id": "l053",
+            "title": "Tatooine: Jawa Camp"
+          },
+          {
+            "blueprint": "101_1",
+            "id": "l047",
+            "title": "Death Star: Level 6 Core Shaft Corridor"
+          },
+          {
+            "blueprint": "1_124",
+            "id": "l046",
+            "title": "Death Star: Docking Bay 327"
+          },
+          {
+            "blueprint": "1_132",
+            "id": "l054",
+            "title": "Tatooine: Lars\u0027 Moisture Farm"
+          },
+          {
+            "blueprint": "1_129",
+            "id": "l049",
+            "title": "Tatooine: Docking Bay 94"
+          }
+        ]
+      },
+      "bothChoicesPendingBeforeSelection": true,
+      "firstChoiceLeavesAllCardsInReserveAndNothingRevealedOnTable": true,
+      "shuffles": [
+        {
+          "hand": [],
+          "reserve": [
+            "d043",
+            "d008",
+            "d010",
+            "d011",
+            "d059",
+            "d031",
+            "d014",
+            "d048",
+            "d024",
+            "d020",
+            "d053",
+            "d025",
+            "d042",
+            "d039",
+            "d015",
+            "d060",
+            "d040",
+            "d035",
+            "d055",
+            "d026",
+            "d052",
+            "d005",
+            "d022",
+            "d003",
+            "d002",
+            "d018",
+            "d038",
+            "d050",
+            "d028",
+            "d021",
+            "d032",
+            "d012",
+            "d054",
+            "d023",
+            "d009",
+            "d049",
+            "d006",
+            "d033",
+            "d058",
+            "d030",
+            "d017",
+            "d047",
+            "d044",
+            "d001",
+            "d004",
+            "d016",
+            "d037",
+            "d007",
+            "d029",
+            "d041",
+            "d036",
+            "d034",
+            "d013",
+            "d045",
+            "d056",
+            "d027",
+            "d051",
+            "d019",
+            "d057"
+          ],
+          "side": "dark"
+        },
+        {
+          "hand": [
+            "d057",
+            "d019",
+            "d051",
+            "d027",
+            "d056",
+            "d045",
+            "d013",
+            "d034"
+          ],
+          "reserve": [
+            "d020",
+            "d033",
+            "d039",
+            "d006",
+            "d047",
+            "d012",
+            "d001",
+            "d017",
+            "d028",
+            "d004",
+            "d042",
+            "d015",
+            "d041",
+            "d030",
+            "d050",
+            "d007",
+            "d032",
+            "d040",
+            "d025",
+            "d036",
+            "d060",
+            "d055",
+            "d018",
+            "d054",
+            "d016",
+            "d053",
+            "d043",
+            "d024",
+            "d009",
+            "d031",
+            "d038",
+            "d059",
+            "d044",
+            "d002",
+            "d010",
+            "d003",
+            "d035",
+            "d037",
+            "d029",
+            "d058",
+            "d048",
+            "d026",
+            "d005",
+            "d011",
+            "d021",
+            "d052",
+            "d023",
+            "d049",
+            "d008",
+            "d022",
+            "d014"
+          ],
+          "side": "dark"
+        },
+        {
+          "hand": [],
+          "reserve": [
+            "l044",
+            "l006",
+            "l058",
+            "l053",
+            "l020",
+            "l028",
+            "l060",
+            "l011",
+            "l037",
+            "l010",
+            "l007",
+            "l022",
+            "l038",
+            "l048",
+            "l008",
+            "l024",
+            "l002",
+            "l035",
+            "l026",
+            "l032",
+            "l023",
+            "l045",
+            "l014",
+            "l043",
+            "l055",
+            "l012",
+            "l027",
+            "l001",
+            "l031",
+            "l049",
+            "l047",
+            "l025",
+            "l051",
+            "l034",
+            "l033",
+            "l052",
+            "l041",
+            "l009",
+            "l015",
+            "l059",
+            "l029",
+            "l016",
+            "l019",
+            "l039",
+            "l004",
+            "l003",
+            "l056",
+            "l013",
+            "l036",
+            "l005",
+            "l021",
+            "l042",
+            "l040",
+            "l030",
+            "l050",
+            "l018",
+            "l054",
+            "l017",
+            "l057"
+          ],
+          "side": "light"
+        },
+        {
+          "hand": [
+            "l057",
+            "l017",
+            "l054",
+            "l018",
+            "l050",
+            "l030",
+            "l040",
+            "l042"
+          ],
+          "reserve": [
+            "l029",
+            "l038",
+            "l055",
+            "l013",
+            "l049",
+            "l022",
+            "l037",
+            "l008",
+            "l031",
+            "l001",
+            "l048",
+            "l034",
+            "l006",
+            "l032",
+            "l039",
+            "l015",
+            "l007",
+            "l024",
+            "l014",
+            "l056",
+            "l020",
+            "l004",
+            "l028",
+            "l041",
+            "l023",
+            "l047",
+            "l021",
+            "l060",
+            "l025",
+            "l009",
+            "l016",
+            "l002",
+            "l043",
+            "l019",
+            "l026",
+            "l011",
+            "l052",
+            "l005",
+            "l003",
+            "l035",
+            "l033",
+            "l053",
+            "l036",
+            "l045",
+            "l051",
+            "l027",
+            "l058",
+            "l044",
+            "l012",
+            "l010",
+            "l059"
+          ],
+          "side": "light"
+        }
+      ],
+      "decisions": [
+        {
+          "side": "dark",
+          "text": "Select OK to start game",
+          "response": "0"
+        },
+        {
+          "side": "light",
+          "text": "Select OK to start game",
+          "response": "0"
+        },
+        {
+          "side": "dark",
+          "text": "Choose starting location",
+          "response": "temp8"
+        },
+        {
+          "side": "light",
+          "text": "Choose starting location",
+          "response": "temp6"
+        },
+        {
+          "side": "dark",
+          "text": "Both players have chosen the same starting location. Will you allow the other player to convert \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_285\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e with \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_124\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e",
+          "response": "1"
+        },
+        {
+          "side": "light",
+          "text": "Both players have chosen the same starting location. Will you allow the other player to convert \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_124\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e with \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_285\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e",
+          "response": "0"
+        }
+      ],
+      "messages": [
+        "light deploys \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_124\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e from Reserve Deck",
+        "dark deploys \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_285\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e from Reserve Deck to convert \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_124\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Death Star: Docking Bay 327\u003c/div\u003e",
+        "Dark Side goes first",
+        "dark shuffles dark\u0027s Reserve Deck",
+        "dark draws 8 cards into hand",
+        "light shuffles light\u0027s Reserve Deck",
+        "light draws 8 cards into hand",
+        "Start of dark\u0027s turn #1",
+        "dark\u0027s Force generation for this turn is 2",
+        "light\u0027s Force generation for this turn is 2"
+      ],
+      "phase": "ACTIVATE",
+      "active": "dark",
+      "darkTurnNumber": 1,
+      "hands": {
+        "dark": [
+          "d057",
+          "d019",
+          "d051",
+          "d027",
+          "d056",
+          "d045",
+          "d013",
+          "d034"
+        ],
+        "light": [
+          "l057",
+          "l017",
+          "l054",
+          "l018",
+          "l050",
+          "l030",
+          "l040",
+          "l042"
+        ]
+      },
+      "reserve": {
+        "dark": [
+          "d020",
+          "d033",
+          "d039",
+          "d006",
+          "d047",
+          "d012",
+          "d001",
+          "d017",
+          "d028",
+          "d004",
+          "d042",
+          "d015",
+          "d041",
+          "d030",
+          "d050",
+          "d007",
+          "d032",
+          "d040",
+          "d025",
+          "d036",
+          "d060",
+          "d055",
+          "d018",
+          "d054",
+          "d016",
+          "d053",
+          "d043",
+          "d024",
+          "d009",
+          "d031",
+          "d038",
+          "d059",
+          "d044",
+          "d002",
+          "d010",
+          "d003",
+          "d035",
+          "d037",
+          "d029",
+          "d058",
+          "d048",
+          "d026",
+          "d005",
+          "d011",
+          "d021",
+          "d052",
+          "d023",
+          "d049",
+          "d008",
+          "d022",
+          "d014"
+        ],
+        "light": [
+          "l029",
+          "l038",
+          "l055",
+          "l013",
+          "l049",
+          "l022",
+          "l037",
+          "l008",
+          "l031",
+          "l001",
+          "l048",
+          "l034",
+          "l006",
+          "l032",
+          "l039",
+          "l015",
+          "l007",
+          "l024",
+          "l014",
+          "l056",
+          "l020",
+          "l004",
+          "l028",
+          "l041",
+          "l023",
+          "l047",
+          "l021",
+          "l060",
+          "l025",
+          "l009",
+          "l016",
+          "l002",
+          "l043",
+          "l019",
+          "l026",
+          "l011",
+          "l052",
+          "l005",
+          "l003",
+          "l035",
+          "l033",
+          "l053",
+          "l036",
+          "l045",
+          "l051",
+          "l027",
+          "l058",
+          "l044",
+          "l012",
+          "l010",
+          "l059"
+        ]
+      },
+      "generation": {
+        "dark": 2.0,
+        "light": 2.0
+      },
+      "table": [
+        {
+          "under": [
+            "l046"
+          ],
+          "blueprint": "1_285",
+          "id": "d046"
+        }
+      ],
+      "zones": {
+        "d001": "RESERVE_DECK",
+        "d002": "RESERVE_DECK",
+        "d003": "RESERVE_DECK",
+        "d004": "RESERVE_DECK",
+        "d005": "RESERVE_DECK",
+        "d006": "RESERVE_DECK",
+        "d007": "RESERVE_DECK",
+        "d008": "RESERVE_DECK",
+        "d009": "RESERVE_DECK",
+        "d010": "RESERVE_DECK",
+        "d011": "RESERVE_DECK",
+        "d012": "RESERVE_DECK",
+        "d013": "HAND",
+        "d014": "RESERVE_DECK",
+        "d015": "RESERVE_DECK",
+        "d016": "RESERVE_DECK",
+        "d017": "RESERVE_DECK",
+        "d018": "RESERVE_DECK",
+        "d019": "HAND",
+        "d020": "TOP_OF_RESERVE_DECK",
+        "d021": "RESERVE_DECK",
+        "d022": "RESERVE_DECK",
+        "d023": "RESERVE_DECK",
+        "d024": "RESERVE_DECK",
+        "d025": "RESERVE_DECK",
+        "d026": "RESERVE_DECK",
+        "d027": "HAND",
+        "d028": "RESERVE_DECK",
+        "d029": "RESERVE_DECK",
+        "d030": "RESERVE_DECK",
+        "d031": "RESERVE_DECK",
+        "d032": "RESERVE_DECK",
+        "d033": "RESERVE_DECK",
+        "d034": "HAND",
+        "d035": "RESERVE_DECK",
+        "d036": "RESERVE_DECK",
+        "d037": "RESERVE_DECK",
+        "d038": "RESERVE_DECK",
+        "d039": "RESERVE_DECK",
+        "d040": "RESERVE_DECK",
+        "d041": "RESERVE_DECK",
+        "d042": "RESERVE_DECK",
+        "d043": "RESERVE_DECK",
+        "d044": "RESERVE_DECK",
+        "d045": "HAND",
+        "d046": "LOCATIONS",
+        "d047": "RESERVE_DECK",
+        "d048": "RESERVE_DECK",
+        "d049": "RESERVE_DECK",
+        "d050": "RESERVE_DECK",
+        "d051": "HAND",
+        "d052": "RESERVE_DECK",
+        "d053": "RESERVE_DECK",
+        "d054": "RESERVE_DECK",
+        "d055": "RESERVE_DECK",
+        "d056": "HAND",
+        "d057": "HAND",
+        "d058": "RESERVE_DECK",
+        "d059": "RESERVE_DECK",
+        "d060": "RESERVE_DECK",
+        "l001": "RESERVE_DECK",
+        "l002": "RESERVE_DECK",
+        "l003": "RESERVE_DECK",
+        "l004": "RESERVE_DECK",
+        "l005": "RESERVE_DECK",
+        "l006": "RESERVE_DECK",
+        "l007": "RESERVE_DECK",
+        "l008": "RESERVE_DECK",
+        "l009": "RESERVE_DECK",
+        "l010": "RESERVE_DECK",
+        "l011": "RESERVE_DECK",
+        "l012": "RESERVE_DECK",
+        "l013": "RESERVE_DECK",
+        "l014": "RESERVE_DECK",
+        "l015": "RESERVE_DECK",
+        "l016": "RESERVE_DECK",
+        "l017": "HAND",
+        "l018": "HAND",
+        "l019": "RESERVE_DECK",
+        "l020": "RESERVE_DECK",
+        "l021": "RESERVE_DECK",
+        "l022": "RESERVE_DECK",
+        "l023": "RESERVE_DECK",
+        "l024": "RESERVE_DECK",
+        "l025": "RESERVE_DECK",
+        "l026": "RESERVE_DECK",
+        "l027": "RESERVE_DECK",
+        "l028": "RESERVE_DECK",
+        "l029": "TOP_OF_RESERVE_DECK",
+        "l030": "HAND",
+        "l031": "RESERVE_DECK",
+        "l032": "RESERVE_DECK",
+        "l033": "RESERVE_DECK",
+        "l034": "RESERVE_DECK",
+        "l035": "RESERVE_DECK",
+        "l036": "RESERVE_DECK",
+        "l037": "RESERVE_DECK",
+        "l038": "RESERVE_DECK",
+        "l039": "RESERVE_DECK",
+        "l040": "HAND",
+        "l041": "RESERVE_DECK",
+        "l042": "HAND",
+        "l043": "RESERVE_DECK",
+        "l044": "RESERVE_DECK",
+        "l045": "RESERVE_DECK",
+        "l046": "CONVERTED_LOCATIONS",
+        "l047": "RESERVE_DECK",
+        "l048": "RESERVE_DECK",
+        "l049": "RESERVE_DECK",
+        "l050": "HAND",
+        "l051": "RESERVE_DECK",
+        "l052": "RESERVE_DECK",
+        "l053": "RESERVE_DECK",
+        "l054": "HAND",
+        "l055": "RESERVE_DECK",
+        "l056": "RESERVE_DECK",
+        "l057": "HAND",
+        "l058": "RESERVE_DECK",
+        "l059": "RESERVE_DECK",
+        "l060": "RESERVE_DECK"
+      },
+      "all120Conserved": true
+    }
+  ],
+  "allInitialPairs": [
+    {
+      "name": "l046-d045",
+      "chosen": {
+        "dark": "d045",
+        "light": "l046"
+      },
+      "blueprints": {
+        "dark": "1_284",
+        "light": "1_124"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_124",
+          "id": "l046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_284",
+          "id": "d045"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l046-d046",
+      "chosen": {
+        "dark": "d046",
+        "light": "l046"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_124"
+      },
+      "darkAllowsConversion": true,
+      "table": [
+        {
+          "under": [
+            "d046"
+          ],
+          "blueprint": "1_124",
+          "id": "l046"
+        }
+      ],
+      "generation": {
+        "dark": 2.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l046-d047",
+      "chosen": {
+        "dark": "d047",
+        "light": "l046"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_124"
+      },
+      "darkAllowsConversion": true,
+      "table": [
+        {
+          "under": [
+            "d047"
+          ],
+          "blueprint": "1_124",
+          "id": "l046"
+        }
+      ],
+      "generation": {
+        "dark": 2.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l046-d048",
+      "chosen": {
+        "dark": "d048",
+        "light": "l046"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_124"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_124",
+          "id": "l046"
+        },
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d048"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l046-d049",
+      "chosen": {
+        "dark": "d049",
+        "light": "l046"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_124"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_124",
+          "id": "l046"
+        },
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d049"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l046-d050",
+      "chosen": {
+        "dark": "d050",
+        "light": "l046"
+      },
+      "blueprints": {
+        "dark": "1_291",
+        "light": "1_124"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_124",
+          "id": "l046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_291",
+          "id": "d050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l046-d051",
+      "chosen": {
+        "dark": "d051",
+        "light": "l046"
+      },
+      "blueprints": {
+        "dark": "1_292",
+        "light": "1_124"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_124",
+          "id": "l046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_292",
+          "id": "d051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l046-d052",
+      "chosen": {
+        "dark": "d052",
+        "light": "l046"
+      },
+      "blueprints": {
+        "dark": "1_293",
+        "light": "1_124"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_124",
+          "id": "l046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_293",
+          "id": "d052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l046-d053",
+      "chosen": {
+        "dark": "d053",
+        "light": "l046"
+      },
+      "blueprints": {
+        "dark": "1_295",
+        "light": "1_124"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_124",
+          "id": "l046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_295",
+          "id": "d053"
+        }
+      ],
+      "generation": {
+        "dark": 4.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l047-d045",
+      "chosen": {
+        "dark": "d045",
+        "light": "l047"
+      },
+      "blueprints": {
+        "dark": "1_284",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_284",
+          "id": "d045"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l047-d046",
+      "chosen": {
+        "dark": "d046",
+        "light": "l047"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d046"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l047-d047",
+      "chosen": {
+        "dark": "d047",
+        "light": "l047"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d047"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l047-d048",
+      "chosen": {
+        "dark": "d048",
+        "light": "l047"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l047"
+        },
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d048"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l047-d049",
+      "chosen": {
+        "dark": "d049",
+        "light": "l047"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l047"
+        },
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d049"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l047-d050",
+      "chosen": {
+        "dark": "d050",
+        "light": "l047"
+      },
+      "blueprints": {
+        "dark": "1_291",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_291",
+          "id": "d050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l047-d051",
+      "chosen": {
+        "dark": "d051",
+        "light": "l047"
+      },
+      "blueprints": {
+        "dark": "1_292",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_292",
+          "id": "d051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l047-d052",
+      "chosen": {
+        "dark": "d052",
+        "light": "l047"
+      },
+      "blueprints": {
+        "dark": "1_293",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_293",
+          "id": "d052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l047-d053",
+      "chosen": {
+        "dark": "d053",
+        "light": "l047"
+      },
+      "blueprints": {
+        "dark": "1_295",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_295",
+          "id": "d053"
+        }
+      ],
+      "generation": {
+        "dark": 4.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l048-d045",
+      "chosen": {
+        "dark": "d045",
+        "light": "l048"
+      },
+      "blueprints": {
+        "dark": "1_284",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_284",
+          "id": "d045"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l048-d046",
+      "chosen": {
+        "dark": "d046",
+        "light": "l048"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d046"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l048-d047",
+      "chosen": {
+        "dark": "d047",
+        "light": "l048"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d047"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l048-d048",
+      "chosen": {
+        "dark": "d048",
+        "light": "l048"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l048"
+        },
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d048"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l048-d049",
+      "chosen": {
+        "dark": "d049",
+        "light": "l048"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l048"
+        },
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d049"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l048-d050",
+      "chosen": {
+        "dark": "d050",
+        "light": "l048"
+      },
+      "blueprints": {
+        "dark": "1_291",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_291",
+          "id": "d050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l048-d051",
+      "chosen": {
+        "dark": "d051",
+        "light": "l048"
+      },
+      "blueprints": {
+        "dark": "1_292",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_292",
+          "id": "d051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l048-d052",
+      "chosen": {
+        "dark": "d052",
+        "light": "l048"
+      },
+      "blueprints": {
+        "dark": "1_293",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_293",
+          "id": "d052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l048-d053",
+      "chosen": {
+        "dark": "d053",
+        "light": "l048"
+      },
+      "blueprints": {
+        "dark": "1_295",
+        "light": "101_1"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_1",
+          "id": "l048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_295",
+          "id": "d053"
+        }
+      ],
+      "generation": {
+        "dark": 4.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l049-d045",
+      "chosen": {
+        "dark": "d045",
+        "light": "l049"
+      },
+      "blueprints": {
+        "dark": "1_284",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_284",
+          "id": "d045"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l049"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l049-d046",
+      "chosen": {
+        "dark": "d046",
+        "light": "l049"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l049"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l049-d047",
+      "chosen": {
+        "dark": "d047",
+        "light": "l049"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l049"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l049-d048",
+      "chosen": {
+        "dark": "d048",
+        "light": "l049"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l049"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l049-d049",
+      "chosen": {
+        "dark": "d049",
+        "light": "l049"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d049"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l049"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l049-d050",
+      "chosen": {
+        "dark": "d050",
+        "light": "l049"
+      },
+      "blueprints": {
+        "dark": "1_291",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": true,
+      "table": [
+        {
+          "under": [
+            "d050"
+          ],
+          "blueprint": "1_129",
+          "id": "l049"
+        }
+      ],
+      "generation": {
+        "dark": 2.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l049-d051",
+      "chosen": {
+        "dark": "d051",
+        "light": "l049"
+      },
+      "blueprints": {
+        "dark": "1_292",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l049"
+        },
+        {
+          "under": [],
+          "blueprint": "1_292",
+          "id": "d051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l049-d052",
+      "chosen": {
+        "dark": "d052",
+        "light": "l049"
+      },
+      "blueprints": {
+        "dark": "1_293",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l049"
+        },
+        {
+          "under": [],
+          "blueprint": "1_293",
+          "id": "d052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l049-d053",
+      "chosen": {
+        "dark": "d053",
+        "light": "l049"
+      },
+      "blueprints": {
+        "dark": "1_295",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l049"
+        },
+        {
+          "under": [],
+          "blueprint": "1_295",
+          "id": "d053"
+        }
+      ],
+      "generation": {
+        "dark": 4.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l050-d045",
+      "chosen": {
+        "dark": "d045",
+        "light": "l050"
+      },
+      "blueprints": {
+        "dark": "1_284",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_284",
+          "id": "d045"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l050-d046",
+      "chosen": {
+        "dark": "d046",
+        "light": "l050"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l050-d047",
+      "chosen": {
+        "dark": "d047",
+        "light": "l050"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l050-d048",
+      "chosen": {
+        "dark": "d048",
+        "light": "l050"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l050-d049",
+      "chosen": {
+        "dark": "d049",
+        "light": "l050"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d049"
+        },
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l050-d050",
+      "chosen": {
+        "dark": "d050",
+        "light": "l050"
+      },
+      "blueprints": {
+        "dark": "1_291",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": true,
+      "table": [
+        {
+          "under": [
+            "d050"
+          ],
+          "blueprint": "1_129",
+          "id": "l050"
+        }
+      ],
+      "generation": {
+        "dark": 2.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l050-d051",
+      "chosen": {
+        "dark": "d051",
+        "light": "l050"
+      },
+      "blueprints": {
+        "dark": "1_292",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l050"
+        },
+        {
+          "under": [],
+          "blueprint": "1_292",
+          "id": "d051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l050-d052",
+      "chosen": {
+        "dark": "d052",
+        "light": "l050"
+      },
+      "blueprints": {
+        "dark": "1_293",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l050"
+        },
+        {
+          "under": [],
+          "blueprint": "1_293",
+          "id": "d052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l050-d053",
+      "chosen": {
+        "dark": "d053",
+        "light": "l050"
+      },
+      "blueprints": {
+        "dark": "1_295",
+        "light": "1_129"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_129",
+          "id": "l050"
+        },
+        {
+          "under": [],
+          "blueprint": "1_295",
+          "id": "d053"
+        }
+      ],
+      "generation": {
+        "dark": 4.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l051-d045",
+      "chosen": {
+        "dark": "d045",
+        "light": "l051"
+      },
+      "blueprints": {
+        "dark": "1_284",
+        "light": "1_130"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_284",
+          "id": "d045"
+        },
+        {
+          "under": [],
+          "blueprint": "1_130",
+          "id": "l051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l051-d046",
+      "chosen": {
+        "dark": "d046",
+        "light": "l051"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_130"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_130",
+          "id": "l051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l051-d047",
+      "chosen": {
+        "dark": "d047",
+        "light": "l051"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_130"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_130",
+          "id": "l051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l051-d048",
+      "chosen": {
+        "dark": "d048",
+        "light": "l051"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_130"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_130",
+          "id": "l051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l051-d049",
+      "chosen": {
+        "dark": "d049",
+        "light": "l051"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_130"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d049"
+        },
+        {
+          "under": [],
+          "blueprint": "1_130",
+          "id": "l051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l051-d050",
+      "chosen": {
+        "dark": "d050",
+        "light": "l051"
+      },
+      "blueprints": {
+        "dark": "1_291",
+        "light": "1_130"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_130",
+          "id": "l051"
+        },
+        {
+          "under": [],
+          "blueprint": "1_291",
+          "id": "d050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l051-d051",
+      "chosen": {
+        "dark": "d051",
+        "light": "l051"
+      },
+      "blueprints": {
+        "dark": "1_292",
+        "light": "1_130"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_130",
+          "id": "l051"
+        },
+        {
+          "under": [],
+          "blueprint": "1_292",
+          "id": "d051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l051-d052",
+      "chosen": {
+        "dark": "d052",
+        "light": "l051"
+      },
+      "blueprints": {
+        "dark": "1_293",
+        "light": "1_130"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_130",
+          "id": "l051"
+        },
+        {
+          "under": [],
+          "blueprint": "1_293",
+          "id": "d052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l051-d053",
+      "chosen": {
+        "dark": "d053",
+        "light": "l051"
+      },
+      "blueprints": {
+        "dark": "1_295",
+        "light": "1_130"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_130",
+          "id": "l051"
+        },
+        {
+          "under": [],
+          "blueprint": "1_295",
+          "id": "d053"
+        }
+      ],
+      "generation": {
+        "dark": 4.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l052-d045",
+      "chosen": {
+        "dark": "d045",
+        "light": "l052"
+      },
+      "blueprints": {
+        "dark": "1_284",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_284",
+          "id": "d045"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l052-d046",
+      "chosen": {
+        "dark": "d046",
+        "light": "l052"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l052-d047",
+      "chosen": {
+        "dark": "d047",
+        "light": "l052"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l052-d048",
+      "chosen": {
+        "dark": "d048",
+        "light": "l052"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l052-d049",
+      "chosen": {
+        "dark": "d049",
+        "light": "l052"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d049"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l052-d050",
+      "chosen": {
+        "dark": "d050",
+        "light": "l052"
+      },
+      "blueprints": {
+        "dark": "1_291",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l052"
+        },
+        {
+          "under": [],
+          "blueprint": "1_291",
+          "id": "d050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l052-d051",
+      "chosen": {
+        "dark": "d051",
+        "light": "l052"
+      },
+      "blueprints": {
+        "dark": "1_292",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": true,
+      "table": [
+        {
+          "under": [
+            "d051"
+          ],
+          "blueprint": "1_131",
+          "id": "l052"
+        }
+      ],
+      "generation": {
+        "dark": 2.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l052-d052",
+      "chosen": {
+        "dark": "d052",
+        "light": "l052"
+      },
+      "blueprints": {
+        "dark": "1_293",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l052"
+        },
+        {
+          "under": [],
+          "blueprint": "1_293",
+          "id": "d052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l052-d053",
+      "chosen": {
+        "dark": "d053",
+        "light": "l052"
+      },
+      "blueprints": {
+        "dark": "1_295",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l052"
+        },
+        {
+          "under": [],
+          "blueprint": "1_295",
+          "id": "d053"
+        }
+      ],
+      "generation": {
+        "dark": 4.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l053-d045",
+      "chosen": {
+        "dark": "d045",
+        "light": "l053"
+      },
+      "blueprints": {
+        "dark": "1_284",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_284",
+          "id": "d045"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l053"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l053-d046",
+      "chosen": {
+        "dark": "d046",
+        "light": "l053"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l053"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l053-d047",
+      "chosen": {
+        "dark": "d047",
+        "light": "l053"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l053"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l053-d048",
+      "chosen": {
+        "dark": "d048",
+        "light": "l053"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l053"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l053-d049",
+      "chosen": {
+        "dark": "d049",
+        "light": "l053"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d049"
+        },
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l053"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l053-d050",
+      "chosen": {
+        "dark": "d050",
+        "light": "l053"
+      },
+      "blueprints": {
+        "dark": "1_291",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l053"
+        },
+        {
+          "under": [],
+          "blueprint": "1_291",
+          "id": "d050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l053-d051",
+      "chosen": {
+        "dark": "d051",
+        "light": "l053"
+      },
+      "blueprints": {
+        "dark": "1_292",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": true,
+      "table": [
+        {
+          "under": [
+            "d051"
+          ],
+          "blueprint": "1_131",
+          "id": "l053"
+        }
+      ],
+      "generation": {
+        "dark": 2.0,
+        "light": 2.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l053-d052",
+      "chosen": {
+        "dark": "d052",
+        "light": "l053"
+      },
+      "blueprints": {
+        "dark": "1_293",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l053"
+        },
+        {
+          "under": [],
+          "blueprint": "1_293",
+          "id": "d052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l053-d053",
+      "chosen": {
+        "dark": "d053",
+        "light": "l053"
+      },
+      "blueprints": {
+        "dark": "1_295",
+        "light": "1_131"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_131",
+          "id": "l053"
+        },
+        {
+          "under": [],
+          "blueprint": "1_295",
+          "id": "d053"
+        }
+      ],
+      "generation": {
+        "dark": 4.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l054-d045",
+      "chosen": {
+        "dark": "d045",
+        "light": "l054"
+      },
+      "blueprints": {
+        "dark": "1_284",
+        "light": "1_132"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_284",
+          "id": "d045"
+        },
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l054-d046",
+      "chosen": {
+        "dark": "d046",
+        "light": "l054"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_132"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d046"
+        },
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 4.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l054-d047",
+      "chosen": {
+        "dark": "d047",
+        "light": "l054"
+      },
+      "blueprints": {
+        "dark": "1_285",
+        "light": "1_132"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_285",
+          "id": "d047"
+        },
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 4.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l054-d048",
+      "chosen": {
+        "dark": "d048",
+        "light": "l054"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_132"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d048"
+        },
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l054-d049",
+      "chosen": {
+        "dark": "d049",
+        "light": "l054"
+      },
+      "blueprints": {
+        "dark": "101_4",
+        "light": "1_132"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "101_4",
+          "id": "d049"
+        },
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 3.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l054-d050",
+      "chosen": {
+        "dark": "d050",
+        "light": "l054"
+      },
+      "blueprints": {
+        "dark": "1_291",
+        "light": "1_132"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        },
+        {
+          "under": [],
+          "blueprint": "1_291",
+          "id": "d050"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 4.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l054-d051",
+      "chosen": {
+        "dark": "d051",
+        "light": "l054"
+      },
+      "blueprints": {
+        "dark": "1_292",
+        "light": "1_132"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        },
+        {
+          "under": [],
+          "blueprint": "1_292",
+          "id": "d051"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 4.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l054-d052",
+      "chosen": {
+        "dark": "d052",
+        "light": "l054"
+      },
+      "blueprints": {
+        "dark": "1_293",
+        "light": "1_132"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        },
+        {
+          "under": [],
+          "blueprint": "1_293",
+          "id": "d052"
+        }
+      ],
+      "generation": {
+        "dark": 3.0,
+        "light": 4.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    },
+    {
+      "name": "l054-d053",
+      "chosen": {
+        "dark": "d053",
+        "light": "l054"
+      },
+      "blueprints": {
+        "dark": "1_295",
+        "light": "1_132"
+      },
+      "darkAllowsConversion": false,
+      "table": [
+        {
+          "under": [],
+          "blueprint": "1_132",
+          "id": "l054"
+        },
+        {
+          "under": [],
+          "blueprint": "1_295",
+          "id": "d053"
+        }
+      ],
+      "generation": {
+        "dark": 4.0,
+        "light": 4.0
+      },
+      "active": "dark",
+      "phase": "ACTIVATE",
+      "counts": {
+        "dark": {
+          "reserve": 51,
+          "hand": 8
+        },
+        "light": {
+          "reserve": 51,
+          "hand": 8
+        }
+      },
+      "all120Conserved": true
+    }
+  ]
+}

@@ -8,6 +8,7 @@ export const studyTopics=[
  {id:'weapons',label:'Weapons'},
  {id:'interrupts',label:'Interrupts'},
  {id:'deployment',label:'Deploy & move'},
+ {id:'setup',label:'Setup'},
 ] as const;
 export type StudyTopic=typeof studyTopics[number]['id'];
 export type StudyFilter={query:string;topic:StudyTopic};
@@ -17,6 +18,7 @@ const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
  'imperial-barrier':['deployment','interrupts','battle'],weapons:['deployment','weapons','battle'],
  'rebel-weapons':['deployment','weapons','battle'],
  'next-turn':['force','battle','interrupts','deployment'],
+ 'opening-table':['setup','force'],
 };
 // Featured cards only: Reserve filler is not a claim of playable card coverage.
 const featuredCards:Record<ScenarioId,string[]>={
@@ -27,6 +29,7 @@ const featuredCards:Record<ScenarioId,string[]>={
  weapons:['1_124','1_194','1_28','1_152','1_153','1_317','1_312'],
  'rebel-weapons':['1_124','1_194','1_28','1_152','1_153','1_317','1_312'],
  'next-turn':['1_124','1_284','1_194','1_28','1_105','1_249'],
+ 'opening-table':['101_1','101_4','1_124','1_129','1_130','1_131','1_132','1_284','1_285','1_291','1_292','1_293','1_295'],
 };
 // Index the mechanics exercised by the fixture, including mirrored coverage
 // that its short description may not repeat. Do not index unsupported card text.
@@ -44,6 +47,7 @@ const searchableRules:Record<ScenarioId,string>={
  weapons:battleRules+' '+weaponRules+' optional battle destiny draw',
  'rebel-weapons':battleRules+' '+weaponRules+' optional battle destiny draw',
  'next-turn':battleRules+' '+turnRules+' Force generation activation control Force drain start turn end turn handoff retained Force per-turn limits Rebel Barrier Imperial Barrier response',
+ 'opening-table':'pregame setup starting location secret private simultaneous reveal conversion converted supporting location same title choose another physical copy shuffle cut opening eight card hand Dark first Force generation start turn',
 };
 export const studies=scenarios.map((scenario,index)=>({...scenario,number:String(index+1).padStart(2,'0'),topics:coverage[scenario.id],cards:featuredCards[scenario.id].map(id=>definition(id).name)}));
 const normalize=(text:string)=>text.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();

@@ -1,0 +1,41 @@
+{
+  "engineRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "completedAt": "2026-09-12T17:09:42Z",
+  "java": "OpenJDK Temurin 21.0.3+9-LTS",
+  "command": "docker exec -w /opt/gemp-swccg/src swccg-official-app-1 mvn -o -pl gemp-swccg-server -am test -Dtest=NativeProofSetupOracleTests -Dsurefire.failIfNoSpecifiedTests=false '-DargLine=--add-opens=java.base/java.util=ALL-UNNAMED'",
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seed": 2026091206,
+  "productionRulesModified": false,
+  "fixtureBoundary": "Only java.util.Collections Random seed is controlled in test. GameState initialization and every production shuffle, starting-location decision, conversion, opening-hand draw, generation and start-turn process execute unchanged.",
+  "scope": [
+    "Distinct locations l046/d050",
+    "Dark allows conversion: l046 covers d046",
+    "Dark declines; Light allows conversion: d046 covers l046",
+    "Both decline Docking Bay 327 then select l054/d050; GEMP excludes d046 and d047 copies",
+    "Every one of 81 initial physical starting-location pairs; Dark accepts conversion for all six shared-title collisions; first legal placement otherwise."
+  ],
+  "limitations": [
+    "All 81 initial physical pairs execute setup through first Dark Activate. For shared-title pairs the exhaustive pass chooses Dark consent; Light consent and both-refuse behavior remain covered by the original Docking Bay 327 traces.",
+    "GEMP excludes all copies of the previously declined unique location title, including Dark duplicate d047. Any official-rule behavior permitting another copy must be disclosed separately and must not be called GEMP-verified.",
+    "Setup stops at first Dark Activate opportunity before activation, deployment, or other regular game actions.",
+    "Seeded outcomes are a reproducibility fixture, not a claim about shuffle fairness."
+  ],
+  "sha256": {
+    "NativeProofSetupOracleTests.java": "9855d5ffa29811b3c31508992ab0c8c551629d76c05498ade6985cee7205f615",
+    "setup-oracle-result.json": "3c6e9ad0feb1075de6875620c8ecedf8ad3c10fe507347ff6fc52b22ec778954",
+    "setup-oracle-result.txt": "91b2fa48f3bcfe6c72dcca0d21b66b98cda21b551d20bea356bfd9bb13c27532",
+    "TEST-com.gempukku.swccgo.rules.battle.NativeProofSetupOracleTests.xml": "a42a8e55dfd78bc24d73a856c779f73e63b831a699c06144978962e999eb580d",
+    "setup-oracle-maven.log": "130badbd621db4c1b21fa91de2ce5fc8a09ddef81d2071f33371a546187e03d9"
+  },
+  "fullPairExecutions": 81,
+  "physicalChoicesPerDeck": 9,
+  "uniqueLightLocationBlueprints": 6,
+  "uniqueDarkLocationBlueprints": 7,
+  "sharedTitleCollisionPairs": 6,
+  "detailedFourBranchesUnchangedFromPriorTwoReproducedRuns": true,
+  "priorFourBranchEvidence": "baseline-four-branches/provenance.json"
+}
