@@ -1,3 +1,4 @@
+import {isOpeningStudy,secondContactOrder} from './opening-rules';
 import {definition,other} from './catalog';
 import recordedOrder from '../../data/native-proof/setup-shuffle.json';
 import type {Command,Match,Projection,Prompt,PublicCard,Side} from './types';
@@ -18,13 +19,16 @@ function candidates(m:Match,side:Side){
  const rejected=new Set(m.setup!.rejected.flat());
  // AR p38 Example 5 excludes the selected physical copies, not every copy of
  // that title. The pinned GEMP pregame implementation differs on this edge.
- return m.players[side].reserve.filter(id=>setupSites[m.cards[id].blueprint]&&!rejected.has(id)&&(m.scenario!=='first-contact'||m.cards[id].blueprint===(side==='light'?'1_124':'1_284')));
+ return m.players[side].reserve.filter(id=>setupSites[m.cards[id].blueprint]&&!rejected.has(id)&&(!isOpeningStudy(m.scenario)||m.cards[id].blueprint===(side==='light'?'1_124':'1_284')));
 }
 function phase(m:Match,stage:NonNullable<Match['setup']>['stage'],name:string){m.setup!.stage=stage;m.phase=name;}
 export function initializeSetup(m:Match){
  m.setup={stage:'choose',round:1,selected:{dark:null,light:null},revealed:false,collisionPriority:null,covered:null,rejected:[],shuffleOrder:structuredClone(recordedOrder),startPasses:0,generation:null};
  addLog(m,'Choose starting locations privately from the authored 60-card decks. Both choices are revealed together.');
- if(m.scenario==='first-contact'){
+ if(m.scenario==='second-contact'){
+  for(const side of sides)m.setup.shuffleOrder[side]=secondContactOrder(m,side);
+  addLog(m,'Fixed Death Star sites and broader eight-card hands: troopers, guards, Barriers and both weapon types. Play four complete turns; stop before Dark activates on turn 5.');
+ }else if(isOpeningStudy(m.scenario)){
   // A saved, authored outcome keeps every reachable hand and Force card within
   // verified behavior. It is not an arbitrary shuffle or a full-match gate.
   for(const side of sides){const pool=m.players[side].reserve;const trooper=side==='light'?'1_28':'1_194',jawa=side==='light'?'1_12':'1_182',barrier=side==='light'?'1_105':'1_249',blaster=side==='light'?'1_152':'1_317';const of=(b:string)=>pool.filter(id=>m.cards[id].blueprint===b);const hand=[...of(trooper).slice(0,4),...of(jawa),...of(barrier),of(blaster)[0]];const front=[...hand,...of(trooper).slice(4),...of(side==='light'?'1_153':'1_312')];m.setup.shuffleOrder[side]=[...front,...pool.filter(id=>!front.includes(id))];}
@@ -36,7 +40,7 @@ export function setupPrompt(m:Match,seat?:Side):Prompt|null{
  let side:Side='dark',heading='',detail='',choices:Prompt['choices']=[],automatic=false;
  if(s.stage==='choose'){
   side=seat&&!s.selected[seat]?seat:!s.selected.dark?'dark':'light';
-  heading='Choose your starting location';detail=(m.scenario==='first-contact'?'This integration study fixes two Death Star sites to keep all later actions verified. ':'')+'Your choice stays private until both players commit. Duplicate copies are identified individually; rejected physical cards cannot be selected again.';
+  heading='Choose your starting location';detail=(isOpeningStudy(m.scenario)?'This integration study fixes two Death Star sites to keep all later actions verified. ':'')+'Your choice stays private until both players commit. Duplicate copies are identified individually; rejected physical cards cannot be selected again.';
   choices=candidates(m,side).map(id=>({id:'select:'+id,card:id,label:named(m,id)+' · '+id.toUpperCase(),tone:'primary',forceIcons:{...setupSites[m.cards[id].blueprint].icons}}));
  }else if(s.stage==='reveal'){
   heading='Both locations are chosen';detail='Reveal the two committed choices together. Neither player can change a committed choice.';choices=[{id:'reveal',label:'Reveal both starting locations',tone:'primary'}];
@@ -90,7 +94,7 @@ export function applySetup(before:Match,side:Side,command:Command):Match{
   phase(m,'start','Start of turn');addLog(m,'Both players draw eight cards simultaneously. Each has 51 cards in Reserve. Dark begins the first turn.');
  }else if(s.stage==='start'){
   s.startPasses++;
-  if(s.startPasses===2){s.generation=Object.fromEntries(sides.map(side=>[side,1+m.locations.reduce((n,id)=>n+setupSites[m.cards[id].blueprint].icons[side],0)])) as Record<Side,number>;phase(m,'complete','Activate');m.complete=true;addLog(m,'Dark reaches Activate with generation '+s.generation.dark+'. Setup is complete; no Force has been activated.'+(m.scenario==='first-contact'?' The same saved cards now continue into the first turn.':' This study stops before ordinary phase actions.'));}
+  if(s.startPasses===2){s.generation=Object.fromEntries(sides.map(side=>[side,1+m.locations.reduce((n,id)=>n+setupSites[m.cards[id].blueprint].icons[side],0)])) as Record<Side,number>;phase(m,'complete','Activate');m.complete=true;addLog(m,'Dark reaches Activate with generation '+s.generation.dark+'. Setup is complete; no Force has been activated.'+(isOpeningStudy(m.scenario)?' The same saved cards now continue into the first turn.':' This study stops before ordinary phase actions.'));}
  }
  return m;
 }
@@ -101,8 +105,8 @@ export function assertSetup(m:Match){
  const rejected=s.rejected.flat();if(new Set(rejected).size!==rejected.length)throw Error('A rejected physical card was reused.');
  for(const group of s.rejected)if(group.length!==2||m.cards[group[0]]?.owner!=='dark'||m.cards[group[1]]?.owner!=='light'||!group.every(id=>!!setupSites[m.cards[id]?.blueprint])||named(m,group[0])!==named(m,group[1]))throw Error('Invalid rejected location pair.');
  for(const side of sides){
-  const id=s.selected[side];if(m.scenario==='first-contact'&&id!==null&&m.cards[id]?.blueprint!==(side==='light'?'1_124':'1_284'))throw Error('Unsupported integrated starting location.');if(id!==null&&(m.cards[id]?.owner!==side||!setupSites[m.cards[id].blueprint]||rejected.includes(id)))throw Error('Invalid committed starting location.');
-  const order=s.shuffleOrder[side];if(order.length!==60||new Set(order).size!==60||order.some(id=>m.cards[id]?.owner!==side))throw Error('Invalid recorded setup order.');
+  const id=s.selected[side];if(isOpeningStudy(m.scenario)&&id!==null&&m.cards[id]?.blueprint!==(side==='light'?'1_124':'1_284'))throw Error('Unsupported integrated starting location.');if(id!==null&&(m.cards[id]?.owner!==side||!setupSites[m.cards[id].blueprint]||rejected.includes(id)))throw Error('Invalid committed starting location.');
+  const order=s.shuffleOrder[side];if(m.scenario==='second-contact'&&order.join(',')!==secondContactOrder(m,side).join(','))throw Error('Invalid four-turn recorded order.');if(order.length!==60||new Set(order).size!==60||order.some(id=>m.cards[id]?.owner!==side))throw Error('Invalid recorded setup order.');
  }
  const both=!!s.selected.dark&&!!s.selected.light,revealed=!['choose','reveal'].includes(s.stage),placed=['shuffle','draw','start','complete'].includes(s.stage),drawn=['start','complete'].includes(s.stage);
  if((s.stage==='choose'?both:!both)||s.revealed!==revealed||m.complete!==(s.stage==='complete')||m.complete!==(s.startPasses===2)||(!drawn&&s.startPasses!==0))throw Error('Invalid setup stage.');

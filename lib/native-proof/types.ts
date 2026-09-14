@@ -1,7 +1,7 @@
 export type Side = 'light' | 'dark';
 export type Zone = 'reserve' | 'force' | 'used' | 'lost' | 'hand' | 'destiny' | 'table' | 'playing' | 'leaving';
 export type Pile = Exclude<Zone,'table'|'playing'|'leaving'>;
-export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons' | 'next-turn' | 'opening-table' | 'first-contact' | 'guard-post' | 'rebel-post' | 'corridor-crossfire';
+export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons' | 'next-turn' | 'opening-table' | 'first-contact' | 'guard-post' | 'rebel-post' | 'corridor-crossfire' | 'second-contact';
 export type TurnStage = 'start'|'activate'|'control'|'deploy'|'battle'|'move'|'draw'|'end'|'complete';
 export type Restriction = {target:string;source:string;expiresTurn:number};
 export type StudyTurn = {number:number;deployer:Side;stage:TurnStage;restrictions:Restriction[];expired:Restriction[];moved:string[];battled:string[]};
@@ -31,7 +31,7 @@ export type Frame =
  | {kind:'recirculation';next:Side}
  | {kind:'finish';message:string};
 export type Match = {
- schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5'|'native-proof-6'|'native-proof-7'|'native-proof-8';scenario:ScenarioId;revision:number;active:Side;phase:string;
+ schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5'|'native-proof-6'|'native-proof-7'|'native-proof-8'|'native-proof-9';scenario:ScenarioId;revision:number;active:Side;phase:string;
  cards:Record<string,Card>;players:Record<Side,Player>;locations:string[];stack:Frame[];
  battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;turn?:StudyTurn;cycle?:TurnCycle;setup?:SetupState;
 };

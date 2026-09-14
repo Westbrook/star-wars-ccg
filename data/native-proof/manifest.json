@@ -313,6 +313,12 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -436,6 +442,12 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -556,6 +568,12 @@
         "scenario": "corridor-crossfire",
         "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -595,6 +613,12 @@
         "scenario": "corridor-crossfire",
         "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -640,6 +664,12 @@
         ],
         "scope": "Fixed Death Star sites, printed costs, presence at zero power, defending-only guard power, guard immobility independent of Barrier, Death Star Trooper power/forfeit/movement. Off-station power is a handler diagnostic, not a playable fixture path. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/garrison-oracle-result.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -686,6 +716,12 @@
         ],
         "scope": "Fixed Death Star sites, printed costs, presence at zero power, defending-only guard power, guard immobility independent of Barrier, Death Star Trooper power/forfeit/movement. Off-station power is a handler diagnostic, not a playable fixture path. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/garrison-oracle-result.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -770,6 +806,12 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -916,6 +958,12 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -989,6 +1037,12 @@
         ],
         "scope": "Fixed Death Star sites, printed costs, presence at zero power, defending-only guard power, guard immobility independent of Barrier, Death Star Trooper power/forfeit/movement. Off-station power is a handler diagnostic, not a playable fixture path. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/garrison-oracle-result.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -1135,6 +1189,12 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -1177,6 +1237,12 @@
         "scenario": "corridor-crossfire",
         "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -1350,6 +1416,12 @@
         "scenario": "corridor-crossfire",
         "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {
@@ -1410,6 +1482,12 @@
         "scenario": "corridor-crossfire",
         "scope": "Dark Corridor weapon destiny +1, additive Rifle hit bonus, unchanged Light modifier, strict hit comparison and unchanged printed destiny. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/corridor-oracle-result.json"
+      },
+      "secondTurnConformance": {
+        "engine": "native-proof-9",
+        "scenario": "second-contact",
+        "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
       }
     },
     {

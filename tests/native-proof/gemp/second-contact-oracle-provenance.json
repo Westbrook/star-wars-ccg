@@ -1,0 +1,11 @@
+{
+  "executedAt": "2026-09-14T19:48:02.312001+00:00",
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeProofSecondContactOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "fixture": "Exact authored 120-card starter pool arranged in preceding Draw phase. Real GEMP incoming activation and four full turns execute without production rules modifications. Setup conformance is retained separately. Seven paths, 35 snapshots compare both sides counts and ordered piles (hands compared as multisets).",
+  "sha256": {
+    "NativeProofSecondContactOracleTests.java": "aa4cbe97fd8caaef63ec2970b9b28013a4ade1f42cbde038bdf49f871240319f",
+    "second-contact-oracle-result.json": "537ce075a3423742373a98653ea6ac34990b3c161f3ba8fef6e4315c7c497aa6",
+    "second-contact-oracle-result.txt": "c046f6a7455c860f2afa4232f06570e744e3762558bf97360cdb7a55a7992595"
+  }
+}

@@ -14,6 +14,7 @@ export type StudyTopic=typeof studyTopics[number]['id'];
 export type StudyFilter={query:string;topic:StudyTopic};
 const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
  'guard-post':['deployment','battle','interrupts'],'rebel-post':['deployment','battle','interrupts'],'corridor-crossfire':['weapons','battle','deployment'],
+ 'second-contact':['setup','force','deployment','battle','interrupts','weapons'],
  activation:['force'],drain:['force'],battle:['battle'],recirculation:['force'],
  takeel:['battle','interrupts'],barrier:['deployment','interrupts','battle'],
  'imperial-barrier':['deployment','interrupts','battle'],weapons:['deployment','weapons','battle'],
@@ -25,6 +26,7 @@ const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
 // Featured cards only: Reserve filler is not a claim of playable card coverage.
 const featuredCards:Record<ScenarioId,string[]>={
  'guard-post':['1_170','1_181','1_26','1_194','1_105'],'rebel-post':['1_26','1_181','1_28','1_249'],'corridor-crossfire':['1_284','1_152','1_153','1_317','1_312'],
+ 'second-contact':['1_124','1_284','1_194','1_170','1_181','1_26','1_28','1_249','1_105','1_152','1_153','1_317','1_312'],
  activation:['1_124'],drain:['1_124','1_194','1_28'],battle:['1_124','1_194','1_28'],
  recirculation:[],takeel:['1_124','1_194','1_28','1_269'],
  barrier:['1_124','1_284','1_194','1_28','1_105'],
@@ -44,6 +46,7 @@ const searchableRules:Record<ScenarioId,string>={
  'guard-post':battleRules+' '+turnRules+' conditional power defending guard cannot move Death Star only deploy restriction',
  'rebel-post':battleRules+' '+turnRules+' conditional power defending attacking guard cannot move zero power presence',
  'corridor-crossfire':battleRules+' '+weaponRules+' location modifier bonus Dark only Detention Block Corridor printed destiny',
+ 'second-contact':battleRules+' '+turnRules+' '+weaponRules+' four turns second turn setup opening hand Force generation guards defending power cannot move Death Star Troopers Corridor bonus',
  activation:'Force generation personal Force optional activation activate action priority response',
  drain:'Force drain control presence Force loss Reserve Deck Force Pile Used Pile hand',
  battle:battleRules+' optional battle destiny draw ability',
