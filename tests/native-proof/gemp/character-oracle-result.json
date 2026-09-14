@@ -1,0 +1,93 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "branches": [
+    {
+      "name": "raiders-1",
+      "individualPower": 1,
+      "force": 8,
+      "totalPower": 1
+    },
+    {
+      "name": "raiders-2",
+      "individualPower": 2,
+      "force": 6,
+      "totalPower": 4
+    },
+    {
+      "name": "raiders-3",
+      "individualPower": 2,
+      "force": 4,
+      "totalPower": 6
+    },
+    {
+      "name": "raiders-4",
+      "individualPower": 2,
+      "force": 2,
+      "totalPower": 10
+    },
+    {
+      "name": "raiders-5",
+      "individualPower": 2,
+      "force": 0,
+      "totalPower": 12
+    },
+    {
+      "name": "barrier-luke",
+      "beforeForfeit": 3,
+      "lightLost": 5,
+      "canMove": false,
+      "afterLukeForfeit": 5,
+      "duringForfeit": 2
+    },
+    {
+      "name": "trooper-first",
+      "attritionAfter": 0,
+      "remainingForfeit": 3,
+      "damageAfter": 4,
+      "lukeForfeit": 5
+    },
+    {
+      "name": "luke-first",
+      "damageAfter": 2,
+      "guardForfeit": 1,
+      "lukeForfeit": 5,
+      "damage": 7,
+      "trooperBefore": 3,
+      "trooperAfter": 2,
+      "attrition": 3,
+      "attritionAfter": 0
+    },
+    {
+      "name": "adjacent-luke",
+      "force": 0,
+      "lukeParticipates": false,
+      "trooperForfeit": 3
+    },
+    {
+      "name": "bay-deploy",
+      "adjacentForfeit": 3,
+      "duplicateAvailable": false,
+      "lukeForfeit": 5,
+      "forceBeforeFree": 0,
+      "lukeCost": 4,
+      "forceAfterFree": 0,
+      "sameForfeit": 3
+    },
+    {
+      "name": "farm-deploy",
+      "adjacentForfeit": 3,
+      "duplicateAvailable": false,
+      "lukeForfeit": 5,
+      "forceBeforeFree": 1,
+      "lukeCost": 3,
+      "forceAfterFree": 1,
+      "sameForfeit": 3
+    },
+    {
+      "name": "raider-barrier",
+      "participants": 3,
+      "outsideIndividual": 2,
+      "totalPower": 6
+    }
+  ]
+}

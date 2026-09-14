@@ -1,0 +1,11 @@
+{
+  "executedAt": "2026-09-14T20:26:33.048132+00:00",
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeProofCharacterOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "fixture": "Exact authored 120-card pool arranged at equivalent Deploy/Battle checkpoints on two Tatooine sites. Production GEMP rules unchanged. GEMP automatic exclusion responses finish before measuring inactive character modifiers. Seven JUnit tests / twelve outcome comparisons.",
+  "sha256": {
+    "NativeProofCharacterOracleTests.java": "4569206de30ee9aa6cb0bfb05b7fe1b109c0d5cd1f3ffc5f5c71ee9dd799337c",
+    "character-oracle-result.json": "2a60bd7760229e1732349ca520ee5f9b7d56b1f0ecc3fd5d1bf2bf82a1e27901",
+    "character-oracle-result.txt": "04034e80f910c03eeaa4829795e059d40338f1a1c9b5935cd5abb2e4ce057e6a"
+  }
+}

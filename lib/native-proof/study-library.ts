@@ -14,6 +14,9 @@ export type StudyTopic=typeof studyTopics[number]['id'];
 export type StudyFilter={query:string;topic:StudyTopic};
 const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
  'guard-post':['deployment','battle','interrupts'],'rebel-post':['deployment','battle','interrupts'],'corridor-crossfire':['weapons','battle','deployment'],
+ 'luke-arrives':['deployment','battle','interrupts'],
+ 'luke-support':['battle'],
+ 'tusken-band':['deployment','battle','interrupts'],
  'second-contact':['setup','force','deployment','battle','interrupts','weapons'],
  activation:['force'],drain:['force'],battle:['battle'],recirculation:['force'],
  takeel:['battle','interrupts'],barrier:['deployment','interrupts','battle'],
@@ -26,6 +29,9 @@ const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
 // Featured cards only: Reserve filler is not a claim of playable card coverage.
 const featuredCards:Record<ScenarioId,string[]>={
  'guard-post':['1_170','1_181','1_26','1_194','1_105'],'rebel-post':['1_26','1_181','1_28','1_249'],'corridor-crossfire':['1_284','1_152','1_153','1_317','1_312'],
+ 'luke-arrives':['101_2','1_28','1_129','1_132','1_249'],
+ 'luke-support':['101_2','1_28','1_26','1_170'],
+ 'tusken-band':['1_196','1_129','1_132','1_105'],
  'second-contact':['1_124','1_284','1_194','1_170','1_181','1_26','1_28','1_249','1_105','1_152','1_153','1_317','1_312'],
  activation:['1_124'],drain:['1_124','1_194','1_28'],battle:['1_124','1_194','1_28'],
  recirculation:[],takeel:['1_124','1_194','1_28','1_269'],
@@ -46,6 +52,9 @@ const searchableRules:Record<ScenarioId,string>={
  'guard-post':battleRules+' '+turnRules+' conditional power defending guard cannot move Death Star only deploy restriction',
  'rebel-post':battleRules+' '+turnRules+' conditional power defending attacking guard cannot move zero power presence',
  'corridor-crossfire':battleRules+' '+weaponRules+' location modifier bonus Dark only Detention Block Corridor printed destiny',
+ 'luke-arrives':turnRules+' Luke free deploy unique persona Tatooine Lars Moisture Farm discount cost',
+ 'luke-support':battleRules+' Luke warrior forfeit adjacent support loss order nonwarrior',
+ 'tusken-band':turnRules+' Tusken Raider power group noncumulative cumulative present excluded Barrier',
  'second-contact':battleRules+' '+turnRules+' '+weaponRules+' four turns second turn setup opening hand Force generation guards defending power cannot move Death Star Troopers Corridor bonus',
  activation:'Force generation personal Force optional activation activate action priority response',
  drain:'Force drain control presence Force loss Reserve Deck Force Pile Used Pile hand',

@@ -191,7 +191,17 @@
         "Warrior"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_002.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_002.java",
+      "characterConformance": {
+        "engine": "native-proof-10",
+        "scenarios": [
+          "luke-arrives",
+          "luke-support",
+          "tusken-band"
+        ],
+        "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
+        "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      }
     },
     {
       "gempId": "101_3",
@@ -319,6 +329,16 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "characterConformance": {
+        "engine": "native-proof-10",
+        "scenarios": [
+          "luke-arrives",
+          "luke-support",
+          "tusken-band"
+        ],
+        "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
+        "evidence": "tests/native-proof/gemp/character-oracle-result.json"
       }
     },
     {
@@ -468,7 +488,17 @@
         "Scomp Link"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_129.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_129.java",
+      "characterConformance": {
+        "engine": "native-proof-10",
+        "scenarios": [
+          "luke-arrives",
+          "luke-support",
+          "tusken-band"
+        ],
+        "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
+        "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      }
     },
     {
       "gempId": "1_130",
@@ -523,7 +553,17 @@
         "Scomp Link"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_132.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_132.java",
+      "characterConformance": {
+        "engine": "native-proof-10",
+        "scenarios": [
+          "luke-arrives",
+          "luke-support",
+          "tusken-band"
+        ],
+        "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
+        "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      }
     },
     {
       "gempId": "1_152",
@@ -831,7 +871,17 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_196.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_196.java",
+      "characterConformance": {
+        "engine": "native-proof-10",
+        "scenarios": [
+          "luke-arrives",
+          "luke-support",
+          "tusken-band"
+        ],
+        "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
+        "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      }
     },
     {
       "gempId": "1_201",
@@ -964,6 +1014,16 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "characterConformance": {
+        "engine": "native-proof-10",
+        "scenarios": [
+          "luke-arrives",
+          "luke-support",
+          "tusken-band"
+        ],
+        "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
+        "evidence": "tests/native-proof/gemp/character-oracle-result.json"
       }
     },
     {
@@ -1043,6 +1103,16 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "characterConformance": {
+        "engine": "native-proof-10",
+        "scenarios": [
+          "luke-arrives",
+          "luke-support",
+          "tusken-band"
+        ],
+        "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
+        "evidence": "tests/native-proof/gemp/character-oracle-result.json"
       }
     },
     {
@@ -1195,6 +1265,16 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "characterConformance": {
+        "engine": "native-proof-10",
+        "scenarios": [
+          "luke-arrives",
+          "luke-support",
+          "tusken-band"
+        ],
+        "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
+        "evidence": "tests/native-proof/gemp/character-oracle-result.json"
       }
     },
     {
