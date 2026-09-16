@@ -345,6 +345,7 @@ function responseChoices(m:Match,f:Extract<Frame,{kind:'window'}>):Prompt['choic
 }
 
 export function prompt(m:Match):Prompt|null{
+ if(m.concededBy)return null;
  if(m.setup)return setupPrompt(m);
  if(m.complete)return null;const f=top(m);if(!f)return null;
  const base={id:m.engine+':'+m.revision,side:m.active,title:'',detail:'',choices:[] as Prompt['choices'],automatic:false};
@@ -403,7 +404,21 @@ export function prompt(m:Match):Prompt|null{
  throw Error('Unresolved internal continuation.');
 }
 
+// Concession is a match-level result, independent of the current action owner.
+// Keep the underlying study snapshot (including paid/pending effects) frozen so
+// its card-conservation and version-specific invariants still validate exactly.
+export function concedeGame(before:Match,side:Side,expected:string):Match{
+ assertMatch(before);
+ if(!sides.includes(side))throw Error('Choose a valid conceding seat.');
+ if(before.winner||before.concededBy)throw Error('This game already has a winner.');
+ if(expected!==before.engine+':'+before.revision)throw Error('This choice is stale. Refresh the saved match.');
+ const m=structuredClone(before);m.concededBy=side;m.revision++;
+ log(m,label(side)+' forfeits the game. '+label(other(side))+' wins by concession.');
+ assertMatch(m);return m;
+}
+
 export function applyCommand(before:Match,side:Side,command:Command):Match{
+ if(before.concededBy)throw Error('This game ended by concession.');
  if(before.setup){assertMatch(before);const after=applySetup(before,side,command);
   if(isOpeningStudy(after.scenario)&&after.complete){const generation=after.setup!.generation!.dark;delete after.setup;after.complete=false;after.turn={number:1,deployer:'dark',stage:'activate',restrictions:[],expired:[],moved:[],battled:[]};after.cycle={generation,activated:0,recirculated:{light:0,dark:0},history:[]};after.stack=[{kind:'activation',used:0,generation,priority:'dark',passes:0}];}
   assertMatch(after);return after;}
@@ -561,6 +576,7 @@ function lose(m:Match,s:Side,choice:string){
 }
 
 export function assertMatch(m:Match){
+ if(m.concededBy!==undefined&&(!sides.includes(m.concededBy)||m.winner!==null))throw Error('Invalid concession result.');
  assertReact(m);
  if(m.scenario==='last-force'){
   if(m.locations.length!==1||m.cards[m.locations[0]]?.blueprint!=='1_124'||m.battle||m.players.light.force.length||m.players.light.used.length||m.players.light.destiny.length||m.players.light.reserve.length>1||m.players.light.hand.length>1||[...m.players.light.reserve,...m.players.light.hand].some(id=>m.cards[id].blueprint!=='1_28'))throw Error('Unsupported final Life Force fixture.');
@@ -676,7 +692,7 @@ function recirculationStudy(m:Match):import('./types').RecirculationStudy{
  };
 }
 export function project(m:Match,seat:Side,includeStudy=false):Projection{
- assertMatch(m);const p=m.setup?setupPrompt(m,seat):prompt(m);const players={} as Projection['players'];
+ assertMatch(m);const p=m.concededBy?null:m.setup?setupPrompt(m,seat):prompt(m);const players={} as Projection['players'];
  for(const s of sides){const source=m.players[s];players[s]={counts:Object.fromEntries(piles.map(z=>[z,source[z].length])) as Projection['players'][Side]['counts'],life:life(m,s),hand:s===seat?source.hand.map(id=>publicCard(m,id)):[],lost:source.lost.slice(0,1).map(id=>publicCard(m,id)),destiny:source.destiny.map(id=>publicCard(m,id))};}
  const b=m.battle;const frame=m.stack.find(f=>f.kind==='battle');
  // Active saves expose totals only after calculation, including nested response
@@ -686,5 +702,5 @@ export function project(m:Match,seat:Side,includeStudy=false):Projection{
  const ready=!!b&&(frame?.stage==='damage'||frame?.stage==='end'||b.resolved||m.complete&&b.drawn.light&&b.drawn.dark);
  const losses=ready?Object.fromEntries(sides.map(s=>[s,{attrition:b!.attrition[s],damage:b!.damage[s],initialAttrition:b!.destiny[other(s)]??0,initialDamage:Math.max(0,b!.power[other(s)]-b!.power[s])}])) as Record<Side,import('./types').LossBalance>:null;
  const order=m.stack.find(f=>f.kind==='lost-order');
- return {...(isReactStudy(m.scenario)?{reactStudy:{...structuredClone(m.reactStudy!),pending:(()=>{const f=m.stack.find(f=>f.kind==='react');return f?{card:f.card,cost:f.cost,method:f.method}:null})(),ability:{light:participatingAbility(m,'light',m.reactStudy!.site||m.locations[0]),dark:participatingAbility(m,'dark',m.reactStudy!.site||m.locations[0])}}}:{}),...(isLossStudy(m.scenario)?{lossStudy:{kind:m.scenario==='reduce-drain'?'drain' as const:m.scenario==='talz-rescue'?'rescue' as const:'battle' as const,remaining:m.scenario==='reduce-drain'?((m.stack.find(f=>f.kind==='drain') as Extract<Frame,{kind:'drain'}>|undefined)?.remaining||0):m.battle!.damage.light,reduced:m.lossStudy!.reduced,rescued:[...m.lossStudy!.rescued]}}:{}),...(isDesertStudy(m.scenario)?{characterStudy:{groups:m.locations.map(site=>({site,raiders:tuskensAt(m,site),bonus:groupPowerBonus(m,'dark',site)}))}}:{}),scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)&&!c.coveredBy).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.setup?{setup:projectSetup(m,seat,includeStudy,id=>publicCard(m,id))}:{}),...(m.cycle?{cycle:structuredClone(m.cycle)}:{}),...(m.scenario==='takeel'||m.turn||isLossStudy(m.scenario)||isReactStudy(m.scenario)?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)&&(!isOpeningStudy(m.scenario)||!!m.battle)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
+ return {...(isReactStudy(m.scenario)?{reactStudy:{...structuredClone(m.reactStudy!),pending:(()=>{const f=m.stack.find(f=>f.kind==='react');return f?{card:f.card,cost:f.cost,method:f.method}:null})(),ability:{light:participatingAbility(m,'light',m.reactStudy!.site||m.locations[0]),dark:participatingAbility(m,'dark',m.reactStudy!.site||m.locations[0])}}}:{}),...(isLossStudy(m.scenario)?{lossStudy:{kind:m.scenario==='reduce-drain'?'drain' as const:m.scenario==='talz-rescue'?'rescue' as const:'battle' as const,remaining:m.scenario==='reduce-drain'?((m.stack.find(f=>f.kind==='drain') as Extract<Frame,{kind:'drain'}>|undefined)?.remaining||0):m.battle!.damage.light,reduced:m.lossStudy!.reduced,rescued:[...m.lossStudy!.rescued]}}:{}),...(isDesertStudy(m.scenario)?{characterStudy:{groups:m.locations.map(site=>({site,raiders:tuskensAt(m,site),bonus:groupPowerBonus(m,'dark',site)}))}}:{}),scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete||!!m.concededBy,winner:m.concededBy?other(m.concededBy):m.winner,...(m.concededBy?{concededBy:m.concededBy}:{}),players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)&&!c.coveredBy).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.setup?{setup:projectSetup(m,seat,includeStudy,id=>publicCard(m,id))}:{}),...(m.cycle?{cycle:structuredClone(m.cycle)}:{}),...(m.scenario==='takeel'||m.turn||isLossStudy(m.scenario)||isReactStudy(m.scenario)?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)&&(!isOpeningStudy(m.scenario)||!!m.battle)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
 }

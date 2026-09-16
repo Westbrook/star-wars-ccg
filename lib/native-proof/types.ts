@@ -39,7 +39,7 @@ export type Frame =
 export type Match = {
  schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5'|'native-proof-6'|'native-proof-7'|'native-proof-8'|'native-proof-9'|'native-proof-10'|'native-proof-11'|'native-proof-12'|'native-proof-13'|'native-proof-14';scenario:ScenarioId;revision:number;active:Side;phase:string;
  cards:Record<string,Card>;players:Record<Side,Player>;locations:string[];stack:Frame[];
- battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;reactStudy?:{used:string[];arrived:string[];cancelled:boolean;site:string|null;barred?:string[];drains?:{site:string;amount:number;cancelled:boolean}[]};lossStudy?:{reduced:number;rescued:string[];reduction?:{card:string;amount:number;source:'drain'|'battle'}};turn?:StudyTurn;cycle?:TurnCycle;setup?:SetupState;
+ battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;concededBy?:Side;reactStudy?:{used:string[];arrived:string[];cancelled:boolean;site:string|null;barred?:string[];drains?:{site:string;amount:number;cancelled:boolean}[]};lossStudy?:{reduced:number;rescued:string[];reduction?:{card:string;amount:number;source:'drain'|'battle'}};turn?:StudyTurn;cycle?:TurnCycle;setup?:SetupState;
 };
 export type LossBalance = {attrition:number;damage:number;initialAttrition:number;initialDamage:number};
 export type LossPreview = {kind:'forfeit'|'force';value:number;attrition:number;damage:number};
@@ -53,7 +53,7 @@ export type RecirculationStudy = {
  players:Record<Side,{before:StudyPiles;current:StudyPiles;resolved:boolean;orderPreserved:boolean|null;reserveUnchanged:boolean;forceUnchanged:boolean}>;
 };
 export type Projection = {
- scenario:ScenarioId;engine:string;revision:number;active:Side;phase:string;seat:Side;complete:boolean;winner:Side|null;
+ scenario:ScenarioId;engine:string;revision:number;active:Side;phase:string;seat:Side;complete:boolean;winner:Side|null;concededBy?:Side;
  players:Record<Side,{counts:Record<Pile,number>;life:number;hand:PublicCard[];lost:PublicCard[];destiny:PublicCard[]}>;
  locations:PublicCard[];table:PublicCard[];prompt:Prompt|null;log:Match['log'];battle:Battle|null;losses:Record<Side,LossBalance>|null;recirculationStudy?:RecirculationStudy;playing?:PublicCard[];
  turn?:StudyTurn & {deploymentSites:{site:string;allowed:boolean;reason:string}[]};

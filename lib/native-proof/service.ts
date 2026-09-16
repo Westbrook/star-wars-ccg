@@ -1,5 +1,5 @@
 import {env} from 'cloudflare:workers';
-import {applyCommand,assertMatch,createScenario,project,prompt} from './engine';
+import {concedeGame,applyCommand,assertMatch,createScenario,project,prompt} from './engine';
 import {scenarios} from './catalog';
 import type {Match,ScenarioId,Side} from './types';
 
@@ -59,7 +59,7 @@ export async function choose(id:string,actor:string,body:Record<string,unknown>)
  const prior=await db().prepare('SELECT actor,request_hash,result_version FROM proof_commands WHERE id = ?').bind(key).first<Receipt>();
  if(prior){if(prior.actor!==actor||prior.request_hash!==digest)throw new ProofError('A command ID cannot be reused for a different choice.',409);return {...response(await rowFor(id),actor,body.seat),duplicate:true,acceptedVersion:prior.result_version};}
  if(row.version!==version)throw new ProofError('Another choice already advanced this checkpoint. Reload its current state.',409);
- let state:Match;try{state=applyCommand(parse(row),s,{choice,prompt:promptId});}catch(e){throw new ProofError((e as Error).message,422);}
+ let state:Match;try{state=choice==='concede-game'?concedeGame(parse(row),s,promptId):applyCommand(parse(row),s,{choice,prompt:promptId});}catch(e){throw new ProofError((e as Error).message,422);}
  const claim=crypto.randomUUID();const now=Date.now();
  // Both writes are one transaction. A random claim makes the update conditional
  // on THIS invocation inserting the receipt, including simultaneous duplicates.
