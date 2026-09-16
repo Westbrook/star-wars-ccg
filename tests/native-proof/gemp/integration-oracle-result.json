@@ -1,0 +1,512 @@
+[
+  {
+    "name": "signal-bay-pass",
+    "force": {
+      "light": 4,
+      "dark": 1
+    },
+    "used": {
+      "light": [],
+      "dark": []
+    },
+    "lost": {
+      "light": [
+        "1_12"
+      ],
+      "dark": []
+    },
+    "light": [
+      "1_6"
+    ],
+    "excluded": [],
+    "ability": 0,
+    "power": 0,
+    "damage": 0,
+    "attrition": 0,
+    "life": 53,
+    "hand": 4,
+    "winner": null
+  },
+  {
+    "name": "signal-bay-trooper",
+    "force": {
+      "light": 3,
+      "dark": 1
+    },
+    "used": {
+      "light": [
+        "1_153"
+      ],
+      "dark": []
+    },
+    "lost": {
+      "light": [],
+      "dark": []
+    },
+    "light": [
+      "1_28",
+      "1_6"
+    ],
+    "excluded": [],
+    "ability": 1,
+    "power": 0,
+    "damage": 0,
+    "attrition": 0,
+    "life": 54,
+    "hand": 3,
+    "winner": null
+  },
+  {
+    "name": "signal-bay-wolfman",
+    "force": {
+      "light": 1,
+      "dark": 1
+    },
+    "used": {
+      "light": [
+        "1_162",
+        "1_162",
+        "1_153"
+      ],
+      "dark": []
+    },
+    "lost": {
+      "light": [],
+      "dark": []
+    },
+    "light": [
+      "1_30",
+      "1_6"
+    ],
+    "excluded": [],
+    "ability": 1,
+    "power": 0,
+    "damage": 0,
+    "attrition": 0,
+    "life": 54,
+    "hand": 3,
+    "winner": null
+  },
+  {
+    "name": "signal-corridor",
+    "force": {
+      "light": 4,
+      "dark": 1
+    },
+    "used": {
+      "light": [],
+      "dark": []
+    },
+    "lost": {
+      "light": [],
+      "dark": []
+    },
+    "light": [],
+    "excluded": [],
+    "ability": 0,
+    "power": 0,
+    "damage": 0,
+    "attrition": 0,
+    "life": 54,
+    "hand": 4,
+    "winner": null
+  },
+  {
+    "name": "barrier-no-react",
+    "force": {
+      "light": 4,
+      "dark": 1
+    },
+    "used": {
+      "light": [],
+      "dark": [
+        "1_181",
+        "1_322"
+      ]
+    },
+    "lost": {
+      "light": [],
+      "dark": []
+    },
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_6"
+    ],
+    "excluded": [],
+    "ability": 3,
+    "power": 4,
+    "damage": 3,
+    "attrition": 3,
+    "life": 51,
+    "hand": 4,
+    "winner": null
+  },
+  {
+    "name": "barrier-pass",
+    "force": {
+      "light": 3,
+      "dark": 1
+    },
+    "used": {
+      "light": [
+        "1_12",
+        "1_153"
+      ],
+      "dark": [
+        "1_181",
+        "1_322"
+      ]
+    },
+    "lost": {
+      "light": [],
+      "dark": []
+    },
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_6"
+    ],
+    "excluded": [],
+    "ability": 4,
+    "power": 8,
+    "damage": 0,
+    "attrition": 3,
+    "life": 51,
+    "hand": 3,
+    "winner": null
+  },
+  {
+    "name": "barrier-first",
+    "force": {
+      "light": 3,
+      "dark": 0
+    },
+    "used": {
+      "light": [
+        "1_153"
+      ],
+      "dark": [
+        "1_181",
+        "1_249",
+        "1_322",
+        "1_322"
+      ]
+    },
+    "lost": {
+      "light": [],
+      "dark": []
+    },
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_6"
+    ],
+    "excluded": [
+      "1_28"
+    ],
+    "ability": 3,
+    "power": 4,
+    "damage": 3,
+    "attrition": 3,
+    "life": 51,
+    "hand": 3,
+    "winner": null
+  },
+  {
+    "name": "barrier-second",
+    "force": {
+      "light": 2,
+      "dark": 0
+    },
+    "used": {
+      "light": [
+        "1_12",
+        "1_162",
+        "1_153"
+      ],
+      "dark": [
+        "1_181",
+        "1_249",
+        "1_322",
+        "1_322"
+      ]
+    },
+    "lost": {
+      "light": [],
+      "dark": []
+    },
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_6"
+    ],
+    "excluded": [
+      "1_28"
+    ],
+    "ability": 4,
+    "power": 8,
+    "damage": 0,
+    "attrition": 3,
+    "life": 51,
+    "hand": 2,
+    "winner": null
+  },
+  {
+    "name": "barrier-reinforce",
+    "force": {
+      "light": 2,
+      "dark": 0
+    },
+    "used": {
+      "light": [
+        "1_12",
+        "1_162",
+        "1_153"
+      ],
+      "dark": [
+        "1_181",
+        "1_249",
+        "1_322",
+        "1_322"
+      ]
+    },
+    "lost": {
+      "light": [],
+      "dark": []
+    },
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_6"
+    ],
+    "excluded": [
+      "1_28"
+    ],
+    "ability": 4,
+    "power": 8,
+    "damage": 0,
+    "attrition": 3,
+    "life": 51,
+    "hand": 2,
+    "winner": null
+  },
+  {
+    "name": "barrier-wolfman",
+    "force": {
+      "light": 1,
+      "dark": 0
+    },
+    "used": {
+      "light": [
+        "1_162",
+        "1_162",
+        "1_153"
+      ],
+      "dark": [
+        "1_181",
+        "1_249",
+        "1_322",
+        "1_322"
+      ]
+    },
+    "lost": {
+      "light": [],
+      "dark": []
+    },
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_30",
+      "1_6"
+    ],
+    "excluded": [
+      "1_30"
+    ],
+    "ability": 3,
+    "power": 4,
+    "damage": 3,
+    "attrition": 3,
+    "life": 51,
+    "hand": 3,
+    "winner": null
+  },
+  {
+    "name": "last-hand",
+    "force": {
+      "light": 0,
+      "dark": 0
+    },
+    "used": {
+      "light": [],
+      "dark": []
+    },
+    "lost": {
+      "light": [
+        "1_28",
+        "1_162",
+        "1_162",
+        "1_162",
+        "1_153",
+        "1_152",
+        "1_152",
+        "1_132",
+        "1_131",
+        "1_131",
+        "1_130",
+        "1_129",
+        "1_129",
+        "101_1",
+        "101_1",
+        "1_120",
+        "1_115",
+        "1_113",
+        "1_113",
+        "101_3",
+        "101_3",
+        "101_3",
+        "1_106",
+        "1_105",
+        "1_100",
+        "1_98",
+        "1_90",
+        "1_90",
+        "1_91",
+        "1_84",
+        "1_80",
+        "1_80",
+        "1_77",
+        "1_64",
+        "1_40",
+        "1_40",
+        "1_35",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_26",
+        "1_26",
+        "101_2",
+        "101_2",
+        "101_2",
+        "1_18",
+        "1_18",
+        "1_6",
+        "1_31",
+        "1_31",
+        "1_31",
+        "1_30",
+        "1_30",
+        "1_30",
+        "1_12",
+        "1_12"
+      ],
+      "dark": []
+    },
+    "light": [],
+    "excluded": [],
+    "ability": 0,
+    "power": 0,
+    "damage": 0,
+    "attrition": 0,
+    "life": 1,
+    "hand": 0,
+    "winner": null
+  },
+  {
+    "name": "last-reserve",
+    "force": {
+      "light": 0,
+      "dark": 0
+    },
+    "used": {
+      "light": [],
+      "dark": []
+    },
+    "lost": {
+      "light": [
+        "1_28",
+        "1_162",
+        "1_162",
+        "1_162",
+        "1_153",
+        "1_152",
+        "1_152",
+        "1_132",
+        "1_131",
+        "1_131",
+        "1_130",
+        "1_129",
+        "1_129",
+        "101_1",
+        "101_1",
+        "1_120",
+        "1_115",
+        "1_113",
+        "1_113",
+        "101_3",
+        "101_3",
+        "101_3",
+        "1_106",
+        "1_105",
+        "1_100",
+        "1_98",
+        "1_90",
+        "1_90",
+        "1_91",
+        "1_84",
+        "1_80",
+        "1_80",
+        "1_77",
+        "1_64",
+        "1_40",
+        "1_40",
+        "1_35",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_26",
+        "1_26",
+        "101_2",
+        "101_2",
+        "101_2",
+        "1_18",
+        "1_18",
+        "1_6",
+        "1_31",
+        "1_31",
+        "1_31",
+        "1_30",
+        "1_30",
+        "1_30",
+        "1_12",
+        "1_12"
+      ],
+      "dark": []
+    },
+    "light": [],
+    "excluded": [],
+    "ability": 0,
+    "power": 0,
+    "damage": 0,
+    "attrition": 0,
+    "life": 0,
+    "hand": 1,
+    "winner": "dark"
+  }
+]

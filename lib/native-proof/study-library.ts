@@ -13,6 +13,7 @@ export const studyTopics=[
 export type StudyTopic=typeof studyTopics[number]['id'];
 export type StudyFilter={query:string;topic:StudyTopic};
 const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
+ 'react-drain-deploy':['force','deployment'],'react-barrier':['battle','deployment','interrupts'],'last-force':['force'],
  'react-battle':['battle','deployment'],'react-drain':['force','deployment'],'react-deploy':['battle','deployment'],
  'reduce-drain':['force','interrupts'],'reduce-damage':['battle','force','interrupts'],'talz-rescue':['battle','weapons'],
  'guard-post':['deployment','battle','interrupts'],'rebel-post':['deployment','battle','interrupts'],'corridor-crossfire':['weapons','battle','deployment'],
@@ -30,6 +31,7 @@ const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
 };
 // Featured cards only: Reserve filler is not a claim of playable card coverage.
 const featuredCards:Record<ScenarioId,string[]>={
+ 'react-drain-deploy':['1_6','1_28','1_30','1_124','1_284'],'react-barrier':['1_6','1_28','1_30','1_249'],'last-force':['1_124','1_28'],
  'react-battle':['1_30','1_28'],'react-drain':['1_30','1_124'],'react-deploy':['1_6','1_30','1_28','1_12'],
  'reduce-drain':['1_90','1_132'],'reduce-damage':['1_90','1_28','1_194'],'talz-rescue':['1_31','1_28','1_317','1_312','1_152'],
  'guard-post':['1_170','1_181','1_26','1_194','1_105'],'rebel-post':['1_26','1_181','1_28','1_249'],'corridor-crossfire':['1_284','1_152','1_153','1_317','1_312'],
@@ -53,6 +55,9 @@ const battleRules='battle initiation cost battle damage attrition forfeit forfei
 const turnRules='character deployment Force icons presence regular movement adjacent sites once per turn draw phase recirculation temporary restrictions expire end of turn';
 const weaponRules='weapon deployment transfer firing target weapon destiny threshold return fire hit power ability warrior one different weapon mandatory hit forfeit attached cards simultaneous losses Lost Pile order';
 const searchableRules:Record<ScenarioId,string>={
+ 'react-drain-deploy':'CZ-3 react Force drain deployment restriction presence droid Force icons zero drain',
+ 'react-barrier':'Imperial Barrier react reinforcement excluded inactive battle destiny ability power presence paid Interrupt',
+ 'last-force':'victory win defeat loss final Life Force Reserve Deck hand terminal game over',
  'react-battle':'react movement adjacent landspeed cost ability battle destiny reinforcement',
  'react-drain':'react movement Force drain cancel presence control no further reacts',
  'react-deploy':'CZ-3 droid no ability deploy react normal cost same adjacent site restrictions Jawa Tatooine presence Force icons separate responses',

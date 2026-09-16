@@ -1,0 +1,33 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-09-16T01:32:20.245572+00:00",
+  "tests": 1,
+  "outcomes": 12,
+  "fixture": "Exact native-proof-13 cards, table and ordered piles imported for setup only. Dark declines activation before Control checkpoints so both sides retain the exact authored Force piles. Thereafter all rules execute unmodified.",
+  "fixtureSha256": "81b7b9cedff238d83238d2c2a4db4fb8e831c835958b3d6661de2dc236eb6e4e",
+  "sources": {
+    "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_006.java": "61accdbd3e52869998764041d5293be09bbc1e96e3b90dc4a62c6ea6c8fedce3",
+    "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_249.java": "debe142d4a16c0b136a58c02c7a7f52f8fb2759fff72d13deb2de5629798b203",
+    "gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/MayNotMoveOrBattleUntilEndOfTurnEffect.java": "0ee3b9f25eec48c48cc0a67e0cb5412727c4d19125921e6bea6f38918118c6ab"
+  },
+  "rulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "printedPages": [
+    9,
+    10,
+    41,
+    47,
+    60,
+    61,
+    170,
+    171
+  ],
+  "observations": [
+    "CZ-3 at the Bay provides no presence; a deployment react cancels its drain, but normal deployment requirements block reinforcements at the adjacent Corridor. Zero drains remain legal.",
+    "Imperial Barrier is available only after react deployment. The paid Interrupt excludes that character from battle power, ability and forfeits while the physical card remains at the site. Later reinforcements remain separate legal actions.",
+    "Loss of the final Reserve card immediately declares Dark the winner despite a remaining Light hand card. Losing the hand card instead preserves one Life Force. Both winner state and full ordered piles agree."
+  ],
+  "limitations": [
+    "Closed single-event fixtures. No cross-turn react reset or Barrier expiry integration, vehicles, carried equipment or complete native matches.",
+    "Empty cost subresponses are normalized as in earlier studies; no omitted playable response card is in these fixtures."
+  ]
+}

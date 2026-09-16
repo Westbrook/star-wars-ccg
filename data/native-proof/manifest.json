@@ -478,6 +478,16 @@
         ],
         "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
         "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
+      },
+      "groundInteractionConformance": {
+        "engine": "native-proof-13",
+        "scenarios": [
+          "react-drain-deploy",
+          "react-barrier",
+          "last-force"
+        ],
+        "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
+        "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
       }
     },
     {
@@ -1060,6 +1070,16 @@
         ],
         "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
         "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      },
+      "groundInteractionConformance": {
+        "engine": "native-proof-13",
+        "scenarios": [
+          "react-drain-deploy",
+          "react-barrier",
+          "last-force"
+        ],
+        "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
+        "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
       }
     },
     {
@@ -1331,6 +1351,16 @@
         ],
         "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
         "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
+      },
+      "groundInteractionConformance": {
+        "engine": "native-proof-13",
+        "scenarios": [
+          "react-drain-deploy",
+          "react-barrier",
+          "last-force"
+        ],
+        "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
+        "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
       }
     },
     {
@@ -1389,6 +1419,16 @@
         ],
         "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
         "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
+      },
+      "groundInteractionConformance": {
+        "engine": "native-proof-13",
+        "scenarios": [
+          "react-drain-deploy",
+          "react-barrier",
+          "last-force"
+        ],
+        "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
+        "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
       }
     },
     {
@@ -1514,6 +1554,16 @@
         ],
         "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
         "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
+      },
+      "groundInteractionConformance": {
+        "engine": "native-proof-13",
+        "scenarios": [
+          "react-drain-deploy",
+          "react-barrier",
+          "last-force"
+        ],
+        "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
+        "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
       }
     },
     {
@@ -1741,6 +1791,16 @@
         ],
         "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
         "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
+      },
+      "groundInteractionConformance": {
+        "engine": "native-proof-13",
+        "scenarios": [
+          "react-drain-deploy",
+          "react-barrier",
+          "last-force"
+        ],
+        "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
+        "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
       }
     },
     {

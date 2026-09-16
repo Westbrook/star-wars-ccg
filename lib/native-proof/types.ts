@@ -1,7 +1,7 @@
 export type Side = 'light' | 'dark';
 export type Zone = 'reserve' | 'force' | 'used' | 'lost' | 'hand' | 'destiny' | 'table' | 'playing' | 'leaving';
 export type Pile = Exclude<Zone,'table'|'playing'|'leaving'>;
-export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons' | 'next-turn' | 'opening-table' | 'first-contact' | 'guard-post' | 'rebel-post' | 'corridor-crossfire' | 'second-contact' | 'luke-arrives' | 'luke-support' | 'tusken-band' | 'reduce-drain' | 'reduce-damage' | 'talz-rescue' | 'react-battle' | 'react-drain' | 'react-deploy';
+export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons' | 'next-turn' | 'opening-table' | 'first-contact' | 'guard-post' | 'rebel-post' | 'corridor-crossfire' | 'second-contact' | 'luke-arrives' | 'luke-support' | 'tusken-band' | 'reduce-drain' | 'reduce-damage' | 'talz-rescue' | 'react-battle' | 'react-drain' | 'react-deploy' | 'react-drain-deploy' | 'react-barrier' | 'last-force';
 export type TurnStage = 'start'|'activate'|'control'|'deploy'|'battle'|'move'|'draw'|'end'|'complete';
 export type Restriction = {target:string;source:string;expiresTurn:number};
 export type StudyTurn = {number:number;deployer:Side;stage:TurnStage;restrictions:Restriction[];expired:Restriction[];moved:string[];battled:string[]};
@@ -36,9 +36,9 @@ export type Frame =
  | {kind:'recirculation';next:Side}
  | {kind:'finish';message:string};
 export type Match = {
- schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5'|'native-proof-6'|'native-proof-7'|'native-proof-8'|'native-proof-9'|'native-proof-10'|'native-proof-11'|'native-proof-12';scenario:ScenarioId;revision:number;active:Side;phase:string;
+ schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5'|'native-proof-6'|'native-proof-7'|'native-proof-8'|'native-proof-9'|'native-proof-10'|'native-proof-11'|'native-proof-12'|'native-proof-13';scenario:ScenarioId;revision:number;active:Side;phase:string;
  cards:Record<string,Card>;players:Record<Side,Player>;locations:string[];stack:Frame[];
- battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;reactStudy?:{used:string[];arrived:string[];cancelled:boolean;site:string|null};lossStudy?:{reduced:number;rescued:string[];reduction?:{card:string;amount:number;source:'drain'|'battle'}};turn?:StudyTurn;cycle?:TurnCycle;setup?:SetupState;
+ battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;reactStudy?:{used:string[];arrived:string[];cancelled:boolean;site:string|null;barred?:string[]};lossStudy?:{reduced:number;rescued:string[];reduction?:{card:string;amount:number;source:'drain'|'battle'}};turn?:StudyTurn;cycle?:TurnCycle;setup?:SetupState;
 };
 export type LossBalance = {attrition:number;damage:number;initialAttrition:number;initialDamage:number};
 export type LossPreview = {kind:'forfeit'|'force';value:number;attrition:number;damage:number};
@@ -59,7 +59,7 @@ export type Projection = {
  characterStudy?:{groups:{site:string;raiders:number;bonus:number}[]};
  cycle?:TurnCycle;
  setup?:{stage:SetupStage;round:number;committed:Record<Side,boolean>;selected:Record<Side,PublicCard|null>;candidates:PublicCard[];rejected:PublicCard[][];covered:PublicCard|null;generation:Record<Side,number>|null;groups:{name:string;cards:PublicCard[]}[];openingHands?:Record<Side,PublicCard[]>};
- reactStudy?:{used:string[];arrived:string[];cancelled:boolean;site:string|null;pending:{card:string;cost:number;method:'move'|'deploy'}|null;ability:Record<Side,number>};
+ reactStudy?:{used:string[];arrived:string[];cancelled:boolean;site:string|null;barred?:string[];pending:{card:string;cost:number;method:'move'|'deploy'}|null;ability:Record<Side,number>};
  lossStudy?:{kind:'drain'|'battle'|'rescue';remaining:number;reduced:number;rescued:string[]};
  weaponStudy?:{stage:'deploy'|'battle'|'complete';hits:Record<Side,string[]>;lostOrder:{side:Side;remaining:PublicCard[];placed:PublicCard[]}|null};
 };
