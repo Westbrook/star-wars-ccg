@@ -46,3 +46,14 @@
 
 .proof-loss-study{padding:1.5rem;border:1px solid #e9b36d2b;border-radius:1rem;background:rgba(222,173,74,.055);margin:1rem 0}.proof-loss-study h2{font-size:1.5rem;margin:.5rem 0}.proof-loss-study p{font-size:1rem;line-height:1.6;color:#a8b2ac;max-width:70ch}.proof-loss-study-totals{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem}.proof-loss-study-totals span{font-size:.875rem;display:flex;gap:.75rem;align-items:center}.proof-loss-study-totals b{font-size:1.5rem;color:#e4b878}.proof-reduction-choice{display:flex;flex-direction:column;gap:.5rem;white-space:normal;text-align:left;font-size:.875rem}.proof-reduction-choice small{font-size:.875rem;line-height:1.4;opacity:.8}
 .proof-concede{border-color:#bb797566;color:#f0b5aa;background:#332124}.proof-concede:hover:not(:disabled){border-color:#efb6a8;background:#42292c}.proof-concede-dialog{width:calc(100% - 32px);background:#131b1e;color:#eee5d6;border:1px solid #b68d6644;max-width:510px}.proof-concede-dialog p{font-size:14px;line-height:1.65;color:#c4c0b5}.proof-concede-dialog fieldset{border:0;padding:0;margin:0}.proof-concede-dialog legend{margin-bottom:10px;font-size:14px}.proof-concede-dialog fieldset>div,.proof-concede-actions{display:flex;flex-wrap:wrap;gap:12px}.proof-concede-dialog .button{min-height:44px;white-space:normal}.proof-concede-dialog [aria-pressed=true]{border-color:#edac62;background:#edac6222;color:#f5d4a8}.proof-concede-actions{justify-content:flex-end}.proof-concede-dialog button:focus-visible{outline:2px solid #edac62;outline-offset:4px}
+
+.proof-frontier-study{margin:20px 0;padding:20px;border:1px solid #58635b;border-radius:12px;background:#142020;color:#e9deca}
+.proof-frontier-study p{font-size:1rem;line-height:1.6;margin:10px 0}
+.proof-frontier-force{display:flex;gap:12px;flex-wrap:wrap}
+.proof-frontier-force span{display:flex;align-items:center;gap:16px;padding:10px 14px;background:#0e171b;border-radius:8px;font-size:.9rem}
+.proof-frontier-force b{font-size:1.25rem;color:#e9c884}
+.proof-frontier-destiny{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.proof-frontier-destiny>div{display:flex;flex-direction:column;gap:6px;font-size:.9rem}
+.proof-frontier-destiny>small{grid-column:1/-1;font-size:.875rem;line-height:1.5;color:#bfc8ba}
+.proof-frontier-study .proof-frontier-scope{font-size:.875rem;color:#bfc8ba}
+@media(max-width:420px){.proof-frontier-destiny{grid-template-columns:1fr}.proof-frontier-study{padding:16px}}

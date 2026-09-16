@@ -13,6 +13,7 @@ export const studyTopics=[
 export type StudyTopic=typeof studyTopics[number]['id'];
 export type StudyFilter={query:string;topic:StudyTopic};
 const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
+ 'jawa-bargain':['deployment','force','interrupts'],'dune-sea':['battle','deployment','interrupts'],'desert-patrol':['force','battle','deployment','interrupts'],
  'react-drain-deploy':['force','deployment'],'react-barrier':['battle','deployment','interrupts'],'last-force':['force'],
  'react-battle':['battle','deployment'],'react-drain':['force','deployment'],'react-deploy':['battle','deployment'],
  'reduce-drain':['force','interrupts'],'reduce-damage':['battle','force','interrupts'],'talz-rescue':['battle','weapons'],
@@ -31,6 +32,7 @@ const coverage:Record<ScenarioId,Exclude<StudyTopic,'all'>[]>={
 };
 // Featured cards only: Reserve filler is not a claim of playable card coverage.
 const featuredCards:Record<ScenarioId,string[]>={
+ 'jawa-bargain':['1_12','1_131','1_130','1_249'],'dune-sea':['1_182','1_194','1_130','1_105'],'desert-patrol':['1_12','1_182','1_131','1_130','1_105','1_249'],
  'react-drain-deploy':['1_6','1_28','1_30','1_124','1_284'],'react-barrier':['1_6','1_28','1_30','1_249'],'last-force':['1_124','1_28'],
  'react-battle':['1_30','1_28'],'react-drain':['1_30','1_124'],'react-deploy':['1_6','1_30','1_28','1_12'],
  'reduce-drain':['1_90','1_132'],'reduce-damage':['1_90','1_28','1_194'],'talz-rescue':['1_31','1_28','1_317','1_312','1_152'],
@@ -55,6 +57,9 @@ const battleRules='battle initiation cost battle damage attrition forfeit forfei
 const turnRules='character deployment Force icons presence regular movement adjacent sites once per turn draw phase recirculation temporary restrictions expire end of turn';
 const weaponRules='weapon deployment transfer firing target weapon destiny threshold return fire hit power ability warrior one different weapon mandatory hit forfeit attached cards simultaneous losses Lost Pile order';
 const searchableRules:Record<ScenarioId,string>={
+ 'jawa-bargain':'Jawa mandatory opponent Force cost both players insufficient Force Jawa Camp discount Barrier',
+ 'dune-sea':'Dune Sea battle destiny six ability four Light Barrier exclusion participating ability Jawa',
+ 'desert-patrol':turnRules+' Jawa Camp Dune Sea both players Force cost two turns six ability battle destiny Barrier expiry',
  'react-drain-deploy':'CZ-3 react Force drain deployment restriction presence droid Force icons zero drain',
  'react-barrier':'Imperial Barrier react reinforcement excluded inactive battle destiny ability power presence paid Interrupt',
  'last-force':'victory win defeat loss final Life Force Reserve Deck hand terminal game over',

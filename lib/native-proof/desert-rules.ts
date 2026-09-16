@@ -1,19 +1,21 @@
+import {isFrontierStudy,isJawa} from './frontier-rules';
 import {definition,printed} from './catalog';
 import type {Match,Side} from './types';
 
-export const isDesertStudy=(s:string)=>['luke-arrives','luke-support','tusken-band'].includes(s);
+export const isDesertStudy=(s:string)=>isFrontierStudy(s)||['luke-arrives','luke-support','tusken-band'].includes(s);
 export function activeCharacter(m:Match,id:string){
  const c=m.cards[id],b=m.battle;
  return c?.zone==='table'&&definition(c.blueprint).type==='Character'&&(!b||b.resolved||c.location!==b.site||b.participants[c.owner].includes(id));
 }
 export const desertCharacters=(side:Side)=>side==='light'?['101_2','1_28','1_26']:['1_196','1_194','1_170','1_181'];
 export function desertDeployCost(m:Match,blueprint:string,site:string){
+ if(isFrontierStudy(m.scenario)&&isJawa(blueprint))return 1;
  if(blueprint==='101_2')return m.cards[site].blueprint==='1_132'?3:4;
  if(blueprint==='1_28'&&Object.values(m.cards).some(c=>c.owner==='light'&&c.blueprint==='101_2'&&c.location===site&&activeCharacter(m,c.id)))return 0;
  return printed(blueprint,'deploy');
 }
 export function desertCanDeploy(m:Match,blueprint:string,site:string){
- if(['101_2','1_196'].includes(blueprint)&&!definition(m.cards[site].blueprint).name.startsWith('Tatooine:'))return false;
+ if((['101_2','1_196'].includes(blueprint)||isFrontierStudy(m.scenario)&&isJawa(blueprint))&&!definition(m.cards[site].blueprint).name.startsWith('Tatooine:'))return false;
  // Luke is the only Light unique persona in the closed character pool. The
  // opposing study has no unique characters; its two-unique restriction is inactive.
  return blueprint!=='101_2'||!Object.values(m.cards).some(c=>c.zone==='table'&&c.blueprint==='101_2');

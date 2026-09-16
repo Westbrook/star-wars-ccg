@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-09-16T21:05:04.659723+00:00",
+  "gempCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "test": "NativeProofFrontierOracleTests (three executed tests)",
+  "sources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=147",
+    "Card1_012.java",
+    "Card1_182.java",
+    "Card1_130.java",
+    "Card1_131.java"
+  ],
+  "verified": [
+    "Five Jawa deployment branches: both-pile payment, Light-only Camp exception, exhausted opponent Force and nested Barrier.",
+    "Four battle branches: Dark ability 4, 5, 6 and six characters with one excluded by Barrier; actual GEMP total destiny, power and pile counts compared.",
+    "Patrol uses the real incoming Force generation, Dark drain, bilateral Jawa deployment, movement, recirculation, Light activation, Camp deployment and Imperial Barrier. Both full turns finish.",
+    "Both players\u2019 ordered Reserve, Force, Used and Lost match at the turn-three Activate checkpoint; hands compared as unordered sets."
+  ],
+  "limitations": [
+    "Test setup imports fixed card zones and pile orders. Gameplay uses unmodified pinned GEMP.",
+    "No complete legal-choice equivalence or full starter-match support claimed. Native skips empty cost responses because no eligible responding cards occur in these fixtures.",
+    "Sandcrawler exception and other Jawa cost modifiers are outside this ground-only pool."
+  ]
+}

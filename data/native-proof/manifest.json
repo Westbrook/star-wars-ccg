@@ -201,6 +201,16 @@
         ],
         "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
         "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -339,6 +349,16 @@
         ],
         "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
         "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -409,6 +429,16 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -536,7 +566,17 @@
         "Planet"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_130.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_130.java",
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
+      }
     },
     {
       "gempId": "1_131",
@@ -554,7 +594,17 @@
         "Planet"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_131.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_131.java",
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
+      }
     },
     {
       "gempId": "1_132",
@@ -746,6 +796,16 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -798,6 +858,16 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -823,6 +893,16 @@
         "scenario": "first-contact",
         "scope": "Fixed two-site Death Star board, recorded eight-card hands and both opening turns. Troopers, Barriers and basic Blasters use verified handlers; Jawas remain undeployable because both sites are outside Tatooine. Stops before turn 3 activation. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/opening.test.mjs; tests/native-proof/gemp/opening-oracle-provenance.json"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -898,6 +978,16 @@
         ],
         "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -927,6 +1017,16 @@
         ],
         "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
         "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -1080,6 +1180,16 @@
         ],
         "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
         "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -1169,6 +1279,16 @@
         ],
         "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
         "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
@@ -1361,6 +1481,16 @@
         ],
         "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
         "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
+      },
+      "frontierConformance": {
+        "engine": "native-proof-15",
+        "scenarios": [
+          "jawa-bargain",
+          "dune-sea",
+          "desert-patrol"
+        ],
+        "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
+        "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
       }
     },
     {
