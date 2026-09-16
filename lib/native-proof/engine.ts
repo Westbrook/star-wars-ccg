@@ -1,3 +1,4 @@
+import {isReactStudy,reactAbility,siteAbility,reactChoices,assertReact} from './react-rules';
 import {isLossStudy,lossAmount,lossResponses} from './loss-rules';
 import {isDesertStudy,desertCharacters,characterForfeit,groupPowerBonus,tuskensAt} from './desert-rules';
 import {isOpeningStudy,openingEndpoint,secondContactSafe} from './opening-rules';
@@ -30,7 +31,7 @@ function putTop(m:Match,s:Side,blueprint:string){const a=m.players[s].reserve;co
 function window(m:Match,text:string,priority:Side,event?:'battle-destiny-complete'|'character-deployed',target?:string){m.stack.push({kind:'window',label:text,priority,passes:0,...(event?{event}:{}),...(target?{target}:{})});}
 function finish(m:Match,text:string){m.stack=[];m.complete=true;log(m,text);}
 const isTurnStudy=(scenario:ScenarioId)=>isDesertStudy(scenario)||isGarrisonStudy(scenario)||scenario==='barrier'||scenario==='imperial-barrier'||scenario==='next-turn'||isOpeningStudy(scenario);
-const engineFor=(scenario:ScenarioId)=>isLossStudy(scenario)?'native-proof-11':isDesertStudy(scenario)?'native-proof-10':scenario==='second-contact'?'native-proof-9':isGarrisonStudy(scenario)||scenario==='corridor-crossfire'?'native-proof-8':scenario==='first-contact'?'native-proof-7':scenario==='opening-table'?'native-proof-6':scenario==='next-turn'?'native-proof-5':isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
+const engineFor=(scenario:ScenarioId)=>isReactStudy(scenario)?'native-proof-12':isLossStudy(scenario)?'native-proof-11':isDesertStudy(scenario)?'native-proof-10':scenario==='second-contact'?'native-proof-9':isGarrisonStudy(scenario)||scenario==='corridor-crossfire'?'native-proof-8':scenario==='first-contact'?'native-proof-7':scenario==='opening-table'?'native-proof-6':scenario==='next-turn'?'native-proof-5':isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
 const trooper=(side:Side)=>side==='light'?'1_28':'1_194';
 const barrier=(side:Side)=>side==='light'?'1_105':'1_249';
 
@@ -40,7 +41,21 @@ export function createScenario(scenario:ScenarioId):Match{
  for(const deck of manifest.decks){const s=deck.side as Side;for(const [i,b]of deck.main.entries()){const id=s[0]+String(i+1).padStart(3,'0');m.cards[id]={id,blueprint:b,owner:s,zone:'reserve'};m.players[s].reserve.push(id);}}
  if(scenario==='opening-table'||isOpeningStudy(scenario)){initializeSetup(m);assertMatch(m);return m;}
  const site=scenario==='reduce-drain'?pull(m,'light','1_132','table'):isDesertStudy(scenario)?pull(m,'light','1_129','table'):scenario==='corridor-crossfire'?pull(m,'dark','1_284','table'):pull(m,'light','1_124','table');m.locations.push(site);
- if(isLossStudy(scenario)){
+ if(isReactStudy(scenario)){
+  const corridor=pull(m,'dark','1_284','table');m.locations.push(corridor);m.reactStudy={used:[],arrived:[],cancelled:false,site:null};
+  const deploy=scenario==='react-deploy',drain=scenario==='react-drain';
+  for(const at of deploy?m.locations:[site]){
+   for(let i=0;i<(deploy?3:4);i++)pull(m,'dark','1_194','table',at);
+   for(let i=0;i<(drain?0:deploy?2:3);i++)pull(m,'light','1_28','table',at);
+  }
+  if(deploy){pull(m,'light','1_6','table',site);for(let i=0;i<2;i++)pull(m,'light','1_28','hand');pull(m,'light','1_30','hand');pull(m,'light','1_12','hand');}
+  else for(let i=0;i<2;i++)pull(m,'light','1_30','table',corridor);
+  for(let i=0;i<(deploy?4:2);i++)move(m,m.players.light.reserve.at(-1)!,'force');move(m,m.players.dark.reserve.at(-1)!,'force');
+  putTop(m,'light','1_12');putTop(m,'dark','1_181');
+  if(drain)m.stack=[{kind:'drain',stage:'start',site,remaining:0}];
+  else {m.battle=reactBattle(m,site);m.stack=[{kind:'battle',stage:'start',side:'dark'}];}
+  log(m,drain?'Two Wolfmen wait in the Corridor. Bringing one to the Bay cancels the drain before Force loss; the other cannot react to a canceled drain.':deploy?'CZ-3 enables separate deployment reacts at its site or the adjacent Corridor. Choose either battle. Rebels cost 1, Wolfman costs 3; Jawa cannot deploy on Death Star.':'Three Rebels have ability 3. Each arriving Wolfman adds 1 ability and 2 power, before battle destiny is checked.');
+ }else if(isLossStudy(scenario)){
   m.lossStudy={reduced:0,rescued:[]};
   if(scenario==='reduce-drain'){
    pull(m,'dark','1_194','table',site);for(let i=0;i<3;i++)pull(m,'light','1_28','force');pull(m,'light','1_28','hand');pull(m,'light','1_28','used');
@@ -156,6 +171,11 @@ export function createScenario(scenario:ScenarioId):Match{
  assertMatch(m);return m;
 }
 
+function reactBattle(m:Match,site:string):Battle{
+ const participants={light:atSite(m,'light',site),dark:atSite(m,'dark',site)};
+ const power={light:participants.light.reduce((n,id)=>n+characterPower(m,id,'dark'),0),dark:participants.dark.reduce((n,id)=>n+characterPower(m,id,'dark'),0)};
+ return {site,initiator:'dark',participants,destiny:{light:null,dark:null},drawn:{light:false,dark:false},power,attrition:{light:0,dark:0},damage:{light:0,dark:0},next:'dark'};
+}
 function atSite(m:Match,side:Side,site:string){return Object.values(m.cards).filter(c=>c.zone==='table'&&c.location===site&&c.owner===side&&definition(c.blueprint).type==='Character').map(c=>c.id);}
 function barred(m:Match,id:string){return !!m.turn?.restrictions.some(r=>r.target===id&&r.expiresTurn>=m.turn!.number);}
 function deploySite(m:Match,side:Side,site:string){return (sites[m.cards[site].blueprint]?.[side]||0)>0||atSite(m,side,site).some(id=>printed(m.cards[id].blueprint,'ability')>0);}
@@ -190,7 +210,7 @@ function nextTurnStage(m:Match,f:Extract<Frame,{kind:'turn'}>){
 }
 
 function members(m:Match,s:Side){return m.battle!.participants[s].filter(id=>m.cards[id].zone==='table'&&m.cards[id].location===m.battle!.site);}
-function ability(m:Match,s:Side){return members(m,s).reduce((n,id)=>n+printed(m.cards[id].blueprint,'ability'),0);}
+function ability(m:Match,s:Side){return members(m,s).reduce((n,id)=>n+reactAbility(m,id),0);}
 function mayLose(m:Match,s:Side){return piles.some(z=>m.players[s][z].length>0);}
 function lossChoices(m:Match,s:Side,prefix='lose'){
  const p=m.players[s];return [
@@ -204,6 +224,14 @@ function settle(m:Match){
  for(let steps=0;steps<40&&!m.complete;steps++){
   if(checkLife(m))return;
   const f=top(m);if(!f){finish(m,'Conformance checkpoint complete.');return;}
+  if(f.kind==='react-window'&&m.reactStudy!.cancelled){m.stack.pop();continue;}
+  if(f.kind==='react'){
+   move(m,f.card,'table',f.site);m.reactStudy!.arrived.push(f.card);m.stack.pop();
+   if(m.battle){m.battle.participants.light.push(f.card);m.battle.power.light+=characterPower(m,f.card,'dark');}
+   const drain=m.stack.find(x=>x.kind==='drain');
+   if(drain&&siteAbility(m,'light',f.site)>0){drain.remaining=0;m.reactStudy!.cancelled=true;log(m,'Light has brought presence. The Force drain is canceled before loss; no more reacts to this drain are legal.');}
+   log(m,name(m,f.card)+' '+f.card.toUpperCase()+' arrives at '+name(m,f.site)+'.');window(m,f.method==='move'?'React movement completed responses':'React character just deployed responses','dark');continue;
+  }
   if(f.kind==='finish'){finish(m,f.message);return;}
   if(f.kind==='turn-start'){
    m.stack.pop();m.turn!.stage='activate';m.phase='Activate';const generation=forceGeneration(m,m.active);m.cycle!.generation=generation;
@@ -264,14 +292,14 @@ function settle(m:Match){
    m.stack.pop();move(m,f.card,'used');log(m,label(f.side)+' places the resolved destiny card on top of Used.');continue;
   }
   if(f.kind==='drain'){
-   if(f.stage==='loss'&&f.remaining===0){f.stage='end';window(m,'Force drain completed responses',other(m.active));continue;}
+   if(f.stage==='loss'&&f.remaining===0){f.stage='end';window(m,m.reactStudy?.cancelled?'Force drain canceled responses':'Force drain completed responses',other(m.active));continue;}
    if(isLossStudy(m.scenario)&&f.stage==='loss'&&!f.lossReady){f.lossReady=true;if(lossResponses(m,'drain',other(m.active)).length){m.stack.push({kind:'loss-window',source:'drain',side:other(m.active),priority:other(m.active),passes:0});continue;}}
    if(f.stage==='end'){if(m.cycle){m.stack.pop();continue;}finish(m,'Force drain checkpoint complete. The drain attempt remains recorded.');return;}
   }
   if(f.kind==='battle'){
    const b=m.battle!;
    if(f.stage==='weapons'){f.stage='destiny';f.side=b.initiator;if(isWeaponStudy(m.scenario))m.stack.push({kind:'weapons',priority:b.initiator,passes:0});else window(m,'Weapons segment — no weapons or playable actions in this fixture',b.initiator);continue;}
-   if(m.turn&&f.stage==='destiny'&&!b.drawn[f.side]&&ability(m,f.side)<4){b.drawn[f.side]=true;log(m,label(f.side)+' has participating ability '+ability(m,f.side)+' and cannot draw a base battle destiny.');continue;}
+   if((m.turn||isReactStudy(m.scenario))&&f.stage==='destiny'&&!b.drawn[f.side]&&ability(m,f.side)<4){b.drawn[f.side]=true;log(m,label(f.side)+' has participating ability '+ability(m,f.side)+' and cannot draw a base battle destiny.');continue;}
    if(f.stage==='destiny'&&b.drawn[f.side]){
     if(f.side===b.initiator){f.side=other(f.side);continue;}
     f.stage='totals';window(m,'Power segment actions',b.initiator);window(m,'Both players finished battle destiny responses',other(b.initiator),m.scenario==='takeel'?'battle-destiny-complete':undefined);continue;
@@ -314,6 +342,10 @@ export function prompt(m:Match):Prompt|null{
  if(m.setup)return setupPrompt(m);
  if(m.complete)return null;const f=top(m);if(!f)return null;
  const base={id:m.engine+':'+m.revision,side:m.active,title:'',detail:'',choices:[] as Prompt['choices'],automatic:false};
+ if(f.kind==='react-window'){
+  const actions=reactChoices(m,f);
+  return {...base,side:f.priority,title:actions.length?'Answer with reinforcements':'React response opportunity',detail:f.event==='drain'?'Bring presence to cancel this drain before any Force is lost. Once canceled, no further reacts are possible.':'Each card reacts separately, paying its normal cost. Arriving characters participate before battle destiny is checked.',choices:[...actions,{id:'pass',label:actions.length?'Pass react opportunity':'Pass empty opportunity'}],automatic:actions.length===0};
+ }
  if(f.kind==='loss-window'){
   const actions=f.priority===f.side?lossResponses(m,f.source,f.side):[];
   return {...base,side:f.priority,title:actions.length?'Before you take losses':'Loss response opportunity',detail:f.source==='battle'?'You may reduce battle damage or use a legal hit replacement before choosing the next loss. Attrition is a separate obligation.':'The drain has resolved. You may reduce the resulting Force loss before choosing the next card to lose.',choices:[...actions,{id:'pass',label:actions.length?'Continue to losses':'Pass empty opportunity'}],automatic:actions.length===0};
@@ -343,7 +375,8 @@ export function prompt(m:Match):Prompt|null{
  }
  if(f.kind==='battle'){
   const b=m.battle!;
-  if(f.stage==='start')return {...base,title:'Initiate battle',detail:isLossStudy(m.scenario)?'Use 1 Force. Both sides have presence; the characters and their printed values are shown on the table.':'Use 1 Force. Both sides have presence and four participating troopers.',choices:[...(!isWeaponStudy(m.scenario)||m.players[m.active].force.length?[{id:'battle',label:'Use 1 Force · begin battle',tone:'primary' as const}]:[]),{id:'stop',label:'Leave this checkpoint'}]};
+  if(f.stage==='start'&&m.scenario==='react-deploy')return {...base,title:'Choose where Dark battles',detail:'CZ-3 can call reinforcements to its own site or the adjacent site. Use 1 Force to initiate one battle; this study ends after its losses.',choices:m.locations.map(site=>({id:'battle:'+site,label:'Battle at '+name(m,site)+' · 1 Force',tone:'primary'}))};
+  if(f.stage==='start')return {...base,title:'Initiate battle' ,detail:isLossStudy(m.scenario)||isReactStudy(m.scenario)?'Use 1 Force. Both sides have presence; the characters and their printed values are shown on the table.':'Use 1 Force. Both sides have presence and four participating troopers.',choices:[...(!isWeaponStudy(m.scenario)||m.players[m.active].force.length?[{id:'battle',label:'Use 1 Force · begin battle',tone:'primary' as const}]:[]),{id:'stop',label:'Leave this checkpoint'}]};
   if(f.stage==='destiny'){
    const can=ability(m,f.side)>=4&&m.players[f.side].reserve.length>0;
    return {...base,side:f.side,title:'Battle destiny',detail:'Participating ability '+ability(m,f.side)+'. Four ability permits one base battle destiny; drawing it is optional.',choices:[...(can?[{id:'draw-destiny',label:'Draw battle destiny',tone:'primary' as const}]:[]),{id:'skip-destiny',label:'Draw no battle destiny'}]};
@@ -368,7 +401,13 @@ export function applyCommand(before:Match,side:Side,command:Command):Match{
  if(!p.choices.some(c=>c.id===command.choice))throw Error('This choice is not legal in the current fixture.');
  const m=structuredClone(before);const f=top(m);const choice=command.choice;m.revision++;
  if(choice==='stop'){finish(m,'Checkpoint left without initiating the action.');return m;}
- if(f.kind==='loss-window'){
+ if(f.kind==='react-window'){
+  if(choice==='pass'){f.passes++;if(f.passes===2)m.stack.pop();else f.priority=other(side);}
+  else {const [,method,id]=choice.split(':');const cost=method==='move'?1:printed(m.cards[id].blueprint,'deploy');
+   for(let i=0;i<cost;i++)move(m,m.players.light.force[0],'used');if(method==='deploy')move(m,id,'playing');m.reactStudy!.used.push(id);f.passes=0;f.priority='dark';
+   m.stack.push({kind:'react',card:id,site:f.site,method:method as 'move'|'deploy',cost});log(m,'Light uses '+cost+' Force to '+method+' '+name(m,id)+' as a react. Its arrival waits for responses.');window(m,'Responses to the paid react','dark');
+  }
+ }else if(f.kind==='loss-window'){
   if(choice==='pass'){f.passes++;if(f.passes===2)m.stack.pop();else f.priority=other(side);}
   else if(choice.startsWith('reduce:')){
    const [,card,raw]=choice.split(':');const amount=Number(raw);for(let n=0;n<amount;n++)move(m,m.players[side].force[0],'used');move(m,card,'playing');f.passes=0;f.priority=other(side);
@@ -461,12 +500,13 @@ export function applyCommand(before:Match,side:Side,command:Command):Match{
  }else if(f.kind==='drain'){
   if(choice==='drain'){
    if(m.drained.includes(f.site))throw Error('This location already attempted a drain.');
-   m.drained.push(f.site);f.remaining=sites[m.cards[f.site].blueprint][other(m.active)];f.stage='loss';log(m,label(m.active)+' initiates a Force drain of '+f.remaining+'.');window(m,'Force drain initiated responses',other(m.active));
+   m.drained.push(f.site);f.remaining=sites[m.cards[f.site].blueprint][other(m.active)];f.stage='loss';log(m,label(m.active)+' initiates a Force drain of '+f.remaining+'.');if(isReactStudy(m.scenario)){m.reactStudy!.site=f.site;m.stack.push({kind:'react-window',site:f.site,event:'drain',priority:'light',passes:0});}else window(m,'Force drain initiated responses',other(m.active));
   }else{lose(m,side,choice);f.remaining--;if(isLossStudy(m.scenario))delete f.lossReady;window(m,'Force loss responses',other(side));}
  }else if(f.kind==='battle'){
   const b=m.battle!;
-  if(choice==='battle'){
-   const id=m.players[side].force[0];if(!id)throw Error('Battle requires 1 Force.');move(m,id,'used');f.stage='weapons';log(m,label(side)+' uses 1 Force to initiate battle.');window(m,'Battle initiated responses',other(side));
+  if(choice==='battle'||choice.startsWith('battle:')){
+   if(isReactStudy(m.scenario)){const site=choice.split(':')[1]||b.site;m.battle=reactBattle(m,site);m.reactStudy!.site=site;}
+   const id=m.players[side].force[0];if(!id)throw Error('Battle requires 1 Force.');move(m,id,'used');f.stage='weapons';log(m,label(side)+' uses 1 Force to initiate battle.');if(isReactStudy(m.scenario))m.stack.push({kind:'react-window',site:m.battle!.site,event:'battle',priority:'light',passes:0});else window(m,'Battle initiated responses',other(side));
   }else if(choice==='draw-destiny'||choice==='skip-destiny'){
    b.drawn[side]=true;
    if(choice==='draw-destiny'){
@@ -501,6 +541,7 @@ function lose(m:Match,s:Side,choice:string){
 }
 
 export function assertMatch(m:Match){
+ assertReact(m);
  if(m.schema!==1||m.engine!==engineFor(m.scenario)||!scenarios.some(s=>s.id===m.scenario))throw Error('Unsupported saved engine version.');
  if((isTurnStudy(m.scenario)&&!m.setup)!==!!m.turn)throw Error('Missing or unexpected turn study.');
  if((m.scenario==='next-turn'||isOpeningStudy(m.scenario)&&!m.setup)!==!!m.cycle)throw Error('Missing or unexpected turn cycle.');
@@ -509,6 +550,7 @@ export function assertMatch(m:Match){
  else if(Object.values(m.cards).some(c=>c.coveredBy!==undefined))throw Error('Unexpected covered starting location.');
  if(!Number.isSafeInteger(m.revision)||m.revision<0||m.stack.length>24)throw Error('Invalid saved continuation.');
  const seen=new Set<string>();for(const s of sides){for(const z of piles)for(const id of m.players[s][z]){if(seen.has(id)||m.cards[id]?.owner!==s||m.cards[id]?.zone!==z)throw Error('Card conservation failed.');seen.add(id);}}
+ for(const f of m.stack)if(f.kind==='react'&&f.method==='deploy'){if(seen.has(f.card))throw Error('Duplicate pending react.');seen.add(f.card);}
  for(const f of m.stack)if(f.kind==='interrupt'){
   const c=m.cards[f.card];
   if(!c||c.owner!==f.side||c.zone!=='playing'||seen.has(f.card))throw Error('Invalid pending card.');
@@ -617,5 +659,5 @@ export function project(m:Match,seat:Side,includeStudy=false):Projection{
  const ready=!!b&&(frame?.stage==='damage'||frame?.stage==='end'||b.resolved||m.complete&&b.drawn.light&&b.drawn.dark);
  const losses=ready?Object.fromEntries(sides.map(s=>[s,{attrition:b!.attrition[s],damage:b!.damage[s],initialAttrition:b!.destiny[other(s)]??0,initialDamage:Math.max(0,b!.power[other(s)]-b!.power[s])}])) as Record<Side,import('./types').LossBalance>:null;
  const order=m.stack.find(f=>f.kind==='lost-order');
- return {...(isLossStudy(m.scenario)?{lossStudy:{kind:m.scenario==='reduce-drain'?'drain' as const:m.scenario==='talz-rescue'?'rescue' as const:'battle' as const,remaining:m.scenario==='reduce-drain'?((m.stack.find(f=>f.kind==='drain') as Extract<Frame,{kind:'drain'}>|undefined)?.remaining||0):m.battle!.damage.light,reduced:m.lossStudy!.reduced,rescued:[...m.lossStudy!.rescued]}}:{}),...(isDesertStudy(m.scenario)?{characterStudy:{groups:m.locations.map(site=>({site,raiders:tuskensAt(m,site),bonus:groupPowerBonus(m,'dark',site)}))}}:{}),scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)&&!c.coveredBy).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.setup?{setup:projectSetup(m,seat,includeStudy,id=>publicCard(m,id))}:{}),...(m.cycle?{cycle:structuredClone(m.cycle)}:{}),...(m.scenario==='takeel'||m.turn||isLossStudy(m.scenario)?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)&&(!isOpeningStudy(m.scenario)||!!m.battle)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
+ return {...(isReactStudy(m.scenario)?{reactStudy:{...structuredClone(m.reactStudy!),pending:(()=>{const f=m.stack.find(f=>f.kind==='react');return f?{card:f.card,cost:f.cost,method:f.method}:null})(),ability:{light:siteAbility(m,'light',m.reactStudy!.site||m.locations[0]),dark:siteAbility(m,'dark',m.reactStudy!.site||m.locations[0])}}}:{}),...(isLossStudy(m.scenario)?{lossStudy:{kind:m.scenario==='reduce-drain'?'drain' as const:m.scenario==='talz-rescue'?'rescue' as const:'battle' as const,remaining:m.scenario==='reduce-drain'?((m.stack.find(f=>f.kind==='drain') as Extract<Frame,{kind:'drain'}>|undefined)?.remaining||0):m.battle!.damage.light,reduced:m.lossStudy!.reduced,rescued:[...m.lossStudy!.rescued]}}:{}),...(isDesertStudy(m.scenario)?{characterStudy:{groups:m.locations.map(site=>({site,raiders:tuskensAt(m,site),bonus:groupPowerBonus(m,'dark',site)}))}}:{}),scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)&&!c.coveredBy).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.setup?{setup:projectSetup(m,seat,includeStudy,id=>publicCard(m,id))}:{}),...(m.cycle?{cycle:structuredClone(m.cycle)}:{}),...(m.scenario==='takeel'||m.turn||isLossStudy(m.scenario)||isReactStudy(m.scenario)?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)&&(!isOpeningStudy(m.scenario)||!!m.battle)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
 }

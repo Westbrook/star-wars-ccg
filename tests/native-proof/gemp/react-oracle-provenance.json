@@ -1,0 +1,29 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-09-16T01:11:01.362767+00:00",
+  "tests": 1,
+  "outcomes": 12,
+  "fixture": "Exact native-proof-12 initial physical cards and ordered piles exported from createScenario; each identity asserted during setup. All following actions use unmodified GEMP.",
+  "fixtureSha256": "dde7573f60fa2b0ae69eb6a689cbff183fa8d7c6fd7fe45954a360a8df0df9ba",
+  "sources": {
+    "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_030.java": "b8cb71604c11d1ac4fdc2eb45858a83204ff23248e1635a8bd08a430e3bd806a",
+    "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_006.java": "61accdbd3e52869998764041d5293be09bbc1e96e3b90dc4a62c6ea6c8fedce3",
+    "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/actions/MoveAsReactAction.java": "03b1ee9387c7be7ef5aaf74d20a440d86cf4061af6184f14b81211bf9622836e",
+    "gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/DeploySingleCardEffect.java": "248eadbf15bdefdf96651ad0d2610df38f024d9f0f415d8b486fd887da25a187"
+  },
+  "rulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "printedPages": [
+    170,
+    171
+  ],
+  "observations": [
+    "Each moving or deploying card pays its own cost before arrival. Paid deploy cards are in GEMP VOID; native exposes them as playing. Empty Force-use subresponses are settled atomically in these closed native fixtures.",
+    "Wolfman raises participating ability before battle destiny. Bringing presence stops a drain without loss; cancellation is observed from restored presence, finished drain and unchanged Lost pile.",
+    "CZ-3 works at its site and the adjacent Corridor. Its missing ability is explicitly zero for totals; Jawa is absent from GEMP deployment candidates at both Death Star sites.",
+    "GEMP clears completed BattleState; completed numeric obligations normalize to zero."
+  ],
+  "limitations": [
+    "Single-event, ground-only checkpoints; no cancellation or attached-card react, vehicles, passenger movement or simultaneous deployment.",
+    "CZ-3 deployment to a drain is not exercised in this batch. No arbitrary decks, randomized full matches, native CPU or full-card parity enabled."
+  ]
+}

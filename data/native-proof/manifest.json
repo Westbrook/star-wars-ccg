@@ -468,6 +468,16 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "reactConformance": {
+        "engine": "native-proof-12",
+        "scenarios": [
+          "react-battle",
+          "react-drain",
+          "react-deploy"
+        ],
+        "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
+        "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
       }
     },
     {
@@ -1311,6 +1321,16 @@
         ],
         "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
+      },
+      "reactConformance": {
+        "engine": "native-proof-12",
+        "scenarios": [
+          "react-battle",
+          "react-drain",
+          "react-deploy"
+        ],
+        "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
+        "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
       }
     },
     {
@@ -1359,6 +1379,16 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "reactConformance": {
+        "engine": "native-proof-12",
+        "scenarios": [
+          "react-battle",
+          "react-drain",
+          "react-deploy"
+        ],
+        "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
+        "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
       }
     },
     {
@@ -1474,7 +1504,17 @@
         "Warrior"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_030.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_030.java",
+      "reactConformance": {
+        "engine": "native-proof-12",
+        "scenarios": [
+          "react-battle",
+          "react-drain",
+          "react-deploy"
+        ],
+        "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
+        "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
+      }
     },
     {
       "gempId": "1_31",
@@ -1691,7 +1731,17 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_006.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_006.java",
+      "reactConformance": {
+        "engine": "native-proof-12",
+        "scenarios": [
+          "react-battle",
+          "react-drain",
+          "react-deploy"
+        ],
+        "scope": "Closed ground-only two-site single-event studies. Wolfman adjacent move-react for 1 Force, participation before destiny, presence cancels drain and ends further reacts. CZ-3 permits individual Rebel Trooper/Wolfman deployment reacts at same or adjacent site with normal costs, Force icons or presence. Droid has no ability; Jawa cannot deploy on Death Star. No react cancellation, vehicles, passengers, attached equipment, barriers, or other effects are reachable. Full card and match status remains pending.",
+        "evidence": "tests/native-proof/gemp/react-oracle-result.json; tests/native-proof/react.test.mjs"
+      }
     },
     {
       "gempId": "1_64",

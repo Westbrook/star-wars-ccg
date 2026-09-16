@@ -1,0 +1,293 @@
+[
+  {
+    "name": "battle-pass",
+    "force": 2,
+    "used": [],
+    "lost": [],
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 3,
+    "cancelled": false,
+    "power": 3,
+    "damage": 4,
+    "attrition": 3
+  },
+  {
+    "name": "battle-one",
+    "force": 1,
+    "used": [
+      "1_12",
+      "1_162"
+    ],
+    "lost": [],
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_30"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 4,
+    "cancelled": false,
+    "power": 8,
+    "damage": 0,
+    "attrition": 3
+  },
+  {
+    "name": "battle-two",
+    "force": 0,
+    "used": [
+      "1_12",
+      "1_162",
+      "1_162"
+    ],
+    "lost": [],
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_30",
+      "1_30"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 5,
+    "cancelled": false,
+    "power": 10,
+    "damage": 0,
+    "attrition": 3
+  },
+  {
+    "name": "drain-pass",
+    "force": 2,
+    "used": [],
+    "lost": [
+      "1_12"
+    ],
+    "light": [],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 0,
+    "cancelled": false,
+    "power": 0,
+    "damage": 0,
+    "attrition": 0
+  },
+  {
+    "name": "drain-first",
+    "force": 1,
+    "used": [
+      "1_162"
+    ],
+    "lost": [],
+    "light": [
+      "1_30"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 1,
+    "cancelled": true,
+    "power": 0,
+    "damage": 0,
+    "attrition": 0
+  },
+  {
+    "name": "drain-second",
+    "force": 1,
+    "used": [
+      "1_162"
+    ],
+    "lost": [],
+    "light": [
+      "1_30"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 1,
+    "cancelled": true,
+    "power": 0,
+    "damage": 0,
+    "attrition": 0
+  },
+  {
+    "name": "deploy-same-pass",
+    "force": 4,
+    "used": [],
+    "lost": [],
+    "light": [
+      "1_28",
+      "1_28",
+      "1_6"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 2,
+    "cancelled": false,
+    "power": 3,
+    "damage": 0,
+    "attrition": 0
+  },
+  {
+    "name": "deploy-same-troopers",
+    "force": 2,
+    "used": [
+      "1_12",
+      "1_162",
+      "1_153"
+    ],
+    "lost": [],
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_6"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 4,
+    "cancelled": false,
+    "power": 8,
+    "damage": 0,
+    "attrition": 0
+  },
+  {
+    "name": "deploy-same-wolfman",
+    "force": 0,
+    "used": [
+      "1_12",
+      "1_162",
+      "1_162",
+      "1_162",
+      "1_153"
+    ],
+    "lost": [],
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_30",
+      "1_6"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 4,
+    "cancelled": false,
+    "power": 9,
+    "damage": 0,
+    "attrition": 0
+  },
+  {
+    "name": "deploy-adjacent-pass",
+    "force": 4,
+    "used": [],
+    "lost": [],
+    "light": [
+      "1_28",
+      "1_28"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 2,
+    "cancelled": false,
+    "power": 2,
+    "damage": 1,
+    "attrition": 0
+  },
+  {
+    "name": "deploy-adjacent-troopers",
+    "force": 2,
+    "used": [
+      "1_12",
+      "1_162",
+      "1_153"
+    ],
+    "lost": [],
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_28"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 4,
+    "cancelled": false,
+    "power": 7,
+    "damage": 0,
+    "attrition": 0
+  },
+  {
+    "name": "deploy-adjacent-wolfman",
+    "force": 0,
+    "used": [
+      "1_12",
+      "1_162",
+      "1_162",
+      "1_162",
+      "1_153"
+    ],
+    "lost": [],
+    "light": [
+      "1_28",
+      "1_28",
+      "1_28",
+      "1_30"
+    ],
+    "dark": [
+      "1_194",
+      "1_194",
+      "1_194"
+    ],
+    "ability": 4,
+    "cancelled": false,
+    "power": 8,
+    "damage": 0,
+    "attrition": 0
+  }
+]

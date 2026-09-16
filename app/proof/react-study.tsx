@@ -1,0 +1,21 @@
+import type {Choice,Projection,PublicCard} from '@/lib/native-proof/types';
+import {LocationForce} from './location-force';
+export function ReactStudy({game,onInspect}:{game:Projection;onInspect:(c:PublicCard)=>void}){
+ const study=game.reactStudy!,target=study.site;
+ return <section className="proof-deployment-study" aria-label="Ground react study">
+  <div className="proof-turn-heading"><span className="eyebrow amber">REINFORCEMENTS / JUST IN TIME</span><h2>{study.cancelled?'Presence changes everything.':study.pending?'Help is on the way.':'Answer the call—or hold position.'}</h2><p>{study.cancelled?'The drain was canceled before any Force loss. Its attempt remains recorded; no further reacts to this drain are allowed.':study.pending?'The Force cost is paid. This card arrives only after its response window resolves.':game.scenario==='react-deploy'?'CZ-3 calls cards from hand to its own site or the adjacent site. Each pays its normal deployment cost. CZ-3 has no ability; a Jawa cannot deploy on Death Star.':'A Wolfman may move to the adjacent battle or drain for 1 Force. Each is a separate optional response. New participants count before battle destiny is checked.'}</p></div>
+  <div className="proof-loss-study-totals"><span>Reinforcements arrived <b>{study.arrived.length}</b></span><span>Light Force available <b>{game.players.light.counts.force}</b></span>{target&&<span>{game.battle?'Light ability at battle':'Light ability at drain'} <b>{study.ability.light}</b></span>}</div>
+  {study.pending&&<div className="proof-turn-note" role="status">{study.pending.card.toUpperCase()} · {study.pending.cost} Force paid · {study.pending.method==='move'?'movement':'deployment'} awaits responses</div>}
+  {game.playing?.map(c=><button className="proof-playing-card" key={c.id} onClick={()=>onInspect(c)}><img src={c.image} alt=""/><span><strong>{c.name}</strong><small>Paid deployment react · not on table yet</small></span></button>)}
+  <div className="proof-connected-sites">{game.locations.map((site,index)=><div key={site.id}>
+   {index>0&&<div className="proof-site-connection">Adjacent sites · Wolfman moves for 1 Force</div>}
+   <article className="proof-deployment-site"><header><button onClick={()=>onInspect(site)} aria-label={'Inspect '+site.name}><img src={site.image} alt="" loading="lazy"/></button><div><h3>{site.name.replace('Death Star: ','')}</h3>{site.forceIcons&&<LocationForce icons={site.forceIcons}/ >}<p>{target===site.id?(study.cancelled?'Drain canceled':game.battle?'Battle location':'Drain location'):game.scenario==='react-deploy'?'CZ-3 supports either site':'Reinforcement position'}</p></div></header>
+    <div className="proof-site-units">{(['dark','light'] as const).map(side=><div key={side}><span className="proof-site-side">{side==='light'?'Light':'Dark'}</span><div>{game.table.filter(c=>c.side===side&&c.location===site.id).map(c=><div className="proof-deployed-unit" key={c.id}><button onClick={()=>onInspect(c)} aria-label={'Inspect '+c.name+' '+c.id.toUpperCase()}><img src={c.image} alt="" loading="lazy"/><span>{c.name}<small>{c.id.toUpperCase()}</small></span></button><div className="proof-character-rules"><strong>Power {c.stats.power}</strong><strong>{c.blueprint==='1_6'?'No ability':'Ability '+c.stats.ability}</strong><strong>Forfeit {c.stats.forfeit}</strong></div>{study.arrived.includes(c.id)&&<div className="proof-unit-status cleared">Arrived as a react</div>}</div>)}</div>{!game.table.some(c=>c.side===side&&c.location===site.id)&&<p className="proof-site-empty">No characters here</p>}</div>)}</div>
+    {game.battle&&target===site.id&&<div className="proof-study-battle"><span>Battle power</span><b>Light {game.battle.power.light}</b><b>Dark {game.battle.power.dark}</b></div>}
+   </article>
+  </div>)}</div>
+ </section>;
+}
+export function ReactChoice({choice,game}:{choice:Choice;game:Projection}){
+ const p=choice.reactPreview!;return <span className="proof-reduction-choice"><strong>{choice.label}</strong><span>To {game.locations.find(c=>c.id===p.site)?.name.replace('Death Star: ','')}</span><small>{game.scenario==='react-drain'?'Presence will cancel this drain.':`Light ability after arrival: ${p.ability}${p.ability>=4?' · eligible for battle destiny':''}`}</small></span>;
+}
