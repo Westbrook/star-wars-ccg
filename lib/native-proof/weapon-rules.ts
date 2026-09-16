@@ -7,7 +7,7 @@ export const weaponRules:Record<string,{deploy:number;fire:number;bonus:number}>
  '1_152':{deploy:1,fire:1,bonus:0},'1_317':{deploy:1,fire:1,bonus:0},
  '1_153':{deploy:2,fire:2,bonus:1},'1_312':{deploy:2,fire:2,bonus:1},
 };
-export const isWeaponStudy=(s:string)=>s==='weapons'||s==='rebel-weapons'||s==='first-contact'||s==='corridor-crossfire'||s==='second-contact';
+export const isWeaponStudy=(s:string)=>s==='talz-rescue'||s==='weapons'||s==='rebel-weapons'||s==='first-contact'||s==='corridor-crossfire'||s==='second-contact';
 export function weaponBonus(m:Match,id:string){
  const weapon=m.cards[id];
  return weaponRules[weapon.blueprint].bonus+((m.scenario==='corridor-crossfire'||m.scenario==='second-contact')&&weapon.owner==='dark'&&weapon.location&&m.cards[weapon.location].blueprint==='1_284'?1:0);

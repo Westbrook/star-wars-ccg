@@ -1,0 +1,30 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-09-16T00:30:32.759298+00:00",
+  "tests": 3,
+  "outcomes": 14,
+  "fixture": "Exact native-proof-11 physical identities, zones, attachments and ordered piles exported from createScenario to loss-fixtures.json. Each physical blueprint is asserted while arranging the checkpoint; only setup helpers manipulate state. Thereafter normal GEMP actions resolve unchanged.",
+  "fixtureSha256": "981327f45f0382247f93421cacd36187825426efe53aa28ba6e8a69b51fb4bf7",
+  "sources": {
+    "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_090.java": "5625e8f2186e97c450b80091bfc8986dd96964447e4d5822775e8dc42aca984f",
+    "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_031.java": "9fd969f6c68f4e7adc9ffeaf8ec1deed211150cda2bc394a1e7ce61a785c88e0",
+    "gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/ReduceForceLossEffect.java": "1f0c1bcf53c4e1fd627124de95e18e1991c9d1b224198dc8987fc4791e905d6e",
+    "gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/modifiers/querying/ModifiersLogic.java": "d305dee62e561cba1fbd103f8e3aaf868484735b57234e70e6d65b92e090d721"
+  },
+  "rulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "printedPages": [
+    29,
+    56,
+    147,
+    153
+  ],
+  "observations": [
+    "Duplicate It Could Be Worse modifiers do not accumulate; both card costs and Used placement still occur.",
+    "Talz Lost membership normalized across TOP_OF_LOST_PILE and LOST_PILE; this is a display-zone distinction.",
+    "GEMP clears completed BattleState; completed numeric obligations normalize to zero."
+  ],
+  "limitations": [
+    "No nighttime or forfeit-reset weapons in the fixture.",
+    "No cancellation/anti-reduction card, react, arbitrary deck or full-game support enabled."
+  ]
+}

@@ -1,3 +1,4 @@
+import {isLossStudy,lossAmount,lossResponses} from './loss-rules';
 import {isDesertStudy,desertCharacters,characterForfeit,groupPowerBonus,tuskensAt} from './desert-rules';
 import {isOpeningStudy,openingEndpoint,secondContactSafe} from './opening-rules';
 import {characterCanDeploy,characterCanMove,characterDeployCost,characterPower,characterView,isGarrisonStudy,supportedCharacter,usesCharacterRules} from './character-rules';
@@ -29,7 +30,7 @@ function putTop(m:Match,s:Side,blueprint:string){const a=m.players[s].reserve;co
 function window(m:Match,text:string,priority:Side,event?:'battle-destiny-complete'|'character-deployed',target?:string){m.stack.push({kind:'window',label:text,priority,passes:0,...(event?{event}:{}),...(target?{target}:{})});}
 function finish(m:Match,text:string){m.stack=[];m.complete=true;log(m,text);}
 const isTurnStudy=(scenario:ScenarioId)=>isDesertStudy(scenario)||isGarrisonStudy(scenario)||scenario==='barrier'||scenario==='imperial-barrier'||scenario==='next-turn'||isOpeningStudy(scenario);
-const engineFor=(scenario:ScenarioId)=>isDesertStudy(scenario)?'native-proof-10':scenario==='second-contact'?'native-proof-9':isGarrisonStudy(scenario)||scenario==='corridor-crossfire'?'native-proof-8':scenario==='first-contact'?'native-proof-7':scenario==='opening-table'?'native-proof-6':scenario==='next-turn'?'native-proof-5':isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
+const engineFor=(scenario:ScenarioId)=>isLossStudy(scenario)?'native-proof-11':isDesertStudy(scenario)?'native-proof-10':scenario==='second-contact'?'native-proof-9':isGarrisonStudy(scenario)||scenario==='corridor-crossfire'?'native-proof-8':scenario==='first-contact'?'native-proof-7':scenario==='opening-table'?'native-proof-6':scenario==='next-turn'?'native-proof-5':isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
 const trooper=(side:Side)=>side==='light'?'1_28':'1_194';
 const barrier=(side:Side)=>side==='light'?'1_105':'1_249';
 
@@ -38,8 +39,30 @@ export function createScenario(scenario:ScenarioId):Match{
  const m:Match={schema:1,engine:engineFor(scenario),scenario,revision:0,active:scenario==='luke-arrives'||scenario==='luke-support'||scenario==='rebel-post'||scenario==='imperial-barrier'||scenario==='rebel-weapons'?'light':'dark',phase:scenarios.find(s=>s.id===scenario)!.phase,cards:{},players:{light:empty(),dark:empty()},locations:[],stack:[],battle:null,drained:[],log:[],complete:false,winner:null};
  for(const deck of manifest.decks){const s=deck.side as Side;for(const [i,b]of deck.main.entries()){const id=s[0]+String(i+1).padStart(3,'0');m.cards[id]={id,blueprint:b,owner:s,zone:'reserve'};m.players[s].reserve.push(id);}}
  if(scenario==='opening-table'||isOpeningStudy(scenario)){initializeSetup(m);assertMatch(m);return m;}
- const site=isDesertStudy(scenario)?pull(m,'light','1_129','table'):scenario==='corridor-crossfire'?pull(m,'dark','1_284','table'):pull(m,'light','1_124','table');m.locations.push(site);
- if(isDesertStudy(scenario)){
+ const site=scenario==='reduce-drain'?pull(m,'light','1_132','table'):isDesertStudy(scenario)?pull(m,'light','1_129','table'):scenario==='corridor-crossfire'?pull(m,'dark','1_284','table'):pull(m,'light','1_124','table');m.locations.push(site);
+ if(isLossStudy(scenario)){
+  m.lossStudy={reduced:0,rescued:[]};
+  if(scenario==='reduce-drain'){
+   pull(m,'dark','1_194','table',site);for(let i=0;i<3;i++)pull(m,'light','1_28','force');pull(m,'light','1_28','hand');pull(m,'light','1_28','used');
+   for(let i=0;i<2;i++)pull(m,'light','1_90','hand');m.stack=[{kind:'drain',stage:'start',site,remaining:0}];
+   log(m,'Dark controls the Lars Farm. Its two Light icons cause a drain of 2. Light may use saved Force to reduce that loss when it resolves.');
+  }else{
+   const participants={light:[] as string[],dark:[] as string[]};
+   for(const side of sides)for(let i=0;i<(side==='dark'&&scenario==='reduce-damage'?7:side==='light'&&scenario==='talz-rescue'?3:4);i++)participants[side].push(pull(m,side,trooper(side),'table',site));
+   if(scenario==='talz-rescue')participants.light.push(pull(m,'light','1_31','table',site));
+   for(let i=0;i<(scenario==='talz-rescue'?4:1);i++)move(m,m.players.dark.reserve.at(-1)!,'force');
+   for(let i=0;i<(scenario==='reduce-damage'?4:1);i++)move(m,m.players.light.reserve.at(-1)!,'force');
+   if(scenario==='reduce-damage'){for(let i=0;i<2;i++)pull(m,'light','1_90','hand');putTop(m,'light','1_28');putTop(m,'dark','1_181');}
+   else{
+    for(const [i,b] of ['1_317','1_312'].entries()){const id=pull(m,'dark',b,'table',site);m.cards[id].attachedTo=participants.dark[i];}
+    const gun=pull(m,'light','1_152','table',site);m.cards[gun].attachedTo=participants.light[0];
+    putTop(m,'dark','1_194');putTop(m,'dark','1_181');putTop(m,'dark','1_182');putTop(m,'light','1_12');putTop(m,'light','1_28');
+   }
+   m.battle={site,initiator:'dark',participants,destiny:{light:null,dark:null},drawn:{light:false,dark:false},power:{light:4,dark:participants.dark.length},attrition:{light:0,dark:0},damage:{light:0,dark:0},next:'dark',...(scenario==='talz-rescue'?{fired:[],weaponUsers:{},shots:[]}:{})};
+   m.stack=[{kind:'battle',stage:'start',side:'dark'}];
+   log(m,scenario==='reduce-damage'?'Seven Stormtroopers face four Rebels. It Could Be Worse can reduce battle damage, but cannot remove attrition or a weapon hit.':'Three Rebel Troopers and a Talz face four Stormtroopers. Fire at a Trooper and the Talz to compare saving two hits with one forfeit.');
+  }
+ }else if(isDesertStudy(scenario)){
   m.locations.push(pull(m,'light','1_132','table'));
   if(scenario==='luke-arrives'){
    for(let i=0;i<3;i++)pull(m,'light','101_2','hand');for(let i=0;i<2;i++)pull(m,'light','1_28','hand');for(let i=0;i<5;i++)pull(m,'light','1_28','force');
@@ -199,6 +222,9 @@ function settle(m:Match){
    m.stack.pop();log(m,label(m.active)+' finishes end-of-turn actions. Turn limits now reset for both players.');
    t.number++;m.active=other(m.active);t.deployer=m.active;t.moved=[];t.battled=[];m.drained=[];m.battle=null;beginTurn(m);continue;
   }
+  if(f.kind==='restore-hit'){
+   delete m.cards[f.target].hit;m.lossStudy!.rescued.push(f.target);m.stack.pop();log(m,name(m,f.target)+' is restored to normal. Its attached weapon stays in play.');continue;
+  }
   if(f.kind==='lost-order'){
    if(f.remaining.length>1)return;
    if(f.remaining.length)move(m,f.remaining[0],'lost');m.stack.pop();window(m,'Card forfeited responses',other(f.side));continue;
@@ -214,6 +240,12 @@ function settle(m:Match){
    m.stack.pop();window(m,'Weapon just fired responses',other(shot.side));continue;
   }
   if(f.kind==='interrupt'){
+   if(f.effect==='reduce-loss'){
+    const amount=lossAmount(m,f.source,f.side),reduction=m.lossStudy!.reduction?0:Math.min(amount,f.amount);
+    m.lossStudy!.reduction??={card:f.card,amount:f.amount,source:f.source};
+    if(f.source==='battle')m.battle!.damage[f.side]-=reduction;else (m.stack.find(x=>x.kind==='drain') as Extract<Frame,{kind:'drain'}>).remaining-=reduction;
+    m.lossStudy!.reduced+=reduction;move(m,f.card,'used');m.stack.pop();log(m,'It Could Be Worse reduces '+(f.source==='battle'?'battle damage':'Force loss')+' by '+reduction+'. '+f.amount+' Force was used; attrition is unchanged. The Interrupt goes to Used.'+(reduction===0?' Another copy already modifies this loss; the reductions are not cumulative.':''));continue;
+   }
    if(f.effect==='barrier'){
     m.turn!.restrictions.push({target:f.target,source:f.card,expiresTurn:f.expiresTurn});
     move(m,f.card,'used');m.stack.pop();log(m,name(m,f.card)+' resolves to Used. '+name(m,f.target)+' cannot move or participate in battle for the rest of this turn; it remains at its site.');continue;
@@ -233,6 +265,7 @@ function settle(m:Match){
   }
   if(f.kind==='drain'){
    if(f.stage==='loss'&&f.remaining===0){f.stage='end';window(m,'Force drain completed responses',other(m.active));continue;}
+   if(isLossStudy(m.scenario)&&f.stage==='loss'&&!f.lossReady){f.lossReady=true;if(lossResponses(m,'drain',other(m.active)).length){m.stack.push({kind:'loss-window',source:'drain',side:other(m.active),priority:other(m.active),passes:0});continue;}}
    if(f.stage==='end'){if(m.cycle){m.stack.pop();continue;}finish(m,'Force drain checkpoint complete. The drain attempt remains recorded.');return;}
   }
   if(f.kind==='battle'){
@@ -253,6 +286,7 @@ function settle(m:Match){
     for(const s of sides)if(!members(m,s).length)b.attrition[s]=0;
     if(!pending(m,'light')&&!pending(m,'dark')){f.stage='end';window(m,'Battle just ended responses',other(b.initiator));window(m,'End of battle actions',other(b.initiator));continue;}
     if(!pending(m,b.next))b.next=other(b.next);
+    if(isLossStudy(m.scenario)&&f.lossReady!==b.next){f.lossReady=b.next;if(lossResponses(m,'battle',b.next).length){m.stack.push({kind:'loss-window',source:'battle',side:b.next,priority:b.next,passes:0});continue;}}
    }
    if(f.stage==='end'){
     if(m.turn){b.resolved=true;m.stack.pop();log(m,'Battle ends. All damage and attrition are satisfied.');continue;}
@@ -280,6 +314,10 @@ export function prompt(m:Match):Prompt|null{
  if(m.setup)return setupPrompt(m);
  if(m.complete)return null;const f=top(m);if(!f)return null;
  const base={id:m.engine+':'+m.revision,side:m.active,title:'',detail:'',choices:[] as Prompt['choices'],automatic:false};
+ if(f.kind==='loss-window'){
+  const actions=f.priority===f.side?lossResponses(m,f.source,f.side):[];
+  return {...base,side:f.priority,title:actions.length?'Before you take losses':'Loss response opportunity',detail:f.source==='battle'?'You may reduce battle damage or use a legal hit replacement before choosing the next loss. Attrition is a separate obligation.':'The drain has resolved. You may reduce the resulting Force loss before choosing the next card to lose.',choices:[...actions,{id:'pass',label:actions.length?'Continue to losses':'Pass empty opportunity'}],automatic:actions.length===0};
+ }
  if(f.kind==='armory'||f.kind==='weapons'){
   const actions=f.kind==='armory'?armoryChoices(m,f.priority):firingChoices(m,f.priority);
   return {...base,side:f.priority,title:f.kind==='armory'?'Arm your troopers':'Weapons opportunity',detail:f.kind==='armory'?'Deploy or transfer to your warriors for the printed Force cost. Several weapons may be carried, but each trooper may use only one different weapon this turn.':'Fire at an opposing participant or pass. A hit trooper can still return fire. Two consecutive passes end this segment.',choices:[...actions,{id:'pass',label:actions.length?f.kind==='armory'?'Pass deployment opportunity':'Pass weapons opportunity':'Pass empty opportunity'}],automatic:actions.length===0};
@@ -300,12 +338,12 @@ export function prompt(m:Match):Prompt|null{
   return {...base,side:f.priority,title:label(f.priority)+' action opportunity',detail:f.used+' of '+f.generation+' generated Force activated. Each activation moves one top Reserve card to the top of Force.',choices:[...(can?[{id:'activate',label:'Activate 1 Force',tone:'primary' as const}]:[]),{id:'pass',label:can?'Pass activation opportunity':'Pass empty opportunity'}],automatic:!can};
  }
  if(f.kind==='drain'){
-  if(f.stage==='start')return {...base,title:'Initiate a Force drain',detail:'Dark has presence and Light has none here. Drain amount uses the opponent’s Force icons.',choices:[{id:'drain',label:'Force drain at Docking Bay 327',tone:'primary'},{id:'stop',label:'Leave this checkpoint'}]};
+  if(f.stage==='start')return {...base,title:'Initiate a Force drain',detail:'Dark has presence and Light has none here. Drain amount uses the opponent’s Force icons.',choices:[{id:'drain',label:isLossStudy(m.scenario)?'Force drain at '+name(m,f.site):'Force drain at Docking Bay 327',tone:'primary'},{id:'stop',label:'Leave this checkpoint'}]};
   return {...base,side:other(m.active),title:'Choose Force to lose',detail:f.remaining+' Force remaining. A card from hand or the top of Reserve, Force or Used can satisfy this loss.',choices:lossChoices(m,other(m.active))};
  }
  if(f.kind==='battle'){
   const b=m.battle!;
-  if(f.stage==='start')return {...base,title:'Initiate battle',detail:'Use 1 Force. Both sides have presence and four participating troopers.',choices:[...(!isWeaponStudy(m.scenario)||m.players[m.active].force.length?[{id:'battle',label:'Use 1 Force · begin battle',tone:'primary' as const}]:[]),{id:'stop',label:'Leave this checkpoint'}]};
+  if(f.stage==='start')return {...base,title:'Initiate battle',detail:isLossStudy(m.scenario)?'Use 1 Force. Both sides have presence; the characters and their printed values are shown on the table.':'Use 1 Force. Both sides have presence and four participating troopers.',choices:[...(!isWeaponStudy(m.scenario)||m.players[m.active].force.length?[{id:'battle',label:'Use 1 Force · begin battle',tone:'primary' as const}]:[]),{id:'stop',label:'Leave this checkpoint'}]};
   if(f.stage==='destiny'){
    const can=ability(m,f.side)>=4&&m.players[f.side].reserve.length>0;
    return {...base,side:f.side,title:'Battle destiny',detail:'Participating ability '+ability(m,f.side)+'. Four ability permits one base battle destiny; drawing it is optional.',choices:[...(can?[{id:'draw-destiny',label:'Draw battle destiny',tone:'primary' as const}]:[]),{id:'skip-destiny',label:'Draw no battle destiny'}]};
@@ -330,7 +368,18 @@ export function applyCommand(before:Match,side:Side,command:Command):Match{
  if(!p.choices.some(c=>c.id===command.choice))throw Error('This choice is not legal in the current fixture.');
  const m=structuredClone(before);const f=top(m);const choice=command.choice;m.revision++;
  if(choice==='stop'){finish(m,'Checkpoint left without initiating the action.');return m;}
- if(f.kind==='window'){
+ if(f.kind==='loss-window'){
+  if(choice==='pass'){f.passes++;if(f.passes===2)m.stack.pop();else f.priority=other(side);}
+  else if(choice.startsWith('reduce:')){
+   const [,card,raw]=choice.split(':');const amount=Number(raw);for(let n=0;n<amount;n++)move(m,m.players[side].force[0],'used');move(m,card,'playing');f.passes=0;f.priority=other(side);
+   m.stack.push({kind:'interrupt',card,side,effect:'reduce-loss',source:f.source,amount});log(m,'Light uses '+amount+' Force to play It Could Be Worse. The loss changes only after responses resolve.');window(m,'Responses to It Could Be Worse',other(side));
+  }else{
+   const [,id,target]=choice.split(':');const b=m.battle!,value=characterForfeit(m,id);
+   b.attrition[side]=Math.max(0,b.attrition[side]-value);b.damage[side]=Math.max(0,b.damage[side]-value);b.next=other(side);
+   m.stack.pop();const parent=top(m);if(parent.kind==='battle')delete parent.lossReady;
+   move(m,id,'lost');m.stack.push({kind:'restore-hit',source:id,target});log(m,'Talz forfeits for '+value+' to restore '+name(m,target)+' '+target.toUpperCase()+'. Its forfeit pays damage and attrition.');window(m,'Card forfeited responses',other(side));
+  }
+ }else if(f.kind==='window'){
   if(choice.startsWith('play:')){
    const card=choice.slice(5);
    // Initiation is atomic: the legal-choice check above verified card, timing
@@ -413,7 +462,7 @@ export function applyCommand(before:Match,side:Side,command:Command):Match{
   if(choice==='drain'){
    if(m.drained.includes(f.site))throw Error('This location already attempted a drain.');
    m.drained.push(f.site);f.remaining=sites[m.cards[f.site].blueprint][other(m.active)];f.stage='loss';log(m,label(m.active)+' initiates a Force drain of '+f.remaining+'.');window(m,'Force drain initiated responses',other(m.active));
-  }else{lose(m,side,choice);f.remaining--;window(m,'Force loss responses',other(side));}
+  }else{lose(m,side,choice);f.remaining--;if(isLossStudy(m.scenario))delete f.lossReady;window(m,'Force loss responses',other(side));}
  }else if(f.kind==='battle'){
   const b=m.battle!;
   if(choice==='battle'){
@@ -425,12 +474,13 @@ export function applyCommand(before:Match,side:Side,command:Command):Match{
     m.stack.push({kind:'destiny',side,card:id,value});window(m,'Battle destiny just drawn responses',other(side));
    }else log(m,label(side)+' chooses not to draw battle destiny.');
   }else if(choice.startsWith('forfeit:')){
+   if(isLossStudy(m.scenario))delete f.lossReady;
    const id=choice.slice(8);const value=characterForfeit(m,id);
    const attachments=Object.values(m.cards).filter(c=>c.zone==='table'&&c.attachedTo===id).map(c=>c.id);
    b.attrition[side]=Math.max(0,b.attrition[side]-value);b.damage[side]=Math.max(0,b.damage[side]-value);b.next=other(side);log(m,label(side)+' forfeits '+name(m,id)+' for '+value+', satisfying attrition and battle damage together.');
    if(attachments.length){const remaining=[id,...attachments];for(const card of remaining)move(m,card,'leaving');m.stack.push({kind:'lost-order',side,remaining,placed:[]});log(m,'The trooper and its attached weapons leave together. Their owner chooses their order in Lost.');}
    else{move(m,id,'lost');window(m,'Card forfeited responses',other(side));}
-  }else{lose(m,side,choice);b.damage[side]--;b.next=other(side);window(m,'Battle damage loss responses',other(side));}
+  }else{lose(m,side,choice);if(isLossStudy(m.scenario))delete f.lossReady;b.damage[side]--;b.next=other(side);window(m,'Battle damage loss responses',other(side));}
  }else if(f.kind==='recirculation'){
   const p=m.players[side];for(const id of p.used)m.cards[id].zone='reserve';p.reserve.push(...p.used);const count=p.used.length;p.used=[];log(m,label(side)+' recirculates '+count+' cards beneath Reserve.');
   if(m.cycle)m.cycle.recirculated[side]=count;
@@ -464,9 +514,22 @@ export function assertMatch(m:Match){
   if(!c||c.owner!==f.side||c.zone!=='playing'||seen.has(f.card))throw Error('Invalid pending card.');
   if(f.effect==='switch-battle-destiny'){
    if(m.engine!=='native-proof-2'||f.side!=='dark'||c.blueprint!=='1_269')throw Error('Invalid pending Interrupt.');
+  }else if(f.effect==='reduce-loss'){
+   if(!['reduce-drain','reduce-damage'].includes(m.scenario)||f.side!=='light'||c.blueprint!=='1_90'||!Number.isInteger(f.amount)||f.amount<1||f.amount>60||!m.stack.some(x=>x.kind==='loss-window'&&x.source===f.source&&x.side===f.side))throw Error('Invalid pending reduction.');
   }else if(!m.turn||c.blueprint!==barrier(f.side)||f.side===m.turn.deployer||m.cards[f.target]?.owner!==m.turn.deployer||m.cards[f.target]?.zone!=='table'||f.expiresTurn!==m.turn.number)throw Error('Invalid pending Barrier.');
   seen.add(c.id);
  }
+ if(isLossStudy(m.scenario)){
+  if(m.lossStudy?.reduction&&(!['reduce-drain','reduce-damage'].includes(m.scenario)||m.cards[m.lossStudy.reduction.card]?.blueprint!=='1_90'||!Number.isInteger(m.lossStudy.reduction.amount)||m.lossStudy.reduction.amount<1||m.lossStudy.reduction.amount>60||m.lossStudy.reduction.source!==(m.scenario==='reduce-drain'?'drain':'battle')))throw Error('Invalid loss modifier.');
+  if(!m.lossStudy||!Number.isInteger(m.lossStudy.reduced)||m.lossStudy.reduced<0||!Array.isArray(m.lossStudy.rescued))throw Error('Invalid loss study.');
+  if(m.locations.length!==1||m.cards[m.locations[0]]?.blueprint!==(m.scenario==='reduce-drain'?'1_132':'1_124'))throw Error('Unsupported loss study board.');
+  for(const c of Object.values(m.cards))if(c.zone==='table'&&!m.locations.includes(c.id)&&(![trooper(c.owner),...(m.scenario==='talz-rescue'?(c.owner==='light'?['1_31','1_152']:['1_317','1_312']):[])].includes(c.blueprint)||c.location!==m.locations[0]))throw Error('Unsupported loss study table.');
+  for(const side of sides)if(m.players[side].hand.some(id=>![trooper(side),...(side==='light'&&m.scenario!=='talz-rescue'?['1_90']:[])].includes(m.cards[id].blueprint)))throw Error('Unsupported loss study hand.');
+  for(const f of m.stack){
+   if(f.kind==='loss-window'&&(!['drain','battle'].includes(f.source)||!sides.includes(f.side)||!sides.includes(f.priority)||!Number.isInteger(f.passes)||f.passes<0||f.passes>1||!m.stack.some(p=>p.kind===f.source)))throw Error('Invalid loss window.');
+   if(f.kind==='restore-hit'&&(m.scenario!=='talz-rescue'||m.cards[f.source]?.blueprint!=='1_31'||m.cards[f.source]?.zone!=='lost'||m.cards[f.target]?.zone!=='table'||m.cards[f.target]?.owner!=='light'||!m.cards[f.target]?.hit))throw Error('Invalid pending rescue.');
+  }
+ }else if(m.lossStudy||m.stack.some(f=>f.kind==='loss-window'||f.kind==='restore-hit'))throw Error('Unexpected loss study continuation.');
  if(m.scenario==='corridor-crossfire'){
   if(m.locations.length!==1||m.cards[m.locations[0]]?.blueprint!=='1_284'||m.cards[m.locations[0]]?.owner!=='dark'||m.battle?.site!==m.locations[0])throw Error('Unsupported Corridor board.');
   for(const c of Object.values(m.cards))if(c.zone==='table'&&!m.locations.includes(c.id)&&(![trooper(c.owner),...(c.owner==='dark'?['1_317','1_312']:['1_152','1_153'])].includes(c.blueprint)||c.location!==m.locations[0]))throw Error('Unsupported Corridor table card.');
@@ -554,5 +617,5 @@ export function project(m:Match,seat:Side,includeStudy=false):Projection{
  const ready=!!b&&(frame?.stage==='damage'||frame?.stage==='end'||b.resolved||m.complete&&b.drawn.light&&b.drawn.dark);
  const losses=ready?Object.fromEntries(sides.map(s=>[s,{attrition:b!.attrition[s],damage:b!.damage[s],initialAttrition:b!.destiny[other(s)]??0,initialDamage:Math.max(0,b!.power[other(s)]-b!.power[s])}])) as Record<Side,import('./types').LossBalance>:null;
  const order=m.stack.find(f=>f.kind==='lost-order');
- return {...(isDesertStudy(m.scenario)?{characterStudy:{groups:m.locations.map(site=>({site,raiders:tuskensAt(m,site),bonus:groupPowerBonus(m,'dark',site)}))}}:{}),scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)&&!c.coveredBy).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.setup?{setup:projectSetup(m,seat,includeStudy,id=>publicCard(m,id))}:{}),...(m.cycle?{cycle:structuredClone(m.cycle)}:{}),...(m.scenario==='takeel'||m.turn?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)&&(!isOpeningStudy(m.scenario)||!!m.battle)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
+ return {...(isLossStudy(m.scenario)?{lossStudy:{kind:m.scenario==='reduce-drain'?'drain' as const:m.scenario==='talz-rescue'?'rescue' as const:'battle' as const,remaining:m.scenario==='reduce-drain'?((m.stack.find(f=>f.kind==='drain') as Extract<Frame,{kind:'drain'}>|undefined)?.remaining||0):m.battle!.damage.light,reduced:m.lossStudy!.reduced,rescued:[...m.lossStudy!.rescued]}}:{}),...(isDesertStudy(m.scenario)?{characterStudy:{groups:m.locations.map(site=>({site,raiders:tuskensAt(m,site),bonus:groupPowerBonus(m,'dark',site)}))}}:{}),scenario:m.scenario,engine:m.engine,revision:m.revision,active:m.active,phase:m.phase,seat,complete:m.complete,winner:m.winner,players,locations:m.locations.map(id=>publicCard(m,id)),table:Object.values(m.cards).filter(c=>c.zone==='table'&&!m.locations.includes(c.id)&&!c.coveredBy).map(c=>publicCard(m,c.id)),prompt:p&&p.side===seat?p:p?{...p,choices:[]}:null,log:m.log,battle:b?structuredClone(b):null,losses,...(m.setup?{setup:projectSetup(m,seat,includeStudy,id=>publicCard(m,id))}:{}),...(m.cycle?{cycle:structuredClone(m.cycle)}:{}),...(m.scenario==='takeel'||m.turn||isLossStudy(m.scenario)?{playing:Object.values(m.cards).filter(c=>c.zone==='playing').map(c=>publicCard(m,c.id))}:{}),...(isWeaponStudy(m.scenario)&&(!isOpeningStudy(m.scenario)||!!m.battle)?{weaponStudy:{stage:m.complete?'complete' as const:m.phase==='Deploy'?'deploy' as const:'battle' as const,hits:{light:hitMembers(m,'light'),dark:hitMembers(m,'dark')},lostOrder:order?{side:order.side,remaining:order.remaining.map(id=>publicCard(m,id)),placed:order.placed.map(id=>publicCard(m,id))}:null}}:{}),...(m.turn?{turn:{...structuredClone(m.turn),deploymentSites:m.locations.map(site=>({site,allowed:deploySite(m,m.turn!.deployer,site),reason:deploySite(m,m.turn!.deployer,site)?'Your Force icon or presence allows deployment.':'No '+label(m.turn!.deployer)+' Force icon or presence here.'}))}}:{}),...(includeStudy&&m.scenario==='recirculation'?{recirculationStudy:recirculationStudy(m)}:{})};
 }

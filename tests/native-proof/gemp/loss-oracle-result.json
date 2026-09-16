@@ -1,0 +1,242 @@
+{
+  "engineCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "branches": [
+    {
+      "name": "rescue-healthy",
+      "force": 1,
+      "used": [
+        "1_28"
+      ],
+      "lost": [
+        "1_31"
+      ],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": true,
+      "hits": 0,
+      "armedTrooperAlive": true
+    },
+    {
+      "name": "rescue-hit",
+      "force": 1,
+      "used": [
+        "1_28"
+      ],
+      "lost": [
+        "1_31"
+      ],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": true,
+      "hits": 0,
+      "armedTrooperAlive": true
+    },
+    {
+      "name": "rescue-ordinary",
+      "force": 1,
+      "used": [
+        "1_28"
+      ],
+      "lost": [
+        "1_31"
+      ],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": true,
+      "hits": 1,
+      "armedTrooperAlive": true
+    },
+    {
+      "name": "rescue-zero",
+      "force": 1,
+      "used": [],
+      "lost": [
+        "1_31"
+      ],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": true,
+      "hits": 0,
+      "armedTrooperAlive": true
+    },
+    {
+      "name": "drain-pass",
+      "force": 3,
+      "used": [
+        "1_28"
+      ],
+      "lost": [
+        "1_12",
+        "1_12"
+      ],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    },
+    {
+      "name": "drain-one",
+      "force": 2,
+      "used": [
+        "1_90",
+        "1_28",
+        "1_28"
+      ],
+      "lost": [
+        "1_12"
+      ],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    },
+    {
+      "name": "drain-two",
+      "force": 1,
+      "used": [
+        "1_90",
+        "1_28",
+        "1_28",
+        "1_28"
+      ],
+      "lost": [],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    },
+    {
+      "name": "drain-overpay",
+      "force": 0,
+      "used": [
+        "1_90",
+        "1_28",
+        "1_28",
+        "1_28",
+        "1_28"
+      ],
+      "lost": [],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    },
+    {
+      "name": "drain-after-loss",
+      "force": 2,
+      "used": [
+        "1_90",
+        "1_28",
+        "1_28"
+      ],
+      "lost": [
+        "1_12"
+      ],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    },
+    {
+      "name": "drain-two-copies",
+      "force": 1,
+      "used": [
+        "1_90",
+        "1_28",
+        "1_90",
+        "1_28",
+        "1_28"
+      ],
+      "lost": [
+        "1_12"
+      ],
+      "damage": 0,
+      "attrition": 0,
+      "remaining": 0,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    },
+    {
+      "name": "damage-pass",
+      "force": 4,
+      "used": [
+        "1_28"
+      ],
+      "lost": [],
+      "damage": 5,
+      "attrition": 3,
+      "remaining": 5,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    },
+    {
+      "name": "damage-one",
+      "force": 3,
+      "used": [
+        "1_90",
+        "1_153",
+        "1_28"
+      ],
+      "lost": [],
+      "damage": 4,
+      "attrition": 3,
+      "remaining": 4,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    },
+    {
+      "name": "damage-four",
+      "force": 0,
+      "used": [
+        "1_90",
+        "1_162",
+        "1_162",
+        "1_162",
+        "1_153",
+        "1_28"
+      ],
+      "lost": [],
+      "damage": 1,
+      "attrition": 3,
+      "remaining": 1,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    },
+    {
+      "name": "damage-after-forfeit",
+      "force": 3,
+      "used": [
+        "1_90",
+        "1_153",
+        "1_28"
+      ],
+      "lost": [
+        "1_28"
+      ],
+      "damage": 2,
+      "attrition": 1,
+      "remaining": 2,
+      "talzLost": false,
+      "hits": 0,
+      "armedTrooperAlive": false
+    }
+  ]
+}

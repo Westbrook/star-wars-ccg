@@ -563,6 +563,14 @@
         ],
         "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
         "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      },
+      "lossConformance": {
+        "engine": "native-proof-11",
+        "scenarios": [
+          "reduce-drain"
+        ],
+        "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
       }
     },
     {
@@ -614,6 +622,14 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "lossConformance": {
+        "engine": "native-proof-11",
+        "scenarios": [
+          "talz-rescue"
+        ],
+        "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
       }
     },
     {
@@ -852,6 +868,16 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "lossConformance": {
+        "engine": "native-proof-11",
+        "scenarios": [
+          "reduce-drain",
+          "reduce-damage",
+          "talz-rescue"
+        ],
+        "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
       }
     },
     {
@@ -1275,6 +1301,16 @@
         ],
         "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
         "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      },
+      "lossConformance": {
+        "engine": "native-proof-11",
+        "scenarios": [
+          "reduce-drain",
+          "reduce-damage",
+          "talz-rescue"
+        ],
+        "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
       }
     },
     {
@@ -1457,7 +1493,15 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_031.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_031.java",
+      "lossConformance": {
+        "engine": "native-proof-11",
+        "scenarios": [
+          "talz-rescue"
+        ],
+        "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
+      }
     },
     {
       "gempId": "1_312",
@@ -1502,6 +1546,14 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "lossConformance": {
+        "engine": "native-proof-11",
+        "scenarios": [
+          "talz-rescue"
+        ],
+        "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
       }
     },
     {
@@ -1568,6 +1620,14 @@
         "scenario": "second-contact",
         "scope": "Four-turn fixed opening, bounded drawable pool, established control drains, character and weapon actions, Barrier expiry, repeated battles and carried state. Seven GEMP paths verify 35 ordered-pile snapshots. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/second-contact-oracle-result.json"
+      },
+      "lossConformance": {
+        "engine": "native-proof-11",
+        "scenarios": [
+          "talz-rescue"
+        ],
+        "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
       }
     },
     {
@@ -1706,7 +1766,16 @@
       },
       "icons": [],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_090.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_090.java",
+      "lossConformance": {
+        "engine": "native-proof-11",
+        "scenarios": [
+          "reduce-drain",
+          "reduce-damage"
+        ],
+        "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
+        "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
+      }
     },
     {
       "gempId": "1_91",
