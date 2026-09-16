@@ -17,9 +17,18 @@ export function reactChoices(m:Match,f:Extract<Frame,{kind:'react-window'}>):Cho
  return [...moves.map(c=>({id:c.id,method:'move' as const,cost:1})),...deploy.map(id=>({id,method:'deploy' as const,cost:printed(m.cards[id].blueprint,'deploy')}))].map(({id,method,cost})=>({id:'react:'+method+':'+id,card:id,label:(method==='move'?'Move ':'Deploy ')+definition(m.cards[id].blueprint).name+' '+id.toUpperCase()+' · '+cost+' Force',tone:'primary',reactPreview:{cost,site:f.site,method,ability:participatingAbility(m,'light',f.site)+reactAbility(m,id)}}));
 }
 export function assertReact(m:Match){
+ if(m.stack.some(f=>f.kind==='drain-control')&&!(m.scenario==='react-drain-deploy'&&m.engine==='native-proof-14'))throw Error('Unexpected drain Control continuation.');
  if(!isReactStudy(m.scenario)){if(m.reactStudy||m.stack.some(f=>f.kind==='react'||f.kind==='react-window'))throw Error('Unexpected react continuation.');return;}
  const r=m.reactStudy;if(!r||m.active!=='dark'||m.locations.length!==2||m.cards[m.locations[0]]?.blueprint!=='1_124'||m.cards[m.locations[1]]?.blueprint!=='1_284')throw Error('Invalid react study board.');
  if(new Set(r.used).size!==r.used.length||new Set(r.arrived).size!==r.arrived.length||r.arrived.some(id=>!r.used.includes(id))||r.used.some(id=>m.cards[id]?.owner!=='light'||!['1_28','1_30'].includes(m.cards[id].blueprint))||r.site!==null&&!m.locations.includes(r.site)||r.cancelled&&!['react-drain','react-drain-deploy'].includes(m.scenario))throw Error('Invalid react history.');
+ if((m.engine==='native-proof-14')!==Array.isArray(r.drains))throw Error('Missing or unexpected drain history.');
+ if(r.drains){
+  const controls=m.stack.filter(f=>f.kind==='drain-control'),pending=m.stack.filter(f=>f.kind==='drain');
+  if(controls.length!==(m.complete?0:1)||controls.some(f=>f.kind==='drain-control'&&(!['light','dark'].includes(f.priority)||![0,1].includes(f.passes)))||pending.length>1)throw Error('Invalid drain Control continuation.');
+  if(new Set(m.drained).size!==m.drained.length||m.drained.some(id=>!m.locations.includes(id))||r.drains.length+pending.length!==m.drained.length)throw Error('Invalid drain attempt history.');
+  if(r.drains.some((d,i)=>d.site!==m.drained[i]||typeof d.cancelled!=='boolean'||d.amount!==sites[m.cards[d.site].blueprint].light||d.cancelled&&siteAbility(m,'light',d.site)===0))throw Error('Invalid completed drain.');
+  if(pending.some(f=>f.kind==='drain'&&(f.stage==='start'||f.site!==m.drained.at(-1)||f.site!==r.site||!Number.isInteger(f.remaining)||f.remaining<0||f.remaining>sites[m.cards[f.site].blueprint].light)))throw Error('Invalid pending drain.');
+ }
  for(const c of Object.values(m.cards))if(c.zone==='table'&&!m.locations.includes(c.id)&&(!['1_28','1_30','1_6','1_194'].includes(c.blueprint)||!c.location||c.attachedTo))throw Error('Unsupported react table.');
  for(const side of ['light','dark'] as const)if(m.players[side].hand.some(id=>side==='dark'?!(m.scenario==='react-barrier'&&m.cards[id].blueprint==='1_249'):!['1_28','1_30','1_12'].includes(m.cards[id].blueprint)))throw Error('Unsupported react hand.');
  if((m.scenario==='react-barrier')!==Array.isArray(r.barred))throw Error('Missing or unexpected react Barrier state.');

@@ -1,0 +1,19 @@
+{
+  "recordedAt": "2026-09-16T15:05:29.788417+00:00",
+  "gempCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "test": "NativeProofIntegrationOracleTests#continuousDrains",
+  "fixture": "Original Signal the defense card layout and ordered piles; unmodified pinned GEMP executes two drains in both orders with pass, Trooper or Wolfman defense at the Bay.",
+  "verified": [
+    "Six exact both-player Reserve, Force, Used, Lost and hand outcomes.",
+    "No repeated drain at either attempted site; both top-level passes advance GEMP to Deploy.",
+    "Corridor has zero drain and no legal CZ-3 deployment."
+  ],
+  "difference": {
+    "path": "bay-wolfman",
+    "observed": "Pinned GEMP offers the previously deployed Wolfman a Move react at the subsequent Corridor drain. Oracle declines this extra action to compare the shared legal path. Full legal-choice parity is not claimed.",
+    "native": "Retains the per-card used-react marker, so a second react is not offered.",
+    "basis": "Official Advanced Rulebook, printed p170, React: a card that deploys or moves as a react cannot be involved in another react during that same turn.",
+    "source": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=170"
+  },
+  "controlSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=41"
+}

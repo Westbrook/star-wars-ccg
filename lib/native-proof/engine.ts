@@ -31,7 +31,7 @@ function putTop(m:Match,s:Side,blueprint:string){const a=m.players[s].reserve;co
 function window(m:Match,text:string,priority:Side,event?:'battle-destiny-complete'|'character-deployed',target?:string){m.stack.push({kind:'window',label:text,priority,passes:0,...(event?{event}:{}),...(target?{target}:{})});}
 function finish(m:Match,text:string){m.stack=[];m.complete=true;log(m,text);}
 const isTurnStudy=(scenario:ScenarioId)=>isDesertStudy(scenario)||isGarrisonStudy(scenario)||scenario==='barrier'||scenario==='imperial-barrier'||scenario==='next-turn'||isOpeningStudy(scenario);
-const engineFor=(scenario:ScenarioId)=>['react-drain-deploy','react-barrier','last-force'].includes(scenario)?'native-proof-13':isReactStudy(scenario)?'native-proof-12':isLossStudy(scenario)?'native-proof-11':isDesertStudy(scenario)?'native-proof-10':scenario==='second-contact'?'native-proof-9':isGarrisonStudy(scenario)||scenario==='corridor-crossfire'?'native-proof-8':scenario==='first-contact'?'native-proof-7':scenario==='opening-table'?'native-proof-6':scenario==='next-turn'?'native-proof-5':isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
+const engineFor=(scenario:ScenarioId)=>scenario==='react-drain-deploy'?'native-proof-14':['react-drain-deploy','react-barrier','last-force'].includes(scenario)?'native-proof-13':isReactStudy(scenario)?'native-proof-12':isLossStudy(scenario)?'native-proof-11':isDesertStudy(scenario)?'native-proof-10':scenario==='second-contact'?'native-proof-9':isGarrisonStudy(scenario)||scenario==='corridor-crossfire'?'native-proof-8':scenario==='first-contact'?'native-proof-7':scenario==='opening-table'?'native-proof-6':scenario==='next-turn'?'native-proof-5':isWeaponStudy(scenario)?'native-proof-4':isTurnStudy(scenario)?'native-proof-3':scenario==='takeel'?'native-proof-2':'native-proof-1';
 const trooper=(side:Side)=>side==='light'?'1_28':'1_194';
 const barrier=(side:Side)=>side==='light'?'1_105':'1_249';
 
@@ -54,7 +54,8 @@ export function createScenario(scenario:ScenarioId):Match{
   if(scenario==='react-barrier'){pull(m,'dark','1_249','hand');move(m,m.players.dark.reserve.at(-1)!,'force');}
   for(let i=0;i<(deploy?4:2);i++)move(m,m.players.light.reserve.at(-1)!,'force');move(m,m.players.dark.reserve.at(-1)!,'force');
   putTop(m,'light','1_12');putTop(m,'dark','1_181');
-  if(drain)m.stack=[{kind:'drain',stage:'start',site,remaining:0}];
+  if(scenario==='react-drain-deploy'){m.reactStudy!.drains=[];m.stack=[{kind:'drain-control',priority:'dark',passes:0}];}
+  else if(drain)m.stack=[{kind:'drain',stage:'start',site,remaining:0}];
   else {m.battle=reactBattle(m,site);m.stack=[{kind:'battle',stage:'start',side:'dark'}];}
   log(m,scenario==='react-drain-deploy'?'CZ-3 alone provides no presence. Light can deploy to the Bay through its icon, but cannot deploy to the Corridor with neither its icon nor presence. Dark may legally attempt a zero drain there.':scenario==='react-barrier'?'Reinforcements deploy before Dark may respond with Imperial Barrier. Barrier preserves their ordinary presence but excludes them from battle for this turn.':drain?'Two Wolfmen wait in the Corridor. Bringing one to the Bay cancels the drain before Force loss; the other cannot react to a canceled drain.':deploy?'CZ-3 enables separate deployment reacts at its site or the adjacent Corridor. Choose either battle. Rebels cost 1, Wolfman costs 3; Jawa cannot deploy on Death Star.':'Three Rebels have ability 3. Each arriving Wolfman adds 1 ability and 2 power, before battle destiny is checked.');
  }else if(scenario==='last-force'){
@@ -299,7 +300,7 @@ function settle(m:Match){
   if(f.kind==='drain'){
    if(f.stage==='loss'&&f.remaining===0){f.stage='end';window(m,m.reactStudy?.cancelled?'Force drain canceled responses':'Force drain completed responses',other(m.active));continue;}
    if(isLossStudy(m.scenario)&&f.stage==='loss'&&!f.lossReady){f.lossReady=true;if(lossResponses(m,'drain',other(m.active)).length){m.stack.push({kind:'loss-window',source:'drain',side:other(m.active),priority:other(m.active),passes:0});continue;}}
-   if(f.stage==='end'){if(m.cycle){m.stack.pop();continue;}finish(m,'Force drain checkpoint complete. The drain attempt remains recorded.');return;}
+   if(f.stage==='end'){if(m.reactStudy?.drains){m.reactStudy.drains.push({site:f.site,amount:sites[m.cards[f.site].blueprint].light,cancelled:m.reactStudy.cancelled});m.stack.pop();continue;}if(m.cycle){m.stack.pop();continue;}finish(m,'Force drain checkpoint complete. The drain attempt remains recorded.');return;}
   }
   if(f.kind==='battle'){
    const b=m.battle!;
@@ -370,6 +371,10 @@ export function prompt(m:Match):Prompt|null{
   const detail=stage==='control'?'Drain at a site you control, once per site this turn. Light adds 1 to its drain at the Detention Block Corridor. A zero drain is legal.':stage==='deploy'?'Troopers cost 1 Force here. Deploy where you have your Force icon or presence. Each deployment gives the opponent a response.'+(isOpeningStudy(m.scenario)?' Blasters deploy or transfer to your warriors for 1 Force. Jawas deploy only on Tatooine, so they cannot deploy at these sites.':''):stage==='battle'?'Initiate for 1 Force where both sides have eligible presence. Barriered characters cannot participate.':stage==='move'?'An unbarriered trooper may move to the adjacent site for 1 Force, once this turn. Movement does not require your Force icon.':'Draw cards from the top of your Force Pile into hand, one at a time. Drawing is optional.';
   return {...base,side:f.priority,title:label(f.priority)+' '+stage+' opportunity',detail:m.scenario==='second-contact'&&stage==='deploy'?'Deploy characters and weapons for their printed costs. Guards cannot carry weapons. Luke, Jawas and Tusken Raiders cannot deploy at these Death Star sites.':isGarrisonStudy(m.scenario)&&stage==='deploy'?'Deploy a character for its printed cost. Guards cost 2; Death Star Troopers cost 2 and deploy only on Death Star. The opponent may respond with a Barrier.':usesCharacterRules(m.scenario)&&stage==='move'?'Guards cannot move, even when no Barrier applies. Other unbarriered characters may make one regular move to the adjacent site for 1 Force.':detail,choices:[...actions,{id:'pass',label:actions.length?'Pass '+stage+' opportunity':'Pass empty opportunity'}],automatic:actions.length===0};
  }
+ if(f.kind==='drain-control'){
+  const choices=f.priority===m.active?m.locations.filter(site=>!m.drained.includes(site)&&siteAbility(m,'dark',site)>0&&siteAbility(m,'light',site)===0).map(site=>({id:'drain:'+site,label:'Drain at '+name(m,site)+' · '+sites[m.cards[site].blueprint].light+' Force',tone:'primary' as const})):[];
+  return {...base,side:f.priority,title:f.priority==='dark'?'Choose where Dark drains':'Light Control opportunity',detail:'Resolve each drain separately, in either order. Each site may be attempted once this Control phase, even if its drain is canceled. You may finish without draining at every site.',choices:[...choices,{id:'pass',label:choices.length?'Finish Control':'Pass empty opportunity'}],automatic:choices.length===0};
+ }
  if(f.kind==='activation'){
   const max=Math.min(f.generation-f.used,m.players[m.active].reserve.length);const can=f.priority===m.active&&max>0;
   return {...base,side:f.priority,title:label(f.priority)+' action opportunity',detail:f.used+' of '+f.generation+' generated Force activated. Each activation moves one top Reserve card to the top of Force.',choices:[...(can?[{id:'activate',label:'Activate 1 Force',tone:'primary' as const}]:[]),{id:'pass',label:can?'Pass activation opportunity':'Pass empty opportunity'}],automatic:!can};
@@ -407,7 +412,15 @@ export function applyCommand(before:Match,side:Side,command:Command):Match{
  if(!p.choices.some(c=>c.id===command.choice))throw Error('This choice is not legal in the current fixture.');
  const m=structuredClone(before);const f=top(m);const choice=command.choice;m.revision++;
  if(choice==='stop'){finish(m,'Checkpoint left without initiating the action.');return m;}
- if(f.kind==='react-window'){
+ if(f.kind==='drain-control'){
+  if(choice==='pass'){f.passes++;if(f.passes===2)finish(m,'Control checkpoint complete. Both players passed; each attempted site and its result remain recorded.');else f.priority=other(side);}
+  else{
+   const site=choice.slice('drain:'.length),amount=sites[m.cards[site].blueprint].light;
+   f.passes=0;f.priority=other(side);m.drained.push(site);m.reactStudy!.site=site;m.reactStudy!.cancelled=false;
+   m.stack.push({kind:'drain',stage:'loss',site,remaining:amount},{kind:'react-window',site,event:'drain',priority:'light',passes:0});
+   log(m,'Dark initiates a Force drain of '+amount+' at '+name(m,site)+'.');
+  }
+ }else if(f.kind==='react-window'){
   if(choice==='pass'){f.passes++;if(f.passes===2)m.stack.pop();else f.priority=other(side);}
   else {const [,method,id]=choice.split(':');const cost=method==='move'?1:printed(m.cards[id].blueprint,'deploy');
    for(let i=0;i<cost;i++)move(m,m.players.light.force[0],'used');if(method==='deploy')move(m,id,'playing');m.reactStudy!.used.push(id);f.passes=0;f.priority='dark';
@@ -555,7 +568,7 @@ export function assertMatch(m:Match){
   if(m.winner!==null&&(m.winner!=='dark'||!m.complete||life(m,'light')!==0))throw Error('Invalid final Life Force winner.');
  }
 
- if(m.schema!==1||m.engine!==engineFor(m.scenario)||!scenarios.some(s=>s.id===m.scenario))throw Error('Unsupported saved engine version.');
+ if(m.schema!==1||(m.engine!==engineFor(m.scenario)&&!(m.scenario==='react-drain-deploy'&&m.engine==='native-proof-13'))||!scenarios.some(s=>s.id===m.scenario))throw Error('Unsupported saved engine version.');
  if((isTurnStudy(m.scenario)&&!m.setup)!==!!m.turn)throw Error('Missing or unexpected turn study.');
  if((m.scenario==='next-turn'||isOpeningStudy(m.scenario)&&!m.setup)!==!!m.cycle)throw Error('Missing or unexpected turn cycle.');
  if((m.scenario==='opening-table'||isOpeningStudy(m.scenario)&&!m.turn)!==!!m.setup)throw Error('Missing or unexpected setup study.');

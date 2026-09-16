@@ -115,6 +115,40 @@ public class NativeProofIntegrationOracleTests {
       var c=card(s,false,"1_249",1);for(int i=0;i<100&&!available(s,false,c,"Prevent");i++)s.PlayerPass(s.GetDecidingPlayer());assertTrue(available(s,false,c,"Prevent"));
       if(play){int before=force(s,false);s.DSPlayCard(c);s.PassForceUseResponses();s.PassCardPlayResponses();assertEquals(before-1,force(s,false));}else s.DSPass();
     }
+    @Test public void continuousDrains() throws Exception {
+      var results=new ArrayList<Map<String,Object>>();
+      for(String path:List.of("bay-pass","bay-trooper","bay-wolfman","corridor-pass","corridor-trooper","corridor-wolfman")){
+        System.out.println("CONTROL PATH "+path);var s=fixture("react-drain-deploy");var bay=s.GetLSStartingLocation();var corridor=card(s,false,"1_284",1);
+        var order=path.startsWith("bay")?List.of(bay,corridor):List.of(corridor,bay);
+        for(var dest:order){
+          giveActiveOpportunity(s,false);assertEquals(Phase.CONTROL,s.GetCurrentPhase());assertTrue(s.DSForceDrainAvailable(dest));s.DSForceDrainAt(dest);
+          if(dest==bay&&!path.endsWith("pass"))deployReact(s,path.endsWith("wolfman")?"1_30":"1_28",1,dest);
+          if(dest==corridor){for(int i=0;i<30&&s.IsActiveForceDrain();i++){
+            assertFalse(available(s,true,card(s,true,"1_6",1),"Deploy"));
+            // Pinned GEMP offers a second react after a deploy-react. Record the
+            // divergence; the native runner follows AR p170's per-card turn limit.
+            if(available(s,true,card(s,true,"1_30",1),"Move")){
+              assertEquals("bay-wolfman",path);System.out.println("DIVERGENCE: GEMP offers previously deployed Wolfman a second react");
+            }
+            s.PlayerPass(s.GetDecidingPlayer());
+          }}
+          s.PassAllResponses();while(s.IsActiveForceDrain()){s.LSChooseCard((PhysicalCardImpl)s.gameState().getTopOfReserveDeck(LS));s.PassAllResponses();}
+          giveActiveOpportunity(s,false);assertFalse("Cannot retry an attempted drain",s.DSForceDrainAvailable(dest));
+        }
+        assertFalse(s.DSForceDrainAvailable(bay));assertFalse(s.DSForceDrainAvailable(corridor));
+        var r=new LinkedHashMap<String,Object>();r.put("path",path);
+        for(boolean ls:List.of(true,false)){
+          String side=ls?"light":"dark",player=player(ls);var piles=new LinkedHashMap<String,Object>();
+          piles.put("reserve",s.gameState().getReserveDeck(player).stream().map(c->c.getBlueprintId(true)).toList());
+          piles.put("force",s.gameState().getForcePile(player).stream().map(c->c.getBlueprintId(true)).toList());
+          piles.put("used",s.gameState().getUsedPile(player).stream().map(c->c.getBlueprintId(true)).toList());
+          piles.put("lost",s.gameState().getLostPile(player).stream().map(c->c.getBlueprintId(true)).toList());
+          piles.put("hand",s.gameState().getHand(player).stream().map(c->c.getBlueprintId(true)).sorted().toList());r.put(side,piles);
+        }
+        s.DSPass();s.LSPass();assertEquals(Phase.DEPLOY,s.GetCurrentPhase());results.add(r);
+      }
+      Files.writeString(Path.of("/opt/gemp-swccg/signal-control-branches.json"),new GsonBuilder().serializeNulls().setPrettyPrinting().create().toJson(results));
+    }
     @Test public void interactions() throws Exception {
       for(String path:List.of("signal-bay-pass","signal-bay-trooper","signal-bay-wolfman","signal-corridor","barrier-no-react","barrier-pass","barrier-first","barrier-second","barrier-reinforce","barrier-wolfman","last-hand","last-reserve")){
        System.out.println("PATH "+path);boolean battle=path.startsWith("barrier"),last=path.startsWith("last");String scenario=battle?"react-barrier":last?"last-force":"react-drain-deploy";

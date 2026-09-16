@@ -24,13 +24,15 @@ async function until(cp,done,select=fallback){for(let n=0;n<250;n++){if(done(cp)
 const phase=(cp,stage,number=cp.game.turn?.number||1)=>until(cp,c=>c.game.turn?.number===number&&c.game.turn.stage===stage&&c.game.prompt?.side===c.game.active&&(!['deploy','move','battle'].includes(stage)||c.game.prompt.title.endsWith(stage+' opportunity')));
 
 
-const {observe,runPath,project,scenarioFor,paths}=await import('./integration-paths.mjs');let decisions=0,recovered=0;
+const {observe,runPath,project,scenarioFor,paths}=await import('./integration-paths.mjs');
+const {paths:controlPaths,runControlPath}=await import('./signal-control-paths.mjs');
+const cases=[...paths.map(path=>({scenario:scenarioFor(path),run:()=>runPath(path)})),...controlPaths.map(path=>({scenario:'react-drain-deploy',run:()=>runControlPath(path)}))];let decisions=0,recovered=0;
 try{
  await start();
- for(const path of paths){
-  const trace=[];observe((before,choice,next)=>trace.push({choice,next}));runPath(path);observe(undefined);let cp=await request('',owner,{id:randomUUID(),scenario:scenarioFor(path),mode:'solo'},201);const receipts=[];const restarted=new Set();
+ for(const study of cases){
+  const trace=[];observe((before,choice,next)=>trace.push({choice,next}));study.run();observe(undefined);let cp=await request('',owner,{id:randomUUID(),scenario:study.scenario,mode:'solo'},201);const receipts=[];const restarted=new Set();
   for(const {choice,next:expected} of trace){
-   const checkpointKind=choice.startsWith('play:')?'barrier':choice.startsWith('react:')?'react':choice==='lose:reserve'?'loss':null;
+   const checkpointKind=choice.startsWith('play:')?'barrier':choice.startsWith('react:')?'react':choice==='lose:reserve'?'loss':expected.stack.at(-1)?.kind==='drain-control'&&expected.reactStudy.drains.length===1?'between-drains':null;
    if(checkpointKind&&!restarted.has(checkpointKind)){const r=await duplicate(cp,choice);cp=r.cp;receipts.push(r.body);cp=await restartAt(cp);recovered++;restarted.add(checkpointKind);}else cp=await next(cp,choice);
    assert.deepEqual(cp.game,JSON.parse(JSON.stringify(project(expected,cp.game.seat,true))));decisions++;
   }
@@ -43,5 +45,5 @@ try{
   for(const [actor,side,other] of [[owner,'dark','light'],[guest,'light','dark']]){const v=await request('/'+cp.id,actor);assert.equal(v.game.seat,side);assert.deepEqual(v.game.players[other].hand,[]);await request('/'+cp.id,actor,{...command(v,'pass'),seat:other},403)}
   const v=await request('/'+cp.id,owner),a=command(v,v.game.prompt.choices[0].id),b=command(v,v.game.prompt.choices[0].id);const result=await Promise.all([call('/'+cp.id,owner,a),call('/'+cp.id,owner,b)]);assert.deepEqual(result.map(x=>x.status).sort(),[200,409]);cp=await restartAt(cp);recovered++;await request('/'+cp.id,'uninvited-integration-pilot',undefined,403);await request('/'+cp.id,null,undefined,401);
  }
- console.log(JSON.stringify({requests:calls,decisions,recovered,verified:'Twelve complete paths match direct engine projections after every HTTP choice. Paid deployment, nested Barrier and final Life Force decisions survive process restarts. Eight-way duplicate and late receipts, all three shared seats, stale concurrency and 401/403 pass.'}));
+ console.log(JSON.stringify({requests:calls,decisions,recovered,verified:'Eighteen complete paths match direct engine projections after every HTTP choice. Paid deployment, nested Barrier, final Life Force and between-drain continuations survive process restarts. Eight-way duplicate and late receipts, all three shared seats, stale concurrency and 401/403 pass.'}));
 }finally{observe(undefined);await stop()}
