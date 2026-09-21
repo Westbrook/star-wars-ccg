@@ -179,7 +179,7 @@
       "type": "Character",
       "subType": "Rebel",
       "image": "https://res.starwarsccg.org/cards/PremiereIntroductoryTwoPlayerGame-Light/large/luke.gif",
-      "text": "Must deploy on Tatooine, but may move elsewhere. May not be deployed if two or more of opponent's unique (\u2022) characters on table. Your warriors at same site as Luke, or adjacent sites are forfeit +1.",
+      "text": "Must deploy on Tatooine, but may move elsewhere. May not be deployed if two or more of opponent's unique (•) characters on table. Your warriors at same site as Luke, or adjacent sites are forfeit +1.",
       "stats": {
         "deploy": "4",
         "power": "2",
@@ -245,7 +245,17 @@
         "Scomp Link"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_004.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_004.java",
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
+      }
     },
     {
       "gempId": "101_5",
@@ -254,7 +264,7 @@
       "type": "Character",
       "subType": "Imperial",
       "image": "https://res.starwarsccg.org/cards/PremiereIntroductoryTwoPlayerGame-Dark/large/vader.gif",
-      "text": "Must deploy on Death Star, but may move elsewhere. May not be deployed if two or more of opponent's unique (\u2022) characters on table. If in a losing battle, draw destiny. If destiny > 4, 'choke' (lose) one Imperial present (your choice).",
+      "text": "Must deploy on Death Star, but may move elsewhere. May not be deployed if two or more of opponent's unique (•) characters on table. If in a losing battle, draw destiny. If destiny > 4, 'choke' (lose) one Imperial present (your choice).",
       "stats": {
         "deploy": "7",
         "power": "4",
@@ -359,6 +369,16 @@
         ],
         "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
         "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -518,6 +538,16 @@
         ],
         "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
         "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -548,6 +578,16 @@
         ],
         "scope": "Fixed Tatooine one-turn checkpoints: Luke cost/location/unique-copy restriction, free Rebel Troopers at Luke, same/adjacent warrior forfeit modifier and its removal, Tusken personal and noncumulative total power. Barrier exclusions suspend relevant modifiers. Luke opposing-two-unique restriction, off-board movement and other location text are not exercised; full-card status remains pending.",
         "evidence": "tests/native-proof/gemp/character-oracle-result.json"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -641,6 +681,16 @@
         ],
         "scope": "Closed single-drain / single-battle fixtures. It Could Be Worse pays X before resolving, reduces only remaining Force loss or battle damage, and does not accumulate across copies for the same loss. Talz forfeits during damage to restore another own hit character, including when both are hit; attached weapons on the rescued character remain. No nighttime conditions, weapon secondary effects, cancellations or additional card abilities are reachable. Full-card and full-match status remains pending.",
         "evidence": "tests/native-proof/gemp/loss-oracle-result.json; tests/native-proof/loss.test.mjs"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -868,6 +918,16 @@
         ],
         "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
         "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -988,6 +1048,16 @@
         ],
         "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
         "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -1190,6 +1260,16 @@
         ],
         "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
         "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -1289,6 +1369,16 @@
         ],
         "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
         "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -1491,6 +1581,16 @@
         ],
         "scope": "Closed Tatooine ground boards: Jawa mandatory bilateral deployment cost, Light-only Jawa Camp exception without Sandcrawler, Dune Sea Dark ability 6 versus Light 4, Barrier exclusions, and two-turn late-game integration. Only supported characters and Barriers remain drawable in Desert patrol. No full randomized match, other cost modifiers, vehicles, reactive cards or new location deployment actions enabled. Existing card status remains pending.",
         "evidence": "tests/native-proof/gemp/frontier-oracle-result.json; tests/native-proof/frontier.test.mjs"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -1559,6 +1659,16 @@
         ],
         "scope": "Closed CZ-3 drain responses with Force-icon/presence deployment checks, zero drain, Imperial Barrier on a newly deployed react participant, separate reinforcements, and final Life Force loss. Existing board and saved engine versions remain unchanged. No cross-turn react reset, broader card pool, arbitrary match setup or full native match support is enabled.",
         "evidence": "tests/native-proof/gemp/integration-oracle-result.json; tests/native-proof/integration.test.mjs"
+      },
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
       }
     },
     {
@@ -1579,7 +1689,17 @@
         "Scomp Link"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_285.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_285.java",
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
+      }
     },
     {
       "gempId": "1_291",
@@ -1599,7 +1719,17 @@
         "Scomp Link"
       ],
       "status": "pending",
-      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_291.java"
+      "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_291.java",
+      "locationConformance": {
+        "engine": "native-proof-16",
+        "scenarios": [
+          "changing-front",
+          "docking-transit",
+          "control-room"
+        ],
+        "scope": "Closed two-turn ground pools: location placement/conversion, active icons, printed docking-bay transit costs for eligible characters, Control Room Reserve deployment with mandatory legal target, private search, failed-search verification/turn lock and saved cryptographic shuffle. No vehicles, generic sites, full deck coverage or full native matches. Individual card status remains pending.",
+        "evidence": "tests/native-proof/gemp/location-oracle-result.json; tests/native-proof/location.test.mjs; tests/native-proof/location-smoke.mjs"
+      }
     },
     {
       "gempId": "1_292",

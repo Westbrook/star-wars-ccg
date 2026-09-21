@@ -1,0 +1,35 @@
+[
+  {
+    "name": "search-failed",
+    "repeatAllowed": false,
+    "verifiedByBoth": true
+  },
+  {
+    "name": "search-convert",
+    "removedFromReserve": 1,
+    "repeatAllowed": true
+  },
+  {
+    "name": "search-new",
+    "removedFromReserve": 1,
+    "repeatAllowed": true
+  },
+  {
+    "name": "free-group",
+    "moved": 2,
+    "cost": 0,
+    "guardsStayed": true
+  },
+  {
+    "name": "paid-group",
+    "moved": 2,
+    "cost": 1,
+    "guardsStayed": true
+  },
+  {
+    "name": "convert",
+    "charactersStay": true,
+    "cost": 0,
+    "lightGeneration": 3
+  }
+]

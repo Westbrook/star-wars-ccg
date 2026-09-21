@@ -1,11 +1,11 @@
 export type Side = 'light' | 'dark';
 export type Zone = 'reserve' | 'force' | 'used' | 'lost' | 'hand' | 'destiny' | 'table' | 'playing' | 'leaving';
 export type Pile = Exclude<Zone,'table'|'playing'|'leaving'>;
-export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons' | 'next-turn' | 'opening-table' | 'first-contact' | 'guard-post' | 'rebel-post' | 'corridor-crossfire' | 'second-contact' | 'luke-arrives' | 'luke-support' | 'tusken-band' | 'reduce-drain' | 'reduce-damage' | 'talz-rescue' | 'react-battle' | 'react-drain' | 'react-deploy' | 'react-drain-deploy' | 'react-barrier' | 'last-force' | 'jawa-bargain' | 'dune-sea' | 'desert-patrol';
+export type ScenarioId = 'activation' | 'drain' | 'battle' | 'recirculation' | 'takeel' | 'barrier' | 'imperial-barrier' | 'weapons' | 'rebel-weapons' | 'next-turn' | 'opening-table' | 'first-contact' | 'guard-post' | 'rebel-post' | 'corridor-crossfire' | 'second-contact' | 'luke-arrives' | 'luke-support' | 'tusken-band' | 'reduce-drain' | 'reduce-damage' | 'talz-rescue' | 'react-battle' | 'react-drain' | 'react-deploy' | 'react-drain-deploy' | 'react-barrier' | 'last-force' | 'jawa-bargain' | 'dune-sea' | 'desert-patrol' | 'changing-front' | 'docking-transit' | 'control-room';
 export type TurnStage = 'start'|'activate'|'control'|'deploy'|'battle'|'move'|'draw'|'end'|'complete';
 export type Restriction = {target:string;source:string;expiresTurn:number};
 export type StudyTurn = {number:number;deployer:Side;stage:TurnStage;restrictions:Restriction[];expired:Restriction[];moved:string[];battled:string[]};
-export type TurnRecord = {number:number;side:Side;generation:number;activated:number;carriedForce:Record<Side,number>;recirculated:Record<Side,number>;expired:number};
+export type TurnRecord = {generationSites?:string[];number:number;side:Side;generation:number;activated:number;carriedForce:Record<Side,number>;recirculated:Record<Side,number>;expired:number};
 export type TurnCycle = {generation:number;activated:number;recirculated:Record<Side,number>;history:TurnRecord[]};
 export type Card = {id:string; blueprint:string; owner:Side; zone:Zone; location?:string;attachedTo?:string;hit?:boolean;coveredBy?:string};
 export type SetupStage = 'choose'|'reveal'|'collision'|'place'|'shuffle'|'draw'|'start'|'complete';
@@ -13,7 +13,12 @@ export type SetupState = {stage:SetupStage;round:number;selected:Record<Side,str
 export type Player = {reserve:string[];force:string[];used:string[];lost:string[];hand:string[];destiny:string[]};
 export type Shot = {weapon:string;user:string;target:string;side:Side;cost:number;bonus:number;defense:number;status:'pending'|'drawn'|'resolved';card?:string;destiny?:number;hit?:boolean};
 export type Battle = {site:string;initiator:Side;participants:Record<Side,string[]>;destiny:Record<Side,number|null>;drawn:Record<Side,boolean>;power:Record<Side,number>;attrition:Record<Side,number>;damage:Record<Side,number>;next:Side;destinyBeforeSwitch?:Record<Side,number>;destinySwitched?:boolean;resolved?:boolean;fired?:string[];weaponUsers?:Record<string,string>;shots?:Shot[]};
+export type LocationStudy = {generationSites:string[];failedSearchTurn:number|null;shuffles:number;deployed:string[]};
 export type Frame =
+ | {kind:'location-place';card:string;source:'hand'|'reserve'}
+ | {kind:'bay-search';room:string;stage:'choose'|'verify'}
+ | {kind:'transit-select';from:string;to:string;selected:string[]}
+
  | {kind:'activation';used:number;generation:number;priority:Side;passes:number}
  | {kind:'drain-control';priority:Side;passes:number}
  | {kind:'drain';stage:'start'|'loss'|'end';site:string;remaining:number;lossReady?:boolean}
@@ -37,9 +42,9 @@ export type Frame =
  | {kind:'recirculation';next:Side}
  | {kind:'finish';message:string};
 export type Match = {
- schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5'|'native-proof-6'|'native-proof-7'|'native-proof-8'|'native-proof-9'|'native-proof-10'|'native-proof-11'|'native-proof-12'|'native-proof-13'|'native-proof-14'|'native-proof-15';scenario:ScenarioId;revision:number;active:Side;phase:string;
+ schema:1;engine:'native-proof-1'|'native-proof-2'|'native-proof-3'|'native-proof-4'|'native-proof-5'|'native-proof-6'|'native-proof-7'|'native-proof-8'|'native-proof-9'|'native-proof-10'|'native-proof-11'|'native-proof-12'|'native-proof-13'|'native-proof-14'|'native-proof-15'|'native-proof-16';scenario:ScenarioId;revision:number;active:Side;phase:string;
  cards:Record<string,Card>;players:Record<Side,Player>;locations:string[];stack:Frame[];
- battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;concededBy?:Side;reactStudy?:{used:string[];arrived:string[];cancelled:boolean;site:string|null;barred?:string[];drains?:{site:string;amount:number;cancelled:boolean}[]};lossStudy?:{reduced:number;rescued:string[];reduction?:{card:string;amount:number;source:'drain'|'battle'}};turn?:StudyTurn;cycle?:TurnCycle;setup?:SetupState;
+ battle:Battle|null;drained:string[];log:{n:number;text:string}[];complete:boolean;winner:Side|null;concededBy?:Side;reactStudy?:{used:string[];arrived:string[];cancelled:boolean;site:string|null;barred?:string[];drains?:{site:string;amount:number;cancelled:boolean}[]};lossStudy?:{reduced:number;rescued:string[];reduction?:{card:string;amount:number;source:'drain'|'battle'}};turn?:StudyTurn;cycle?:TurnCycle;setup?:SetupState;locationStudy?:LocationStudy;
 };
 export type LossBalance = {attrition:number;damage:number;initialAttrition:number;initialDamage:number};
 export type LossPreview = {kind:'forfeit'|'force';value:number;attrition:number;damage:number};
@@ -62,5 +67,6 @@ export type Projection = {
  setup?:{stage:SetupStage;round:number;committed:Record<Side,boolean>;selected:Record<Side,PublicCard|null>;candidates:PublicCard[];rejected:PublicCard[][];covered:PublicCard|null;generation:Record<Side,number>|null;groups:{name:string;cards:PublicCard[]}[];openingHands?:Record<Side,PublicCard[]>};
  reactStudy?:{used:string[];arrived:string[];cancelled:boolean;site:string|null;barred?:string[];drains?:{site:string;amount:number;cancelled:boolean}[];pending:{card:string;cost:number;method:'move'|'deploy'}|null;ability:Record<Side,number>};
  lossStudy?:{kind:'drain'|'battle'|'rescue';remaining:number;reduced:number;rescued:string[]};
+ locationStudy?:{generation:Record<Side,number>;shuffles:number;failedSearch:boolean;covered:PublicCard[];searchCards?:PublicCard[];selected:string[];groups:{name:string;sites:string[]}[];transitCosts:Record<string,Record<Side,number>>};
  weaponStudy?:{stage:'deploy'|'battle'|'complete';hits:Record<Side,string[]>;lostOrder:{side:Side;remaining:PublicCard[];placed:PublicCard[]}|null};
 };

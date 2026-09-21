@@ -351,3 +351,38 @@ Verification:
 Deferred: Sandcrawler's free deployment clause, arbitrary cost modifiers, location deployment/search/transit, the remaining starter effects, cross-turn reacts, full randomized matches and CPU. Vehicles remain deliberately deferred. All card-level full-game statuses remain pending.
 
 Final batch checks: all 243 native tests pass. A 140-route comparison against release-28 source preserves exact states and both-seat projections across 3,081 prior decisions. TypeScript and production build pass. No database migration. GEMP fixtures can be regenerated from `createScenario` for the three new IDs into `/opt/gemp-swccg/frontier-fixtures.json`; the Java oracle imports those starting zones only and executes rules through the real engine.
+
+### Location batch: native-proof-16
+
+`A changing front`, `Passage between worlds`, and `Open the docking bays` use
+closed late-game pools of troopers, guards, Barriers, the four Premiere docking
+bays, Lars' Moisture Farm, Detention Block Corridor and Docking Control Room 327.
+Each continues across two complete turns (or an earlier Life Force victory).
+Unsupported authored cards are already in Lost; this is not a full starter match.
+
+New site placement keeps each system contiguous and respects the interior / buffer
+bay / exterior pattern for this pool. Conversion preserves cards at the location,
+retains supporting copies, and immediately replaces text and icons. Force generation
+is captured when Activate begins; new sites affect the next count. Ordinary landspeed
+never crosses systems. Docking-bay transit chooses a saved group, pays the source's
+printed cost once, and consumes each eligible character's regular move. Guards and
+Barriered characters cannot join.
+
+The Control Room permits repeated successful searches during Dark's Deploy while
+controlled. A legal target cannot be declined. A failed search exposes the unordered
+Reserve contents for both players to verify, reshuffles, and blocks the same search
+for the turn. Successful search contents are private to Dark. Server-generated
+cryptographic Fisher–Yates shuffles use rejection sampling; the saved permutation
+and command receipt commit atomically. Refresh and duplicate requests never apply
+a second shuffle. Engine tests inject a deterministic entropy stream only in tests.
+The UI displays a shuffle count, never the hidden order. The Room's Light drain
+bonus cannot trigger in this pool: no Rebel with individual ability greater than 2.
+Farm weapon/Luke effects likewise have no reachable target.
+
+Run `node --test tests/native-proof/location.test.mjs` and, after building,
+`node tests/native-proof/location-smoke.mjs`. The latter verifies seven full HTTP
+paths, process recovery, duplicate receipts, private seats and access checks. The
+GEMP test source, six actual outcomes and precise limitations are under
+`tests/native-proof/gemp/location-*` and `NativeProofLocationOracleTests.java`.
+The GEMP harness runs on the same pinned engine as earlier batches; native does
+not attempt to match GEMP's random order. Earlier scenario versions remain unchanged.

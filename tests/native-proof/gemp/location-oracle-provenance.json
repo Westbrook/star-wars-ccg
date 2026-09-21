@@ -1,0 +1,24 @@
+{
+  "recordedAt": "2026-09-21",
+  "gempCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "test": "NativeProofLocationOracleTests (four executed tests, six recorded outcomes)",
+  "sources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=66",
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=84",
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=181",
+    "Card101_004.java", "Card1_124.java", "Card1_285.java", "Card1_129.java", "Card1_291.java",
+    "ChooseCardsFromPileEffect.java", "DeployCardFromPileEffect.java"
+  ],
+  "verified": [
+    "Opposing bay conversion is free, keeps characters in place, and leaves the old site supporting.",
+    "A new Tatooine bay contributes to Light's next generation; available Reserve cards still cap actual activation.",
+    "Two-character transit charges a single source fare (Dark free, Light 1). Guards cannot join, and moved characters cannot transit again.",
+    "Control Room deploys a new bay or converts an existing bay from Reserve. Successful searches can repeat.",
+    "After both legal bays deploy, an unsuccessful search lets both players verify Reserve and prevents the same search for the rest of the turn."
+  ],
+  "limitations": [
+    "Initial zones are fixture setup. Transit fixture imports the already-covered Light bay into Lost in the GEMP harness; it does not compare that card's zone or full pile equality for this branch. The conversion test itself exercises real GEMP conversion.",
+    "Native and GEMP shuffle orders are intentionally independent. Tests compare card conservation, search outcomes and persistence, not RNG parity.",
+    "No complete legal-choice equivalence or full starter matches claimed. Vehicles, passengers, pilots, other worlds, generic sites and other location text remain gated."
+  ]
+}

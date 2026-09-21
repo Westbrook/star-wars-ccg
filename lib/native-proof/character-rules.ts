@@ -1,3 +1,4 @@
+import {isLocationStudy} from './location-rules';
 import {isFrontierStudy,isJawa} from './frontier-rules';
 import {isDesertStudy,desertCharacters,desertDeployCost,desertCanDeploy,desertPowerBonus,characterForfeit} from './desert-rules';
 import {definition,printed} from './catalog';
@@ -6,7 +7,7 @@ import type {Match,Side} from './types';
 // These handlers are admitted only by the closed garrison and four-turn fixtures. No
 // implicit text parsing or additional cards are enabled in earlier saved games.
 export const isGarrisonStudy=(s:string)=>s==='guard-post'||s==='rebel-post';
-export const usesCharacterRules=(s:string)=>isGarrisonStudy(s)||s==='second-contact'||isDesertStudy(s);
+export const usesCharacterRules=(s:string)=>isLocationStudy(s)||isGarrisonStudy(s)||s==='second-contact'||isDesertStudy(s);
 export const isGuard=(blueprint:string)=>blueprint==='1_26'||blueprint==='1_181';
 export function supportedCharacter(m:Match,side:Side,blueprint:string){
  if(isFrontierStudy(m.scenario)&&blueprint===(side==='light'?'1_12':'1_182'))return true;
