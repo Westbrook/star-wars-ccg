@@ -3,7 +3,7 @@
   "projectId": "swccg-holotable",
   "reportWorkspace": "/Users/westbrook/.codex/visualizations/2026/09/10/01a08bd1-75c6-7f40-9359-bfda43d73c89/swccg-report",
   "stateLocation": "/Users/westbrook/.codex/visualizations/2026/09/10/01a08bd1-75c6-7f40-9359-bfda43d73c89/swccg-report/state.json",
-  "reportUrl": "http://localhost:4187",
+  "reportUrl": "http://localhost:4189",
   "apps": {
     "preview": "http://localhost:5173"
   }
