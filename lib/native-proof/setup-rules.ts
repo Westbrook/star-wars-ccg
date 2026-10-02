@@ -1,15 +1,13 @@
 import {isOpeningStudy,secondContactOrder} from './opening-rules';
 import {definition,other} from './catalog';
 import recordedOrder from '../../data/native-proof/setup-shuffle.json';
+import {premiereSites} from '../native-engine/premiere-setup';
 import type {Command,Match,Projection,Prompt,PublicCard,Side} from './types';
 
 const sides:Side[]=['dark','light'];
 const title=(side:Side)=>side==='dark'?'Dark':'Light';
 // Setup-only profiles. This does not implement these locations' later actions.
-export const setupSites:Record<string,{system:string;icons:Record<Side,number>}>=Object.fromEntries([
- ['101_1','Death Star',1,1],['101_4','Death Star',1,0],['1_124','Death Star',1,1],['1_284','Death Star',1,0],['1_285','Death Star',1,1],
- ['1_129','Tatooine',1,1],['1_130','Tatooine',1,1],['1_131','Tatooine',1,1],['1_132','Tatooine',1,2],['1_291','Tatooine',1,1],['1_292','Tatooine',1,1],['1_293','Tatooine',1,1],['1_295','Tatooine',2,1],
-].map(([id,system,dark,light])=>[id,{system,icons:{dark,light}}])) as Record<string,{system:string;icons:Record<Side,number>}>;
+export const setupSites = premiereSites;
 const addLog=(m:Match,text:string)=>m.log.push({n:(m.log.at(-1)?.n||0)+1,text});
 const named=(m:Match,id:string)=>definition(m.cards[id].blueprint).name;
 const pair=(m:Match)=>sides.map(side=>m.setup!.selected[side]!);

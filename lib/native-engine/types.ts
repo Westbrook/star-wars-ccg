@@ -43,6 +43,16 @@ export type Resolution = {
 };
 export type Decision = {kind: 'decision'; side: Side; handler: string; payload: Json};
 export type Frame = Window | Resolution | Decision;
+export type StartingLocation = {identity: string; group: string; icons: Record<Side, number>; convertible: boolean};
+export type Setup = {
+  stage: 'choose' | 'reveal' | 'conversion' | 'placement' | 'shuffle' | 'complete';
+  selected: Record<Side, string | null>;
+  committed: Record<Side, boolean>;
+  revealed: boolean;
+  rejected: string[][];
+  priority: Side;
+  covered: string | null;
+};
 export type Match = {
   schema: 1;
   engine: 'native-engine-1';
@@ -59,9 +69,10 @@ export type Match = {
   serial: number;
   // Rule-owned serialized continuations, restrictions, per-turn usage and effects.
   data: Record<string, Json>;
+  setup?: Setup;
   result: null | {winner: Side; loser: Side; reason: 'concession' | 'life-force'};
 };
 export type Deck = {side: Side; cards: readonly string[]};
 export type Definition = {side: Side; name: string};
 export type Command = {revision: number; choice: string};
-export type Prompt = {revision: number; side: Side; timing: Timing | 'decision'; mandatory: boolean; choices: {id: string; label: string}[]};
+export type Prompt = {revision: number; side: Side; timing: Timing | 'decision' | 'setup'; mandatory: boolean; choices: {id: string; label: string; card?: string; forceIcons?: Record<Side, number>}[]};

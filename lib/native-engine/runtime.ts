@@ -1,5 +1,6 @@
 import {assertState, initialState, lifeForce, moveTop, publicState, recirculate, useForce} from './state';
 import {secureEntropy, type Entropy} from './random';
+import {initializeSetup, setupPrompt, applySetup, projectSetup, assertSetup, type LocationSetupRules} from './setup';
 import {other, sides, type Action, type Command, type Deck, type Decision, type Definition, type Match, type Phase, type Prompt, type Resolution, type Side, type Timing, type Window} from './types';
 
 export type Context = {entropy: Entropy};
@@ -10,6 +11,7 @@ export type RequiredAction = Action & {actor: Side};
  * and the kernel alone does not admit any production deck. */
 export interface Rules {
   id: string;
+  starting?: LocationSetupRules;
   definition(blueprint: string): Definition;
   supports(blueprint: string): boolean;
   setupComplete(match: Match): boolean;
@@ -30,6 +32,7 @@ const core = (id: string, label: string): Action => ({id, label, handler: id, pa
 function validate(match: Match, rules: Rules): void {
   assertState(match);
   if (match.rules !== rules.id) throw Error('This match requires its original rules version.');
+  if (rules.starting) assertSetup(match, rules.starting);
   rules.validate(match);
   if (match.status === 'playing' && !match.stack.length) throw Error('A playing match needs a continuation.');
 }
@@ -38,6 +41,7 @@ export function createMatch(id: string, size: 40 | 60, decks: readonly Deck[], r
   const unsupported = [...new Set(decks.flatMap(deck => [...deck.cards]))].filter(id => !rules.supports(id));
   if (unsupported.length) throw Error('Unimplemented card behavior: ' + unsupported.join(', '));
   const match = initialState(id, size, decks, rules.id, rules.definition);
+  if (rules.starting) initializeSetup(match, rules.starting);
   validate(match, rules);
   return match;
 }
@@ -49,12 +53,17 @@ export function openWindow(match: Match, timing: Timing, priority: Side): void {
 /** Called by the setup resolver, after starting cards and both starting hands. */
 export function startTurns(before: Match, rules: Rules): Match {
   validate(before, rules);
-  if (before.status !== 'setup' || before.stack.length || !rules.setupComplete(before)) throw Error('Starting setup is incomplete.');
   const match = structuredClone(before);
-  match.status = 'playing'; match.revision++;
-  openWindow(match, 'start', 'dark');
+  enterTurns(match, rules); match.revision++;
   validate(match, rules);
   return match;
+}
+
+function enterTurns(match: Match, rules: Rules): void {
+  if (rules.starting) assertSetup(match, rules.starting);
+  if (match.status !== 'setup' || match.stack.length || match.setup && match.setup.stage !== 'complete' || !rules.setupComplete(match)) throw Error('Starting setup is incomplete.');
+  match.status = 'playing';
+  openWindow(match, 'start', 'dark');
 }
 
 function affordable(match: Match, action: Action): boolean {
@@ -89,6 +98,7 @@ function available(match: Match, window: Window, rules: Rules): Action[] {
 export function prompt(match: Match, rules: Rules, seat: Side): Prompt | null {
   validate(match, rules);
   if (!sides.includes(seat)) throw Error('Invalid seat.');
+  if (match.status === 'setup' && rules.starting) return setupPrompt(match, rules.starting, seat);
   if (match.status !== 'playing') return null;
   const frame = top(match);
   if (!frame) throw Error('Missing continuation.');
@@ -151,7 +161,7 @@ function settle(match: Match, rules: Rules, context: Context): void {
 
 export function applyCommand(before: Match, rules: Rules, seat: Side, command: Command, entropy: Entropy = secureEntropy): Match {
   validate(before, rules);
-  if (!sides.includes(seat) || before.status !== 'playing') throw Error('This seat cannot act in this match.');
+  if (!sides.includes(seat) || before.status === 'finished' || before.status === 'setup' && !rules.starting) throw Error('This seat cannot act in this match.');
   if (command.revision !== before.revision) throw Error('Stale match revision.');
   const match = structuredClone(before);
   if (command.choice === 'concede') {
@@ -159,10 +169,13 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
   } else {
     const legal = prompt(before, rules, seat);
     if (!legal || legal.side !== seat || !legal.choices.some(c => c.id === command.choice)) throw Error('Illegal choice for this seat.');
-    const frame = top(match)!;
-    if (frame.kind === 'decision') {
+    const frame = top(match);
+    if (match.status === 'setup') {
+      applySetup(match, rules.starting!, seat, command.choice, entropy);
+      if (match.setup!.stage === 'complete') enterTurns(match, rules);
+    } else if (frame?.kind === 'decision') {
       match.stack.pop(); rules.choose(match, frame, command.choice, {entropy});
-    } else if (frame.kind === 'window') {
+    } else if (frame?.kind === 'window') {
       const mandatory = required(match, frame, rules);
       if (command.choice === 'pass' && !mandatory.length) {
         if (frame.passes === 1) closeWindow(match, frame, rules);
@@ -190,5 +203,6 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
 }
 
 export function project(match: Match, rules: Rules, seat: Side) {
-  return {...publicState(match, seat), prompt: prompt(match, rules, seat)};
+  return {...publicState(match, seat), prompt: prompt(match, rules, seat),
+    ...(rules.starting ? {setup: projectSetup(match, rules.starting, seat)} : {})};
 }

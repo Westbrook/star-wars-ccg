@@ -8,6 +8,11 @@ continues to load its original saved versions.
 ## Implemented foundation
 
 - Physical cards and explicit 40/60 deck sizes; 40 is an open-play format choice.
+- Ordinary starting-location setup: simultaneous private choices, both conversion
+  consents, repeated physical-card reselection, legal placement choices, real
+  server shuffles and simultaneous eight-card hands continuing into turn one.
+  Converted locations keep only the top version active; an attempted conversion
+  of an unconvertible starting location puts the converting card out of play.
 - Ordered Reserve, Force, Used, Lost, hand and unresolved destiny zones; atomic
   validation of payments by both players and order-preserving recirculation.
 - Server entropy with unbiased Fisher–Yates shuffling. Save the resulting order
@@ -39,8 +44,10 @@ appropriate cleanup; cancellation does not refund paid costs.
 No production rules package or native full-game API is enabled yet. A passing
 kernel test is not evidence that a card's printed behavior is implemented.
 
-1. General setup: private simultaneous selections, collision/conversion,
-   starting card effects, real shuffles and opening hands using this state.
+1. Extend ordinary setup to Objectives, Starting Effects/Interrupts and other
+   starting-card effects. `LocationSetupRules.ordinarySetup` rejects these until
+   their sequence exists. Premiere starter setup metadata is implemented; this
+   does not admit those decks' later card behaviors.
 2. Migrate verified ground behavior into composable, scenario-free handlers;
    implement the remaining reachable starter effects and all their timing.
 3. Integrate continuous deployment, control/drains, battle, movement, reactions,
@@ -67,6 +74,21 @@ interpreter semantics, private decisions, cancellation, payment rollback and
 serialized recovery across 29 complete turns. It does not assert SWCCG card
 conformance or database/process recovery. Existing `tests/native-proof` tests
 retain their independently recorded GEMP comparisons.
+
+`tests/native-engine/setup.test.mjs` runs the full authored starter decks through
+ordinary setup in a setup-only test adapter. All 81 initial physical pairs match
+the existing executed GEMP fixtures for board, Dark generation and hand/Reserve
+counts. Both conversion consents, privacy, 40-card sizes, exhausted choices,
+six reselections, second-shuffle rollback and 80 randomized shuffles are tested.
+No new GEMP execution is claimed. Shuffle orders are independent; tests compare
+conservation, not GEMP random-number parity. AR Example 5 permits an unused
+duplicate after both players decline; pinned GEMP excludes the whole title, so
+the native code intentionally follows the rulebook on that documented edge.
+
+No-location handling is checked against the pinned GEMP starting process, which
+marks a side without a valid location and continues. The unconvertible-location
+test covers the AR starting-setup exception with synthetic metadata; neither is
+claimed as a new executed GEMP fixture.
 
 Rule references: [Advanced Rulebook](https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf),
 Ch. 1 (Force, actions and destiny), Ch. 2 (turn order), Ch. 3 (activation),
