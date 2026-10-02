@@ -1,0 +1,58 @@
+[
+  {
+    "lost": false,
+    "damage": 1,
+    "ended": false,
+    "name": "choke-0-trooper",
+    "vaderLost": false
+  },
+  {
+    "lost": false,
+    "damage": 2,
+    "ended": false,
+    "name": "choke-0-alone",
+    "vaderLost": false
+  },
+  {
+    "lost": false,
+    "damage": 1,
+    "ended": false,
+    "name": "choke-4-trooper",
+    "vaderLost": false
+  },
+  {
+    "lost": false,
+    "damage": 2,
+    "ended": false,
+    "name": "choke-4-alone",
+    "vaderLost": false
+  },
+  {
+    "lost": true,
+    "damage": 1,
+    "ended": false,
+    "name": "choke-5-trooper",
+    "vaderLost": false
+  },
+  {
+    "lost": true,
+    "damage": 0,
+    "ended": true,
+    "name": "choke-5-alone",
+    "vaderLost": true
+  },
+  {
+    "lost": true,
+    "damage": 1,
+    "ended": false,
+    "name": "choke--1-trooper",
+    "vaderLost": false
+  },
+  {
+    "lost": true,
+    "damage": 0,
+    "ended": true,
+    "name": "choke--1-alone",
+    "vaderLost": true
+  }
+]

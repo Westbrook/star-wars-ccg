@@ -10,6 +10,7 @@ import {travelActions, travelInitiate, travelResolve, travelChoices, travelChoos
 import {assertLeaving, tableChoices, tableChoose} from './table';
 import {assertInterrupts, interruptActions, interruptInitiate, interruptResolve} from './interrupts';
 import {assertRetrieval, retrievalChoices, retrievalChoose, retrievalResolve, retrievalView} from './retrieval';
+import {assertCharacterTriggers, characterAutomatic, characterResolve, characterChoices, characterChoose} from './character-triggers';
 
 /** Composable production implementation in progress. No card is admitted to a
  * public full match until its complete reachable behavior is verified. Tests
@@ -21,9 +22,10 @@ export const premiereRules: Rules = {
   supports: () => false,
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
-  automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w)],
+  automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w)],
   actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side)],
   initiate: (m, r) => {
+    if (r.action.handler.startsWith('character:')) return;
     if (r.action.handler.startsWith('interrupt:')) interruptInitiate(m, r);
     else if (r.action.handler.startsWith('travel:')) travelInitiate(m, r);
     else if (r.action.handler.startsWith('equipment:')) equipmentInitiate(m, r);
@@ -34,7 +36,8 @@ export const premiereRules: Rules = {
     } else groundInitiate(m, r);
   },
   resolve: (m, r, context) => {
-    if (r.action.handler.startsWith('interrupt:')) interruptResolve(m, r, context);
+    if (r.action.handler.startsWith('character:')) characterResolve(m, r);
+    else if (r.action.handler.startsWith('interrupt:')) interruptResolve(m, r, context);
     else if (r.action.handler.startsWith('retrieval:')) retrievalResolve(m, r);
     else if (r.action.handler.startsWith('travel:')) travelResolve(m, r, context);
     else if (r.action.handler === 'destiny:finish') resolveDestiny(m, r);
@@ -44,6 +47,7 @@ export const premiereRules: Rules = {
     syncBattle(m);
   },
   decisions: (m, d) => {
+    if (d.handler.startsWith('character:')) return characterChoices(m, d);
     if (d.handler.startsWith('retrieval:')) return retrievalChoices(m, d);
     if (d.handler.startsWith('travel:')) return travelChoices(m, d);
     if (d.handler.startsWith('equipment:')) return equipmentChoices(m, d);
@@ -52,7 +56,8 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
-    if (d.handler.startsWith('retrieval:')) retrievalChoose(m, d, c);
+    if (d.handler.startsWith('character:')) characterChoose(m, d, c);
+    else if (d.handler.startsWith('retrieval:')) retrievalChoose(m, d, c);
     else if (d.handler.startsWith('travel:')) travelChoose(m, d, c, context);
     else if (d.handler.startsWith('equipment:')) equipmentChoose(m, d, c);
     else if (d.handler === 'table:lost-order') tableChoose(m, d, c);
@@ -68,6 +73,7 @@ export const premiereRules: Rules = {
     assertDestiny(match);
     assertRetrieval(match);
     assertInterrupts(match);
+    assertCharacterTriggers(match);
     assertBattle(match);
     assertLeaving(match);
     if (!citySitesTogether(match, match.locations)) throw Error('Mos Eisley sites must remain together.');

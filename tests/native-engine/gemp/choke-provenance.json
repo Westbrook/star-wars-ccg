@@ -1,0 +1,19 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T16:31:06.995022+00:00",
+  "harness": "NativeEngineChokeOracleTests.java",
+  "harnessSha256": "2b26b68876a473f8e371c6a44644f4f603c1d7c39e708b50a82d62bfcf2e111f",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineChokeOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 1,
+  "observations": 8,
+  "scope": "Real battle initiation, declined battle destiny, mandatory Vader draw and actual Imperial loss. Destiny 0/4/5/failed, with another Imperial or Vader alone. Records damage-segment entry versus premature battle ending and remaining damage. Component boards use filler decks, prepared Force and controlled destiny.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "https://www.starwarsccg.org/rules/"
+  ],
+  "rulesConflict": "AR p54 says presence loss during power immediately ends battle; p55-56 places winner/loser responses before damage. P59 complex example instead proceeds to damage after Physical Choke removes last presence in that response. Native follows the explicit segment rule and executed pinned GEMP: self-choke ends power without paying battle damage. The contradictory worked example remains recorded for rules clarification; no GEMP production source changed.",
+  "limits": "Not full-deck or service conformance. Eight observed outcomes do not verify every timing or broader catalog interaction. Inactive/excluded targets, attachments, cancellation and recovery have additional native tests plus source/rule review, not separate differential executions."
+}

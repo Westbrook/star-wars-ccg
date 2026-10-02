@@ -78,6 +78,14 @@ continues to load its original saved versions.
   Interrupts are available in either player's phase opportunities and during the
   weapons segment, not unrelated responses, start/end or power/damage windows.
 
+- Vader's mandatory losing-battle choke runs once in the winner/loser response
+  window. Zero through four leave Imperials alone; higher or failed destiny
+  requires an eligible Imperial to be lost, including Vader himself. Targeting,
+  pre-loss responses, simultaneous attachment loss and owner ordering survive
+  JSON reconstruction. Loss supplies no forfeit credit. If it removes the last
+  presence during power, the battle ends and hit cards are lost; calculated
+  balances are retained in history but no longer payable.
+
 `Rules` is a **server code interface**, not client-supplied configuration. The
 rules package supplies card definitions, setup completion checks, generation,
 legal actions, automatic actions, effect initiation/resolution, private choices,
@@ -104,8 +112,7 @@ kernel test is not evidence that a card's printed behavior is implemented.
    their sequence exists. Premiere starter setup metadata is implemented; this
    does not admit those decks' later card behaviors.
 2. Implement remaining reachable starter effects and all their timing: remaining
-   Interrupt modes, retrieval modifiers/revival, other destiny effects, Vader's
-   forced choke and duel rules, among others.
+   Interrupt modes, retrieval modifiers/revival, other destiny effects and duel rules, among others.
 3. Complete interactions among deployment, control/drains, battle, movement,
    reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
    pilots, passengers and broader catalog effects remain required for broader
@@ -257,3 +264,21 @@ Stormtroopers. Other trooper identities, Y-wings/TIE/lns, retrieval prevention,
 replacement destinations and other destiny modifiers remain required before
 broader deck admission. The generic primitive currently accepts integer amounts.
 Full-card and complete timing conformance are not implied by this checkpoint.
+
+
+### Vader choke checkpoint
+
+`character-triggers.test.mjs` covers required timing and turn-player ordering,
+zero/high/failed/canceled destiny, target eligibility, excluded versus late-arriving
+Imperials, both seats, source removal, cancellation before loss, attachment ordering,
+nonzero attrition, subsequent forfeits, early battle termination, stale commands
+and corrupt snapshots. Every command reconstructs state and checks both projections.
+`gemp/NativeEngineChokeOracleTests.java` executes eight comparative outcomes; its
+results and pinned-source provenance are beside the harness.
+
+Rules-source discrepancy: the AR's explicit power-segment presence rule and pinned
+GEMP both end battle when Vader chokes the last presence before damage. The AR p59
+Physical Choke example instead proceeds to damage after the last presence leaves.
+This implementation follows GEMP and the explicit segment rule; the conflicting
+example is retained in `choke-provenance.json`, not silently treated as agreement.
+Full card admission remains closed while remaining interactions are implemented.

@@ -134,6 +134,10 @@ function forfeitCard(m: Match, id: string, side: Side): void {
 
 function beginEnd(m: Match, premature = false): void {
   const b = battle(m)!; b.stage = 'end'; b.premature = premature;
+  // Winner/loser responses still occur in power. If presence disappears then,
+  // calculated balances never become damage-segment obligations. Retain the
+  // initial totals as history while clearing what remains payable.
+  if (premature) {b.damage = pair(0, 0); b.attrition = pair(0, 0);}
   windowThen(m, 'ended', 'battle-ending', other(b.initiator));
   const hit = sides.flatMap(s => members(m, s)).filter(id => b.hits.includes(id));
   if (premature && hit.length) loseFromTable(m, hit);
