@@ -1,7 +1,7 @@
 import type {Match, Side} from './types';
 
 /** Preserve the whole obligation; never halve the shrinking unpaid remainder. */
-export type LossLedger = {kind: 'drain' | 'battle' | 'effect'; base: number; paid: number; reduction: number; increase: number; irreducible: boolean};
+export type LossLedger = {kind: 'drain' | 'battle' | 'effect'; base: number; paid: number; reduction: number; increase: number; irreducible: boolean; multiplier?: number};
 export type Doomed = {turn: number; sources: string[]};
 export const lossLedger = (base: number, kind: LossLedger['kind'], irreducible = false): LossLedger => ({kind, base, paid: 0, reduction: 0, increase: 0, irreducible});
 export function doomedRounding(m: Match, side: Side): 'up' | 'down' | null {
@@ -17,10 +17,14 @@ export function lossTotal(m: Match, side: Side, ledger: LossLedger): number {
   let total = ledger.base + (ledger.kind === 'drain' ? ledger.increase : 0);
   const round = ledger.irreducible ? null : doomedRounding(m, side);
   if (round) total = round === 'down' ? Math.floor(total / 2) : Math.ceil(total / 2);
+  // Battle multipliers are scheduled at initiation, before damage-segment
+  // increases/reductions. We're Doomed is the explicit first-applied exception.
+  total *= ledger.multiplier ?? 1;
   return Math.max(0, total + (ledger.kind === 'drain' ? 0 : ledger.increase) - (ledger.irreducible ? 0 : ledger.reduction));
 }
 export const lossRemaining = (m: Match, side: Side, ledger: LossLedger): number => Math.max(0, lossTotal(m, side, ledger) - ledger.paid);
 export function assertLedger(ledger: LossLedger): void {
   if (!ledger || !['drain','battle','effect'].includes(ledger.kind) || typeof ledger.irreducible !== 'boolean' ||
-    [ledger.base, ledger.paid, ledger.reduction, ledger.increase].some(n => !Number.isSafeInteger(n) || n < 0)) throw Error('Invalid Force-loss ledger.');
+    [ledger.base, ledger.paid, ledger.reduction, ledger.increase].some(n => !Number.isSafeInteger(n) || n < 0) ||
+    ledger.multiplier !== undefined && (ledger.kind !== 'battle' || !Number.isSafeInteger(ledger.multiplier) || ledger.multiplier < 1)) throw Error('Invalid Force-loss ledger.');
 }

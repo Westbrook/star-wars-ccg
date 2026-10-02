@@ -57,5 +57,27 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_014.java"
+  },
+  {
+    "gempId": "1_11",
+    "name": "Han Solo",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/hansolo.gif",
+    "text": "Once during battle, may use 1 Force to cancel and re-draw your just drawn destiny. Adds 2 to power of anything he pilots. When piloting Falcon, also adds 2 to maneuver and may draw one battle destiny if not able to otherwise.",
+    "stats": {
+      "deploy": "3",
+      "power": "3",
+      "ability": "3",
+      "destiny": "1",
+      "forfeit": "6"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_011.java"
   }
 ]

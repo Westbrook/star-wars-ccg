@@ -17,6 +17,7 @@ export type Battle = {
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
   departed?: string[];
   worseIncrease?: number; damageLedger?: Pair<LossLedger>;
+  damageMultipliers?: {card: string; factor: number; side: Side | 'both'}[];
 };
 type History = {turn: number; sites: string[]; participants: string[]};
 type Payload = {site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
@@ -230,7 +231,9 @@ export function battleResolve(m: Match, r: Resolution): void {
   else if (kind === 'battle:totals') {
     for (const s of sides) {const ids = members(m, s); b.power[s] = totalPower(m, s, b.site, s !== b.initiator, id => ids.includes(id)) + (b.destiny[s] ?? 0); b.attrition[s] = b.destiny[other(s)] ?? 0;}
     for (const s of sides) b.damage[s] = Math.max(0, b.power[other(s)] - b.power[s]);
-    b.damageLedger = pair(lossLedger(b.damage.dark, 'battle'), lossLedger(b.damage.light, 'battle')); syncBattleDamage(m);
+    b.damageLedger = pair(lossLedger(b.damage.dark, 'battle'), lossLedger(b.damage.light, 'battle'));
+    for (const s of sides) b.damageLedger[s].multiplier = (b.damageMultipliers ?? []).filter(v => v.side === 'both' || v.side === s).reduce((n, v) => n * v.factor, 1);
+    syncBattleDamage(m);
     b.initialAttrition = {...b.attrition}; b.initialDamage = {...b.damage}; b.totalsReady = true;
     windowThen(m, 'damage', 'battle-result', other(b.initiator));
   } else if (kind === 'battle:damage') {b.stage = 'damage'; windowThen(m, 'end', 'battle-damage', b.initiator);}

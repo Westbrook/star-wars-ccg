@@ -1,3 +1,4 @@
+import {stakesActions, stakesInitiate, stakesResolve, assertStakes} from './stakes';
 import {doomedActions, doomedInitiate, doomedResolve, doomedView, assertDoomed} from './doomed';
 import {worseActions, worseInitiate, worseResolve, assertWorse} from './worse';
 import {cardDefinition, citySitesTogether, definition, generation, name, system} from './board';
@@ -32,10 +33,11 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w)],
-  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side)],
+  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side)],
   initiate: (m, r) => {
     if (r.action.handler.startsWith('character:')) return;
-    if (r.action.handler.startsWith('doomed:')) doomedInitiate(m, r);
+    if (r.action.handler.startsWith('stakes:')) stakesInitiate(m, r);
+    else if (r.action.handler.startsWith('doomed:')) doomedInitiate(m, r);
     else if (r.action.handler.startsWith('worse:')) worseInitiate(m, r);
     else if (r.action.handler.startsWith('scavenge:')) scavengeInitiate(m, r);
     else if (r.action.handler.startsWith('scan:')) scanInitiate(m, r);
@@ -54,7 +56,8 @@ export const premiereRules: Rules = {
     } else groundInitiate(m, r);
   },
   resolve: (m, r, context) => {
-    if (r.action.handler.startsWith('doomed:')) doomedResolve(m, r);
+    if (r.action.handler.startsWith('stakes:')) stakesResolve(m, r);
+    else if (r.action.handler.startsWith('doomed:')) doomedResolve(m, r);
     else if (r.action.handler.startsWith('worse:')) worseResolve(m, r);
     else if (r.action.handler.startsWith('scavenge:')) scavengeResolve(m, r);
     else if (r.action.handler.startsWith('scan:')) scanResolve(m, r, context);
@@ -120,6 +123,7 @@ export const premiereRules: Rules = {
     assertScavenge(match);
     assertWorse(match);
     assertDoomed(match);
+    assertStakes(match);
     assertBattle(match);
     assertLeaving(match);
     if (!citySitesTogether(match, match.locations)) throw Error('Mos Eisley sites must remain together.');

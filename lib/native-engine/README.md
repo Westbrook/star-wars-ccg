@@ -526,3 +526,42 @@ admission. Other personas, permanent astromechs, inactive/captured/immune target
 full droid abilities, fractional loss values, generic modifier ordering and
 replacement/prevention remain required. No new study or full native match route
 is enabled by this component checkpoint.
+
+### Battle stakes: Chances and Bad Feeling
+
+`stakes.ts` implements Don't Underestimate Our Chances and You Overestimate
+Their Chances as opponent-battle-initiation responses, plus each card's response
+to the other pending Interrupt. Base damage is tripled for whichever side loses;
+responding with the opposing card triples that result to ninefold damage. Same
+title copies targeting the same result do not multiply it again. Target identity
+and stack index survive reconstruction, cancellation does not create a modifier,
+and source disposal cannot revoke an already scheduled battle modifier.
+
+I've Got A Bad Feeling About This requires Light to have just initiated a battle
+with strictly less current participating power (including defending modifiers).
+It doubles Dark's resulting damage if Light wins, or triples it with the selected
+Han present. Conditions and factor are determined at initiation; Han remains a
+required target through responses, while later arrivals do not upgrade the
+selected factor. The Used Interrupt's successful result persists through battle.
+
+`Battle.damageMultipliers` records scheduled source/factor/affected-side entries.
+The shared loss ledger applies these after We’re Doomed's halving/rounding and
+before later damage-segment increases/reductions. Already paid Force and full
+forfeiture credit are subtracted afterward. Power, destiny and attrition remain
+unchanged. A new battle starts with no inherited multipliers; canceled/premature
+battles do not create payable losses.
+
+Fifty tests include 36 component cases and fourteen fresh GEMP observations from
+four JUnit tests. Thirteen complete outcomes match. The deeper alternating chain
+(base Chances → opposing boost → boost of that booster) is explicitly unresolved:
+GEMP ignores the booster’s own triple-result flag and records damage27 from base3.
+A recursive reading of the text would produce damage81. Until that interaction is
+adjudicated, native rejects its ambiguous resolution atomically, preserving the
+save rather than asserting either outcome as official. Tests retain both the
+GEMP evidence and that guard. This gap remains required work, not excluded scope.
+See `tests/native-engine/gemp/stakes-provenance.json`.
+
+Han Solo metadata is supplemental and cannot deploy or enter a production deck.
+Other personas, permanent pilots, targetability/capture, complete Han abilities,
+full modifier/prevention/replacement infrastructure and native match delivery
+remain unfinished. No new standalone study or full native route is enabled.

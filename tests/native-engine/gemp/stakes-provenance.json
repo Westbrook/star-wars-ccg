@@ -1,0 +1,30 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T20:16:46.490574+00:00",
+  "harness": "NativeEngineStakesOracleTests.java",
+  "harnessSha256": "9ca9dbcfe9fe97b52f177bee5139ff9214c87030c3cfea5c37e53b24200a8d77",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineStakesOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 4,
+  "observations": 14,
+  "scope": "Actual plays of both Chances Interrupts, their opposing response modes, repeated base/boost copies, Bad Feeling without/with Han, combination with opposing Chances, repeated Bad Feeling, and actual We\u2019re Doomed before a tripled loss. Four battle initiator/loser mirrors. Outcomes record both damage and attrition before any payment. Battle destiny 6/1 is controlled by the reference fixture for Bad Feeling cases; other cases decline battle destiny. No production source changes.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "https://res.starwarsccg.org/rules/premierefaq.pdf"
+  ],
+  "references": [
+    "AR pp14\u201318: nested actions and opponent battle-initiation response; p19 Example 5 schedules eventual-loser tripling",
+    "AR pp28\u201329: modifier order, same-title noncumulative modifications of the same base value",
+    "AR p118 Bad Feeling current text; p142/p156 Chances rulings do not multiply attrition",
+    "AR p155 We\u2019re Doomed halving is first applied",
+    "Card1_077/Card1_279: Lost, free response to opponent initiation or other card being played, until-end-of-battle multiplier",
+    "Card1_091: initiating Light side has strictly less current power; captures targetable participating Han at initiation, Used Interrupt",
+    "Forfeit.getTotalBattleDamage: halving first, then battle damage multipliers/additive modifiers; BattleState retains satisfied damage separately"
+  ],
+  "differences": [
+    "Thirteen complete outcomes agree. In chain (Light base Chances, Dark boost, Light boost of that boost) GEMP records 27 damage from base 3: it honors a triple-result flag only in the base function, not in the booster function. A literal recursive reading would produce factor 27 (damage81), but no authoritative clarification for that interaction was located. Native preserves the unresolved stack and rejects applying the ambiguous boosted-booster atomically. The recorded GEMP value is kept and the explicit guard tested; neither full parity nor a new rule is claimed. This edge remains required work before admitting decks that can reach it."
+  ],
+  "limits": "Current starter ground participants and explicit Han Solo 1_11 identity only. Han metadata does not admit deployment, redraw, pilot or other full-card behavior. Other Han personas/permanent pilots, targetability/inactivity/capture, general zone-change target identity, cancellation/prevention/replacement and arbitrary continuous modifier order remain unfinished. Native cancellation, Han movement, concession and Doomed state-intervention branches are component fixtures, not fresh executed cancellation/movement cards. Full native card/deck admission and service/UI stay gated."
+}

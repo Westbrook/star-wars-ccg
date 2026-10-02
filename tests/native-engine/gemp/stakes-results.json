@@ -1,0 +1,100 @@
+[
+  {
+    "darkAttrition": 0,
+    "name": "doomed-false",
+    "lightDamage": 6,
+    "darkDamage": 0,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 0,
+    "name": "doomed-true",
+    "lightDamage": 3,
+    "darkDamage": 0,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 0,
+    "name": "chance-dark-dark",
+    "lightDamage": 0,
+    "darkDamage": 9,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 0,
+    "name": "chance-dark-light",
+    "lightDamage": 9,
+    "darkDamage": 0,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 0,
+    "name": "chance-light-dark",
+    "lightDamage": 0,
+    "darkDamage": 9,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 0,
+    "name": "chance-light-light",
+    "lightDamage": 9,
+    "darkDamage": 0,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 0,
+    "name": "boost",
+    "lightDamage": 27,
+    "darkDamage": 0,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 0,
+    "name": "chain",
+    "lightDamage": 27,
+    "darkDamage": 0,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 0,
+    "name": "repeat-boost",
+    "lightDamage": 27,
+    "darkDamage": 0,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 0,
+    "name": "repeat-base",
+    "lightDamage": 9,
+    "darkDamage": 0,
+    "lightAttrition": 0
+  },
+  {
+    "darkAttrition": 6,
+    "name": "bad-plain",
+    "lightDamage": 0,
+    "darkDamage": 8,
+    "lightAttrition": 1
+  },
+  {
+    "darkAttrition": 6,
+    "name": "bad-han",
+    "lightDamage": 0,
+    "darkDamage": 12,
+    "lightAttrition": 1
+  },
+  {
+    "darkAttrition": 6,
+    "name": "bad-combined",
+    "lightDamage": 0,
+    "darkDamage": 24,
+    "lightAttrition": 1
+  },
+  {
+    "darkAttrition": 6,
+    "name": "bad-repeat",
+    "lightDamage": 0,
+    "darkDamage": 8,
+    "lightAttrition": 1
+  }
+]
