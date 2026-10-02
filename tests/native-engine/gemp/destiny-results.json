@@ -1,0 +1,195 @@
+[
+  {
+    "events": [
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 0.0,
+        "stage": "drawn",
+        "side": "dark"
+      },
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 0.0,
+        "stage": "complete",
+        "side": "dark"
+      },
+      {
+        "used": 1,
+        "unresolved": 0,
+        "value": 0.0,
+        "stage": "total",
+        "side": "dark"
+      }
+    ],
+    "name": "general-0"
+  },
+  {
+    "events": [
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0,
+        "stage": "drawn",
+        "side": "dark"
+      },
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0,
+        "stage": "complete",
+        "side": "dark"
+      },
+      {
+        "used": 1,
+        "unresolved": 0,
+        "value": 1.0,
+        "stage": "total",
+        "side": "dark"
+      }
+    ],
+    "name": "general-1"
+  },
+  {
+    "events": [],
+    "name": "general-empty"
+  },
+  {
+    "events": [
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0,
+        "stage": "drawn",
+        "side": "dark"
+      },
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0,
+        "stage": "complete",
+        "side": "dark"
+      },
+      {
+        "used": 1,
+        "unresolved": 0,
+        "value": 1.0,
+        "stage": "total",
+        "side": "dark"
+      }
+    ],
+    "name": "weapon-each-1_284"
+  },
+  {
+    "events": [
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0,
+        "stage": "drawn",
+        "side": "dark"
+      },
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0,
+        "stage": "complete",
+        "side": "dark"
+      },
+      {
+        "used": 1,
+        "unresolved": 0,
+        "value": 1.0,
+        "stage": "total",
+        "side": "dark"
+      }
+    ],
+    "name": "weapon-each-1_132"
+  },
+  {
+    "events": [
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0,
+        "stage": "drawn",
+        "side": "light"
+      },
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0,
+        "stage": "complete",
+        "side": "light"
+      },
+      {
+        "used": 1,
+        "unresolved": 0,
+        "value": 1.0,
+        "stage": "total",
+        "side": "light"
+      }
+    ],
+    "name": "battle-one"
+  },
+  {
+    "events": [
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0,
+        "stage": "drawn",
+        "side": "light"
+      },
+      {
+        "used": 1,
+        "unresolved": 1,
+        "value": 5.0,
+        "stage": "drawn",
+        "side": "light"
+      },
+      {
+        "used": 1,
+        "unresolved": 1,
+        "value": 5.0,
+        "stage": "complete",
+        "side": "light"
+      },
+      {
+        "used": 2,
+        "unresolved": 0,
+        "value": 5.0,
+        "stage": "total",
+        "side": "light"
+      }
+    ],
+    "name": "battle-redraw"
+  },
+  {
+    "events": [
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 0.0,
+        "stage": "drawn",
+        "side": "light"
+      },
+      {
+        "used": 0,
+        "unresolved": 1,
+        "value": 0.0,
+        "stage": "complete",
+        "side": "light"
+      },
+      {
+        "used": 1,
+        "unresolved": 0,
+        "value": 0.0,
+        "stage": "total",
+        "side": "light"
+      }
+    ],
+    "name": "weapon-zero"
+  }
+]

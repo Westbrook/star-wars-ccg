@@ -1,0 +1,23 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T17:48:15.678497+00:00",
+  "harness": "NativeEngineDestinyOracleTests.java",
+  "harnessSha256": "b829a30bf5960534797365a1239e11b741d97e84f19bf60efed64f86bfe58c77",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDestinyOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 4,
+  "observations": 8,
+  "scope": "Passive observer on actual Reinforcements, rifle and battle/Han\u2019s Dice actions. Records drawn/completed/total values and unresolved/Used counts using permanent physical identities. General zero/one/empty, weapon zero, both location per-draw modifiers, ordinary battle and redraw. Native component tests compare all eight sequences. No GEMP production source modified.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp30\u201332: How To Draw Destiny, Failed Destiny Draws, Unresolved Destiny Draws, Canceled And/Or Redrawn Destiny Draws",
+    "DrawDestinyEffect.java",
+    "Card1_153.java: hit calculation +1 occurs after the destiny total",
+    "Card1_284.java and Card1_132.java: EachWeaponDestinyModifier"
+  ],
+  "limits": "Component fixtures, not complete matches. No general before-draw cost/substitution/choose-X engine or complete modifier/cancellation card coverage. Duel total timing has native tests; this harness does not add fresh GEMP duel observations. Full card/deck admission remains closed."
+}

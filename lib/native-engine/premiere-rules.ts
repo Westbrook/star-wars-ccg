@@ -46,7 +46,7 @@ export const premiereRules: Rules = {
     else if (r.action.handler.startsWith('interrupt:')) interruptResolve(m, r, context);
     else if (r.action.handler.startsWith('retrieval:')) retrievalResolve(m, r);
     else if (r.action.handler.startsWith('travel:')) travelResolve(m, r, context);
-    else if (r.action.handler === 'destiny:finish') resolveDestiny(m, r);
+    else if (r.action.handler.startsWith('destiny:')) resolveDestiny(m, r);
     else if (r.action.handler.startsWith('equipment:')) equipmentResolve(m, r);
     else if (r.action.handler.startsWith('battle:')) battleResolve(m, r);
     else groundResolve(m, r);
