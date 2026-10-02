@@ -390,7 +390,7 @@ harnesses. Sources: official AR pp18 and 170, GEMP `Card1_268`,
 `ReturnCardToHandFromTableEffect` and `ForceDrainState`.
 
 The engine remains incomplete. General ability modifiers, targeting immunity and
-redirection, zone-change target identity, before-draw/per-Force cost windows,
+redirection, zone-change target identity, per-draw/per-Force cost windows,
 replacement/prevention cards and aboard/captured targeting still require work.
 No full card/deck is admitted by this checkpoint. Existing proof versions and GEMP
 routes remain intact; this adds engine behavior without new study UI.
@@ -683,8 +683,8 @@ JSON recovery, malformed references and private projections.
 Identity coverage is not yet universal: pending weapon firing, react permission
 sources, event snapshots, retrieval/search/inspection targets, group movement,
 duels and other card effects still need the shared references. Persona replacement
-and conversion need their specific identity-preserving rules. Before-draw and
-individual-cost timing, full-match conformance and service/UI work remain next.
+and conversion need their specific identity-preserving rules. Per-draw and
+individual-Force cost timing, full-match conformance and service/UI work remain next.
 
 
 ### Initiated firing and battle reentry
@@ -709,3 +709,30 @@ Comlink cases compare departure, return and movement of the permission source.
 Native tests serialize at every command, compare seat views, and cover all four
 battle stage boundaries plus ordinary movement that must retain battle history.
 These are integrated engine checks, not new lab studies or full deck admission.
+
+
+### Shared before-draw responses
+
+Every implemented physical destiny draw now passes through `destiny:draw`.
+A serialized `about-to-draw-destiny` response window precedes reveal when Reserve
+is nonempty. Its event contains side, category and source, never the next card.
+The continuation reads the current top card after responses: nested draws,
+changes to the top card and an emptied Reserve do not use a stale reservation.
+An empty Reserve does not open this window; a failed or prevented draw supplies
+no value, completed-draw trigger or total. Every serial draw and Dice redraw gets
+its own opportunity. Existing battle and weapon event names/response handlers
+are preserved by callbacks from the shared reveal step.
+
+Weapon location modifiers are read at reveal rather than frozen before responses.
+Battle destiny handles Reserve becoming empty after its optional draw was chosen.
+The remaining completion sequence is unchanged: drawn responses, completed draw,
+physical Used placement, total responses, then the dependent action result.
+
+`tests/native-engine/gemp/before-destiny-provenance.json` records eight fresh
+matching traces from four JUnit tests on unmodified GEMP. General zero/one/empty,
+rifle zero, both location bonuses, ordinary battle and an actual Han's Dice redraw
+are compared. Native tests additionally cover top-card changes, nested draws,
+Reserve depletion, prevention, privacy, recovery and terminal concession. No new
+study or production deck admission was added. Per-draw costs (which precede this
+window), substitution, draw-X/choose-Y, complete automatic modifiers, and specific
+cards using these facilities are still required scope.

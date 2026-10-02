@@ -74,7 +74,7 @@ test('both dark weapon-destiny site modifiers apply on arbitrary battle boards',
 });
 
 test('battle destiny is optional, ordered by initiator, and unresolved cards remain Life Force',()=>{
- let {m,site}=basic();top(m,'dark','1_182');top(m,'light','1_12');m=start(m,site);m=seek(m,x=>x.stack.at(-1)?.handler==='battle:destiny');assert.equal(prompt(m).side,'dark');const life=state.lifeForce(m,'dark');m=step(m,'draw-destiny');assert.equal(state.lifeForce(m,'dark'),life);assert.equal(m.players.dark.destiny.length,1);assert.equal(runtime.project(m,rules,'light').players.dark.destiny.length,1);
+ let {m,site}=basic();top(m,'dark','1_182');top(m,'light','1_12');m=start(m,site);m=seek(m,x=>x.stack.at(-1)?.handler==='battle:destiny');assert.equal(prompt(m).side,'dark');const life=state.lifeForce(m,'dark');m=step(m,'draw-destiny');m=seek(m,x=>x.stack.at(-1)?.event?.kind==='battle-destiny-drawn');assert.equal(state.lifeForce(m,'dark'),life);assert.equal(m.players.dark.destiny.length,1);assert.equal(runtime.project(m,rules,'light').players.dark.destiny.length,1);
  m=seek(m,x=>x.stack.at(-1)?.handler==='battle:destiny');assert.equal(prompt(m).side,'light');assert.equal(m.players.dark.destiny.length,0);m=step(m,'skip-destiny');m=boundary(m,'battle-damage');assert.equal(battle(m).destiny.dark,3);assert.equal(battle(m).destiny.light,null);assert.deepEqual(battle(m).initialAttrition,{dark:0,light:3});
 });
 

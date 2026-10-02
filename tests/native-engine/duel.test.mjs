@@ -82,7 +82,7 @@ test('participant leaves before draws: Interrupt cleans up and duel ends without
 });
 
 test('source and participant changes during draw settle the drawn card before ending the duel',()=>{
- const f=fixture();let m=start(f);m=seek(m,x=>x.stack.at(-1)?.event?.category==='duel');const drawn=m.stack.at(-1).event.card;state.moveCard(m,f.luke,'lost');m=finish(m);assert.equal(m.cards[drawn].zone,'used');assert.equal(duel(m).interrupted,true);assert.equal(m.players.dark.reserve.length,1);assert.equal(m.players.light.reserve.length,2);
+ const f=fixture();let m=start(f);m=seek(m,x=>x.stack.at(-1)?.event?.category==='duel'&&x.stack.at(-1)?.event?.kind==='destiny-drawn');const drawn=m.stack.at(-1).event.card;state.moveCard(m,f.luke,'lost');m=finish(m);assert.equal(m.cards[drawn].zone,'used');assert.equal(duel(m).interrupted,true);assert.equal(m.players.dark.reserve.length,1);assert.equal(m.players.light.reserve.length,2);
 });
 
 test('duel totals use current individual power including equipment, not the whole site',()=>{
@@ -117,7 +117,7 @@ test('final Life Force loss ends the game before later character-loss steps',()=
 
 test('canceling all draws is distinct from drawing zero, with no effect when both players fail',()=>{
  const f=fixture([0,0],[0,0]);let m=start(f);for(let i=0;i<160&&duel(m)?.stage!=='result';i++){
-  const w=m.stack.at(-1);if(w.event?.category==='duel'&&w.passes===0)m.stack.at(-2).cancelled=true;
+  const w=m.stack.at(-1);if(w.event?.category==='duel'&&w.event?.kind==='destiny-drawn'&&w.passes===0)m.stack.at(-2).cancelled=true;
   m=step(m,ids(m).includes('pass')?'pass':ids(m)[0]);
  }
  assert.equal(duel(m).winner,null);assert.ok(Object.values(duel(m).draws).flat().every(d=>d.card&&d.value===null));m=finish(m);assert.equal(m.cards[f.luke].zone,'table');assert.equal(m.cards[f.vader].zone,'table');

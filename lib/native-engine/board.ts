@@ -154,3 +154,8 @@ export function sitePlacements(m: Match, id: string): {id: string; label: string
     return citySitesTogether(m, order) && (ranks.every((v, n) => !n || v >= ranks[n - 1]) || ranks.every((v, n) => !n || v <= ranks[n - 1]));
   }).map(i => ({id: 'at:' + (first + i), label: i === group.length ? 'Place after ' + name(m, group.at(-1)!) : 'Place before ' + name(m, group[i]), index: first + i}));
 }
+/** Current location modifier, evaluated when the physical weapon destiny draws. */
+export function weaponDrawBonus(m: Match, id: string): number {
+  const c = m.cards[id];
+  return c.owner === 'dark' && c.location && ['1_284', '1_132'].includes(m.cards[c.location].blueprint) ? 1 : 0;
+}

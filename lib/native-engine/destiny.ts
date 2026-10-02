@@ -1,12 +1,15 @@
-import {printed} from './board';
+import {printed, weaponDrawBonus} from './board';
 import {moveCard, moveTop} from './state';
 import {openWindow} from './runtime';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side} from './types';
 export type Draw = {card: string | null; value: number | null};
 type Context = {next: Action; side: Side; source: string; category: string};
+type Modifier = number | {weapon: string};
+type PendingStart = Context & {includeTotal: boolean; modifier: Modifier; drawn?: Action};
+const validModifier = (m: Match, modifier: Modifier) => typeof modifier === 'number' ? Number.isFinite(modifier) : !!modifier && typeof modifier.weapon === 'string' && !!m.cards[modifier.weapon];
 type PendingDraw = Context & {draw: Draw; includeTotal?: boolean};
 type PendingTotal = Context & {draws: Draw[]; total: number | null; single: boolean};
-const queue = (m: Match, step: string, p: PendingDraw | PendingTotal) => m.stack.push({kind: 'resolution', actor: p.side, cancelled: false,
+const queue = (m: Match, step: string, p: PendingStart | PendingDraw | PendingTotal) => m.stack.push({kind: 'resolution', actor: p.side, cancelled: false,
   action: {id: 'destiny-' + step + ':' + (m.serial + 1), label: 'Resolve destiny', handler: 'destiny:' + step, payload: p as unknown as Json}});
 const dispatch = (m: Match, p: Context, result: Record<string, Json>) => m.stack.push({kind: 'resolution', actor: p.side, cancelled: false,
   action: {...p.next, payload: {...p.next.payload as Record<string, Json>, ...result}}});
@@ -29,14 +32,28 @@ export function completeDestinyTotal(m: Match, side: Side, source: string, categ
 }
 /** General destiny. Multi-draw callers pass includeTotal=false, then complete
  * their combined total once, after all the individual draw continuations. */
-export function drawDestiny(m: Match, side: Side, source: string, category: string, next: Action, includeTotal = true, modifier = 0): void {
-  if (!Number.isFinite(modifier)) throw Error('Invalid destiny draw modifier.');
-  const card = m.players[side].reserve.length ? moveTop(m, side, 'reserve', 'destiny') : null;
-  const draw: Draw = {card, value: card ? printed(m, card, 'destiny') + modifier : null};
-  queue(m, 'finish', {draw, next, side, source, category, includeTotal});
-  openWindow(m, 'response', other(side), {kind: card ? 'destiny-drawn' : 'destiny-failed', category, source, side, card});
+export function drawDestiny(m: Match, side: Side, source: string, category: string, next: Action, includeTotal = true, modifier: Modifier = 0, drawn?: Action): void {
+  if (!validModifier(m, modifier)) throw Error('Invalid destiny draw modifier.');
+  queue(m, 'draw', {next, side, source, category, includeTotal, modifier, ...(drawn ? {drawn} : {})});
+  // An empty Reserve cannot trigger "about to draw" text (AR pp10,32).
+  // Do not capture its top card: responses can change the deck before reveal.
+  if (m.players[side].reserve.length) openWindow(m, 'response', other(side), {kind: 'about-to-draw-destiny', category, source, side});
 }
 export function resolveDestiny(m: Match, r: Resolution): void {
+  if (r.action.handler === 'destiny:draw') {
+    const p = r.action.payload as unknown as PendingStart;
+    const card = !r.cancelled && m.players[p.side].reserve.length ? moveTop(m, p.side, 'reserve', 'destiny') : null;
+    const modifier = typeof p.modifier === 'number' ? p.modifier : weaponDrawBonus(m, p.modifier.weapon);
+    const draw: Draw = {card, value: card ? printed(m, card, 'destiny') + modifier : null};
+    // Battle adapters preserve their public events and redraw protocol while
+    // sharing the same before-draw boundary and physical draw operation.
+    if (p.drawn) dispatch(m, {...p, next: p.drawn}, {draw: draw as unknown as Json});
+    else {
+      queue(m, 'finish', {...p, draw});
+      openWindow(m, 'response', other(p.side), {kind: card ? 'destiny-drawn' : 'destiny-failed', category: p.category, source: p.source, side: p.side, card});
+    }
+    return;
+  }
   if (r.action.handler === 'destiny:total-finish') {
     const p = r.action.payload as unknown as PendingTotal;
     const total = p.total === null ? null : Math.max(0, p.total);
@@ -60,7 +77,12 @@ export function assertDestiny(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler.startsWith('destiny:')) {
     const p = f.action.payload as unknown as PendingDraw & PendingTotal, h = f.action.handler;
     if (!p || !sides.includes(p.side) || f.actor !== p.side || !m.cards[p.source] || typeof p.category !== 'string' || !p.category || !p.next?.handler ||
-      !['destiny:finish', 'destiny:place', 'destiny:total-finish'].includes(h)) throw Error('Invalid pending destiny.');
+      !['destiny:draw', 'destiny:finish', 'destiny:place', 'destiny:total-finish'].includes(h)) throw Error('Invalid pending destiny.');
+    if (h === 'destiny:draw') {
+      const start = f.action.payload as unknown as PendingStart;
+      if (!validModifier(m, start.modifier) || typeof start.includeTotal !== 'boolean' || start.drawn !== undefined && !start.drawn?.handler) throw Error('Invalid destiny initiation.');
+      continue;
+    }
     const draws = h === 'destiny:total-finish' ? p.draws : [p.draw];
     if (!Array.isArray(draws) || draws.some(d => !d || d.card !== null && m.cards[d.card]?.owner !== p.side ||
       d.value !== null && (!Number.isFinite(d.value) || h !== 'destiny:finish' && d.value < 0) || d.card === null && d.value !== null)) throw Error('Invalid pending destiny.');

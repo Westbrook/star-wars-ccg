@@ -30,16 +30,16 @@ const oracle=JSON.parse(fs.readFileSync(new URL('./gemp/destiny-results.json',im
 function conformance(name,events){assert.deepEqual(events,oracle.find(r=>r.name===name)?.events,name)}
 const next={id:'observed',label:'Record result',handler:'probe:done',payload:{}};
 const event=m=>m.stack.at(-1)?.event;
-function general(value=1){let m=fresh({dark:['1_194','1_285']});const source=pull(m,'dark','1_251','playing');force(m,'dark',3);m=phase(m,'deploy');
+function general(value=1,before=false){let m=fresh({dark:['1_194','1_285']});const source=pull(m,'dark','1_251','playing');force(m,'dark',3);m=phase(m,'deploy');
  if(value===null)for(const id of [...m.players.dark.reserve])state.moveCard(m,id,'hand');else topDestiny(m,'dark',value===0?'1_285':'1_194');
- destiny.drawDestiny(m,'dark',source,'reinforcements',next);return{m,source,card:m.players.dark.destiny[0]??null};
+ destiny.drawDestiny(m,'dark',source,'reinforcements',next);if(value===null)destiny.resolveDestiny(m,m.stack.pop());else if(!before)m=seek(m,x=>event(x)?.kind==='destiny-drawn');return{m,source,card:(before?m.players.dark.reserve[0]:m.players.dark.destiny[0])??null};
 }
 function finish(m){return seek(m,x=>!!x.data.observed)}
-function trace(m,done=x=>!!x.data.observed){const seen=new Set(),events=[],drawn={dark:[],light:[]};
+function trace(m,done=x=>!!x.data.observed,includeBefore=false){const seen=new Set(),events=[],drawn={dark:[],light:[]};
  for(let i=0;i<500&&!done(m);i++){
   const e=event(m),w=m.stack.at(-1);if(e&&!seen.has(w.serial)){
-   seen.add(w.serial);let stage=['destiny-drawn','battle-destiny-drawn','weapon-destiny-drawn'].includes(e.kind)?'drawn':e.kind==='destiny-draw-complete'?'complete':e.kind==='destiny-total'?'total':null;
-   if(stage){let side=e.side??(e.card?m.cards[e.card].owner:null);if(stage==='drawn')drawn[side].push(e.card);let value=stage==='total'?e.total:stage==='complete'?e.value:e.value??board.printed(m,e.card,'destiny');events.push({stage,side,value,unresolved:drawn[side].filter(id=>m.cards[id].zone==='destiny').length,used:drawn[side].filter(id=>m.cards[id].zone==='used').length});}
+   seen.add(w.serial);let stage=includeBefore&&e.kind==='about-to-draw-destiny'?'before':['destiny-drawn','battle-destiny-drawn','weapon-destiny-drawn'].includes(e.kind)?'drawn':e.kind==='destiny-draw-complete'?'complete':e.kind==='destiny-total'?'total':null;
+   if(stage){let side=e.side??(e.card?m.cards[e.card].owner:null);if(stage==='drawn')drawn[side].push(e.card);let value=stage==='before'?null:stage==='total'?e.total:stage==='complete'?e.value:e.value??board.printed(m,e.card,'destiny');events.push({stage,side,value,unresolved:drawn[side].filter(id=>m.cards[id].zone==='destiny').length,used:drawn[side].filter(id=>m.cards[id].zone==='used').length});}
   }
   const p=prompt(m);m=step(m,p.choices.some(c=>c.id==='pass')?'pass':p.choices.some(c=>c.id==='skip-destiny')?'skip-destiny':p.choices[0].id);
  }assert.ok(done(m));return{m,events};
@@ -82,11 +82,11 @@ test('battle destiny receives completed and total windows; Dice cannot target an
 });
 
 test('a canceled battle destiny is cleaned up without completion, total or attrition',()=>{
- const f=battleFixture();let m=seek(f.m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');m=step(m,'draw-destiny');const card=event(m).card;m.stack.at(-2).cancelled=true;const t=trace(m,x=>event(x)?.kind==='battle-damage');assert.deepEqual(t.events.map(e=>e.stage),['drawn']);assert.equal(combat.battle(t.m).destiny.light,null);assert.equal(combat.battle(t.m).attrition.dark,0);assert.equal(t.m.cards[card].zone,'used');
+ const f=battleFixture();let m=seek(f.m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');m=step(m,'draw-destiny');m=seek(m,x=>event(x)?.kind==='battle-destiny-drawn');const card=event(m).card;m.stack.at(-2).cancelled=true;const t=trace(m,x=>event(x)?.kind==='battle-damage');assert.deepEqual(t.events.map(e=>e.stage),['drawn']);assert.equal(combat.battle(t.m).destiny.light,null);assert.equal(combat.battle(t.m).attrition.dark,0);assert.equal(t.m.cards[card].zone,'used');
 });
 
 test('Han’s Dice canceled original has no completion trigger; only its replacement completes',()=>{
- const f=battleFixture();let m=seek(f.m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');const replacement=topDestiny(m,'light','1_115'),original=topDestiny(m,'light','1_28');m=step(m,'draw-destiny');m=priority(m,'light');m=step(m,'dice:'+f.dice+':'+f.luke);const t=trace(m,x=>event(x)?.kind==='battle-destiny-complete');conformance('battle-redraw',t.events);assert.deepEqual(t.events.map(e=>[e.stage,e.value]),[['drawn',1],['drawn',5],['complete',5],['total',5]]);assert.deepEqual(t.m.players.light.used.slice(0,3),[replacement,original,f.dice]);
+ const f=battleFixture();let m=seek(f.m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');const replacement=topDestiny(m,'light','1_115'),original=topDestiny(m,'light','1_28');m=step(m,'draw-destiny');m=seek(m,x=>event(x)?.kind==='battle-destiny-drawn');m=priority(m,'light');m=step(m,'dice:'+f.dice+':'+f.luke);const t=trace(m,x=>event(x)?.kind==='battle-destiny-complete');conformance('battle-redraw',t.events);assert.deepEqual(t.events.map(e=>[e.stage,e.value]),[['drawn',1],['drawn',5],['complete',5],['total',5]]);assert.deepEqual(t.m.players.light.used.slice(0,3),[replacement,original,f.dice]);
 });
 
 test('completion and total continuations reject forged values and stale/opposing commands',()=>{
@@ -124,7 +124,7 @@ test('completed-draw response can finish a nested retrieval before the drawn car
 
 
 test('negative battle destiny is legal while unresolved and becomes zero at draw completion',()=>{
- const f=battleFixture();let m=seek(f.m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');m=step(m,'draw-destiny');combat.battle(m).destiny.light=-3;assert.doesNotThrow(()=>prompt(m));m=seek(m,x=>event(x)?.kind==='destiny-draw-complete');assert.equal(event(m).value,0);assert.equal(combat.battle(m).destiny.light,0);m=seek(m,x=>event(x)?.kind==='battle-destiny-complete');assert.equal(combat.battle(m).destiny.light,0);
+ const f=battleFixture();let m=seek(f.m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');m=step(m,'draw-destiny');m=seek(m,x=>event(x)?.kind==='battle-destiny-drawn');combat.battle(m).destiny.light=-3;assert.doesNotThrow(()=>prompt(m));m=seek(m,x=>event(x)?.kind==='destiny-draw-complete');assert.equal(event(m).value,0);assert.equal(combat.battle(m).destiny.light,0);m=seek(m,x=>event(x)?.kind==='battle-destiny-complete');assert.equal(combat.battle(m).destiny.light,0);
 });
 
 test('the final unresolved card counts as Life Force through completed-draw responses',()=>{
@@ -132,8 +132,8 @@ test('the final unresolved card counts as Life Force through completed-draw resp
 });
 
 for(const bp of ['1_284','1_132'])test('location '+bp+' modifies each weapon draw before completion, separately from rifle hit bonus',()=>{
- let m=fresh({dark:['1_312','1_285'],light:['1_132']});const site=location(m,bp==='1_284'?'dark':'light',bp),trooper=pull(m,'dark','1_194','table',site),rebel=pull(m,'light','1_28','table',site),gun=pull(m,'dark','1_312','table',site);m.cards[gun].attachedTo=trooper;force(m,'dark',4);force(m,'light',4);m=phase(m,'battle');m=step(m,'battle:'+site);m=seek(m,x=>event(x)?.kind==='battle-weapons');m=priority(m,'dark');topDestiny(m,'dark','1_285');m=step(m,'fire:'+gun+':'+rebel);m=seek(m,x=>event(x)?.kind==='weapon-destiny-drawn');
- const t=trace(m,x=>event(x)?.kind==='weapon-fired');conformance('weapon-each-'+bp,t.events);assert.deepEqual(t.events,[{stage:'drawn',side:'dark',value:1,unresolved:1,used:0},{stage:'complete',side:'dark',value:1,unresolved:1,used:0},{stage:'total',side:'dark',value:1,unresolved:0,used:1}]);assert.equal(combat.battle(t.m).shots[0].total,1);assert.equal(combat.battle(t.m).shots[0].hit,true);
+ let m=fresh({dark:['1_312','1_285'],light:['1_132']});const site=location(m,bp==='1_284'?'dark':'light',bp),trooper=pull(m,'dark','1_194','table',site),rebel=pull(m,'light','1_28','table',site),gun=pull(m,'dark','1_312','table',site);m.cards[gun].attachedTo=trooper;force(m,'dark',4);force(m,'light',4);m=phase(m,'battle');m=step(m,'battle:'+site);m=seek(m,x=>event(x)?.kind==='battle-weapons');m=priority(m,'dark');topDestiny(m,'dark','1_285');m=step(m,'fire:'+gun+':'+rebel);const before=trace(m,x=>event(x)?.kind==='weapon-destiny-drawn',true);m=before.m;
+ const t=trace(m,x=>event(x)?.kind==='weapon-fired');conformance('weapon-each-'+bp,t.events);assert.deepEqual([...before.events,...t.events],beforeOracle.find(r=>r.name==='weapon-each-'+bp).events);assert.deepEqual(t.events,[{stage:'drawn',side:'dark',value:1,unresolved:1,used:0},{stage:'complete',side:'dark',value:1,unresolved:1,used:0},{stage:'total',side:'dark',value:1,unresolved:0,used:1}]);assert.equal(combat.battle(t.m).shots[0].total,1);assert.equal(combat.battle(t.m).shots[0].hit,true);
 });
 
 test('ordinary battle destiny matches the GEMP completion and physical-zone sequence',()=>{
@@ -142,4 +142,55 @@ test('ordinary battle destiny matches the GEMP completion and physical-zone sequ
 
 test('Reserve emptied after firing initiation still resolves a failed shot and resumes the battle',()=>{
  const f=battleFixture();let m=priority(f.m,'light');m=step(m,'fire:'+f.gun+':'+f.droid);assert.equal(m.stack.at(-2).action.handler,'battle:fire');for(const id of [...m.players.light.reserve])state.moveCard(m,id,'hand');m=seek(m,x=>event(x)?.kind==='weapon-destiny-failed');const t=trace(m,x=>event(x)?.kind==='weapon-fired');assert.deepEqual(t.events,[]);assert.equal(combat.battle(t.m).shots[0].total,null);assert.equal(combat.battle(t.m).shots[0].hit,false);assert.ok(!combat.battle(t.m).hits.includes(f.droid));
+});
+
+
+test('before-draw window keeps the physical card and its identity hidden until responses finish',()=>{
+ const f=general(1,true);assert.equal(event(f.m).kind,'about-to-draw-destiny');assert.equal(event(f.m).side,'dark');assert.equal(event(f.m).card,undefined);
+ assert.equal(f.m.cards[f.card].zone,'reserve');assert.equal(f.m.players.dark.destiny.length,0);
+ for(const side of ['dark','light'])assert.ok(!JSON.stringify(runtime.project(f.m,rules,side)).includes(f.card));
+ const m=seek(f.m,x=>event(x)?.kind==='destiny-drawn');assert.equal(event(m).card,f.card);
+});
+test('before-draw responses can change which card is on top without a stale captured draw',()=>{
+ const f=general(1,true),replacement=topDestiny(f.m,'dark','1_285');const m=finish(f.m);
+ assert.equal(m.data.observed.draw.card,replacement);assert.equal(m.data.observed.total,0);assert.equal(m.cards[f.card].zone,'reserve');
+});
+for(const prevent of [false,true])test('before-draw '+(prevent?'prevention':'Reserve depletion')+' yields failure with no physical draw',()=>{
+ const f=general(1,true);
+ if(prevent)f.m.stack.at(-2).cancelled=true;else for(const id of [...f.m.players.dark.reserve])state.moveCard(f.m,id,'hand');
+ const t=trace(f.m,undefined,true);assert.deepEqual(t.events.map(e=>e.stage),['before']);assert.equal(t.m.data.observed.total,null);assert.deepEqual(t.m.data.observed.draw,{card:null,value:null});assert.equal(t.m.cards[f.card].zone,prevent?'reserve':'hand');
+});
+test('nested destiny completes before an outer pending draw chooses its top card',()=>{
+ const f=general(1,true),second=f.m.players.dark.reserve[1];destiny.drawDestiny(f.m,'dark',f.source,'nested',next);
+ let m=finish(f.m);assert.equal(m.data.observed.draw.card,f.card);assert.equal(event(m).kind,'about-to-draw-destiny');assert.equal(event(m).category,'reinforcements');
+ delete m.data.observed;m=finish(m);assert.equal(m.data.observed.draw.card,second);assert.deepEqual(m.players.dark.used.slice(0,2),[second,f.card]);
+});
+test('battle draw depleted during its before window fails without fabricating a destiny card',()=>{
+ const f=battleFixture();let m=seek(f.m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');m=step(m,'draw-destiny');
+ assert.equal(event(m).kind,'about-to-draw-destiny');for(const id of [...m.players.light.reserve])state.moveCard(m,id,'hand');
+ m=seek(m,x=>event(x)?.kind==='battle-destiny-failed');assert.equal(event(m).card,null);m=seek(m,x=>event(x)?.kind==='battle-destiny-complete');assert.equal(combat.battle(m).destiny.light,null);assert.equal(combat.battle(m).destinyCards.light,null);
+});
+test('concession freezes before-draw work without revealing a Reserve card',()=>{
+ const f=general(1,true),m=step(f.m,'concede','dark');assert.equal(m.status,'finished');assert.equal(m.cards[f.card].zone,'reserve');assert.equal(m.players.dark.destiny.length,0);assert.equal(runtime.prompt(m,rules,'light'),null);
+});
+test('malformed before-draw saves and stale/foreign passes reject without mutation',()=>{
+ const f=general(1,true),before=clone(f.m);assert.throws(()=>step(f.m,'pass','dark'));assert.throws(()=>runtime.applyCommand(f.m,rules,'light',{revision:f.m.revision-1,choice:'pass'}));assert.deepEqual(f.m,before);
+ for(const corrupt of [p=>p.modifier='1',p=>p.modifier={weapon:'missing'},p=>p.drawn={},p=>p.includeTotal=null]){const m=clone(f.m);corrupt(m.stack.at(-2).action.payload);assert.throws(()=>prompt(m),/Invalid destiny initiation/);}
+});
+
+const beforeOracle=JSON.parse(fs.readFileSync(new URL('./gemp/before-destiny-results.json',import.meta.url)));
+for(const value of [0,1,null])test('before-draw GEMP trace: general '+value,()=>{
+ const t=trace(general(value,true).m,undefined,true);assert.deepEqual(t.events,beforeOracle.find(r=>r.name===(value===null?'general-empty':'general-'+value)).events);
+});
+for(const redraw of [false,true])test('before-draw GEMP trace: battle '+(redraw?'redraw':'ordinary'),()=>{
+ const f=battleFixture();let m=seek(f.m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');topDestiny(m,'light','1_115');topDestiny(m,'light','1_28');m=step(m,'draw-destiny');
+ const first=trace(m,x=>event(x)?.kind==='battle-destiny-drawn',true);m=first.m;
+ if(redraw){m=priority(m,'light');m=step(m,'dice:'+f.dice+':'+f.luke);}
+ const t=trace(m,x=>event(x)?.kind==='battle-destiny-complete',true);
+ const events=[...first.events,...t.events];
+ assert.deepEqual(events,beforeOracle.find(r=>r.name===(redraw?'battle-redraw':'battle-one')).events);
+});
+test('before-draw GEMP trace: rifle weapon zero',()=>{
+ const f=battleFixture();let m=priority(f.m,'light');topDestiny(m,'light','1_124');m=step(m,'fire:'+f.gun+':'+f.droid);
+ const t=trace(m,x=>event(x)?.kind==='weapon-fired',true);assert.deepEqual(t.events,beforeOracle.find(r=>r.name==='weapon-zero').events);
 });

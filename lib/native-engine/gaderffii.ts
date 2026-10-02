@@ -1,6 +1,6 @@
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {attached, cardDefinition, name} from './board';
-import {battle, members, weaponDrawBonus} from './battle';
+import {battle, members} from './battle';
 import {canDeployAsReact, pendingReactSite, reactionSources, registerReact} from './ground';
 import {canUseWeapon, useWeapon} from './weapon-state';
 import {completeDestinyTotal, drawDestiny, type Draw} from './destiny';
@@ -64,7 +64,7 @@ export function gaderffiiResolve(m: Match, r: Resolution): void {
     queue(m, 'draw', p, side);
   } else if (h === 'gaffi:draw') {
     if (p.draw) {shot.draws.push(p.draw); delete p.draw;}
-    if (shot.draws.length < 2) drawDestiny(m, side, shot.weapon, 'weapon', action('draw', p), false, weaponDrawBonus(m, shot.weapon));
+    if (shot.draws.length < 2) drawDestiny(m, side, shot.weapon, 'weapon', action('draw', p), false, {weapon: shot.weapon});
     else completeDestinyTotal(m, side, shot.weapon, 'weapon', shot.draws, action('result', p));
   } else if (h === 'gaffi:result') {
     shot.total = p.total!; shot.outcome = 'miss';

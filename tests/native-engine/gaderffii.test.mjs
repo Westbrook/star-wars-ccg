@@ -131,3 +131,11 @@ for(const reference of oracle)test('Gaderffii matches executed GEMP: '+reference
  const bonus=reference.name==='location-bonus',f=fixture({initiator:reference.initiator??'dark',siteBP:bonus?'1_132':'1_129'}),rifle=attach(f.m,'light','1_153',f.target);let m=weapons(fire(f,bonus?[2,2]:reference.draws.map(n=>n<0?null:n)).m);m=priority(m,'light');assert.equal(ids(m).some(id=>id.startsWith('fire:'+f.gun+':')),reference.gunAvailable);assert.equal(ids(m).some(id=>id.startsWith('fire:'+f.otherGun+':')),reference.otherAvailable);
  if(!bonus){assert.equal(ids(m).some(id=>id.startsWith('fire:'+rifle+':')),reference.rifleAvailable);assert.equal(f.m.players.dark.force.length-m.players.dark.force.length,reference.forceSpent);assert.equal(m.cards[f.gun].zone,'table');assert.equal(reference.weaponZone,'ATTACHED');assert.deepEqual(m.players.dark.used.slice(0,reference.usedBlueprints.length).map(id=>m.cards[id].blueprint),reference.usedBlueprints);}
 });
+
+
+test('each stick draw has its own before window and evaluates current location modifiers',()=>{
+ const f=fixture({siteBP:'1_132'});let m=seek(fire(f,[2,2]).m,x=>kind(x)==='about-to-draw-destiny');
+ board.moveWithAttachments(m,f.host,f.remote);m=seek(m,x=>kind(x)==='destiny-drawn');assert.equal(m.stack.at(-2).action.payload.draw.value,2);
+ m=seek(step(m,'pass'),x=>kind(x)==='about-to-draw-destiny');assert.equal(shot(m).draws.length,1);board.moveWithAttachments(m,f.host,f.site);
+ m=weapons(m);assert.deepEqual(shot(m).draws.map(d=>d.value),[2,3]);assert.equal(shot(m).total,5);
+});
