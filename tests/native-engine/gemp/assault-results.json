@@ -1,0 +1,142 @@
+[
+  {
+    "name": "light-normal-3-2",
+    "draws": [
+      3.0,
+      3.0
+    ],
+    "total": 6.0,
+    "darkForceLost": 4,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "light-normal-1-2",
+    "draws": [
+      1.0,
+      1.0
+    ],
+    "total": 2.0,
+    "darkForceLost": 0,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "light-normal-0-2",
+    "draws": [
+      0.0,
+      0.0
+    ],
+    "total": 0.0,
+    "darkForceLost": 0,
+    "lightForceLost": 2,
+    "interruptLost": true
+  },
+  {
+    "name": "light-normal-3-0",
+    "draws": [],
+    "total": null,
+    "darkForceLost": 0,
+    "lightForceLost": 2,
+    "interruptLost": true
+  },
+  {
+    "name": "light-normal-3-1",
+    "draws": [
+      3.0
+    ],
+    "total": 3.0,
+    "darkForceLost": 1,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "light-own-3-0",
+    "draws": [],
+    "total": null,
+    "darkForceLost": 0,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-normal-3-2",
+    "draws": [
+      3.0,
+      3.0
+    ],
+    "total": 6.0,
+    "darkForceLost": 0,
+    "lightForceLost": 4,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-normal-1-2",
+    "draws": [
+      1.0,
+      1.0
+    ],
+    "total": 2.0,
+    "darkForceLost": 0,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-normal-0-2",
+    "draws": [
+      0.0,
+      0.0
+    ],
+    "total": 0.0,
+    "darkForceLost": 2,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-normal-3-0",
+    "draws": [],
+    "total": null,
+    "darkForceLost": 2,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-normal-3-1",
+    "draws": [
+      3.0
+    ],
+    "total": 3.0,
+    "darkForceLost": 0,
+    "lightForceLost": 1,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-own-3-0",
+    "draws": [],
+    "total": null,
+    "darkForceLost": 0,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "light-remove-3-2",
+    "draws": [
+      3.0,
+      3.0
+    ],
+    "total": 6.0,
+    "darkForceLost": 4,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-remove-3-2",
+    "draws": [
+      3.0,
+      3.0
+    ],
+    "total": 6.0,
+    "darkForceLost": 0,
+    "lightForceLost": 6,
+    "interruptLost": true
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T18:04:31.297438+00:00",
+  "harness": "NativeEngineAssaultOracleTests.java",
+  "harnessSha256": "f30cafed7b0d9cae745ddadf9ef62139d0a4dd210766214fcd1661811eb47af9",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineAssaultOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 2,
+  "observations": 14,
+  "matchingOutcomes": 13,
+  "scope": "Actual Force drains and Surprise Assault/Counter Assault play. Observes completed draws/total, Force loss and source cleanup: each side wins/ties/loses, empty/partial Reserve, own drain cancellation. Frozen-power test deliberately moves both opposing characters to Lost after first draw completion as a fixture intervention, not a claimed supported card effect. No GEMP production source modified.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR Appendix B pp140\u2013141 Counter Assault freezes power and draw count at start of resolution; p153 Surprise Assault points to same ruling",
+    "Card1_113.java",
+    "Card1_238.java"
+  ],
+  "discrepancy": {
+    "observation": "dark-remove-3-2",
+    "gemp": "Counter Assault re-reads total power after drawing, lowering frozen power 2 to 0 and causing 6 Force loss.",
+    "native": "Retains initial power 2 and two draws; total 6 causes 4 Force loss.",
+    "authority": "Explicit official Counter Assault ruling: neither total power nor number of draws changes during resolution."
+  },
+  "limits": "Ground component fixtures only; vehicles/starships/aboard presence and For Luck/Dark Forces additional destiny not yet implemented. General cancellation prevention, card substitutions and broader interactions remain unfinished; no full card/deck admission or native public match enabled."
+}
