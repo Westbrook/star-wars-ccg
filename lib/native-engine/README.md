@@ -430,3 +430,36 @@ required along with full-match API and UI integration. General text modification
 Rebel identity modifiers, hand-removal/inspection prevention cards, target immunity,
 replacement and individual Force-use response timing remain unfinished. Existing
 GEMP/proof paths are unchanged and full native deck admission remains closed.
+
+
+### Tusken Scavengers
+
+`scavenge.ts` adds the paid ordinary/weapons action, shared destiny and a strict
+comparison with the current on-table Tusken Raider count. A successful draw offers
+the printed optional search. Accepting opens inspection responses, snapshots and
+reveals the opposing Used Pile to both seats, and requires loss of each original
+vehicle, weapon or device still present. The turn player orders multiple placements
+under AR p11; cards left in Used retain their order. Each off-table loss has its
+own before/after response boundary and is not a reducible loss of units of Force.
+Canceling one placement still allows the remaining losses. The source goes Lost
+after its responses, unless the game has already ended.
+
+The JSON continuation survives serialization. Inspection does not expose later
+arrivals; leaving targets are revalidated rather than substituted. An equipment-free
+search sets the same-title/function restriction for that turn (AR p12); another
+copy may still pay and draw, but cannot repeat the failed search. Concession and
+Life Force exhaustion revoke the reveal.
+
+Twenty component checks plus nine fresh pinned GEMP comparisons cover successful,
+failed and zero destiny, all three equipment types, both placement orders, no
+eligible equipment, both turns and weapons timing. Native cancellation, prevention,
+mutated piles, terminal results, stale commands and corrupt-state checks supplement
+those outcomes. GEMP does not offer the printed optional search and assigns ordering
+to Dark even on Light's turn; native follows the card and AR p11. Exact comparison
+scope and source provenance are in `tests/native-engine/gemp/scavenge-provenance.json`.
+
+`data/native-engine/additional-cards.json` adds sourced Lift Tube metadata for the
+Vehicle classification in off-table effects. It does not enable vehicle gameplay
+or alter the existing proof manifest. Broader Tusken identity, text modification,
+the stealing variant, prevention/replacement cards and per-Force timing remain
+unfinished. Full deck admission remains closed; no new Rules Lab study is added.

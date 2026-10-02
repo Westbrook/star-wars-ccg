@@ -1,0 +1,168 @@
+[
+  {
+    "name": "0-gear-dark-forward",
+    "forceSpent": 1,
+    "interruptLost": true,
+    "used": [
+      "1_105",
+      "1_28"
+    ],
+    "lost": [
+      "1_148",
+      "1_40",
+      "1_152"
+    ],
+    "revealedBoth": true,
+    "orderingPlayers": [
+      "Dark Side Player",
+      "Dark Side Player",
+      "Dark Side Player"
+    ],
+    "optionalSearch": false
+  },
+  {
+    "name": "1-gear-dark-forward",
+    "forceSpent": 1,
+    "interruptLost": true,
+    "used": [
+      "1_105",
+      "1_28"
+    ],
+    "lost": [
+      "1_148",
+      "1_40",
+      "1_152"
+    ],
+    "revealedBoth": true,
+    "orderingPlayers": [
+      "Dark Side Player",
+      "Dark Side Player",
+      "Dark Side Player"
+    ],
+    "optionalSearch": false
+  },
+  {
+    "name": "2-gear-dark-forward",
+    "forceSpent": 1,
+    "interruptLost": true,
+    "used": [
+      "1_148",
+      "1_40",
+      "1_105",
+      "1_152",
+      "1_28"
+    ],
+    "lost": [],
+    "revealedBoth": false,
+    "orderingPlayers": [],
+    "optionalSearch": false
+  },
+  {
+    "name": "3-gear-dark-forward",
+    "forceSpent": 1,
+    "interruptLost": true,
+    "used": [
+      "1_148",
+      "1_40",
+      "1_105",
+      "1_152",
+      "1_28"
+    ],
+    "lost": [],
+    "revealedBoth": false,
+    "orderingPlayers": [],
+    "optionalSearch": false
+  },
+  {
+    "name": "-1-gear-dark-forward",
+    "forceSpent": 1,
+    "interruptLost": true,
+    "used": [
+      "1_148",
+      "1_40",
+      "1_105",
+      "1_152",
+      "1_28"
+    ],
+    "lost": [],
+    "revealedBoth": false,
+    "orderingPlayers": [],
+    "optionalSearch": false
+  },
+  {
+    "name": "1-gear-dark-reverse",
+    "forceSpent": 1,
+    "interruptLost": true,
+    "used": [
+      "1_105",
+      "1_28"
+    ],
+    "lost": [
+      "1_152",
+      "1_40",
+      "1_148"
+    ],
+    "revealedBoth": true,
+    "orderingPlayers": [
+      "Dark Side Player",
+      "Dark Side Player",
+      "Dark Side Player"
+    ],
+    "optionalSearch": false
+  },
+  {
+    "name": "1-empty-dark-forward",
+    "forceSpent": 1,
+    "interruptLost": true,
+    "used": [
+      "1_105",
+      "1_28"
+    ],
+    "lost": [],
+    "revealedBoth": true,
+    "orderingPlayers": [],
+    "optionalSearch": false
+  },
+  {
+    "name": "1-gear-light-forward",
+    "forceSpent": 1,
+    "interruptLost": true,
+    "used": [
+      "1_105",
+      "1_28"
+    ],
+    "lost": [
+      "1_148",
+      "1_40",
+      "1_152"
+    ],
+    "revealedBoth": true,
+    "orderingPlayers": [
+      "Dark Side Player",
+      "Dark Side Player",
+      "Dark Side Player"
+    ],
+    "optionalSearch": false
+  },
+  {
+    "name": "1-gear-battle-forward",
+    "forceSpent": 1,
+    "interruptLost": true,
+    "used": [
+      "1_105",
+      "1_28"
+    ],
+    "lost": [
+      "1_148",
+      "1_40",
+      "1_152"
+    ],
+    "revealedBoth": true,
+    "orderingPlayers": [
+      "Dark Side Player",
+      "Dark Side Player",
+      "Dark Side Player"
+    ],
+    "optionalSearch": false
+  }
+]

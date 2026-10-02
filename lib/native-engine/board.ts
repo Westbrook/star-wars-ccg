@@ -1,9 +1,10 @@
 import manifest from '../../data/native-proof/manifest.json';
+import additionalCards from '../../data/native-engine/additional-cards.json';
 import {premiereSites} from './premiere-setup';
 import {other, type Match, type Payment, type Side} from './types';
 import {equipmentState, nighttimeSites} from './equipment-state';
 
-const cards = new Map(manifest.cards.map(card => [card.gempId, card]));
+const cards = new Map([...manifest.cards, ...additionalCards].map(card => [card.gempId, card]));
 export function definition(blueprint: string) {
   const card = cards.get(blueprint);
   if (!card) throw Error('Card needs an explicit native definition: ' + blueprint);

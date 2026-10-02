@@ -1,0 +1,34 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T19:10:21.546520+00:00",
+  "harness": "NativeEngineScavengeOracleTests.java",
+  "harnessSha256": "3ec61840cb369211156bad32ee6ce346a7a1e5af2c670efbd6a46a7a02207951",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineScavengeOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 1,
+  "observations": 9,
+  "scope": "Actual Tusken Scavengers actions with two Tusken Raiders: destiny 0/1/2/3 and failed draw, three equipment types interleaved with non-equipment, forward/reverse loss ordering, no equipment, Light turn and weapons segment. Compare paid Force, source Lost, both-seat reveal and exact ordered Used/Lost piles. No production GEMP source changes.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "Card1_275.java printed text and action: pay 1, draw strictly less than current Raider count, optional scavenge/search",
+    "RevealCardPileEffect.java: reveal to both and pile-inspection result",
+    "PutCardsFromCardPileInCardPileEffect.java and PutOneCardFromCardPileInCardPileEffect.java: sequential eligible losses and off-table placement result",
+    "AR printed p11 placing multiple cards in pile without ordering player specified: turn player orders competing automatic actions",
+    "AR printed p12 search is optional to begin, mandatory once begun; verified failed search prevents same title/function search of that pile for rest of turn; no unrequested shuffle",
+    "AR printed p10 losing specific cards by characteristics is distinct from losing units of Force"
+  ],
+  "differences": [
+    "Printed Tusken Scavengers says may scavenge. Native offers decline after successful destiny. Pinned GEMP goes directly to reveal; matching outcomes explicitly accept native search.",
+    "AR p11 assigns unspecified multi-card pile placement order to the turn player. Native uses that seat. Pinned GEMP uses the Interrupt player (Dark) even on Light turn; matching final-pile tests deliberately choose the same order and do not claim legal-choice parity."
+  ],
+  "metadata": {
+    "added": "Lift Tube 1_148 metadata only, so Used-Pile Vehicle classification is represented without enabling deployment, movement or passengers. Existing proof manifest unchanged.",
+    "source": "public/catalog/cards.json",
+    "catalogCommit": "6632336c00a87dfdb90920cc3d851786349b29b2"
+  },
+  "limits": "Current on-table Raider count recognizes starter Tusken Raider 1_196 only. Species/identity/text modifiers (including stealing variant), immunity, prevention/replacement cards and individual Force-use timing remain unfinished. Native-only tests cover explicit cancellation/prevention, source-pile mutations, failed-search same-turn restriction, terminal loss, concession, forged commands and corrupt saves. Those branches are not GEMP outcome comparisons. Full native card/deck admission and service/UI integration remain closed; no new standalone study."
+}
