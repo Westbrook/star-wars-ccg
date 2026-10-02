@@ -2,7 +2,7 @@ import {atSite, cardDefinition, isWarrior, name, system} from './board';
 import {weapons} from './battle';
 import {canUseDevice, equipmentState, nighttimeSites, recordEquipment, useDevice} from './equipment-state';
 import {drawDestiny, type Draw} from './destiny';
-import {pendingReactSite, reactionSources, registerReact, usage} from './ground';
+import {canDeployAsReact, pendingReactSite, reactionSources, registerReact} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
 import {moveCard} from './state';
 import {loseFromTable} from './table';
@@ -32,7 +32,7 @@ function deployActions(m: Match, side: Side, reactSite?: string, via?: string): 
   const result: Action[] = [], reacting = !!reactSite;
   for (const id of m.players[side].hand) {
     const c = m.cards[id], bp = c.blueprint, def = cardDefinition(m, id);
-    if (reacting && (usage(m).reacted.includes(id) || !['Device', 'Weapon'].includes(def.type))) continue;
+    if (reacting && (!canDeployAsReact(m, id) || !['Device', 'Weapon'].includes(def.type))) continue;
     const suffix = reacting ? ':react' + (via ? ':via:' + via : '') : '';
     const extra = reacting ? {react: true, ...(via ? {via} : {})} : {};
     if (devices[bp] || isTraining(bp) || reacting && weapons[bp]) {

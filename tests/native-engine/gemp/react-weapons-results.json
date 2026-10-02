@@ -1,0 +1,38 @@
+[
+  {
+    "fireAvailable": true,
+    "name": "react-then-fire",
+    "gunAvailable": false,
+    "forceSpent": 2
+  },
+  {
+    "forceSpent": 2,
+    "name": "cancel-react-stick",
+    "returnedToHand": true,
+    "copyOffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "cancel-react-trooper",
+    "returnedToHand": true,
+    "copyOffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "cancel-react-blaster",
+    "returnedToHand": true,
+    "copyOffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "cancel-react-belt",
+    "returnedToHand": true,
+    "copyOffered": false
+  },
+  {
+    "forceSpent": 0,
+    "name": "cancel-react-mine",
+    "returnedToHand": true,
+    "copyOffered": false
+  }
+]

@@ -9,7 +9,7 @@
   "workingDirectory": "/opt/gemp-swccg/src",
   "tests": 3,
   "observations": 13,
-  "scope": "Actual Gaderffii Stick deployment, transfer and battle-initiation firing. Ten cases mirror both battle initiators with controlled destiny 2+2, 2+3, 3+3, 0+6 and 6+failed. Target has Blaster and Blaster Rifle; another participant has a Blaster. Compare all three legal firing choices at Light weapons segment, retained attachment, Dark Force spent and ordered destiny blueprints on Used. Separate Mos Eisley location-bonus case confirms both draws are modified. Deployment/transfer each spend 2 Force on own Tusken Raiders. Destiny preparation occurs after activation to avoid consuming fixture draws. All 6820 production files match pinned archive; executed harness matches this file.",
+  "scope": "Actual Gaderffii Stick deployment, transfer and battle-initiation firing. Ten cases mirror both battle initiators with controlled destiny 2+2, 2+3, 3+3, 0+6 and 6+failed. Target has Blaster and Blaster Rifle; another participant has a Blaster. Compare all three legal firing choices at Light weapons segment, retained attachment, Dark Force spent and ordered destiny blueprints on Used. Separate Lars’ Moisture Farm location-bonus case confirms both draws are modified. Deployment/transfer each spend 2 Force on own Tusken Raiders. Destiny preparation occurs after activation to avoid consuming fixture draws. All 6820 production files match pinned archive; executed harness matches this file.",
   "rulesSources": [
     "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
   ],

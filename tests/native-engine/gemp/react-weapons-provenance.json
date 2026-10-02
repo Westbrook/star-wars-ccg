@@ -1,0 +1,26 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T21:07:02.391198+00:00",
+  "harness": "NativeEngineReactWeaponOracleTests.java",
+  "harnessSha256": "c8d2834a8ffc6b0d1e4acf2fdea029e5d4b5e78f6dbc66654bb6b32d9635e77d",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineReactWeaponOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 2,
+  "observations": 6,
+  "scope": "Actual Comlink deploy-react at opponent battle initiation, Gaderffii Stick fires in that same window and suppresses target Blaster after controlled 3+3 destiny. Actual Sense (zero destiny against Luke) cancels separate reacts for a stick, Stormtrooper, Imperial Blaster, utility belt and Timer Mine. Compare retained Force costs, hand disposition and availability of another copy through Comlink. All six observed outcomes match. 6820 production files unchanged and executed harness identical.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p170 React: normal costs paid during initiation; no refunds, each card separate, canceled non-unique deploy-react locks same title for the turn",
+    "AR p170 React - Deploy: characters, vehicles, starships, weapons and devices only; all deployment rules apply",
+    "Card1_201 grants same/adjacent deploy-react; Card1_315 supplies free battle-initiation firing; Card1_109 provides actual Sense cancellation in reference",
+    "CancelReactEffect returns deploying cards to their original zone and applies title restrictions; canceled movement locks only participating physical cards"
+  ],
+  "differences": [
+    "The six executed non-unique outcomes agree. Pinned CancelReactEffect applies title locks even to unique cards; native follows AR p170 wording that the additional same-title deploy-react ban applies to non-unique cards. The unique helper branch is covered only by a native component fixture; no executed unique-card parity is claimed."
+  ],
+  "limits": "Hand deployment to current ground character/weapon/device/mine hosts. Native cancellation tests mark the pending react canceled; Sense itself is not implemented/admitted natively. Unique/per-persona general registry, source/target zone instances, pile/stack react deployment and reshuffling, simultaneous pilot deployment, vehicles/starships/capacity and cancellation prevention remain required. Motion cancellation/next-turn reset/native malformed-save cases are component interventions. Existing full native admission remains closed."
+}

@@ -599,3 +599,44 @@ Sniper, repeated firing, zone-change identity, redirection, prevention/replaceme
 and full match delivery remain required. GEMP suppresses firing; native expresses
 the printed prohibition on weapon use. Only firing availability is compared here.
 No new standalone study or full native match route is enabled.
+
+### Starter audit and deploy-react integration
+
+`data/native-engine/starter-coverage.json` inventories all 68 current starter
+card definitions, their reviewed functions, implementation/test pointers and
+remaining requirements. It is a source/evidence audit, not a supported-card list.
+Every entry retains component-only status; full native admission remains closed.
+Shared work includes complete destiny/cost timing, zone-instance identity,
+prevention/replacement, modifier infrastructure, full-match conformance and the
+service/UI. Broader cards and the original product scope remain required.
+
+The audit exposed Gaderffii Stick missing from Comlink's deployment reacts.
+It now deploys from hand for 2 Force onto an own Raider at the reacting battle
+site, provided the same/adjacent source is legal and the card has not reacted
+already. Each deployment is separate. Once it resolves, the stick may fire in
+that same battle-initiation window. It cannot transfer as a react, deploy on a
+remote/ineligible host, or receive a free deployment through this permission.
+
+Shared canceled-react handling now returns a deploying card from playing to hand,
+keeps costs spent, and records both the physical attempt and a turn-long title
+restriction for non-unique cards. Character, blaster/rifle, device, mine and stick
+react providers all consult that restriction. Canceled movement retains its
+source position and locks only that physical card against further reacts; it
+does not complete a regular move. Unique cards retain only the physical react
+restriction under the AR wording. The pinned GEMP cancellation handler uses a
+title filter even for unique cards; that branch is not claimed as parity.
+
+Twenty-one tests include fifteen native component cases and six fresh GEMP
+comparisons. The reference executes actual Comlink deployment and Sense plays;
+native tests inject cancellation at the shared pending-react boundary because
+Sense itself is not yet implemented. The shared outcome, paid costs, hand return
+and other-copy availability agree for all five non-unique deployment types. The
+sixth reference confirms deployment followed by firing. Tests reconstruct every
+command and cover range/host/cost restrictions, separate multiple reacts, source
+movement, expiry, malformed history, stale/foreign commands and concession.
+See `tests/native-engine/gemp/react-weapons-provenance.json`.
+
+Original-zone restoration is currently for hand deployment. Pile/stack deploy
+reacts, their reshuffles, simultaneous pilots, vehicles, generic persona/identity
+and cancellation prevention still require implementation. No new study or full
+native gameplay route is enabled by this checkpoint.

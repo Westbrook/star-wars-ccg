@@ -1,11 +1,11 @@
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
-import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, presence, sitePlacements} from './board';
+import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, presence, sitePlacements, uniqueCharacters} from './board';
 import {moveCard, moveTop} from './state';
 import {openWindow, type RequiredAction} from './runtime';
 import {other, sides, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
 import {nighttimeSites} from './equipment-state';
 
-export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>};
+export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>; cancelledReactTitles?: string[]};
 type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number};
 export type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean; worseIncrease?: number; ledger?: LossLedger};
 const payload = (action: Action) => action.payload as Payload;
@@ -16,7 +16,25 @@ export function usage(m: Match): GroundState {
 export function record(m: Match): GroundState {const current = usage(m); m.data.ground = current as unknown as Json; return current;}
 export const barred = (m: Match, id: string) => (usage(m).barriers[id] ?? 0) >= m.turn.number;
 /** Comlink grants a continuous react permission; it does not use its bearer’s device action. */
-export function registerReact(m: Match, id: string): void {record(m).reacted.push(id);}
+export function registerReact(m: Match, id: string): void {const used = record(m).reacted; if (!used.includes(id)) used.push(id);}
+export const canDeployAsReact = (m: Match, id: string) => !usage(m).reacted.includes(id) && !usage(m).cancelledReactTitles?.includes(name(m, id));
+/** Canceled hand deployment returns its card, never refunds Force, and prevents
+ * another non-unique copy of that title deploying as a react this turn (AR p170).
+ * Movement keeps its original board position and only locks that physical card. */
+export function resolveCancelledReact(m: Match, r: Resolution): boolean {
+  const p = payload(r.action);
+  if (!r.cancelled || !p?.react) return false;
+  const deployment = ['ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip'].includes(r.action.handler);
+  if (!deployment && r.action.handler !== 'ground:move') throw Error('Unknown canceled react.');
+  const card = m.cards[p.card!];
+  registerReact(m, card.id);
+  if (deployment) {
+    if (!uniqueCharacters.has(card.blueprint)) {const titles = record(m).cancelledReactTitles ??= []; if (!titles.includes(name(m, card.id))) titles.push(name(m, card.id));}
+    if (card.zone === 'playing') moveCard(m, card.id, 'hand');
+  }
+  openWindow(m, 'response', other(r.actor), {kind: 'react-cancelled', card: card.id, deployment});
+  return true;
+}
 export function reactionSources(m: Match, site: string, side: Side): string[] {
   return Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && c.location && (c.location === site || adjacent(m, c.location, site)) &&
     (c.blueprint === '1_6' || c.blueprint === '1_201' && !!c.attachedTo)).map(c => c.id);
@@ -92,7 +110,7 @@ export function reactionActions(m: Match, site: string, side: Side, eligible: (i
       const sources = reactionSources(m, site, side);
       // Retain the selected Comlink as the source of its granted react permission.
       const options = [...(sources.some(id => m.cards[id].blueprint === '1_6') ? [undefined] : []), ...sources.filter(id => m.cards[id].blueprint === '1_201')];
-      for (const via of options) for (const card of m.players[side].hand.filter(id => !used.includes(id) && eligible(id) && cardDefinition(m, id).type === 'Character')) {
+      for (const via of options) for (const card of m.players[side].hand.filter(id => canDeployAsReact(m, id) && eligible(id) && cardDefinition(m, id).type === 'Character')) {
         const payment = deploymentPayment(m, card, site);
         if (payment && canPay(m, payment)) actions.push(action('react-deploy:' + card + ':' + site + (via ? ':via:' + via : ''), 'Deploy ' + name(m, card) + ' as a react' + (via ? ' using Comlink ' + via : ''), 'deploy', {card, site, react: true, ...(via ? {via} : {})}, payment, card));
       }
@@ -214,6 +232,7 @@ export function assertGround(m: Match): void {
     const ids = stored[key];
     if (!Array.isArray(ids) || new Set(ids).size !== ids.length || ids.some(id => !m.cards[id])) throw Error('Invalid ground usage.');
   }
+  if (stored.cancelledReactTitles && (!Array.isArray(stored.cancelledReactTitles) || new Set(stored.cancelledReactTitles).size !== stored.cancelledReactTitles.length || stored.cancelledReactTitles.some(title => typeof title !== 'string' || !Object.values(m.cards).some(c => name(m, c.id) === title)))) throw Error('Invalid canceled-react titles.');
   if (!stored.barriers || Object.entries(stored.barriers).some(([id, turn]) => !m.cards[id] || !Number.isSafeInteger(turn) || turn < 1 || turn > m.turn.number)) throw Error('Invalid Barrier duration.');
   }
   for (const frame of m.stack) {

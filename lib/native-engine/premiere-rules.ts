@@ -5,7 +5,7 @@ import {doomedActions, doomedInitiate, doomedResolve, doomedView, assertDoomed} 
 import {worseActions, worseInitiate, worseResolve, assertWorse} from './worse';
 import {cardDefinition, citySitesTogether, definition, generation, name, system} from './board';
 import {premiereSetup} from './premiere-setup';
-import {groundActions, groundAutomatic, groundChoose, groundDecisions, groundInitiate, groundResolve, assertGround, registerReact, syncForceLosses} from './ground';
+import {groundActions, groundAutomatic, groundChoose, groundDecisions, groundInitiate, groundResolve, assertGround, registerReact, resolveCancelledReact, syncForceLosses} from './ground';
 import type {Rules} from './runtime';
 import type {Json, Side} from './types';
 import {assertBattle, battleActions, battleAutomatic, battleCanPass, battleChoose, battleChoices, battleInitiate, battleResolve, battleView, syncBattle} from './battle';
@@ -59,7 +59,8 @@ export const premiereRules: Rules = {
     } else groundInitiate(m, r);
   },
   resolve: (m, r, context) => {
-    if (r.action.handler.startsWith('gaffi:')) gaderffiiResolve(m, r);
+    if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('gaffi:')) gaderffiiResolve(m, r);
     else if (r.action.handler.startsWith('stakes:')) stakesResolve(m, r);
     else if (r.action.handler.startsWith('doomed:')) doomedResolve(m, r);
     else if (r.action.handler.startsWith('worse:')) worseResolve(m, r);

@@ -1,0 +1,1793 @@
+{
+  "schema": 1,
+  "auditedFromCommit": "6d228ecc16ed94cf902bdf9fd81f059a72d504f9",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "purpose": "Source-and-evidence inventory of all 68 current starter definitions. Links are audit pointers, not automatic full-card certification. No card or deck is admitted by this inventory. The broader catalog and original product requirements remain in scope.",
+  "productionAdmission": "closed",
+  "rulesSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "sharedRequiredWork": [
+    "Complete before-draw, substitution/choose-X and individual Force-use timing across all callers.",
+    "General source/target zone-instance identity and revalidation; do not retain stale restrictions on cards that leave/reenter.",
+    "Generic continuous modifier, prevention/replacement, persona/uniqueness and characteristic infrastructure.",
+    "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
+    "Full randomized starter match conformance, including cross-card event timing and replay/recovery, not only component fixtures.",
+    "Durable full-match API/CAS/receipts, trusted deadlines, authenticated seats, CPU/PvP and responsive gameplay.",
+    "Broader catalog, vehicles/pilots/passengers, Objectives/special setup, open 40/60 and sealed/deck customization requirements."
+  ],
+  "cards": [
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/conversion",
+        "Light control modifies Luke power using current erratum",
+        "Dark control raises ability needed to control Death Star sites"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "remaining": [
+        "Other Luke/Obi-Wan personas and general targeting/modifiers required for broader catalog. Original manifest text is superseded by AR erratum."
+      ],
+      "oracleEvidence": [],
+      "gempId": "101_1",
+      "name": "Death Star: Level 6 Core Shaft Corridor",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_001.java"
+    },
+    {
+      "functionsReviewed": [
+        "Tatooine deployment",
+        "Unique and opponent-unique conditions",
+        "Same/adjacent warrior forfeit bonus"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "remaining": [
+        "Other opponent unique identities and personas require general identity metadata."
+      ],
+      "oracleEvidence": [],
+      "gempId": "101_2",
+      "name": "Luke",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_002.java"
+    },
+    {
+      "functionsReviewed": [
+        "Adjacent free regular move to just-initiated battle",
+        "Conditional battle power bonus",
+        "Cancel pending Obsession",
+        "Shared unique-per-turn use"
+      ],
+      "implementation": [
+        "lib/native-engine/travel.ts",
+        "lib/native-engine/duel.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/travel.test.mjs",
+        "tests/native-engine/duel.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json",
+        "tests/native-engine/gemp/duel-provenance.json"
+      ],
+      "gempId": "101_3",
+      "name": "Run Luke, Run!",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_003.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/conversion",
+        "Once-per-turn Reserve docking-bay deployment/search/shuffle and failed search",
+        "Rebel ability >2 drain bonus"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/travel.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/travel.test.mjs",
+        "tests/native-engine/ground.test.mjs"
+      ],
+      "remaining": [
+        "Full pile-search prevention/replacement and general site identities remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json"
+      ],
+      "gempId": "101_4",
+      "name": "Death Star: Docking Control Room 327",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_004.java"
+    },
+    {
+      "functionsReviewed": [
+        "Death Star deployment",
+        "Unique and opposing-unique conditions",
+        "Mandatory losing-battle choke and Imperial loss"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/character-triggers.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/character-triggers.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "remaining": [
+        "Generic persona/copy-limit metadata; AR physical-choke example conflicts with segment rule, recorded in choke provenance."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/choke-provenance.json"
+      ],
+      "gempId": "101_5",
+      "name": "Vader",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_005.java"
+    },
+    {
+      "functionsReviewed": [
+        "Adjacent Vader arrival during Dark move",
+        "Four serial duel destiny draws and current power",
+        "Winner retrieval then loser Force/character loss",
+        "Unique-per-turn use and Run Luke cancellation"
+      ],
+      "implementation": [
+        "lib/native-engine/duel.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/retrieval.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/duel.test.mjs"
+      ],
+      "remaining": [
+        "Exactly one failed destiny set has no verified Force-difference amount; resolution remains explicitly guarded."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/duel-provenance.json",
+        "tests/native-engine/gemp/destiny-provenance.json"
+      ],
+      "gempId": "101_6",
+      "name": "Vader's Obsession",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_006.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid just-forfeited Tatooine character return",
+        "Lost removal response and placed-in-play result",
+        "Attachment/copy handling"
+      ],
+      "implementation": [
+        "lib/native-engine/revival.ts",
+        "lib/native-engine/table.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/revival.test.mjs"
+      ],
+      "remaining": [
+        "Generic zone-instance target identity and persona-limit revalidation required."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/revival-provenance.json"
+      ],
+      "gempId": "1_100",
+      "name": "Old Ben",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_100.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid just-deployed enemy character restriction",
+        "Prevent movement/battle for current turn",
+        "End-turn expiration"
+      ],
+      "implementation": [
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "remaining": [
+        "Starship targets await starship engine. Generic zone-instance identity needed when target leaves and reenters."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_105",
+      "name": "Rebel Barrier",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_105.java"
+    },
+    {
+      "functionsReviewed": [
+        "Compare character/starship count",
+        "Paid destiny",
+        "Specific trooper retrieval to Used"
+      ],
+      "implementation": [
+        "lib/native-engine/interrupts.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/retrieval.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/interrupts.test.mjs"
+      ],
+      "remaining": [
+        "Native retrieval filter currently selects Rebel Trooper 1_28 / Stormtrooper 1_194 only. Other trooper and Y-wing/TIE-ln identities remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/interrupt-provenance.json"
+      ],
+      "gempId": "1_106",
+      "name": "Rebel Reinforcements",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_106.java"
+    },
+    {
+      "functionsReviewed": [
+        "Drain cancellation",
+        "Snapshot opposing present unit count/power",
+        "Serial destiny with combined total",
+        "Lower side loses difference"
+      ],
+      "implementation": [
+        "lib/native-engine/assault.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/assault.test.mjs"
+      ],
+      "remaining": [
+        "Vehicles/starships and aboard presence await broader engine; native follows AR snapshot rather than later GEMP power re-read."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/assault-provenance.json"
+      ],
+      "gempId": "1_113",
+      "name": "Surprise Assault",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_113.java"
+    },
+    {
+      "functionsReviewed": [
+        "Target either nonempty Reserve/Lost/Used",
+        "Atomic server shuffle",
+        "Used Interrupt disposal"
+      ],
+      "implementation": [
+        "lib/native-engine/interrupts.ts",
+        "lib/native-engine/random.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/interrupts.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/interrupt-provenance.json"
+      ],
+      "gempId": "1_115",
+      "name": "The Bith Shuffle",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_115.java"
+    },
+    {
+      "functionsReviewed": [
+        "Tatooine-only deployment",
+        "Bilateral Force cost and own camp exception",
+        "Jawa Camp Light power/forfeit penalties"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs"
+      ],
+      "remaining": [
+        "Sandcrawler discount at Light camp awaits vehicle implementation."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_12",
+      "name": "Jawa",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_012.java"
+    },
+    {
+      "functionsReviewed": [
+        "Opponent-Control low Life Force condition",
+        "Per-loss halving with current droid rounding",
+        "Turn duration",
+        "Shared loss arithmetic"
+      ],
+      "implementation": [
+        "lib/native-engine/doomed.ts",
+        "lib/native-engine/loss.ts",
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/doomed.test.mjs"
+      ],
+      "remaining": [
+        "Other R2/C-3PO identities/permanent astromechs; fractional/general modifier interactions; metadata-only droids cannot deploy."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/doomed-provenance.json"
+      ],
+      "gempId": "1_120",
+      "name": "We're Doomed",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_120.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/conversion",
+        "Printed docking-bay transit group cost",
+        "Related system/site grouping"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/travel.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json"
+      ],
+      "gempId": "1_124",
+      "name": "Death Star: Docking Bay 327",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_124.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/conversion",
+        "Printed docking-bay transit group cost",
+        "Related system/site grouping"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/travel.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json"
+      ],
+      "gempId": "1_129",
+      "name": "Tatooine: Docking Bay 94",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_129.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/deployment",
+        "Side-specific six-ability battle destiny threshold",
+        "Jundland Dark Raider forfeit and drain bonuses"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "remaining": [
+        "Broader Raider identities remain."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_130",
+      "name": "Tatooine: Dune Sea",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_130.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/deployment",
+        "Own Jawa deployment discount",
+        "Dark camp penalty to Light Jawas"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs"
+      ],
+      "remaining": [
+        "Light camp Sandcrawler discount is not reachable in current starters; still required for broader catalog."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_131",
+      "name": "Tatooine: Jawa Camp",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_131.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/deployment",
+        "Per-weapon-destiny Dark modifier",
+        "Farm Luke deploy discount or Detention Block Light drain bonus"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/gaderffii.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs"
+      ],
+      "remaining": [
+        "Beru Lars and other Luke identities not yet implemented."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/gaderffii-provenance.json",
+        "tests/native-engine/gemp/destiny-provenance.json"
+      ],
+      "gempId": "1_132",
+      "name": "Tatooine: Lars' Moisture Farm",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_132.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid warrior deployment/transfer/react",
+        "Per-turn weapon choice and per-battle attempt",
+        "Weapon destiny/strict defense comparison",
+        "Hit and fired responses"
+      ],
+      "implementation": [
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/weapon-state.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/equipment.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/weapon-conformance.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [
+        "Creature/vehicle targets, external firing, general defense/identity and modifiers remain."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_152",
+      "name": "Blaster",
+      "type": "Weapon",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_152.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid warrior deployment/transfer/react",
+        "Per-turn weapon choice and per-battle attempt",
+        "Weapon destiny/strict defense comparison",
+        "Hit and fired responses"
+      ],
+      "implementation": [
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/weapon-state.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/equipment.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/weapon-conformance.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [
+        "Creature/vehicle targets, external firing, general defense/identity and modifiers remain."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_153",
+      "name": "Blaster Rifle",
+      "type": "Weapon",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_153.java"
+    },
+    {
+      "functionsReviewed": [
+        "Mining-droid deployment/react",
+        "Next owner start explosion",
+        "Destiny and owner casualty choice",
+        "Buried minefield arrival/reveal/explosion"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/table.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [
+        "Enclosed vehicles/capacity and broader mine prevention/replacement; compound casualty target identity."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_162",
+      "name": "Timer Mine",
+      "type": "Weapon",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_162.java"
+    },
+    {
+      "functionsReviewed": [
+        "Death Star-only deployment",
+        "Power penalty off Death Star"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [],
+      "gempId": "1_170",
+      "name": "Death Star Trooper",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_170.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid own-turn mine defusing",
+        "Permission to deploy/bury mines",
+        "Arrival and before-explosion interaction"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs"
+      ],
+      "remaining": [
+        "Other mine types and enclosed vehicles not implemented."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_18",
+      "name": "LIN-V8K (Elleyein-Veeatekay)",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_018.java"
+    },
+    {
+      "functionsReviewed": [
+        "Defending power bonus",
+        "Cannot move by regular movement/react/transit/escape"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/travel.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json"
+      ],
+      "gempId": "1_181",
+      "name": "Imperial Trooper Guard",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_181.java"
+    },
+    {
+      "functionsReviewed": [
+        "Tatooine-only deployment",
+        "Bilateral Force cost and own camp exception",
+        "Jawa Camp Light power/forfeit penalties"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs"
+      ],
+      "remaining": [
+        "Sandcrawler discount at Light camp awaits vehicle implementation."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_182",
+      "name": "Jawa",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_182.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid own-turn mine defusing",
+        "Permission to deploy/bury mines",
+        "Arrival and before-explosion interaction"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs"
+      ],
+      "remaining": [
+        "Other mine types and enclosed vehicles not implemented."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_186",
+      "name": "LIN-V8M (Elleyein-Veeateemm)",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_186.java"
+    },
+    {
+      "functionsReviewed": [
+        "Free same-site deployment with own faction ability >2",
+        "Faction deployment restrictions"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [],
+      "gempId": "1_194",
+      "name": "Stormtrooper",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_194.java"
+    },
+    {
+      "functionsReviewed": [
+        "Tatooine-only deployment",
+        "Another non-unique Raider grants own power",
+        "Four Raiders add total-power bonus"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs"
+      ],
+      "remaining": [
+        "Other Raider identities and general characteristic modifiers remain."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_196",
+      "name": "Tusken Raider",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_196.java"
+    },
+    {
+      "functionsReviewed": [
+        "Own-character deployment/transfer",
+        "Same/adjacent battle/drain deploy-react permission",
+        "Separate normal-cost deployments including Gaderffii",
+        "No bearer device-use cost for continuous permission"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts",
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/gaderffii.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [
+        "Starships/vehicles, simultaneous pilot deployment and external react modifiers remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/react-weapons-provenance.json"
+      ],
+      "gempId": "1_201",
+      "name": "Comlink",
+      "type": "Device",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_201.java"
+    },
+    {
+      "functionsReviewed": [
+        "Own faction/alien deployment/transfer/react",
+        "Noncumulative location-dependent power/forfeit",
+        "Continuous bonus does not consume device use"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_207",
+      "name": "Stormtrooper Utility Belt",
+      "type": "Device",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_207.java"
+    },
+    {
+      "functionsReviewed": [
+        "Deploy in warrior or power mode",
+        "Persistent selected mode",
+        "Noncumulative power",
+        "No droid training",
+        "Immune to Alter text retained"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts",
+        "lib/native-engine/equipment-state.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs"
+      ],
+      "remaining": [
+        "Alter engine not implemented, so cancellation immunity has no executable opposing-card conformance yet."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_221",
+      "name": "Ket Maliss",
+      "type": "Effect",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_221.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid table deployment",
+        "Paid opponent top-card private peek",
+        "Nighttime top-three peek",
+        "Preserve order"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs"
+      ],
+      "remaining": [
+        "Nighttime state hook is synthetic; producers remain unimplemented."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_224",
+      "name": "Macroscan",
+      "type": "Effect",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_224.java"
+    },
+    {
+      "functionsReviewed": [
+        "Battle-initiation character/weapon condition",
+        "Ordinary destiny",
+        "Opponent casualty selection",
+        "Loss/attachment ordering and response"
+      ],
+      "implementation": [
+        "lib/native-engine/accident.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/table.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/accident.test.mjs"
+      ],
+      "remaining": [
+        "Vehicle/permanent weapons, target redirection and immunity remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/accident-provenance.json"
+      ],
+      "gempId": "1_237",
+      "name": "Collateral Damage",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_237.java"
+    },
+    {
+      "functionsReviewed": [
+        "Drain cancellation",
+        "Snapshot opposing present unit count/power",
+        "Serial destiny with combined total",
+        "Lower side loses difference"
+      ],
+      "implementation": [
+        "lib/native-engine/assault.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/assault.test.mjs"
+      ],
+      "remaining": [
+        "Vehicles/starships and aboard presence await broader engine; native follows AR snapshot rather than later GEMP power re-read."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/assault-provenance.json"
+      ],
+      "gempId": "1_238",
+      "name": "Counter Assault",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_238.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid just-deployed enemy character restriction",
+        "Prevent movement/battle for current turn",
+        "End-turn expiration"
+      ],
+      "implementation": [
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "remaining": [
+        "Starship targets await starship engine. Generic zone-instance identity needed when target leaves and reenters."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_249",
+      "name": "Imperial Barrier",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_249.java"
+    },
+    {
+      "functionsReviewed": [
+        "Compare character/starship count",
+        "Paid destiny",
+        "Specific trooper retrieval to Used"
+      ],
+      "implementation": [
+        "lib/native-engine/interrupts.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/retrieval.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/interrupts.test.mjs"
+      ],
+      "remaining": [
+        "Native retrieval filter currently selects Rebel Trooper 1_28 / Stormtrooper 1_194 only. Other trooper and Y-wing/TIE-ln identities remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/interrupt-provenance.json"
+      ],
+      "gempId": "1_251",
+      "name": "Imperial Reinforcements",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_251.java"
+    },
+    {
+      "functionsReviewed": [
+        "Cancel exact pending It Could Be Worse and pay X increase",
+        "Battle Force-lost increase",
+        "Noncumulative same-title result and final-unit reopening"
+      ],
+      "implementation": [
+        "lib/native-engine/worse.ts",
+        "lib/native-engine/loss.ts",
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/worse.test.mjs"
+      ],
+      "remaining": [
+        "Cancellation prevention/alternative disposal; repeated battle-copy GEMP divergence retained."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/worse-provenance.json"
+      ],
+      "gempId": "1_252",
+      "name": "It's Worse",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_252.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid response to enemy table character loss",
+        "Top-character Lost search/retrieval to hand",
+        "Failed-search title lock"
+      ],
+      "implementation": [
+        "lib/native-engine/revival.ts",
+        "lib/native-engine/retrieval.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/revival.test.mjs"
+      ],
+      "remaining": [
+        "Full retrieval prevention/replacement and generic search registry remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/revival-provenance.json"
+      ],
+      "gempId": "1_254",
+      "name": "Kintan Strider",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_254.java"
+    },
+    {
+      "functionsReviewed": [
+        "Defending power bonus",
+        "Cannot move by regular movement/react/transit/escape"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/travel.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json"
+      ],
+      "gempId": "1_26",
+      "name": "Rebel Guard",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_026.java"
+    },
+    {
+      "functionsReviewed": [
+        "Target either nonempty Reserve/Lost/Used",
+        "Atomic server shuffle",
+        "Used Interrupt disposal"
+      ],
+      "implementation": [
+        "lib/native-engine/interrupts.ts",
+        "lib/native-engine/random.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/interrupts.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/interrupt-provenance.json"
+      ],
+      "gempId": "1_262",
+      "name": "Ommni Box",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_262.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid private opponent-hand inspection",
+        "Trusted ten-second expiry",
+        "Optional Rebel to top Used",
+        "Redaction on expiry/concession"
+      ],
+      "implementation": [
+        "lib/native-engine/scan.ts",
+        "lib/native-engine/runtime.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/scan.test.mjs"
+      ],
+      "remaining": [
+        "Trusted timer exists in engine but is not wired to durable full-match transactions/scheduling/UI."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/scan-provenance.json"
+      ],
+      "gempId": "1_266",
+      "name": "Scanning Crew",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_266.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid opposing character target",
+        "Destiny > ability",
+        "Recursive owner-specific return to hand",
+        "Battle participation/premature end sync"
+      ],
+      "implementation": [
+        "lib/native-engine/stun.ts",
+        "lib/native-engine/table.ts",
+        "lib/native-engine/destiny.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/stun.test.mjs"
+      ],
+      "remaining": [
+        "Zone-instance targets, aboard/capture/target immunity and general ability modifiers remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/stun-provenance.json"
+      ],
+      "gempId": "1_268",
+      "name": "Set For Stun",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_268.java"
+    },
+    {
+      "functionsReviewed": [
+        "Both sides drew exactly one battle destiny",
+        "Paid swap",
+        "Shared resulting totals"
+      ],
+      "implementation": [
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/interrupts.test.mjs"
+      ],
+      "remaining": [
+        "Combined multiple battle destiny draws require broader destiny-selection work."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/interrupt-provenance.json"
+      ],
+      "gempId": "1_269",
+      "name": "Takeel",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_269.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid destiny compared with Raiders",
+        "Optional opponent Used search",
+        "Ordered equipment losses",
+        "Failed-search turn lock"
+      ],
+      "implementation": [
+        "lib/native-engine/scavenge.ts",
+        "lib/native-engine/destiny.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/scavenge.test.mjs"
+      ],
+      "remaining": [
+        "Other Raiders/equipment identities; prevention/replacement; GEMP optionality/order differences retained."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/scavenge-provenance.json"
+      ],
+      "gempId": "1_275",
+      "name": "Tusken Scavengers",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_275.java"
+    },
+    {
+      "functionsReviewed": [
+        "Opposing battle-initiation eventual damage tripling",
+        "Exact opposing pending-card result boost",
+        "Noncumulative history and damage ordering"
+      ],
+      "implementation": [
+        "lib/native-engine/stakes.ts",
+        "lib/native-engine/loss.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/stakes.test.mjs"
+      ],
+      "remaining": [
+        "Boosting an already boosted booster remains guarded pending normative adjudication. One copy each in current starters prevents that exact nested-copy chain; open/custom decks still require resolution."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/stakes-provenance.json"
+      ],
+      "gempId": "1_279",
+      "name": "You Overestimate Their Chances",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_279.java"
+    },
+    {
+      "functionsReviewed": [
+        "Free same-site deployment with own faction ability >2",
+        "Faction deployment restrictions"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [],
+      "gempId": "1_28",
+      "name": "Rebel Trooper",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_028.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/deployment",
+        "Per-weapon-destiny Dark modifier",
+        "Farm Luke deploy discount or Detention Block Light drain bonus"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/gaderffii.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs"
+      ],
+      "remaining": [
+        "Beru Lars and other Luke identities not yet implemented."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/gaderffii-provenance.json",
+        "tests/native-engine/gemp/destiny-provenance.json"
+      ],
+      "gempId": "1_284",
+      "name": "Death Star: Detention Block Corridor",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_284.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/conversion",
+        "Printed docking-bay transit group cost",
+        "Related system/site grouping"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/travel.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json"
+      ],
+      "gempId": "1_285",
+      "name": "Death Star: Docking Bay 327",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_285.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/conversion",
+        "Printed docking-bay transit group cost",
+        "Related system/site grouping"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/travel.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json"
+      ],
+      "gempId": "1_291",
+      "name": "Tatooine: Docking Bay 94",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_291.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/deployment",
+        "Own Jawa deployment discount",
+        "Dark camp penalty to Light Jawas"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs"
+      ],
+      "remaining": [
+        "Light camp Sandcrawler discount is not reachable in current starters; still required for broader catalog."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_292",
+      "name": "Tatooine: Jawa Camp",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_292.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/deployment",
+        "Side-specific six-ability battle destiny threshold",
+        "Jundland Dark Raider forfeit and drain bonuses"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "remaining": [
+        "Broader Raider identities remain."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_293",
+      "name": "Tatooine: Jundland Wastes",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_293.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ordinary location setup/deployment",
+        "Contiguous Mos Eisley city-site placement"
+      ],
+      "implementation": [
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "remaining": [
+        "Power/forfeit for spies/thieves/bounty hunters/smugglers is not implemented; no such eligible starter character. Characteristic registry needed."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json"
+      ],
+      "gempId": "1_295",
+      "name": "Tatooine: Mos Eisley",
+      "type": "Location",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_295.java"
+    },
+    {
+      "functionsReviewed": [
+        "Restricted-three count",
+        "Adjacent paid move-react",
+        "Shared movement/react usage"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [
+        "Generic leave/reenter instance identity and external movement modifiers remain."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_30",
+      "name": "Shistavanen Wolfman",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_030.java"
+    },
+    {
+      "functionsReviewed": [
+        "Restricted-three count",
+        "Talz forfeiture cost restores another weapon-hit participant",
+        "Nighttime power bonus"
+      ],
+      "implementation": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "remaining": [
+        "Nighttime producers and broader hit/forfeit replacement/identity interactions remain."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_31",
+      "name": "Talz",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_031.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid warrior deployment/transfer/react",
+        "Per-turn weapon choice and per-battle attempt",
+        "Weapon destiny/strict defense comparison",
+        "Hit and fired responses"
+      ],
+      "implementation": [
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/weapon-state.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/equipment.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/weapon-conformance.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [
+        "Creature/vehicle targets, external firing, general defense/identity and modifiers remain."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_312",
+      "name": "Blaster Rifle",
+      "type": "Weapon",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_312.java"
+    },
+    {
+      "functionsReviewed": [
+        "Own Raider paid deployment/transfer/react",
+        "Free battle-initiation weapon firing including after deploy-react",
+        "Two weapon destinies",
+        "Captured weapons prohibited this battle"
+      ],
+      "implementation": [
+        "lib/native-engine/gaderffii.ts",
+        "lib/native-engine/weapon-state.ts",
+        "lib/native-engine/destiny.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [
+        "Permanent weapons, other Raiders, external/repeated firing and generic target identity remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/gaderffii-provenance.json",
+        "tests/native-engine/gemp/react-weapons-provenance.json"
+      ],
+      "gempId": "1_315",
+      "name": "Gaderffii Stick",
+      "type": "Weapon",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_315.java"
+    },
+    {
+      "functionsReviewed": [
+        "Paid warrior deployment/transfer/react",
+        "Per-turn weapon choice and per-battle attempt",
+        "Weapon destiny/strict defense comparison",
+        "Hit and fired responses"
+      ],
+      "implementation": [
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/weapon-state.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/equipment.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/weapon-conformance.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [
+        "Creature/vehicle targets, external firing, general defense/identity and modifiers remain."
+      ],
+      "oracleEvidence": [],
+      "gempId": "1_317",
+      "name": "Imperial Blaster",
+      "type": "Weapon",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_317.java"
+    },
+    {
+      "functionsReviewed": [
+        "Mining-droid deployment/react",
+        "Next owner start explosion",
+        "Destiny and owner casualty choice",
+        "Buried minefield arrival/reveal/explosion"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/table.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [
+        "Enclosed vehicles/capacity and broader mine prevention/replacement; compound casualty target identity."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_322",
+      "name": "Timer Mine",
+      "type": "Weapon",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_322.java"
+    },
+    {
+      "functionsReviewed": [
+        "Own warrior paid deployment/transfer/react",
+        "Private paid top-Reserve peek",
+        "Optional Force placement",
+        "One different device per bearer per turn"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts",
+        "lib/native-engine/equipment-state.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs"
+      ],
+      "remaining": [
+        "Generic source/target instance revalidation and full peek prevention remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_35",
+      "name": "Electrobinoculars",
+      "type": "Device",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_035.java"
+    },
+    {
+      "functionsReviewed": [
+        "Own faction/alien deployment/transfer/react",
+        "Noncumulative location-dependent power/forfeit",
+        "Continuous bonus does not consume device use"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "remaining": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_40",
+      "name": "Tatooine Utility Belt",
+      "type": "Device",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_040.java"
+    },
+    {
+      "functionsReviewed": [
+        "Same/adjacent opponent battle/drain deploy-react permission",
+        "Separate cards, normal costs and type/host restrictions",
+        "Presence arrival cancels drain persistently"
+      ],
+      "implementation": [
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/equipment.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/stun.test.mjs"
+      ],
+      "remaining": [
+        "Vehicles/starships/simultaneous pilots and broader react modifiers remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/react-cancellation-provenance.json"
+      ],
+      "gempId": "1_6",
+      "name": "CZ-3 (Seezee-Three)",
+      "type": "Character",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_006.java"
+    },
+    {
+      "functionsReviewed": [
+        "Deploy in warrior or power mode",
+        "Persistent selected mode",
+        "Noncumulative power",
+        "No droid training",
+        "Immune to Alter text retained"
+      ],
+      "implementation": [
+        "lib/native-engine/equipment.ts",
+        "lib/native-engine/equipment-state.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs"
+      ],
+      "remaining": [
+        "Alter engine not implemented, so cancellation immunity has no executable opposing-card conformance yet."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/equipment-provenance.json"
+      ],
+      "gempId": "1_64",
+      "name": "Sai'torr Kal Fas",
+      "type": "Effect",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_064.java"
+    },
+    {
+      "functionsReviewed": [
+        "Opposing battle-initiation eventual damage tripling",
+        "Exact opposing pending-card result boost",
+        "Noncumulative history and damage ordering"
+      ],
+      "implementation": [
+        "lib/native-engine/stakes.ts",
+        "lib/native-engine/loss.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/stakes.test.mjs"
+      ],
+      "remaining": [
+        "Boosting an already boosted booster remains guarded pending normative adjudication. One copy each in current starters prevents that exact nested-copy chain; open/custom decks still require resolution."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/stakes-provenance.json"
+      ],
+      "gempId": "1_77",
+      "name": "Don't Underestimate Our Chances",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_077.java"
+    },
+    {
+      "functionsReviewed": [
+        "Battle-initiation character/weapon condition",
+        "Ordinary destiny",
+        "Opponent casualty selection",
+        "Loss/attachment ordering and response"
+      ],
+      "implementation": [
+        "lib/native-engine/accident.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/table.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/accident.test.mjs"
+      ],
+      "remaining": [
+        "Vehicle/permanent weapons, target redirection and immunity remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/accident-provenance.json"
+      ],
+      "gempId": "1_80",
+      "name": "Friendly Fire",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_080.java"
+    },
+    {
+      "functionsReviewed": [
+        "Ability >2 participant target",
+        "Paid cancel/redraw of just-drawn battle destiny",
+        "Repeated replacement and old-card cleanup"
+      ],
+      "implementation": [
+        "lib/native-engine/interrupts.ts",
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/destiny.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/interrupts.test.mjs"
+      ],
+      "remaining": [
+        "Generic target revalidation and substitution/choose-X timing remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/interrupt-provenance.json",
+        "tests/native-engine/gemp/destiny-provenance.json"
+      ],
+      "gempId": "1_84",
+      "name": "Han's Dice",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_084.java"
+    },
+    {
+      "functionsReviewed": [
+        "Pay X to reduce an outstanding Force loss",
+        "General loss and battle balances",
+        "Noncumulative loss reduction and retained payment credit"
+      ],
+      "implementation": [
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/loss.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/worse.test.mjs",
+        "tests/native-engine/doomed.test.mjs"
+      ],
+      "remaining": [
+        "Generic individual Force-use timing and prevention/replacement remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/worse-provenance.json",
+        "tests/native-engine/gemp/doomed-provenance.json"
+      ],
+      "gempId": "1_90",
+      "name": "It Could Be Worse",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_090.java"
+    },
+    {
+      "functionsReviewed": [
+        "Light battle-initiation lower-power condition",
+        "Double resulting Dark damage",
+        "Targeted participating Han triples it",
+        "Noncumulative schedule"
+      ],
+      "implementation": [
+        "lib/native-engine/stakes.ts",
+        "lib/native-engine/loss.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/stakes.test.mjs"
+      ],
+      "remaining": [
+        "Han metadata is not admitted to deployment; other Han personas/permanent pilots and general target identity remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/stakes-provenance.json"
+      ],
+      "gempId": "1_91",
+      "name": "I've Got A Bad Feeling About This",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_091.java"
+    },
+    {
+      "functionsReviewed": [
+        "Opponent battle-initiation Rebel ability >2 condition",
+        "Individually paid regular escape moves",
+        "Owner ordering, separate destinations, partial failure and battle sync"
+      ],
+      "implementation": [
+        "lib/native-engine/travel.ts",
+        "lib/native-engine/ground.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "remaining": [
+        "General movement replacement/identity, vehicles and landspeed modifiers remain."
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-provenance.json"
+      ],
+      "gempId": "1_98",
+      "name": "Narrow Escape",
+      "type": "Interrupt",
+      "status": "component-coverage-only",
+      "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_098.java"
+    }
+  ]
+}
