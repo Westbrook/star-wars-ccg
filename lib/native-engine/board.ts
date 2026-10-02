@@ -1,6 +1,7 @@
 import manifest from '../../data/native-proof/manifest.json';
 import {premiereSites} from './premiere-setup';
 import {other, type Match, type Payment, type Side} from './types';
+import {equipmentState, nighttimeSites} from './equipment-state';
 
 const cards = new Map(manifest.cards.map(card => [card.gempId, card]));
 export function definition(blueprint: string) {
@@ -36,6 +37,19 @@ export const uniqueCharacters = new Set(['101_2', '101_5']);
 export const characterLimits: Record<string, number> = {'101_2': 1, '101_5': 1, '1_30': 3, '1_31': 3};
 export const isGuard = (blueprint: string) => ['1_26', '1_181'].includes(blueprint);
 export const isJawa = (blueprint: string) => ['1_12', '1_182'].includes(blueprint);
+export const attached = (m: Match, id: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.attachedTo === id);
+export const isWarrior = (m: Match, id: string) => (cardDefinition(m, id).icons as string[]).includes('Warrior') || attached(m, id).some(c => ['1_64', '1_221'].includes(c.blueprint) && equipmentState(m).training[c.id] === 'warrior');
+function equipmentBonus(m: Match, id: string, stat: 'power' | 'forfeit'): number {
+  const host = m.cards[id], seen = new Set<string>(); let bonus = 0;
+  for (const c of attached(m, id)) {
+    if (seen.has(c.blueprint)) continue;
+    // Separate training modes share a card title but modify different things.
+    if (['1_64', '1_221'].includes(c.blueprint) && stat === 'power' && equipmentState(m).training[c.id] === 'power') {bonus++; seen.add(c.blueprint);}
+    if (c.blueprint === '1_207') {bonus += host.location && system(m, host.location) === 'Death Star' ? 2 : 1; seen.add(c.blueprint);}
+    if (c.blueprint === '1_40') {if (host.location && system(m, host.location) === 'Tatooine') bonus += 2; seen.add(c.blueprint);}
+  }
+  return bonus;
+}
 
 export function deploymentPayment(m: Match, id: string, site: string): Payment | null {
   const card = m.cards[id], def = cardDefinition(m, id);
@@ -70,15 +84,18 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   if (blueprint === '1_12' && site && m.cards[site].blueprint === '1_292') value--;
   // Core Shaft's erratum applies anywhere, not only on Death Star (AR Appendix A).
   if (blueprint === '101_2' && m.locations.some(at => m.cards[at].blueprint === '101_1' && controls(m, 'light', at))) value += 2;
+  value += equipmentBonus(m, id, 'power');
+  if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
   return Math.max(0, value);
 }
 
 export function forfeit(m: Match, id: string, active: (id: string) => boolean = () => true): number {
   const card = m.cards[id], site = card.location;
   let value = printed(m, id, 'forfeit');
-  if (site && card.owner === 'light' && (cardDefinition(m, id).icons as string[]).includes('Warrior') && active(id) && Object.values(m.cards).some(c => c.zone === 'table' && c.owner === 'light' && c.blueprint === '101_2' && c.location && active(c.id) && (c.location === site || adjacent(m, c.location, site)))) value++;
+  if (site && card.owner === 'light' && isWarrior(m, id) && active(id) && Object.values(m.cards).some(c => c.zone === 'table' && c.owner === 'light' && c.blueprint === '101_2' && c.location && active(c.id) && (c.location === site || adjacent(m, c.location, site)))) value++;
   if (site && card.blueprint === '1_196' && m.cards[site].blueprint === '1_293') value++;
   if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') value--;
+  value += equipmentBonus(m, id, 'forfeit');
   return Math.max(0, value);
 }
 

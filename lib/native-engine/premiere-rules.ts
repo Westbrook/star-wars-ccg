@@ -1,9 +1,11 @@
 import {cardDefinition, definition, generation, name, system} from './board';
 import {premiereSetup} from './premiere-setup';
-import {groundActions, groundAutomatic, groundChoose, groundDecisions, groundInitiate, groundResolve, assertGround} from './ground';
+import {groundActions, groundAutomatic, groundChoose, groundDecisions, groundInitiate, groundResolve, assertGround, registerReact} from './ground';
 import type {Rules} from './runtime';
-import type {Side} from './types';
+import type {Json, Side} from './types';
 import {assertBattle, battleActions, battleAutomatic, battleCanPass, battleChoose, battleChoices, battleInitiate, battleResolve, battleView, syncBattle} from './battle';
+import {equipmentActions, equipmentAutomatic, equipmentInitiate, equipmentResolve, equipmentChoices, equipmentChoose, equipmentView, assertEquipment} from './equipment';
+import {resolveDestiny, assertDestiny} from './destiny';
 import {assertLeaving, tableChoices, tableChoose} from './table';
 
 /** Composable production implementation in progress. No card is admitted to a
@@ -16,16 +18,41 @@ export const premiereRules: Rules = {
   supports: () => false,
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
-  automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w)],
-  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side)],
-  initiate: (m, r) => {if (r.action.handler.startsWith('battle:')) battleInitiate(m, r); else groundInitiate(m, r);},
-  resolve: (m, r) => {if (r.action.handler.startsWith('battle:')) battleResolve(m, r); else groundResolve(m, r); syncBattle(m);},
-  decisions: (m, d) => d.handler === 'table:lost-order' ? tableChoices(m, d) : d.handler === 'battle:destiny' ? battleChoices() : groundDecisions(m, d),
-  choose: (m, d, c) => {if (d.handler === 'table:lost-order') tableChoose(m, d, c); else if (d.handler === 'battle:destiny') battleChoose(m, d, c); else groundChoose(m, d, c);},
+  automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w)],
+  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side)],
+  initiate: (m, r) => {
+    if (r.action.handler.startsWith('equipment:')) equipmentInitiate(m, r);
+    else if (r.action.handler.startsWith('battle:')) {
+      const p = r.action.payload as {react?: boolean; card?: string};
+      if (p.react) registerReact(m, p.card!);
+      battleInitiate(m, r);
+    } else groundInitiate(m, r);
+  },
+  resolve: (m, r) => {
+    if (r.action.handler === 'destiny:finish') resolveDestiny(m, r);
+    else if (r.action.handler.startsWith('equipment:')) equipmentResolve(m, r);
+    else if (r.action.handler.startsWith('battle:')) battleResolve(m, r);
+    else groundResolve(m, r);
+    syncBattle(m);
+  },
+  decisions: (m, d) => {
+    if (d.handler.startsWith('equipment:')) return equipmentChoices(m, d);
+    if (d.handler === 'table:lost-order') return tableChoices(m, d);
+    if (d.handler === 'battle:destiny') return battleChoices();
+    return groundDecisions(m, d);
+  },
+  choose: (m, d, c) => {
+    if (d.handler.startsWith('equipment:')) equipmentChoose(m, d, c);
+    else if (d.handler === 'table:lost-order') tableChoose(m, d, c);
+    else if (d.handler === 'battle:destiny') battleChoose(m, d, c);
+    else groundChoose(m, d, c);
+  },
   canPass: battleCanPass,
-  view: battleView,
+  view: (m, seat) => ({...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>}),
   validate: match => {
     assertGround(match);
+    assertEquipment(match);
+    assertDestiny(match);
     assertBattle(match);
     assertLeaving(match);
     if (new Set(match.locations.map(id => name(match, id))).size !== match.locations.length) throw Error('Duplicate active location identity.');

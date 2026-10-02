@@ -1,0 +1,21 @@
+[
+  {
+    "mineLost": true,
+    "victimLost": false,
+    "branch": "zero-mine"
+  },
+  {
+    "darkPower": 3,
+    "branch": "death-star-belts",
+    "lightPower": 1,
+    "darkForfeit": 4,
+    "lightForfeit": 2
+  },
+  {
+    "darkPower": 2,
+    "branch": "tatooine-belts",
+    "lightPower": 3,
+    "darkForfeit": 3,
+    "lightForfeit": 4
+  }
+]

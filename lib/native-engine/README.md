@@ -40,6 +40,16 @@ continues to load its original saved versions.
   presence, ability and return fire; firing and bearer limits, destiny modifiers,
   pre-hit/hit/fired responses, attachment loss ordering and early battle endings
   are explicit serialized steps. Both sides' balances remain publicly available.
+- Equipment components: both utility belts (noncumulative world-dependent power
+  and forfeit), both warrior-training Effects (persistent selected mode), paid
+  device transfers, private Electrobinoculars/Macroscan peeks, one-different-device
+  usage per bearer per turn, and continuous Comlink deploy-react permission.
+- Timer Mines resolve at the next owner turn through ordinary destiny and the
+  opponent's casualty choices. Mining droids can defuse either player's mines.
+  Exterior planet minefields can contain hidden mines or duds, reveal on arrival,
+  allow applicable pre-explosion defusing, and resolve multiple mine/loss choices.
+  Ground presence is supported here; enclosed vehicles and other mine types still
+  require the broader vehicle/weapon implementation.
 - Cost continuations may yield for private decisions and result responses before
   the paid action becomes respondable. Cancellation does not refund these costs.
 
@@ -69,7 +79,7 @@ kernel test is not evidence that a card's printed behavior is implemented.
    their sequence exists. Premiere starter setup metadata is implemented; this
    does not admit those decks' later card behaviors.
 2. Implement remaining reachable starter effects and all their timing: special
-   movement, docking transit/search, equipment, mines, Interrupts, retrieval,
+   movement, docking transit/search, remaining Interrupts, retrieval,
    destiny replacement, Vader's forced choke and duel rules, among others.
 3. Complete interactions among deployment, control/drains, battle, movement,
    reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
@@ -137,3 +147,28 @@ Ch. 1 (Force, actions and destiny), Ch. 2 (turn order), Ch. 3 (activation),
 Ch. 6 (battle sequence, hit/forfeit/attrition/damage), Ch. 8 (draw phase and end of
 turn), and Ch. 9 (weapons). Mandatory choices and unresolved effects must
 not be skipped merely because a UI timer is available.
+
+## Equipment checkpoint
+
+`equipment.test.mjs` exercises continuous turns, deployment/transfer restrictions,
+noncumulative modifiers, training modes, hidden peeks and minefields, reusable
+versus different devices, both Timer Mine sides, zero/failed destiny, owner-selected
+casualties, multiple mine ordering, attachments leaving simultaneously, defusing,
+Comlink battle chains, drain cancellation, CZ-3 host restrictions and site conversion.
+Every command reconstructs JSON and compares private projections; these are engine
+checks, not database/process or browser checks. Nighttime is a serialized condition
+hook tested with synthetic producers; nighttime-producing cards remain pending.
+
+The pinned GEMP reference is `bbd94d183b29c2e82458293df0327c3b946f3d85`.
+Card sources `Card1_018`, `Card1_035`, `Card1_040`, `Card1_064`, `Card1_162`,
+`Card1_186`, `Card1_201`, `Card1_207`, `Card1_221`, `Card1_224`, and `Card1_322`,
+plus `Reacts`, `AbstractDeployable`, `UseDeviceEffect` and `Filters.canUseDevice`,
+provide the implementation reference. Official Advanced Rulebook printed pp29,
+80, 95 and 169–171 govern cumulative modifiers, devices, transfer, mines and reacts.
+Comlink's continuous permission is distinct from using Electrobinoculars; it does
+not spend the bearer's one-different-device action allowance.
+
+The new JUnit harness in `tests/native-engine/gemp` checks both belt boards and
+zero-destiny mine disposal. Its recorded observations are compared by the native
+suite. These targeted comparisons do not establish full timing parity or complete
+GEMP equivalence. No standalone study or full-game admission was added.

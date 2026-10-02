@@ -2,9 +2,10 @@ import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment
 import {moveCard, moveTop} from './state';
 import {openWindow, type RequiredAction} from './runtime';
 import {other, sides, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
+import {nighttimeSites} from './equipment-state';
 
 export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>};
-type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; target?: string; amount?: number; lossIndex?: number};
+type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number};
 type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean};
 const payload = (action: Action) => action.payload as Payload;
 export function usage(m: Match): GroundState {
@@ -13,6 +14,18 @@ export function usage(m: Match): GroundState {
 }
 function record(m: Match): GroundState {const current = usage(m); m.data.ground = current as unknown as Json; return current;}
 export const barred = (m: Match, id: string) => (usage(m).barriers[id] ?? 0) >= m.turn.number;
+/** Comlink grants a continuous react permission; it does not use its bearer’s device action. */
+export function registerReact(m: Match, id: string): void {record(m).reacted.push(id);}
+export function reactionSources(m: Match, site: string, side: Side): string[] {
+  return Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && c.location && (c.location === site || adjacent(m, c.location, site)) &&
+    (c.blueprint === '1_6' || c.blueprint === '1_201' && !!c.attachedTo)).map(c => c.id);
+}
+export function pendingReactSite(m: Match, w: Window, side: Side): string | null {
+  const p = pending(m);
+  if (w.timing !== 'response' || !p || p.awaitingResponses || p.cancelled || p.actor === side) return null;
+  if (p.action.handler === 'ground:drain') {const site = payload(p.action).site!; return controls(m, p.actor, site) ? site : null;}
+  return p.action.handler === 'battle:begin' ? payload(p.action).site! : null;
+}
 const action = (id: string, label: string, handler: string, data: Payload, payment?: Payment, source?: string): Action =>
   ({id, label, handler: 'ground:' + handler, payload: data as Json, ...(payment ? {payment} : {}), ...(source ? {source} : {})});
 const canPay = (m: Match, payment: Payment) => sides.every(side => (payment[side] ?? 0) <= m.players[side].force.length);
@@ -75,10 +88,12 @@ export function reactionActions(m: Match, site: string, side: Side, eligible: (i
         if (card.owner === side && card.blueprint === '1_30' && !used.includes(card.id) && eligible(card.id) && canMove(m, card.id))
           actions.push(action('react-move:' + card.id + ':' + site, 'React with ' + name(m, card.id), 'move', {card: card.id, from, site, react: true}, {[side]: 1}));
       }
-      const supported = m.locations.some(at => (at === site || adjacent(m, at, site)) && atSite(m, at).some(c => c.owner === side && c.blueprint === '1_6'));
-      if (supported) for (const card of m.players[side].hand.filter(id => !used.includes(id) && eligible(id) && cardDefinition(m, id).type === 'Character')) {
+      const sources = reactionSources(m, site, side);
+      // Retain the selected Comlink as the source of its granted react permission.
+      const options = [...(sources.some(id => m.cards[id].blueprint === '1_6') ? [undefined] : []), ...sources.filter(id => m.cards[id].blueprint === '1_201')];
+      for (const via of options) for (const card of m.players[side].hand.filter(id => !used.includes(id) && eligible(id) && cardDefinition(m, id).type === 'Character')) {
         const payment = deploymentPayment(m, card, site);
-        if (payment && canPay(m, payment)) actions.push(action('react-deploy:' + card + ':' + site, 'Deploy ' + name(m, card) + ' as a react', 'deploy', {card, site, react: true}, payment, card));
+        if (payment && canPay(m, payment)) actions.push(action('react-deploy:' + card + ':' + site + (via ? ':via:' + via : ''), 'Deploy ' + name(m, card) + ' as a react' + (via ? ' using Comlink ' + via : ''), 'deploy', {card, site, react: true, ...(via ? {via} : {})}, payment, card));
       }
   return actions;
 }
@@ -95,7 +110,7 @@ export function groundInitiate(m: Match, resolution: Resolution): void {
   if (['ground:deploy', 'ground:site', 'ground:barrier', 'ground:reduce'].includes(kind)) moveCard(m, data.card!, 'playing');
   const current = record(m);
   if (kind === 'ground:drain') current.drained.push(data.site!);
-  if (data.react) current.reacted.push(data.card!);
+  if (data.react) registerReact(m, data.card!);
 }
 
 export function queueForceLoss(m: Match, loss: Loss): void {
@@ -119,7 +134,8 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     if (!placement) throw Error('The location placement requires revalidation.');
     moveCard(m, id, 'table');
     if (placement.replace) {
-      const old = placement.replace; m.cards[old].coveredBy = id; m.locations[m.locations.indexOf(old)] = id;
+      const old = placement.replace;
+      if (m.data.nighttimeSites) m.data.nighttimeSites = nighttimeSites(m).map(site => site === old ? id : site); m.cards[old].coveredBy = id; m.locations[m.locations.indexOf(old)] = id;
       for (const card of Object.values(m.cards)) {if (card.location === old) card.location = id; if (card.coveredBy === old) card.coveredBy = id;}
       const current = record(m); current.drained = current.drained.map(site => site === old ? id : site);
     } else m.locations.splice(placement.index!, 0, id);

@@ -37,7 +37,7 @@ export function lifeForce(match: Match, side: Side): number {
 /** Primitive only: a rules handler must resolve leave-table consequences first. */
 export function moveCard(match: Match, id: string, zone: Zone, position: 'top' | 'bottom' = 'top'): void {
   const card = match.cards[id];
-  if (!card || ![...piles, 'table', 'playing', 'leaving', 'out'].includes(zone)) throw Error('Invalid card movement.');
+  if (!card || ![...piles, 'table', 'playing', 'leaving', 'buried', 'out'].includes(zone)) throw Error('Invalid card movement.');
   if (card.zone === 'table' && (match.locations.includes(id) || Object.values(match.cards).some(c => c.attachedTo === id || c.location === id || c.coveredBy === id)))
     throw Error('Resolve dependent cards before moving their host.');
   if (isPile(card.zone)) {
@@ -102,11 +102,11 @@ export function assertState(match: Match): void {
     if (Object.values(match.cards).filter(c => c.owner === side).length !== match.deckSize) throw Error('Physical deck size changed.');
   }
   for (const [id, card] of Object.entries(match.cards)) {
-    if (id !== card.id || !card.blueprint || !sides.includes(card.owner) || ![...piles, 'table', 'playing', 'leaving', 'out'].includes(card.zone)) throw Error('Invalid physical card.');
+    if (id !== card.id || !card.blueprint || !sides.includes(card.owner) || ![...piles, 'table', 'playing', 'leaving', 'buried', 'out'].includes(card.zone)) throw Error('Invalid physical card.');
     if (isPile(card.zone) !== seen.has(id)) throw Error('Card missing from pile or listed outside its zone.');
     for (const key of ['location', 'attachedTo', 'coveredBy'] as const) {
       const target = card[key];
-      if (target && (card.zone !== 'table' || target === id || match.cards[target]?.zone !== 'table')) throw Error('Invalid table relation.');
+      if (target && (!(card.zone === 'table' || card.zone === 'buried' && key === 'location') || target === id || match.cards[target]?.zone !== 'table')) throw Error('Invalid table relation.');
     }
     const visiting = new Set<string>([id]);
     let current: Card | undefined = card;
@@ -158,5 +158,7 @@ export function publicState(match: Match, seat: Side) {
     }])),
     table: shown(Object.values(match.cards).filter(c => c.zone === 'table' || c.zone === 'playing' || c.zone === 'leaving').map(c => c.id)),
     locations: [...match.locations],
+    buried: shown(Object.values(match.cards).filter(c => c.zone === 'buried' && c.owner === seat).map(c => c.id)),
+    buriedCounts: match.locations.map(site => ({site, count: Object.values(match.cards).filter(c => c.zone === 'buried' && c.location === site).length})),
   };
 }

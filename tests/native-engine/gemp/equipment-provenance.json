@@ -1,0 +1,12 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T15:21:48.958628+00:00",
+  "harness": "NativeEngineEquipmentOracleTests.java",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineEquipmentOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21, restored pinned source mounted at /opt/gemp-swccg, existing swccg-official-maven volume; no reference production rules modified",
+  "junitTests": 2,
+  "observations": 3,
+  "result": "equipment-result.txt",
+  "scope": "Two utility-belt boards (both sides, duplicate belts, moving Death Star to Tatooine) and zero-destiny Timer Mine disposal. Synthetic component boards with framework filler cards; not full authored-deck or full timing conformance. Native suite compares each observation."
+}

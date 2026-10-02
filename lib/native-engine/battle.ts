@@ -1,4 +1,4 @@
-import {atSite, battleDestinyRequirement, cardDefinition, forfeit, name, printed, totalPower} from './board';
+import {atSite, battleDestinyRequirement, cardDefinition, forfeit, isWarrior, name, printed, totalPower} from './board';
 import {barred, reactionActions} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
 import {moveCard, moveTop} from './state';
@@ -58,7 +58,7 @@ export const weapons: Record<string, {deploy: number; fire: number; bonus: numbe
   '1_152': {deploy: 1, fire: 1, bonus: 0}, '1_317': {deploy: 1, fire: 1, bonus: 0},
   '1_153': {deploy: 2, fire: 2, bonus: 1}, '1_312': {deploy: 2, fire: 2, bonus: 1},
 };
-const warrior = (m: Match, id: string) => (cardDefinition(m, id).icons as string[]).includes('Warrior');
+const warrior = isWarrior;
 export function weaponBonus(m: Match, id: string): number {
   const c = m.cards[id];
   return weapons[c.blueprint].bonus + (c.owner === 'dark' && c.location && ['1_284', '1_132'].includes(m.cards[c.location].blueprint) ? 1 : 0);
