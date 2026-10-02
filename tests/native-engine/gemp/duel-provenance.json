@@ -1,0 +1,43 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T16:52:51.004161+00:00",
+  "harness": "NativeEngineDuelOracleTests.java",
+  "harnessSha256": "0640a93b805aecfd068edec0274566d79979b6d2a244c8b395a5505d200c3e01",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDuelOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 1,
+  "observations": 8,
+  "matchingObservations": [
+    "duel-1-1",
+    "duel-0-2",
+    "duel-0-1",
+    "partial",
+    "cancel"
+  ],
+  "scope": "Actual adjacent Vader movement, Obsession targeting and resolution, controlled two-card/partial/empty Reserve decks, retrieval and Force/character losses, Run Luke cancellation through both Interrupt cleanups. Component boards with filler decks and prepared Force; no GEMP production source edited.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "https://forum.starwarsccg.org/viewtopic.php?t=77226"
+  ],
+  "divergences": [
+    {
+      "observation": "duel--1-0",
+      "gemp": "Dark draws nothing and still wins on base power, retrieves two; Light loses two Force and Luke.",
+      "native": "AR p31 failed-destiny rule makes Light the winner. Force-difference amount is null/unverified; applying the result throws atomically instead of guessing."
+    },
+    {
+      "observation": "duel--1--1",
+      "gemp": "Both draw nothing; Dark still wins on base power and causes losses.",
+      "native": "AR p31 explicitly says no winner and no loser when both fail. No retrieval or losses."
+    },
+    {
+      "observation": "duel-0--1",
+      "gemp": "Light draws nothing and loses two Force plus Luke.",
+      "native": "Winner agrees with AR. The numerical Force difference for a failed total still needs a normative ruling; no amount is applied."
+    }
+  ],
+  "limits": "This does not establish full Obsession admission. Failed-destiny Force difference, broader destiny modifiers/duel cards and additional timing remain unverified. Native partial draws record the attempted second draw as null; GEMP stops drawing when Reserve is empty. No public full-match API/UI is opened.",
+  "next": "Resolve one-sided failed-destiny Force amount from authoritative ruling before removing the guard. Extend common destiny completion/total response hooks and wider duel modifiers with matching tests."
+}

@@ -86,6 +86,16 @@ continues to load its original saved versions.
   presence during power, the battle ends and hit cards are lost; calculated
   balances are retained in history but no longer payable.
 
+- Vader's Obsession connects an actual adjacent Vader arrival during Dark's move
+  phase to a serialized duel. Dark draws twice, then Light; current individual
+  power is used, followed by winner retrieval, loser's Force loss, and character
+  loss. Ties and two failed destiny sets cause no losses. Results survive reloads,
+  honor ordinary loss reduction, and stop immediately at Life Force exhaustion.
+  A participant leaving before results ends the duel. Run Luke cancels Obsession
+  before draws and shares its unique-per-turn limit with its movement function.
+  One-sided failed destiny is explicitly incomplete: its rulebook winner is
+  recorded, but the unverified Force-difference amount cannot be applied.
+
 `Rules` is a **server code interface**, not client-supplied configuration. The
 rules package supplies card definitions, setup completion checks, generation,
 legal actions, automatic actions, effect initiation/resolution, private choices,
@@ -112,7 +122,8 @@ kernel test is not evidence that a card's printed behavior is implemented.
    their sequence exists. Premiere starter setup metadata is implemented; this
    does not admit those decks' later card behaviors.
 2. Implement remaining reachable starter effects and all their timing: remaining
-   Interrupt modes, retrieval modifiers/revival, other destiny effects and duel rules, among others.
+   Interrupt modes, retrieval modifiers/revival, other destiny effects and remaining
+   duel rules (including the failed-destiny Force amount), among others.
 3. Complete interactions among deployment, control/drains, battle, movement,
    reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
    pilots, passengers and broader catalog effects remain required for broader
@@ -228,7 +239,7 @@ Normative references: Advanced Rulebook pp12 (search and verification), 66
 `Card1_098`, the four docking-bay classes, `MoveCardsAwayEffect`,
 `DeployCardFromPileEffect`, and `DeployLocationEffect`.
 
-Run Luke's alternative cancellation of Vader's Obsession still requires the duel
+Run Luke's alternative cancellation is now implemented with the duel
 implementation. Neither Run Luke nor any full deck is admitted merely because
 its movement mode passes. Transit here covers ground characters and their attached
 cards; vehicle/capacity rules remain part of the broader engine work. Current
@@ -282,3 +293,26 @@ Physical Choke example instead proceeds to damage after the last presence leaves
 This implementation follows GEMP and the explicit segment rule; the conflicting
 example is retained in `choke-provenance.json`, not silently treated as agreement.
 Full card admission remains closed while remaining interactions are implemented.
+
+
+### Duel checkpoint and admission gap
+
+`duel.ts` stores the complete pending duel and public draw history; `duel.test.mjs`
+checks both normal winners, ties, draw order, successful zero versus failed draws,
+partial Reserve exhaustion, Interrupt cancellation/uniqueness, movement eligibility,
+participant departure, equipment power, retrieval/loss order, reduction, attached
+loss ordering, final Life Force defeat and saved-state validation. Test commands
+reconstruct JSON and verify both seat projections. Five complete outcomes match
+fresh pinned GEMP executions in `gemp/duel-results.json`.
+
+The three empty-Reserve observations are kept as discrepancy evidence, not claimed
+as parity. GEMP's DuelState compares base power even when all duel draws failed.
+AR p31 instead makes a player with no successful draw lose automatically; if both
+fail, there is no result. Native follows those winner rules. When exactly one
+player fails, the amount for Obsession's Force difference has not been established
+from an authoritative ruling: `difference: null` preserves that uncertainty and
+attempting retrieval raises an explicit error without committing partial effects.
+This internal engine branch must be completed before admitting Obsession or full
+starter matches. It is not a new scenario or a public gameplay path. Broader duel
+modifiers, destiny-completion/total response hooks and other duel cards remain in
+scope. See `gemp/duel-provenance.json` for exact evidence and limitations.

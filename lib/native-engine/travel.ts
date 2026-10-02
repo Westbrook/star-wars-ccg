@@ -14,6 +14,7 @@ export const travelState = (m: Match): TravelState => {
   return s?.turn === m.turn.number ? s : {turn: m.turn.number, failedSearch: false, runPlayed: false, shuffles: s?.shuffles ?? 0};
 };
 const remember = (m: Match) => {const s = travelState(m); m.data.travel = s as unknown as Json; return s;};
+export function markRunPlayed(m: Match): void {remember(m).runPlayed = true;}
 const data = (f: Resolution | Decision) => ('action' in f ? f.action.payload : f.payload) as Payload;
 const action = (id: string, label: string, handler: string, p: Payload): Action => ({id, label, handler: 'travel:' + handler, payload: p as Json});
 function decision(m: Match, side: Side, handler: string, p: Payload): void {m.stack.push({kind: 'decision', side, handler: 'travel:' + handler, payload: p as Json});}
@@ -57,7 +58,7 @@ export function travelInitiate(m: Match, r: Resolution): void {
   const p = data(r);
   if (r.action.handler === 'travel:party') decision(m, r.actor, 'party', p);
   if (['travel:run', 'travel:escape'].includes(r.action.handler)) moveCard(m, p.card!, 'playing');
-  if (r.action.handler === 'travel:run') remember(m).runPlayed = true;
+  if (r.action.handler === 'travel:run') markRunPlayed(m);
 }
 function shuffle(m: Match, context: Context): void {m.players.dark.reserve = shuffled(m.players.dark.reserve, context.entropy); remember(m).shuffles++;}
 function escapeOptions(m: Match, p: Payload): {card: string; to: string}[] {

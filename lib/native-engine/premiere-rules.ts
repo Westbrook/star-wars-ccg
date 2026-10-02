@@ -11,6 +11,7 @@ import {assertLeaving, tableChoices, tableChoose} from './table';
 import {assertInterrupts, interruptActions, interruptInitiate, interruptResolve} from './interrupts';
 import {assertRetrieval, retrievalChoices, retrievalChoose, retrievalResolve, retrievalView} from './retrieval';
 import {assertCharacterTriggers, characterAutomatic, characterResolve, characterChoices, characterChoose} from './character-triggers';
+import {assertDuel, duelActions, duelInitiate, duelResolve, duelView} from './duel';
 
 /** Composable production implementation in progress. No card is admitted to a
  * public full match until its complete reachable behavior is verified. Tests
@@ -23,10 +24,11 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w)],
-  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side)],
+  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side)],
   initiate: (m, r) => {
     if (r.action.handler.startsWith('character:')) return;
-    if (r.action.handler.startsWith('interrupt:')) interruptInitiate(m, r);
+    if (r.action.handler.startsWith('duel:')) duelInitiate(m, r);
+    else if (r.action.handler.startsWith('interrupt:')) interruptInitiate(m, r);
     else if (r.action.handler.startsWith('travel:')) travelInitiate(m, r);
     else if (r.action.handler.startsWith('equipment:')) equipmentInitiate(m, r);
     else if (r.action.handler.startsWith('battle:')) {
@@ -36,7 +38,8 @@ export const premiereRules: Rules = {
     } else groundInitiate(m, r);
   },
   resolve: (m, r, context) => {
-    if (r.action.handler.startsWith('character:')) characterResolve(m, r);
+    if (r.action.handler.startsWith('duel:')) duelResolve(m, r);
+    else if (r.action.handler.startsWith('character:')) characterResolve(m, r);
     else if (r.action.handler.startsWith('interrupt:')) interruptResolve(m, r, context);
     else if (r.action.handler.startsWith('retrieval:')) retrievalResolve(m, r);
     else if (r.action.handler.startsWith('travel:')) travelResolve(m, r, context);
@@ -65,7 +68,7 @@ export const premiereRules: Rules = {
     else groundChoose(m, d, c);
   },
   canPass: battleCanPass,
-  view: (m, seat) => ({...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>}),
+  view: (m, seat) => ({...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
     assertGround(match);
     assertEquipment(match);
@@ -74,6 +77,7 @@ export const premiereRules: Rules = {
     assertRetrieval(match);
     assertInterrupts(match);
     assertCharacterTriggers(match);
+    assertDuel(match);
     assertBattle(match);
     assertLeaving(match);
     if (!citySitesTogether(match, match.locations)) throw Error('Mos Eisley sites must remain together.');

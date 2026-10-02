@@ -1,0 +1,103 @@
+[
+  {
+    "name": "duel-1-1",
+    "darkTotal": 6.0,
+    "lightTotal": 4.0,
+    "winner": "dark",
+    "vaderLost": false,
+    "lukeLost": true,
+    "runLost": false,
+    "darkForceLost": 0,
+    "lightForceLost": 2,
+    "darkRetrieved": 2,
+    "lightRetrieved": 0
+  },
+  {
+    "name": "duel-0-2",
+    "darkTotal": 4.0,
+    "lightTotal": 6.0,
+    "winner": "light",
+    "vaderLost": true,
+    "lukeLost": false,
+    "runLost": false,
+    "darkForceLost": 2,
+    "lightForceLost": 0,
+    "darkRetrieved": 0,
+    "lightRetrieved": 2
+  },
+  {
+    "name": "duel-0-1",
+    "darkTotal": 4.0,
+    "lightTotal": 4.0,
+    "winner": "none",
+    "vaderLost": false,
+    "lukeLost": false,
+    "runLost": false,
+    "darkForceLost": 0,
+    "lightForceLost": 0,
+    "darkRetrieved": 0,
+    "lightRetrieved": 0
+  },
+  {
+    "name": "duel--1-0",
+    "darkTotal": 4.0,
+    "lightTotal": 2.0,
+    "winner": "dark",
+    "vaderLost": false,
+    "lukeLost": true,
+    "runLost": false,
+    "darkForceLost": 0,
+    "lightForceLost": 2,
+    "darkRetrieved": 2,
+    "lightRetrieved": 0
+  },
+  {
+    "name": "duel-0--1",
+    "darkTotal": 4.0,
+    "lightTotal": 2.0,
+    "winner": "dark",
+    "vaderLost": false,
+    "lukeLost": true,
+    "runLost": false,
+    "darkForceLost": 0,
+    "lightForceLost": 2,
+    "darkRetrieved": 2,
+    "lightRetrieved": 0
+  },
+  {
+    "name": "duel--1--1",
+    "darkTotal": 4.0,
+    "lightTotal": 2.0,
+    "winner": "dark",
+    "vaderLost": false,
+    "lukeLost": true,
+    "runLost": false,
+    "darkForceLost": 0,
+    "lightForceLost": 2,
+    "darkRetrieved": 2,
+    "lightRetrieved": 0
+  },
+  {
+    "name": "cancel",
+    "vaderLost": false,
+    "lukeLost": false,
+    "runLost": true,
+    "darkForceLost": 0,
+    "lightForceLost": 0,
+    "darkRetrieved": 0,
+    "lightRetrieved": 0
+  },
+  {
+    "name": "partial",
+    "darkTotal": 5.0,
+    "lightTotal": 4.0,
+    "winner": "dark",
+    "vaderLost": false,
+    "lukeLost": true,
+    "runLost": false,
+    "darkForceLost": 0,
+    "lightForceLost": 1,
+    "darkRetrieved": 1,
+    "lightRetrieved": 0
+  }
+]
