@@ -108,7 +108,7 @@ test('terminal Life Force loss ends the game before an It’s Worse response',()
  const f=fixture('battle');for(const id of [...f.m.players.light.reserve.slice(1),...f.m.players.light.force,...f.m.players.light.used])state.moveCard(f.m,id,'hand');let m=step(f.m,'battle-lose:reserve');m=seek(m,x=>x.status==='finished');assert.equal(m.result.winner,'dark');assert.equal(m.result.reason,'life-force');assert.equal(m.cards[f.card].zone,'hand');assert.equal(prompt(m),null);
 });
 test('Dark battle Force loss does not offer the opponent-only function',()=>{
- const f=fixture('battle');combat.battle(f.m).damage={dark:1,light:0};f.m.stack.at(-1).passes=0;f.m=priority(f.m,'dark');const m=loseBattle(f.m);assert.equal(event(m).side,'dark');assert.ok(!worseChoices(m).length);
+ const f=fixture('battle');combat.battle(f.m).damage={dark:1,light:0};combat.battle(f.m).damageLedger.dark.base=1;combat.battle(f.m).damageLedger.light.base=0;f.m.stack.at(-1).passes=0;f.m=priority(f.m,'dark');const m=loseBattle(f.m);assert.equal(event(m).side,'dark');assert.ok(!worseChoices(m).length);
  function worseChoices(m){const module=load(new URL('../../lib/native-engine/worse.ts',import.meta.url));return module.worseActions(m,m.stack.at(-1),'dark');}
 });
 

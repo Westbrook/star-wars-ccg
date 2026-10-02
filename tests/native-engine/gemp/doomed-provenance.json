@@ -1,0 +1,27 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T19:55:36.942770+00:00",
+  "harness": "NativeEngineDoomedOracleTests.java",
+  "harnessSha256": "4acb93f37bdf105e9c21809e7b63a89aaa6619cd981f2654d8c999f2fe291add",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDoomedOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 4,
+  "observations": 17,
+  "scope": "Actual We\u2019re Doomed play, nine drain outcomes at 1/2/5 with no droid/C-3PO/R2-D2, four fixture arrival/departure interventions after a paid unit, two It Could Be Worse/It\u2019s Worse drain interactions and two battle damage/payment/increase outcomes. Drain bases use an explicit fixture-only ForceDrainModifier, not a claimed implemented card source. Droid movement is a fixture intervention, not a played movement card. GEMP production code unchanged.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR printed p155 We\u2019re Doomed: not a drain response; halving precedes other automatic reductions/modifiers",
+    "AR printed p41: loss reduction is not a modifier to the drain amount",
+    "Card1_120.java: opponent Control, Life Force <15, turn duration and dynamic targetable droid condition",
+    "Force.getForceToLose and LoseForceEffect.getForceLossRemaining: total halving then paid credit; drain bonuses before loss calculation",
+    "Forfeit.getTotalBattleDamage and BattleState.getBattleDamageRemaining: half base damage before later modifiers, retain payment credit"
+  ],
+  "differences": [
+    "GEMP automatically settles an empty final-unit response before returning from LSChooseCard. In depart-3 the one-unit rounded loss is already complete when the harness moves C-3PO; observed pending=0/lost=1. The native comparison likewise completes the loss before that intervention. Native-only test separately changes rounding inside its serialized final-unit response and reopens the remaining obligation. This is not an executed same-window GEMP comparison; no full timing or legal-choice parity is claimed."
+  ],
+  "limits": "Current explicit C-3PO 1_5 and R2-D2 2_14 identities only; other personas, permanent R2 astromechs, targetability/inactivity/capture and complete droid text are pending. Supplemental droid metadata cannot be deployed or admitted. Ledger supports current nonnegative integer drain/effect/battle losses and existing reduction/increase handlers, not every fractional modifier/limit/prevention/replacement. Full card/deck admission and native match service/UI remain unfinished."
+}

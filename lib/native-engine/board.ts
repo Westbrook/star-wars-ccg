@@ -53,6 +53,7 @@ function equipmentBonus(m: Match, id: string, stat: 'power' | 'forfeit'): number
 }
 
 export function deploymentPayment(m: Match, id: string, site: string): Payment | null {
+  if (cardDefinition(m, id).status === 'metadata-only') return null;
   const card = m.cards[id], def = cardDefinition(m, id);
   if (def.type !== 'Character' || !m.locations.includes(site)) return null;
   const side = card.owner, blueprint = card.blueprint;

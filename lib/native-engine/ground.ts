@@ -1,3 +1,4 @@
+import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
 import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, presence, sitePlacements} from './board';
 import {moveCard, moveTop} from './state';
 import {openWindow, type RequiredAction} from './runtime';
@@ -6,7 +7,7 @@ import {nighttimeSites} from './equipment-state';
 
 export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>};
 type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number};
-export type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean; worseIncrease?: number};
+export type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean; worseIncrease?: number; ledger?: LossLedger};
 const payload = (action: Action) => action.payload as Payload;
 export function usage(m: Match): GroundState {
   const stored = m.data.ground as GroundState | undefined;
@@ -72,7 +73,7 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
   }
   if (parent?.action.handler === 'ground:force-loss' && !parent.cancelled) {
     const loss = parent.action.payload as Loss;
-    if (side === loss.side && loss.remaining > 0) for (const card of m.players[side].hand.filter(id => m.cards[id].blueprint === '1_90')) {
+    if (side === loss.side && remainingForceLoss(m, loss) > 0 && !loss.ledger?.irreducible) for (const card of m.players[side].hand.filter(id => m.cards[id].blueprint === '1_90')) {
       for (let amount = 1; amount <= m.players[side].force.length; amount++) actions.push(action('reduce:' + card + ':' + amount, 'It Could Be Worse · use ' + amount + ' Force', 'reduce', {card, amount, lossIndex: m.stack.length - 2}, {[side]: amount}, card));
     }
   }
@@ -113,8 +114,17 @@ export function groundInitiate(m: Match, resolution: Resolution): void {
   if (data.react) registerReact(m, data.card!);
 }
 
+export const remainingForceLoss = (m: Match, loss: Loss): number => loss.ledger ? lossRemaining(m, loss.side, loss.ledger) : loss.remaining;
+export function syncForceLosses(m: Match): void {
+  for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'ground:force-loss' || f.kind === 'decision' && f.handler === 'ground:force-loss') {
+    const loss = (f.kind === 'resolution' ? f.action.payload : f.payload) as Loss;
+    loss.remaining = remainingForceLoss(m, loss);
+  }
+}
 export function queueForceLoss(m: Match, loss: Loss): void {
-  if (loss.remaining <= 0) return;
+  if (!loss.ledger && loss.remaining <= 0) return;
+  loss.ledger ??= lossLedger(loss.remaining, loss.source === 'drain' ? 'drain' : 'effect');
+  loss.remaining = remainingForceLoss(m, loss);
   m.stack.push({kind: 'resolution', actor: loss.side, action: {id: 'force-loss:' + (m.serial + 1), label: 'Lose ' + loss.remaining + ' Force', handler: 'ground:force-loss', payload: loss as unknown as Json}, cancelled: false});
   openWindow(m, 'response', loss.side, {kind: 'force-loss', side: loss.side});
 }
@@ -166,18 +176,20 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     if (controls(m, side, data.site!)) queueForceLoss(m, {side: other(side), remaining: drainAmount(m, side, data.site!), source: 'drain', site: data.site!, reductionUsed: false});
   } else if (kind === 'ground:force-loss') {
     const loss = resolution.action.payload as Loss;
+    loss.remaining = remainingForceLoss(m, loss);
     if (loss.remaining > 0) m.stack.push({kind: 'decision', side: loss.side, handler: 'ground:force-loss', payload: loss as unknown as Json});
   } else if (kind === 'ground:reduce') {
     const target = m.stack[data.lossIndex!];
     if (target?.kind !== 'resolution' || target.action.handler !== 'ground:force-loss') throw Error('Missing pending Force loss.');
     const loss = target.action.payload as Loss;
-    if (!loss.reductionUsed) {loss.remaining = Math.max(0, loss.remaining - data.amount!); loss.reductionUsed = true;}
+    if (!loss.reductionUsed && !loss.ledger?.irreducible) {if (loss.ledger) loss.ledger.reduction = data.amount!; else loss.remaining = Math.max(0, loss.remaining - data.amount!); loss.reductionUsed = true; loss.remaining = remainingForceLoss(m, loss);}
     moveCard(m, data.card!, 'used');
   } else throw Error('Unknown ground effect: ' + kind);
 }
 
 export function groundDecisions(m: Match, decision: Decision): {id: string; label: string}[] {
   if (decision.handler !== 'ground:force-loss') throw Error('Unknown ground decision.');
+  if (remainingForceLoss(m, decision.payload as Loss) <= 0) return [];
   const side = decision.side, player = m.players[side];
   return [
     ...(['reserve', 'force', 'used', 'destiny'] as const).filter(pile => player[pile].length).map(pile => ({id: 'lose:' + pile, label: 'Lose the top card of ' + pile})),
@@ -189,7 +201,7 @@ export function groundChoose(m: Match, decision: Decision, choice: string): void
   if (decision.handler !== 'ground:force-loss') throw Error('Unknown ground decision.');
   const loss = {...decision.payload as Loss}, side = decision.side;
   const id = choice.startsWith('lose-hand:') ? choice.slice(10) : m.players[side][choice.slice(5) as 'reserve' | 'force' | 'used' | 'destiny'][0];
-  moveCard(m, id, 'lost'); loss.remaining--;
+  moveCard(m, id, 'lost'); if (loss.ledger) loss.ledger.paid++; else loss.remaining--;
   queueForceLoss(m, loss);
   openWindow(m, 'response', m.turn.side, {kind: 'force-lost', card: id, side, source: loss.source});
 }
@@ -208,6 +220,11 @@ export function assertGround(m: Match): void {
     if (frame.kind === 'decision' && frame.handler === 'ground:force-loss' || frame.kind === 'resolution' && frame.action.handler === 'ground:force-loss') {
       const loss = (frame.kind === 'decision' ? frame.payload : frame.action.payload) as Loss;
       if (!sides.includes(loss.side) || loss.side !== (frame.kind === 'decision' ? frame.side : frame.actor) || !Number.isSafeInteger(loss.remaining) || loss.remaining < 0 || typeof loss.reductionUsed !== 'boolean') throw Error('Invalid pending Force loss.');
+      if (loss.ledger) {
+        assertLedger(loss.ledger);
+        if (loss.ledger.kind !== (loss.source === 'drain' ? 'drain' : 'effect')) throw Error('Invalid Force-loss source kind.');
+        if (loss.ledger.increase !== (loss.worseIncrease ?? 0) || (loss.ledger.reduction > 0) !== loss.reductionUsed) throw Error('Inconsistent Force-loss modifiers.');
+      }
       if (loss.worseIncrease !== undefined && (!Number.isSafeInteger(loss.worseIncrease) || loss.worseIncrease <= 0)) throw Error('Invalid Force loss increase.');
     }
   }

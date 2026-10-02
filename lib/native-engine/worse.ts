@@ -49,8 +49,8 @@ export function worseResolve(m: Match, r: Resolution): void {
     const loss = lossAt(m, p.lossIndex), b = battle(m);
     // AR pp28–29/147: modify the original loss, never initiate a new one.
     // Same-title increases are noncumulative; the first modifier stays in effect.
-    if (loss && loss.worseIncrease === undefined) {loss.remaining += p.amount; loss.worseIncrease = p.amount;}
-    else if (p.lossIndex === undefined && b?.stage === 'damage' && b.site === p.battleSite && b.worseIncrease === undefined) {b.damage.light += p.amount; b.worseIncrease = p.amount;}
+    if (loss && loss.worseIncrease === undefined) {if (loss.ledger) loss.ledger.increase = p.amount; else loss.remaining += p.amount; loss.worseIncrease = p.amount;}
+    else if (p.lossIndex === undefined && b?.stage === 'damage' && b.site === p.battleSite && b.worseIncrease === undefined) {if (b.damageLedger) b.damageLedger.light.increase = p.amount; else b.damage.light += p.amount; b.worseIncrease = p.amount;}
   } else if (h === 'worse:finish') moveCard(m, p.card, 'lost');
   else throw Error('Unknown It’s Worse continuation.');
 }

@@ -494,3 +494,35 @@ This checkpoint does not implement cancellation-prevention cards, alternate
 Interrupt disposal, generic target identity, individual Force-use response windows,
 continuous loss modifiers or full service/UI integration. Public card/deck admission
 remains closed. Existing GEMP paths and studies remain intact.
+
+### We’re Doomed and shared loss accounting
+
+`loss.ts` preserves each loss's original base, reduction, increase and amount paid.
+Ground Force losses and battle damage now use this ledger, so continuing payments
+never halve the shrinking remainder. We’re Doomed applies until the end of the
+opponent's turn, rounds up by default and down while the current C-3PO/R2-D2
+identity is on the table. The less-than-fifteen Life Force condition is checked
+when played; resolving the Used Interrupt does not switch it off at fifteen.
+Copies halve only once. Costs and irreducible Force losses are not halved.
+
+It’s Worse modifies the drain amount before halving its loss; its general-loss
+and battle-damage increases apply afterward. Other reductions also apply after
+halving. Forfeiture credit, paid units and excess reduction stay recorded when
+rounding changes. Public battle projections calculate live damage without mutating
+saved state, and completed battle balances stay frozen. Attrition is separate.
+
+Forty-four tests include 27 component cases and 17 fresh GEMP observations from
+four JUnit tests. They cover thresholds, duration, cancellation, both droids,
+payments, increases, reductions, forfeiture, reconstruction and invalid commands.
+The reference harness uses controlled drain modifiers and droid interventions.
+For the departure after a one-unit rounded loss, GEMP has already auto-settled the
+loss before returning control; the native comparison uses that same completed
+boundary. Reopening within native's final-unit response is separately tested and
+is not claimed as an executed equivalent GEMP window. See
+`tests/native-engine/gemp/doomed-provenance.json` for precise evidence and limits.
+
+Supplemental droids are metadata-only, excluded from deployment and production
+admission. Other personas, permanent astromechs, inactive/captured/immune targets,
+full droid abilities, fractional loss values, generic modifier ordering and
+replacement/prevention remain required. No new study or full native match route
+is enabled by this component checkpoint.

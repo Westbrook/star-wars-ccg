@@ -1,3 +1,4 @@
+import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
 import {atSite, battleDestinyRequirement, cardDefinition, forfeit, isWarrior, name, printed, totalPower} from './board';
 import {barred, reactionActions} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
@@ -15,7 +16,7 @@ export type Battle = {
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
   departed?: string[];
-  worseIncrease?: number;
+  worseIncrease?: number; damageLedger?: Pair<LossLedger>;
 };
 type History = {turn: number; sites: string[]; participants: string[]};
 type Payload = {site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
@@ -48,6 +49,7 @@ export function syncBattle(m: Match): void {
   for (const id of sides.flatMap(side => b.participants[side]))
     if (!departed.includes(id) && (m.cards[id]?.zone !== 'table' || m.cards[id].location !== b.site || barred(m, id))) departed.push(id);
   b.hits = b.hits.filter(id => !departed.includes(id));
+  syncBattleDamage(m);
   if (!['begin', 'weapons'].includes(b.stage)) return;
   const history = battleHistory(m);
   for (const c of atSite(m, b.site)) if (!barred(m, c.id) && !b.participants[c.owner].includes(c.id) && !history.participants.includes(c.id)) {
@@ -56,9 +58,16 @@ export function syncBattle(m: Match): void {
   m.data.battles = history as unknown as Json;
 }
 const eligibleAt = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side && !barred(m, c.id) && !battleHistory(m).participants.includes(c.id));
+export function battleDamage(m: Match, side: Side): number {
+  const b = battle(m)!;
+  return b.damageLedger && ['power','damage'].includes(b.stage) && !b.premature ? lossRemaining(m, side, b.damageLedger[side]) : b.damage[side];
+}
+export function syncBattleDamage(m: Match): void {
+  const b = battle(m); if (b) for (const side of sides) b.damage[side] = battleDamage(m, side);
+}
 export function damagePending(m: Match, side: Side): boolean {
   const b = battle(m)!;
-  return b.damage[side] > 0 || members(m, side).some(id => b.hits.includes(id) || b.attrition[side] > 0);
+  return battleDamage(m, side) > 0 || members(m, side).some(id => b.hits.includes(id) || b.attrition[side] > 0);
 }
 export function battleCanPass(m: Match, w: Window, side: Side): boolean {
   return event(w) !== 'battle-damage' || !damagePending(m, side);
@@ -108,10 +117,10 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
   }
   if (event(w) === 'battle-damage') {
     for (const id of members(m, side)) {
-      if (b.damage[side] > 0 || b.attrition[side] > 0 || b.hits.includes(id)) actions.push(act('forfeit:' + id, 'Forfeit ' + name(m, id) + ' · ' + forfeit(m, id), 'forfeit', {card: id}));
+      if (battleDamage(m, side) > 0 || b.attrition[side] > 0 || b.hits.includes(id)) actions.push(act('forfeit:' + id, 'Forfeit ' + name(m, id) + ' · ' + forfeit(m, id), 'forfeit', {card: id}));
       if (m.cards[id].blueprint === '1_31') for (const target of members(m, side).filter(t => t !== id && b.hits.includes(t))) actions.push(act('rescue:' + id + ':' + target, 'Forfeit Talz · restore ' + name(m, target), 'rescue', {card: id, target}));
     }
-    if (b.damage[side] > 0) {
+    if (battleDamage(m, side) > 0) {
       for (const pile of ['reserve', 'force', 'used'] as const) if (m.players[side][pile].length) actions.push(act('battle-lose:' + pile, 'Lose one Force from ' + pile, 'lose', {from: pile}));
       for (const card of m.players[side].hand) actions.push(act('battle-lose-hand:' + card, 'Lose ' + name(m, card) + ' from hand', 'lose', {card}));
       for (const card of m.players[side].hand.filter(id => m.cards[id].blueprint === '1_90')) for (let amount = 1; amount <= m.players[side].force.length; amount++)
@@ -141,7 +150,7 @@ export function battleInitiate(m: Match, r: Resolution): void {
 
 function forfeitCard(m: Match, id: string, side: Side): void {
   const b = battle(m)!, value = forfeit(m, id);
-  b.damage[side] = Math.max(0, b.damage[side] - value); b.attrition[side] = Math.max(0, b.attrition[side] - value);
+  if (b.damageLedger) b.damageLedger[side].paid += value; else b.damage[side] = Math.max(0, b.damage[side] - value); syncBattleDamage(m); b.attrition[side] = Math.max(0, b.attrition[side] - value);
   continuation(m, 'forfeit-result', {card: id}, side); loseFromTable(m, [id]);
 }
 
@@ -221,13 +230,14 @@ export function battleResolve(m: Match, r: Resolution): void {
   else if (kind === 'battle:totals') {
     for (const s of sides) {const ids = members(m, s); b.power[s] = totalPower(m, s, b.site, s !== b.initiator, id => ids.includes(id)) + (b.destiny[s] ?? 0); b.attrition[s] = b.destiny[other(s)] ?? 0;}
     for (const s of sides) b.damage[s] = Math.max(0, b.power[other(s)] - b.power[s]);
+    b.damageLedger = pair(lossLedger(b.damage.dark, 'battle'), lossLedger(b.damage.light, 'battle')); syncBattleDamage(m);
     b.initialAttrition = {...b.attrition}; b.initialDamage = {...b.damage}; b.totalsReady = true;
     windowThen(m, 'damage', 'battle-result', other(b.initiator));
   } else if (kind === 'battle:damage') {b.stage = 'damage'; windowThen(m, 'end', 'battle-damage', b.initiator);}
   else if (kind === 'battle:end') beginEnd(m);
   else if (kind === 'battle:ended') {b.stage = 'complete'; openWindow(m, 'response', other(b.initiator), {kind: 'battle-ended'});}
   else if (kind === 'battle:takeel') {[b.destiny.dark, b.destiny.light] = [b.destiny.light, b.destiny.dark]; moveCard(m, p.card!, 'lost');}
-  else if (kind === 'battle:reduce') {if (!b.reduced[side]) {b.damage[side] = Math.max(0, b.damage[side] - p.amount!); b.reduced[side] = true;} moveCard(m, p.card!, 'used');}
+  else if (kind === 'battle:reduce') {if (!b.reduced[side]) {if (b.damageLedger) b.damageLedger[side].reduction = p.amount!; else b.damage[side] = Math.max(0, b.damage[side] - p.amount!); b.reduced[side] = true; syncBattleDamage(m);} moveCard(m, p.card!, 'used');}
   else if (kind === 'battle:fire') {
     const shot = b.shots[p.index!];
     shot.card = m.players[side].reserve.length ? moveTop(m, side, 'reserve', 'destiny') : null;
@@ -264,7 +274,7 @@ export function battleResolve(m: Match, r: Resolution): void {
   } else if (kind === 'battle:rescue') b.hits = b.hits.filter(id => id !== p.target);
   else if (kind === 'battle:lose') {
     const id = p.card ?? m.players[side][p.from as 'reserve' | 'force' | 'used'][0];
-    moveCard(m, id, 'lost'); b.damage[side] = Math.max(0, b.damage[side] - 1);
+    moveCard(m, id, 'lost'); if (b.damageLedger) b.damageLedger[side].paid++; else b.damage[side] = Math.max(0, b.damage[side] - 1); syncBattleDamage(m);
     openWindow(m, 'response', other(side), {kind: 'force-lost', card: id, side, source: 'battle'});
   } else throw Error('Unknown battle effect: ' + kind);
 }
@@ -278,7 +288,7 @@ export function battleChoose(m: Match, decision: Decision, choice: string): void
 export function battleView(m: Match): Json {
   const b = battle(m);
   // Only public battle information; neither continuations nor hidden pile IDs.
-  return {battle: b ? structuredClone(b) as unknown as Json : null};
+  return {battle: b ? {...structuredClone(b), damage: pair(battleDamage(m, 'dark'), battleDamage(m, 'light'))} as unknown as Json : null};
 }
 export function assertBattle(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish') {
@@ -288,6 +298,10 @@ export function assertBattle(m: Match): void {
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
+  if (b.damageLedger) for (const side of sides) {
+    assertLedger(b.damageLedger[side]);
+    if (b.damageLedger[side].kind !== 'battle' || b.damageLedger[side].increase !== (side === 'light' ? b.worseIncrease ?? 0 : 0) || (b.damageLedger[side].reduction > 0) !== b.reduced[side]) throw Error('Invalid battle loss ledger.');
+  }
   if (b.worseIncrease !== undefined && (!Number.isSafeInteger(b.worseIncrease) || b.worseIncrease <= 0)) throw Error('Invalid battle loss increase.');
   if (b.departed && (new Set(b.departed).size !== b.departed.length || b.departed.some(id => !sides.some(side => b.participants[side].includes(id))))) throw Error('Invalid departed battle participant.');
   if (b.runLuke !== undefined && typeof b.runLuke !== 'boolean') throw Error('Invalid Run Luke modifier.');

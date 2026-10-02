@@ -1,0 +1,91 @@
+[
+  {
+    "name": "drain-1-none",
+    "lost": 1,
+    "interruptUsed": true
+  },
+  {
+    "name": "drain-2-none",
+    "lost": 1,
+    "interruptUsed": true
+  },
+  {
+    "name": "drain-5-none",
+    "lost": 3,
+    "interruptUsed": true
+  },
+  {
+    "name": "drain-1-c3po",
+    "lost": 0,
+    "interruptUsed": true
+  },
+  {
+    "name": "drain-2-c3po",
+    "lost": 1,
+    "interruptUsed": true
+  },
+  {
+    "name": "drain-5-c3po",
+    "lost": 2,
+    "interruptUsed": true
+  },
+  {
+    "name": "drain-1-r2",
+    "lost": 0,
+    "interruptUsed": true
+  },
+  {
+    "name": "drain-2-r2",
+    "lost": 1,
+    "interruptUsed": true
+  },
+  {
+    "name": "drain-5-r2",
+    "lost": 2,
+    "interruptUsed": true
+  },
+  {
+    "name": "depart-3",
+    "pending": 0.0,
+    "lost": 1
+  },
+  {
+    "name": "depart-5",
+    "pending": 2.0,
+    "lost": 3
+  },
+  {
+    "name": "arrive-3",
+    "pending": 0.0,
+    "lost": 1
+  },
+  {
+    "name": "arrive-5",
+    "pending": 1.0,
+    "lost": 2
+  },
+  {
+    "remaining": 3.0,
+    "worseLost": true,
+    "reduceLost": true,
+    "name": "increase-drain-none"
+  },
+  {
+    "remaining": 2.0,
+    "worseLost": true,
+    "reduceLost": true,
+    "name": "increase-drain-c3po"
+  },
+  {
+    "initial": 2,
+    "afterIncrease": 2,
+    "afterPayment": 1,
+    "name": "battle-none"
+  },
+  {
+    "initial": 1,
+    "afterIncrease": 1,
+    "afterPayment": 0,
+    "name": "battle-c3po"
+  }
+]
