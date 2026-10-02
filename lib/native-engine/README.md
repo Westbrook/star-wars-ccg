@@ -463,3 +463,34 @@ Vehicle classification in off-table effects. It does not enable vehicle gameplay
 or alter the existing proof manifest. Broader Tusken identity, text modification,
 the stealing variant, prevention/replacement cards and per-Force timing remain
 unfinished. Full deck admission remains closed; no new Rules Lab study is added.
+
+
+### It’s Worse and nested loss cancellation
+
+`worse.ts` implements both functions: cancel an opponent's pending It Could Be
+Worse with optional X Force (including zero), or add one damage after the opponent
+loses a unit of Force to battle damage. Cancellation targets the exact saved
+Interrupt continuation and its original loss context. The canceled Used Interrupt
+goes Lost immediately, exposes its cancellation result, and cannot be disposed a
+second time if a response moves it. Paid costs remain spent when either Interrupt
+is canceled. A later It Could Be Worse may still reduce the original loss.
+
+The increase modifies the existing loss; it never starts another Force drain or
+reopens react/Assault opportunities. Battle payment can reach zero and then become
+payable again before the battle ends. Added battle damage may be covered by
+forfeiture. Noncumulative history stays on the original ground loss/battle across
+individual payments and resets with a new loss/battle. A zero increase adds no
+modifier. Full loss arithmetic with other continuous modifiers remains required.
+
+Twenty-seven component tests and nine fresh GEMP observations cover both modes,
+zero/one/five paid Force, cancellation, repeated copies, nested loss contexts,
+terminal results, serialization, invalid choices and target validation. Seven GEMP
+outcomes fully agree. Two battle observations agree for the first play but reveal
+GEMP's cumulative second-copy increase; native follows AR pp28–29/147 and retains
+the first modifier. The actual divergence is recorded in
+`tests/native-engine/gemp/worse-provenance.json`, rather than hidden as conformance.
+
+This checkpoint does not implement cancellation-prevention cards, alternate
+Interrupt disposal, generic target identity, individual Force-use response windows,
+continuous loss modifiers or full service/UI integration. Public card/deck admission
+remains closed. Existing GEMP paths and studies remain intact.

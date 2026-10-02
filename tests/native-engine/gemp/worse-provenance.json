@@ -1,0 +1,29 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T19:31:37.550277+00:00",
+  "harness": "NativeEngineWorseOracleTests.java",
+  "harnessSha256": "f885eb26eda3915f0f29cbc55d20ad7930ef65f0f3d4d64f4124dc85e100c0f1",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineWorseOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 3,
+  "observations": 9,
+  "scope": "Actual It Could Be Worse and It\u2019s Worse actions during drain and battle losses. Six cancel outcomes with X=0,1,5 compare costs, remaining damage and both Interrupts Lost. Two battle-after-loss observations compare the initial increase after one/two paid Force and record the repeated-copy disagreement. One repeated drain-cancellation outcome agrees with noncumulative modifier behavior. No GEMP production source changes.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "Card1_252.java both printed functions and before/after action handlers",
+    "Card1_090.java It Could Be Worse, cost range 1..available Force",
+    "CancelCardBeingPlayedEffect.java removes the canceled card immediately; PlayInterruptAction.java checks its current zone before final disposal",
+    "IncreaseForceLossEffect.java changes existing drain, general Force loss or battle damage; no new loss event",
+    "AR printed p147 It\u2019s Worse: modifier of original loss; optional responses to original Force drain already passed",
+    "AR printed pp28\u201329 Modifiers/Cumulatively: copies do not cumulatively modify the same base value without explicit permission",
+    "AR printed p83 Used Interrupts canceled go to Lost"
+  ],
+  "differences": [
+    "GEMP BattleDamageModifier hardcodes cumulative=true. Second copies after the same battle Force loss add another +1 in both observations. Native follows AR pp28\u201329/147: additional copies remain playable but cannot increase that same base damage again. First applied positive modifier persists; zero-cost cancellation adds no modifier. Tests retain actual GEMP values and explicitly assert this divergence; full legal-choice/outcome parity is not claimed."
+  ],
+  "limits": "Current hand-play, ordinary canceled-card Lost disposition and existing ground/battle loss contexts only. Generic targeting/cancellation prevention, alternate disposal/replacement effects, individual Force-use windows and full loss arithmetic with continuous modifiers remain unfinished. Native-only tests use controlled interventions for cancellation/prevention, nested independent loss, returned canceled target and reversed battle-damage ownership. They do not claim implementation of those other cards. Failed-duel amount remains guarded. Full native card/deck admission and match service/UI are still incomplete."
+}

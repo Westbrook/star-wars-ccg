@@ -1,0 +1,70 @@
+[
+  {
+    "darkCost": 0,
+    "name": "drain-cancel-0",
+    "remaining": 1.0,
+    "sourceLost": true,
+    "lightCost": 2,
+    "reduceLost": true
+  },
+  {
+    "darkCost": 1,
+    "name": "drain-cancel-1",
+    "remaining": 2.0,
+    "sourceLost": true,
+    "lightCost": 2,
+    "reduceLost": true
+  },
+  {
+    "darkCost": 5,
+    "name": "drain-cancel-5",
+    "remaining": 6.0,
+    "sourceLost": true,
+    "lightCost": 2,
+    "reduceLost": true
+  },
+  {
+    "darkCost": 0,
+    "name": "battle-cancel-0",
+    "remaining": 2.0,
+    "sourceLost": true,
+    "lightCost": 2,
+    "reduceLost": true
+  },
+  {
+    "darkCost": 1,
+    "name": "battle-cancel-1",
+    "remaining": 3.0,
+    "sourceLost": true,
+    "lightCost": 2,
+    "reduceLost": true
+  },
+  {
+    "darkCost": 5,
+    "name": "battle-cancel-5",
+    "remaining": 7.0,
+    "sourceLost": true,
+    "lightCost": 2,
+    "reduceLost": true
+  },
+  {
+    "remaining": 2.0,
+    "repeatedRemaining": 3.0,
+    "secondLost": true,
+    "sourceLost": true,
+    "name": "battle-after-1"
+  },
+  {
+    "remaining": 1.0,
+    "repeatedRemaining": 2.0,
+    "secondLost": true,
+    "sourceLost": true,
+    "name": "battle-after-2"
+  },
+  {
+    "darkLost": 2,
+    "name": "drain-two-cancels",
+    "lightLost": 2,
+    "remaining": 2.0
+  }
+]

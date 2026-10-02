@@ -15,6 +15,7 @@ export type Battle = {
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
   departed?: string[];
+  worseIncrease?: number;
 };
 type History = {turn: number; sites: string[]; participants: string[]};
 type Payload = {site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
@@ -188,7 +189,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     return;
   }
   if (r.cancelled) {
-    if (['battle:takeel', 'battle:reduce'].includes(kind)) moveCard(m, p.card!, 'lost');
+    if (['battle:takeel', 'battle:reduce'].includes(kind) && m.cards[p.card!].zone === 'playing') moveCard(m, p.card!, 'lost');
     if (kind === 'battle:begin') beginEnd(m, true);
     return;
   }
@@ -287,6 +288,7 @@ export function assertBattle(m: Match): void {
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
+  if (b.worseIncrease !== undefined && (!Number.isSafeInteger(b.worseIncrease) || b.worseIncrease <= 0)) throw Error('Invalid battle loss increase.');
   if (b.departed && (new Set(b.departed).size !== b.departed.length || b.departed.some(id => !sides.some(side => b.participants[side].includes(id))))) throw Error('Invalid departed battle participant.');
   if (b.runLuke !== undefined && typeof b.runLuke !== 'boolean') throw Error('Invalid Run Luke modifier.');
   if (!m.cards[b.site] || !sides.includes(b.initiator) || !['begin', 'weapons', 'power', 'damage', 'end', 'complete'].includes(b.stage)) throw Error('Invalid battle.');

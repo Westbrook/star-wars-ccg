@@ -6,7 +6,7 @@ import {nighttimeSites} from './equipment-state';
 
 export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>};
 type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number};
-type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean};
+export type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean; worseIncrease?: number};
 const payload = (action: Action) => action.payload as Payload;
 export function usage(m: Match): GroundState {
   const stored = m.data.ground as GroundState | undefined;
@@ -134,7 +134,7 @@ function cancelDrainAfterReact(m: Match, side: Side, data: Payload): void {
 export function groundResolve(m: Match, resolution: Resolution): void {
   const data = payload(resolution.action), kind = resolution.action.handler, side = resolution.actor;
   if (resolution.cancelled) {
-    if (['ground:barrier', 'ground:reduce'].includes(kind)) moveCard(m, data.card!, 'lost');
+    if (['ground:barrier', 'ground:reduce'].includes(kind) && m.cards[data.card!].zone === 'playing') moveCard(m, data.card!, 'lost');
     else if (['ground:deploy', 'ground:site'].includes(kind)) throw Error('Deployment cancellation needs its explicit rule handler.');
     return;
   }
@@ -208,6 +208,7 @@ export function assertGround(m: Match): void {
     if (frame.kind === 'decision' && frame.handler === 'ground:force-loss' || frame.kind === 'resolution' && frame.action.handler === 'ground:force-loss') {
       const loss = (frame.kind === 'decision' ? frame.payload : frame.action.payload) as Loss;
       if (!sides.includes(loss.side) || loss.side !== (frame.kind === 'decision' ? frame.side : frame.actor) || !Number.isSafeInteger(loss.remaining) || loss.remaining < 0 || typeof loss.reductionUsed !== 'boolean') throw Error('Invalid pending Force loss.');
+      if (loss.worseIncrease !== undefined && (!Number.isSafeInteger(loss.worseIncrease) || loss.worseIncrease <= 0)) throw Error('Invalid Force loss increase.');
     }
   }
 }

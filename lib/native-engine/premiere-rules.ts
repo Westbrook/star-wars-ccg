@@ -1,3 +1,4 @@
+import {worseActions, worseInitiate, worseResolve, assertWorse} from './worse';
 import {cardDefinition, citySitesTogether, definition, generation, name, system} from './board';
 import {premiereSetup} from './premiere-setup';
 import {groundActions, groundAutomatic, groundChoose, groundDecisions, groundInitiate, groundResolve, assertGround, registerReact} from './ground';
@@ -30,10 +31,11 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w)],
-  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side)],
+  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side)],
   initiate: (m, r) => {
     if (r.action.handler.startsWith('character:')) return;
-    if (r.action.handler.startsWith('scavenge:')) scavengeInitiate(m, r);
+    if (r.action.handler.startsWith('worse:')) worseInitiate(m, r);
+    else if (r.action.handler.startsWith('scavenge:')) scavengeInitiate(m, r);
     else if (r.action.handler.startsWith('scan:')) scanInitiate(m, r);
     else if (r.action.handler.startsWith('stun:')) stunInitiate(m, r);
     else if (r.action.handler.startsWith('accident:')) accidentInitiate(m, r);
@@ -50,7 +52,8 @@ export const premiereRules: Rules = {
     } else groundInitiate(m, r);
   },
   resolve: (m, r, context) => {
-    if (r.action.handler.startsWith('scavenge:')) scavengeResolve(m, r);
+    if (r.action.handler.startsWith('worse:')) worseResolve(m, r);
+    else if (r.action.handler.startsWith('scavenge:')) scavengeResolve(m, r);
     else if (r.action.handler.startsWith('scan:')) scanResolve(m, r, context);
     else if (r.action.handler.startsWith('stun:')) stunResolve(m, r);
     else if (r.action.handler.startsWith('accident:')) accidentResolve(m, r);
@@ -109,6 +112,7 @@ export const premiereRules: Rules = {
     assertStun(match);
     assertScan(match);
     assertScavenge(match);
+    assertWorse(match);
     assertBattle(match);
     assertLeaving(match);
     if (!citySitesTogether(match, match.locations)) throw Error('Mos Eisley sites must remain together.');
