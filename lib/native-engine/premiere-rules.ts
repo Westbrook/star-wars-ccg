@@ -1,3 +1,4 @@
+import {selectionResolve, selectionChoices, selectionChoose, assertDestinySelection} from './destiny-selection';
 import {substitutionActions, substitutionInitiate, substitutionResolve, assertSubstitution} from './substitution';
 import {gaderffiiActions, gaderffiiInitiate, gaderffiiResolve, assertGaderffii} from './gaderffii';
 import {assertWeaponUse} from './weapon-state';
@@ -78,6 +79,7 @@ export const premiereRules: Rules = {
     else if (r.action.handler.startsWith('interrupt:')) interruptResolve(m, r, context);
     else if (r.action.handler.startsWith('retrieval:')) retrievalResolve(m, r);
     else if (r.action.handler.startsWith('travel:')) travelResolve(m, r, context);
+    else if (r.action.handler.startsWith('selection:')) selectionResolve(m, r);
     else if (r.action.handler.startsWith('destiny:')) resolveDestiny(m, r);
     else if (r.action.handler.startsWith('equipment:')) equipmentResolve(m, r);
     else if (r.action.handler.startsWith('battle:')) battleResolve(m, r);
@@ -86,6 +88,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if (d.handler.startsWith('selection:')) return selectionChoices(m, d);
     if (d.handler.startsWith('scavenge:')) return scavengeChoices(m, d);
     if (d.handler.startsWith('scan:')) return scanChoices(m, d);
     if (d.handler.startsWith('accident:')) return accidentChoices(m, d);
@@ -98,7 +101,8 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
-    if (d.handler.startsWith('scavenge:')) scavengeChoose(m, d, c);
+    if (d.handler.startsWith('selection:')) selectionChoose(m, d, c);
+    else if (d.handler.startsWith('scavenge:')) scavengeChoose(m, d, c);
     else if (d.handler.startsWith('scan:')) scanChoose(m, d, c);
     else if (d.handler.startsWith('accident:')) accidentChoose(m, d, c);
     else if (d.handler.startsWith('character:')) characterChoose(m, d, c);
@@ -119,6 +123,7 @@ export const premiereRules: Rules = {
     assertEquipment(match);
     assertTravel(match);
     assertDestiny(match);
+    assertDestinySelection(match);
     assertSubstitution(match);
     assertRetrieval(match);
     assertInterrupts(match);

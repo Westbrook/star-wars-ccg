@@ -1,0 +1,38 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T22:51:12.883695+00:00",
+  "harness": "NativeEngineSelectionOracleTests.java",
+  "harnessSha256": "a3e5ffedd2afead565f29425be43e80029fd9661c06babcf6d71744dfadfb236",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineSelectionOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 10,
+  "productionFilesVerified": 6820,
+  "scope": "Directly schedule production DrawDestinyEffect(drawX,chooseY,takeOtherIntoHand); passive trace records before/drawn/completed/total and physical unresolved counts. Compare selected values, totals and Used order. This is shared mechanism coverage, not an actual granting card or complete match. Cancellation/redraw and relocation are explicit fixture interventions.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "comparisons": {
+    "matching": [
+      "first",
+      "hand",
+      "short",
+      "empty",
+      "canceled",
+      "redraw",
+      "zero",
+      "relocated"
+    ],
+    "differences": [
+      "second: matching value, total and timing, but GEMP Used is [five,one]; native AR step-2/3 interpretation is [one,five].",
+      "three-two: GEMP selection result is original order [one,five] despite request [five,one], Used [zero,five,one]; native resolves selected order [five,one], Used [zero,one,five]. Total and response trace match."
+    ]
+  },
+  "references": [
+    "AR p32 Draw X Choose Y: individual responses; hold successful draws unresolved; resolve selected draws in step 2; place remaining draws in draw order in step 3.",
+    "DrawDestinyEffect.java ChooseYEffect and step 7: retains choices, then cleans every candidate in original draw order.",
+    "Native follows explicit AR step order; discrepancy is retained as evidence, not labeled full GEMP conformance."
+  ],
+  "limits": "No new card/deck admission. Card-granted selection permissions, battle/weapon-specific response adapters, dynamic physical draw limits, per-draw costs, general modifiers and prevention remain. Substitution/identity-reentry/nested/recovery cases have native-only coverage."
+}

@@ -6,7 +6,7 @@
   "productionAdmission": "closed",
   "rulesSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
   "sharedRequiredWork": [
-    "Complete per-draw costs, draw-X/choose-Y, broader substitution providers and physical draw limits, automatic modifiers and individual Force-use timing.",
+    "Complete per-draw costs, card-granted draw-X/choose-Y and battle/weapon adapters, broader substitution providers and physical draw limits, automatic modifiers and individual Force-use timing.",
     "Extend action-specific source/target identity semantics to remaining effects/events, retrieval/search/inspection, group movement and duels; preserve initiated actions and handle persona/conversion aliases.",
     "Generic continuous modifier, prevention/replacement, persona/uniqueness and characteristic infrastructure.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
@@ -1858,6 +1858,18 @@
         "tests/native-engine/gemp/substitution-provenance.json"
       ],
       "scope": "Shared substituted value with no physical draw; locked individual value, separate modifiable total, battle/weapon/serial continuations and Dice exclusion. Smoke Screen 5_69 uses current ground character ability; four matching GEMP outcomes. Supplemental component, no production admission."
+    },
+    "destinySelection": {
+      "implementation": [
+        "lib/native-engine/destiny-selection.ts",
+        "lib/native-engine/destiny.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/destiny-selection.test.mjs",
+        "tests/native-engine/gemp/selection-provenance.json"
+      ],
+      "status": "component-coverage-only",
+      "scope": "Generic draw X then choose Y; retained unresolved values, serialized selection, canceled draw cleanup/redraw, original-instance cleanup, selected total, optional unchosen-to-hand. Eight matching GEMP outcomes and two documented ordering differences. No card-granted selection admission."
     }
   }
 }

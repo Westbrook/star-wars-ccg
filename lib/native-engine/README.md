@@ -768,3 +768,35 @@ Smoke Screen is supplemental component coverage; starter deck definitions and
 production admission remain unchanged. General ability/targetability modifiers,
 other substitution providers, limits on physical draws, draw-X/choose-Y and
 per-draw costs remain required. This checkpoint does not complete full matches.
+
+### Shared draw-X/choose-Y batches
+
+`destiny-selection.ts` uses the existing before/drawn/completed destiny pipeline
+for each candidate. Successful draws remain unresolved until selection;
+canceled draws go to Used immediately and cannot be selected. The player chooses
+up to Y successful values, including zero or substituted values, and only those
+values supply the shared total. If Reserve runs out, the batch ends with its
+available candidates. The caller may specify that unchosen draws go to hand.
+
+Choices and callbacks are serialized and validated, including nested batches,
+seat/revision checks and concession. Physical cleanup uses the original visit to
+the unresolved zone, so moving a card away and back cannot recapture it. Its
+recorded value survives relocation. `redrawDestiny` replaces a canceled general
+draw in its existing selection slot; the original has no completed-draw trigger.
+Substituted values cannot be redrawn. Existing battle Dice adapters are preserved.
+
+The fresh pinned-GEMP harness directly schedules production `DrawDestinyEffect`:
+eight complete outcome comparisons agree; two retain an ordering discrepancy.
+AR p32 step 2 resolves selected draws, then step 3 puts remaining draws in Used
+in draw order. Native resolves chosen cards in the player's selection order,
+then the remainder. GEMP instead cleans up every candidate in original draw
+order, and normalizes multi-selection into original order. Totals and response
+traces agree for those cases; pile order does not. See
+`tests/native-engine/gemp/selection-provenance.json` for raw evidence and scope.
+
+This is an integrated rules-runtime component, not a new Rules Lab or a claim
+that a granting card is playable. Card permissions (such as Gambler's Luck),
+battle/weapon-specific draw response adapters, dynamic physical draw limits,
+per-draw costs and broader modifier/prevention interactions remain required.
+Production full-match admission stays closed. No UI or existing proof-version
+migration is part of this checkpoint.
