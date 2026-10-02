@@ -1,4 +1,5 @@
 import {definition,other,printed,sites} from './catalog';
+import {shuffled} from '../native-engine/random';
 import {setupSites} from './setup-rules';
 import type {Frame,Match,Prompt,Side,Zone} from './types';
 
@@ -48,10 +49,9 @@ export function locationPrompt(m:Match,f:Frame):Prompt|null{
  return null;
 }
 export function shuffleReserve(m:Match,random:()=>number){
- const a=m.players.dark.reserve;
  // Rejection sampling avoids modulo bias. Randomness is supplied only by the
  // server; the resulting order is saved in the same command transaction.
- for(let i=a.length-1;i>0;i--){const limit=0x100000000-0x100000000%(i+1);let n:number;do{n=random();if(!Number.isSafeInteger(n)||n<0||n>=0x100000000)throw Error('Invalid shuffle entropy.');}while(n>=limit);const j=n%(i+1);[a[i],a[j]]=[a[j],a[i]];}
+ m.players.dark.reserve=shuffled(m.players.dark.reserve,random);
  m.locationStudy!.shuffles++;
 }
 type Operations={move:(m:Match,id:string,zone:Zone,location?:string)=>void;log:(m:Match,text:string)=>void;window:(m:Match,text:string,priority:Side)=>void};

@@ -1,0 +1,67 @@
+export type Side = 'dark' | 'light';
+export const sides: readonly Side[] = ['dark', 'light'];
+export const other = (side: Side): Side => side === 'dark' ? 'light' : 'dark';
+export const piles = ['reserve', 'force', 'used', 'lost', 'hand', 'destiny'] as const;
+export type Pile = typeof piles[number];
+export type Zone = Pile | 'table' | 'playing' | 'out';
+export type Json = null | boolean | number | string | Json[] | {[key: string]: Json};
+export type Card = {
+  id: string;
+  blueprint: string;
+  owner: Side;
+  zone: Zone;
+  location?: string;
+  attachedTo?: string;
+  coveredBy?: string;
+};
+export type Player = Record<Pile, string[]>;
+export type Phase = 'activate' | 'control' | 'deploy' | 'battle' | 'move' | 'draw';
+export type Timing = 'start' | 'phase' | 'end' | 'response';
+export type Payment = Partial<Record<Side, number>>;
+/** Handler keys and JSON payloads survive process restarts; closures never enter state. */
+export type Action = {
+  id: string;
+  label: string;
+  handler: string;
+  payload: Json;
+  payment?: Payment;
+  source?: string;
+};
+export type Window = {
+  kind: 'window';
+  serial: number;
+  timing: Timing;
+  priority: Side;
+  passes: number;
+  completed: string[];
+};
+export type Resolution = {
+  kind: 'resolution';
+  actor: Side;
+  action: Action;
+  cancelled: boolean;
+};
+export type Decision = {kind: 'decision'; side: Side; handler: string; payload: Json};
+export type Frame = Window | Resolution | Decision;
+export type Match = {
+  schema: 1;
+  engine: 'native-engine-1';
+  rules: string;
+  id: string;
+  revision: number;
+  deckSize: 40 | 60;
+  status: 'setup' | 'playing' | 'finished';
+  cards: Record<string, Card>;
+  players: Record<Side, Player>;
+  locations: string[];
+  turn: {number: number; side: Side; phase: Phase; generation: number; activated: number};
+  stack: Frame[];
+  serial: number;
+  // Rule-owned serialized continuations, restrictions, per-turn usage and effects.
+  data: Record<string, Json>;
+  result: null | {winner: Side; loser: Side; reason: 'concession' | 'life-force'};
+};
+export type Deck = {side: Side; cards: readonly string[]};
+export type Definition = {side: Side; name: string};
+export type Command = {revision: number; choice: string};
+export type Prompt = {revision: number; side: Side; timing: Timing | 'decision'; mandatory: boolean; choices: {id: string; label: string}[]};

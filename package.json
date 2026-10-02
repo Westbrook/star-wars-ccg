@@ -14,7 +14,8 @@
     "db:generate": "drizzle-kit generate",
     "engine:start": "node scripts/official-engine.mjs start",
     "engine:stop": "node scripts/official-engine.mjs stop",
-    "engine:status": "node scripts/official-engine.mjs status"
+    "engine:status": "node scripts/official-engine.mjs status",
+    "test:engine": "node --test tests/native-engine/*.test.mjs tests/native-proof/*.test.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

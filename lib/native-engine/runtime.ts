@@ -1,0 +1,194 @@
+import {assertState, initialState, lifeForce, moveTop, publicState, recirculate, useForce} from './state';
+import {secureEntropy, type Entropy} from './random';
+import {other, sides, type Action, type Command, type Deck, type Decision, type Definition, type Match, type Phase, type Prompt, type Resolution, type Side, type Timing, type Window} from './types';
+
+export type Context = {entropy: Entropy};
+export type RequiredAction = Action & {actor: Side};
+
+/** A versioned server rules package supplies legality and effect implementations.
+ * It rejects every card with incomplete reachable behavior. Text is never code,
+ * and the kernel alone does not admit any production deck. */
+export interface Rules {
+  id: string;
+  definition(blueprint: string): Definition;
+  supports(blueprint: string): boolean;
+  setupComplete(match: Match): boolean;
+  generation(match: Match, side: Side): number;
+  automatic(match: Match, window: Window): RequiredAction[];
+  actions(match: Match, window: Window, side: Side): Action[];
+  initiate(match: Match, resolution: Resolution, context: Context): void;
+  resolve(match: Match, resolution: Resolution, context: Context): void;
+  decisions(match: Match, decision: Decision): {id: string; label: string}[];
+  choose(match: Match, decision: Decision, choice: string, context: Context): void;
+  validate(match: Match): void;
+}
+
+const phases: readonly Phase[] = ['activate', 'control', 'deploy', 'battle', 'move', 'draw'];
+const top = (match: Match) => match.stack.at(-1);
+const core = (id: string, label: string): Action => ({id, label, handler: id, payload: null});
+
+function validate(match: Match, rules: Rules): void {
+  assertState(match);
+  if (match.rules !== rules.id) throw Error('This match requires its original rules version.');
+  rules.validate(match);
+  if (match.status === 'playing' && !match.stack.length) throw Error('A playing match needs a continuation.');
+}
+
+export function createMatch(id: string, size: 40 | 60, decks: readonly Deck[], rules: Rules): Match {
+  const unsupported = [...new Set(decks.flatMap(deck => [...deck.cards]))].filter(id => !rules.supports(id));
+  if (unsupported.length) throw Error('Unimplemented card behavior: ' + unsupported.join(', '));
+  const match = initialState(id, size, decks, rules.id, rules.definition);
+  validate(match, rules);
+  return match;
+}
+
+export function openWindow(match: Match, timing: Timing, priority: Side): void {
+  match.stack.push({kind: 'window', serial: ++match.serial, timing, priority, passes: 0, completed: []});
+}
+
+/** Called by the setup resolver, after starting cards and both starting hands. */
+export function startTurns(before: Match, rules: Rules): Match {
+  validate(before, rules);
+  if (before.status !== 'setup' || before.stack.length || !rules.setupComplete(before)) throw Error('Starting setup is incomplete.');
+  const match = structuredClone(before);
+  match.status = 'playing'; match.revision++;
+  openWindow(match, 'start', 'dark');
+  validate(match, rules);
+  return match;
+}
+
+function affordable(match: Match, action: Action): boolean {
+  const payment = action.payment ?? {};
+  return Object.keys(payment).every(key => (sides as readonly string[]).includes(key)) && sides.every(side => {
+    const amount = payment[side] ?? 0;
+    return Number.isSafeInteger(amount) && amount >= 0 && amount <= match.players[side].force.length;
+  });
+}
+
+function required(match: Match, window: Window, rules: Rules): RequiredAction[] {
+  const actions = rules.automatic(match, window).filter(action => !window.completed.includes(action.id));
+  if (new Set(actions.map(a => a.id)).size !== actions.length || actions.some(a => a.id === 'pass' || a.id === 'concede' || a.id.startsWith('core:'))) throw Error('Ambiguous required action.');
+  return actions;
+}
+
+function available(match: Match, window: Window, rules: Rules): Action[] {
+  const actions: Action[] = [];
+  if (window.timing === 'phase' && window.priority === match.turn.side) {
+    const player = match.players[match.turn.side];
+    if (match.turn.phase === 'activate' && match.turn.activated < match.turn.generation && player.reserve.length)
+      actions.push(core('core:activate', 'Activate one Force'));
+    if (match.turn.phase === 'draw' && player.force.length) actions.push(core('core:draw', 'Draw one card'));
+  }
+  const extra = rules.actions(match, window, window.priority);
+  if (extra.some(action => action.id.startsWith('core:') || action.id === 'pass' || action.id === 'concede')) throw Error('Reserved action identity.');
+  actions.push(...extra.filter(action => affordable(match, action)));
+  if (new Set(actions.map(a => a.id)).size !== actions.length) throw Error('Ambiguous legal action.');
+  return actions;
+}
+
+export function prompt(match: Match, rules: Rules, seat: Side): Prompt | null {
+  validate(match, rules);
+  if (!sides.includes(seat)) throw Error('Invalid seat.');
+  if (match.status !== 'playing') return null;
+  const frame = top(match);
+  if (!frame) throw Error('Missing continuation.');
+  if (frame.kind === 'decision') {
+    return {revision: match.revision, side: frame.side, timing: 'decision', mandatory: true,
+      choices: seat === frame.side ? rules.decisions(match, frame) : []};
+  }
+  if (frame.kind !== 'window') throw Error('Unsettled action stack.');
+  const mandatory = required(match, frame, rules);
+  // The turn player orders simultaneous automatic actions, even an opponent's.
+  const side = mandatory.length ? match.turn.side : frame.priority;
+  return {revision: match.revision, side, timing: frame.timing, mandatory: !!mandatory.length,
+    choices: seat !== side ? [] : mandatory.length ? mandatory.map(({id, label}) => ({id, label}))
+      : [...available(match, frame, rules).map(({id, label}) => ({id, label})), {id: 'pass', label: 'Pass'}]};
+}
+
+function concludeIfEmpty(match: Match): void {
+  if (match.status !== 'playing') return;
+  const depleted = sides.filter(side => lifeForce(match, side) === 0);
+  // Effects must order simultaneous final losses; never choose by array order.
+  if (depleted.length === 2) throw Error('Resolve simultaneous final losses in rules order.');
+  if (depleted.length === 1) {
+    const loser = depleted[0];
+    match.result = {winner: other(loser), loser, reason: 'life-force'};
+    match.status = 'finished';
+  }
+}
+
+function closeWindow(match: Match, window: Window, rules: Rules): void {
+  match.stack.pop();
+  if (window.timing === 'response') return;
+  if (window.timing === 'start') {
+    const generation = rules.generation(match, match.turn.side);
+    if (!Number.isSafeInteger(generation) || generation < 0) throw Error('Invalid Force generation.');
+    match.turn.generation = generation; match.turn.activated = 0;
+    openWindow(match, 'phase', match.turn.side);
+  } else if (window.timing === 'phase') {
+    const next = phases[phases.indexOf(match.turn.phase) + 1];
+    if (next) {match.turn.phase = next; openWindow(match, 'phase', match.turn.side);}
+    else {recirculate(match); openWindow(match, 'end', match.turn.side);}
+  } else {
+    match.turn = {number: match.turn.number + 1, side: other(match.turn.side), phase: 'activate', generation: 0, activated: 0};
+    openWindow(match, 'start', match.turn.side);
+  }
+}
+
+function settle(match: Match, rules: Rules, context: Context): void {
+  let transitions = 0;
+  while (match.status === 'playing' && top(match)?.kind === 'resolution') {
+    if (++transitions > 1000) throw Error('Action resolution did not yield.');
+    const resolution = match.stack.pop() as Resolution;
+    if (resolution.action.handler === 'core:activate') {
+      if (!resolution.cancelled) {moveTop(match, resolution.actor, 'reserve', 'force'); match.turn.activated++;}
+    } else if (resolution.action.handler === 'core:draw') {
+      if (!resolution.cancelled) moveTop(match, resolution.actor, 'force', 'hand');
+    } else rules.resolve(match, resolution, context); // Includes cancellation cleanup.
+    concludeIfEmpty(match);
+  }
+}
+
+export function applyCommand(before: Match, rules: Rules, seat: Side, command: Command, entropy: Entropy = secureEntropy): Match {
+  validate(before, rules);
+  if (!sides.includes(seat) || before.status !== 'playing') throw Error('This seat cannot act in this match.');
+  if (command.revision !== before.revision) throw Error('Stale match revision.');
+  const match = structuredClone(before);
+  if (command.choice === 'concede') {
+    match.status = 'finished'; match.result = {winner: other(seat), loser: seat, reason: 'concession'};
+  } else {
+    const legal = prompt(before, rules, seat);
+    if (!legal || legal.side !== seat || !legal.choices.some(c => c.id === command.choice)) throw Error('Illegal choice for this seat.');
+    const frame = top(match)!;
+    if (frame.kind === 'decision') {
+      match.stack.pop(); rules.choose(match, frame, command.choice, {entropy});
+    } else if (frame.kind === 'window') {
+      const mandatory = required(match, frame, rules);
+      if (command.choice === 'pass' && !mandatory.length) {
+        if (frame.passes === 1) closeWindow(match, frame, rules);
+        else {frame.passes = 1; frame.priority = other(frame.priority);}
+      } else {
+        const action = mandatory.length ? mandatory.find(a => a.id === command.choice)! : available(match, frame, rules).find(a => a.id === command.choice)!;
+        const actor = mandatory.length ? (action as RequiredAction).actor : seat;
+        if (!action || !sides.includes(actor)) throw Error('Invalid action actor.');
+        useForce(match, action.payment ?? {});
+        if (mandatory.length) frame.completed.push(action.id);
+        frame.passes = 0;
+        if (!mandatory.length) frame.priority = other(seat);
+        const resolution: Resolution = {kind: 'resolution', actor, action: structuredClone(action), cancelled: false};
+        if (!action.handler.startsWith('core:')) rules.initiate(match, resolution, {entropy});
+        match.stack.push(resolution);
+        openWindow(match, 'response', other(actor));
+      }
+    }
+    concludeIfEmpty(match);
+    settle(match, rules, {entropy});
+  }
+  match.revision++;
+  validate(match, rules);
+  return match;
+}
+
+export function project(match: Match, rules: Rules, seat: Side) {
+  return {...publicState(match, seat), prompt: prompt(match, rules, seat)};
+}
