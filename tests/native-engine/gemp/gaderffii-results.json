@@ -1,0 +1,183 @@
+[
+  {
+    "otherAvailable": true,
+    "name": "location-bonus",
+    "gunAvailable": false
+  },
+  {
+    "name": "dark-2-2",
+    "initiator": "dark",
+    "draws": [
+      2,
+      2
+    ],
+    "gunAvailable": true,
+    "rifleAvailable": true,
+    "otherAvailable": true,
+    "forceSpent": 1,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_196",
+      "1_196"
+    ]
+  },
+  {
+    "name": "dark-2-3",
+    "initiator": "dark",
+    "draws": [
+      2,
+      3
+    ],
+    "gunAvailable": true,
+    "rifleAvailable": true,
+    "otherAvailable": true,
+    "forceSpent": 1,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_317",
+      "1_196"
+    ]
+  },
+  {
+    "name": "dark-3-3",
+    "initiator": "dark",
+    "draws": [
+      3,
+      3
+    ],
+    "gunAvailable": false,
+    "rifleAvailable": false,
+    "otherAvailable": true,
+    "forceSpent": 1,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_317",
+      "1_317"
+    ]
+  },
+  {
+    "name": "dark-0-6",
+    "initiator": "dark",
+    "draws": [
+      0,
+      6
+    ],
+    "gunAvailable": false,
+    "rifleAvailable": false,
+    "otherAvailable": true,
+    "forceSpent": 1,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_252",
+      "1_285"
+    ]
+  },
+  {
+    "name": "dark-6--1",
+    "initiator": "dark",
+    "draws": [
+      6,
+      -1
+    ],
+    "gunAvailable": false,
+    "rifleAvailable": false,
+    "otherAvailable": true,
+    "forceSpent": 1,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_252"
+    ]
+  },
+  {
+    "name": "light-2-2",
+    "initiator": "light",
+    "draws": [
+      2,
+      2
+    ],
+    "gunAvailable": true,
+    "rifleAvailable": true,
+    "otherAvailable": true,
+    "forceSpent": 0,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_196",
+      "1_196"
+    ]
+  },
+  {
+    "name": "light-2-3",
+    "initiator": "light",
+    "draws": [
+      2,
+      3
+    ],
+    "gunAvailable": true,
+    "rifleAvailable": true,
+    "otherAvailable": true,
+    "forceSpent": 0,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_317",
+      "1_196"
+    ]
+  },
+  {
+    "name": "light-3-3",
+    "initiator": "light",
+    "draws": [
+      3,
+      3
+    ],
+    "gunAvailable": false,
+    "rifleAvailable": false,
+    "otherAvailable": true,
+    "forceSpent": 0,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_317",
+      "1_317"
+    ]
+  },
+  {
+    "name": "light-0-6",
+    "initiator": "light",
+    "draws": [
+      0,
+      6
+    ],
+    "gunAvailable": false,
+    "rifleAvailable": false,
+    "otherAvailable": true,
+    "forceSpent": 0,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_252",
+      "1_285"
+    ]
+  },
+  {
+    "name": "light-6--1",
+    "initiator": "light",
+    "draws": [
+      6,
+      -1
+    ],
+    "gunAvailable": false,
+    "rifleAvailable": false,
+    "otherAvailable": true,
+    "forceSpent": 0,
+    "weaponZone": "ATTACHED",
+    "usedBlueprints": [
+      "1_252"
+    ]
+  },
+  {
+    "forceSpent": 2,
+    "name": "deploy"
+  },
+  {
+    "forceSpent": 2,
+    "name": "transfer"
+  }
+]

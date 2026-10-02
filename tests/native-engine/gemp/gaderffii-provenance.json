@@ -1,0 +1,25 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T20:46:13.947975+00:00",
+  "harness": "NativeEngineGaderffiiOracleTests.java",
+  "harnessSha256": "ca292b519ab3b16b3ec210dc5024524dc268922d8678479708e0c73aad910ec6",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineGaderffiiOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 3,
+  "observations": 13,
+  "scope": "Actual Gaderffii Stick deployment, transfer and battle-initiation firing. Ten cases mirror both battle initiators with controlled destiny 2+2, 2+3, 3+3, 0+6 and 6+failed. Target has Blaster and Blaster Rifle; another participant has a Blaster. Compare all three legal firing choices at Light weapons segment, retained attachment, Dark Force spent and ordered destiny blueprints on Used. Separate Mos Eisley location-bonus case confirms both draws are modified. Deployment/transfer each spend 2 Force on own Tusken Raiders. Destiny preparation occurs after activation to avoid consuming fixture draws. All 6820 production files match pinned archive; executed harness matches this file.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p113 Gaderffii Stick current text: own Tusken Raider, battle just initiated, free two-destiny attack, strict total >5 and target weapons unusable for battle",
+    "AR pp94\u201395 weapons: one different weapon per character per turn, canceled firing still uses weapon, one attempt per weapon per battle, at least one Reserve card, location modifiers affect each weapon destiny",
+    "AR p79 multiple printed Warrior icons permit that many different weapons but not repeated use; added icons do not count",
+    "Card1_315 supplies deployment/use restrictions and battle-initiation trigger, target must be armed",
+    "FireWeaponActionBuilder.buildFireWeaponGaderffiStickAction draws two and captures active target weapons for MayNotBeFiredModifier until battle ends"
+  ],
+  "differences": [],
+  "limits": "Current ground participants, explicit Tusken Raider 1_196 and attached weapon cards. Permanent weapons, aboard/captured/inactive characters, other Raider identities, Sniper/external firing, repeated firing, target redirection/identity and full prevention/replacement remain required. Native suppression is expressed as weapon-use prohibition per printed text; reference uses MayNotBeFiredModifier, so parity here is only firing availability. Native cancellation, target/source relocation, next-turn reset and multiple printed Warrior capacity tests are component interventions, not GEMP card-play observations. Turn usage keys remain physical IDs; general leave-and-reenter identity handling is unfinished. Full native admission stays closed."
+}

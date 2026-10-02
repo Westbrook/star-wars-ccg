@@ -565,3 +565,37 @@ Han Solo metadata is supplemental and cannot deploy or enter a production deck.
 Other personas, permanent pilots, targetability/capture, complete Han abilities,
 full modifier/prevention/replacement infrastructure and native match delivery
 remain unfinished. No new standalone study or full native route is enabled.
+
+### Gaderffii Stick and weapon choice for the turn
+
+`gaderffii.ts` implements deployment and transfer for 2 Force to an own Tusken
+Raider, without requiring a Warrior icon. It offers free firing when either
+player initiates a battle at that site, targeting an armed opposing participant.
+Two serial weapon destiny draws use the shared draw-completion and Used-placement
+windows, followed by one total. Location bonuses apply to each draw. A total
+strictly greater than 5 captures the target's attached weapons and prevents their
+use for the rest of that battle. Weapons stay attached; the target is not hit.
+The restriction survives departure of the stick and expires with the battle.
+
+`weapon-state.ts` shares turn-level weapon choice between blasters and the stick.
+A normal character can use only one different weapon during a turn. Multiple
+printed Warrior icons allow that many different weapons, without repeated use;
+icons added by training do not increase capacity. Attempted firing records use
+even if canceled, while the existing battle record retains each weapon's attempt.
+History and draw continuations survive JSON reconstruction. Full native admission
+remains closed, so this does not alter existing proof save versions.
+
+Forty-nine tests include 36 component cases and thirteen fresh matching GEMP
+observations from three JUnit tests. Both initiators, threshold/zero/failed draws,
+location modifiers, deployment and transfer, both target weapons, unaffected
+opposing weapons, retained attachment, Force costs and Used order are compared.
+Native component checks also cover cancellation, departure, end-of-battle expiry,
+turn reset, printed-versus-added icons, malformed saves and concession. See
+`tests/native-engine/gemp/gaderffii-provenance.json` for the exact boundary.
+
+This is ground combat and explicit Raider identity coverage. Permanent weapons,
+other Raider identities, inactive/captured/aboard targets, external firing such as
+Sniper, repeated firing, zone-change identity, redirection, prevention/replacement
+and full match delivery remain required. GEMP suppresses firing; native expresses
+the printed prohibition on weapon use. Only firing availability is compared here.
+No new standalone study or full native match route is enabled.

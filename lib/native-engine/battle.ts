@@ -1,3 +1,4 @@
+import type {GaderffiiShot} from './gaderffii';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
 import {atSite, battleDestinyRequirement, cardDefinition, forfeit, isWarrior, name, printed, totalPower} from './board';
 import {barred, reactionActions} from './ground';
@@ -5,6 +6,7 @@ import {openWindow, type RequiredAction} from './runtime';
 import {moveCard, moveTop} from './state';
 import {completeDestinyDraw, completeDestinyTotal, type Draw} from './destiny';
 import {loseFromTable} from './table';
+import {canUseWeapon, useWeapon} from './weapon-state';
 import {other, sides, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 type Pair<T> = Record<Side, T>;
@@ -18,6 +20,7 @@ export type Battle = {
   departed?: string[];
   worseIncrease?: number; damageLedger?: Pair<LossLedger>;
   damageMultipliers?: {card: string; factor: number; side: Side | 'both'}[];
+  knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[];
 };
 type History = {turn: number; sites: string[]; participants: string[]};
 type Payload = {site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
@@ -79,7 +82,7 @@ export const weapons: Record<string, {deploy: number; fire: number; bonus: numbe
   '1_153': {deploy: 2, fire: 2, bonus: 1}, '1_312': {deploy: 2, fire: 2, bonus: 1},
 };
 const warrior = isWarrior;
-function weaponDrawBonus(m: Match, id: string): number {
+export function weaponDrawBonus(m: Match, id: string): number {
   const c = m.cards[id];
   return c.owner === 'dark' && c.location && ['1_284', '1_132'].includes(m.cards[c.location].blueprint) ? 1 : 0;
 }
@@ -109,7 +112,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
   if (event(w) === 'battle-weapons') {
     for (const weapon of Object.values(m.cards)) {
       const rule = weapons[weapon.blueprint], host = weapon.attachedTo;
-      if (!rule || weapon.owner !== side || weapon.zone !== 'table' || !host || !members(m, side).includes(host) || !warrior(m, host) || b.fired.includes(weapon.id) || b.users[host] || !m.players[side].reserve.length) continue;
+      if (!rule || weapon.owner !== side || weapon.zone !== 'table' || !host || !members(m, side).includes(host) || !warrior(m, host) || b.fired.includes(weapon.id) || !canUseWeapon(m, weapon.id) || !m.players[side].reserve.length) continue;
       for (const target of members(m, other(side))) actions.push(act('fire:' + weapon.id + ':' + target, 'Fire ' + name(m, weapon.id) + ' at ' + name(m, target), 'fire', {card: weapon.id, target}, {[side]: rule.fire}, weapon.id));
     }
   }
@@ -140,6 +143,7 @@ export function battleInitiate(m: Match, r: Resolution): void {
   } else if (kind === 'battle:equip' && m.cards[p.card!].zone === 'hand' || ['battle:takeel', 'battle:reduce'].includes(kind)) moveCard(m, p.card!, 'playing');
   else if (kind === 'battle:fire') {
     const b = battle(m)!, id = p.card!, host = m.cards[id].attachedTo!;
+    useWeapon(m, id);
     b.fired.push(id); b.users[host] = id;
     b.shots.push({weapon: id, target: p.target!, side: r.actor, defense: printed(m, p.target!, 'ability'), bonus: weaponBonus(m, id), card: null, destiny: null, hit: null});
     p.index = b.shots.length - 1;
@@ -301,6 +305,7 @@ export function assertBattle(m: Match): void {
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
+  if (b.knockedWeapons && (new Set(b.knockedWeapons).size !== b.knockedWeapons.length || b.knockedWeapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon'))) throw Error('Invalid knocked-away weapons.');
   if (b.damageLedger) for (const side of sides) {
     assertLedger(b.damageLedger[side]);
     if (b.damageLedger[side].kind !== 'battle' || b.damageLedger[side].increase !== (side === 'light' ? b.worseIncrease ?? 0 : 0) || (b.damageLedger[side].reduction > 0) !== b.reduced[side]) throw Error('Invalid battle loss ledger.');

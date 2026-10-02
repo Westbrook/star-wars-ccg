@@ -29,9 +29,10 @@ export function completeDestinyTotal(m: Match, side: Side, source: string, categ
 }
 /** General destiny. Multi-draw callers pass includeTotal=false, then complete
  * their combined total once, after all the individual draw continuations. */
-export function drawDestiny(m: Match, side: Side, source: string, category: string, next: Action, includeTotal = true): void {
+export function drawDestiny(m: Match, side: Side, source: string, category: string, next: Action, includeTotal = true, modifier = 0): void {
+  if (!Number.isFinite(modifier)) throw Error('Invalid destiny draw modifier.');
   const card = m.players[side].reserve.length ? moveTop(m, side, 'reserve', 'destiny') : null;
-  const draw: Draw = {card, value: card ? printed(m, card, 'destiny') : null};
+  const draw: Draw = {card, value: card ? printed(m, card, 'destiny') + modifier : null};
   queue(m, 'finish', {draw, next, side, source, category, includeTotal});
   openWindow(m, 'response', other(side), {kind: card ? 'destiny-drawn' : 'destiny-failed', category, source, side, card});
 }
