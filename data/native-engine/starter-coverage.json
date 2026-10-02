@@ -6,7 +6,7 @@
   "productionAdmission": "closed",
   "rulesSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
   "sharedRequiredWork": [
-    "Complete per-draw costs, broader card-granted draw-X/choose-Y and weapon adapters, optional/delayed battle conversion, broader substitution providers and physical draw limits, automatic modifiers and individual Force-use timing. Gambler\u2019s Luck and combined battle totals have partial supplemental component coverage.",
+    "Complete per-draw costs, broader card-granted draw-X/choose-Y and weapon adapters, last-draw choose-two adjudication, broader substitution providers and physical draw limits, automatic modifiers and individual Force-use timing. Gambler\u2019s Luck supports optional conversion at eligible current or later battle draws; full admission remains closed.",
     "Extend action-specific source/target identity semantics to remaining effects/events, retrieval/search/inspection, group movement and duels; preserve initiated actions and handle persona/conversion aliases.",
     "Generic continuous modifier, prevention/replacement, persona/uniqueness and characteristic infrastructure.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",

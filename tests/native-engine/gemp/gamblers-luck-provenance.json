@@ -1,15 +1,15 @@
 {
   "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
   "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
-  "executedAt": "2026-10-02T23:23:57.267890+00:00",
+  "executedAt": "2026-10-02T23:36:19.614025+00:00",
   "harness": "NativeEngineGamblersLuckOracleTests.java",
-  "harnessSha256": "70aa4d107329146655d61eef87f32891d86cd968f4553f4166c33a5a3b7041af",
+  "harnessSha256": "e290eb51c7d81ffe2a9798a8e58ccc2714e2beed5d8a4271094b76c0f82ad70d",
   "runtime": "maven:3.9.6-eclipse-temurin-21",
   "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineGamblersLuckOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
   "tests": 1,
-  "observations": 10,
+  "observations": 14,
   "productionFilesVerified": 6820,
-  "scope": "Actual Gambler\u2019s Luck and Han\u2019s Dice, passive Light-side before/drawn/completed/total trace and unresolved counts. Compare initial damage/attrition, ordered Used destiny cards and Lost cleanup. Native stops at battle-result before separate Vader choke; GEMP observes initial damage-segment balances. Base-plus/departed/short are explicit fixture interventions, not supported removal/deployment effects. Native cancellation is injected; reference cancellation uses actual Sense. Repeat verifies second copy is unavailable due to unique Interrupt title limit.",
+  "scope": "Actual Gambler\u2019s Luck and Han\u2019s Dice, passive Light-side before/drawn/completed/total trace and unresolved counts. Compare initial damage/attrition, ordered Used destiny cards and Lost cleanup. Native stops at battle-result before separate Vader choke; GEMP observes initial damage-segment balances. Base-plus/departed/short are explicit fixture interventions, not supported removal/deployment effects. Native cancellation is injected; reference cancellation uses actual Sense. Repeat verifies second copy is unavailable due to unique Interrupt title limit. Optional conversion is exercised on the first or later eligible about-to-draw response. Decline, delay after the ordinary base draw, and actual Smoke Screen followed by conversion match traces and balances. The late insufficient-scheduled-draw case is retained separately as a discrepancy, not counted as a match.",
   "comparisons": {
     "matching": [
       "han-one",
@@ -21,7 +21,13 @@
       "dice",
       "short",
       "canceled",
-      "repeat"
+      "repeat",
+      "decline",
+      "delay-base",
+      "smoke-delay"
+    ],
+    "differences": [
+      "delay: Lando adds two, first ordinary draw is 1, then elects draw-three/choose-two with only one scheduled draw remaining. GEMP draws only 5 and 0, never offers selection, leaves both cards unresolved, and totals only 1. Native does not offer this unverified conversion; ordinary draws total 6 and clean up. This guard is not an asserted official rule."
     ]
   },
   "rulesSources": [
@@ -32,5 +38,5 @@
     "AR p113 Gambler\u2019s Luck erratum; Card5_048, AddBattleDestinyEffect and DrawDestinyAndChooseInsteadEffect.",
     "AR Chapter 9 uniqueness: unique Interrupt title is limited per turn; canceled initiation also consumes that limit. CardTraits.isPlayingCardTitleTurnLimitReached."
   ],
-  "limits": "Component coverage only. Native currently performs printed draw-X/choose-Y on the first added group; GEMP offers optional conversion on an eligible draw. Declining or postponing conversion, physical draw limits, other gamblers/Lando personas, general modifiers, per-draw costs and prevention remain unverified and required before full card/deck admission. Earlier selection Used-order discrepancies remain in selection-provenance.json. No full card or match certification."
+  "limits": "Component coverage only. Native supports optional conversion with enough remaining scheduled draws; the last-draw choose-two branch is guarded pending normative resolution. Physical draw limits, other gamblers/Lando personas, general modifiers, per-draw costs and prevention remain required. Earlier selection Used-order differences remain in selection-provenance.json. No full card or match certification."
 }

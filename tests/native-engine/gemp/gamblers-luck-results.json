@@ -1,9 +1,5 @@
 [
   {
-    "luckLost": true,
-    "lightDamage": 0,
-    "darkAttrition": 1,
-    "darkDamage": 0,
     "repeatAvailable": false,
     "used": [
       "five",
@@ -46,13 +42,13 @@
         "unresolved": 0,
         "value": 1.0
       }
-    ]
+    ],
+    "luckLost": true,
+    "lightDamage": 0,
+    "darkAttrition": 1,
+    "darkDamage": 0
   },
   {
-    "luckLost": true,
-    "lightDamage": 1,
-    "darkAttrition": 1,
-    "darkDamage": 0,
     "repeatAvailable": false,
     "used": [
       "five",
@@ -95,13 +91,13 @@
         "unresolved": 0,
         "value": 1.0
       }
-    ]
+    ],
+    "luckLost": true,
+    "lightDamage": 1,
+    "darkAttrition": 1,
+    "darkDamage": 0
   },
   {
-    "luckLost": true,
-    "lightDamage": 0,
-    "darkAttrition": 6,
-    "darkDamage": 4,
     "repeatAvailable": false,
     "used": [
       "zero",
@@ -160,13 +156,13 @@
         "unresolved": 0,
         "value": 6.0
       }
-    ]
-  },
-  {
+    ],
     "luckLost": true,
     "lightDamage": 0,
-    "darkAttrition": 9,
-    "darkDamage": 9,
+    "darkAttrition": 6,
+    "darkDamage": 4
+  },
+  {
     "repeatAvailable": false,
     "used": [
       "three",
@@ -241,13 +237,13 @@
         "unresolved": 0,
         "value": 9.0
       }
-    ]
-  },
-  {
+    ],
     "luckLost": true,
     "lightDamage": 0,
-    "darkAttrition": 6,
-    "darkDamage": 3,
+    "darkAttrition": 9,
+    "darkDamage": 9
+  },
+  {
     "repeatAvailable": false,
     "used": [
       "zero",
@@ -306,23 +302,23 @@
         "unresolved": 0,
         "value": 6.0
       }
-    ]
+    ],
+    "luckLost": true,
+    "lightDamage": 0,
+    "darkAttrition": 6,
+    "darkDamage": 3
   },
   {
-    "luckLost": true,
-    "lightDamage": 2,
-    "darkAttrition": 0,
-    "darkDamage": 0,
     "repeatAvailable": false,
     "used": [],
     "name": "skip",
-    "events": []
+    "events": [],
+    "luckLost": true,
+    "lightDamage": 2,
+    "darkAttrition": 0,
+    "darkDamage": 0
   },
   {
-    "luckLost": true,
-    "lightDamage": 0,
-    "darkAttrition": 5,
-    "darkDamage": 4,
     "repeatAvailable": false,
     "used": [
       "zero",
@@ -376,13 +372,13 @@
         "unresolved": 0,
         "value": 5.0
       }
-    ]
+    ],
+    "luckLost": true,
+    "lightDamage": 0,
+    "darkAttrition": 5,
+    "darkDamage": 4
   },
   {
-    "luckLost": true,
-    "lightDamage": 1,
-    "darkAttrition": 1,
-    "darkDamage": 0,
     "repeatAvailable": false,
     "used": [
       "one"
@@ -409,23 +405,23 @@
         "unresolved": 0,
         "value": 1.0
       }
-    ]
+    ],
+    "luckLost": true,
+    "lightDamage": 1,
+    "darkAttrition": 1,
+    "darkDamage": 0
   },
   {
-    "luckLost": true,
-    "lightDamage": 2,
-    "darkAttrition": 0,
-    "darkDamage": 0,
     "repeatAvailable": false,
     "used": [],
     "name": "canceled",
-    "events": []
+    "events": [],
+    "luckLost": true,
+    "lightDamage": 2,
+    "darkAttrition": 0,
+    "darkDamage": 0
   },
   {
-    "luckLost": true,
-    "lightDamage": 0,
-    "darkAttrition": 6,
-    "darkDamage": 4,
     "repeatAvailable": false,
     "used": [
       "zero",
@@ -484,6 +480,267 @@
         "unresolved": 0,
         "value": 6.0
       }
-    ]
+    ],
+    "luckLost": true,
+    "lightDamage": 0,
+    "darkAttrition": 6,
+    "darkDamage": 4
+  },
+  {
+    "repeatAvailable": false,
+    "used": [
+      "five",
+      "one"
+    ],
+    "name": "decline",
+    "events": [
+      {
+        "stage": "before",
+        "unresolved": 0,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "before",
+        "unresolved": 0,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "total",
+        "unresolved": 0,
+        "value": 6.0
+      }
+    ],
+    "luckLost": true,
+    "lightDamage": 0,
+    "darkAttrition": 6,
+    "darkDamage": 4
+  },
+  {
+    "repeatAvailable": false,
+    "used": [
+      "one"
+    ],
+    "name": "delay",
+    "events": [
+      {
+        "stage": "before",
+        "unresolved": 0,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "before",
+        "unresolved": 0,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "before",
+        "unresolved": 1,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 2,
+        "value": 0.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 2,
+        "value": 0.0
+      },
+      {
+        "stage": "total",
+        "unresolved": 2,
+        "value": 1.0
+      }
+    ],
+    "luckLost": true,
+    "lightDamage": 1,
+    "darkAttrition": 1,
+    "darkDamage": 0
+  },
+  {
+    "repeatAvailable": false,
+    "used": [
+      "three",
+      "zero",
+      "five",
+      "one"
+    ],
+    "name": "delay-base",
+    "events": [
+      {
+        "stage": "before",
+        "unresolved": 0,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "before",
+        "unresolved": 0,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "before",
+        "unresolved": 1,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 2,
+        "value": 0.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 2,
+        "value": 0.0
+      },
+      {
+        "stage": "before",
+        "unresolved": 2,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 3,
+        "value": 3.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 3,
+        "value": 3.0
+      },
+      {
+        "stage": "total",
+        "unresolved": 0,
+        "value": 6.0
+      }
+    ],
+    "luckLost": true,
+    "lightDamage": 0,
+    "darkAttrition": 6,
+    "darkDamage": 6
+  },
+  {
+    "repeatAvailable": false,
+    "used": [
+      "five",
+      "one"
+    ],
+    "name": "smoke-delay",
+    "events": [
+      {
+        "stage": "before",
+        "unresolved": 0,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 0,
+        "value": 3.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 0,
+        "value": 3.0
+      },
+      {
+        "stage": "before",
+        "unresolved": 0,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "before",
+        "unresolved": 1,
+        "value": null
+      },
+      {
+        "stage": "drawn",
+        "unresolved": 2,
+        "value": 5.0
+      },
+      {
+        "stage": "complete",
+        "unresolved": 2,
+        "value": 5.0
+      },
+      {
+        "stage": "total",
+        "unresolved": 0,
+        "value": 4.0
+      }
+    ],
+    "luckLost": true,
+    "lightDamage": 0,
+    "darkAttrition": 4,
+    "darkDamage": 5
   }
 ]

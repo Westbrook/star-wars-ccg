@@ -824,9 +824,23 @@ skipping, Dice, short Reserve, actual reference Sense cancellation and refusal
 of a second unique copy. Native comparison fixtures stop before Vader's separate
 post-result choke. See `tests/native-engine/gemp/gamblers-luck-provenance.json`.
 
-This remains partial card coverage: native applies the printed selection group
-first, while GEMP exposes optional conversion at a drawing opportunity. Declining
-or postponing that conversion, general physical draw limits, other personas,
-per-draw costs and prevention/modifier interactions remain required. The earlier
-selection-order discrepancy remains documented. No new study or public match
-route is added, and production full-match admission stays closed.
+The selection group is now optional at the actual about-to-draw response. A
+player may pass and use it at a later eligible draw. Conversion rewrites the
+pending draw's callback, preserving its existing response window and avoiding
+an extra before-draw event. Smoke Screen before conversion blocks it for that
+draw while preserving a later opportunity; after conversion it can substitute a
+candidate. Conversion use is recorded at initiation and cannot loop within its
+own group. Saved pending conversions bind the exact draw and actor.
+
+Fourteen fresh observations now include declining conversion, delayed conversion
+after the ordinary ability draw, and actual Smoke Screen followed by conversion.
+Thirteen agree at the documented boundary. One records a GEMP defect/ambiguity:
+with only one scheduled draw remaining, Lando's choose-two conversion draws two
+candidates, never permits choosing, and leaves them unresolved. Native currently
+withholds that branch pending a normative outcome. This is an explicit coverage
+guard, not a claim about official legality. Regression tests retain both outcomes.
+
+This remains partial card coverage. That last-draw branch, general physical draw
+limits, other personas, per-draw costs and prevention/modifier interactions remain
+required. The earlier selection-order discrepancy remains documented. No new
+study or public match route is added, and full-match admission stays closed.

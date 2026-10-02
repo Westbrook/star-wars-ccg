@@ -1,5 +1,4 @@
 import {sameCard} from './identity';
-import {drawDestinySelection} from './destiny-selection';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import type {GaderffiiShot} from './gaderffii';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
@@ -337,17 +336,12 @@ export function battleChoose(m: Match, decision: Decision, choice: string): void
 function continueDestinyPlan(m: Match, side: Side): void {
   const b = battle(m)!, plan = b.destinyPlans![side]!;
   if (!plan.remaining || !m.players[side].reserve.length) {
-    plan.remaining = 0;
+    plan.remaining = 0; plan.selection = null;
     completeDestinyTotal(m, side, b.site, 'battle', plan.draws, act('battle-plan-result', 'Total battle destiny', 'plan-result', {side})); return;
   }
   const drawn = act('battle-planned-drawn', 'Reveal battle destiny', 'planned-drawn', {side});
-  if (plan.selection) {
-    const {x, y} = plan.selection; plan.selection = null; plan.remaining -= y;
-    drawDestinySelection(m, side, b.site, 'battle', x, y, act('battle-plan-batch', 'Resolve selected battle destinies', 'plan-batch', {side}), 0, 'used', {drawn, includeTotal: false});
-  } else {
-    plan.remaining--;
-    drawDestiny(m, side, b.site, 'battle', act('battle-plan-draw', 'Resolve battle destiny', 'plan-draw', {side}), false, 0, drawn);
-  }
+  plan.remaining--;
+  drawDestiny(m, side, b.site, 'battle', act('battle-plan-draw', 'Resolve battle destiny', 'plan-draw', {side}), false, 0, drawn);
 }
 export function battleView(m: Match): Json {
   const b = battle(m);
@@ -369,7 +363,7 @@ export function assertBattle(m: Match): void {
     const plan = b.destinyPlans[side]; if (!plan) continue;
     if (!b.gamblersLuck || b.gamblersLuck.side !== side || !Number.isSafeInteger(plan.remaining) || plan.remaining < 0 || plan.remaining > 3 ||
       !Array.isArray(plan.draws) || plan.draws.length > 3 || plan.draws.some(d => !validDraw(m, d, side)) ||
-      plan.selection && (plan.selection.x !== b.gamblersLuck.amount + 1 || plan.selection.y !== b.gamblersLuck.amount || plan.remaining < plan.selection.y)) throw Error('Invalid battle destiny plan.');
+      plan.selection && (plan.selection.x !== b.gamblersLuck.amount + 1 || plan.selection.y !== b.gamblersLuck.amount)) throw Error('Invalid battle destiny plan.');
   }
 
   if (b.knockedWeapons && (new Set(b.knockedWeapons).size !== b.knockedWeapons.length || b.knockedWeapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon'))) throw Error('Invalid knocked-away weapons.');

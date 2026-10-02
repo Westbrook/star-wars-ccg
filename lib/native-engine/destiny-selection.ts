@@ -23,6 +23,21 @@ export function drawDestinySelection(m: Match, side: Side, source: string, categ
   assertSelection(m, p); advance(m, p);
 }
 
+/** Convert the exact pending draw in its existing before-draw window. Rewriting
+ * its callback preserves responses already taken, without opening that window
+ * twice or revealing a candidate before the player elects to convert. */
+export function convertDestinySelection(m: Match, r: Resolution, drawX: number, chooseY: number, next: Action): boolean {
+  if (!m.stack.includes(r) || r.action.handler !== 'destiny:draw' || r.cancelled) return false;
+  const p = r.action.payload as unknown as {side: Side; source: string; category: string; next: Action; includeTotal: boolean; modifier: Modifier; drawn?: Action; retain?: boolean; substitution?: unknown};
+  if (p.retain || p.substitution) return false;
+  const batch: Selection = {side: p.side, source: p.source, category: p.category, next, drawX, chooseY, complete: false,
+    includeTotal: false, modifier: p.modifier, ...(p.drawn ? {drawn: p.drawn} : {}), remainder: 'used', candidates: [], selected: []};
+  assertSelection(m, batch);
+  p.next = {id: 'selection:drawn', label: 'Keep unresolved destiny', handler: 'selection:drawn', payload: batch as unknown as Json};
+  p.includeTotal = false; p.retain = true;
+  return true;
+}
+
 function place(m: Match, c: Candidate, zone: 'used' | 'hand'): void {
   // A value survives losing its physical card. A later visit to the unresolved
   // zone must not be mistaken for the original drawn card.
