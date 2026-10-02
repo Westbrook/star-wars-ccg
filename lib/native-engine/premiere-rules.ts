@@ -14,6 +14,7 @@ import {assertCharacterTriggers, characterAutomatic, characterResolve, character
 import {assertRevival, revivalActions, revivalInitiate, revivalResolve} from './revival';
 import {accidentActions, accidentInitiate, accidentResolve, accidentChoices, accidentChoose, assertAccident} from './accident';
 import {assaultActions, assaultInitiate, assaultResolve, assertAssault} from './assault';
+import {stunActions, stunInitiate, stunResolve, assertStun} from './stun';
 import {assertDuel, duelActions, duelInitiate, duelResolve, duelView} from './duel';
 
 /** Composable production implementation in progress. No card is admitted to a
@@ -27,10 +28,11 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w)],
-  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side)],
+  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side)],
   initiate: (m, r) => {
     if (r.action.handler.startsWith('character:')) return;
-    if (r.action.handler.startsWith('accident:')) accidentInitiate(m, r);
+    if (r.action.handler.startsWith('stun:')) stunInitiate(m, r);
+    else if (r.action.handler.startsWith('accident:')) accidentInitiate(m, r);
     else if (r.action.handler.startsWith('assault:')) assaultInitiate(m, r);
     else if (r.action.handler.startsWith('revival:')) revivalInitiate(m, r);
     else if (r.action.handler.startsWith('duel:')) duelInitiate(m, r);
@@ -44,7 +46,8 @@ export const premiereRules: Rules = {
     } else groundInitiate(m, r);
   },
   resolve: (m, r, context) => {
-    if (r.action.handler.startsWith('accident:')) accidentResolve(m, r);
+    if (r.action.handler.startsWith('stun:')) stunResolve(m, r);
+    else if (r.action.handler.startsWith('accident:')) accidentResolve(m, r);
     else if (r.action.handler.startsWith('assault:')) assaultResolve(m, r);
     else if (r.action.handler.startsWith('revival:')) revivalResolve(m, r);
     else if (r.action.handler.startsWith('duel:')) duelResolve(m, r);
@@ -92,6 +95,7 @@ export const premiereRules: Rules = {
     assertRevival(match);
     assertAssault(match);
     assertAccident(match);
+    assertStun(match);
     assertBattle(match);
     assertLeaving(match);
     if (!citySitesTogether(match, match.locations)) throw Error('Mos Eisley sites must remain together.');

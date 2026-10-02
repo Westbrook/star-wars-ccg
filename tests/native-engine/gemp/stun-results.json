@@ -1,0 +1,119 @@
+[
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "trooper-0-control",
+    "targetReturned": false,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "trooper-1-control",
+    "targetReturned": false,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "trooper-2-control",
+    "targetReturned": true,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "trooper-3-control",
+    "targetReturned": true,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "trooper--1-control",
+    "targetReturned": false,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "droid-0-control",
+    "targetReturned": false,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "droid-1-control",
+    "targetReturned": true,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "droid-2-control",
+    "targetReturned": true,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "droid-3-control",
+    "targetReturned": true,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "droid--1-control",
+    "targetReturned": false,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": true,
+    "name": "trooper-2-gear",
+    "targetReturned": true,
+    "interruptLost": true,
+    "gunReturned": true
+  },
+  {
+    "battleContinues": false,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "trooper-2-battle",
+    "targetReturned": true,
+    "interruptLost": true,
+    "gunReturned": false
+  },
+  {
+    "battleContinues": true,
+    "forceSpent": 2,
+    "beltReturned": false,
+    "name": "trooper-2-outside",
+    "targetReturned": true,
+    "interruptLost": true,
+    "gunReturned": false
+  }
+]

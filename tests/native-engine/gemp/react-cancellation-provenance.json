@@ -1,0 +1,29 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T18:41:14.558750+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 1,
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "harness": "NativeEngineReactCancellationOracleTests.java",
+  "harnessSha256": "f79dd0bbc7c58c2a5dc0c29d4a79a863afe8a34e3e5e8e6c9a37d01c868c2078",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineReactCancellationOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "observations": 1,
+  "scope": "Actual Shistavanen Wolfman move-react to Dark Force drain. Read the same live ForceDrainState.canContinue() while presence remains, then immediately after direct fixture removal of Wolfman into hand. GEMP production source unchanged.",
+  "references": [
+    "AR p170 React",
+    "ForceDrainState.java canContinue/cancel"
+  ],
+  "discrepancy": {
+    "gemp": {
+      "whileReactPresencePresent": false,
+      "afterFixtureRemoval": true
+    },
+    "native": "Stores cancelled=true upon presence arrival, retaining cancellation after later departure and blocking further reacts/Assaults.",
+    "normative": "AR p170 states presence brought by react cancels the Force drain and no more reacts may be made to it."
+  },
+  "limits": "Removal is a deliberate fixture intervention, not a playable card response or a whole-drain outcome. Native tests exercise move/deploy, later removal, Droid-only arrival and canceled movement through serialized runtime commands. Cancellation prevention and wider react grants remain unfinished."
+}

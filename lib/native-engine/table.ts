@@ -5,21 +5,35 @@ import {sides, type Decision, type Json, type Match} from './types';
 type Ordering = {remaining: string[]};
 /** All dependents leave simultaneously. Ordering their Lost Piles must not keep
  * their presence/modifiers on table, or add their forfeit to the host's value. */
-export function loseFromTable(m: Match, hosts: string[]): void {
+function tableGroup(m: Match, hosts: string[]): Set<string> {
   const ids = new Set(hosts);
   for (let changed = true; changed;) {
     changed = false;
     for (const c of Object.values(m.cards)) if (c.attachedTo && ids.has(c.attachedTo) && !ids.has(c.id)) {ids.add(c.id); changed = true;}
   }
   if ([...ids].some(id => m.cards[id]?.zone !== 'table' || m.locations.includes(id))) throw Error('Invalid table loss.');
+  return ids;
+}
+function removeGroup(m: Match, ids: Set<string>, zone: 'leaving' | 'hand'): void {
   // Remove descendants before their host to satisfy the primitive invariant.
   const waiting = new Set(ids);
   while (waiting.size) {
     const id = [...waiting].find(id => ![...waiting].some(child => m.cards[child].attachedTo === id));
     if (!id) throw Error('Cyclic table loss.');
-    moveCard(m, id, 'leaving'); waiting.delete(id);
+    moveCard(m, id, zone); waiting.delete(id);
   }
+}
+export function loseFromTable(m: Match, hosts: string[]): void {
+  const ids = tableGroup(m, hosts);
+  removeGroup(m, ids, 'leaving');
   orderNext(m, [...ids]);
+}
+/** Returning to hand is neither losing nor forfeiting. Every descendant goes
+ * to its own owner's hand, without Lost ordering or forfeiture credit. */
+export function returnToHand(m: Match, hosts: string[]): string[] {
+  const ids = tableGroup(m, hosts);
+  removeGroup(m, ids, 'hand');
+  return [...ids];
 }
 function orderNext(m: Match, remaining: string[]): void {
   if (!remaining.length) return;

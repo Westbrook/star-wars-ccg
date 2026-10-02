@@ -1,4 +1,4 @@
-import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, sitePlacements} from './board';
+import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, presence, sitePlacements} from './board';
 import {moveCard, moveTop} from './state';
 import {openWindow, type RequiredAction} from './runtime';
 import {other, sides, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
@@ -119,6 +119,18 @@ export function queueForceLoss(m: Match, loss: Loss): void {
   openWindow(m, 'response', loss.side, {kind: 'force-loss', side: loss.side});
 }
 
+/** AR p170: bringing presence cancels the drain, rather than suspending it
+ * while control is contested. Arrival responses may remove the reacting card. */
+function cancelDrainAfterReact(m: Match, side: Side, data: Payload): void {
+  if (!data.react || !presence(m, side, data.site!)) return;
+  const drain = [...m.stack].reverse().find(f => f.kind === 'resolution' && f.action.handler === 'ground:drain' && f.actor !== side && payload(f.action).site === data.site);
+  if (drain?.kind !== 'resolution' || drain.cancelled) return;
+  drain.cancelled = true;
+  // Keep ordinary arrival responses above this result window, while persisting
+  // cancellation immediately so later effects cannot revive the same drain.
+  openWindow(m, 'response', other(side), {kind: 'force-drain-cancelled', site: data.site!, source: data.card!});
+}
+
 export function groundResolve(m: Match, resolution: Resolution): void {
   const data = payload(resolution.action), kind = resolution.action.handler, side = resolution.actor;
   if (resolution.cancelled) {
@@ -128,6 +140,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
   }
   if (kind === 'ground:deploy') {
     moveCard(m, data.card!, 'table'); m.cards[data.card!].location = data.site;
+    cancelDrainAfterReact(m, side, data);
     openWindow(m, 'response', other(side), {kind: 'deployed', card: data.card!});
   } else if (kind === 'ground:site') {
     const id = data.card!, placement = sitePlacements(m, id).find(p => p.id === data.placement);
@@ -142,6 +155,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     openWindow(m, 'response', other(side), {kind: 'deployed', card: id});
   } else if (kind === 'ground:move') {
     moveWithAttachments(m, data.card!, data.site!); record(m).moved.push(data.card!);
+    cancelDrainAfterReact(m, side, data);
     openWindow(m, 'response', other(side), {kind: 'moved', card: data.card!, from: data.from!, site: data.site!});
   } else if (kind === 'ground:barrier') {
     if (m.cards[data.target!].zone === 'table') record(m).barriers[data.target!] = m.turn.number;

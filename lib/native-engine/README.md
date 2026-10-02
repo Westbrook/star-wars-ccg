@@ -356,3 +356,41 @@ Sources: Advanced Rulebook pp12, 26, 60–61, 123 and 150; GEMP `Card1_100`,
 not admit complete cards or decks. Wider prevention/replacement, persona/copy-limit
 interactions, cancellation cards and broader loss causes still need implementation
 and conformance evidence. Existing GEMP paths and saved proof versions are unchanged.
+
+### Set For Stun and persistent drain cancellation
+
+`stun.ts` adds Set For Stun as a paid ordinary action, including the weapons
+segment. It targets an opposing Character, uses 2 Force, resolves through shared
+individual/total destiny windows and compares strictly against current ability.
+A Droid has zero ability; a failed draw is not a successful zero. A successful
+return includes descendants in their owners' hands, without loss/forfeit credit
+or Kintan/Old Ben responses. The Interrupt remains in play through return responses
+and then goes to Lost. Battle synchronization clears departed hits/participants;
+removing the last presence ends the battle after the Interrupt finishes.
+
+`table.ts` shares recursive attachment removal between simultaneous loss and
+return-to-hand, preserving Lost ordering only for actual losses. Tests reconstruct
+JSON and compare both seat projections after each command. They cover costs,
+timing, cancellation, prevention, empty/canceled draws, target departure, current
+ability, mixed-owner nested equipment, battle termination, outside-battle targets,
+stale/opponent/forged commands and thirteen matching GEMP outcomes.
+
+Successful movement/deployment reacts now permanently mark their parent Force
+drain canceled as soon as they bring presence. Ordinary arrival responses remain
+available, followed by the cancellation result window. Removing the reacting card
+in a later response cannot revive the drain, enable another react or offer an
+Assault against it. Droid-only arrival and canceled move-react do not cancel it.
+The official AR p170 governs this behavior. A fresh pinned GEMP observation shows
+its `ForceDrainState.canContinue()` changing from false to true when reacting
+presence is removed by a fixture intervention. This is documented as a discrepancy,
+not described as matching conformance or a playable removal response.
+
+Evidence: `tests/native-engine/gemp/stun-*`, `react-cancellation-*` and their Java
+harnesses. Sources: official AR pp18 and 170, GEMP `Card1_268`,
+`ReturnCardToHandFromTableEffect` and `ForceDrainState`.
+
+The engine remains incomplete. General ability modifiers, targeting immunity and
+redirection, zone-change target identity, before-draw/per-Force cost windows,
+replacement/prevention cards and aboard/captured targeting still require work.
+No full card/deck is admitted by this checkpoint. Existing proof versions and GEMP
+routes remain intact; this adds engine behavior without new study UI.

@@ -1,0 +1,22 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T18:41:14.558750+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 1,
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "harness": "NativeEngineStunOracleTests.java",
+  "harnessSha256": "34e06845ba52ac5bc76c158331e07444513fef26e6bac85857e8f9792f3760bd",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineStunOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "observations": 13,
+  "scope": "Actual Set For Stun actions with draws 0/1/2/3/empty against Rebel Trooper and RA-7, own/opposing attachments, weapons-segment removal of final presence, and a target outside the battle. Each native outcome compares returned cards, cost, source disposition and continued battle. GEMP production source unchanged.",
+  "references": [
+    "AR p18 worked Set For Stun example",
+    "Card1_268.java",
+    "ReturnCardToHandFromTableEffect.java"
+  ],
+  "limits": "Current ground Character metadata only. Before-draw and per-Force cost windows, general ability modifiers, targeting redirection/immunity, aboard/captured characters, replacement effects and zone-change target identity remain unfinished. Prevention, cancellation, nested attachments and revalidation fixture interventions have native tests but not fresh GEMP conformance here. No full-card or deck admission."
+}
