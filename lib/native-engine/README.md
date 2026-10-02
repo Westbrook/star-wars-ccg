@@ -26,6 +26,12 @@ continues to load its original saved versions.
   effects wait until the next recirculation.
 - Private projections, revision checks, concession and Life Force exhaustion.
 - The existing production proof now shares the shuffle primitive.
+- Ground components: character/location deployment and conversion, presence and
+  control, site drains, ordinary movement with attachments, CZ-3/Wolfman drain
+  reactions, Barrier timing/expiry and It Could Be Worse loss reduction. These
+  compose with the runtime rather than depending on named study fixtures.
+- Dynamic starter character/site modifiers, including restricted-three copy
+  limits and Core Shaft's erratum granting Luke +2 power on any world.
 
 `Rules` is a **server code interface**, not client-supplied configuration. The
 rules package supplies card definitions, setup completion checks, generation,
@@ -89,6 +95,14 @@ No-location handling is checked against the pinned GEMP starting process, which
 marks a side without a valid location and continues. The unconvertible-location
 test covers the AR starting-setup exception with synthetic metadata; neither is
 claimed as a new executed GEMP fixture.
+
+`tests/native-engine/ground.test.mjs` verifies the ground components with private
+test-only deck admission, JSON reconstruction, immutable commands and comparisons
+against previously conformed boards. Pinned GEMP card source informs costs,
+copy limits and modifiers; no new Java execution is claimed. Core Shaft uses the
+Advanced Rulebook Appendix A erratum, not the archive's original printed text.
+Battle, weapons and remaining card effects still need integration, so the
+production Premiere rules package admits no full-match decks yet.
 
 Rule references: [Advanced Rulebook](https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf),
 Ch. 1 (Force, actions and destiny), Ch. 2 (turn order), Ch. 3 (activation),

@@ -1,7 +1,7 @@
 import {assertState, initialState, lifeForce, moveTop, publicState, recirculate, useForce} from './state';
 import {secureEntropy, type Entropy} from './random';
 import {initializeSetup, setupPrompt, applySetup, projectSetup, assertSetup, type LocationSetupRules} from './setup';
-import {other, sides, type Action, type Command, type Deck, type Decision, type Definition, type Match, type Phase, type Prompt, type Resolution, type Side, type Timing, type Window} from './types';
+import {other, sides, type Action, type Command, type Deck, type Decision, type Definition, type Json, type Match, type Phase, type Prompt, type Resolution, type Side, type Timing, type Window} from './types';
 
 export type Context = {entropy: Entropy};
 export type RequiredAction = Action & {actor: Side};
@@ -46,8 +46,8 @@ export function createMatch(id: string, size: 40 | 60, decks: readonly Deck[], r
   return match;
 }
 
-export function openWindow(match: Match, timing: Timing, priority: Side): void {
-  match.stack.push({kind: 'window', serial: ++match.serial, timing, priority, passes: 0, completed: []});
+export function openWindow(match: Match, timing: Timing, priority: Side, event?: Json): void {
+  match.stack.push({kind: 'window', serial: ++match.serial, timing, priority, passes: 0, completed: [], ...(event === undefined ? {} : {event})});
 }
 
 /** Called by the setup resolver, after starting cards and both starting hands. */

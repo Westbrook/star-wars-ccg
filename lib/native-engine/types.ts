@@ -34,6 +34,7 @@ export type Window = {
   priority: Side;
   passes: number;
   completed: string[];
+  event?: Json;
 };
 export type Resolution = {
   kind: 'resolution';

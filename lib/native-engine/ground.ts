@@ -1,0 +1,174 @@
+import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, sitePlacements} from './board';
+import {moveCard, moveTop} from './state';
+import {openWindow, type RequiredAction} from './runtime';
+import {other, sides, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
+
+export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>};
+type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; target?: string; amount?: number; lossIndex?: number};
+type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean};
+const payload = (action: Action) => action.payload as Payload;
+export function usage(m: Match): GroundState {
+  const stored = m.data.ground as GroundState | undefined;
+  return stored?.turn === m.turn.number ? stored : {turn: m.turn.number, moved: [], reacted: [], drained: [], barriers: {...stored?.barriers}};
+}
+function record(m: Match): GroundState {const current = usage(m); m.data.ground = current as unknown as Json; return current;}
+export const barred = (m: Match, id: string) => (usage(m).barriers[id] ?? 0) >= m.turn.number;
+const action = (id: string, label: string, handler: string, data: Payload, payment?: Payment, source?: string): Action =>
+  ({id, label, handler: 'ground:' + handler, payload: data as Json, ...(payment ? {payment} : {}), ...(source ? {source} : {})});
+const canPay = (m: Match, payment: Payment) => sides.every(side => (payment[side] ?? 0) <= m.players[side].force.length);
+const pending = (m: Match) => m.stack.at(-2)?.kind === 'resolution' ? m.stack.at(-2) as Resolution : null;
+const canMove = (m: Match, id: string) => !isGuard(m.cards[id].blueprint) && !barred(m, id) && !usage(m).moved.includes(id);
+
+export function groundActions(m: Match, window: Window, side: Side): Action[] {
+  const actions: Action[] = [];
+  if (window.timing === 'phase' && side === m.turn.side) {
+    if (m.turn.phase === 'deploy') {
+      for (const id of m.players[side].hand) {
+        if (cardDefinition(m, id).type === 'Character') {
+          for (const site of m.locations) {
+            const payment = deploymentPayment(m, id, site);
+            if (payment && canPay(m, payment)) actions.push(action('deploy:' + id + ':' + site, 'Deploy ' + name(m, id) + ' to ' + name(m, site), 'deploy', {card: id, site}, payment, id));
+          }
+        } else if (cardDefinition(m, id).type === 'Location') {
+          for (const placement of sitePlacements(m, id)) actions.push(action('site:' + id + ':' + placement.id, 'Deploy ' + name(m, id) + ' · ' + placement.label, 'site', {card: id, placement: placement.id}, {}, id));
+        }
+      }
+    }
+    if (m.turn.phase === 'control') for (const site of m.locations) {
+      if (controls(m, side, site) && !usage(m).drained.includes(site)) actions.push(action('drain:' + site, 'Force drain at ' + name(m, site), 'drain', {site}));
+    }
+    if (m.turn.phase === 'move' && m.players[side].force.length) {
+      for (const site of m.locations) for (const card of atSite(m, site)) {
+        if (card.owner !== side || !canMove(m, card.id)) continue;
+        for (const to of m.locations.filter(to => adjacent(m, site, to))) actions.push(action('move:' + card.id + ':' + to, 'Move ' + name(m, card.id) + ' to ' + name(m, to), 'move', {card: card.id, from: site, site: to}, {[side]: 1}));
+      }
+    }
+  }
+  if (window.timing !== 'response') return actions;
+  const event = window.event as {kind?: string; card?: string} | undefined;
+  if (event?.kind === 'deployed' && event.card && m.cards[event.card].zone === 'table' && m.cards[event.card].owner !== side && cardDefinition(m, event.card).type === 'Character') {
+    for (const card of m.players[side].hand.filter(id => m.cards[id].blueprint === (side === 'light' ? '1_105' : '1_249')))
+      actions.push(action('barrier:' + card + ':' + event.card, 'Play ' + name(m, card), 'barrier', {card, target: event.card}, {[side]: 1}, card));
+  }
+  const parent = pending(m);
+  if (parent?.action.handler === 'ground:drain' && !parent.cancelled && side !== parent.actor) {
+    const site = payload(parent.action).site!;
+    if (controls(m, parent.actor, site)) {
+      const used = usage(m).reacted;
+      for (const from of m.locations.filter(from => adjacent(m, from, site))) for (const card of atSite(m, from)) {
+        if (card.owner === side && card.blueprint === '1_30' && !used.includes(card.id) && canMove(m, card.id))
+          actions.push(action('react-move:' + card.id + ':' + site, 'React with ' + name(m, card.id), 'move', {card: card.id, from, site, react: true}, {[side]: 1}));
+      }
+      const supported = m.locations.some(at => (at === site || adjacent(m, at, site)) && atSite(m, at).some(c => c.owner === side && c.blueprint === '1_6'));
+      if (supported) for (const card of m.players[side].hand.filter(id => !used.includes(id) && cardDefinition(m, id).type === 'Character')) {
+        const payment = deploymentPayment(m, card, site);
+        if (payment && canPay(m, payment)) actions.push(action('react-deploy:' + card + ':' + site, 'Deploy ' + name(m, card) + ' as a react', 'deploy', {card, site, react: true}, payment, card));
+      }
+    }
+  }
+  if (parent?.action.handler === 'ground:force-loss' && !parent.cancelled) {
+    const loss = parent.action.payload as Loss;
+    if (side === loss.side && loss.remaining > 0) for (const card of m.players[side].hand.filter(id => m.cards[id].blueprint === '1_90')) {
+      for (let amount = 1; amount <= m.players[side].force.length; amount++) actions.push(action('reduce:' + card + ':' + amount, 'It Could Be Worse · use ' + amount + ' Force', 'reduce', {card, amount, lossIndex: m.stack.length - 2}, {[side]: amount}, card));
+    }
+  }
+  return actions;
+}
+
+export function groundAutomatic(m: Match, window: Window): RequiredAction[] {
+  if (window.timing !== 'end') return [];
+  return Object.entries(usage(m).barriers).filter(([, turn]) => turn <= m.turn.number).map(([target]) => ({
+    ...action('expire-barrier:' + target, 'End Barrier on ' + name(m, target), 'expire', {target}), actor: m.turn.side,
+  }));
+}
+
+export function groundInitiate(m: Match, resolution: Resolution): void {
+  const data = payload(resolution.action), kind = resolution.action.handler;
+  if (['ground:deploy', 'ground:site', 'ground:barrier', 'ground:reduce'].includes(kind)) moveCard(m, data.card!, 'playing');
+  const current = record(m);
+  if (kind === 'ground:drain') current.drained.push(data.site!);
+  if (data.react) current.reacted.push(data.card!);
+}
+
+export function queueForceLoss(m: Match, loss: Loss): void {
+  if (loss.remaining <= 0) return;
+  m.stack.push({kind: 'resolution', actor: loss.side, action: {id: 'force-loss:' + (m.serial + 1), label: 'Lose ' + loss.remaining + ' Force', handler: 'ground:force-loss', payload: loss as unknown as Json}, cancelled: false});
+  openWindow(m, 'response', loss.side, {kind: 'force-loss', side: loss.side});
+}
+
+export function groundResolve(m: Match, resolution: Resolution): void {
+  const data = payload(resolution.action), kind = resolution.action.handler, side = resolution.actor;
+  if (resolution.cancelled) {
+    if (['ground:barrier', 'ground:reduce'].includes(kind)) moveCard(m, data.card!, 'lost');
+    else if (['ground:deploy', 'ground:site'].includes(kind)) throw Error('Deployment cancellation needs its explicit rule handler.');
+    return;
+  }
+  if (kind === 'ground:deploy') {
+    moveCard(m, data.card!, 'table'); m.cards[data.card!].location = data.site;
+    openWindow(m, 'response', other(side), {kind: 'deployed', card: data.card!});
+  } else if (kind === 'ground:site') {
+    const id = data.card!, placement = sitePlacements(m, id).find(p => p.id === data.placement);
+    if (!placement) throw Error('The location placement requires revalidation.');
+    moveCard(m, id, 'table');
+    if (placement.replace) {
+      const old = placement.replace; m.cards[old].coveredBy = id; m.locations[m.locations.indexOf(old)] = id;
+      for (const card of Object.values(m.cards)) {if (card.location === old) card.location = id; if (card.coveredBy === old) card.coveredBy = id;}
+      const current = record(m); current.drained = current.drained.map(site => site === old ? id : site);
+    } else m.locations.splice(placement.index!, 0, id);
+    openWindow(m, 'response', other(side), {kind: 'deployed', card: id});
+  } else if (kind === 'ground:move') {
+    moveWithAttachments(m, data.card!, data.site!); record(m).moved.push(data.card!);
+    openWindow(m, 'response', other(side), {kind: 'moved', card: data.card!, from: data.from!, site: data.site!});
+  } else if (kind === 'ground:barrier') {
+    if (m.cards[data.target!].zone === 'table') record(m).barriers[data.target!] = m.turn.number;
+    moveCard(m, data.card!, 'used');
+  } else if (kind === 'ground:expire') {
+    delete record(m).barriers[data.target!];
+  } else if (kind === 'ground:drain') {
+    if (controls(m, side, data.site!)) queueForceLoss(m, {side: other(side), remaining: drainAmount(m, side, data.site!), source: 'drain', site: data.site!, reductionUsed: false});
+  } else if (kind === 'ground:force-loss') {
+    const loss = resolution.action.payload as Loss;
+    if (loss.remaining > 0) m.stack.push({kind: 'decision', side: loss.side, handler: 'ground:force-loss', payload: loss as unknown as Json});
+  } else if (kind === 'ground:reduce') {
+    const target = m.stack[data.lossIndex!];
+    if (target?.kind !== 'resolution' || target.action.handler !== 'ground:force-loss') throw Error('Missing pending Force loss.');
+    const loss = target.action.payload as Loss;
+    if (!loss.reductionUsed) {loss.remaining = Math.max(0, loss.remaining - data.amount!); loss.reductionUsed = true;}
+    moveCard(m, data.card!, 'used');
+  } else throw Error('Unknown ground effect: ' + kind);
+}
+
+export function groundDecisions(m: Match, decision: Decision): {id: string; label: string}[] {
+  if (decision.handler !== 'ground:force-loss') throw Error('Unknown ground decision.');
+  const side = decision.side, player = m.players[side];
+  return [
+    ...(['reserve', 'force', 'used'] as const).filter(pile => player[pile].length).map(pile => ({id: 'lose:' + pile, label: 'Lose the top card of ' + pile})),
+    ...player.hand.map(id => ({id: 'lose-hand:' + id, label: 'Lose ' + name(m, id) + ' from hand'})),
+  ];
+}
+
+export function groundChoose(m: Match, decision: Decision, choice: string): void {
+  if (decision.handler !== 'ground:force-loss') throw Error('Unknown ground decision.');
+  const loss = {...decision.payload as Loss}, side = decision.side;
+  const id = choice.startsWith('lose-hand:') ? choice.slice(10) : m.players[side][choice.slice(5) as 'reserve' | 'force' | 'used'][0];
+  moveCard(m, id, 'lost'); loss.remaining--;
+  queueForceLoss(m, loss);
+  openWindow(m, 'response', m.turn.side, {kind: 'force-lost', card: id, side, source: loss.source});
+}
+
+export function assertGround(m: Match): void {
+  const stored = m.data.ground as GroundState | undefined;
+  if (!stored) return;
+  if (!Number.isSafeInteger(stored.turn) || stored.turn < 1 || stored.turn > m.turn.number) throw Error('Invalid ground turn.');
+  for (const key of ['moved', 'reacted', 'drained'] as const) {
+    const ids = stored[key];
+    if (!Array.isArray(ids) || new Set(ids).size !== ids.length || ids.some(id => !m.cards[id])) throw Error('Invalid ground usage.');
+  }
+  if (!stored.barriers || Object.entries(stored.barriers).some(([id, turn]) => !m.cards[id] || !Number.isSafeInteger(turn) || turn < 1 || turn > m.turn.number)) throw Error('Invalid Barrier duration.');
+  for (const frame of m.stack) {
+    if (frame.kind === 'decision' && frame.handler === 'ground:force-loss' || frame.kind === 'resolution' && frame.action.handler === 'ground:force-loss') {
+      const loss = (frame.kind === 'decision' ? frame.payload : frame.action.payload) as Loss;
+      if (!sides.includes(loss.side) || !Number.isSafeInteger(loss.remaining) || loss.remaining < 0 || typeof loss.reductionUsed !== 'boolean') throw Error('Invalid pending Force loss.');
+    }
+  }
+}
