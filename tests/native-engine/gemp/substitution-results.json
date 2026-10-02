@@ -1,0 +1,146 @@
+[
+  {
+    "diceOffered": false,
+    "smokeLost": true,
+    "name": "normal",
+    "cardsDrawn": 0,
+    "events": [
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "before",
+        "value": null
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "drawn",
+        "value": 3.0
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "complete",
+        "value": 3.0
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "total",
+        "value": 3.0
+      }
+    ]
+  },
+  {
+    "diceOffered": false,
+    "smokeLost": true,
+    "name": "target-leave",
+    "cardsDrawn": 0,
+    "events": [
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "before",
+        "value": null
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "drawn",
+        "value": 3.0
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "complete",
+        "value": 3.0
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "total",
+        "value": 3.0
+      }
+    ]
+  },
+  {
+    "diceOffered": false,
+    "smokeLost": true,
+    "name": "reserve-empty",
+    "cardsDrawn": 0,
+    "events": [
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "before",
+        "value": null
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "drawn",
+        "value": 3.0
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "complete",
+        "value": 3.0
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "total",
+        "value": 3.0
+      }
+    ]
+  },
+  {
+    "diceOffered": true,
+    "smokeLost": true,
+    "name": "canceled",
+    "cardsDrawn": 1,
+    "events": [
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 0,
+        "stage": "before",
+        "value": null
+      },
+      {
+        "unresolved": 1,
+        "side": "light",
+        "used": 0,
+        "stage": "drawn",
+        "value": 1.0
+      },
+      {
+        "unresolved": 1,
+        "side": "light",
+        "used": 0,
+        "stage": "complete",
+        "value": 1.0
+      },
+      {
+        "unresolved": 0,
+        "side": "light",
+        "used": 1,
+        "stage": "total",
+        "value": 1.0
+      }
+    ]
+  }
+]

@@ -24,7 +24,7 @@ export function interruptActions(m: Match, w: Window, side: Side): Action[] {
     }
     if (bp === '1_84' && w.timing === 'response' && e?.kind === 'battle-destiny-drawn' && e.side === side) {
       const parent = m.stack.at(-2), b = battle(m);
-      if (b && b.destiny[side] !== null && parent?.kind === 'resolution' && parent.action.handler === 'battle:destiny-finish' && !(parent.action.payload as {redraw?: boolean}).redraw)
+      if (b && b.destiny[side] !== null && !b.destinyDraws?.[side]?.substitution && parent?.kind === 'resolution' && parent.action.handler === 'battle:destiny-finish' && !(parent.action.payload as {redraw?: boolean}).redraw)
         for (const target of members(m, side).filter(id => printed(m, id, 'ability') > 2)) actions.push(action('dice:' + card + ':' + target, "Han's Dice · redraw battle destiny", 'dice', {card, target, drawn: e.card}, 1, side));
     }
   }
@@ -50,7 +50,7 @@ export function interruptResolve(m: Match, r: Resolution, context: Context): voi
     openWindow(m, 'response', other(r.actor), {kind: 'pile-shuffled', side: p.side!, pile: p.pile!, source: p.card});
   } else if (h === 'interrupt:dice') {
     const pending = [...m.stack].reverse().find(f => f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish');
-    if (pending?.kind === 'resolution' && (pending.action.payload as {card?: string}).card === p.drawn) {
+    if (pending?.kind === 'resolution' && !battle(m)?.destinyDraws?.[r.actor]?.substitution && (pending.action.payload as {card?: string}).card === p.drawn) {
       (pending.action.payload as Record<string, Json>).redraw = true;
       battle(m)!.destiny[r.actor] = null;
     }

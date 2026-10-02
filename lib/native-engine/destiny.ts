@@ -2,10 +2,26 @@ import {printed, weaponDrawBonus} from './board';
 import {moveCard, moveTop} from './state';
 import {openWindow} from './runtime';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side} from './types';
-export type Draw = {card: string | null; value: number | null};
+export type Substitution = {source: string; value: number};
+export type Draw = {card: string | null; value: number | null; substitution?: Substitution};
 type Context = {next: Action; side: Side; source: string; category: string};
 type Modifier = number | {weapon: string};
-type PendingStart = Context & {includeTotal: boolean; modifier: Modifier; drawn?: Action};
+type PendingStart = Context & {includeTotal: boolean; modifier: Modifier; drawn?: Action; substitution?: Substitution};
+const validSubstitution = (m: Match, s: Substitution) => !!s && !!m.cards[s.source] && Number.isFinite(s.value) && s.value >= 0;
+export function validDraw(m: Match, d: Draw, side: Side, allowNegative = false): boolean {
+  return !!d && (d.card === null || m.cards[d.card]?.owner === side) &&
+    (d.value === null || Number.isFinite(d.value) && (allowNegative || d.value >= 0)) &&
+    (d.substitution === undefined ? d.card !== null || d.value === null : validSubstitution(m, d.substitution) && d.card === null && d.value !== null);
+}
+/** Only an actual pending before-draw continuation can receive a substitute.
+ * Eligibility (including nonempty Reserve) belongs to the initiating card. */
+export function substituteDestiny(m: Match, r: Resolution, source: string, value: number): boolean {
+  if (!validSubstitution(m, {source, value})) throw Error('Invalid substituted destiny.');
+  if (!m.stack.includes(r) || r.action.handler !== 'destiny:draw' || r.cancelled) return false;
+  const p = r.action.payload as unknown as PendingStart;
+  if (p.substitution) return false;
+  p.substitution = {source, value}; return true;
+}
 const validModifier = (m: Match, modifier: Modifier) => typeof modifier === 'number' ? Number.isFinite(modifier) : !!modifier && typeof modifier.weapon === 'string' && !!m.cards[modifier.weapon];
 type PendingDraw = Context & {draw: Draw; includeTotal?: boolean};
 type PendingTotal = Context & {draws: Draw[]; total: number | null; single: boolean};
@@ -17,7 +33,7 @@ const dispatch = (m: Match, p: Context, result: Record<string, Json>) => m.stack
 /** Individual draw completion precedes Used placement. A canceled/nonexistent
  * draw has no completed-draw trigger, but its physical card still gets cleanup. */
 export function completeDestinyDraw(m: Match, side: Side, source: string, category: string, draw: Draw, next: Action, includeTotal = true): void {
-  const p: PendingDraw = {side, source, category, next, includeTotal, draw: {...draw, value: draw.value === null ? null : Math.max(0, draw.value)}};
+  const p: PendingDraw = {side, source, category, next, includeTotal, draw: {...draw, value: draw.substitution?.value ?? (draw.value === null ? null : Math.max(0, draw.value))}};
   queue(m, 'place', p);
   if (p.draw.value !== null) openWindow(m, 'response', other(side), {kind: 'destiny-draw-complete', category, source, side, ...p.draw});
 }
@@ -42,15 +58,15 @@ export function drawDestiny(m: Match, side: Side, source: string, category: stri
 export function resolveDestiny(m: Match, r: Resolution): void {
   if (r.action.handler === 'destiny:draw') {
     const p = r.action.payload as unknown as PendingStart;
-    const card = !r.cancelled && m.players[p.side].reserve.length ? moveTop(m, p.side, 'reserve', 'destiny') : null;
+    const card = !p.substitution && !r.cancelled && m.players[p.side].reserve.length ? moveTop(m, p.side, 'reserve', 'destiny') : null;
     const modifier = typeof p.modifier === 'number' ? p.modifier : weaponDrawBonus(m, p.modifier.weapon);
-    const draw: Draw = {card, value: card ? printed(m, card, 'destiny') + modifier : null};
+    const draw: Draw = p.substitution ? {card: null, value: p.substitution.value, substitution: {...p.substitution}} : {card, value: card ? printed(m, card, 'destiny') + modifier : null};
     // Battle adapters preserve their public events and redraw protocol while
     // sharing the same before-draw boundary and physical draw operation.
     if (p.drawn) dispatch(m, {...p, next: p.drawn}, {draw: draw as unknown as Json});
     else {
       queue(m, 'finish', {...p, draw});
-      openWindow(m, 'response', other(p.side), {kind: card ? 'destiny-drawn' : 'destiny-failed', category: p.category, source: p.source, side: p.side, card});
+      openWindow(m, 'response', other(p.side), {kind: draw.value !== null ? 'destiny-drawn' : 'destiny-failed', category: p.category, source: p.source, side: p.side, card, ...(p.substitution ? {substituted: true, value: draw.value} : {})});
     }
     return;
   }
@@ -58,13 +74,14 @@ export function resolveDestiny(m: Match, r: Resolution): void {
     const p = r.action.payload as unknown as PendingTotal;
     const total = p.total === null ? null : Math.max(0, p.total);
     dispatch(m, p, {draws: p.draws as unknown as Json, total,
-      ...(p.single ? {draw: {card: p.draws[0].card, value: total}} : {})});
+      ...(p.single ? {draw: {...p.draws[0], value: total}} : {})});
     return;
   }
   const p = r.action.payload as unknown as PendingDraw;
   if (r.action.handler === 'destiny:finish') {
-    completeDestinyDraw(m, p.side, p.source, p.category, r.cancelled ? {...p.draw, value: null} : p.draw, p.next, p.includeTotal);
+    completeDestinyDraw(m, p.side, p.source, p.category, r.cancelled && !p.draw.substitution ? {...p.draw, value: null} : p.draw, p.next, p.includeTotal);
   } else if (r.action.handler === 'destiny:place') {
+    if (p.draw.substitution) p.draw.value = p.draw.substitution.value;
     // A response can relocate the physical card without erasing its destiny
     // value. Only cards still in the unresolved zone are placed on Used.
     if (p.draw.card && m.cards[p.draw.card]?.zone === 'destiny') moveCard(m, p.draw.card, 'used');
@@ -80,12 +97,11 @@ export function assertDestiny(m: Match): void {
       !['destiny:draw', 'destiny:finish', 'destiny:place', 'destiny:total-finish'].includes(h)) throw Error('Invalid pending destiny.');
     if (h === 'destiny:draw') {
       const start = f.action.payload as unknown as PendingStart;
-      if (!validModifier(m, start.modifier) || typeof start.includeTotal !== 'boolean' || start.drawn !== undefined && !start.drawn?.handler) throw Error('Invalid destiny initiation.');
+      if (!validModifier(m, start.modifier) || typeof start.includeTotal !== 'boolean' || start.drawn !== undefined && !start.drawn?.handler || start.substitution !== undefined && !validSubstitution(m, start.substitution)) throw Error('Invalid destiny initiation.');
       continue;
     }
     const draws = h === 'destiny:total-finish' ? p.draws : [p.draw];
-    if (!Array.isArray(draws) || draws.some(d => !d || d.card !== null && m.cards[d.card]?.owner !== p.side ||
-      d.value !== null && (!Number.isFinite(d.value) || h !== 'destiny:finish' && d.value < 0) || d.card === null && d.value !== null)) throw Error('Invalid pending destiny.');
+    if (!Array.isArray(draws) || draws.some(d => !validDraw(m, d, p.side, h === 'destiny:finish'))) throw Error('Invalid pending destiny.');
     if (h === 'destiny:total-finish') {
       if (typeof p.single !== 'boolean' || p.single && draws.length !== 1 || p.total !== null && !Number.isFinite(p.total) ||
         (p.total === null) !== !draws.some(d => d.value !== null)) throw Error('Invalid destiny total.');

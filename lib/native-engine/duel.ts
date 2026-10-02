@@ -1,5 +1,5 @@
 import {adjacent, power} from './board';
-import {completeDestinyTotal, drawDestiny, type Draw} from './destiny';
+import {completeDestinyTotal, drawDestiny, validDraw, type Draw} from './destiny';
 import {queueForceLoss} from './ground';
 import {retrieve} from './retrieval';
 import {openWindow} from './runtime';
@@ -139,7 +139,7 @@ export function assertDuel(m: Match): void {
   const d = duel(m);
   if (d) {
     if (m.cards[d.source]?.blueprint !== '101_6' || !m.locations.includes(d.site) || !['begin','draws','result','losses','end','complete'].includes(d.stage) || typeof d.interrupted !== 'boolean' || d.winner !== null && !sides.includes(d.winner) || d.difference !== null && (!Number.isSafeInteger(d.difference) || d.difference < 0)) throw Error('Invalid duel state.');
-    for (const side of sides) if (m.cards[d.characters[side]]?.owner !== side || !Array.isArray(d.draws[side]) || d.draws[side].length > 2 || d.draws[side].some(x => x.card !== null && m.cards[x.card]?.owner !== side || x.value !== null && (!Number.isFinite(x.value) || x.value < 0) || x.card === null && x.value !== null) || d.total[side] !== null && (!Number.isFinite(d.total[side]) || d.total[side]! < 0)) throw Error('Invalid duel total.');
+    for (const side of sides) if (m.cards[d.characters[side]]?.owner !== side || !Array.isArray(d.draws[side]) || d.draws[side].length > 2 || d.draws[side].some(x => !validDraw(m, x, side)) || d.total[side] !== null && (!Number.isFinite(d.total[side]) || d.total[side]! < 0)) throw Error('Invalid duel total.');
     if (d.destinyTotals && sides.some(side => d.destinyTotals![side] !== null && (!Number.isFinite(d.destinyTotals![side]) || d.destinyTotals![side]! < 0))) throw Error('Invalid duel destiny totals.');
     if (m.cards[d.characters.dark].blueprint !== '101_5' || m.cards[d.characters.light].blueprint !== '101_2') throw Error('Invalid duel participants.');
     if (d.difference === null && (d.stage !== 'result' || d.draws.dark.some(x => x.value !== null) === d.draws.light.some(x => x.value !== null))) throw Error('Invalid unverified duel amount.');

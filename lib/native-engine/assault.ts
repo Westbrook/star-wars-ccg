@@ -1,5 +1,5 @@
 import {atSite, name, totalPower} from './board';
-import {completeDestinyTotal, drawDestiny, type Draw} from './destiny';
+import {completeDestinyTotal, drawDestiny, validDraw, type Draw} from './destiny';
 import {queueForceLoss} from './ground';
 import {openWindow} from './runtime';
 import {moveCard} from './state';
@@ -57,7 +57,7 @@ export function assertAssault(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler.startsWith('assault:')) {
     const p = f.action.payload as unknown as Payload, h = f.action.handler;
     if (!p || m.cards[p.card]?.blueprint !== (f.actor === 'light' ? '1_113' : '1_238') || m.cards[p.card]?.owner !== f.actor || m.cards[p.card]?.zone !== 'playing' || !m.locations.includes(p.site) || typeof p.drain !== 'string' || !['assault:play','assault:draw','assault:result','assault:loss','assault:finish'].includes(h)) throw Error('Invalid pending Assault.');
-    if (['assault:draw','assault:result','assault:loss'].includes(h) && (!Number.isSafeInteger(p.count) || p.count! < 0 || p.count! > m.deckSize || !Number.isFinite(p.power) || p.power! < 0 || !Array.isArray(p.draws) || p.draws.length > p.count! || p.draws.some(d => !d || d.card !== null && m.cards[d.card]?.owner !== f.actor || d.value !== null && (!Number.isFinite(d.value) || d.value < 0) || d.card === null && d.value !== null))) throw Error('Invalid Assault snapshot.');
+    if (['assault:draw','assault:result','assault:loss'].includes(h) && (!Number.isSafeInteger(p.count) || p.count! < 0 || p.count! > m.deckSize || !Number.isFinite(p.power) || p.power! < 0 || !Array.isArray(p.draws) || p.draws.length > p.count! || p.draws.some(d => !validDraw(m, d, f.actor)))) throw Error('Invalid Assault snapshot.');
     if (['assault:result','assault:loss'].includes(h) && p.draws!.length !== p.count) throw Error('Incomplete Assault draws.');
     if (h === 'assault:loss' && (p.total !== null && (!Number.isFinite(p.total) || p.total! < 0) || p.loser !== null && !sides.includes(p.loser!) || !Number.isSafeInteger(p.amount) || p.amount! < 0)) throw Error('Invalid Assault loss.');
   }

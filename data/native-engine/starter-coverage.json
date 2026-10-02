@@ -6,7 +6,7 @@
   "productionAdmission": "closed",
   "rulesSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
   "sharedRequiredWork": [
-    "Complete per-draw costs, substitution/choose-X, automatic modifiers and individual Force-use timing across all callers.",
+    "Complete per-draw costs, draw-X/choose-Y, broader substitution providers and physical draw limits, automatic modifiers and individual Force-use timing.",
     "Extend action-specific source/target identity semantics to remaining effects/events, retrieval/search/inspection, group movement and duels; preserve initiated actions and handle persona/conversion aliases.",
     "Generic continuous modifier, prevention/replacement, persona/uniqueness and characteristic infrastructure.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
@@ -1841,6 +1841,23 @@
         "tests/native-engine/gemp/before-destiny-provenance.json"
       ],
       "scope": "Shared pre-reveal response boundary for all currently implemented physical destiny draws, including battle, weapons and Dice redraws. Empty Reserve excludes about-to-draw text; live top-card and weapon location modifier evaluation. Eight matching GEMP event traces. Per-draw costs/substitution/choose-X and broader card effects remain; no full admission."
+    },
+    "substitutedDestiny": {
+      "implementation": [
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/substitution.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/substitution.test.mjs",
+        "tests/native-engine/destiny.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/substitution-results.json",
+        "tests/native-engine/gemp/substitution-provenance.json"
+      ],
+      "scope": "Shared substituted value with no physical draw; locked individual value, separate modifiable total, battle/weapon/serial continuations and Dice exclusion. Smoke Screen 5_69 uses current ground character ability; four matching GEMP outcomes. Supplemental component, no production admission."
     }
   }
 }

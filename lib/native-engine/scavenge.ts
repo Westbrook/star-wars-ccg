@@ -1,5 +1,5 @@
 import {cardDefinition, name} from './board';
-import {drawDestiny, type Draw} from './destiny';
+import {drawDestiny, validDraw, type Draw} from './destiny';
 import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {other, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
@@ -84,7 +84,7 @@ export function assertScavenge(m: Match): void {
     if (!p || m.cards[p.card]?.blueprint !== '1_275' || m.cards[p.card].owner !== 'dark' || m.cards[p.card].zone !== 'playing' ||
       (f.kind === 'resolution' ? f.actor : (f as Decision).side) !== (h === 'scavenge:order' ? m.turn.side : 'dark') ||
       !(f.kind === 'resolution' ? ['scavenge:play','scavenge:result','scavenge:inspect','scavenge:next','scavenge:lose','scavenge:finish'] : ['scavenge:offer','scavenge:order']).includes(h)) throw Error('Invalid Tusken Scavengers continuation.');
-    if (['scavenge:result','scavenge:offer'].includes(h) && (!p.draw || p.draw.card !== null && m.cards[p.draw.card]?.owner !== 'dark' || p.draw.value !== null && (!Number.isFinite(p.draw.value) || p.draw.value < 0) || p.draw.card === null && p.draw.value !== null)) throw Error('Invalid scavenging destiny.');
+    if (['scavenge:result','scavenge:offer'].includes(h) && (!p.draw || !validDraw(m, p.draw, 'dark'))) throw Error('Invalid scavenging destiny.');
     if (h === 'scavenge:offer' && (!Number.isSafeInteger(p.count) || p.count! < 1 || p.draw!.value === null || p.draw!.value >= p.count!)) throw Error('Invalid scavenging offer.');
     if (['scavenge:next','scavenge:order'].includes(h) && (!Array.isArray(p.cards) || new Set(p.cards).size !== p.cards.length || p.cards.some(id => m.cards[id]?.owner !== 'light') || !Array.isArray(p.remaining) || new Set(p.remaining).size !== p.remaining.length || p.remaining.some(id => !p.cards!.includes(id) || !equipment(m, id)))) throw Error('Invalid scavenging targets.');
     if (h === 'scavenge:order' && !p.remaining!.some(id => eligible(m, id))) throw Error('Empty scavenging order.');

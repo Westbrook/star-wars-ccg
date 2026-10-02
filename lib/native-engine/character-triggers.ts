@@ -1,6 +1,6 @@
 import {atSite, cardDefinition, name} from './board';
 import {battle, members} from './battle';
-import {drawDestiny, type Draw} from './destiny';
+import {drawDestiny, validDraw, type Draw} from './destiny';
 import {barred} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
 import {loseFromTable} from './table';
@@ -58,7 +58,7 @@ export function assertCharacterTriggers(m: Match): void {
     if (!p || m.cards[p.source]?.blueprint !== '101_5' || m.cards[p.source].owner !== actor || !m.locations.includes(p.site) ||
       !['character:draw-choke', 'character:resolve-choke', 'character:choke-target', 'character:apply-choke', 'character:choke-lost'].includes(handler)) throw Error('Invalid character trigger.');
     if (handler === 'character:resolve-choke' || handler === 'character:choke-target') {
-      if (!p.draw || p.draw.card !== null && m.cards[p.draw.card]?.owner !== actor || p.draw.value !== null && (!Number.isFinite(p.draw.value) || p.draw.value < 0) || p.draw.card === null && p.draw.value !== null) throw Error('Invalid choke destiny.');
+      if (!p.draw || !validDraw(m, p.draw, actor)) throw Error('Invalid choke destiny.');
     }
     if (handler === 'character:choke-target' && (!targets(m, p).length || p.draw!.value !== null && p.draw!.value <= 4)) throw Error('Invalid choke choice.');
     if (handler === 'character:apply-choke' && (!p.target || !m.cards[p.target] || cardDefinition(m, p.target).subType !== 'Imperial')) throw Error('Invalid choke target.');

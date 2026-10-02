@@ -194,3 +194,10 @@ test('before-draw GEMP trace: rifle weapon zero',()=>{
  const f=battleFixture();let m=priority(f.m,'light');topDestiny(m,'light','1_124');m=step(m,'fire:'+f.gun+':'+f.droid);
  const t=trace(m,x=>event(x)?.kind==='weapon-fired',true);assert.deepEqual(t.events,beforeOracle.find(r=>r.name==='weapon-zero').events);
 });
+
+test('shared weapon substitution preserves zero through cancellation and keeps the rifle comparison bonus',()=>{
+ const f=battleFixture();let m=priority(f.m,'light');m=step(m,'fire:'+f.gun+':'+f.droid);m=seek(m,x=>event(x)?.kind==='about-to-draw-destiny');const reserve=[...m.players.light.reserve];
+ assert.equal(destiny.substituteDestiny(m,m.stack.at(-2),f.gun,0),true);m=seek(m,x=>event(x)?.kind==='weapon-destiny-drawn');m.stack.at(-2).cancelled=true;
+ const bad=clone(m);combat.battle(bad).shots[0].substitution.source='missing';assert.throws(()=>prompt(bad),/Invalid weapon destiny/);
+ m=seek(m,x=>event(x)?.kind==='weapon-fired');assert.equal(combat.battle(m).shots[0].total,0);assert.ok(combat.battle(m).hits.includes(f.droid));assert.deepEqual(m.players.light.reserve,reserve);assert.equal(m.cards[f.gun].zone,'table');
+});

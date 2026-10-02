@@ -79,5 +79,22 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_011.java"
+  },
+  {
+    "gempId": "5_69",
+    "name": "Smoke Screen",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Light/large/smokescreen.gif",
+    "text": "During a battle at a site, if you are about to draw a card for battle destiny, you may instead use the ability number of one of your characters involved in the battle.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_069.java"
   }
 ]

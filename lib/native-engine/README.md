@@ -736,3 +736,35 @@ Reserve depletion, prevention, privacy, recovery and terminal concession. No new
 study or production deck admission was added. Per-draw costs (which precede this
 window), substitution, draw-X/choose-Y, complete automatic modifiers, and specific
 cards using these facilities are still required scope.
+
+
+### Substituted destiny and Smoke Screen
+
+`Draw` now distinguishes a failed draw from a successful substituted value with
+no physical card. Shared substitution records the supplying source and locked
+value on the exact pending draw. It leaves Reserve untouched, emits drawn and
+completed-draw responses, ignores individual draw modifiers/cancellation/reset,
+and permits later total modifiers. Zero remains a successful destiny. Serial
+callers and their saved-state validators accept substituted draws; battle and
+weapon adapters preserve the substitution through their result timing.
+
+`substitution.ts` implements Smoke Screen (5_69): at a site, respond to your
+pending battle destiny with one of your participating characters that has
+ability. Its current ability supplies the substitute on resolution; the Lost
+Interrupt then goes to Lost. Empty Reserve prevents initiation. Canceling the
+Interrupt retains the ordinary draw; once substituted, Han's Dice cannot cancel
+or redraw the value. A nested action cannot substitute the wrong pending draw.
+
+Four fresh GEMP comparisons cover actual Smoke Screen, targeted-character removal,
+Reserve depletion after initiation, and actual Sense cancellation. All compare
+timing, physical pile counts, source disposal and Dice eligibility. Native Sense
+is not implemented: its cancellation is injected in the corresponding native
+fixture. Reference zone interventions are explicit, not played removal cards.
+Native-only shared primitive tests include zero, total changes, immunity to draw
+cancellation/modification, malformed saves, serial and weapon draws, and private
+recovery. See `tests/native-engine/gemp/substitution-provenance.json`.
+
+Smoke Screen is supplemental component coverage; starter deck definitions and
+production admission remain unchanged. General ability/targetability modifiers,
+other substitution providers, limits on physical draws, draw-X/choose-Y and
+per-draw costs remain required. This checkpoint does not complete full matches.

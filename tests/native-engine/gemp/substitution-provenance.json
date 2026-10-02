@@ -1,0 +1,23 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T22:27:48.530966+00:00",
+  "harness": "NativeEngineSubstitutionOracleTests.java",
+  "harnessSha256": "8791d44bad6ea8a151f9b6dc30fafcf02d96a3978fa4a054ea3b1e1f6d0dcf94",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineSubstitutionOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 4,
+  "productionFilesVerified": 6820,
+  "scope": "Actual Smoke Screen plays compare before/drawn/completed/total traces, physical unresolved/Used counts, Reserve cards drawn, source Lost and Dice eligibility. Normal, targeted-character fixture removal, Reserve fixture depletion after initiation, and actual Sense cancellation. All four native outcome comparisons match.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp32\u201333: substituted value has no physical draw; cannot modify/cancel/reset it; total modifiers still apply. Reserve must be nonempty to initiate substitution.",
+    "Card5_069: own participating character with ability at a site; current ability read when substitution resolves.",
+    "SubstituteDestinyEffect and DrawDestinyEffect: value substitution persists across response changes and leaves Reserve intact.",
+    "Native cancellation comparison marks the pending Smoke Screen canceled; reference actually plays Sense. Native Sense remains required work."
+  ],
+  "limits": "Current ground characters and native printed ability metadata. General ability/targetability modifiers, redirection/prevention, broader substitution providers, numeric draw limits, draw-X/choose-Y and per-draw costs remain. Source/Reserve changes are labeled fixture interventions. Generic weapon/serial substitution has native-only injection tests. Full production admission closed."
+}

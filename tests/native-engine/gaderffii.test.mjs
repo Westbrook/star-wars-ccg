@@ -139,3 +139,8 @@ test('each stick draw has its own before window and evaluates current location m
  m=seek(step(m,'pass'),x=>kind(x)==='about-to-draw-destiny');assert.equal(shot(m).draws.length,1);board.moveWithAttachments(m,f.host,f.site);
  m=weapons(m);assert.deepEqual(shot(m).draws.map(d=>d.value),[2,3]);assert.equal(shot(m).total,5);
 });
+
+test('shared substitution composes with serial Gaderffii draws and one combined total',()=>{
+ const destiny=load(new URL('../../lib/native-engine/destiny.ts',import.meta.url));const f=fixture();let m=seek(fire(f,[2,2]).m,x=>kind(x)==='about-to-draw-destiny');const before=m.players.dark.reserve.length;
+ assert.equal(destiny.substituteDestiny(m,pending(m),f.stick,4),true);m=weapons(m);assert.deepEqual(shot(m).draws.map(d=>d.value),[4,2]);assert.equal(shot(m).draws[0].card,null);assert.equal(shot(m).total,6);assert.equal(shot(m).outcome,'knocked');assert.equal(m.players.dark.reserve.length,before-1);
+});

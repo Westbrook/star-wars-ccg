@@ -6,17 +6,18 @@ export {weaponDrawBonus} from './board';
 import {barred, reactionActions} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
 import {moveCard} from './state';
-import {drawDestiny, completeDestinyDraw, completeDestinyTotal, type Draw} from './destiny';
+import {drawDestiny, validDraw, completeDestinyDraw, completeDestinyTotal, type Draw, type Substitution} from './destiny';
 import {loseFromTable} from './table';
 import {canUseWeapon, useWeapon} from './weapon-state';
 import {other, sides, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 type Pair<T> = Record<Side, T>;
-type Shot = {weapon: string; target: string; side: Side; defense: number; bonus: number; card: string | null; destiny: number | null; hit: boolean | null; total?: number | null};
+type Shot = {weapon: string; target: string; side: Side; defense: number; bonus: number; card: string | null; destiny: number | null; hit: boolean | null; total?: number | null; substitution?: Substitution};
 export type Battle = {
   site: string; initiator: Side; stage: 'begin' | 'weapons' | 'power' | 'damage' | 'end' | 'complete';
   participants: Pair<string[]>; hits: string[]; fired: string[]; users: Record<string, string>; shots: Shot[];
   destiny: Pair<number | null>; destinyCards: Pair<string | null>; power: Pair<number>;
+  destinyDraws?: Pair<Draw | null>;
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
   departed?: string[];
@@ -193,15 +194,16 @@ export function battleResolve(m: Match, r: Resolution): void {
       windowThen(m, 'destiny-next', 'battle-destiny-player-complete', other(p.side!), {side: p.side});
     } else {
       const value = b!.destiny[p.side!];
-      b!.destiny[p.side!] = r.cancelled || value === null ? null : Math.max(0, value);
-      completeDestinyDraw(m, p.side!, b!.site, 'battle', {card: p.card ?? null, value: b!.destiny[p.side!]},
+      const substitution = b!.destinyDraws?.[p.side!]?.substitution;
+      b!.destiny[p.side!] = substitution?.value ?? (r.cancelled || value === null ? null : Math.max(0, value));
+      completeDestinyDraw(m, p.side!, b!.site, 'battle', {card: p.card ?? null, value: b!.destiny[p.side!], ...(substitution ? {substitution} : {})},
         act('battle-destiny-result', 'Complete battle destiny', 'destiny-result', {side: p.side}));
     }
     return;
   }
   if (kind === 'battle:shot-finish') {
     const shot = b!.shots[p.index!];
-    completeDestinyDraw(m, side, shot.weapon, 'weapon', {card: shot.card, value: r.cancelled ? null : shot.destiny},
+    completeDestinyDraw(m, side, shot.weapon, 'weapon', {card: shot.card, value: shot.substitution?.value ?? (r.cancelled ? null : shot.destiny), ...(shot.substitution ? {substitution: shot.substitution} : {})},
       act('shot-total', 'Total weapon destiny', 'shot-total', {index: p.index}), false);
     return;
   }
@@ -255,12 +257,14 @@ export function battleResolve(m: Match, r: Resolution): void {
   } else if (kind === 'battle:weapon-drawn') {
     const shot = b.shots[p.index!];
     shot.card = p.draw!.card; shot.destiny = p.draw!.value;
+    if (p.draw!.substitution) shot.substitution = p.draw!.substitution;
     continuation(m, 'shot-finish', {index: p.index}, side);
-    openWindow(m, 'response', other(side), {kind: shot.card ? 'weapon-destiny-drawn' : 'weapon-destiny-failed', card: shot.card, value: shot.destiny});
+    openWindow(m, 'response', other(side), {kind: shot.destiny !== null ? 'weapon-destiny-drawn' : 'weapon-destiny-failed', card: shot.card, value: shot.destiny, ...(shot.substitution ? {substituted: true} : {})});
   } else if (kind === 'battle:drawn') {
     b.destiny[side] = p.draw!.value; b.destinyCards[side] = p.draw!.card;
+    (b.destinyDraws ??= pair(null, null))[side] = structuredClone(p.draw!);
     continuation(m, 'destiny-finish', {side, ...(p.draw!.card ? {card: p.draw!.card} : {})});
-    openWindow(m, 'response', other(side), {kind: p.draw!.card ? 'battle-destiny-drawn' : 'battle-destiny-failed', card: p.draw!.card, side});
+    openWindow(m, 'response', other(side), {kind: p.draw!.value !== null ? 'battle-destiny-drawn' : 'battle-destiny-failed', card: p.draw!.card, side, ...(p.draw!.substitution ? {substituted: true, value: p.draw!.value} : {})});
   } else if (kind === 'battle:shot-total') {
     const shot = b.shots[p.index!]; shot.destiny = p.draw!.value;
     completeDestinyTotal(m, side, shot.weapon, 'weapon', [p.draw!], act('shot-result', 'Resolve weapon result', 'shot-result', {index: p.index}));
@@ -331,8 +335,10 @@ export function assertBattle(m: Match): void {
     const drawing = m.stack.some(f => f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish' && data(f).side === side);
     if (b.destiny[side] !== null && (!Number.isFinite(b.destiny[side]) || b.destiny[side]! < 0 && !drawing)) throw Error('Invalid battle destiny.');
     if (b.destinyCards[side] !== null && m.cards[b.destinyCards[side]!]?.owner !== side) throw Error('Invalid destiny owner.');
+    if (b.destinyDraws?.[side] && !validDraw(m, b.destinyDraws[side]!, side, true)) throw Error('Invalid battle destiny record.');
   }
   for (const shot of b.shots) if (!weapons[m.cards[shot.weapon]?.blueprint] || !m.cards[shot.target] || !sides.includes(shot.side) ||
+    shot.substitution !== undefined && !validDraw(m, {card: shot.card, value: shot.destiny, substitution: shot.substitution}, shot.side, true) ||
     shot.card !== null && m.cards[shot.card]?.owner !== shot.side || shot.destiny !== null && !Number.isFinite(shot.destiny) ||
     shot.total !== undefined && shot.total !== null && (!Number.isFinite(shot.total) || shot.total < 0) ||
     shot.hit !== null && typeof shot.hit !== 'boolean') throw Error('Invalid weapon destiny.');

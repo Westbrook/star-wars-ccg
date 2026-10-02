@@ -3,7 +3,7 @@ import {attached, cardDefinition, name} from './board';
 import {battle, members} from './battle';
 import {canDeployAsReact, pendingReactSite, reactionSources, registerReact} from './ground';
 import {canUseWeapon, useWeapon} from './weapon-state';
-import {completeDestinyTotal, drawDestiny, type Draw} from './destiny';
+import {completeDestinyTotal, drawDestiny, validDraw, type Draw} from './destiny';
 import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
@@ -80,7 +80,7 @@ export function gaderffiiResolve(m: Match, r: Resolution): void {
 export function assertGaderffii(m: Match): void {
   const b = battle(m);
   for (const shot of b?.gaffiShots ?? []) {
-    if (m.cards[shot.weapon]?.blueprint !== '1_315' || m.cards[shot.weapon].owner !== shot.side || !sides.includes(shot.side) || !m.cards[shot.host] || !m.cards[shot.target] || !Array.isArray(shot.draws) || shot.draws.length > 2 || shot.draws.some(d => !d || d.card !== null && m.cards[d.card]?.owner !== shot.side || d.value !== null && (!Number.isFinite(d.value) || d.value < 0) || d.card === null && d.value !== null) || shot.total !== null && (!Number.isFinite(shot.total) || shot.total < 0) || !['pending','canceled','invalid','miss','knocked'].includes(shot.outcome) || !Array.isArray(shot.weapons) || new Set(shot.weapons).size !== shot.weapons.length || shot.weapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon')) throw Error('Invalid Gaderffii Stick record.');
+    if (m.cards[shot.weapon]?.blueprint !== '1_315' || m.cards[shot.weapon].owner !== shot.side || !sides.includes(shot.side) || !m.cards[shot.host] || !m.cards[shot.target] || !Array.isArray(shot.draws) || shot.draws.length > 2 || shot.draws.some(d => !validDraw(m, d, shot.side)) || shot.total !== null && (!Number.isFinite(shot.total) || shot.total < 0) || !['pending','canceled','invalid','miss','knocked'].includes(shot.outcome) || !Array.isArray(shot.weapons) || new Set(shot.weapons).size !== shot.weapons.length || shot.weapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon')) throw Error('Invalid Gaderffii Stick record.');
     if (['miss','knocked'].includes(shot.outcome) && shot.draws.length !== 2 || shot.outcome === 'knocked' && (shot.total === null || shot.total <= 5 || !shot.weapons.length)) throw Error('Invalid Gaderffii Stick result.');
   }
   for (const r of m.stack) if (r.kind === 'resolution' && r.action.handler.startsWith('gaffi:')) {

@@ -1,5 +1,5 @@
 import {cardDefinition, name, printed} from './board';
-import {drawDestiny, type Draw} from './destiny';
+import {drawDestiny, validDraw, type Draw} from './destiny';
 import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
@@ -47,7 +47,6 @@ export function assertStun(m: Match): void {
       !m.cards[p.target] || m.cards[p.target].owner === f.actor || cardDefinition(m, p.target).type !== 'Character' ||
       !['stun:play','stun:result','stun:return','stun:finish'].includes(h)) throw Error('Invalid pending Set For Stun.');
     assertCardReference(m, p.targetRef!, p.target);
-    if (['stun:result','stun:return'].includes(h) && (!p.draw || p.draw.card !== null && m.cards[p.draw.card]?.owner !== f.actor ||
-      p.draw.value !== null && (!Number.isFinite(p.draw.value) || p.draw.value < 0) || p.draw.card === null && p.draw.value !== null)) throw Error('Invalid Set For Stun destiny.');
+    if (['stun:result','stun:return'].includes(h) && (!p.draw || !validDraw(m, p.draw, f.actor))) throw Error('Invalid Set For Stun destiny.');
   }
 }
