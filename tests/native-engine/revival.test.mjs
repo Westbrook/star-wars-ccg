@@ -106,8 +106,9 @@ test('revival during Talz forfeiture cost does not interfere with rescuing the h
  m=respond(m,'light','revival:old-ben:'+f.ben+':'+f.rescuer);m=finishInterrupt(m,f.ben);m=seek(m,x=>x.stack.at(-1)?.event?.kind==='battle-damage');assert.equal(m.cards[f.rescuer].zone,'table');assert.ok(!combat.members(m,'light').includes(f.rescuer));assert.ok(combat.members(m,'light').includes(f.luke));assert.ok(!combat.battle(m).hits.includes(f.luke));assert.deepEqual(combat.battle(m).damage,paid.damage);
 });
 
-test('revived character stays out of this turn’s battles but is eligible next turn',()=>{
- const f=fixture();let m=respond(forfeit(f.m,f.luke),'light',benAction(f));m=finishInterrupt(m,f.ben);m=seek(m,x=>x.turn.phase==='move'&&x.stack.length===1);assert.equal(m.cards[f.luke].zone,'table');assert.ok(combat.battleHistory(m).participants.includes(f.luke));assert.equal(combat.battle(m).stage,'complete');
+test('revived character stays out of current battle but has no old-instance battle history',()=>{
+ const f=fixture();let m=respond(forfeit(f.m,f.luke),'light',benAction(f));m=finishInterrupt(m,f.ben);m=seek(m,x=>x.turn.phase==='move'&&x.stack.length===1);assert.equal(m.cards[f.luke].zone,'table');assert.ok(!combat.battleHistory(m).participants.includes(f.luke));assert.equal(combat.battle(m).stage,'complete');
+ assert.deepEqual({name:'old-ben-return',battled:combat.battleHistory(m).participants.includes(f.luke),participating:combat.members(m,'light').includes(f.luke)},JSON.parse(fs.readFileSync(new URL('./gemp/identity-results.json',import.meta.url))).find(r=>r.name==='old-ben-return'));
  m=seek(m,x=>x.turn.number===2&&x.turn.phase==='battle'&&x.stack.length===1);m=step(m,'battle:'+f.site);assert.ok(combat.members(m,'light').includes(f.luke));assert.ok(!combat.battle(m).hits.includes(f.luke));
 });
 
@@ -133,4 +134,8 @@ test('native revival and nearest-character retrieval match all four executed GEM
   const f=fixture();let m=forfeit(f.m,f.luke);if(!found)for(const id of [f.deep,f.nearest])state.moveCard(m,id,'hand');const before=m.players.dark.force.length;m=step(m,kintanAction(f));m=finishInterrupt(m,f.kintan);
   assert.deepEqual({name:found?'kintan-character':'kintan-no-character',retrieved:found&&m.cards[f.nearest].zone==='hand'?1:0,searchAllowed:m.data.failedCharacterSearches?.dark!==m.turn.number,deepStillLost:m.cards[f.deep].zone==='lost',noncharacterLost:m.cards[f.noncharacter].zone==='lost',forceSpent:before-m.players.dark.force.length,interruptLost:m.cards[f.kintan].zone==='lost'},oracle.find(o=>o.name===(found?'kintan-character':'kintan-no-character')));
  }
+});
+
+for(const boundary of ['initiation','about-to-remove-just-lost'])test('Old Ben cannot use an expired Lost Pile visit at '+boundary,()=>{
+ const f=fixture();let m=respond(forfeit(f.m,f.luke),'light',benAction(f));if(boundary!=='initiation')m=seek(m,x=>x.stack.at(-1)?.event?.kind===boundary);state.moveCard(m,f.luke,'hand');state.moveCard(m,f.luke,'lost');m=finishInterrupt(m,f.ben);assert.equal(m.cards[f.luke].zone,'lost');assert.ok(!combat.members(m,'light').includes(f.luke));
 });

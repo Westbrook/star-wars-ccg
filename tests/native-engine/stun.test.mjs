@@ -87,3 +87,7 @@ test('native Set For Stun matches thirteen freshly executed GEMP outcomes',()=>{
   assert.deepEqual({name:o.name,targetReturned:m.cards[target].zone==='hand',gunReturned:!!gun&&m.cards[gun].zone==='hand',beltReturned:!!belt&&m.cards[belt].zone==='hand',forceSpent:force-m.players.dark.force.length,interruptLost:m.cards[f.card].zone==='lost',battleContinues:!!combat.battle(m)&&combat.battle(m).stage!=='complete'},o);
  }
 });
+
+for(const boundary of ['play','destiny-drawn','about-to-return-to-hand'])test('Set For Stun does not follow a target that leaves and returns at '+boundary,()=>{
+ const f=fixture();let m=play(f);if(boundary!=='play')m=seek(m,x=>event(x)?.kind===boundary);state.moveCard(m,f.target,'hand');state.moveCard(m,f.target,'table');m.cards[f.target].location=f.site;m=resolved(m,f.card);assert.equal(m.cards[f.target].zone,'table');assert.equal(m.cards[f.drawn].zone,boundary==='play'?'reserve':'used');assert.equal(m.players.dark.force.length,f.m.players.dark.force.length-2);
+});

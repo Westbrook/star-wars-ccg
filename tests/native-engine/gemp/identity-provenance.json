@@ -1,0 +1,23 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T21:32:37.452906+00:00",
+  "harness": "NativeEngineIdentityOracleTests.java",
+  "harnessSha256": "7c2cd579a070b36da1c9323acac10ef68592960ef54fa01f70ce3dc31c16234b",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineIdentityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 2,
+  "observations": 4,
+  "productionFilesVerified": 6820,
+  "scope": "Three controlled lifecycle observations compare production sameCardId/permanent ID, regular movement, battle history, MayNotMove modifier and weapon/device usage before departure, after equipment return and after host return. A fourth plays actual Old Ben and checks that Luke does not rejoin the current battle but has no earlier-instance battle participation history. All four match native. Lifecycle placements are fixture interventions, not claims that return/redeploy cards were played.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "GameState.addCardToZone assigns new temporary IDs while permanent IDs survive; Filters.sameCardId snapshots temporary IDs.",
+    "ModifiersLogic.regularMovePerformed, participatedInBattle, weaponUsedBy and deviceUsedBy index current IDs. MayNotMoveModifier captures target identity.",
+    "Card1_100 and PlaceAtLocationFromLostPileEffect/PlaceCardInPlayEffect: actual Old Ben creates new identity without rejoining current battle.",
+    "AR pp11,16,24: leaving table, duration, and card/title-level limits; do not blanket-clear every effect whose source leaves."
+  ],
+  "limits": "Ground card instances and attachment handlers, not every pending effect, general targeting/replacement, persona or conversion aliases, or full matches. Stun, Barrier, pending movement/attachments and Lost-visit invalidation use native lifecycle interventions; no fresh complete GEMP card-by-card comparisons for those branches. React physical/title locks preserved. Production admission closed."
+}

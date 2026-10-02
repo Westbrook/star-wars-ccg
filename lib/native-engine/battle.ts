@@ -1,3 +1,4 @@
+import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import type {GaderffiiShot} from './gaderffii';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
 import {atSite, battleDestinyRequirement, cardDefinition, forfeit, isWarrior, name, printed, totalPower} from './board';
@@ -23,7 +24,7 @@ export type Battle = {
   knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[];
 };
 type History = {turn: number; sites: string[]; participants: string[]};
-type Payload = {site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
+type Payload = {attachment?: AttachmentAttempt; site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
 const pair = <T>(dark: T, light: T): Pair<T> => ({dark, light});
 export const battle = (m: Match) => m.data.battle as Battle | undefined;
 export const battleHistory = (m: Match): History => {
@@ -151,6 +152,7 @@ export function battleInitiate(m: Match, r: Resolution): void {
     // Talz's forfeiture is the cost; the restoration follows its loss responses.
     forfeitCard(m, p.card!, r.actor);
   }
+  if (kind === 'battle:equip') p.attachment = attachmentAttempt(m, p.card!, p.target!);
 }
 
 function forfeitCard(m: Match, id: string, side: Side): void {
@@ -209,7 +211,7 @@ export function battleResolve(m: Match, r: Resolution): void {
   }
   if (kind === 'battle:equip') {
     const c = m.cards[p.card!], host = m.cards[p.target!];
-    if (host.zone !== 'table') {if (c.zone === 'playing') moveCard(m, c.id, 'lost'); return;}
+    if (!validAttachmentAttempt(m, p.attachment!) || host.zone !== 'table' || host.owner !== side || !warrior(m, host.id)) {if (c.zone === 'playing') moveCard(m, c.id, 'lost'); return;}
     if (c.zone === 'playing') moveCard(m, c.id, 'table'); c.attachedTo = host.id; c.location = host.location;
     openWindow(m, 'response', other(side), {kind: 'deployed', card: c.id}); return;
   }
@@ -298,6 +300,7 @@ export function battleView(m: Match): Json {
   return {battle: b ? {...structuredClone(b), damage: pair(battleDamage(m, 'dark'), battleDamage(m, 'light'))} as unknown as Json : null};
 }
 export function assertBattle(m: Match): void {
+  for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:equip') {const p = data(f); assertAttachmentAttempt(m, p.attachment!, p.card!, p.target!);}
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish') {
     const p = data(f);
     if (!sides.includes(p.side!) || m.cards[p.card!]?.owner !== p.side || p.redraw !== undefined && typeof p.redraw !== 'boolean') throw Error('Invalid battle destiny continuation.');

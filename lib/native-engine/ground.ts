@@ -3,10 +3,11 @@ import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment
 import {moveCard, moveTop} from './state';
 import {openWindow, type RequiredAction} from './runtime';
 import {other, sides, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
+import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {nighttimeSites} from './equipment-state';
 
 export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>; cancelledReactTitles?: string[]};
-type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number};
+type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number; targetRef?: CardReference; cardRef?: CardReference};
 export type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean; worseIncrease?: number; ledger?: LossLedger};
 const payload = (action: Action) => action.payload as Payload;
 export function usage(m: Match): GroundState {
@@ -127,6 +128,8 @@ export function groundAutomatic(m: Match, window: Window): RequiredAction[] {
 export function groundInitiate(m: Match, resolution: Resolution): void {
   const data = payload(resolution.action), kind = resolution.action.handler;
   if (['ground:deploy', 'ground:site', 'ground:barrier', 'ground:reduce'].includes(kind)) moveCard(m, data.card!, 'playing');
+  if (kind === 'ground:barrier') data.targetRef = referenceCard(m, data.target!);
+  if (kind === 'ground:move') data.cardRef = referenceCard(m, data.card!);
   const current = record(m);
   if (kind === 'ground:drain') current.drained.push(data.site!);
   if (data.react) registerReact(m, data.card!);
@@ -182,11 +185,12 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     } else m.locations.splice(placement.index!, 0, id);
     openWindow(m, 'response', other(side), {kind: 'deployed', card: id});
   } else if (kind === 'ground:move') {
+    if (!sameCard(m, data.cardRef!) || m.cards[data.card!].location !== data.from) return;
     moveWithAttachments(m, data.card!, data.site!); record(m).moved.push(data.card!);
     cancelDrainAfterReact(m, side, data);
     openWindow(m, 'response', other(side), {kind: 'moved', card: data.card!, from: data.from!, site: data.site!});
   } else if (kind === 'ground:barrier') {
-    if (m.cards[data.target!].zone === 'table') record(m).barriers[data.target!] = m.turn.number;
+    if (sameCard(m, data.targetRef!) && m.cards[data.target!].zone === 'table') record(m).barriers[data.target!] = m.turn.number;
     moveCard(m, data.card!, 'used');
   } else if (kind === 'ground:expire') {
     delete record(m).barriers[data.target!];
@@ -236,6 +240,8 @@ export function assertGround(m: Match): void {
   if (!stored.barriers || Object.entries(stored.barriers).some(([id, turn]) => !m.cards[id] || !Number.isSafeInteger(turn) || turn < 1 || turn > m.turn.number)) throw Error('Invalid Barrier duration.');
   }
   for (const frame of m.stack) {
+    if (frame.kind === 'resolution' && frame.action.handler === 'ground:barrier') {const p = payload(frame.action); assertCardReference(m, p.targetRef!, p.target!);}
+    if (frame.kind === 'resolution' && frame.action.handler === 'ground:move') {const p = payload(frame.action); assertCardReference(m, p.cardRef!, p.card!);}
     if (frame.kind === 'decision' && frame.handler === 'ground:force-loss' || frame.kind === 'resolution' && frame.action.handler === 'ground:force-loss') {
       const loss = (frame.kind === 'decision' ? frame.payload : frame.action.payload) as Loss;
       if (!sides.includes(loss.side) || loss.side !== (frame.kind === 'decision' ? frame.side : frame.actor) || !Number.isSafeInteger(loss.remaining) || loss.remaining < 0 || typeof loss.reductionUsed !== 'boolean') throw Error('Invalid pending Force loss.');

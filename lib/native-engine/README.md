@@ -640,3 +640,50 @@ Original-zone restoration is currently for hand deployment. Pile/stack deploy
 reacts, their reshuffles, simultaneous pilots, vehicles, generic persona/identity
 and cancellation prevention still require implementation. No new study or full
 native gameplay route is enabled by this checkpoint.
+
+### Card instances and leave-table state
+
+`identity.ts` now distinguishes permanent deck IDs from individual visits to a
+zone. `moveCard` increments a private, JSON-persisted version only when the zone
+changes; ordinary movement, equipment transfer and pile reordering preserve that
+version. References capture ID, zone and version and cannot match a card that
+leaves and returns. No instance registry or handler references enter seat views.
+Existing snapshots without an instance registry start at version zero. Older
+native pending actions lacking newly required references are rejected rather
+than guessing their original target; published Rules Lab versions are separate
+and unchanged. Full native matches have never been admitted.
+
+Stun checks the original target before drawing, after destiny and before return.
+Barrier and ordinary ground movement retain original target/card instances.
+`attachment.ts` shares deployment/transfer revalidation across blasters/rifles,
+devices/training and Gaderffii Stick: a returned host or source does not satisfy
+the old action. Transfers still require the original attachment and co-location;
+deployment can follow a host that moves without leaving play. Paid costs remain
+spent, failed deployment goes to Lost if its source is still playing, and a source
+that has already left is not pulled back by the old continuation. Old Ben also
+requires the original Lost Pile visit, not just the same physical card in Lost.
+
+`lifecycle.ts` expires movement and Barrier restrictions, prior-instance battle
+history, bearer weapon/device allowances, training modes and mine timers when
+those instances leave table. Weapon/device histories retain the identity of used
+equipment: returning a weapon while its bearer stays does not bypass the bearer's
+one-different-weapon limit. A returning bearer starts a new allowance. Hits and
+Gaderffii suppression no longer follow departed card instances. Current battle
+participation remains ended, even if removal and return happen before battle
+synchronization. Prior title limits, canceled-react restrictions, completed loss
+credit and effects with independent durations are not cleared indiscriminately.
+
+The fresh GEMP harness has two tests/four observations: three controlled registry
+interventions and an actual Old Ben play. This corrects an older component test
+that wrongly retained Old Ben's character in turn-wide battle history. A revived
+character cannot rejoin the current battle, but the old appearance no longer bars
+later battles. Source provenance is in `gemp/identity-provenance.json`; the
+production reference files are unchanged. Native tests additionally exercise
+stale targets at response boundaries, paid failures, recursive attachment return,
+JSON recovery, malformed references and private projections.
+
+Identity coverage is not yet universal: pending weapon firing, react permission
+sources, event snapshots, retrieval/search/inspection targets, group movement,
+duels and other card effects still need the shared references. Persona replacement
+and conversion need their specific identity-preserving rules. Before-draw and
+individual-cost timing, full-match conformance and service/UI work remain next.

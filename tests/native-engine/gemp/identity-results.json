@@ -1,0 +1,37 @@
+[
+  {
+    "name": "old-ben-return",
+    "participating": false,
+    "battled": false
+  },
+  {
+    "differentWeapon": false,
+    "moved": true,
+    "targetMatches": true,
+    "differentDevice": false,
+    "barred": true,
+    "battled": true,
+    "physicalMatches": true,
+    "name": "before"
+  },
+  {
+    "differentWeapon": true,
+    "moved": true,
+    "targetMatches": true,
+    "differentDevice": true,
+    "barred": true,
+    "battled": true,
+    "physicalMatches": true,
+    "name": "equipment-return"
+  },
+  {
+    "differentWeapon": false,
+    "moved": false,
+    "targetMatches": false,
+    "differentDevice": false,
+    "barred": false,
+    "battled": false,
+    "physicalMatches": true,
+    "name": "host-return"
+  }
+]

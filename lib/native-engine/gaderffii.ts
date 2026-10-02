@@ -1,3 +1,4 @@
+import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {attached, cardDefinition, name} from './board';
 import {battle, members, weaponDrawBonus} from './battle';
 import {canDeployAsReact, pendingReactSite, reactionSources, registerReact} from './ground';
@@ -7,7 +8,7 @@ import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 export type GaderffiiShot = {weapon: string; host: string; target: string; side: Side; draws: Draw[]; total: number | null; outcome: 'pending' | 'canceled' | 'invalid' | 'miss' | 'knocked'; weapons: string[]};
-type Payload = {card: string; target?: string; site?: string; index?: number; draw?: Draw; draws?: Draw[]; total?: number | null; transfer?: boolean; react?: boolean; via?: string};
+type Payload = {attachment?: AttachmentAttempt; card: string; target?: string; site?: string; index?: number; draw?: Draw; draws?: Draw[]; total?: number | null; transfer?: boolean; react?: boolean; via?: string};
 const action = (step: string, p: Payload): Action => ({id: 'gaffi:' + step + ':' + p.card + (p.target ? ':' + p.target : ''), label: step === 'equip' ? (p.transfer ? 'Transfer ' : 'Deploy ') + 'Gaderffii Stick' : 'Swing Gaderffii Stick', handler: 'gaffi:' + step, source: p.card, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: Payload, side: Side) => m.stack.push({kind: 'resolution', actor: side, action: action(step, p), cancelled: false});
 const raider = (m: Match, id: string) => m.cards[id]?.blueprint === '1_196';
@@ -40,7 +41,7 @@ export function gaderffiiActions(m: Match, w: Window, side: Side): Action[] {
 }
 export function gaderffiiInitiate(m: Match, r: Resolution): void {
   const p = r.action.payload as Payload;
-  if (r.action.handler === 'gaffi:equip') {if (p.react) registerReact(m, p.card); if (!p.transfer) moveCard(m, p.card, 'playing'); return;}
+  if (r.action.handler === 'gaffi:equip') {if (p.react) registerReact(m, p.card); if (!p.transfer) moveCard(m, p.card, 'playing'); p.attachment = attachmentAttempt(m, p.card, p.target!); return;}
   const b = battle(m)!, host = m.cards[p.card].attachedTo!;
   useWeapon(m, p.card); b.fired.push(p.card); b.users[host] = p.card;
   const shots = b.gaffiShots ??= [];
@@ -50,7 +51,7 @@ export function gaderffiiResolve(m: Match, r: Resolution): void {
   const p = r.action.payload as Payload, h = r.action.handler, side = r.actor;
   if (h === 'gaffi:equip') {
     const card = m.cards[p.card], target = m.cards[p.target!];
-    if (r.cancelled || card.zone !== (p.transfer ? 'table' : 'playing') || target.zone !== 'table' || target.owner !== side || !raider(m, target.id) || !target.location || p.react && target.location !== p.site || p.transfer && (card.zone !== 'table' || card.location !== target.location)) {if (card.zone === 'playing') moveCard(m, card.id, 'lost'); return;}
+    if (r.cancelled || !validAttachmentAttempt(m, p.attachment!) || card.zone !== (p.transfer ? 'table' : 'playing') || target.zone !== 'table' || target.owner !== side || !raider(m, target.id) || !target.location || p.react && target.location !== p.site || p.transfer && (card.zone !== 'table' || card.location !== target.location)) {if (card.zone === 'playing') moveCard(m, card.id, 'lost'); return;}
     if (card.zone === 'playing') moveCard(m, card.id, 'table'); card.attachedTo = target.id; card.location = target.location;
     openWindow(m, 'response', other(side), {kind: p.transfer ? 'weapon-transferred' : 'deployed', card: card.id}); return;
   }
@@ -83,7 +84,7 @@ export function assertGaderffii(m: Match): void {
   for (const r of m.stack) if (r.kind === 'resolution' && r.action.handler.startsWith('gaffi:')) {
     const p = r.action.payload as Payload, h = r.action.handler;
     if (!p || m.cards[p.card]?.blueprint !== '1_315' || m.cards[p.card].owner !== r.actor || r.action.source !== p.card || !['gaffi:equip','gaffi:fire','gaffi:draw','gaffi:result','gaffi:finish'].includes(h)) throw Error('Invalid Gaderffii Stick continuation.');
-    if (h === 'gaffi:equip') {if (!m.cards[p.target!] || typeof p.transfer !== 'boolean' || p.react !== undefined && (p.react !== true || p.transfer || !p.site || !m.locations.includes(p.site) || p.via !== undefined && m.cards[p.via]?.blueprint !== '1_201')) throw Error('Invalid Gaderffii Stick deployment.');}
+    if (h === 'gaffi:equip') {assertAttachmentAttempt(m, p.attachment!, p.card, p.target!); if (!m.cards[p.target!] || typeof p.transfer !== 'boolean' || p.react !== undefined && (p.react !== true || p.transfer || !p.site || !m.locations.includes(p.site) || p.via !== undefined && m.cards[p.via]?.blueprint !== '1_201')) throw Error('Invalid Gaderffii Stick deployment.');}
     else {const shot = b?.gaffiShots?.[p.index!]; if (!Number.isSafeInteger(p.index) || !shot || shot.weapon !== p.card || shot.target !== p.target || b?.site !== p.site) throw Error('Invalid Gaderffii Stick firing.');}
   }
 }

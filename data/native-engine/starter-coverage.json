@@ -7,7 +7,7 @@
   "rulesSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
   "sharedRequiredWork": [
     "Complete before-draw, substitution/choose-X and individual Force-use timing across all callers.",
-    "General source/target zone-instance identity and revalidation; do not retain stale restrictions on cards that leave/reenter.",
+    "Extend shared zone-instance references to remaining pending effects/events: weapon firing, react permission sources, retrieval/search/inspection, group movement and duels; handle persona/conversion identity preservation.",
     "Generic continuous modifier, prevention/replacement, persona/uniqueness and characteristic infrastructure.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
     "Full randomized starter match conformance, including cross-card event timing and replay/recovery, not only component fixtures.",
@@ -1789,5 +1789,24 @@
       "status": "component-coverage-only",
       "referenceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_098.java"
     }
-  ]
+  ],
+  "sharedImplementedComponents": {
+    "zoneInstances": {
+      "implementation": [
+        "lib/native-engine/identity.ts",
+        "lib/native-engine/lifecycle.ts",
+        "lib/native-engine/attachment.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/identity.test.mjs",
+        "tests/native-engine/stun.test.mjs",
+        "tests/native-engine/revival.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/identity-results.json",
+        "tests/native-engine/gemp/identity-provenance.json"
+      ],
+      "scope": "Private serialized zone visits; pending Stun, Barrier, ground movement, attachment deployment/transfer and Old Ben Lost target references; instance-scoped movement, battle history, bearer weapon/device allowances and table modifiers. Component-only, not universal target coverage."
+    }
+  }
 }

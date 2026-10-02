@@ -1,5 +1,7 @@
 import {piles, sides, type Card, type Deck, type Definition, type Match, type Pile, type Player, type Side, type Zone} from './types';
 import {shuffled, type Entropy} from './random';
+import {assertCardVersions, cardVersion} from './identity';
+import {leaveTable} from './lifecycle';
 
 const emptyPlayer = (): Player => ({reserve: [], force: [], used: [], lost: [], hand: [], destiny: []});
 export const isPile = (zone: Zone): zone is Pile => (piles as readonly string[]).includes(zone);
@@ -40,10 +42,16 @@ export function moveCard(match: Match, id: string, zone: Zone, position: 'top' |
   if (!card || ![...piles, 'table', 'playing', 'leaving', 'buried', 'out'].includes(zone)) throw Error('Invalid card movement.');
   if (card.zone === 'table' && (match.locations.includes(id) || Object.values(match.cards).some(c => c.attachedTo === id || c.location === id || c.coveredBy === id)))
     throw Error('Resolve dependent cards before moving their host.');
+  const changed = card.zone !== zone, nextVersion = cardVersion(match, id) + 1;
+  if (changed && !Number.isSafeInteger(nextVersion)) throw Error('Card instance history exhausted.');
   if (isPile(card.zone)) {
     const pile = match.players[card.owner][card.zone], index = pile.indexOf(id);
     if (index < 0) throw Error('Card is missing from its pile.');
     pile.splice(index, 1);
+  }
+  if (changed) {
+    if (card.zone === 'table') leaveTable(match, id);
+    const versions = (match.data.cardVersions ??= {}) as Record<string, number>; versions[id] = nextVersion;
   }
   card.zone = zone;
   delete card.location; delete card.attachedTo; delete card.coveredBy;
@@ -85,6 +93,7 @@ export function shufflePile(match: Match, side: Side, pile: Pile, entropy?: Entr
 
 export function assertState(match: Match): void {
   assertSerializable(match);
+  assertCardVersions(match);
   if (match.schema !== 1 || match.engine !== 'native-engine-1' || !match.rules || !match.id ||
       !Number.isSafeInteger(match.revision) || match.revision < 0 || ![40, 60].includes(match.deckSize)) throw Error('Invalid engine state.');
   if (!['setup', 'playing', 'finished'].includes(match.status) || (match.status === 'finished') !== !!match.result) throw Error('Invalid match status.');

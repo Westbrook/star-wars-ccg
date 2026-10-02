@@ -1,3 +1,5 @@
+import {cardVersion} from './identity';
+import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {atSite, cardDefinition, isWarrior, name, system} from './board';
 import {weapons} from './battle';
 import {canUseDevice, equipmentState, nighttimeSites, recordEquipment, useDevice} from './equipment-state';
@@ -8,7 +10,7 @@ import {moveCard} from './state';
 import {loseFromTable} from './table';
 import {other, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
 
-type Payload = {card?: string; target?: string; site?: string; mode?: 'warrior' | 'power'; react?: boolean; via?: string; draw?: Draw; cards?: string[]; selected?: string[]; count?: number; trippedBy?: Side};
+type Payload = {attachment?: AttachmentAttempt; card?: string; target?: string; site?: string; mode?: 'warrior' | 'power'; react?: boolean; via?: string; draw?: Draw; cards?: string[]; selected?: string[]; count?: number; trippedBy?: Side};
 export const isMine = (blueprint: string) => ['1_162', '1_322'].includes(blueprint);
 const mining = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side && ['1_18', '1_186'].includes(c.blueprint));
 const isTraining = (bp: string) => ['1_64', '1_221'].includes(bp);
@@ -98,6 +100,7 @@ export function equipmentAutomatic(m: Match, w: Window): RequiredAction[] {
 export function equipmentInitiate(m: Match, r: Resolution): void {
   const p = data(r), kind = r.action.handler;
   if (['equipment:attach', 'equipment:macroscan', 'equipment:mine'].includes(kind) && m.cards[p.card!].zone === 'hand') moveCard(m, p.card!, 'playing');
+  if (kind === 'equipment:attach') p.attachment = attachmentAttempt(m, p.card!, p.target!);
   if (p.react) registerReact(m, p.card!);
   if (kind === 'equipment:peek' && m.cards[p.card!].blueprint === '1_35') useDevice(m, p.card!);
 }
@@ -120,8 +123,8 @@ export function equipmentResolve(m: Match, r: Resolution): void {
   const p = data(r), kind = r.action.handler, side = r.actor;
   if (r.cancelled) {if (p.card && m.cards[p.card].zone === 'playing') moveCard(m, p.card, 'lost'); return;}
   if (kind === 'equipment:attach') {
-    const c = m.cards[p.card!], host = m.cards[p.target!], transfer = c.zone === 'table';
-    if (!validHost(m, c.blueprint, host.id, side)) {if (!transfer) moveCard(m, c.id, 'lost'); return;}
+    const c = m.cards[p.card!], host = m.cards[p.target!], transfer = p.attachment!.transfer;
+    if (!validAttachmentAttempt(m, p.attachment!) || !validHost(m, c.blueprint, host.id, side)) {if (c.zone === 'playing') moveCard(m, c.id, 'lost'); return;}
     if (!transfer) moveCard(m, c.id, 'table'); c.attachedTo = host.id; c.location = host.location;
     if (p.mode) recordEquipment(m).training[c.id] = p.mode;
     openWindow(m, 'response', other(side), {kind: transfer ? 'transferred' : 'deployed', card: c.id});
@@ -179,8 +182,10 @@ export function equipmentView(m: Match, seat: Side): Json {
   return {peek: d?.kind === 'decision' && d.handler === 'equipment:peek' && d.side === seat ? data(d).cards!.map(id => ({...m.cards[id]})) : []};
 }
 export function assertEquipment(m: Match): void {
+  for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'equipment:attach') {const p = data(f); assertAttachmentAttempt(m, p.attachment!, p.card!, p.target!);}
   const s = equipmentState(m), raw = m.data.equipment as {turn: number} | undefined;
   if (raw && (!Number.isSafeInteger(raw.turn) || raw.turn < 1 || raw.turn > m.turn.number)) throw Error('Invalid equipment turn.');
+  if (s.deviceVersions && (typeof s.deviceVersions !== 'object' || Array.isArray(s.deviceVersions) || Object.entries(s.deviceVersions).some(([host, v]) => !s.devices[host] || !Number.isSafeInteger(v) || v < 0 || v > cardVersion(m, s.devices[host])))) throw Error('Invalid device instance history.');
   for (const [host, device] of Object.entries(s.devices)) if (!m.cards[host] || !m.cards[device] || !devices[m.cards[device].blueprint]) throw Error('Invalid device usage.');
   for (const [id, mode] of Object.entries(s.training)) if (!m.cards[id] || !isTraining(m.cards[id].blueprint) || !['warrior', 'power'].includes(mode)) throw Error('Invalid training mode.');
   for (const c of Object.values(m.cards)) {

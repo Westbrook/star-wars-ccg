@@ -1,0 +1,19 @@
+import {piles, type Match, type Zone} from './types';
+
+/** Physical deck IDs are permanent. References to a particular visit to a zone
+ * are not: leaving and returning must not revive an old target or modifier. */
+export type CardReference = {id: string; zone: Zone; version: number};
+export const cardVersion = (m: Match, id: string): number => (m.data.cardVersions as Record<string, number> | undefined)?.[id] ?? 0;
+export function referenceCard(m: Match, id: string): CardReference {
+  const card = m.cards[id]; if (!card) throw Error('Unknown referenced card.');
+  return {id, zone: card.zone, version: cardVersion(m, id)};
+}
+export const sameCard = (m: Match, ref: CardReference): boolean => !!ref && m.cards[ref.id]?.zone === ref.zone && cardVersion(m, ref.id) === ref.version;
+export function assertCardReference(m: Match, ref: CardReference, id?: string): void {
+  if (!ref || !m.cards[ref.id] || id !== undefined && ref.id !== id || ![...piles, 'table', 'playing', 'leaving', 'buried', 'out'].includes(ref.zone) || !Number.isSafeInteger(ref.version) || ref.version < 0 || ref.version > cardVersion(m, ref.id)) throw Error('Invalid card instance reference.');
+}
+export function assertCardVersions(m: Match): void {
+  const versions = m.data.cardVersions;
+  if (versions === undefined) return; // Pre-instance snapshots begin at zero.
+  if (!versions || typeof versions !== 'object' || Array.isArray(versions) || Object.entries(versions).some(([id, version]) => !m.cards[id] || !Number.isSafeInteger(version) || typeof version !== 'number' || version < 1)) throw Error('Invalid card instance history.');
+}
