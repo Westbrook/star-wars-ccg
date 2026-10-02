@@ -17,8 +17,8 @@ export function leaveTable(m: Match, id: string): void {
   if (history) history.participants = history.participants.filter(card => card !== id);
   const battle = m.data.battle as Battle | undefined;
   if (battle && battle.stage !== 'complete') {
-    // Preserve the current battle's departed participants (including Old Ben),
-    // even if departure and return occur within a single rules continuation.
+    // End the old participation even within one continuation. syncBattle may
+    // admit a new instance before power; later returns stay out of this battle.
     if (Object.values(battle.participants).some(cards => cards.includes(id))) {
       const departed = battle.departed ??= []; if (!departed.includes(id)) departed.push(id);
     }

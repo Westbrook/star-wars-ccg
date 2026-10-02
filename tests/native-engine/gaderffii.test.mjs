@@ -92,7 +92,7 @@ test('new weapons after resolution are not in the captured restriction group',()
  const f=fixture();let m=weapons(fire(f).m);const rifle=attach(m,'light','1_153',f.target);assert.equal(use.canUseWeapon(m,rifle),true);assert.equal(use.canUseWeapon(m,f.gun),false);
 });
 test('target departure before results cancels the target effect without moving its weapon Lost',()=>{
- const f=fixture();let m=fire(f).m;board.moveWithAttachments(m,f.target,f.remote);m=weapons(m);assert.equal(shot(m).outcome,'invalid');assert.equal(shot(m).draws.length,0);assert.equal(m.cards[f.gun].zone,'table');
+ const f=fixture();let m=fire(f).m;board.moveWithAttachments(m,f.target,f.remote);m=weapons(m);assert.equal(shot(m).outcome,'miss');assert.equal(shot(m).draws.length,2);assert.equal(m.cards[f.gun].zone,'table');
 });
 test('target weapons leaving during destiny are not knocked away at result',()=>{
  const f=fixture();let m=seek(fire(f).m,x=>kind(x)==='destiny-drawn');state.moveCard(m,f.gun,'hand');m=weapons(m);assert.equal(shot(m).total,6);assert.equal(shot(m).outcome,'miss');assert.equal(use.canUseWeapon(m,f.otherGun),true);
@@ -112,8 +112,8 @@ test('terminal concession freezes unfinished firing and revokes all actions',()=
 test('deployment cannot attach a weapon relocated during responses',()=>{
  const f=fixture({deployed:false});let m=step(f.m,'gaffi:equip:'+f.stick+':'+f.host);state.moveCard(m,f.stick,'hand');m=seek(m,x=>x.stack.length===1);assert.equal(m.cards[f.stick].zone,'hand');assert.equal(m.cards[f.stick].attachedTo,undefined);assert.equal(m.players.dark.force.length,f.m.players.dark.force.length-2);
 });
-test('source or bearer departure before firing resolution uses no destiny',()=>{
- for(const departure of ['source','host']){const f=fixture();let m=fire(f).m;if(departure==='source')state.moveCard(m,f.stick,'lost');else board.moveWithAttachments(m,f.host,f.remote);m=weapons(m);assert.equal(shot(m).outcome,'invalid');assert.equal(shot(m).draws.length,0);assert.deepEqual(combat.battle(m).knockedWeapons??[],[]);}
+test('initiated firing survives source loss and bearer movement',()=>{
+ for(const departure of ['source','host']){const f=fixture();let m=fire(f).m;if(departure==='source')state.moveCard(m,f.stick,'lost');else board.moveWithAttachments(m,f.host,f.remote);m=weapons(m);assert.equal(shot(m).outcome,'knocked');assert.equal(shot(m).draws.length,2);assert.deepEqual(combat.battle(m).knockedWeapons,[f.gun]);}
 });
 test('printed multiple warrior icons permit distinct weapons but prohibit repeats',()=>{
  // Metadata intervention tests the general capacity rule without admitting a new card.

@@ -668,16 +668,14 @@ history, bearer weapon/device allowances, training modes and mine timers when
 those instances leave table. Weapon/device histories retain the identity of used
 equipment: returning a weapon while its bearer stays does not bypass the bearer's
 one-different-weapon limit. A returning bearer starts a new allowance. Hits and
-Gaderffii suppression no longer follow departed card instances. Current battle
-participation remains ended, even if removal and return happen before battle
-synchronization. Prior title limits, canceled-react restrictions, completed loss
+Gaderffii suppression no longer follow departed card instances. The old participation ends even if removal and return happen before battle
+synchronization; a new instance can join before power (see below). Prior title limits, canceled-react restrictions, completed loss
 credit and effects with independent durations are not cleared indiscriminately.
 
 The fresh GEMP harness has two tests/four observations: three controlled registry
 interventions and an actual Old Ben play. This corrects an older component test
-that wrongly retained Old Ben's character in turn-wide battle history. A revived
-character cannot rejoin the current battle, but the old appearance no longer bars
-later battles. Source provenance is in `gemp/identity-provenance.json`; the
+that wrongly retained Old Ben's character in turn-wide battle history. A character revived in the damage segment cannot rejoin that battle, but the
+old appearance no longer bars later battles. Source provenance is in `gemp/identity-provenance.json`; the
 production reference files are unchanged. Native tests additionally exercise
 stale targets at response boundaries, paid failures, recursive attachment return,
 JSON recovery, malformed references and private projections.
@@ -687,3 +685,27 @@ sources, event snapshots, retrieval/search/inspection targets, group movement,
 duels and other card effects still need the shared references. Persona replacement
 and conversion need their specific identity-preserving rules. Before-draw and
 individual-cost timing, full-match conformance and service/UI work remain next.
+
+
+### Initiated firing and battle reentry
+
+Initiation conditions are not result-time cancellation conditions (AR p15).
+Gaderffii Stick now completes its two draws after its weapon, bearer or target
+leaves during responses. As with blasters, the result still needs a target that
+can receive it. Removing Comlink does not undo an already initiated deploy-react.
+Costs remain spent, actual cancellation still stops a shot, and shared destiny
+responses and cleanup still run.
+
+`syncBattle` uses the current instance's battle history to distinguish a fresh
+entry before power from returning the same instance after ordinary movement.
+A new instance before power can participate and receive the pending shot. Entry
+at power or later cannot participate; the existing actual Old Ben damage test
+continues to verify that boundary. The old hit never returns with the card.
+
+`gemp/firing-identity-provenance.json` records 27 matching observations from two
+fresh JUnit tests. The 24 firing cases compare draws, paid Force, hits, weapon
+suppression and current participation after controlled zone interventions; three
+Comlink cases compare departure, return and movement of the permission source.
+Native tests serialize at every command, compare seat views, and cover all four
+battle stage boundaries plus ordinary movement that must retain battle history.
+These are integrated engine checks, not new lab studies or full deck admission.

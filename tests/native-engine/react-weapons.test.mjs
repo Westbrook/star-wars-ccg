@@ -75,3 +75,15 @@ for(const observed of reference)test('react outcome matches executed GEMP: '+obs
  }
  const key=observed.name.replace('cancel-react-',''),bp={stick:'1_315',trooper:'1_194',blaster:'1_317',belt:'1_207',mine:'1_322'}[key];if(key==='mine')pull(f.m,'dark','1_186','table',f.site);const card=key==='stick'?f.stick:pull(f.m,'dark',bp,'hand'),copy=key==='stick'?f.second:pull(f.m,'dark',bp,'hand');const a=premiereRules.actions(f.m,f.m.stack.at(-1),'dark').find(a=>a.payload.card===card&&a.payload.react);let m=canceled(f.m,a.id);m=priority(m,'dark');assert.equal(m.cards[card].zone==='hand',observed.returnedToHand);assert.equal(before-m.players.dark.force.length,observed.forceSpent);assert.equal(premiereRules.actions(m,m.stack.at(-1),'dark').some(a=>a.payload.card===copy&&a.payload.react),observed.copyOffered);
 });
+
+for(const mode of ['leave','return','move'])test('initiated Comlink deployment continues after permission source '+mode,()=>{
+ const f=fixture(),card=pull(f.m,'dark','1_194','hand');
+ const a=premiereRules.actions(f.m,f.m.stack.at(-1),'dark').find(a=>a.handler==='ground:deploy'&&a.payload.card===card&&a.payload.via===f.com);
+ assert.ok(a);const before=f.m.players.dark.force.length;let m=step(f.m,a.id);
+ if(mode==='move')board.moveWithAttachments(m,f.host,f.remote);
+ else {state.moveCard(m,f.com,'hand');if(mode==='return'){state.moveCard(m,f.com,'table');m.cards[f.com].attachedTo=f.host;m.cards[f.com].location=f.site;}}
+ m=seek(m,x=>event(x)?.kind==='deployed'&&event(x)?.card===card);
+ const oracle=JSON.parse(fs.readFileSync(new URL('./gemp/firing-identity-results.json',import.meta.url))).find(r=>r.name==='react-source-'+mode);
+ assert.equal(m.cards[card].zone==='table'&&m.cards[card].location===f.site,oracle.deployed);
+ assert.equal(m.players.dark.force.length,before-1);
+});

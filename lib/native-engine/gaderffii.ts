@@ -58,7 +58,9 @@ export function gaderffiiResolve(m: Match, r: Resolution): void {
   const b = battle(m)!, shot = b.gaffiShots![p.index!];
   if (r.cancelled) {shot.outcome = 'canceled'; return;}
   if (h === 'gaffi:fire') {
-    if (!members(m, side).includes(shot.host) || m.cards[p.card].zone !== 'table' || m.cards[p.card].attachedTo !== shot.host || !validTarget(m, shot.target, side)) {shot.outcome = 'invalid'; return;}
+    // The weapon, bearer and armed target were legal at initiation. Changes
+    // during responses don't undo that action (AR p15): finish both draws,
+    // then determine whether the target can receive the result.
     queue(m, 'draw', p, side);
   } else if (h === 'gaffi:draw') {
     if (p.draw) {shot.draws.push(p.draw); delete p.draw;}

@@ -1,0 +1,24 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T21:54:46.323779+00:00",
+  "harness": "NativeEngineFiringIdentityOracleTests.java",
+  "harnessSha256": "995bbc73efa2995baf3eda9ef364fcc9763c9765947e3aec049fd11fe2cb19c3",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineFiringIdentityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 2,
+  "observations": 27,
+  "productionFilesVerified": 6820,
+  "scope": "24 actual weapon firings (blaster/stick, weapon/bearer/target leave or return, during initiation responses or first draw) and three actual Comlink deployment reacts. Zone changes are controlled fixture interventions, with production BattleState.updateParticipants after departure and return; they do not represent played removal/return cards. All 27 outcome observations match native.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p15: changed initiation conditions do not undo a successfully initiated action.",
+    "AR pp60\u201361: entry before power can participate; Old Ben damage-segment return cannot.",
+    "FireSingleWeaponAction and FireWeaponActionBuilder preserve initiated shots through source removal; target map holds PhysicalCard references.",
+    "BattleState.updateParticipants adds a new instance before power if its current identity has no prior battle history.",
+    "Card1_201 / DeploySingleCardEffect: Comlink permission is checked when react begins, not after response source removal."
+  ],
+  "limits": "Current ground weapons and Comlink character deploy-react only. Not general source/target identity, targeting redirection, persona replacement/conversion, distant weapons, out-of-battle hits, permanent weapons or full match/card admission. Fixtures explicitly maintain backup presence; no new response-card implementation is claimed."
+}

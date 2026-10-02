@@ -7,7 +7,7 @@
   "rulesSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
   "sharedRequiredWork": [
     "Complete before-draw, substitution/choose-X and individual Force-use timing across all callers.",
-    "Extend shared zone-instance references to remaining pending effects/events: weapon firing, react permission sources, retrieval/search/inspection, group movement and duels; handle persona/conversion identity preservation.",
+    "Extend action-specific source/target identity semantics to remaining effects/events, retrieval/search/inspection, group movement and duels; preserve initiated actions and handle persona/conversion aliases.",
     "Generic continuous modifier, prevention/replacement, persona/uniqueness and characteristic infrastructure.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
     "Full randomized starter match conformance, including cross-card event timing and replay/recovery, not only component fixtures.",
@@ -1807,6 +1807,23 @@
         "tests/native-engine/gemp/identity-provenance.json"
       ],
       "scope": "Private serialized zone visits; pending Stun, Barrier, ground movement, attachment deployment/transfer and Old Ben Lost target references; instance-scoped movement, battle history, bearer weapon/device allowances and table modifiers. Component-only, not universal target coverage."
+    },
+    "initiatedFiring": {
+      "implementation": [
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/gaderffii.ts",
+        "lib/native-engine/lifecycle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/firing-timing.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs",
+        "tests/native-engine/identity.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/firing-identity-results.json",
+        "tests/native-engine/gemp/firing-identity-provenance.json"
+      ],
+      "scope": "Initiated weapon firing survives source/bearer departure; new card instance can join before power, never afterward. Comlink react initiation remains valid after source departure. 27 matching controlled GEMP observations; not full card admission."
     }
   }
 }

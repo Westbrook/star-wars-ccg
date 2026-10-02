@@ -1,0 +1,206 @@
+[
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-weapon-leave-response"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-weapon-leave-draw"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-weapon-return-response"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-weapon-return-draw"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-host-leave-response"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-host-leave-draw"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-host-return-response"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-host-return-draw"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": false,
+    "draws": 1,
+    "targetHit": false,
+    "name": "blaster-target-leave-response"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": false,
+    "draws": 1,
+    "targetHit": false,
+    "name": "blaster-target-leave-draw"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-target-return-response"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "draws": 1,
+    "targetHit": true,
+    "name": "blaster-target-return-draw"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-weapon-leave-response"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-weapon-leave-draw"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-weapon-return-response"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-weapon-return-draw"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-host-leave-response"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-host-leave-draw"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-host-return-response"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-host-return-draw"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 0,
+    "targetParticipating": false,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-target-leave-response"
+  },
+  {
+    "targetWeaponSuppressed": false,
+    "forceSpent": 0,
+    "targetParticipating": false,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-target-leave-draw"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-target-return-response"
+  },
+  {
+    "targetWeaponSuppressed": true,
+    "forceSpent": 0,
+    "targetParticipating": true,
+    "draws": 2,
+    "targetHit": false,
+    "name": "stick-target-return-draw"
+  },
+  {
+    "deployed": true,
+    "name": "react-source-leave"
+  },
+  {
+    "deployed": true,
+    "name": "react-source-return"
+  },
+  {
+    "deployed": true,
+    "name": "react-source-move"
+  }
+]

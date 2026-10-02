@@ -48,8 +48,8 @@ export function members(m: Match, side: Side): string[] {
 export const participatingAbility = (m: Match, side: Side) => members(m, side).reduce((n, id) => n + printed(m, id, 'ability'), 0);
 export function syncBattle(m: Match): void {
   const b = battle(m); if (!b || b.stage === 'complete') return;
-  // Leaving ends participation permanently. Returning the same physical card
-  // (Old Ben) cannot make it eligible to forfeit twice or restore an old hit.
+  // Departure ends this participation and clears its hit. A new table instance
+  // can join before power, but never afterward (including Old Ben in damage).
   const departed = b.departed ??= [];
   for (const id of sides.flatMap(side => b.participants[side]))
     if (!departed.includes(id) && (m.cards[id]?.zone !== 'table' || m.cards[id].location !== b.site || barred(m, id))) departed.push(id);
@@ -57,8 +57,12 @@ export function syncBattle(m: Match): void {
   syncBattleDamage(m);
   if (!['begin', 'weapons'].includes(b.stage)) return;
   const history = battleHistory(m);
-  for (const c of atSite(m, b.site)) if (!barred(m, c.id) && !b.participants[c.owner].includes(c.id) && !history.participants.includes(c.id)) {
-    b.participants[c.owner].push(c.id); history.participants.push(c.id);
+  for (const c of atSite(m, b.site)) if (!barred(m, c.id) && !history.participants.includes(c.id)) {
+    // leaveTable expires the old instance's turn history. Merely moving away
+    // does not, so returning the same instance cannot bypass that restriction.
+    if (!b.participants[c.owner].includes(c.id)) b.participants[c.owner].push(c.id);
+    b.departed = b.departed?.filter(id => id !== c.id);
+    history.participants.push(c.id);
   }
   m.data.battles = history as unknown as Json;
 }

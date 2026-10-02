@@ -70,8 +70,23 @@ test('host departure clears instance restrictions without erasing title bans or 
  const f=lifecycle(),m=f.m;ground.record(m).cancelledReactTitles=['Rebel Trooper'];ground.registerReact(m,f.host);m.data.scheduledMarker={amount:3};table.returnToHand(m,[f.host]);state.moveCard(m,f.host,'table');m.cards[f.host].location=f.site;assert.equal(ground.canMove(m,f.host),true);assert.equal(ground.canDeployAsReact(m,f.host),false);assert.deepEqual(ground.usage(m).cancelledReactTitles,['Rebel Trooper']);assert.deepEqual(m.data.scheduledMarker,{amount:3});assert.equal(equipment.equipmentState(m).devices[f.host],undefined);assert.equal(m.data.weaponUse.users[f.host],undefined);assert.equal(combat.battleHistory(m).sites[0],'Mos Eisley');
 });
 
-test('leaving and returning inside one continuation cannot restore current battle participation or hits',()=>{
- const f=fixture();let m=step(phase(f.m,'battle'),'battle:'+f.site);const b=combat.battle(m);b.hits.push(f.target);reenter(m,f.target,f.site);assert.ok(b.departed.includes(f.target));assert.ok(!b.hits.includes(f.target));assert.ok(!combat.members(m,'light').includes(f.target));assert.ok(!combat.battleHistory(m).participants.includes(f.target));
+for(const stage of ['begin','weapons','power','damage'])test('returning instance joins only before power: '+stage,()=>{
+ const f=fixture();let m=step(phase(f.m,'battle'),'battle:'+f.site);
+ m=seek(m,x=>combat.battle(x).stage===stage);const b=combat.battle(m);
+ b.hits.push(f.target);reenter(m,f.target,f.site);
+ assert.ok(b.departed.includes(f.target));assert.ok(!b.hits.includes(f.target));
+ combat.syncBattle(m);const joins=['begin','weapons'].includes(stage);
+ assert.equal(combat.members(m,'light').includes(f.target),joins);
+ assert.equal(combat.battleHistory(m).participants.includes(f.target),joins);
+ assert.ok(!b.hits.includes(f.target),'old hit never restored');
+ state.assertState(clone(m));premiereRules.validate(m);
+});
+test('ordinary movement away and back cannot reset battle participation history',()=>{
+ const f=fixture();let m=step(phase(f.m,'battle'),'battle:'+f.site);
+ board.moveWithAttachments(m,f.target,f.other);combat.syncBattle(m);
+ board.moveWithAttachments(m,f.target,f.site);combat.syncBattle(m);
+ assert.ok(!combat.members(m,'light').includes(f.target));
+ assert.ok(combat.battleHistory(m).participants.includes(f.target));
 });
 
 test('Gaderffii weapon suppression follows the weapon instance, not its bearer or source',()=>{
