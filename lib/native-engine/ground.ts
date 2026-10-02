@@ -12,7 +12,7 @@ export function usage(m: Match): GroundState {
   const stored = m.data.ground as GroundState | undefined;
   return stored?.turn === m.turn.number ? stored : {turn: m.turn.number, moved: [], reacted: [], drained: [], barriers: {...stored?.barriers}};
 }
-function record(m: Match): GroundState {const current = usage(m); m.data.ground = current as unknown as Json; return current;}
+export function record(m: Match): GroundState {const current = usage(m); m.data.ground = current as unknown as Json; return current;}
 export const barred = (m: Match, id: string) => (usage(m).barriers[id] ?? 0) >= m.turn.number;
 /** Comlink grants a continuous react permission; it does not use its bearer’s device action. */
 export function registerReact(m: Match, id: string): void {record(m).reacted.push(id);}
@@ -30,7 +30,7 @@ const action = (id: string, label: string, handler: string, data: Payload, payme
   ({id, label, handler: 'ground:' + handler, payload: data as Json, ...(payment ? {payment} : {}), ...(source ? {source} : {})});
 const canPay = (m: Match, payment: Payment) => sides.every(side => (payment[side] ?? 0) <= m.players[side].force.length);
 const pending = (m: Match) => m.stack.at(-2)?.kind === 'resolution' ? m.stack.at(-2) as Resolution : null;
-const canMove = (m: Match, id: string) => !isGuard(m.cards[id].blueprint) && !barred(m, id) && !usage(m).moved.includes(id);
+export const canMove = (m: Match, id: string) => !isGuard(m.cards[id].blueprint) && !barred(m, id) && !usage(m).moved.includes(id);
 
 export function groundActions(m: Match, window: Window, side: Side): Action[] {
   const actions: Action[] = [];

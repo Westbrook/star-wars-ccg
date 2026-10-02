@@ -50,6 +50,18 @@ continues to load its original saved versions.
   allow applicable pre-explosion defusing, and resolve multiple mine/loss choices.
   Ground presence is supported here; enclosed vehicles and other mine types still
   require the broader vehicle/weapon implementation.
+- Continuous docking-bay transit selects any eligible ground party before paying
+  once for the group, preserves attached equipment, consumes each regular move,
+  and exposes simultaneous arrivals to minefield triggers.
+- Docking Control Room searches select a legal bay/placement from Reserve, deploy
+  or convert it, and save the shuffled remainder atomically. Failed searches allow
+  opponent verification without revealing pile order and disable that function
+  until the next turn. Mos Eisley city sites stay grouped during placement.
+- Run Luke's movement mode brings Luke into either player's newly initiated battle
+  for free, with a dynamic noncumulative +2 unless Vader is present/adjacent.
+  Narrow Escape attempts individual regular moves in the owner's chosen order,
+  with paid costs, legal separate destinations and partial results when blocked
+  or out of Force. Battle membership/end conditions update after these effects.
 - Cost continuations may yield for private decisions and result responses before
   the paid action becomes respondable. Cancellation does not refund these costs.
 
@@ -78,8 +90,8 @@ kernel test is not evidence that a card's printed behavior is implemented.
    starting-card effects. `LocationSetupRules.ordinarySetup` rejects these until
    their sequence exists. Premiere starter setup metadata is implemented; this
    does not admit those decks' later card behaviors.
-2. Implement remaining reachable starter effects and all their timing: special
-   movement, docking transit/search, remaining Interrupts, retrieval,
+2. Implement remaining reachable starter effects and all their timing: remaining
+   Interrupt modes, retrieval,
    destiny replacement, Vader's forced choke and duel rules, among others.
 3. Complete interactions among deployment, control/drains, battle, movement,
    reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
@@ -172,3 +184,32 @@ The new JUnit harness in `tests/native-engine/gemp` checks both belt boards and
 zero-destiny mine disposal. Its recorded observations are compared by the native
 suite. These targeted comparisons do not establish full timing parity or complete
 GEMP equivalence. No standalone study or full-game admission was added.
+
+## Travel checkpoint
+
+`travel.test.mjs` adds party selection/cancellation, all eight bay departure costs,
+attachments and minefields on group arrival, successful/failed/converted Reserve
+searches, private membership versus hidden order, entropy-failure rollback and
+repeat limits. Battle movement checks both initiators, Vader's dynamic suppression,
+Barrier/regular-move/battle restrictions, split destinations, partial/no escape,
+guards/droids, cancellation cleanup, and Run Luke followed by Narrow Escape.
+
+The suite compares five previously recorded GEMP transit/search observations in
+`tests/native-proof/gemp/location-oracle-result.json`. Two new JUnit tests record
+five additional observations in `tests/native-engine/gemp/travel-results.json`:
+Run Luke with/without adjacent Vader, plus Narrow Escape with 0/1/2 Force.
+`travel-provenance.json` records the pinned source and reproduction command.
+These are component boards; full-match and complete response timing parity remain
+unproven. Commands round-trip JSON; service/process/browser recovery remains pending.
+
+Normative references: Advanced Rulebook pp12 (search and verification), 66
+(docking transit), 70–71 (move away and separate paid regular moves), and 184
+(Mos Eisley grouping). Pinned GEMP sources include `Card101_003`, `Card101_004`,
+`Card1_098`, the four docking-bay classes, `MoveCardsAwayEffect`,
+`DeployCardFromPileEffect`, and `DeployLocationEffect`.
+
+Run Luke's alternative cancellation of Vader's Obsession still requires the duel
+implementation. Neither Run Luke nor any full deck is admitted merely because
+its movement mode passes. Transit here covers ground characters and their attached
+cards; vehicle/capacity rules remain part of the broader engine work. Current
+location metadata covers the starter sites, not all systems and special layouts.

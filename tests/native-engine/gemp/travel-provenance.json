@@ -1,0 +1,12 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T15:42:26.604145+00:00",
+  "harness": "NativeEngineTravelOracleTests.java",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineTravelOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; pinned source restored under /opt/gemp-swccg; local Maven cache; no reference production rule edits",
+  "junitTests": 2,
+  "observations": 5,
+  "result": "travel-result.txt",
+  "scope": "Run Luke movement/power/disposition with and without adjacent Vader; Narrow Escape movement/disposition at zero, one or two available Force. Test framework places component boards and filler decks. Native suite compares every observation; not full-game or complete timing conformance."
+}

@@ -83,10 +83,15 @@ export function equipmentAutomatic(m: Match, w: Window): RequiredAction[] {
   if (w.timing === 'start') for (const c of Object.values(m.cards)) if (c.zone === 'table' && c.owner === m.turn.side && isMine(c.blueprint) && (equipmentState(m).mines[c.id] ?? m.turn.number) < m.turn.number)
     result.push({...act('explode:' + c.id, 'Explode Timer Mine at ' + name(m, c.location!), 'explode', {card: c.id}, {}, c.id), actor: c.owner});
   const e = event(w);
-  if (w.timing === 'response' && ['deployed', 'moved'].includes(e?.kind ?? '') && e?.card) {
-    const c = m.cards[e.card];
-    if (c?.zone === 'table' && c.location && ['Character', 'Vehicle', 'Starship'].includes(cardDefinition(m, c.id).type) && Object.values(m.cards).some(b => b.zone === 'buried' && b.location === c.location))
-      result.push({...act('trip-mines:' + c.location, 'Reveal buried cards at ' + name(m, c.location), 'trip', {site: c.location, trippedBy: c.owner}), actor: m.turn.side});
+  if (w.timing === 'response' && ['deployed', 'moved'].includes(e?.kind ?? '')) {
+    const arrivals = e?.cards ?? (e?.card ? [e.card] : []), sites = new Set<string>();
+    for (const id of arrivals) {
+      const c = m.cards[id];
+      if (c?.zone === 'table' && c.location && !sites.has(c.location) && ['Character', 'Vehicle', 'Starship'].includes(cardDefinition(m, c.id).type) && Object.values(m.cards).some(b => b.zone === 'buried' && b.location === c.location)) {
+        sites.add(c.location);
+        result.push({...act('trip-mines:' + c.location, 'Reveal buried cards at ' + name(m, c.location), 'trip', {site: c.location, trippedBy: c.owner}), actor: m.turn.side});
+      }
+    }
   }
   return result;
 }

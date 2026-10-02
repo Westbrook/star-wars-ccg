@@ -1,4 +1,4 @@
-import {cardDefinition, definition, generation, name, system} from './board';
+import {cardDefinition, citySitesTogether, definition, generation, name, system} from './board';
 import {premiereSetup} from './premiere-setup';
 import {groundActions, groundAutomatic, groundChoose, groundDecisions, groundInitiate, groundResolve, assertGround, registerReact} from './ground';
 import type {Rules} from './runtime';
@@ -6,6 +6,7 @@ import type {Json, Side} from './types';
 import {assertBattle, battleActions, battleAutomatic, battleCanPass, battleChoose, battleChoices, battleInitiate, battleResolve, battleView, syncBattle} from './battle';
 import {equipmentActions, equipmentAutomatic, equipmentInitiate, equipmentResolve, equipmentChoices, equipmentChoose, equipmentView, assertEquipment} from './equipment';
 import {resolveDestiny, assertDestiny} from './destiny';
+import {travelActions, travelInitiate, travelResolve, travelChoices, travelChoose, travelView, assertTravel} from './travel';
 import {assertLeaving, tableChoices, tableChoose} from './table';
 
 /** Composable production implementation in progress. No card is admitted to a
@@ -19,42 +20,48 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w)],
-  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side)],
+  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side)],
   initiate: (m, r) => {
-    if (r.action.handler.startsWith('equipment:')) equipmentInitiate(m, r);
+    if (r.action.handler.startsWith('travel:')) travelInitiate(m, r);
+    else if (r.action.handler.startsWith('equipment:')) equipmentInitiate(m, r);
     else if (r.action.handler.startsWith('battle:')) {
       const p = r.action.payload as {react?: boolean; card?: string};
       if (p.react) registerReact(m, p.card!);
       battleInitiate(m, r);
     } else groundInitiate(m, r);
   },
-  resolve: (m, r) => {
-    if (r.action.handler === 'destiny:finish') resolveDestiny(m, r);
+  resolve: (m, r, context) => {
+    if (r.action.handler.startsWith('travel:')) travelResolve(m, r, context);
+    else if (r.action.handler === 'destiny:finish') resolveDestiny(m, r);
     else if (r.action.handler.startsWith('equipment:')) equipmentResolve(m, r);
     else if (r.action.handler.startsWith('battle:')) battleResolve(m, r);
     else groundResolve(m, r);
     syncBattle(m);
   },
   decisions: (m, d) => {
+    if (d.handler.startsWith('travel:')) return travelChoices(m, d);
     if (d.handler.startsWith('equipment:')) return equipmentChoices(m, d);
     if (d.handler === 'table:lost-order') return tableChoices(m, d);
     if (d.handler === 'battle:destiny') return battleChoices();
     return groundDecisions(m, d);
   },
-  choose: (m, d, c) => {
-    if (d.handler.startsWith('equipment:')) equipmentChoose(m, d, c);
+  choose: (m, d, c, context) => {
+    if (d.handler.startsWith('travel:')) travelChoose(m, d, c, context);
+    else if (d.handler.startsWith('equipment:')) equipmentChoose(m, d, c);
     else if (d.handler === 'table:lost-order') tableChoose(m, d, c);
     else if (d.handler === 'battle:destiny') battleChoose(m, d, c);
     else groundChoose(m, d, c);
   },
   canPass: battleCanPass,
-  view: (m, seat) => ({...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>}),
+  view: (m, seat) => ({...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>}),
   validate: match => {
     assertGround(match);
     assertEquipment(match);
+    assertTravel(match);
     assertDestiny(match);
     assertBattle(match);
     assertLeaving(match);
+    if (!citySitesTogether(match, match.locations)) throw Error('Mos Eisley sites must remain together.');
     if (new Set(match.locations.map(id => name(match, id))).size !== match.locations.length) throw Error('Duplicate active location identity.');
     const groups = new Set(match.locations.map(id => system(match, id)));
     for (const group of groups) {

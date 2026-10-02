@@ -84,6 +84,9 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   if (blueprint === '1_12' && site && m.cards[site].blueprint === '1_292') value--;
   // Core Shaft's erratum applies anywhere, not only on Death Star (AR Appendix A).
   if (blueprint === '101_2' && m.locations.some(at => m.cards[at].blueprint === '101_1' && controls(m, 'light', at))) value += 2;
+  const currentBattle = m.data.battle as {site: string; stage: string; runLuke?: boolean} | undefined;
+  if (blueprint === '101_2' && currentBattle?.runLuke && currentBattle.stage !== 'complete' && site === currentBattle.site &&
+      !Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '101_5' && c.location && (c.location === site || adjacent(m, c.location, site)))) value += 2;
   value += equipmentBonus(m, id, 'power');
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
   return Math.max(0, value);
@@ -130,6 +133,13 @@ const siteRank = (m: Match, id: string) => {
   const icons = cardDefinition(m, id).icons as string[];
   return icons.includes('Interior') && icons.includes('Exterior') ? 1 : icons.includes('Interior') ? 0 : 2;
 };
+/** The Mos Eisley city sites form an uninterrupted group (AR Appendix E).
+ * Cantina is not in the current definition package; its future metadata must
+ * join this group when that card is admitted. */
+export function citySitesTogether(m: Match, order: string[]): boolean {
+  const city = order.map((id, i) => ['1_129', '1_291', '1_295'].includes(m.cards[id].blueprint) ? i : -1).filter(i => i >= 0);
+  return city.every((i, n) => !n || i === city[n - 1] + 1);
+}
 export function sitePlacements(m: Match, id: string): {id: string; label: string; replace?: string; index?: number}[] {
   if (!premiereSites[m.cards[id].blueprint]) return [];
   const duplicate = m.locations.find(at => name(m, at) === name(m, id));
@@ -139,6 +149,6 @@ export function sitePlacements(m: Match, id: string): {id: string; label: string
   const first = m.locations.indexOf(group[0]);
   return Array.from({length: group.length + 1}, (_, i) => i).filter(i => {
     const order = [...group]; order.splice(i, 0, id); const ranks = order.map(at => siteRank(m, at));
-    return ranks.every((v, n) => !n || v >= ranks[n - 1]) || ranks.every((v, n) => !n || v <= ranks[n - 1]);
+    return citySitesTogether(m, order) && (ranks.every((v, n) => !n || v >= ranks[n - 1]) || ranks.every((v, n) => !n || v <= ranks[n - 1]));
   }).map(i => ({id: 'at:' + (first + i), label: i === group.length ? 'Place after ' + name(m, group.at(-1)!) : 'Place before ' + name(m, group[i]), index: first + i}));
 }

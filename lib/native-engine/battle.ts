@@ -12,7 +12,7 @@ export type Battle = {
   participants: Pair<string[]>; hits: string[]; fired: string[]; users: Record<string, string>; shots: Shot[];
   destiny: Pair<number | null>; destinyCards: Pair<string | null>; power: Pair<number>;
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
-  reduced: Pair<boolean>; totalsReady: boolean; premature: boolean;
+  reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
 };
 type History = {turn: number; sites: string[]; participants: string[]};
 type Payload = {site?: string; card?: string; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number};
@@ -239,6 +239,7 @@ export function assertBattle(m: Match): void {
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
+  if (b.runLuke !== undefined && typeof b.runLuke !== 'boolean') throw Error('Invalid Run Luke modifier.');
   if (!m.cards[b.site] || !sides.includes(b.initiator) || !['begin', 'weapons', 'power', 'damage', 'end', 'complete'].includes(b.stage)) throw Error('Invalid battle.');
   for (const side of sides) {
     if (new Set(b.participants[side]).size !== b.participants[side].length || b.participants[side].some(id => m.cards[id]?.owner !== side)) throw Error('Invalid battle participants.');

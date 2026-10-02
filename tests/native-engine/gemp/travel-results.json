@@ -1,0 +1,34 @@
+[
+  {
+    "moved": true,
+    "name": "run-clear",
+    "interruptLost": true,
+    "cost": 0,
+    "bonus": 2
+  },
+  {
+    "moved": true,
+    "name": "run-vader",
+    "interruptLost": true,
+    "cost": 0,
+    "bonus": 0
+  },
+  {
+    "interruptUsed": true,
+    "remainingForce": 0,
+    "moved": 0,
+    "name": "escape-0"
+  },
+  {
+    "interruptUsed": true,
+    "remainingForce": 0,
+    "moved": 1,
+    "name": "escape-1"
+  },
+  {
+    "interruptUsed": true,
+    "remainingForce": 0,
+    "moved": 2,
+    "name": "escape-2"
+  }
+]
