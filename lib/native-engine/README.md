@@ -800,3 +800,33 @@ battle/weapon-specific draw response adapters, dynamic physical draw limits,
 per-draw costs and broader modifier/prevention interactions remain required.
 Production full-match admission stays closed. No UI or existing proof-version
 migration is part of this checkpoint.
+
+### Multiple battle destinies and Gambler's Luck
+
+The battle adapter now carries retained draw-X/choose-Y candidates through its
+ordinary response windows, including Han's Dice redraw and Smoke Screen
+substitution. A saved draw plan combines selected values with an ordinary
+ability-based draw, then exposes one aggregate total for power and attrition.
+The player accepts all scheduled draws or skips all of them. Existing hard site
+ability requirements still prohibit drawing; an added destiny otherwise does
+not require the ordinary ability-four base draw.
+
+The supplemental Gambler's Luck component grants one added destiny for the
+reviewed Han/Lando identities, or two for Lando, while defending alone at a site.
+Its successful addition survives later character departure. Unique-title turn
+history is consumed on initiation, including canceled plays, and survives saves.
+Lando is metadata-only; his other abilities and full deck admission are absent.
+
+Ten fresh actual-card GEMP observations compare before/drawn/completed/total
+traces, unresolved counts, initial damage/attrition and physical Used/Lost
+outcomes. They cover one/two additions, an ordinary base draw, departure,
+skipping, Dice, short Reserve, actual reference Sense cancellation and refusal
+of a second unique copy. Native comparison fixtures stop before Vader's separate
+post-result choke. See `tests/native-engine/gemp/gamblers-luck-provenance.json`.
+
+This remains partial card coverage: native applies the printed selection group
+first, while GEMP exposes optional conversion at a drawing opportunity. Declining
+or postponing that conversion, general physical draw limits, other personas,
+per-draw costs and prevention/modifier interactions remain required. The earlier
+selection-order discrepancy remains documented. No new study or public match
+route is added, and production full-match admission stays closed.

@@ -96,5 +96,45 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_069.java"
+  },
+  {
+    "gempId": "5_48",
+    "name": "Gambler\u2019s Luck",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Light/large/gamblersluck.gif",
+    "text": "If your gambler is defending a battle alone at a site, add one battle destiny (draw two destiny and choose one). OR If your Lando is defending a battle alone at a site, add two battle destiny (draw three destiny and choose two).",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_048.java"
+  },
+  {
+    "gempId": "5_5",
+    "name": "Lando Calrissian",
+    "side": "light",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Light/large/landocalrissian.gif",
+    "text": "Adds 2 to power of anything he pilots (3 if piloting Falcon). Power +1 for every Cloud City location you control. When playing Sabacc, may add 1 to or subtract 1 from your total.",
+    "stats": {
+      "destiny": "1",
+      "deploy": "3",
+      "power": "2",
+      "ability": "3",
+      "forfeit": "6"
+    },
+    "icons": [
+      "Cloud City",
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_005.java"
   }
 ]

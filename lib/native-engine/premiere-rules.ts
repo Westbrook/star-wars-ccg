@@ -1,3 +1,4 @@
+import {gamblersLuckActions, gamblersLuckInitiate, gamblersLuckResolve, assertGamblersLuck} from './gamblers-luck';
 import {selectionResolve, selectionChoices, selectionChoose, assertDestinySelection} from './destiny-selection';
 import {substitutionActions, substitutionInitiate, substitutionResolve, assertSubstitution} from './substitution';
 import {gaderffiiActions, gaderffiiInitiate, gaderffiiResolve, assertGaderffii} from './gaderffii';
@@ -37,10 +38,11 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w)],
-  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side)],
+  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)],
   initiate: (m, r) => {
     if (r.action.handler.startsWith('character:')) return;
-    if (r.action.handler.startsWith('substitution:')) substitutionInitiate(m, r);
+    if (r.action.handler.startsWith('gambler:')) gamblersLuckInitiate(m, r);
+    else if (r.action.handler.startsWith('substitution:')) substitutionInitiate(m, r);
     else if (r.action.handler.startsWith('gaffi:')) gaderffiiInitiate(m, r);
     else if (r.action.handler.startsWith('stakes:')) stakesInitiate(m, r);
     else if (r.action.handler.startsWith('doomed:')) doomedInitiate(m, r);
@@ -63,6 +65,7 @@ export const premiereRules: Rules = {
   },
   resolve: (m, r, context) => {
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('gambler:')) gamblersLuckResolve(m, r);
     else if (r.action.handler.startsWith('substitution:')) substitutionResolve(m, r);
     else if (r.action.handler.startsWith('gaffi:')) gaderffiiResolve(m, r);
     else if (r.action.handler.startsWith('stakes:')) stakesResolve(m, r);
@@ -97,7 +100,7 @@ export const premiereRules: Rules = {
     if (d.handler.startsWith('travel:')) return travelChoices(m, d);
     if (d.handler.startsWith('equipment:')) return equipmentChoices(m, d);
     if (d.handler === 'table:lost-order') return tableChoices(m, d);
-    if (d.handler === 'battle:destiny') return battleChoices();
+    if (d.handler === 'battle:destiny') return battleChoices(m, d);
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
@@ -125,6 +128,7 @@ export const premiereRules: Rules = {
     assertDestiny(match);
     assertDestinySelection(match);
     assertSubstitution(match);
+    assertGamblersLuck(match);
     assertRetrieval(match);
     assertInterrupts(match);
     assertCharacterTriggers(match);

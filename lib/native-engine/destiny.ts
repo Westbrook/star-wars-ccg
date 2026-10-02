@@ -7,6 +7,7 @@ export type Substitution = {source: string; value: number};
 export type Draw = {card: string | null; value: number | null; substitution?: Substitution};
 type Context = {next: Action; side: Side; source: string; category: string};
 export type Modifier = number | {weapon: string};
+export type DrawFlow = Context & {includeTotal: boolean; modifier: Modifier; drawn?: Action; retain?: boolean; reference?: CardReference};
 type PendingStart = Context & {includeTotal: boolean; modifier: Modifier; drawn?: Action; substitution?: Substitution; retain?: boolean};
 const validSubstitution = (m: Match, s: Substitution) => !!s && !!m.cards[s.source] && Number.isFinite(s.value) && s.value >= 0;
 export function validDraw(m: Match, d: Draw, side: Side, allowNegative = false): boolean {
@@ -58,7 +59,7 @@ export function completeDestinyTotal(m: Match, side: Side, source: string, categ
 /** General destiny. Multi-draw callers pass includeTotal=false, then complete
  * their combined total once, after all the individual draw continuations. */
 export function drawDestiny(m: Match, side: Side, source: string, category: string, next: Action, includeTotal = true, modifier: Modifier = 0, drawn?: Action, retain = false): void {
-  if (!validModifier(m, modifier) || retain && (drawn || includeTotal || next.handler !== 'selection:drawn')) throw Error('Invalid destiny draw modifier or retention.');
+  if (!validModifier(m, modifier) || retain && (drawn && drawn.handler !== 'battle:planned-drawn' || includeTotal || next.handler !== 'selection:drawn')) throw Error('Invalid destiny draw modifier or retention.');
   queue(m, 'draw', {next, side, source, category, includeTotal, modifier, ...(drawn ? {drawn} : {}), ...(retain ? {retain} : {})});
   // An empty Reserve cannot trigger "about to draw" text (AR pp10,32).
   // Do not capture its top card: responses can change the deck before reveal.
@@ -72,7 +73,7 @@ export function resolveDestiny(m: Match, r: Resolution): void {
     const draw: Draw = p.substitution ? {card: null, value: p.substitution.value, substitution: {...p.substitution}} : {card, value: card ? printed(m, card, 'destiny') + modifier : null};
     // Battle adapters preserve their public events and redraw protocol while
     // sharing the same before-draw boundary and physical draw operation.
-    if (p.drawn) dispatch(m, {...p, next: p.drawn}, {draw: draw as unknown as Json});
+    if (p.drawn) dispatch(m, {...p, next: p.drawn}, {draw: draw as unknown as Json, ...(p.drawn.handler === 'battle:planned-drawn' ? {flow: {...p, ...(card ? {reference: referenceCard(m, card)} : {})} as unknown as Json} : {})});
     else {
       queue(m, 'finish', {...p, draw, ...(p.retain && card ? {reference: referenceCard(m, card)} : {})});
       openWindow(m, 'response', other(p.side), {kind: draw.value !== null ? 'destiny-drawn' : 'destiny-failed', category: p.category, source: p.source, side: p.side, card, ...(p.substitution ? {substituted: true, value: draw.value} : {})});
@@ -115,7 +116,7 @@ export function assertDestiny(m: Match): void {
     if (p.retain && h !== 'destiny:draw' && !!p.draw?.card !== !!p.reference) throw Error('Missing retained destiny reference.');
     if (h === 'destiny:draw') {
       const start = f.action.payload as unknown as PendingStart;
-      if (!validModifier(m, start.modifier) || start.retain && !!start.drawn || typeof start.includeTotal !== 'boolean' || start.drawn !== undefined && !start.drawn?.handler || start.substitution !== undefined && !validSubstitution(m, start.substitution)) throw Error('Invalid destiny initiation.');
+      if (!validModifier(m, start.modifier) || start.retain && !!start.drawn && start.drawn.handler !== 'battle:planned-drawn' || typeof start.includeTotal !== 'boolean' || start.drawn !== undefined && !start.drawn?.handler || start.substitution !== undefined && !validSubstitution(m, start.substitution)) throw Error('Invalid destiny initiation.');
       continue;
     }
     const draws = h === 'destiny:total-finish' ? p.draws : [p.draw];
@@ -125,4 +126,11 @@ export function assertDestiny(m: Match): void {
         (p.total === null) !== !draws.some(d => d.value !== null)) throw Error('Invalid destiny total.');
     } else if (p.includeTotal !== undefined && typeof p.includeTotal !== 'boolean') throw Error('Invalid destiny completion.');
   }
+}
+
+export function assertDrawFlow(m: Match, f: DrawFlow, draw: Draw): void {
+  if (!f || !sides.includes(f.side) || !m.cards[f.source] || !f.category || !f.next?.handler || typeof f.includeTotal !== 'boolean' ||
+    !validModifier(m, f.modifier) || f.drawn?.handler !== 'battle:planned-drawn' || f.retain !== undefined && typeof f.retain !== 'boolean' ||
+    f.retain && (f.includeTotal || f.next.handler !== 'selection:drawn') || !!draw.card !== !!f.reference) throw Error('Invalid adapted destiny draw.');
+  if (f.reference) {assertCardReference(m, f.reference, draw.card!); if (f.reference.zone !== 'destiny') throw Error('Invalid adapted destiny reference.');}
 }

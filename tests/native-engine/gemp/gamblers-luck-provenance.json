@@ -1,0 +1,36 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T23:23:57.267890+00:00",
+  "harness": "NativeEngineGamblersLuckOracleTests.java",
+  "harnessSha256": "70aa4d107329146655d61eef87f32891d86cd968f4553f4166c33a5a3b7041af",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineGamblersLuckOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 10,
+  "productionFilesVerified": 6820,
+  "scope": "Actual Gambler\u2019s Luck and Han\u2019s Dice, passive Light-side before/drawn/completed/total trace and unresolved counts. Compare initial damage/attrition, ordered Used destiny cards and Lost cleanup. Native stops at battle-result before separate Vader choke; GEMP observes initial damage-segment balances. Base-plus/departed/short are explicit fixture interventions, not supported removal/deployment effects. Native cancellation is injected; reference cancellation uses actual Sense. Repeat verifies second copy is unavailable due to unique Interrupt title limit.",
+  "comparisons": {
+    "matching": [
+      "han-one",
+      "lando-one",
+      "lando-two",
+      "base-plus",
+      "departed",
+      "skip",
+      "dice",
+      "short",
+      "canceled",
+      "repeat"
+    ]
+  },
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp54\u201355,59\u201360: weapons-segment optional additions persist, ability base versus hard draw prohibitions, all-or-none drawing, aggregate total.",
+    "AR p113 Gambler\u2019s Luck erratum; Card5_048, AddBattleDestinyEffect and DrawDestinyAndChooseInsteadEffect.",
+    "AR Chapter 9 uniqueness: unique Interrupt title is limited per turn; canceled initiation also consumes that limit. CardTraits.isPlayingCardTitleTurnLimitReached."
+  ],
+  "limits": "Component coverage only. Native currently performs printed draw-X/choose-Y on the first added group; GEMP offers optional conversion on an eligible draw. Declining or postponing conversion, physical draw limits, other gamblers/Lando personas, general modifiers, per-draw costs and prevention remain unverified and required before full card/deck admission. Earlier selection Used-order discrepancies remain in selection-provenance.json. No full card or match certification."
+}
