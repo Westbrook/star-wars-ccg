@@ -1,0 +1,22 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T18:18:48.935350+00:00",
+  "harness": "NativeEngineAccidentOracleTests.java",
+  "harnessSha256": "aefea58250b72dfe7770080274ccbb78d7212d80afc753d3d0f85ebe6ec84346",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineAccidentOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 1,
+  "observations": 12,
+  "scope": "Actual battles and Friendly Fire/Collateral Damage actions, destiny 0/1/2/3/empty, chosen unarmed casualty, and armed casualty leaving only a zero-ability droid. Verifies host/attachments/Interrupt losses, free play and premature battle end. No GEMP production source modified.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "Card1_080.java",
+    "Card1_237.java",
+    "AR pp14\u201321 action targeting; pp30\u201332 destiny; pp60\u201361 battle participation; loss versus forfeiture"
+  ],
+  "limits": "Current ground characters and separate attached character weapons only. Permanent weapons, area weapons, vehicle/aboard targeting, targeting immunities/redirection and broader modifiers remain unfinished. Native uses original participating target group revalidated at resolution, following general targeting and Card1_080; GEMP Card1_237 has older dynamic participant selection. Fresh observations use unchanged target groups; dynamic group changes have native tests only and need broader conformance. Full card/deck admission remains closed."
+}

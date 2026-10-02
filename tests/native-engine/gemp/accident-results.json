@@ -1,0 +1,122 @@
+[
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": true,
+    "name": "light-0"
+  },
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": true,
+    "name": "light-1"
+  },
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": false,
+    "name": "light-2"
+  },
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": false,
+    "name": "light-3"
+  },
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": false,
+    "name": "light--1"
+  },
+  {
+    "beltLost": true,
+    "forceSpent": 0,
+    "firstLost": true,
+    "gunLost": true,
+    "battleContinues": false,
+    "interruptLost": true,
+    "secondLost": false,
+    "name": "light-armed"
+  },
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": true,
+    "name": "dark-0"
+  },
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": true,
+    "name": "dark-1"
+  },
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": false,
+    "name": "dark-2"
+  },
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": false,
+    "name": "dark-3"
+  },
+  {
+    "beltLost": false,
+    "forceSpent": 0,
+    "firstLost": false,
+    "gunLost": false,
+    "battleContinues": true,
+    "interruptLost": true,
+    "secondLost": false,
+    "name": "dark--1"
+  },
+  {
+    "beltLost": true,
+    "forceSpent": 0,
+    "firstLost": true,
+    "gunLost": true,
+    "battleContinues": false,
+    "interruptLost": true,
+    "secondLost": false,
+    "name": "dark-armed"
+  }
+]
