@@ -3,7 +3,8 @@ import {secureEntropy, type Entropy} from './random';
 import {initializeSetup, setupPrompt, applySetup, projectSetup, assertSetup, type LocationSetupRules} from './setup';
 import {other, sides, type Action, type Command, type Deck, type Decision, type Definition, type Json, type Match, type Phase, type Prompt, type Resolution, type Side, type Timing, type Window} from './types';
 
-export type Context = {entropy: Entropy};
+/** Time comes from the trusted service, never from a player's command. */
+export type Context = {entropy: Entropy; now: number};
 export type RequiredAction = Action & {actor: Side};
 
 /** A versioned server rules package supplies legality and effect implementations.
@@ -23,7 +24,8 @@ export interface Rules {
   decisions(match: Match, decision: Decision): {id: string; label: string}[];
   choose(match: Match, decision: Decision, choice: string, context: Context): void;
   canPass?(match: Match, window: Window, side: Side): boolean;
-  view?(match: Match, seat: Side): Json;
+  view?(match: Match, seat: Side, now: number): Json;
+  expire?(match: Match, context: Context): boolean;
   validate(match: Match): void;
 }
 
@@ -170,7 +172,8 @@ function settle(match: Match, rules: Rules, context: Context): void {
   }
 }
 
-export function applyCommand(before: Match, rules: Rules, seat: Side, command: Command, entropy: Entropy = secureEntropy): Match {
+export function applyCommand(before: Match, rules: Rules, seat: Side, command: Command, entropy: Entropy = secureEntropy, now = Date.now()): Match {
+  assertTime(now);
   validate(before, rules);
   if (!sides.includes(seat) || before.status === 'finished' || before.status === 'setup' && !rules.starting) throw Error('This seat cannot act in this match.');
   if (command.revision !== before.revision) throw Error('Stale match revision.');
@@ -185,7 +188,7 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
       applySetup(match, rules.starting!, seat, command.choice, entropy);
       if (match.setup!.stage === 'complete') enterTurns(match, rules);
     } else if (frame?.kind === 'decision') {
-      match.stack.pop(); rules.choose(match, frame, command.choice, {entropy});
+      match.stack.pop(); rules.choose(match, frame, command.choice, {entropy, now});
     } else if (frame?.kind === 'window') {
       const mandatory = required(match, frame, rules);
       if (command.choice === 'pass' && !mandatory.length) {
@@ -201,19 +204,32 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
         if (!mandatory.length) frame.priority = other(seat);
         const resolution: Resolution = {kind: 'resolution', actor, action: structuredClone(action), cancelled: false, awaitingResponses: true};
         match.stack.push(resolution);
-        if (!action.handler.startsWith('core:')) rules.initiate(match, resolution, {entropy});
+        if (!action.handler.startsWith('core:')) rules.initiate(match, resolution, {entropy, now});
       }
     }
     concludeIfEmpty(match);
-    settle(match, rules, {entropy});
+    settle(match, rules, {entropy, now});
   }
   match.revision++;
   validate(match, rules);
   return match;
 }
 
-export function project(match: Match, rules: Rules, seat: Side) {
+function assertTime(now: number): void {if (!Number.isSafeInteger(now) || now < 0) throw Error('Invalid server time.');}
+
+/** Persist this returned revision through the same compare-and-swap transaction
+ * as commands. Idle reads must never start/restart a viewing deadline. */
+export function advanceTime(before: Match, rules: Rules, now = Date.now(), entropy: Entropy = secureEntropy): Match {
+  assertTime(now); validate(before, rules);
+  const match = structuredClone(before);
+  if (match.status !== 'playing' || !rules.expire?.(match, {entropy, now})) return match;
+  settle(match, rules, {entropy, now}); concludeIfEmpty(match);
+  match.revision++; validate(match, rules); return match;
+}
+
+export function project(match: Match, rules: Rules, seat: Side, now = Date.now()) {
+  assertTime(now);
   return {...publicState(match, seat), prompt: prompt(match, rules, seat),
-    ...(rules.view ? {rules: rules.view(match, seat)} : {}),
+    ...(rules.view ? {rules: rules.view(match, seat, now)} : {}),
     ...(rules.starting ? {setup: projectSetup(match, rules.starting, seat)} : {})};
 }

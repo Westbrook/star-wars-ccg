@@ -394,3 +394,39 @@ redirection, zone-change target identity, before-draw/per-Force cost windows,
 replacement/prevention cards and aboard/captured targeting still require work.
 No full card/deck is admitted by this checkpoint. Existing proof versions and GEMP
 routes remain intact; this adds engine behavior without new study UI.
+
+### Scanning Crew and timed private inspection
+
+`scan.ts` implements Scanning Crew's paid ordinary action (also during weapons),
+inspection of the opponent's current hand, and optional selection of one Rebel
+Character to put on top of that player's Used Pile. Declining and hands without
+Rebels leave the hand unchanged. The source stays in play throughout the effect
+and finishes Used, or Lost if its play is canceled. An inspection prevention
+window precedes disclosure; a chosen Rebel is revealed before removal and checked
+again before being moved. Removal is neither character loss nor Force loss.
+
+The printed ten-second glance is a serialized deadline. `Context.now` is trusted
+server time, supplied outside the player command. `project(..., now)` immediately
+redacts an expired full-hand view even before a timer transaction has run.
+`advanceTime(..., now)` moves an expired inspection to optional Rebel selection
+(or finishes when no Rebel was found), incrementing the revision exactly once.
+The service must commit this using its command compare-and-swap path. Early
+acknowledgment is allowed; neither reads nor recovery start another ten seconds.
+Only the inspecting seat receives hand details and private choices. After the
+inspection, only eligible Rebels are offered, and after selection only the chosen
+card is disclosed for responses. Concession revokes inspection/selection views.
+
+Nineteen native tests cover both seats' projections and JSON restoration, deadline
+boundaries/idempotence, stale commands, payment, legal timing, second copies,
+selection and declining, no Rebels, cancellation/prevention, departing targets,
+later hand arrivals, wrong-seat/forged choices and corrupt state. Six fresh pinned
+GEMP outcomes match hand changes, inspected counts, cost and Used disposition.
+GEMP itself uses an untimed acknowledgment; native uses the printed ten seconds.
+Sources and exact scope are in `tests/native-engine/gemp/scan-provenance.json`.
+
+This remains engine implementation, without new Rules Lab studies. The native
+service's authenticated timer scheduling/CAS and browser countdown are still
+required along with full-match API and UI integration. General text modification,
+Rebel identity modifiers, hand-removal/inspection prevention cards, target immunity,
+replacement and individual Force-use response timing remain unfinished. Existing
+GEMP/proof paths are unchanged and full native deck admission remains closed.

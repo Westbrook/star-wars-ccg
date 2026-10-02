@@ -1,0 +1,26 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T18:56:48.082225+00:00",
+  "harness": "NativeEngineScanOracleTests.java",
+  "harnessSha256": "431e9afaca39480367f66c39549aa20e5ef9a800c74acddbf08fdb0b269147c7",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineScanOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 1,
+  "observations": 6,
+  "scope": "Actual Scanning Crew actions inspecting five-card mixed hands or three-card hands without Rebels. Compare inspected count, optional selection, Trooper/Luke selection, declining, cost, top of Used and Interrupt disposition. Includes weapons segment and opponent turn. No GEMP production source changes.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "Card1_266.java printed text and top-level action",
+    "PeekAtOpponentsHandEffect.java",
+    "PutCardFromHandOnUsedPileEffect.java",
+    "AR p26 unit of Force explicitly identifies Scanning Crew Rebel inspection"
+  ],
+  "differences": [
+    "GEMP inspection waits for an untimed acknowledgment. Native enforces printed ten-second full-hand viewing with a saved server deadline and separate optional Rebel selection. Outcome comparison acknowledges immediately; it does not claim GEMP timer conformance."
+  ],
+  "limits": "Current Rebel Character subtype metadata only. Text-modification variants, target immunity, reveal/removal prevention cards, replacement and per-Force cost timing remain unfinished. Cancellation/prevention/departure are native fixture tests here. Native service must persist advanceTime through revision CAS and provide trusted time; authenticated API scheduling and client countdown integration are not implemented in this checkpoint. No complete card or deck admission."
+}

@@ -14,6 +14,7 @@ import {assertCharacterTriggers, characterAutomatic, characterResolve, character
 import {assertRevival, revivalActions, revivalInitiate, revivalResolve} from './revival';
 import {accidentActions, accidentInitiate, accidentResolve, accidentChoices, accidentChoose, assertAccident} from './accident';
 import {assaultActions, assaultInitiate, assaultResolve, assertAssault} from './assault';
+import {scanActions, scanInitiate, scanResolve, scanChoices, scanChoose, scanExpire, scanView, assertScan} from './scan';
 import {stunActions, stunInitiate, stunResolve, assertStun} from './stun';
 import {assertDuel, duelActions, duelInitiate, duelResolve, duelView} from './duel';
 
@@ -28,10 +29,11 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w)],
-  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side)],
+  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side)],
   initiate: (m, r) => {
     if (r.action.handler.startsWith('character:')) return;
-    if (r.action.handler.startsWith('stun:')) stunInitiate(m, r);
+    if (r.action.handler.startsWith('scan:')) scanInitiate(m, r);
+    else if (r.action.handler.startsWith('stun:')) stunInitiate(m, r);
     else if (r.action.handler.startsWith('accident:')) accidentInitiate(m, r);
     else if (r.action.handler.startsWith('assault:')) assaultInitiate(m, r);
     else if (r.action.handler.startsWith('revival:')) revivalInitiate(m, r);
@@ -46,7 +48,8 @@ export const premiereRules: Rules = {
     } else groundInitiate(m, r);
   },
   resolve: (m, r, context) => {
-    if (r.action.handler.startsWith('stun:')) stunResolve(m, r);
+    if (r.action.handler.startsWith('scan:')) scanResolve(m, r, context);
+    else if (r.action.handler.startsWith('stun:')) stunResolve(m, r);
     else if (r.action.handler.startsWith('accident:')) accidentResolve(m, r);
     else if (r.action.handler.startsWith('assault:')) assaultResolve(m, r);
     else if (r.action.handler.startsWith('revival:')) revivalResolve(m, r);
@@ -62,6 +65,7 @@ export const premiereRules: Rules = {
     syncBattle(m);
   },
   decisions: (m, d) => {
+    if (d.handler.startsWith('scan:')) return scanChoices(m, d);
     if (d.handler.startsWith('accident:')) return accidentChoices(m, d);
     if (d.handler.startsWith('character:')) return characterChoices(m, d);
     if (d.handler.startsWith('retrieval:')) return retrievalChoices(m, d);
@@ -72,7 +76,8 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
-    if (d.handler.startsWith('accident:')) accidentChoose(m, d, c);
+    if (d.handler.startsWith('scan:')) scanChoose(m, d, c);
+    else if (d.handler.startsWith('accident:')) accidentChoose(m, d, c);
     else if (d.handler.startsWith('character:')) characterChoose(m, d, c);
     else if (d.handler.startsWith('retrieval:')) retrievalChoose(m, d, c);
     else if (d.handler.startsWith('travel:')) travelChoose(m, d, c, context);
@@ -82,7 +87,8 @@ export const premiereRules: Rules = {
     else groundChoose(m, d, c);
   },
   canPass: battleCanPass,
-  view: (m, seat) => ({...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
+  expire: scanExpire,
+  view: (m, seat, now) => ({...scanView(m, seat, now) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
     assertGround(match);
     assertEquipment(match);
@@ -96,6 +102,7 @@ export const premiereRules: Rules = {
     assertAssault(match);
     assertAccident(match);
     assertStun(match);
+    assertScan(match);
     assertBattle(match);
     assertLeaving(match);
     if (!citySitesTogether(match, match.locations)) throw Error('Mos Eisley sites must remain together.');
