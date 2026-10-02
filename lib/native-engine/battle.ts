@@ -13,9 +13,10 @@ export type Battle = {
   destiny: Pair<number | null>; destinyCards: Pair<string | null>; power: Pair<number>;
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
+  departed?: string[];
 };
 type History = {turn: number; sites: string[]; participants: string[]};
-type Payload = {site?: string; card?: string; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean};
+type Payload = {site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean};
 const pair = <T>(dark: T, light: T): Pair<T> => ({dark, light});
 export const battle = (m: Match) => m.data.battle as Battle | undefined;
 export const battleHistory = (m: Match): History => {
@@ -34,11 +35,18 @@ function windowThen(m: Match, step: string, kind: string, priority: Side, payloa
 }
 export function members(m: Match, side: Side): string[] {
   const b = battle(m); if (!b) return [];
-  return b.participants[side].filter(id => m.cards[id]?.zone === 'table' && m.cards[id].location === b.site && !barred(m, id));
+  return b.participants[side].filter(id => !b.departed?.includes(id) && m.cards[id]?.zone === 'table' && m.cards[id].location === b.site && !barred(m, id));
 }
 export const participatingAbility = (m: Match, side: Side) => members(m, side).reduce((n, id) => n + printed(m, id, 'ability'), 0);
 export function syncBattle(m: Match): void {
-  const b = battle(m); if (!b || !['begin', 'weapons'].includes(b.stage)) return;
+  const b = battle(m); if (!b || b.stage === 'complete') return;
+  // Leaving ends participation permanently. Returning the same physical card
+  // (Old Ben) cannot make it eligible to forfeit twice or restore an old hit.
+  const departed = b.departed ??= [];
+  for (const id of sides.flatMap(side => b.participants[side]))
+    if (!departed.includes(id) && (m.cards[id]?.zone !== 'table' || m.cards[id].location !== b.site || barred(m, id))) departed.push(id);
+  b.hits = b.hits.filter(id => !departed.includes(id));
+  if (!['begin', 'weapons'].includes(b.stage)) return;
   const history = battleHistory(m);
   for (const c of atSite(m, b.site)) if (!barred(m, c.id) && !b.participants[c.owner].includes(c.id) && !history.participants.includes(c.id)) {
     b.participants[c.owner].push(c.id); history.participants.push(c.id);
@@ -140,7 +148,10 @@ function beginEnd(m: Match, premature = false): void {
   if (premature) {b.damage = pair(0, 0); b.attrition = pair(0, 0);}
   windowThen(m, 'ended', 'battle-ending', other(b.initiator));
   const hit = sides.flatMap(s => members(m, s)).filter(id => b.hits.includes(id));
-  if (premature && hit.length) loseFromTable(m, hit);
+  if (premature && hit.length) {
+    continuation(m, 'premature-loss-result', {cards: hit});
+    loseFromTable(m, hit);
+  }
 }
 export function battleAutomatic(m: Match, w: Window): RequiredAction[] {
   const b = battle(m);
@@ -226,6 +237,8 @@ export function battleResolve(m: Match, r: Resolution): void {
     forfeitCard(m, p.card!, side);
   } else if (kind === 'battle:forfeit-result') {
     openWindow(m, 'response', other(side), {kind: 'forfeited', card: p.card!, site: b.site});
+  } else if (kind === 'battle:premature-loss-result') {
+    openWindow(m, 'response', other(side), {kind: 'cards-lost', cards: p.cards!});
   } else if (kind === 'battle:rescue') b.hits = b.hits.filter(id => id !== p.target);
   else if (kind === 'battle:lose') {
     const id = p.card ?? m.players[side][p.from as 'reserve' | 'force' | 'used'][0];
@@ -253,6 +266,7 @@ export function assertBattle(m: Match): void {
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
+  if (b.departed && (new Set(b.departed).size !== b.departed.length || b.departed.some(id => !sides.some(side => b.participants[side].includes(id))))) throw Error('Invalid departed battle participant.');
   if (b.runLuke !== undefined && typeof b.runLuke !== 'boolean') throw Error('Invalid Run Luke modifier.');
   if (!m.cards[b.site] || !sides.includes(b.initiator) || !['begin', 'weapons', 'power', 'damage', 'end', 'complete'].includes(b.stage)) throw Error('Invalid battle.');
   for (const side of sides) {

@@ -1,0 +1,38 @@
+[
+  {
+    "forceSpent": 1,
+    "name": "kintan-character",
+    "interruptLost": true,
+    "searchAllowed": true,
+    "retrieved": 1,
+    "noncharacterLost": true,
+    "deepStillLost": true
+  },
+  {
+    "forceSpent": 1,
+    "name": "kintan-no-character",
+    "interruptLost": true,
+    "searchAllowed": false,
+    "retrieved": 0,
+    "noncharacterLost": true,
+    "deepStillLost": false
+  },
+  {
+    "participating": false,
+    "name": "old-ben",
+    "interruptLost": true,
+    "attachmentsLost": false,
+    "damage": 2,
+    "returned": true,
+    "forceSpent": 1
+  },
+  {
+    "participating": false,
+    "name": "old-ben-attachments",
+    "interruptLost": true,
+    "attachmentsLost": true,
+    "damage": 0,
+    "returned": true,
+    "forceSpent": 1
+  }
+]

@@ -122,7 +122,7 @@ kernel test is not evidence that a card's printed behavior is implemented.
    their sequence exists. Premiere starter setup metadata is implemented; this
    does not admit those decks' later card behaviors.
 2. Implement remaining reachable starter effects and all their timing: remaining
-   Interrupt modes, retrieval modifiers/revival, other destiny effects and remaining
+   Interrupt modes, retrieval/revival modifiers and prevention, other destiny effects and remaining
    duel rules (including the failed-destiny Force amount), among others.
 3. Complete interactions among deployment, control/drains, battle, movement,
    reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
@@ -316,3 +316,43 @@ This internal engine branch must be completed before admitting Obsession or full
 starter matches. It is not a new scenario or a public gameplay path. Broader duel
 modifiers, destiny-completion/total response hooks and other duel cards remain in
 scope. See `gemp/duel-provenance.json` for exact evidence and limitations.
+
+
+### Revival and regeneration checkpoint
+
+`revival.ts` implements Old Ben's paid response to a character forfeited from a
+Tatooine site and Kintan Strider's paid response to an opponent's character lost
+from table. Old Ben returns the exact physical card, retains its original forfeit
+credit, leaves attachments in Lost, and exposes a prevention window before removal
+from Lost. Placement in play is neither deployment nor Force retrieval. The
+Interrupt stays in play through its result responses and is then lost.
+
+Battle state now remembers departed participants. Returning to the same site does
+not reinstate battle membership or a former hit; a revived character cannot be
+forfeited again in that battle. Per-turn battle history still applies, while a new
+turn's battle can include the character normally. Premature battle-end hit losses
+now expose table-loss responses before ending the battle.
+
+Kintan retrieves the nearest-to-top eligible character to hand, without allowing
+a different selection or rearranging Lost. Characters lost as units of Force do
+not qualify as its trigger. An unsuccessful character search disables the same
+Kintan function, including other copies, until the next turn. Lost piles are public,
+so failed-search verification does not need GEMP's extra acknowledgment dialog.
+The current search restriction is specific to Kintan; a broader title/function
+search registry remains necessary when adding other such effects.
+
+Seventeen tests in `tests/native-engine/revival.test.mjs` reconstruct JSON after
+every command and inspect both seat projections. They cover both card modes,
+attachments, retained damage credit, cancellation and prevention, target/timing
+restrictions, costs, pile order, turn expiry, Talz's asynchronous forfeiture cost,
+mine casualties, premature ending, later battles, and invalid commands/saves.
+Four outcomes match fresh pinned GEMP execution: Old Ben with and without attached
+blaster/belt, successful Kintan retrieval and failed character search. Evidence,
+harness hash and scope are recorded in `gemp/revival-provenance.json`.
+
+Sources: Advanced Rulebook pp12, 26, 60–61, 123 and 150; GEMP `Card1_100`,
+`Card1_254`, `TriggerConditions.justLost`, `PlaceAtLocationFromLostPileEffect`,
+`PlaceCardInPlayEffect` and `ChooseCardsFromPileEffect`. These component checks do
+not admit complete cards or decks. Wider prevention/replacement, persona/copy-limit
+interactions, cancellation cards and broader loss causes still need implementation
+and conformance evidence. Existing GEMP paths and saved proof versions are unchanged.

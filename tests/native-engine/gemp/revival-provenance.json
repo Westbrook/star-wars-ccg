@@ -1,0 +1,26 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T17:18:58.016821+00:00",
+  "harness": "NativeEngineRevivalOracleTests.java",
+  "harnessSha256": "fc8202a82e87f2c4f1d50f7a19b96cfb8a36190929c9cf6cae87ac0d1ff41bec",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineRevivalOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "tests": 2,
+  "observations": 4,
+  "scope": "Actual forfeiture and Old Ben returning the same Luke with/without a blaster and utility belt. Confirms retained forfeit credit, paid costs, Lost attachments and nonparticipation. Kintan nearest-character and no-character searches use real Interrupt actions; GEMP rule query confirms same-title search restriction after failure. Isolated component boards with filler decks and prepared Force. No GEMP production source modified.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp12 (unsuccessful search), 26 (units of Force), 60\u201361 (participation and Old Ben example), 123 (Old Ben erratum), 150 (exact physical card)",
+    "Card1_100.java",
+    "Card1_254.java",
+    "TriggerConditions.justLost",
+    "PlaceAtLocationFromLostPileEffect.java",
+    "PlaceCardInPlayEffect.java",
+    "ChooseCardsFromPileEffect.java"
+  ],
+  "limits": "No complete card/deck admission. Broader revival prevention, replacement, persona/copy limits and effects that cancel these Interrupts remain outside executed comparisons. Failed-search verification is implicit because native Lost piles are public. No public full-match API/UI enabled."
+}
