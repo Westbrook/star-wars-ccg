@@ -1,7 +1,7 @@
-import {assertState, initialState, lifeForce, moveTop, publicState, recirculate, useForce} from './state';
+import {assertState, initialState, lifeForce, moveTop, publicState, recirculate} from './state';
 import {secureEntropy, type Entropy} from './random';
 import {initializeSetup, setupPrompt, applySetup, projectSetup, assertSetup, type LocationSetupRules} from './setup';
-import {other, sides, type Action, type Command, type Deck, type Decision, type Definition, type Json, type Match, type Phase, type Prompt, type Resolution, type Side, type Timing, type Window} from './types';
+import {other, sides, type Action, type Command, type Deck, type Decision, type Definition, type Json, type Match, type Payment, type Phase, type Prompt, type Resolution, type Side, type Timing, type Window} from './types';
 
 /** Time comes from the trusted service, never from a player's command. */
 export type Context = {entropy: Entropy; now: number};
@@ -37,6 +37,7 @@ function validate(match: Match, rules: Rules): void {
   assertState(match);
   if (match.rules !== rules.id) throw Error('This match requires its original rules version.');
   if (rules.starting) assertSetup(match, rules.starting);
+  assertPayments(match);
   rules.validate(match);
   if (match.status === 'playing' && !match.stack.length) throw Error('A playing match needs a continuation.');
 }
@@ -76,6 +77,65 @@ function affordable(match: Match, action: Action): boolean {
     const amount = payment[side] ?? 0;
     return Number.isSafeInteger(amount) && amount >= 0 && amount <= match.players[side].force.length;
   });
+}
+
+type ForcePayment = {
+  parentIndex: number; parentId: string; amounts: Record<Side, number>; remaining: Record<Side, number>;
+  order: Side[]; position: number; opened: boolean;
+};
+/** Keep the parent suspended until every cost-result response has resolved. */
+export function queueForcePayment(m: Match, parent: Resolution, payment: Payment): void {
+  if (!affordable(m, {...parent.action, payment})) throw Error('Insufficient Force or invalid payment.');
+  const amounts = {dark: payment.dark ?? 0, light: payment.light ?? 0};
+  // Dual-pile deployment costs use the opponent’s pile first (GEMP PayDeployCostEffect).
+  const order = [other(parent.actor), parent.actor].filter(side => amounts[side] > 0);
+  if (!order.length) return;
+  const parentIndex = m.stack.indexOf(parent);
+  if (parentIndex < 0 || !parent.awaitingResponses) throw Error('Missing unpaid action.');
+  const p: ForcePayment = {parentIndex, parentId: parent.action.id, amounts, remaining: {...amounts}, order, position: 0, opened: false};
+  m.stack.push({kind: 'resolution', actor: parent.actor, cancelled: false,
+    action: {id: 'core:payment:' + (m.serial + 1), label: 'Pay Force cost', handler: 'core:payment', payload: p as unknown as Json}});
+}
+function assertPayments(m: Match): void {
+  const parents = new Set<number>();
+  for (const [index, f] of m.stack.entries()) if (f.kind === 'resolution' && f.action.handler === 'core:payment') {
+    const p = f.action.payload as unknown as ForcePayment, parent = p && m.stack[p.parentIndex];
+    if (!p || parents.has(p.parentIndex) || !Number.isSafeInteger(p.parentIndex) || p.parentIndex < 0 || p.parentIndex >= index || parent?.kind !== 'resolution' ||
+      parent.action.id !== p.parentId || !parent.awaitingResponses || parent.actor !== f.actor || f.awaitingResponses || f.cancelled ||
+      !p.amounts || !p.remaining || !Array.isArray(p.order) || !p.order.length || p.order.length > 2 || new Set(p.order).size !== p.order.length ||
+      p.order.some(side => !sides.includes(side)) || JSON.stringify(p.order) !== JSON.stringify([other(f.actor), f.actor].filter(side => p.amounts[side] > 0)) || !Number.isSafeInteger(p.position) || p.position < 0 || p.position >= p.order.length || typeof p.opened !== 'boolean' ||
+      sides.some(side => !Number.isSafeInteger(p.amounts[side]) || p.amounts[side] < 0 || p.amounts[side] > m.deckSize ||
+        p.amounts[side] !== (parent.action.payment?.[side] ?? 0) || !Number.isSafeInteger(p.remaining[side]) || p.remaining[side] < 0 || p.remaining[side] > p.amounts[side] ||
+        p.order.includes(side) !== (p.amounts[side] > 0) || p.order.indexOf(side) < p.position && p.remaining[side] !== 0 ||
+        p.order.indexOf(side) > p.position && p.remaining[side] !== p.amounts[side] ||
+        !p.opened && side === p.order[p.position] && p.remaining[side] !== p.amounts[side])) throw Error('Invalid Force payment continuation.');
+    parents.add(p.parentIndex);
+  }
+}
+/** Empty cost windows can settle immediately because neither player can act.
+ * Re-evaluate after every unit: a response can change later legal responses. */
+function costWindow(m: Match, rules: Rules, side: Side, event: Json): void {
+  openWindow(m, 'response', other(side), event);
+  const w = top(m) as Window;
+  if (required(m, w, rules).length || sides.some(priority => available(m, {...w, priority}, rules).length || rules.canPass?.(m, {...w, priority}, priority) === false)) return;
+  m.stack.pop();
+}
+function payForceStep(m: Match, rules: Rules, frame: Resolution): void {
+  const p = frame.action.payload as unknown as ForcePayment, side = p.order[p.position];
+  if (!p.opened) {
+    p.opened = true; m.stack.push(frame);
+    costWindow(m, rules, side, {kind: 'before-force-use', side, amount: p.amounts[side]}); return;
+  }
+  if (p.remaining[side] === 0) {
+    p.position++; p.opened = false;
+    if (p.position < p.order.length) m.stack.push(frame);
+    return;
+  }
+  // Depletion caused by a response must not silently grant an unpaid effect.
+  // Such prevention/replacement needs an explicit rules result before admission.
+  if (!m.players[side].force.length) throw Error('Pending Force cost cannot be completed.');
+  moveTop(m, side, 'force', 'used'); p.remaining[side]--; m.stack.push(frame);
+  costWindow(m, rules, side, {kind: 'force-used', side, amount: 1, total: p.amounts[side], remaining: p.remaining[side]});
 }
 
 function required(match: Match, window: Window, rules: Rules): RequiredAction[] {
@@ -163,7 +223,8 @@ function settle(match: Match, rules: Rules, context: Context): void {
       break;
     }
     const resolution = match.stack.pop() as Resolution;
-    if (resolution.action.handler === 'core:activate') {
+    if (resolution.action.handler === 'core:payment') payForceStep(match, rules, resolution);
+    else if (resolution.action.handler === 'core:activate') {
       if (!resolution.cancelled) {moveTop(match, resolution.actor, 'reserve', 'force'); match.turn.activated++;}
     } else if (resolution.action.handler === 'core:draw') {
       if (!resolution.cancelled) moveTop(match, resolution.actor, 'force', 'hand');
@@ -198,13 +259,14 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
         const action = mandatory.length ? mandatory.find(a => a.id === command.choice)! : available(match, frame, rules).find(a => a.id === command.choice)!;
         const actor = mandatory.length ? (action as RequiredAction).actor : seat;
         if (!action || !sides.includes(actor)) throw Error('Invalid action actor.');
-        useForce(match, action.payment ?? {});
+        if (!affordable(match, action)) throw Error('Insufficient Force or invalid payment.');
         if (mandatory.length) frame.completed.push(action.id);
         frame.passes = 0;
         if (!mandatory.length) frame.priority = other(seat);
         const resolution: Resolution = {kind: 'resolution', actor, action: structuredClone(action), cancelled: false, awaitingResponses: true};
         match.stack.push(resolution);
         if (!action.handler.startsWith('core:')) rules.initiate(match, resolution, {entropy, now});
+        queueForcePayment(match, resolution, action.payment ?? {});
       }
     }
     concludeIfEmpty(match);

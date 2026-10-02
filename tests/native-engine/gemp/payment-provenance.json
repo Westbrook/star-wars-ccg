@@ -1,0 +1,30 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-02T23:50:47.410138+00:00",
+  "harness": "NativeEnginePaymentOracleTests.java",
+  "harnessSha256": "7d0d3a2a556679133cb91716af7e34fbb50207c8a7ad5d81932efc0e08980cc8",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEnginePaymentOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 5,
+  "productionFilesVerified": 6820,
+  "scope": "Direct production UseForceEffect for zero, one, three and two-payer payments, plus actual Jawa deployment. Passive observers record positive before-use amount, each UseForceResult and both remaining Force counts; record Used order by original Force index. Native observer actions yield at matching response boundaries. Native Jawa uses actual ground deployment handler. Full regression also covers paid deployment, Interrupts, weapons, ordinary movement, docking transit and Narrow Escape.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp13,15,18: each Force used is an action; costs finish before parent response step.",
+    "UseForceEffect, UseOneForceEffect and UseForceResult emit each paid unit; PayDeployCostEffect pays opposing Jawa cost first."
+  ],
+  "comparisons": {
+    "matching": [
+      "zero",
+      "one",
+      "three",
+      "dual",
+      "jawa"
+    ]
+  },
+  "limits": "This covers fixed nonnegative integer payments and their response continuations. Force borrowing/redirection, prevention/replacement of cost units, fractional costs, separate-cost ordering and draw-specific cost/failure rules remain required. Responses depleting still-owed Force are explicitly guarded until their cost-failure semantics are integrated. Synthetic native response/cancellation/relocation fixtures do not certify new cards. Full card/deck admission stays closed."
+}

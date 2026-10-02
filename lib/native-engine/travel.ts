@@ -1,9 +1,9 @@
 import {adjacent, atSite, cardDefinition, controls, moveWithAttachments, name, printed, sitePlacements, system} from './board';
 import {battle, battleHistory, members} from './battle';
 import {canMove, groundResolve, record} from './ground';
-import {openWindow, type Context} from './runtime';
+import {openWindow, queueForcePayment, type Context} from './runtime';
 import {shuffled} from './random';
-import {moveCard, useForce} from './state';
+import {moveCard} from './state';
 import {other, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 export const bayCosts: Record<string, Record<Side, number>> = {'1_124': {dark: 1, light: 1}, '1_285': {dark: 0, light: 2}, '1_129': {dark: 2, light: 1}, '1_291': {dark: 1, light: 2}};
@@ -126,8 +126,9 @@ export function travelChoose(m: Match, d: Decision, choice: string, context: Con
       m.stack.pop(); const w = m.stack.at(-1); if (w?.kind !== 'window') throw Error('Missing transit opportunity.'); w.priority = d.side; return;
     }
     if (choice.startsWith('toggle:')) {const id = choice.slice(7); p.selected = p.selected!.includes(id) ? p.selected!.filter(c => c !== id) : [...p.selected!, id]; decision(m, d.side, 'party', p); return;}
-    const payment = {[d.side]: bayCosts[m.cards[p.from!].blueprint][d.side]}; useForce(m, payment);
+    const payment = {[d.side]: bayCosts[m.cards[p.from!].blueprint][d.side]};
     parent.action = {...action('transit:' + p.from + ':' + p.to, 'Docking-bay transit', 'transit', p), payment};
+    queueForcePayment(m, parent, payment);
   } else if (d.handler === 'travel:search') {
     if (choice === 'not-found') {remember(m).failedSearch = true; decision(m, 'light', 'verify', p);}
     else decision(m, 'dark', 'place', {...p, card: choice.slice(5)});
@@ -137,8 +138,10 @@ export function travelChoose(m: Match, d: Decision, choice: string, context: Con
   } else if (d.handler === 'travel:escape') {
     const selected = escapeOptions(m, p).find(({card, to}) => choice === 'away:' + card + ':' + to);
     if (!selected) throw Error('Invalid move-away choice.');
-    useForce(m, {[d.side]: 1}); then(m, d.side, 'escape-next', {...p, remaining: p.remaining!.filter(id => id !== selected.card)});
+    then(m, d.side, 'escape-next', {...p, remaining: p.remaining!.filter(id => id !== selected.card)});
     then(m, d.side, 'escape-move', {target: selected.card, from: p.from, to: selected.to}, true);
+    const parent = m.stack.at(-1) as Resolution; parent.action.payment = {[d.side]: 1};
+    queueForcePayment(m, parent, parent.action.payment);
   } else throw Error('Unknown travel choice.');
 }
 export function travelView(m: Match, seat: Side): Json {

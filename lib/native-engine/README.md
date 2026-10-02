@@ -844,3 +844,32 @@ This remains partial card coverage. That last-draw branch, general physical draw
 limits, other personas, per-draw costs and prevention/modifier interactions remain
 required. The earlier selection-order discrepancy remains documented. No new
 study or public match route is added, and full-match admission stays closed.
+
+### Resumable Force payments
+
+Action payments now use a kernel continuation that validates affordability for
+both players before initiation, records the source/targets, and finishes costs
+before opening the parent action's response step. Each positive payment exposes
+a before-use window and each unit moved to Used exposes a Force-used response.
+The next unit reads the current top of Force after those responses. A nested paid
+response finishes its own payment before the parent resumes. Jawa's opposing
+payment is paid first, matching GEMP's deployment cost ordering.
+
+Docking-bay transit and each Narrow Escape move use this same path after their
+private party/destination choices. Cancellation after payment keeps paid costs;
+concession freezes the remaining continuation. Pending frames bind the exact
+parent and reject duplicate, malformed or foreign payment state. Force and Used
+card identities remain private. Cost windows settle immediately only when neither
+seat has a legal response or mandatory action, rechecking after every unit.
+
+Five fresh GEMP observations compare before/after-unit traces, remaining Force
+counts and Used ordering, including an actual Jawa deployment. Native synthetic
+handlers additionally test nested responses, changing Force order, malformed
+saves, source timing, privacy and cancellation. These are kernel checks, not
+claims that arbitrary response cards are implemented. See
+`tests/native-engine/gemp/payment-provenance.json`.
+
+Remaining work includes Force borrowing/redirection, prevention/replacement,
+fractional/separate costs, and destiny-specific cost/failure handling. A response
+that depletes still-owed Force currently raises an explicit coverage guard instead
+of granting an unpaid action. Full card/deck admission remains closed.

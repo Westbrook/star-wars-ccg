@@ -1,0 +1,148 @@
+[
+  {
+    "events": [],
+    "name": "zero",
+    "lightUsedOrder": [],
+    "darkUsedOrder": []
+  },
+  {
+    "events": [
+      {
+        "side": "light",
+        "stage": "before",
+        "amount": 1,
+        "lightForce": 4,
+        "darkForce": 4
+      },
+      {
+        "side": "light",
+        "stage": "used",
+        "amount": 1,
+        "lightForce": 3,
+        "darkForce": 4
+      }
+    ],
+    "name": "one",
+    "lightUsedOrder": [
+      0
+    ],
+    "darkUsedOrder": []
+  },
+  {
+    "events": [
+      {
+        "side": "light",
+        "stage": "before",
+        "amount": 3,
+        "lightForce": 4,
+        "darkForce": 4
+      },
+      {
+        "side": "light",
+        "stage": "used",
+        "amount": 1,
+        "lightForce": 3,
+        "darkForce": 4
+      },
+      {
+        "side": "light",
+        "stage": "used",
+        "amount": 1,
+        "lightForce": 2,
+        "darkForce": 4
+      },
+      {
+        "side": "light",
+        "stage": "used",
+        "amount": 1,
+        "lightForce": 1,
+        "darkForce": 4
+      }
+    ],
+    "name": "three",
+    "lightUsedOrder": [
+      2,
+      1,
+      0
+    ],
+    "darkUsedOrder": []
+  },
+  {
+    "events": [
+      {
+        "side": "dark",
+        "stage": "before",
+        "amount": 1,
+        "lightForce": 4,
+        "darkForce": 4
+      },
+      {
+        "side": "dark",
+        "stage": "used",
+        "amount": 1,
+        "lightForce": 4,
+        "darkForce": 3
+      },
+      {
+        "side": "light",
+        "stage": "before",
+        "amount": 1,
+        "lightForce": 4,
+        "darkForce": 3
+      },
+      {
+        "side": "light",
+        "stage": "used",
+        "amount": 1,
+        "lightForce": 3,
+        "darkForce": 3
+      }
+    ],
+    "name": "dual",
+    "lightUsedOrder": [
+      0
+    ],
+    "darkUsedOrder": [
+      0
+    ]
+  },
+  {
+    "events": [
+      {
+        "side": "dark",
+        "stage": "before",
+        "amount": 1,
+        "lightForce": 4,
+        "darkForce": 4
+      },
+      {
+        "side": "dark",
+        "stage": "used",
+        "amount": 1,
+        "lightForce": 4,
+        "darkForce": 3
+      },
+      {
+        "side": "light",
+        "stage": "before",
+        "amount": 1,
+        "lightForce": 4,
+        "darkForce": 3
+      },
+      {
+        "side": "light",
+        "stage": "used",
+        "amount": 1,
+        "lightForce": 3,
+        "darkForce": 3
+      }
+    ],
+    "name": "jawa",
+    "lightUsedOrder": [
+      0
+    ],
+    "darkUsedOrder": [
+      0
+    ]
+  }
+]

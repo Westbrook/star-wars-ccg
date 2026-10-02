@@ -68,6 +68,8 @@ export function moveTop(match: Match, side: Side, from: Pile, to: Pile): string 
   return id;
 }
 
+/** Low-level pile primitive. Rules actions use runtime.queueForcePayment so
+ * each unit has its own response timing; this helper alone supplies no windows. */
 export function useForce(match: Match, payment: Partial<Record<Side, number>>): void {
   // Validate both players before paying anything (e.g. Jawa deployment).
   if (Object.keys(payment).some(key => !(sides as readonly string[]).includes(key))) throw Error('Invalid payment side.');
