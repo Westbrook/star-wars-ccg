@@ -3,6 +3,8 @@ import {premiereSetup} from './premiere-setup';
 import {groundActions, groundAutomatic, groundChoose, groundDecisions, groundInitiate, groundResolve, assertGround} from './ground';
 import type {Rules} from './runtime';
 import type {Side} from './types';
+import {assertBattle, battleActions, battleAutomatic, battleCanPass, battleChoose, battleChoices, battleInitiate, battleResolve, battleView, syncBattle} from './battle';
+import {assertLeaving, tableChoices, tableChoose} from './table';
 
 /** Composable production implementation in progress. No card is admitted to a
  * public full match until its complete reachable behavior is verified. Tests
@@ -14,14 +16,18 @@ export const premiereRules: Rules = {
   supports: () => false,
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
-  automatic: groundAutomatic,
-  actions: groundActions,
-  initiate: groundInitiate,
-  resolve: groundResolve,
-  decisions: groundDecisions,
-  choose: groundChoose,
+  automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w)],
+  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side)],
+  initiate: (m, r) => {if (r.action.handler.startsWith('battle:')) battleInitiate(m, r); else groundInitiate(m, r);},
+  resolve: (m, r) => {if (r.action.handler.startsWith('battle:')) battleResolve(m, r); else groundResolve(m, r); syncBattle(m);},
+  decisions: (m, d) => d.handler === 'table:lost-order' ? tableChoices(m, d) : d.handler === 'battle:destiny' ? battleChoices() : groundDecisions(m, d),
+  choose: (m, d, c) => {if (d.handler === 'table:lost-order') tableChoose(m, d, c); else if (d.handler === 'battle:destiny') battleChoose(m, d, c); else groundChoose(m, d, c);},
+  canPass: battleCanPass,
+  view: battleView,
   validate: match => {
     assertGround(match);
+    assertBattle(match);
+    assertLeaving(match);
     if (new Set(match.locations.map(id => name(match, id))).size !== match.locations.length) throw Error('Duplicate active location identity.');
     const groups = new Set(match.locations.map(id => system(match, id)));
     for (const group of groups) {

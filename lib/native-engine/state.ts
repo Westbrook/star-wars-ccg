@@ -37,7 +37,7 @@ export function lifeForce(match: Match, side: Side): number {
 /** Primitive only: a rules handler must resolve leave-table consequences first. */
 export function moveCard(match: Match, id: string, zone: Zone, position: 'top' | 'bottom' = 'top'): void {
   const card = match.cards[id];
-  if (!card || ![...piles, 'table', 'playing', 'out'].includes(zone)) throw Error('Invalid card movement.');
+  if (!card || ![...piles, 'table', 'playing', 'leaving', 'out'].includes(zone)) throw Error('Invalid card movement.');
   if (card.zone === 'table' && (match.locations.includes(id) || Object.values(match.cards).some(c => c.attachedTo === id || c.location === id || c.coveredBy === id)))
     throw Error('Resolve dependent cards before moving their host.');
   if (isPile(card.zone)) {
@@ -102,7 +102,7 @@ export function assertState(match: Match): void {
     if (Object.values(match.cards).filter(c => c.owner === side).length !== match.deckSize) throw Error('Physical deck size changed.');
   }
   for (const [id, card] of Object.entries(match.cards)) {
-    if (id !== card.id || !card.blueprint || !sides.includes(card.owner) || ![...piles, 'table', 'playing', 'out'].includes(card.zone)) throw Error('Invalid physical card.');
+    if (id !== card.id || !card.blueprint || !sides.includes(card.owner) || ![...piles, 'table', 'playing', 'leaving', 'out'].includes(card.zone)) throw Error('Invalid physical card.');
     if (isPile(card.zone) !== seen.has(id)) throw Error('Card missing from pile or listed outside its zone.');
     for (const key of ['location', 'attachedTo', 'coveredBy'] as const) {
       const target = card[key];
@@ -128,7 +128,7 @@ export function assertState(match: Match): void {
           !Array.isArray(frame.completed) || new Set(frame.completed).size !== frame.completed.length) throw Error('Invalid timing window.');
       serials.add(frame.serial);
     } else if (frame.kind === 'resolution') {
-      if (!sides.includes(frame.actor) || typeof frame.cancelled !== 'boolean' || !frame.action?.id || !frame.action.handler) throw Error('Invalid pending action.');
+      if (!sides.includes(frame.actor) || typeof frame.cancelled !== 'boolean' || frame.awaitingResponses !== undefined && typeof frame.awaitingResponses !== 'boolean' || !frame.action?.id || !frame.action.handler) throw Error('Invalid pending action.');
     } else if (frame.kind === 'decision') {
       if (!sides.includes(frame.side) || !frame.handler) throw Error('Invalid pending decision.');
     } else throw Error('Unknown continuation.');
@@ -156,7 +156,7 @@ export function publicState(match: Match, seat: Side) {
       lifeForce: lifeForce(match, side), hand: side === seat ? shown(match.players[side].hand) : [],
       lost: shown(match.players[side].lost), destiny: shown(match.players[side].destiny),
     }])),
-    table: shown(Object.values(match.cards).filter(c => c.zone === 'table' || c.zone === 'playing').map(c => c.id)),
+    table: shown(Object.values(match.cards).filter(c => c.zone === 'table' || c.zone === 'playing' || c.zone === 'leaving').map(c => c.id)),
     locations: [...match.locations],
   };
 }

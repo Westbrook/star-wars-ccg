@@ -54,16 +54,7 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
   if (parent?.action.handler === 'ground:drain' && !parent.cancelled && side !== parent.actor) {
     const site = payload(parent.action).site!;
     if (controls(m, parent.actor, site)) {
-      const used = usage(m).reacted;
-      for (const from of m.locations.filter(from => adjacent(m, from, site))) for (const card of atSite(m, from)) {
-        if (card.owner === side && card.blueprint === '1_30' && !used.includes(card.id) && canMove(m, card.id))
-          actions.push(action('react-move:' + card.id + ':' + site, 'React with ' + name(m, card.id), 'move', {card: card.id, from, site, react: true}, {[side]: 1}));
-      }
-      const supported = m.locations.some(at => (at === site || adjacent(m, at, site)) && atSite(m, at).some(c => c.owner === side && c.blueprint === '1_6'));
-      if (supported) for (const card of m.players[side].hand.filter(id => !used.includes(id) && cardDefinition(m, id).type === 'Character')) {
-        const payment = deploymentPayment(m, card, site);
-        if (payment && canPay(m, payment)) actions.push(action('react-deploy:' + card + ':' + site, 'Deploy ' + name(m, card) + ' as a react', 'deploy', {card, site, react: true}, payment, card));
-      }
+      actions.push(...reactionActions(m, site, side));
     }
   }
   if (parent?.action.handler === 'ground:force-loss' && !parent.cancelled) {
@@ -72,6 +63,23 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
       for (let amount = 1; amount <= m.players[side].force.length; amount++) actions.push(action('reduce:' + card + ':' + amount, 'It Could Be Worse · use ' + amount + ' Force', 'reduce', {card, amount, lossIndex: m.stack.length - 2}, {[side]: amount}, card));
     }
   }
+  return actions;
+}
+
+
+/** Shared by Force-drain and battle initiation responses. */
+export function reactionActions(m: Match, site: string, side: Side, eligible: (id: string) => boolean = () => true): Action[] {
+  const actions: Action[] = [];
+      const used = usage(m).reacted;
+      for (const from of m.locations.filter(from => adjacent(m, from, site))) for (const card of atSite(m, from)) {
+        if (card.owner === side && card.blueprint === '1_30' && !used.includes(card.id) && eligible(card.id) && canMove(m, card.id))
+          actions.push(action('react-move:' + card.id + ':' + site, 'React with ' + name(m, card.id), 'move', {card: card.id, from, site, react: true}, {[side]: 1}));
+      }
+      const supported = m.locations.some(at => (at === site || adjacent(m, at, site)) && atSite(m, at).some(c => c.owner === side && c.blueprint === '1_6'));
+      if (supported) for (const card of m.players[side].hand.filter(id => !used.includes(id) && eligible(id) && cardDefinition(m, id).type === 'Character')) {
+        const payment = deploymentPayment(m, card, site);
+        if (payment && canPay(m, payment)) actions.push(action('react-deploy:' + card + ':' + site, 'Deploy ' + name(m, card) + ' as a react', 'deploy', {card, site, react: true}, payment, card));
+      }
   return actions;
 }
 
@@ -142,7 +150,7 @@ export function groundDecisions(m: Match, decision: Decision): {id: string; labe
   if (decision.handler !== 'ground:force-loss') throw Error('Unknown ground decision.');
   const side = decision.side, player = m.players[side];
   return [
-    ...(['reserve', 'force', 'used'] as const).filter(pile => player[pile].length).map(pile => ({id: 'lose:' + pile, label: 'Lose the top card of ' + pile})),
+    ...(['reserve', 'force', 'used', 'destiny'] as const).filter(pile => player[pile].length).map(pile => ({id: 'lose:' + pile, label: 'Lose the top card of ' + pile})),
     ...player.hand.map(id => ({id: 'lose-hand:' + id, label: 'Lose ' + name(m, id) + ' from hand'})),
   ];
 }
@@ -150,7 +158,7 @@ export function groundDecisions(m: Match, decision: Decision): {id: string; labe
 export function groundChoose(m: Match, decision: Decision, choice: string): void {
   if (decision.handler !== 'ground:force-loss') throw Error('Unknown ground decision.');
   const loss = {...decision.payload as Loss}, side = decision.side;
-  const id = choice.startsWith('lose-hand:') ? choice.slice(10) : m.players[side][choice.slice(5) as 'reserve' | 'force' | 'used'][0];
+  const id = choice.startsWith('lose-hand:') ? choice.slice(10) : m.players[side][choice.slice(5) as 'reserve' | 'force' | 'used' | 'destiny'][0];
   moveCard(m, id, 'lost'); loss.remaining--;
   queueForceLoss(m, loss);
   openWindow(m, 'response', m.turn.side, {kind: 'force-lost', card: id, side, source: loss.source});
@@ -158,17 +166,18 @@ export function groundChoose(m: Match, decision: Decision, choice: string): void
 
 export function assertGround(m: Match): void {
   const stored = m.data.ground as GroundState | undefined;
-  if (!stored) return;
+  if (stored) {
   if (!Number.isSafeInteger(stored.turn) || stored.turn < 1 || stored.turn > m.turn.number) throw Error('Invalid ground turn.');
   for (const key of ['moved', 'reacted', 'drained'] as const) {
     const ids = stored[key];
     if (!Array.isArray(ids) || new Set(ids).size !== ids.length || ids.some(id => !m.cards[id])) throw Error('Invalid ground usage.');
   }
   if (!stored.barriers || Object.entries(stored.barriers).some(([id, turn]) => !m.cards[id] || !Number.isSafeInteger(turn) || turn < 1 || turn > m.turn.number)) throw Error('Invalid Barrier duration.');
+  }
   for (const frame of m.stack) {
     if (frame.kind === 'decision' && frame.handler === 'ground:force-loss' || frame.kind === 'resolution' && frame.action.handler === 'ground:force-loss') {
       const loss = (frame.kind === 'decision' ? frame.payload : frame.action.payload) as Loss;
-      if (!sides.includes(loss.side) || !Number.isSafeInteger(loss.remaining) || loss.remaining < 0 || typeof loss.reductionUsed !== 'boolean') throw Error('Invalid pending Force loss.');
+      if (!sides.includes(loss.side) || loss.side !== (frame.kind === 'decision' ? frame.side : frame.actor) || !Number.isSafeInteger(loss.remaining) || loss.remaining < 0 || typeof loss.reductionUsed !== 'boolean') throw Error('Invalid pending Force loss.');
     }
   }
 }

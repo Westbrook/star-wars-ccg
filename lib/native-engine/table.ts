@@ -1,0 +1,43 @@
+import {moveCard} from './state';
+import {name} from './board';
+import {sides, type Decision, type Json, type Match} from './types';
+
+type Ordering = {remaining: string[]};
+/** All dependents leave simultaneously. Ordering their Lost Piles must not keep
+ * their presence/modifiers on table, or add their forfeit to the host's value. */
+export function loseFromTable(m: Match, hosts: string[]): void {
+  const ids = new Set(hosts);
+  for (let changed = true; changed;) {
+    changed = false;
+    for (const c of Object.values(m.cards)) if (c.attachedTo && ids.has(c.attachedTo) && !ids.has(c.id)) {ids.add(c.id); changed = true;}
+  }
+  if ([...ids].some(id => m.cards[id]?.zone !== 'table' || m.locations.includes(id))) throw Error('Invalid table loss.');
+  // Remove descendants before their host to satisfy the primitive invariant.
+  const waiting = new Set(ids);
+  while (waiting.size) {
+    const id = [...waiting].find(id => ![...waiting].some(child => m.cards[child].attachedTo === id));
+    if (!id) throw Error('Cyclic table loss.');
+    moveCard(m, id, 'leaving'); waiting.delete(id);
+  }
+  orderNext(m, [...ids]);
+}
+function orderNext(m: Match, remaining: string[]): void {
+  if (!remaining.length) return;
+  const side = remaining.some(id => m.cards[id].owner === m.turn.side) ? m.turn.side : m.cards[remaining[0]].owner;
+  const own = remaining.filter(id => m.cards[id].owner === side);
+  if (own.length === 1) {moveCard(m, own[0], 'lost'); orderNext(m, remaining.filter(id => id !== own[0])); return;}
+  m.stack.push({kind: 'decision', side, handler: 'table:lost-order', payload: {remaining} as Json});
+}
+export function tableChoices(m: Match, decision: Decision) {
+  return (decision.payload as Ordering).remaining.filter(id => m.cards[id].owner === decision.side).map(id => ({id: 'place-lost:' + id, label: 'Place ' + name(m, id) + ' on top of Lost'}));
+}
+export function tableChoose(m: Match, decision: Decision, choice: string): void {
+  const id = choice.slice('place-lost:'.length), remaining = (decision.payload as Ordering).remaining;
+  moveCard(m, id, 'lost'); orderNext(m, remaining.filter(card => card !== id));
+}
+export function assertLeaving(m: Match): void {
+  const pending = m.stack.filter(f => f.kind === 'decision' && f.handler === 'table:lost-order').flatMap(f => (f.kind === 'decision' ? f.payload as Ordering : {remaining: []}).remaining);
+  if (new Set(pending).size !== pending.length || pending.some(id => m.cards[id]?.zone !== 'leaving')) throw Error('Invalid pending table loss.');
+  if (Object.values(m.cards).some(c => c.zone === 'leaving' && !pending.includes(c.id))) throw Error('Orphaned leaving card.');
+  for (const f of m.stack) if (f.kind === 'decision' && f.handler === 'table:lost-order' && !(f.payload as Ordering).remaining.some(id => m.cards[id]?.owner === f.side && sides.includes(f.side))) throw Error('Invalid loss ordering seat.');
+}

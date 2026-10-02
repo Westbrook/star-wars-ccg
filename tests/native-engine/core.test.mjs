@@ -145,3 +145,16 @@ test('hosts cannot silently move leaving dependent cards behind',()=>{
  const m=fresh();moveCard(m,'dark-1','table');moveCard(m,'dark-2','table');m.cards['dark-2'].attachedTo='dark-1';const before=clone(m);
  assert.throws(()=>moveCard(m,'dark-1','lost'),/dependent/);assert.deepEqual(m,before);moveCard(m,'dark-2','lost');moveCard(m,'dark-1','lost');assertState(m);
 });
+
+test('a private cost decision finishes before action responses, and cancellation keeps that cost paid',()=>{
+ const r=rules({
+  actions:(m,w,side)=>w.timing==='phase'&&side==='dark'?[{id:'costly',label:'Costly effect',handler:'costly',payload:null}]:w.timing==='response'&&side==='light'&&m.stack.at(-2)?.action?.id==='costly'&&!m.stack.at(-2).awaitingResponses?[{id:'cancel-costly',label:'Cancel',handler:'cancel-costly',payload:null}]:[],
+  initiate:(m,f)=>{if(f.action.handler==='costly')m.stack.push({kind:'decision',side:'dark',handler:'cost',payload:{cards:[...m.players.dark.hand]}})},
+  decisions:(m,f)=>f.payload.cards.map(id=>({id,label:'Pay with '+id})),
+  choose:(m,f,id)=>{moveCard(m,id,'lost');runtime.openWindow(m,'response','light',{kind:'cost-paid'})},
+  resolve:(m,f)=>{if(f.action.handler==='cancel-costly')m.stack.findLast(f=>f.kind==='resolution'&&f.action.handler==='costly').cancelled=true;else m.data.effectResolved=!f.cancelled},
+ });
+ let m=pass(ready(r),r,2);moveTop(m,'dark','reserve','hand');const cost=m.players.dark.hand[0];m=act(m,r,'costly');assert.equal(m.stack.at(-1).handler,'cost');assert.deepEqual(prompt(m,r,'light').choices,[]);assert.equal(m.stack.at(-2).awaitingResponses,true);assert.ok(!JSON.stringify(project(m,r,'light')).includes('"'+cost+'"'));
+ m=act(clone(m),r,cost,'dark');assert.equal(m.cards[cost].zone,'lost');assert.equal(m.stack.at(-1).event.kind,'cost-paid');assert.ok(!prompt(m,r,'light').choices.some(c=>c.id==='cancel-costly'));
+ m=pass(clone(m),r,2);assert.ok(prompt(m,r,'light').choices.some(c=>c.id==='cancel-costly'));m=act(m,r,'cancel-costly');m=pass(m,r,4);assert.equal(m.data.effectResolved,false);assert.equal(m.cards[cost].zone,'lost');
+});

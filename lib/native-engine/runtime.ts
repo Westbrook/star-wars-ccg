@@ -22,6 +22,8 @@ export interface Rules {
   resolve(match: Match, resolution: Resolution, context: Context): void;
   decisions(match: Match, decision: Decision): {id: string; label: string}[];
   choose(match: Match, decision: Decision, choice: string, context: Context): void;
+  canPass?(match: Match, window: Window, side: Side): boolean;
+  view?(match: Match, seat: Side): Json;
   validate(match: Match): void;
 }
 
@@ -112,7 +114,8 @@ export function prompt(match: Match, rules: Rules, seat: Side): Prompt | null {
   const side = mandatory.length ? match.turn.side : frame.priority;
   return {revision: match.revision, side, timing: frame.timing, mandatory: !!mandatory.length,
     choices: seat !== side ? [] : mandatory.length ? mandatory.map(({id, label}) => ({id, label}))
-      : [...available(match, frame, rules).map(({id, label}) => ({id, label})), {id: 'pass', label: 'Pass'}]};
+      : [...available(match, frame, rules).map(({id, label}) => ({id, label})),
+        ...(rules.canPass?.(match, frame, side) === false ? [] : [{id: 'pass', label: 'Pass'}])]};
 }
 
 function concludeIfEmpty(match: Match): void {
@@ -149,6 +152,14 @@ function settle(match: Match, rules: Rules, context: Context): void {
   let transitions = 0;
   while (match.status === 'playing' && top(match)?.kind === 'resolution') {
     if (++transitions > 1000) throw Error('Action resolution did not yield.');
+    const pending = top(match) as Resolution;
+    // Cost handlers may yield for choices or cost-result responses. The action
+    // becomes respondable only when every such continuation has finished.
+    if (pending.awaitingResponses) {
+      delete pending.awaitingResponses;
+      openWindow(match, 'response', other(pending.actor));
+      break;
+    }
     const resolution = match.stack.pop() as Resolution;
     if (resolution.action.handler === 'core:activate') {
       if (!resolution.cancelled) {moveTop(match, resolution.actor, 'reserve', 'force'); match.turn.activated++;}
@@ -188,10 +199,9 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
         if (mandatory.length) frame.completed.push(action.id);
         frame.passes = 0;
         if (!mandatory.length) frame.priority = other(seat);
-        const resolution: Resolution = {kind: 'resolution', actor, action: structuredClone(action), cancelled: false};
-        if (!action.handler.startsWith('core:')) rules.initiate(match, resolution, {entropy});
+        const resolution: Resolution = {kind: 'resolution', actor, action: structuredClone(action), cancelled: false, awaitingResponses: true};
         match.stack.push(resolution);
-        openWindow(match, 'response', other(actor));
+        if (!action.handler.startsWith('core:')) rules.initiate(match, resolution, {entropy});
       }
     }
     concludeIfEmpty(match);
@@ -204,5 +214,6 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
 
 export function project(match: Match, rules: Rules, seat: Side) {
   return {...publicState(match, seat), prompt: prompt(match, rules, seat),
+    ...(rules.view ? {rules: rules.view(match, seat)} : {}),
     ...(rules.starting ? {setup: projectSetup(match, rules.starting, seat)} : {})};
 }

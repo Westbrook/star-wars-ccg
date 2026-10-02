@@ -32,6 +32,16 @@ continues to load its original saved versions.
   compose with the runtime rather than depending on named study fixtures.
 - Dynamic starter character/site modifiers, including restricted-three copy
   limits and Core Shaft's erratum granting Luke +2 power on any world.
+- Continuous ground battles: initiation and react responses, weapons, optional
+  battle destiny, Takeel, power totals, alternating damage/attrition/forfeits,
+  Talz rescue, end-of-battle and battle-ended windows, then the ongoing turn.
+  Battle history enforces one battle per location/participant each turn.
+- Four character blasters/rifles deploy and transfer with paid costs. Hits retain
+  presence, ability and return fire; firing and bearer limits, destiny modifiers,
+  pre-hit/hit/fired responses, attachment loss ordering and early battle endings
+  are explicit serialized steps. Both sides' balances remain publicly available.
+- Cost continuations may yield for private decisions and result responses before
+  the paid action becomes respondable. Cancellation does not refund these costs.
 
 `Rules` is a **server code interface**, not client-supplied configuration. The
 rules package supplies card definitions, setup completion checks, generation,
@@ -44,6 +54,10 @@ cleanup. It may push a JSON decision continuation during resolution. It must
 provide only valid responses in response windows and only start/end actions at
 those boundaries. A handler that cancels an Interrupt still resolves the
 appropriate cleanup; cancellation does not refund paid costs.
+`initiate` runs with its resolution already on the stack. It may put cost
+continuations above that resolution; `awaitingResponses` remains true until
+those finish. A cost-result event is distinct from a response to the action
+itself. Response handlers must check the actual event and pending action stage.
 
 ## Remaining implementation (not optional scope)
 
@@ -54,10 +68,11 @@ kernel test is not evidence that a card's printed behavior is implemented.
    starting-card effects. `LocationSetupRules.ordinarySetup` rejects these until
    their sequence exists. Premiere starter setup metadata is implemented; this
    does not admit those decks' later card behaviors.
-2. Migrate verified ground behavior into composable, scenario-free handlers;
-   implement the remaining reachable starter effects and all their timing.
-3. Integrate continuous deployment, control/drains, battle, movement, reactions,
-   destiny, loss/retrieval and victory across randomized full decks. Vehicles,
+2. Implement remaining reachable starter effects and all their timing: special
+   movement, docking transit/search, equipment, mines, Interrupts, retrieval,
+   destiny replacement, Vader's forced choke and duel rules, among others.
+3. Complete interactions among deployment, control/drains, battle, movement,
+   reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
    pilots, passengers and broader catalog effects remain required for broader
    engine coverage; they are not implicitly admitted by these primitives.
 4. Bind native matches to durable service transactions, command receipts and
@@ -101,10 +116,24 @@ test-only deck admission, JSON reconstruction, immutable commands and comparison
 against previously conformed boards. Pinned GEMP card source informs costs,
 copy limits and modifiers; no new Java execution is claimed. Core Shaft uses the
 Advanced Rulebook Appendix A erratum, not the archive's original printed text.
-Battle, weapons and remaining card effects still need integration, so the
-production Premiere rules package admits no full-match decks yet.
+The production Premiere rules package still admits no full-match decks: the
+components above do not imply support for every effect in those decks.
+
+`tests/native-engine/battle.test.mjs` covers battle phases, reactions, Barrier,
+weapon timing and modifiers, destiny privacy/order, Takeel, both loss balances,
+Talz's forfeit cost, simultaneous attachment loss ordering, early endings and
+Life Force victory. Each command reconstructs JSON and preserves its input.
+`weapon-conformance.test.mjs` replays all 18 recorded GEMP weapon branches using
+the continuous engine. Only the physical input cards/piles are copied from the
+old fixture; no old gameplay resolver runs. This is comparison to prior Java
+execution at `bbd94d183b29c2e82458293df0327c3b946f3d85`, not a new GEMP run.
+Source references include GEMP `BattlePowerSegmentAction`,
+`BattleDamageSegmentAction`, `HitCardEffect`, and cards `Card1_031`, `Card1_152`,
+`Card1_153`, `Card1_269`, `Card1_284`. Unsupported cards, immunity, vehicles and
+additional destiny types remain gated; full match conformance is not claimed.
 
 Rule references: [Advanced Rulebook](https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf),
 Ch. 1 (Force, actions and destiny), Ch. 2 (turn order), Ch. 3 (activation),
-Ch. 8 (draw phase and end of turn). Mandatory choices and unresolved effects must
+Ch. 6 (battle sequence, hit/forfeit/attrition/damage), Ch. 8 (draw phase and end of
+turn), and Ch. 9 (weapons). Mandatory choices and unresolved effects must
 not be skipped merely because a UI timer is available.

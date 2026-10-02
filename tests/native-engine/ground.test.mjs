@@ -127,3 +127,8 @@ test('ported base modifiers agree with the previously conformed closed boards',(
   for(const c of Object.values(m.cards).filter(c=>c.zone==='table'&&board.cardDefinition(m,c.id).type==='Character')){assert.equal(board.power(m,c.id),oldCharacters.characterPower(old,c.id));if(['luke-arrives','luke-support','tusken-band'].includes(scenario))assert.equal(board.forfeit(m,c.id),oldDesert.characterForfeit(old,c.id))}
  }
 });
+
+test('nested Force loss may lose unresolved destiny and validates its seat without a usage record',()=>{
+ let m=fresh();m=phase(m,'control');const card=m.players.light.reserve[0];state.moveCard(m,card,'destiny');for(const pile of ['reserve','force','used'])for(const id of [...m.players.light[pile]])state.moveCard(m,id,'lost');
+ ground.queueForceLoss(m,{side:'light',remaining:1,source:'test-effect',site:null,reductionUsed:false});assert.equal(m.data.ground,undefined);m=seek(m,x=>x.stack.at(-1)?.kind==='decision');assert.ok(choices(m,'light').includes('lose:destiny'));const corrupt=clone(m);corrupt.stack.at(-1).side='dark';assert.throws(()=>rules.validate(corrupt),/pending Force loss/);m=step(m,'lose:destiny','light');assert.equal(m.result.winner,'dark');assert.equal(m.cards[card].zone,'lost');
+});
