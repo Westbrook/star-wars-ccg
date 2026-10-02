@@ -64,6 +64,19 @@ continues to load its original saved versions.
   or out of Force. Battle membership/end conditions update after these effects.
 - Cost continuations may yield for private decisions and result responses before
   the paid action becomes respondable. Cancellation does not refund these costs.
+- Retrieval is a serialized action with initiation, before-retrieval and per-card
+  result windows. Ordinary retrieval takes the top Lost card; specific retrieval
+  selects eligible cards without rearranging the remainder. Retrieved identities
+  are public, while Used order stays private. Both Reinforcements cards connect
+  their paid ordinary destiny to retrieval of the current starter troopers.
+- Han's Dice cancels and redraws a just-drawn battle destiny. Its Interrupt and
+  original destiny finish before the replacement, which can itself be redrawn.
+  Replacements still count as one battle destiny for Takeel; exhausted Reserve
+  supplies no destiny rather than a zero.
+- The Bith Shuffle and Ommni Box target either player's nonempty Reserve, Lost or
+  Used Pile. Server entropy, saved order and rollback are atomic. These ordinary
+  Interrupts are available in either player's phase opportunities and during the
+  weapons segment, not unrelated responses, start/end or power/damage windows.
 
 `Rules` is a **server code interface**, not client-supplied configuration. The
 rules package supplies card definitions, setup completion checks, generation,
@@ -91,8 +104,8 @@ kernel test is not evidence that a card's printed behavior is implemented.
    their sequence exists. Premiere starter setup metadata is implemented; this
    does not admit those decks' later card behaviors.
 2. Implement remaining reachable starter effects and all their timing: remaining
-   Interrupt modes, retrieval,
-   destiny replacement, Vader's forced choke and duel rules, among others.
+   Interrupt modes, retrieval modifiers/revival, other destiny effects, Vader's
+   forced choke and duel rules, among others.
 3. Complete interactions among deployment, control/drains, battle, movement,
    reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
    pilots, passengers and broader catalog effects remain required for broader
@@ -213,3 +226,34 @@ implementation. Neither Run Luke nor any full deck is admitted merely because
 its movement mode passes. Transit here covers ground characters and their attached
 cards; vehicle/capacity rules remain part of the broader engine work. Current
 location metadata covers the starter sites, not all systems and special layouts.
+
+## Retrieval and Interrupt checkpoint
+
+`interrupts.test.mjs` exercises both Reinforcements cards, reusable ordinary and
+specific retrieval, Han's Dice and both pile shufflers. It checks exact pile order,
+partial/zero/failed results, cancellation and costs, private seats, stale commands,
+invalid saved continuations, entropy rollback, all six pile targets, timing windows,
+repeat redraws and interaction with Takeel. Every command reconstructs JSON and
+compares both player projections. This is not process/database recovery evidence.
+
+Two fresh GEMP JUnit tests record seven observations in
+`tests/native-engine/gemp/interrupt-results.json`; the native suite compares all
+seven. Both Reinforcements cards are run with destiny 0, 2 and 5 and two eligible
+Lost troopers. Han's Dice confirms the Used order: replacement, original destiny,
+then Interrupt. GEMP's duplicate blueprint selection takes the nearer eligible
+physical card first; the native comparison selects those same copies. The harness
+uses component boards and filler decks, not full starter matches. See
+`interrupt-provenance.json` for reproduction and limitations.
+
+Normative sources are the Advanced Rulebook pp11–12 (retrieval/revelation), 30–32
+(destiny cancellation and completion) and 54–55 (weapons versus power segment
+actions). Pinned GEMP classes are `Card1_106`, `Card1_251`, `Card1_084`, `Card1_115`,
+`Card1_262`, `ForceRetrievalEffect` and `CancelDestinyAndCauseRedrawEffect`.
+The public Lost Pile makes an empty specific retrieval independently inspectable;
+native does not add GEMP's extra empty-search acknowledgment dialog.
+
+The current retrieval eligibility lists cover starter Rebel Troopers and
+Stormtroopers. Other trooper identities, Y-wings/TIE/lns, retrieval prevention,
+replacement destinations and other destiny modifiers remain required before
+broader deck admission. The generic primitive currently accepts integer amounts.
+Full-card and complete timing conformance are not implied by this checkpoint.

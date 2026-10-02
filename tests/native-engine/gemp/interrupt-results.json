@@ -1,0 +1,66 @@
+[
+  {
+    "interruptLost": true,
+    "name": "light-reinforce-0",
+    "selectedOrder": [],
+    "retrieved": 0,
+    "unmatchedLost": true
+  },
+  {
+    "interruptLost": true,
+    "name": "light-reinforce-2",
+    "selectedOrder": [
+      "a",
+      "b"
+    ],
+    "retrieved": 2,
+    "unmatchedLost": true
+  },
+  {
+    "interruptLost": true,
+    "name": "light-reinforce-5",
+    "selectedOrder": [
+      "a",
+      "b"
+    ],
+    "retrieved": 2,
+    "unmatchedLost": true
+  },
+  {
+    "interruptLost": true,
+    "name": "dark-reinforce-0",
+    "selectedOrder": [],
+    "retrieved": 0,
+    "unmatchedLost": true
+  },
+  {
+    "interruptLost": true,
+    "name": "dark-reinforce-2",
+    "selectedOrder": [
+      "a",
+      "b"
+    ],
+    "retrieved": 2,
+    "unmatchedLost": true
+  },
+  {
+    "interruptLost": true,
+    "name": "dark-reinforce-5",
+    "selectedOrder": [
+      "a",
+      "b"
+    ],
+    "retrieved": 2,
+    "unmatchedLost": true
+  },
+  {
+    "name": "dice-redraw",
+    "replacementValue": 5,
+    "originalValue": 1,
+    "usedOrder": [
+      "replacement",
+      "original",
+      "dice"
+    ]
+  }
+]

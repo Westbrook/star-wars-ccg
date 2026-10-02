@@ -15,7 +15,7 @@ export type Battle = {
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
 };
 type History = {turn: number; sites: string[]; participants: string[]};
-type Payload = {site?: string; card?: string; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number};
+type Payload = {site?: string; card?: string; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean};
 const pair = <T>(dark: T, light: T): Pair<T> => ({dark, light});
 export const battle = (m: Match) => m.data.battle as Battle | undefined;
 export const battleHistory = (m: Match): History => {
@@ -173,6 +173,12 @@ export function battleResolve(m: Match, r: Resolution): void {
     else continuation(m, 'destiny-next', {side: p.side});
   } else if (kind === 'battle:destiny-finish') {
     if (p.card && m.cards[p.card].zone === 'destiny') moveCard(m, p.card, 'used');
+    if (p.redraw) {
+      // The canceled draw and its responses finish before the replacement draw.
+      // This is still one battle destiny, including when repeatedly redrawn.
+      if (m.players[p.side!].reserve.length) {battleChoose(m, {kind: 'decision', side: p.side!, handler: 'battle:destiny', payload: null}, 'draw-destiny'); return;}
+      b.destiny[p.side!] = null; b.destinyCards[p.side!] = null;
+    }
     windowThen(m, 'destiny-next', 'battle-destiny-player-complete', other(p.side!), {side: p.side});
   } else if (kind === 'battle:destiny-next') {
     if (p.side === b.initiator) windowThen(m, 'destiny-select', 'battle-destiny-before', other(p.side), {side: other(p.side)});
@@ -236,6 +242,10 @@ export function battleView(m: Match): Json {
   return {battle: b ? structuredClone(b) as unknown as Json : null};
 }
 export function assertBattle(m: Match): void {
+  for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish') {
+    const p = data(f);
+    if (!sides.includes(p.side!) || m.cards[p.card!]?.owner !== p.side || p.redraw !== undefined && typeof p.redraw !== 'boolean') throw Error('Invalid battle destiny continuation.');
+  }
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
