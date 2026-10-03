@@ -18,7 +18,8 @@ const pileState=load(new URL('../../lib/native-engine/state.ts',import.meta.url)
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
 const db=new SqliteD1(),origin=process.env.NATIVE_UI_ORIGIN||'http://localhost:5173';
-let time=1_800_000_000_000;const fresh=()=>nativeMatchService(db,{currentRules:auditRules.id,rules:()=>auditRules,now:()=>time,entropy:seeded(1)}),handlers=matchHandlers(fresh);
+const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||bp==='1_42',starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||c.blueprint==='1_42')}};
+let time=1_800_000_000_000;const fresh=()=>nativeMatchService(db,{currentRules:browserRules.id,rules:()=>browserRules,now:()=>time,entropy:seeded(1)}),handlers=matchHandlers(fresh);
 const browser=await chromium.launch({headless:true});const errors=[];
 const output=process.env.NATIVE_UI_OUTPUT||'/private/tmp/swccg-native-client-browser';fs.mkdirSync(output,{recursive:true});
 async function context(width,height,actor='owner'){
@@ -65,6 +66,26 @@ try{
   assert.equal(await page.locator('.native-player.light .native-piles b').first().innerText(),String(insertSnapshot.players.light.reserve.length));
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
   await page.screenshot({path:path.join(output,`insert-counts-${width}.png`),fullPage:true});await ctx.close();
+ }
+ // Insert declarations and revealed-card inspection survive refresh. The fixture
+ // grants real insert placement; commands and UI use the real rules/service.
+ for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
+  const owner=await fresh().create('owner',config(randomUUID(),'pvp')),light=[...decks.find(d=>d.side==='light').cards];light[light.indexOf('1_64')]='1_42';
+  await fresh().join(owner.id,'guest',{commandId:randomUUID(),inviteToken:owner.inviteToken,deck:light});
+  let v=await fresh().read(owner.id,'owner');
+  for(let n=0;v.game.status==='setup'&&n<20;n++){let actor='owner',p=v.game.prompt;if(!p?.choices.length){actor='guest';p=(await fresh().read(v.id,actor)).game.prompt}assert.ok(p?.choices.length);await fresh().command(v.id,actor,{commandId:randomUUID(),revision:v.revision,choice:p.choices[0].id});v=await fresh().read(v.id,'owner')}
+  let m=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);
+  const insert=Object.values(m.cards).find(c=>c.blueprint==='1_42');pileState.moveCard(m,insert.id,'hand');pileState.insertCard(m,insert.id,'dark',seeded(3));m.data.reserveInserts.find(x=>x.card.id===insert.id).position=1;
+  for(let n=0;n<20&&!(m.stack.length===1&&m.stack[0].timing==='phase');n++){const p=runtime.prompt(m,browserRules,'dark');const own=runtime.prompt(m,browserRules,p.side);m=runtime.applyCommand(m,browserRules,p.side,{revision:m.revision,choice:own.mandatory?own.choices[0].id:'pass'},seeded(3))}
+  db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+  const c=await context(width,height);await c.page.goto(origin+'/matches/'+v.id+'?progress-report');if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await c.page.getByRole('button',{name:'Declare your Force activation',exact:true}).click();
+  for(let n=0;n<10;n++){v=await fresh().read(v.id,'owner');if(v.game.prompt?.choices.some(x=>x.id==='core:activation-amount:2'))break;let actor='owner',p=v.game.prompt;if(!p?.choices.length){actor='guest';p=(await fresh().read(v.id,actor)).game.prompt}assert.ok(p);await fresh().command(v.id,actor,{commandId:randomUUID(),revision:v.revision,choice:'pass'})}
+  await c.page.getByRole('button',{name:'Refresh',exact:true}).click();await c.page.getByRole('button',{name:'Declare 2 Force to activate',exact:true}).click();
+  await c.page.getByRole('button',{name:'Pause',exact:true}).click();await c.page.getByRole('button',{name:'Inspect A Tremor In The Force',exact:true}).click();await c.page.getByRole('dialog').waitFor();await c.page.keyboard.press('Escape');
+  assert.match(await c.page.getByLabel('Declared activation').innerText(),/2 Force.*1 activated.*1 remaining/);const before=(await fresh().read(v.id,'owner')).revision;
+  await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();await c.page.getByRole('button',{name:'Pause',exact:true}).click();await c.page.getByLabel('Revealed inserts').waitFor();assert.equal((await fresh().read(v.id,'owner')).revision,before);
+  assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await c.page.screenshot({path:path.join(output,`insert-reveal-${width}.png`),fullPage:true});await c.context.close();
  }
  // Timed match: real service transitions, responsive clocks, invitation terms,
  // refresh recovery and server-authoritative timeout. No browser clock decides a winner.

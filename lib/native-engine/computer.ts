@@ -76,7 +76,8 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (c.id === 'concede') return -Infinity;
     if (c.id === 'pass') return 0;
     if (p.timing === 'setup') return c.forceIcons ? 20 + c.forceIcons[side] * 3 - c.forceIcons[opponent] : 10;
-    if (c.id === 'core:activate') return 100;
+    if (c.id === 'core:activate' || c.id === 'core:declare-activation') return 100;
+    if (c.id.startsWith('core:activation-amount:')) return 100 + Number(c.id.split(':')[2]);
     if (c.id === 'core:draw') return wantsCard ? 20 : -10;
     if (kind === 'farm-deploy') return farmScore(a,b);
     if (kind === 'hydroponics') return wantsCard && canSpareActivation ? 30 : -5;

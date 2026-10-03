@@ -1332,5 +1332,35 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_079.java"
+  },
+  {
+    "gempId": "1_42",
+    "name": "A Tremor In The Force",
+    "side": "light",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/atremorintheforce.gif",
+    "text": "Once per game, during your deploy phase, 'insert' (face down) into opponent's Reserve Deck; reshuffle. When effect reaches top it is immediately lost, but opponent may not activate any more Force that turn. (Immune to Alter.)",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_042.java"
+  },
+  {
+    "gempId": "1_208",
+    "name": "A Disturbance In The Force",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/adisturbanceintheforce.gif",
+    "text": "Once per game, during your deploy phase, 'insert' (face down) into opponent's Reserve Deck; reshuffle. When effect reaches top it is immediately lost, but opponent may not activate any more Force that turn. (Immune to Alter.)",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_208.java"
   }
 ]

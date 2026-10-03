@@ -1,3 +1,4 @@
+import {mayActivateNormally,needsDeclaration,askActivationAmount,activationAmountChoices,chooseActivationAmount,resolveDeclaredActivation,assertDeclaredActivation,declaration,opposingInserts} from './declared-activation';
 import {validForceQuantity, wholeForce} from './force-quantity';
 import {assertCardReference, referenceCard, type CardReference} from './identity';
 import {assertActivations, recordActivation, mayActivate, type ActivationBatch} from './activation';
@@ -28,6 +29,7 @@ export interface Rules {
   choose(match: Match, decision: Decision, choice: string, context: Context): void;
   canPass?(match: Match, window: Window, side: Side): boolean;
   view?(match: Match, seat: Side, now: number): Json;
+  interrupt?(match: Match, context: Context): boolean;
   expire?(match: Match, context: Context): boolean;
   validate(match: Match): void;
 }
@@ -39,6 +41,7 @@ const core = (id: string, label: string): Action => ({id, label, handler: id, pa
 function validate(match: Match, rules: Rules): void {
   assertState(match);
   assertActivations(match);
+  assertDeclaredActivation(match);
   for (let index = 0; index < match.stack.length; index++) {
     const f = match.stack[index];
     if (f.kind === 'resolution' && f.action.unrespondable !== undefined && f.action.unrespondable !== true) throw Error('Invalid action response policy.');
@@ -82,16 +85,22 @@ export function activateOneForce(m: Match, side: Side): boolean {
 
 /** Card-text activation rounds once, then rechecks Reserve and prohibitions
  * after each unit's responses. It never spends the turn's generation allowance. */
-export function activateForce(m: Match, side: Side, source: string, amount: number): void {
+export function activateForce(m: Match, side: Side, source: string, amount: number, maximum?: number): void {
   const count=wholeForce(amount), sourceRef=referenceCard(m,source);
   if (!sides.includes(side)) throw Error('Invalid activation side.');
+  if(maximum!==undefined && (!Number.isSafeInteger(maximum)||maximum<count))throw Error('Invalid variable activation maximum.');
   if (!count) return;
-  const p: ActivationBatch={id:'activation-'+ ++m.serial,side,source:sourceRef,requested:amount,count,remaining:count};
+  const p: ActivationBatch={id:'activation-'+ ++m.serial,side,source:sourceRef,requested:amount,count,remaining:count,...(maximum===undefined?{}:{maximum,declaredWithInsert:opposingInserts(m,side)})};
   m.stack.push({kind:'resolution',actor:side,cancelled:false,action:{id:p.id,handler:'core:activate-batch',source,label:'Activate Force',payload:p as unknown as Json}});
 }
+function extraActivationChoices(d:Decision){const p=d.payload as unknown as ActivationBatch;return Array.from({length:p.maximum!-p.count+1},(_,n)=>({id:'core:activation-extra:'+n,label:n?'Activate '+n+' more Force':'Finish activation'}));}
 function activateBatch(m: Match, r: Resolution): void {
   const p=r.action.payload as unknown as ActivationBatch;
-  if (r.cancelled || !p.remaining || !mayActivate(m,p.side) || !m.players[p.side].reserve.length) return;
+  if(r.cancelled||!mayActivate(m,p.side)||!m.players[p.side].reserve.length)return;
+  if(!p.remaining){
+    if(p.maximum!==undefined&&p.declaredWithInsert&&p.maximum>p.count&&!opposingInserts(m,p.side))m.stack.push({kind:'decision',side:p.side,handler:'core:activation-extra',payload:p as unknown as Json});
+    return;
+  }
   p.remaining--; m.stack.push(r); activateOneForce(m,p.side);
 }
 
@@ -202,8 +211,8 @@ function available(match: Match, window: Window, rules: Rules): Action[] {
   const actions: Action[] = [];
   if (window.timing === 'phase' && window.priority === match.turn.side) {
     const player = match.players[match.turn.side];
-    if (match.turn.phase === 'activate' && match.turn.activated < Math.floor(match.turn.generation) && player.reserve.length && mayActivate(match,window.priority))
-      actions.push(core('core:activate', 'Activate one Force'));
+    if (match.turn.phase === 'activate' && match.turn.activated < Math.floor(match.turn.generation) && player.reserve.length && mayActivate(match,window.priority) && mayActivateNormally(match))
+      actions.push(needsDeclaration(match) ? core('core:declare-activation','Declare your Force activation') : core('core:activate', 'Activate one Force'));
     if (match.turn.phase === 'draw' && player.force.length) actions.push(core('core:draw', 'Draw one card'));
   }
   const extra = rules.actions(match, window, window.priority);
@@ -222,7 +231,7 @@ export function prompt(match: Match, rules: Rules, seat: Side): Prompt | null {
   if (!frame) throw Error('Missing continuation.');
   if (frame.kind === 'decision') {
     return {revision: match.revision, side: frame.side, timing: 'decision', mandatory: true,
-      choices: seat === frame.side ? rules.decisions(match, frame) : []};
+      choices: seat === frame.side ? (frame.handler==='core:activation-amount' ? activationAmountChoices(match,frame) : frame.handler==='core:activation-extra' ? extraActivationChoices(frame) : rules.decisions(match, frame)) : []};
   }
   if (frame.kind !== 'window') throw Error('Unsettled action stack.');
   const mandatory = required(match, frame, rules);
@@ -285,7 +294,7 @@ function resolvePhase(m: Match, r: Resolution): void {
 }
 function closeWindow(match: Match, window: Window, rules: Rules): void {
   match.stack.pop();
-  if (window.timing === 'response') return;
+  if (window.timing === 'response' || (window.event as {kind?:string})?.kind==='activation-between') return;
   if (window.timing === 'start') {
     const generation = rules.generation(match, match.turn.side);
     if (!validForceQuantity(generation)) throw Error('Invalid Force generation.');
@@ -305,6 +314,7 @@ function closeWindow(match: Match, window: Window, rules: Rules): void {
 function settle(match: Match, rules: Rules, context: Context): void {
   let transitions = 0;
   while (match.status === 'playing') {
+    if (rules.interrupt?.(match,context)) {if (++transitions > 1000) throw Error('Rule interruption did not yield.'); continue;}
     const window = top(match);
     const parent = match.stack.at(-2);
     if (window?.kind === 'window' && window.timing === 'response' && window.event === undefined &&
@@ -331,6 +341,8 @@ function settle(match: Match, rules: Rules, context: Context): void {
     if (resolution.action.handler === 'core:canceled') continue;
     if (resolution.action.handler === 'core:phase') {resolvePhase(match, resolution); continue;}
     if (resolution.action.handler === 'core:payment') payForceStep(match, rules, resolution);
+    else if (resolution.action.handler === 'core:declare-activation') {if(!resolution.cancelled)askActivationAmount(match);}
+    else if (resolution.action.handler === 'core:declared-activation') resolveDeclaredActivation(match,resolution);
     else if (resolution.action.handler === 'core:activate-batch') activateBatch(match,resolution);
     else if (resolution.action.handler === 'core:activate') {
       if (!resolution.cancelled && activateOneForce(match,resolution.actor)) match.turn.activated++;
@@ -357,7 +369,10 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
       applySetup(match, rules.starting!, seat, command.choice, entropy);
       if (match.setup!.stage === 'complete') enterTurns(match, rules);
     } else if (frame?.kind === 'decision') {
-      match.stack.pop(); rules.choose(match, frame, command.choice, {entropy, now});
+      match.stack.pop();
+      if(frame.handler==='core:activation-amount') chooseActivationAmount(match,frame,command.choice);
+      else if(frame.handler==='core:activation-extra'){const p=frame.payload as unknown as ActivationBatch;activateForce(match,p.side,p.source.id,Number(command.choice.split(':')[2]));}
+      else rules.choose(match, frame, command.choice, {entropy, now});
     } else if (frame?.kind === 'window') {
       const mandatory = required(match, frame, rules);
       if (command.choice === 'pass' && !mandatory.length) {
@@ -399,7 +414,7 @@ export function advanceTime(before: Match, rules: Rules, now = Date.now(), entro
 
 export function project(match: Match, rules: Rules, seat: Side, now = Date.now()) {
   assertTime(now);
-  return {...publicState(match, seat), prompt: prompt(match, rules, seat),
+  return {...publicState(match, seat), activation: declaration(match) ? {...declaration(match)!} : null, prompt: prompt(match, rules, seat),
     ...(rules.view ? {rules: rules.view(match, seat, now)} : {}),
     ...(rules.starting ? {setup: projectSetup(match, rules.starting, seat)} : {})};
 }

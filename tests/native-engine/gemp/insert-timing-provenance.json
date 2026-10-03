@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T20:28:33.271262+00:00",
+  "files": {
+    "NativeEngineInsertTimingOracleTests.java": "814617ae1141e64131765c3d8adcdbaf818f3b58031874e51f98da6e3cfa60d2",
+    "NativeEngineReserveInsertOracleTests.java": "40b3098f891b028fbbbdfba70bed11844081e2ea6941045f51f2514d6d69092b",
+    "insert-timing-results.json": "d593699502445fc3d2be117873bf468f5844fa31e8a8aca8c165aba0b9d9d59d"
+  },
+  "junitTests": 2,
+  "observations": 10,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp167\u2013168",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineInsertTimingOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; production sources unchanged",
+  "scope": "Real Tremor/Disturbance reveal effects stop per-unit card-text activation at depth one/two. Controlled cancellation uses production CancelRevealedInsertCardEffect and permits the batch to finish. Both card titles stay spent after returning to hand and reaching a later deploy phase.",
+  "method": [
+    "Actual card deployments use the previously recorded Reserve insert fixture; both Java sources are fingerprinted. Physical Reserve order is then fixed to put the real insert at depth one or two.",
+    "Production ActivateForceEffect activates three cards unless the actual insert imposes its prohibition. Reveal observations record the number already moved to Force, not callback order within unrelated automatic trigger collection.",
+    "Cancellation is a controlled required trigger calling production cancellation. It does not certify a native cancellation-granting card. Native optional controlled cancellation tests additionally exercise response initiation and saved continuations.",
+    "Normal/variable declaration UI, extra activation after cancellation, adjacent/simultaneous insert ordering, corruption, source retrieval and concession have native integration tests; no complete GEMP normal-generation declaration trace is claimed."
+  ],
+  "limitations": [
+    "Specific cancellation-granting cards, destiny-drawing responses through a revealed insert, peek replacement and wider insert effects remain. The physical guard still prevents ordinary Reserve removal while its revealed insert is pending; this needs response-timing adjudication before full admission.",
+    "Multi-card movement providers must yield at insert exposure; broader unconverted loops remain gated by the existing physical guard.",
+    "No full native deck is admitted; broader card catalog, vehicles/pilots/passengers/space, Objectives/setup, formats, CPU/PvP, clocks/capacity and full gameplay remain unfinished."
+  ]
+}

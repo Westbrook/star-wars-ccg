@@ -4,7 +4,7 @@ import {sides, type Json, type Match, type Phase, type Side} from './types';
 
 type Counts = {turn: number; phase: Phase; counts: Record<Side, number>};
 type Restriction = {source: CardReference; side: Side; duration: 'turn' | 'source'; turn: number};
-export type ActivationBatch = {id: string; source: CardReference; side: Side; requested: number; count: number; remaining: number};
+export type ActivationBatch = {id: string; source: CardReference; side: Side; requested: number; count: number; remaining: number; maximum?: number; declaredWithInsert?: boolean};
 function assertRestriction(m: Match, p: Restriction): void {
   if (!p || !sides.includes(p.side) || !['turn','source'].includes(p.duration) || !Number.isSafeInteger(p.turn) || p.turn < 1 || p.turn > m.turn.number) throw Error('Invalid activation restriction.');
   assertCardReference(m,p.source);
@@ -39,11 +39,18 @@ export function assertActivations(m: Match): void {
     for (const p of restrictions) assertRestriction(m,p as unknown as Restriction);
   }
   const ids = new Set<string>();
-  for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'core:activate-batch') {
+  const frames=m.stack.map(f=>{
+    if(f.kind!=='decision'||f.handler!=='core:activation-extra')return f;
+    const p=f.payload as unknown as ActivationBatch;
+    if(!p || f.side!==p.side || p.remaining!==0 || !p.declaredWithInsert || p.maximum===undefined || p.maximum<=p.count)throw Error('Invalid extra activation decision.');
+    return {kind:'resolution' as const,actor:p.side,cancelled:false,action:{id:p.id,source:p.source?.id,handler:'core:activate-batch',label:'Activate Force',payload:f.payload}};
+  });
+  for (const f of frames) if (f.kind === 'resolution' && f.action.handler === 'core:activate-batch') {
     const p=f.action.payload as unknown as ActivationBatch;
     if (!p || !/^activation-[1-9]\d*$/.test(p.id) || !Number.isSafeInteger(Number(p.id.slice(11))) || Number(p.id.slice(11)) > m.serial || ids.has(p.id) || !sides.includes(p.side) || f.actor !== p.side ||
         !validForceQuantity(p.requested) || p.count !== wholeForce(p.requested) || p.count < 1 || !Number.isSafeInteger(p.remaining) || p.remaining < 0 || p.remaining > p.count ||
         f.action.id !== p.id || f.action.source !== p.source?.id || f.awaitingResponses || f.action.payment !== undefined) throw Error('Invalid activation batch.');
+    if (p.maximum !== undefined && (!Number.isSafeInteger(p.maximum) || p.maximum < p.count || typeof p.declaredWithInsert !== 'boolean') || p.maximum === undefined && p.declaredWithInsert !== undefined) throw Error('Invalid variable activation bound.');
     assertCardReference(m,p.source); ids.add(p.id);
   }
   const s = m.data.activation as unknown as Counts | undefined;

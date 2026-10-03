@@ -1,0 +1,108 @@
+[
+  {
+    "kind": "title-limit",
+    "owner": "light",
+    "again": false
+  },
+  {
+    "kind": "title-limit",
+    "owner": "dark",
+    "again": false
+  },
+  {
+    "prohibited": true,
+    "revealedAt": [
+      1
+    ],
+    "activated": 1,
+    "owner": "light",
+    "kind": "activation",
+    "depth": 1,
+    "ownerLost": true,
+    "cancel": false
+  },
+  {
+    "prohibited": false,
+    "revealedAt": [
+      1
+    ],
+    "activated": 3,
+    "owner": "light",
+    "kind": "activation",
+    "depth": 1,
+    "ownerLost": true,
+    "cancel": true
+  },
+  {
+    "prohibited": true,
+    "revealedAt": [
+      2
+    ],
+    "activated": 2,
+    "owner": "light",
+    "kind": "activation",
+    "depth": 2,
+    "ownerLost": true,
+    "cancel": false
+  },
+  {
+    "prohibited": false,
+    "revealedAt": [
+      2
+    ],
+    "activated": 3,
+    "owner": "light",
+    "kind": "activation",
+    "depth": 2,
+    "ownerLost": true,
+    "cancel": true
+  },
+  {
+    "prohibited": true,
+    "revealedAt": [
+      1
+    ],
+    "activated": 1,
+    "owner": "dark",
+    "kind": "activation",
+    "depth": 1,
+    "ownerLost": true,
+    "cancel": false
+  },
+  {
+    "prohibited": false,
+    "revealedAt": [
+      1
+    ],
+    "activated": 3,
+    "owner": "dark",
+    "kind": "activation",
+    "depth": 1,
+    "ownerLost": true,
+    "cancel": true
+  },
+  {
+    "prohibited": true,
+    "revealedAt": [
+      2
+    ],
+    "activated": 2,
+    "owner": "dark",
+    "kind": "activation",
+    "depth": 2,
+    "ownerLost": true,
+    "cancel": false
+  },
+  {
+    "prohibited": false,
+    "revealedAt": [
+      2
+    ],
+    "activated": 3,
+    "owner": "dark",
+    "kind": "activation",
+    "depth": 2,
+    "ownerLost": true,
+    "cancel": true
+  }
+]

@@ -1,3 +1,4 @@
+import {insertsIn} from './reserve-inserts';
 import {name} from './board';
 import {activateForce} from './runtime';
 import {mayActivate} from './activation';
@@ -35,11 +36,11 @@ export function stewResolve(m: Match,r: Resolution): void {
     else {
       // "Also" follows both mandatory groups. Count the current table now,
       // after every response to the individual activations has finished.
-      const maximum=mayActivate(m,r.actor) ? Math.min(bonus(m),m.players[r.actor].reserve.length) : 0;
+      const maximum=mayActivate(m,r.actor) ? (insertsIn(m,r.actor).length ? bonus(m) : Math.min(bonus(m),m.players[r.actor].reserve.length)) : 0;
       if(maximum>0)m.stack.push({kind:'decision',side:r.actor,handler:'stew:amount',payload:{card:p.card,maximum}});
     }
   } else if(h==='stew:bonus') {
-    if(p.remaining!>0) activateForce(m,r.actor,p.card,p.remaining!);
+    if(p.remaining!>0) activateForce(m,r.actor,p.card,p.remaining!,p.maximum!);
   } else if(h==='stew:finish') moveCard(m,p.card,'lost');
   else throw Error('Unknown Beru Stew continuation.');
 }
@@ -68,7 +69,7 @@ export function assertStew(m: Match): void {
     if(!['stew:play','stew:finish'].includes(h) && !m.stack.slice(0,index).some(q=>q.kind==='resolution'&&q.action.handler==='stew:finish'&&(q.action.payload as Payload).card===p.card))throw Error('Missing Beru Stew result.');
     if(h==='stew:activate' && (!Array.isArray(p.order)||p.order.length!==2||!sides.every(s=>p.order!.includes(s))||![0,1].includes(p.group!)||!Number.isSafeInteger(p.remaining)||p.remaining!<0||p.remaining!>2))throw Error('Invalid ordered activation.');
     if(['stew:amount','stew:bonus'].includes(h) && (!Number.isSafeInteger(p.maximum)||p.maximum!<1||p.maximum!>Object.keys(m.cards).length))throw Error('Invalid extra activation bound.');
-    if(h==='stew:amount' && (!mayActivate(m,owner) || p.maximum!==Math.min(bonus(m),m.players[owner].reserve.length)))throw Error('Stale extra activation choice.');
+    if(h==='stew:amount' && (!mayActivate(m,owner) || p.maximum!==(insertsIn(m,owner).length ? bonus(m) : Math.min(bonus(m),m.players[owner].reserve.length))))throw Error('Stale extra activation choice.');
     if(h==='stew:bonus' && (!Number.isSafeInteger(p.remaining)||p.remaining!<0||p.remaining!>p.maximum!))throw Error('Invalid extra activation count.');
     if(h!=='stew:activate' && (p.order!==undefined||p.group!==undefined) || !['stew:activate','stew:bonus'].includes(h) && p.remaining!==undefined || !['stew:amount','stew:bonus'].includes(h) && p.maximum!==undefined)throw Error('Unexpected activation state.');
   }

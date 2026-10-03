@@ -2436,3 +2436,56 @@ amount declarations, and peek replacement. Shuffling while a revealed insert is
 pending, or with no ordinary cards remaining, is explicitly guarded until timing
 is established. No new standalone Rules Lab scenario or full-match admission is
 added. The entire engine/product scope remains required.
+
+### Insert reveal timing and activation declarations
+
+Tremor (`1_42`) and Disturbance (`1_208`) now have component implementations:
+owned Deploy-phase insertion, the two-ordinary-card target requirement, global
+per-title once-per-game use at initiation, uniqueness through the common play
+registry, unconditional Alter immunity, actual insertion/shuffle/deployment
+results, and the printed reveal/loss/activation-prohibition sequence. A target
+that becomes too short during responses fails deployment without restoring the
+spent allowance. Their metadata is explicit; production `supports` remains false.
+
+The shared runtime's optional `interrupt` hook lets the rules package put a newly
+exposed insert above suspended gameplay before the next continuation settles.
+Adjacent inserts follow physical order. Simultaneous exposure in both Reserves
+lets the turn player order the results. An insert exposed inside another result
+can interrupt that result. Each revealed insert has a durable response window;
+its original card-instance reference prevents departure/return from reviving a
+stale result. Cancellation retires the insert and suppresses its restriction.
+The two cards are lost first, then apply their turn-long restriction after loss
+responses. A completed match remains frozen, including pending insert work.
+
+When an opposing insert is present, ordinary activation requires a declared
+amount. A serialized declaration holds its count and remainder, yields normal
+phase-action opportunities between units, and prevents extending the declared
+amount while an opposing insert remains. If all opposing inserts are revealed
+and canceled during that activation, ordinary activation can continue up to the
+frozen generation limit. Prohibitions and empty Reserve stop the remaining units.
+The CPU selects declarations from its private projected legal choices; it does
+not obtain hidden Reserve counts. The match UI displays declared/activated/
+remaining values and lets both players inspect revealed inserts across refresh.
+
+Variable card activation batches can similarly offer additional activation when
+all opposing inserts disappear during the declared batch. Beru Stew passes its
+text-derived maximum into that continuation. While any insert prevents counting
+Reserve, its bonus prompt does not expose the true short Reserve size by capping
+its choices to that size. Normal and card-text activation retain separate counts.
+
+`gemp/insert-timing-provenance.json` records ten executed observations: actual
+Tremor/Disturbance effects interrupt three-card activations at depths one/two;
+controlled production cancellation lets them finish; and both title limits
+persist after return to hand and a later turn. Both test harnesses are hashed;
+6,820 production files remain unchanged. Native tests also exercise normal and
+variable declarations, additional activation, adjacent/simultaneous ordering,
+concession, corrupt snapshots, private Stew bounds and responsive service/browser
+recovery. Controlled cancellation does not certify its granting cards, and these
+observations are not a complete GEMP normal-generation declaration trace.
+
+Remaining insert work includes cancellation-granting cards, destiny-drawing
+responses while a revealed insert remains pending, peek replacement, broader
+insert text, and conversion of multi-card movement providers to yield at exposure.
+The physical guard still rejects ordinary Reserve removal past a pending insert;
+these cross-card interactions must be adjudicated before admitting full decks.
+The whole engine/product scope remains required; no standalone Lab study was added.
