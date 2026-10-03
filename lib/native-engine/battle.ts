@@ -10,7 +10,7 @@ import {locationAbility} from './location-ability';
 import {tradedPower, type AbilityTrade} from './battle-effects';
 import {ability} from './ability';
 import {battleDrawPolicy, assertBattleDrawModifiers, type BattleDrawModifier} from './battle-destiny';
-import {beginDestinySequence, assertDestinyScope, remainingDestinyDraws, replaceDestinyDraw} from './destiny-limits';
+import {beginDestinySequence, assertDestinyScope, remainingDestinyDraws, replaceDestinyDraw, type DestinySequence} from './destiny-limits';
 import {sameCard, referenceCard, assertCardReference, type CardReference} from './identity';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import type {GaderffiiShot} from './gaderffii';
@@ -42,6 +42,7 @@ export type Battle = {
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
   departed?: string[];
   attritionProtected?: CardReference[];
+  characterDestinyUses?: CardReference[];
   worseIncrease?: number; damageLedger?: Pair<LossLedger>;
   damageMultipliers?: {card: string; factor: number; side: Side | 'both'}[];
   knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[]; saberShots?: LightsaberShot[];
@@ -240,6 +241,21 @@ export function battleResolve(m: Match, r: Resolution): void {
   }
   if (kind === 'battle:shot-finish') {
     const shot = b!.shots[p.index!];
+    if (p.redraw && !shot.substitution) {
+      const f=p.flow;
+      // Before weapon adapters retained DrawFlow, the sequence was still saved.
+      // An ordinary weapon fires once in a battle; its newest matching sequence
+      // is that shot. Reuse its limit/count rather than inventing a fresh draw.
+      const legacyScope = !f ? Object.entries((m.data.destinySequences??{}) as Record<string,DestinySequence>)
+        .filter(([,s])=>s.side===side&&s.source===shot.weapon&&s.category==='weapon')
+        .sort(([a],[z])=>Number(z.slice('destiny-sequence:'.length))-Number(a.slice('destiny-sequence:'.length)))[0]?.[0] : undefined;
+      const scope=f?.scope??legacyScope;
+      if (shot.card && (f?.reference ? sameCard(m,f.reference) : m.cards[shot.card].zone==='destiny')) moveCard(m,shot.card,'used');
+      if (shot.card) replaceDestinyDraw(m,scope);
+      const drawn=act('weapon-drawn','Reveal weapon destiny','weapon-drawn',{index:p.index});
+      drawDestiny(m,side,shot.weapon,'weapon',drawn,false,f?.modifier??{weapon:shot.weapon},drawn,false,scope);
+      return;
+    }
     completeDestinyDraw(m, side, shot.weapon, 'weapon', {card: shot.card, value: shot.substitution?.value ?? (r.cancelled ? null : shot.destiny), ...(shot.substitution ? {substitution: shot.substitution} : {})},
       act('shot-total', 'Total weapon destiny', 'shot-total', {index: p.index}), false);
     return;
@@ -311,7 +327,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     const shot = b.shots[p.index!];
     shot.card = p.draw!.card; shot.destiny = p.draw!.value;
     if (p.draw!.substitution) shot.substitution = p.draw!.substitution;
-    continuation(m, 'shot-finish', {index: p.index}, side);
+    continuation(m, 'shot-finish', {index: p.index, ...(p.flow ? {flow:p.flow} : {})}, side);
     if (!p.draw!.skipped) openWindow(m, 'response', other(side), {kind: shot.destiny !== null ? 'weapon-destiny-drawn' : 'weapon-destiny-failed', card: shot.card, value: shot.destiny, ...(shot.substitution ? {substituted: true} : {})});
   } else if (kind === 'battle:drawn' || kind === 'battle:planned-drawn') {
     b.destiny[side] = p.draw!.value; b.destinyCards[side] = p.draw!.card;
@@ -382,6 +398,11 @@ export function assertBattle(m: Match): void {
     const p = data(f);
     if (p.flow) {assertDrawFlow(m, p.flow, battle(m)?.destinyDraws?.[p.side!]!); if (p.flow.side !== p.side || f.actor !== p.side || p.flow.source !== battle(m)?.site || p.flow.category !== 'battle' || p.flow.scope !== battle(m)?.destinyScopes?.[p.side!] || !battle(m)?.destinyPlans?.[p.side!] || (p.flow.retain ? p.flow.next.handler !== 'selection:drawn' : p.flow.next.handler !== 'battle:plan-draw')) throw Error('Invalid battle draw actor.');}
     if (!sides.includes(p.side!) || p.card !== undefined && m.cards[p.card]?.owner !== p.side || p.redraw !== undefined && typeof p.redraw !== 'boolean') throw Error('Invalid battle destiny continuation.');
+  }
+  for (const f of m.stack) if(f.kind==='resolution' && f.action.handler==='battle:shot-finish') {
+    const p=data(f),shot=battle(m)?.shots[p.index!];
+    if(!shot||shot.side!==f.actor||p.redraw!==undefined&&typeof p.redraw!=='boolean')throw Error('Invalid weapon destiny continuation.');
+    if(p.flow){assertDrawFlow(m,p.flow,{card:shot.card,value:shot.destiny,...(shot.substitution?{substitution:shot.substitution}:{})});if(p.flow.side!==f.actor||p.flow.source!==shot.weapon||p.flow.category!=='weapon'||p.flow.retain||p.flow.includeTotal||p.flow.drawn?.handler!=='battle:weapon-drawn'||(p.flow.drawn.payload as Payload).index!==p.index)throw Error('Invalid weapon destiny flow.');}
   }
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');

@@ -127,8 +127,8 @@ test('a canceled battle never creates multiplied loss and continues its phase',(
 test('end of game stops pending multipliers without exposing new legal actions',()=>{
  const f=fixture();const m=step(play(f,'light'),'concede','dark');assert.equal(m.status,'finished');assert.equal(m.result.winner,'light');assert.equal(runtime.prompt(m,rules,'light'),null);assert.equal(combat.battle(m).damageMultipliers,undefined);
 });
-test('Han metadata is not full character admission or a deployment permission',()=>{
- const f=fixture();assert.equal(premiereRules.supports('1_11'),false);assert.equal(board.deploymentPayment(f.m,f.han,f.site),null);
+test('Han ground deployment does not grant complete character admission',()=>{
+ const f=fixture();assert.equal(premiereRules.supports('1_11'),false);assert.deepEqual(board.deploymentPayment(f.m,f.han,f.site),{light:3});
 });
 test('ordinary reduction subtracts after tripling, without changing initial damage',()=>{
  const f=fixture();let m=priority(damage(play(f,'light')),'light');m=step(m,'battle-reduce:'+f.reduce+':2');m=seek(m,x=>x.cards[f.reduce].zone==='used');assert.equal(combat.battle(m).initialDamage.light,9);assert.equal(combat.battle(m).damage.light,7);

@@ -104,7 +104,7 @@ function finishReveal(m: Match, p: PendingStart, card: string | null, limited: b
   const draw: Draw = limited ? {card: null, value: null, skipped: 'limit'} : p.costFailure ? {card: null, value: null, skipped: p.costFailure} : p.substitution ? {card: null, value: p.substitution.value, substitution: {...p.substitution}} : {card, value: card ? printed(m, card, 'destiny') + modifier : null};
   // Battle adapters preserve their public events and redraw protocol while
   // sharing the same before-draw boundary and physical draw operation.
-  if (p.drawn) dispatch(m, {...p, next: p.drawn}, {draw: draw as unknown as Json, ...(p.drawn.handler === 'battle:planned-drawn' ? {flow: {...p, ...(card ? {reference: referenceCard(m, card)} : {})} as unknown as Json} : {})});
+  if (p.drawn) dispatch(m, {...p, next: p.drawn}, {draw: draw as unknown as Json, ...(['battle:planned-drawn','battle:weapon-drawn'].includes(p.drawn.handler) ? {flow: {...p, ...(card ? {reference: referenceCard(m, card)} : {})} as unknown as Json} : {})});
   else {
     queue(m, 'finish', {...p, draw, ...(p.retain && card ? {reference: referenceCard(m, card)} : {})});
     if (!draw.skipped) openWindow(m, 'response', other(p.side), {kind: draw.value !== null ? 'destiny-drawn' : 'destiny-failed', category: p.category, source: p.source, side: p.side, card, ...(p.substitution ? {substituted: true, value: draw.value} : {})});
@@ -193,7 +193,7 @@ export function assertDestiny(m: Match): void {
 
 export function assertDrawFlow(m: Match, f: DrawFlow, draw: Draw): void {
   if (!f || !sides.includes(f.side) || !m.cards[f.source] || !f.category || !f.next?.handler || typeof f.includeTotal !== 'boolean' ||
-    !validModifier(m, f.modifier) || f.drawn?.handler !== 'battle:planned-drawn' || f.retain !== undefined && typeof f.retain !== 'boolean' ||
+    !validModifier(m, f.modifier) || !['battle:planned-drawn','battle:weapon-drawn'].includes(f.drawn?.handler??'') || f.retain !== undefined && typeof f.retain !== 'boolean' ||
     f.retain && (f.includeTotal || f.next.handler !== 'selection:drawn') || !!draw.card !== !!f.reference) throw Error('Invalid adapted destiny draw.');
   assertDestinyScope(m, f.scope, f.side, f.source, f.category);
   if (f.reference) {assertCardReference(m, f.reference, draw.card!); if (f.reference.zone !== 'destiny') throw Error('Invalid adapted destiny reference.');}

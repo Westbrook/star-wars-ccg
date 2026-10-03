@@ -1,0 +1,24 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T11:54:53.644128+00:00",
+  "harness": "NativeEngineCharacterDestinyOracleTests.java",
+  "harnessSha256": "82a1765a5efb48b222d6a001e10124a27b3491dc1ff1c2537a1aa0a8caf7e842",
+  "result": "character-destiny-results.json",
+  "resultSha256": "1b3610b8a88685ff40bb517816066774641d5d9626144cffb71f66662bc58abf",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCharacterDestinyOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; pinned reference; test harness only; no production rule changes",
+  "junitTests": 2,
+  "observations": 11,
+  "unchangedProductionFiles": 6820,
+  "scope": "Six actual card-action paths: Han/Tarkin respond to Light battle destiny, fired Blaster Rifle destiny and Reinforcements during the weapons segment. Ordered drawn/completed/total/pile traces, one use and isolated response cost compared to native execution. Five Praji fixtures query canceled text, total power and R2 forfeit after GEMP has processed mandatory table-change actions.",
+  "limitations": [
+    "Ground components only. Pilot, aboard, passenger, vehicle and starship rules remain required.",
+    "Mandatory cancellation/restoration ordering and refresh, source departure during initiated actions, cost and draw limits, inactive/excluded participants, empty replacement Reserve, corrupted saves and Han reuse in the next complete battle have native tests without fresh equivalent GEMP traces.",
+    "Only Praji currently supplies the new text-cancellation state; generic provider interactions, prevention and simultaneous-source semantics remain required.",
+    "Source reentry refreshes a character action instance using existing native identity policy; no fresh GEMP source-reentry observation.",
+    "Full-match production admission remains closed and entire engine coverage is unfinished.",
+    "Legacy pending weapon adapters recover their newest saved matching sequence under the existing one-shot-per-weapon battle rule; compatibility is checked natively, not in a fresh GEMP trace."
+  ],
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf (p43 where present; p32 cancellation/redraw; p144 Han/Tarkin rulings)"
+}

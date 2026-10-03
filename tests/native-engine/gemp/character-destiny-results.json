@@ -1,0 +1,184 @@
+[
+  {
+    "c3poCanceled": false,
+    "r2Canceled": false,
+    "forfeit": 6.0,
+    "power": 9.0,
+    "name": "praji-absent"
+  },
+  {
+    "c3poCanceled": true,
+    "r2Canceled": true,
+    "forfeit": 4.0,
+    "power": 5.0,
+    "name": "praji-present"
+  },
+  {
+    "c3poCanceled": false,
+    "r2Canceled": false,
+    "forfeit": 6.0,
+    "power": 9.0,
+    "name": "praji-remote"
+  },
+  {
+    "c3poCanceled": false,
+    "r2Canceled": false,
+    "forfeit": 6.0,
+    "power": 9.0,
+    "name": "praji-hand"
+  },
+  {
+    "c3poCanceled": true,
+    "r2Canceled": true,
+    "forfeit": 4.0,
+    "power": 5.0,
+    "name": "praji-return"
+  },
+  {
+    "events": [
+      {
+        "stage": "drawn",
+        "side": "light",
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "drawn",
+        "side": "light",
+        "used": 1,
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "complete",
+        "side": "light",
+        "used": 1,
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "total",
+        "side": "light",
+        "used": 2,
+        "unresolved": 0,
+        "value": 5.0
+      }
+    ],
+    "cost": 1,
+    "uses": 1,
+    "name": "han-battle"
+  },
+  {
+    "events": [
+      {
+        "stage": "drawn",
+        "side": "light",
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "drawn",
+        "side": "light",
+        "used": 1,
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "complete",
+        "side": "light",
+        "used": 1,
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "total",
+        "side": "light",
+        "used": 2,
+        "unresolved": 0,
+        "value": 5.0
+      }
+    ],
+    "cost": 1,
+    "uses": 1,
+    "name": "han-weapon"
+  },
+  {
+    "events": [
+      {
+        "stage": "drawn",
+        "side": "light",
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0
+      },
+      {
+        "stage": "drawn",
+        "side": "light",
+        "used": 1,
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "complete",
+        "side": "light",
+        "used": 1,
+        "unresolved": 1,
+        "value": 5.0
+      },
+      {
+        "stage": "total",
+        "side": "light",
+        "used": 2,
+        "unresolved": 0,
+        "value": 5.0
+      }
+    ],
+    "cost": 1,
+    "uses": 1,
+    "name": "han-general"
+  },
+  {
+    "events": [
+      {
+        "stage": "drawn",
+        "side": "light",
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0
+      }
+    ],
+    "cost": 0,
+    "uses": 1,
+    "name": "tarkin-battle"
+  },
+  {
+    "events": [
+      {
+        "stage": "drawn",
+        "side": "light",
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0
+      }
+    ],
+    "cost": 0,
+    "uses": 1,
+    "name": "tarkin-weapon"
+  },
+  {
+    "events": [
+      {
+        "stage": "drawn",
+        "side": "light",
+        "used": 0,
+        "unresolved": 1,
+        "value": 1.0
+      }
+    ],
+    "cost": 0,
+    "uses": 1,
+    "name": "tarkin-general"
+  }
+]

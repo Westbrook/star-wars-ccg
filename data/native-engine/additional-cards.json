@@ -76,7 +76,7 @@
       "Pilot",
       "Warrior"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_011.java"
   },
   {
@@ -1172,5 +1172,49 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_147.java"
+  },
+  {
+    "gempId": "1_167",
+    "name": "Commander Praji",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/commanderpraji.gif",
+    "text": "Adds 2 to power of anything he pilots. When piloting Devastator, also adds 1 to hyperspeed. Where present, cancels game text of C-3PO or R2-D2.",
+    "stats": {
+      "deploy": "2",
+      "power": "1",
+      "ability": "2",
+      "destiny": "2",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_167.java"
+  },
+  {
+    "gempId": "1_179",
+    "name": "Grand Moff Tarkin",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/grandmofftarkin.gif",
+    "text": "Adds 2 to power of anything he pilots. When with Vader in a battle, once per battle may cancel one opponent's destiny just drawn.",
+    "stats": {
+      "deploy": "4",
+      "power": "4",
+      "ability": "3",
+      "destiny": "1",
+      "forfeit": "6"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_179.java"
   }
 ]
