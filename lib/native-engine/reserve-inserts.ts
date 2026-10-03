@@ -31,7 +31,10 @@ export function revealInsert(m: Match, side: Side): CardReference | undefined {
   x.revealed=true; return {...x.card};
 }
 export function assertReserveTopAccessible(m: Match, side: Side): void {
-  if (topInsert(m,side)) throw Error('Resolve the exposed insert before moving another Reserve card.');
+  // Exposure interrupts the parent action, but valid responses may themselves
+  // move ordinary cards. A revealed insert is never a destiny/Force card.
+  const top=topInsert(m,side);
+  if (top && !top.revealed) throw Error('Resolve the exposed insert before moving another Reserve card.');
 }
 /** One conditional uniform shuffle, equivalent to reshuffling until the first
  * card is ordinary. This terminates even for deterministic test entropy. */

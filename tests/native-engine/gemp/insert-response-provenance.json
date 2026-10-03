@@ -1,0 +1,41 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T21:52:41.142886+00:00",
+  "files": {
+    "NativeEngineInsertResponseOracleTests.java": "db6732c3da6819dccdeace111b1687a890229872c83e012949e6896e63d1a9b4",
+    "NativeEngineInsertTimingOracleTests.java": "814617ae1141e64131765c3d8adcdbaf818f3b58031874e51f98da6e3cfa60d2",
+    "insert-response-results.json": "10dc85739d7be798e95fe67c28df3cc4b50c9c409ae16c71f630b9f5f92b4d62"
+  },
+  "junitTests": 1,
+  "observations": 8,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineInsertResponseOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; unchanged production sources",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp167\u2013168",
+  "scope": "Actual Projective Telepathy, Light Sense and Dark Sense nested during Anger reveal; zero/six destiny, adjacent insert and covered/exposed physical top.",
+  "method": [
+    "A one-card production activation exposes a controlled-depth AFA insert. Actual Telepathy and two opposing Sense cards are played.",
+    "Covered controls place an ordinary destiny card above the already-revealed insert before the response chain. Exposed cases leave the physical insert on top.",
+    "Dark Sense completion records ordinary Reserve reduction, pending reveal status and adjacent visibility. Telepathy completion records cancellation outcomes and insert ownership/disposal.",
+    "Native-only tests additionally cover recovery, concession, generic ordinary movement destinations, a later insert exposed by the response and shared peek behavior. Peek code treats an already revealed insert as pending rather than a newly encountered insert."
+  ],
+  "adjudication": {
+    "native": "Responses draw ordinary Reserve cards while the revealed insert remains pending. Never draw, activate or lose an insert as Force; preserve its owner and delayed reveal order.",
+    "gemp": "DrawDestinyEffect uses GameState.getTopOfReserveDeck without filtering a revealed insert. In all four uncovered cases it draws AFA as destiny and later places it in Dark Used; an adjacent insert reveals early. Covered controls match native.",
+    "source": "AR p167 explicitly prohibits using inserts as destiny or Force. Native follows that rule; the four mismatches are retained as evidence, not parity.",
+    "matchingObservations": 4,
+    "differingObservations": 4,
+    "differingObservationIndices": [
+      0,
+      2,
+      4,
+      6
+    ]
+  },
+  "limitations": [
+    "Production full-match deck admission remains closed; full catalog, setup, formats, ships/vehicles, CPU/PvP/capacity and full-match certification remain.",
+    "Shuffling a Reserve containing a pending revealed insert remains guarded until its physical continuation semantics are implemented and verified. Full normal-activation reference traces and multi-card movement integration remain.",
+    "Shared peek primitives have native regression coverage here, not an actual new response-granting peek card or fresh GEMP replacement trace. Prior nine peek replacement disagreements remain documented separately."
+  ]
+}
