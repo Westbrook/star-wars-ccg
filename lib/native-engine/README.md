@@ -873,3 +873,18 @@ Remaining work includes Force borrowing/redirection, prevention/replacement,
 fractional/separate costs, and destiny-specific cost/failure handling. A response
 that depletes still-owed Force currently raises an explicit coverage guard instead
 of granting an unpaid action. Full card/deck admission remains closed.
+
+### Pre-draw costs
+
+Every shared destiny caller checks `destiny-cost` before `about-to-draw-destiny`.
+Cost providers can yield for decisions and use the runtime payment continuation,
+including each Force-use response. `failDestinyCost` binds the exact pending draw
+and records voluntary refusal separately from inability to pay. A skipped draw
+reveals no card and has no failed/completed-draw event; multi-draw and battle
+continuations still advance. Redraws and selection candidates each check costs.
+An empty Reserve cannot incur a draw cost, and cost windows with no legal action
+auto-settle. Eight mechanism observations agree with pinned GEMP.
+
+Physical draw limits, generic “if unable to otherwise” permission, cost
+prevention/replacement and card-specific tax providers remain required before
+full admission; this mechanism does not certify Gold Leader or other tax cards.

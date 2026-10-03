@@ -1,0 +1,114 @@
+[
+  {
+    "name": "paid",
+    "events": [
+      "cost",
+      "use-before",
+      "used",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "total": 1.0,
+    "paid": 1,
+    "unresolved": 0
+  },
+  {
+    "name": "declined",
+    "events": [
+      "cost"
+    ],
+    "total": null,
+    "paid": 0,
+    "unresolved": 0
+  },
+  {
+    "name": "unpaid",
+    "events": [
+      "cost"
+    ],
+    "total": null,
+    "paid": 0,
+    "unresolved": 0
+  },
+  {
+    "name": "substituted",
+    "events": [
+      "cost",
+      "use-before",
+      "used",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "total": 3.0,
+    "paid": 1,
+    "unresolved": 0
+  },
+  {
+    "name": "redraw",
+    "events": [
+      "cost",
+      "use-before",
+      "used",
+      "before",
+      "drawn",
+      "cost",
+      "use-before",
+      "used",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "total": 5.0,
+    "paid": 2,
+    "unresolved": 0
+  },
+  {
+    "name": "two",
+    "events": [
+      "cost",
+      "use-before",
+      "used",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "use-before",
+      "used",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "total": 6.0,
+    "paid": 2,
+    "unresolved": 0
+  },
+  {
+    "name": "second-unpaid",
+    "events": [
+      "cost",
+      "use-before",
+      "used",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "total"
+    ],
+    "total": 1.0,
+    "paid": 1,
+    "unresolved": 0
+  },
+  {
+    "name": "empty",
+    "events": [],
+    "total": null,
+    "paid": 0,
+    "unresolved": 0
+  }
+]

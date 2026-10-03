@@ -32,7 +32,7 @@ const next={id:'observed',label:'Record result',handler:'probe:done',payload:{}}
 const event=m=>m.stack.at(-1)?.event;
 function general(value=1,before=false){let m=fresh({dark:['1_194','1_285']});const source=pull(m,'dark','1_251','playing');force(m,'dark',3);m=phase(m,'deploy');
  if(value===null)for(const id of [...m.players.dark.reserve])state.moveCard(m,id,'hand');else topDestiny(m,'dark',value===0?'1_285':'1_194');
- destiny.drawDestiny(m,'dark',source,'reinforcements',next);if(value===null)destiny.resolveDestiny(m,m.stack.pop());else if(!before)m=seek(m,x=>event(x)?.kind==='destiny-drawn');return{m,source,card:(before?m.players.dark.reserve[0]:m.players.dark.destiny[0])??null};
+ destiny.drawDestiny(m,'dark',source,'reinforcements',next);if(value===null)destiny.resolveDestiny(m,m.stack.pop());else m=seek(m,x=>event(x)?.kind===(before?'about-to-draw-destiny':'destiny-drawn'));return{m,source,card:(before?m.players.dark.reserve[0]:m.players.dark.destiny[0])??null};
 }
 function finish(m){return seek(m,x=>!!x.data.observed)}
 function trace(m,done=x=>!!x.data.observed,includeBefore=false){const seen=new Set(),events=[],drawn={dark:[],light:[]};

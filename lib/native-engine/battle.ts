@@ -285,12 +285,12 @@ export function battleResolve(m: Match, r: Resolution): void {
     shot.card = p.draw!.card; shot.destiny = p.draw!.value;
     if (p.draw!.substitution) shot.substitution = p.draw!.substitution;
     continuation(m, 'shot-finish', {index: p.index}, side);
-    openWindow(m, 'response', other(side), {kind: shot.destiny !== null ? 'weapon-destiny-drawn' : 'weapon-destiny-failed', card: shot.card, value: shot.destiny, ...(shot.substitution ? {substituted: true} : {})});
+    if (!p.draw!.skipped) openWindow(m, 'response', other(side), {kind: shot.destiny !== null ? 'weapon-destiny-drawn' : 'weapon-destiny-failed', card: shot.card, value: shot.destiny, ...(shot.substitution ? {substituted: true} : {})});
   } else if (kind === 'battle:drawn' || kind === 'battle:planned-drawn') {
     b.destiny[side] = p.draw!.value; b.destinyCards[side] = p.draw!.card;
     (b.destinyDraws ??= pair(null, null))[side] = structuredClone(p.draw!);
     continuation(m, 'destiny-finish', {side, ...(p.flow ? {flow: p.flow} : {}), ...(p.draw!.card ? {card: p.draw!.card} : {})}, side);
-    openWindow(m, 'response', other(side), {kind: p.draw!.value !== null ? 'battle-destiny-drawn' : 'battle-destiny-failed', card: p.draw!.card, side, ...(p.draw!.substitution ? {substituted: true, value: p.draw!.value} : {})});
+    if (!p.draw!.skipped) openWindow(m, 'response', other(side), {kind: p.draw!.value !== null ? 'battle-destiny-drawn' : 'battle-destiny-failed', card: p.draw!.card, side, ...(p.draw!.substitution ? {substituted: true, value: p.draw!.value} : {})});
   } else if (kind === 'battle:shot-total') {
     const shot = b.shots[p.index!]; shot.destiny = p.draw!.value;
     completeDestinyTotal(m, side, shot.weapon, 'weapon', [p.draw!], act('shot-result', 'Resolve weapon result', 'shot-result', {index: p.index}));

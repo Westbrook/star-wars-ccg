@@ -212,7 +212,15 @@ function closeWindow(match: Match, window: Window, rules: Rules): void {
 
 function settle(match: Match, rules: Rules, context: Context): void {
   let transitions = 0;
-  while (match.status === 'playing' && top(match)?.kind === 'resolution') {
+  while (match.status === 'playing') {
+    const window = top(match);
+    // A draw without applicable cost text must not add an empty UI step.
+    // Recheck both seats and required actions after every cost response.
+    if (window?.kind === 'window' && (window.event as {kind?: string})?.kind === 'destiny-cost' &&
+      !required(match, window, rules).length && !sides.some(priority => available(match, {...window, priority}, rules).length || rules.canPass?.(match, {...window, priority}, priority) === false)) {
+      match.stack.pop(); continue;
+    }
+    if (top(match)?.kind !== 'resolution') break;
     if (++transitions > 1000) throw Error('Action resolution did not yield.');
     const pending = top(match) as Resolution;
     // Cost handlers may yield for choices or cost-result responses. The action

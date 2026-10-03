@@ -25,6 +25,7 @@ function fixture(values=[1,5,0],y=1,remainder='used',x=values.length){
  // Empty batches have no before window; resolve only the same shared draw
  // continuation normally settled by an initiating action.
  while(m.stack.at(-1)?.kind==='resolution')rules.resolve(m,m.stack.pop(),{entropy:()=>0,now:0});
+ if(event(m)?.kind==='destiny-cost')m=seek(m,x=>event(x)?.kind==='about-to-draw-destiny');
  return {m,source,cards};
 }
 test('three draws stay unresolved through completion; selected values alone supply the total',()=>{

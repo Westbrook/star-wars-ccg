@@ -1,0 +1,33 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T00:11:59.022703+00:00",
+  "harness": "NativeEngineDestinyCostOracleTests.java",
+  "harnessSha256": "3a8c9e423d8329b4b8bc38967cee7c19433f9f100154129ecc91c58d43e8ca0d",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDestinyCostOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 8,
+  "productionFilesVerified": 6820,
+  "scope": "Production DrawDestinyEffect, CostToDrawDestinyCardResult and UseForceEffect with a fixture proxy imposing a one-Force tax. Controlled substitution and cancel/redraw use the production draw API. No claim of a fully implemented granting card. Native comparisons cover full event order, total, Force paid and unresolved count; additional tests exercise selection/battle adapters, malformed snapshots, concession and JSON recovery.",
+  "comparisons": {
+    "matching": [
+      "paid",
+      "declined",
+      "unpaid",
+      "substituted",
+      "redraw",
+      "two",
+      "second-unpaid",
+      "empty"
+    ]
+  },
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp13\u201318 costs and individual Force-use actions; pp32\u201334 substitutions and draw X choose Y.",
+    "DrawDestinyEffect: costs precede about-to-draw; refusal/unaffordability skips a scheduled draw. Replacement draws check cost again."
+  ],
+  "limits": "Fixed integer costs. Generic if-unable-to-otherwise permissions, physical limits, cost prevention/replacement/borrowing and granting-card integration remain required. Providers must apply permissions before recording failure. Full match/deck admission remains closed."
+}

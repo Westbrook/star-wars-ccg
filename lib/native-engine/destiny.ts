@@ -4,14 +4,14 @@ import {moveCard, moveTop} from './state';
 import {openWindow} from './runtime';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side} from './types';
 export type Substitution = {source: string; value: number};
-export type Draw = {card: string | null; value: number | null; substitution?: Substitution};
+export type Draw = {card: string | null; value: number | null; substitution?: Substitution; skipped?: 'cost-declined' | 'cost-unpaid'};
 type Context = {next: Action; side: Side; source: string; category: string};
 export type Modifier = number | {weapon: string};
 export type DrawFlow = Context & {includeTotal: boolean; modifier: Modifier; drawn?: Action; retain?: boolean; reference?: CardReference};
-type PendingStart = Context & {includeTotal: boolean; modifier: Modifier; drawn?: Action; substitution?: Substitution; retain?: boolean};
+type PendingStart = Context & {includeTotal: boolean; modifier: Modifier; drawn?: Action; substitution?: Substitution; retain?: boolean; costFailure?: 'cost-declined' | 'cost-unpaid'};
 const validSubstitution = (m: Match, s: Substitution) => !!s && !!m.cards[s.source] && Number.isFinite(s.value) && s.value >= 0;
 export function validDraw(m: Match, d: Draw, side: Side, allowNegative = false): boolean {
-  return !!d && (d.card === null || m.cards[d.card]?.owner === side) &&
+  return !!d && (d.skipped === undefined || ['cost-declined', 'cost-unpaid'].includes(d.skipped) && d.card === null && d.value === null && !d.substitution) && (d.card === null || m.cards[d.card]?.owner === side) &&
     (d.value === null || Number.isFinite(d.value) && (allowNegative || d.value >= 0)) &&
     (d.substitution === undefined ? d.card !== null || d.value === null : validSubstitution(m, d.substitution) && d.card === null && d.value !== null);
 }
@@ -21,8 +21,19 @@ export function substituteDestiny(m: Match, r: Resolution, source: string, value
   if (!validSubstitution(m, {source, value})) throw Error('Invalid substituted destiny.');
   if (!m.stack.includes(r) || r.action.handler !== 'destiny:draw' || r.cancelled) return false;
   const p = r.action.payload as unknown as PendingStart;
-  if (p.substitution) return false;
+  if (p.substitution || p.costFailure) return false;
   p.substitution = {source, value}; return true;
+}
+/** Cost providers bind the exact pre-draw continuation. Declining a cost and
+ * being unable to pay remain distinct for rules such as "if unable otherwise";
+ * a provider must apply any such permission before declining this draw. */
+export function failDestinyCost(m: Match, r: Resolution, chosenByPlayer: boolean): boolean {
+  if (typeof chosenByPlayer !== 'boolean') throw Error('Invalid destiny cost failure.');
+  if (!m.stack.includes(r) || r.action.handler !== 'destiny:cost' || r.cancelled) return false;
+  const p = r.action.payload as unknown as PendingStart;
+  // A later compulsory failure cannot erase a player's earlier refusal.
+  if (!p.costFailure || chosenByPlayer) p.costFailure = chosenByPlayer ? 'cost-declined' : 'cost-unpaid';
+  return true;
 }
 /** Request a replacement of a just-drawn general destiny. The replacement
  * occupies the same selection slot; the canceled original never completes. */
@@ -60,23 +71,31 @@ export function completeDestinyTotal(m: Match, side: Side, source: string, categ
  * their combined total once, after all the individual draw continuations. */
 export function drawDestiny(m: Match, side: Side, source: string, category: string, next: Action, includeTotal = true, modifier: Modifier = 0, drawn?: Action, retain = false): void {
   if (!validModifier(m, modifier) || retain && (drawn && drawn.handler !== 'battle:planned-drawn' || includeTotal || next.handler !== 'selection:drawn')) throw Error('Invalid destiny draw modifier or retention.');
-  queue(m, 'draw', {next, side, source, category, includeTotal, modifier, ...(drawn ? {drawn} : {}), ...(retain ? {retain} : {})});
+  queue(m, m.players[side].reserve.length ? 'cost' : 'draw', {next, side, source, category, includeTotal, modifier, ...(drawn ? {drawn} : {}), ...(retain ? {retain} : {})});
   // An empty Reserve cannot trigger "about to draw" text (AR pp10,32).
   // Do not capture its top card: responses can change the deck before reveal.
-  if (m.players[side].reserve.length) openWindow(m, 'response', other(side), {kind: 'about-to-draw-destiny', category, source, side});
+  if (m.players[side].reserve.length) openWindow(m, 'response', other(side), {kind: 'destiny-cost', category, source, side});
 }
 export function resolveDestiny(m: Match, r: Resolution): void {
+  if (r.action.handler === 'destiny:cost') {
+    const p = r.action.payload as unknown as PendingStart;
+    queue(m, 'draw', p);
+    if (r.cancelled) (m.stack.at(-1) as Resolution).cancelled = true;
+    if (!p.costFailure && !r.cancelled && m.players[p.side].reserve.length)
+      openWindow(m, 'response', other(p.side), {kind: 'about-to-draw-destiny', category: p.category, source: p.source, side: p.side});
+    return;
+  }
   if (r.action.handler === 'destiny:draw') {
     const p = r.action.payload as unknown as PendingStart;
-    const card = !p.substitution && !r.cancelled && m.players[p.side].reserve.length ? moveTop(m, p.side, 'reserve', 'destiny') : null;
+    const card = !p.costFailure && !p.substitution && !r.cancelled && m.players[p.side].reserve.length ? moveTop(m, p.side, 'reserve', 'destiny') : null;
     const modifier = typeof p.modifier === 'number' ? p.modifier : weaponDrawBonus(m, p.modifier.weapon);
-    const draw: Draw = p.substitution ? {card: null, value: p.substitution.value, substitution: {...p.substitution}} : {card, value: card ? printed(m, card, 'destiny') + modifier : null};
+    const draw: Draw = p.costFailure ? {card: null, value: null, skipped: p.costFailure} : p.substitution ? {card: null, value: p.substitution.value, substitution: {...p.substitution}} : {card, value: card ? printed(m, card, 'destiny') + modifier : null};
     // Battle adapters preserve their public events and redraw protocol while
     // sharing the same before-draw boundary and physical draw operation.
     if (p.drawn) dispatch(m, {...p, next: p.drawn}, {draw: draw as unknown as Json, ...(p.drawn.handler === 'battle:planned-drawn' ? {flow: {...p, ...(card ? {reference: referenceCard(m, card)} : {})} as unknown as Json} : {})});
     else {
       queue(m, 'finish', {...p, draw, ...(p.retain && card ? {reference: referenceCard(m, card)} : {})});
-      openWindow(m, 'response', other(p.side), {kind: draw.value !== null ? 'destiny-drawn' : 'destiny-failed', category: p.category, source: p.source, side: p.side, card, ...(p.substitution ? {substituted: true, value: draw.value} : {})});
+      if (!draw.skipped) openWindow(m, 'response', other(p.side), {kind: draw.value !== null ? 'destiny-drawn' : 'destiny-failed', category: p.category, source: p.source, side: p.side, card, ...(p.substitution ? {substituted: true, value: draw.value} : {})});
     }
     return;
   }
@@ -108,15 +127,15 @@ export function assertDestiny(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler.startsWith('destiny:')) {
     const p = f.action.payload as unknown as PendingDraw & PendingTotal, h = f.action.handler;
     if (!p || !sides.includes(p.side) || f.actor !== p.side || !m.cards[p.source] || typeof p.category !== 'string' || !p.category || !p.next?.handler ||
-      !['destiny:draw', 'destiny:finish', 'destiny:place', 'destiny:total-finish'].includes(h)) throw Error('Invalid pending destiny.');
+      !['destiny:cost', 'destiny:draw', 'destiny:finish', 'destiny:place', 'destiny:total-finish'].includes(h)) throw Error('Invalid pending destiny.');
     if (p.redraw !== undefined && (h !== 'destiny:finish' || typeof p.redraw !== 'boolean' || p.redraw && (!f.cancelled || p.draw?.substitution || p.draw?.value === null))) throw Error('Invalid destiny redraw.');
-    if (h !== 'destiny:draw' && p.modifier !== undefined && !validModifier(m, p.modifier)) throw Error('Invalid destiny modifier.');
+    if (h !== 'destiny:cost' && h !== 'destiny:draw' && p.modifier !== undefined && !validModifier(m, p.modifier)) throw Error('Invalid destiny modifier.');
     if (p.retain !== undefined && (typeof p.retain !== 'boolean' || p.retain && (h === 'destiny:total-finish' || p.includeTotal !== false || p.next.handler !== 'selection:drawn'))) throw Error('Invalid retained destiny.');
     if (p.reference) {assertCardReference(m, p.reference, p.draw?.card ?? undefined); if (!p.retain || p.reference.zone !== 'destiny') throw Error('Invalid destiny reference.');}
-    if (p.retain && h !== 'destiny:draw' && !!p.draw?.card !== !!p.reference) throw Error('Missing retained destiny reference.');
-    if (h === 'destiny:draw') {
+    if (p.retain && h !== 'destiny:cost' && h !== 'destiny:draw' && !!p.draw?.card !== !!p.reference) throw Error('Missing retained destiny reference.');
+    if (h === 'destiny:cost' || h === 'destiny:draw') {
       const start = f.action.payload as unknown as PendingStart;
-      if (!validModifier(m, start.modifier) || start.retain && !!start.drawn && start.drawn.handler !== 'battle:planned-drawn' || typeof start.includeTotal !== 'boolean' || start.drawn !== undefined && !start.drawn?.handler || start.substitution !== undefined && !validSubstitution(m, start.substitution)) throw Error('Invalid destiny initiation.');
+      if (start.costFailure !== undefined && !['cost-declined', 'cost-unpaid'].includes(start.costFailure) || start.costFailure && start.substitution || h === 'destiny:cost' && start.substitution || !validModifier(m, start.modifier) || start.retain && !!start.drawn && start.drawn.handler !== 'battle:planned-drawn' || typeof start.includeTotal !== 'boolean' || start.drawn !== undefined && !start.drawn?.handler || start.substitution !== undefined && !validSubstitution(m, start.substitution)) throw Error('Invalid destiny initiation.');
       continue;
     }
     const draws = h === 'destiny:total-finish' ? p.draws : [p.draw];

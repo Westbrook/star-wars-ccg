@@ -1870,6 +1870,19 @@
       ],
       "status": "component-coverage-only",
       "scope": "Generic draw X then choose Y; retained unresolved values, serialized selection, canceled draw cleanup/redraw, original-instance cleanup, selected total, optional unchosen-to-hand. Eight matching GEMP outcomes and two documented ordering differences. No card-granted selection admission."
+    },
+    "destinyCosts": {
+      "implementation": [
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/runtime.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/destiny-cost.test.mjs",
+        "tests/native-engine/gemp/destiny-cost-provenance.json"
+      ],
+      "status": "component-coverage-only",
+      "scope": "Shared cost boundary before substitution/reveal; per-unit payment, skipped outcomes, redraw/selection/battle continuation and empty-window settlement. Eight matching GEMP mechanism observations. Physical limits, permission overrides, prevention/replacement and card providers remain; full admission closed."
     }
   }
 }
