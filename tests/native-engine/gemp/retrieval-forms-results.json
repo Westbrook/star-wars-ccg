@@ -1,0 +1,277 @@
+[
+  {
+    "name": "up-to-one",
+    "quantityChoices": 1,
+    "paymentChoices": 1,
+    "destinationChoices": 0,
+    "spent": 1,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 1,
+    "order": [
+      "0"
+    ],
+    "zones": [
+      "used",
+      "lost",
+      "lost",
+      "lost",
+      "lost"
+    ],
+    "lostOrder": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "name": "up-to-four",
+    "quantityChoices": 1,
+    "paymentChoices": 1,
+    "destinationChoices": 0,
+    "spent": 4,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 3,
+    "order": [
+      "0",
+      "2",
+      "4"
+    ],
+    "zones": [
+      "used",
+      "lost",
+      "used",
+      "lost",
+      "used"
+    ],
+    "lostOrder": [
+      1,
+      3
+    ]
+  },
+  {
+    "name": "up-to-modifier",
+    "quantityChoices": 1,
+    "paymentChoices": 1,
+    "destinationChoices": 0,
+    "spent": 2,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 2,
+    "order": [
+      "0",
+      "2"
+    ],
+    "zones": [
+      "used",
+      "lost",
+      "used",
+      "lost",
+      "lost"
+    ],
+    "lostOrder": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "name": "empty",
+    "quantityChoices": 1,
+    "paymentChoices": 0,
+    "destinationChoices": 0,
+    "spent": 0,
+    "initiated": 1,
+    "about": 0,
+    "retrieved": 0,
+    "order": [],
+    "zones": [
+      "hand",
+      "hand",
+      "hand",
+      "hand",
+      "hand"
+    ],
+    "lostOrder": []
+  },
+  {
+    "name": "hand-mixed",
+    "quantityChoices": 0,
+    "paymentChoices": 1,
+    "destinationChoices": 3,
+    "spent": 3,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 3,
+    "order": [
+      "0",
+      "1",
+      "2"
+    ],
+    "zones": [
+      "hand",
+      "used",
+      "hand",
+      "lost",
+      "lost"
+    ],
+    "lostOrder": [
+      3,
+      4
+    ]
+  },
+  {
+    "name": "hand-used",
+    "quantityChoices": 0,
+    "paymentChoices": 1,
+    "destinationChoices": 3,
+    "spent": 3,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 3,
+    "order": [
+      "0",
+      "1",
+      "2"
+    ],
+    "zones": [
+      "used",
+      "used",
+      "used",
+      "lost",
+      "lost"
+    ],
+    "lostOrder": [
+      3,
+      4
+    ]
+  },
+  {
+    "name": "hand-fixed",
+    "quantityChoices": 0,
+    "paymentChoices": 0,
+    "destinationChoices": 0,
+    "spent": 0,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 3,
+    "order": [
+      "0",
+      "1",
+      "2"
+    ],
+    "zones": [
+      "hand",
+      "hand",
+      "hand",
+      "lost",
+      "lost"
+    ],
+    "lostOrder": [
+      3,
+      4
+    ]
+  },
+  {
+    "name": "leave",
+    "quantityChoices": 0,
+    "paymentChoices": 0,
+    "destinationChoices": 0,
+    "spent": 0,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 1,
+    "order": [
+      "1"
+    ],
+    "zones": [
+      "hand",
+      "used",
+      "lost",
+      "lost",
+      "lost"
+    ],
+    "lostOrder": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "name": "return",
+    "quantityChoices": 0,
+    "paymentChoices": 0,
+    "destinationChoices": 0,
+    "spent": 0,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 1,
+    "order": [
+      "0"
+    ],
+    "zones": [
+      "used",
+      "lost",
+      "lost",
+      "lost",
+      "lost"
+    ],
+    "lostOrder": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "name": "new-top",
+    "quantityChoices": 0,
+    "paymentChoices": 0,
+    "destinationChoices": 0,
+    "spent": 0,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 1,
+    "order": [
+      "0"
+    ],
+    "zones": [
+      "used",
+      "lost",
+      "lost",
+      "lost",
+      "lost"
+    ],
+    "lostOrder": [
+      -1,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "name": "random",
+    "quantityChoices": 0,
+    "paymentChoices": 0,
+    "destinationChoices": 0,
+    "spent": 0,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 3,
+    "remaining": 2
+  },
+  {
+    "name": "random-canceled",
+    "quantityChoices": 0,
+    "paymentChoices": 1,
+    "destinationChoices": 0,
+    "spent": 0,
+    "initiated": 1,
+    "about": 1,
+    "retrieved": 0,
+    "remaining": 5
+  }
+]

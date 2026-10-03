@@ -2250,6 +2250,22 @@
         "tests/native-engine/gemp/takeel-provenance.json"
       ],
       "scope": "Persist finalized selected draw history independently of resolved totals; enforce Takeel count and modifier ownership, including repeat play. Existing saves preserve legacy draw fallback. Full match admission stays closed."
+    },
+    "retrievalForms": {
+      "implementation": [
+        "lib/native-engine/retrieval.ts",
+        "lib/native-engine/premiere-rules.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/retrieval-forms.test.mjs",
+        "tests/native-engine/gemp/retrieval-forms-provenance.json"
+      ],
+      "scope": "Optional 1..X quantity before modifiers/payment, per-card random Lost shuffles, and optional hand destination. Selected physical-card response handling matches executed GEMP. Persisted choices, cancellation, nested retrieval and invalid commands are covered; no extra granting card or full deck is admitted.",
+      "remaining": [
+        "Compound counts and fractional retrieval",
+        "Broader prevention/replacement and optional-destination granting providers",
+        "Complete card/deck admission"
+      ]
     }
   },
   "wholeMatchEvidence": {

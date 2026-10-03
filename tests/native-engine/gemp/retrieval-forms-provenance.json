@@ -1,0 +1,22 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T18:05:30.114594+00:00",
+  "harness": "NativeEngineRetrievalFormsOracleTests.java",
+  "harnessSha256": "13a37d5e7c4a58b68b005eed194115a5920b8fdc266a174a0e83138b7085084d",
+  "result": "retrieval-forms-results.json",
+  "resultSha256": "08d149337296e90779f23c23fd17a9953245277c76a1365aca2d9d448e26dd17",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineRetrievalFormsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; test harness only; pinned production source unchanged",
+  "junitTests": 1,
+  "observations": 12,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf p11 (Retrieve)",
+  "scope": "Production retrieval primitives with controlled granting actions. Up-to quantities before modifiers/payment, per-card optional hand destination, fixed hand retrieval, random retrieval/cancellation and selected physical-card response interventions. Native compare exact event counts, costs, ordered retrieved cards/destinations/Lost order for ten deterministic cases; the two independent-RNG cases compare quantity and response invariants.",
+  "limitations": [
+    "No additional granting card, full-card admission or complete deck is certified by this shared-primitive harness. Full native production admission remains closed.",
+    "Lost-card departures/returns and new top cards are controlled response interventions, not separately played movement cards. GEMP retains physical identity; no universal zone-visit policy is inferred.",
+    "Random order is not compared between different RNGs. Native tests separately verify persisted first choice, per-card shuffling, entropy failure rollback and response refresh.",
+    "Compound-card retrieval counts, fractional quantities, optional-destination modifier providers, broader retrieval restrictions/replacements and failed-search providers remain unfinished."
+  ]
+}

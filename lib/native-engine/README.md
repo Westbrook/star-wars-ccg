@@ -2195,3 +2195,30 @@ or planned-draw history when the finalized record is absent. The executed GEMP
 component comparisons and source fingerprints are in `gemp/takeel-provenance.json`.
 This does not certify other modifier-granting cards, dynamic total resets or
 complete decks. Full native admission remains closed; no new Lab study was added.
+
+### Retrieval forms and suspended selections
+
+The shared retrieval mechanism supports choosing an amount from 1 through X,
+random retrieval, and optional per-card retrieval into hand. The amount is chosen
+before modifiers and Secret Plans; it is not limited by the number of matching
+Lost cards. Random retrieval shuffles the remaining Lost Pile before each card,
+then persists the selected card through responses. An allowed hand destination
+is chosen after payment for each card; fixed hand retrieval needs no extra choice.
+All forms retain public retrieval events and stop appropriately on cancellation.
+
+Selected-card handling follows executed GEMP behavior: a departed card is
+skipped without spending a retrieval unit, a returned physical card remains the
+selection, and a newly inserted top card does not replace it. This is specific
+to retrieval, not a universal targeting rule. Existing saves omit the new optional
+fields and continue through their original paths. Decision and continuation
+validation rejects unknown handlers, wrong actors, missing selections and
+inconsistent amount/destination modes.
+
+`retrieval-forms.test.mjs` exercises save reconstruction, nested retrieval,
+Secret Plans, entropy rollback, privacy and invalid commands. Twelve executed
+GEMP comparisons cover ten deterministic card/order outcomes and two random
+quantity/response invariants; independent RNG orders are not compared. See
+`gemp/retrieval-forms-provenance.json`. These are shared primitives, not admission
+of additional granting cards or complete decks. Compound-card counting,
+fractional quantities, wider prevention/replacement and granting-card integration
+remain required. No new Rules Lab study was added.

@@ -152,7 +152,7 @@ export const premiereRules: Rules = {
     else if (r.action.handler.startsWith('duel:')) duelResolve(m, r);
     else if (r.action.handler.startsWith('character:')) characterResolve(m, r);
     else if (r.action.handler.startsWith('interrupt:')) interruptResolve(m, r, context);
-    else if (r.action.handler.startsWith('retrieval:')) retrievalResolve(m, r);
+    else if (r.action.handler.startsWith('retrieval:')) retrievalResolve(m, r, context);
     else if (r.action.handler.startsWith('travel:')) travelResolve(m, r, context);
     else if (r.action.handler.startsWith('selection:')) selectionResolve(m, r);
     else if (r.action.handler.startsWith('destiny:')) resolveDestiny(m, r);
