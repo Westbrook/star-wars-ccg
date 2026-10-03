@@ -75,3 +75,16 @@ test('continuous battle engine matches all eighteen recorded GEMP weapon branche
   }else assert.fail('Unmapped oracle branch '+name);
  }
 });
+
+for(const scenario of ['weapons','rebel-weapons'])for(const cost of [1,2])test('empty Reserve permits paid weapon fire and fails destiny: '+scenario+' cost '+cost,()=>{
+ let m=armed(scenario);const side=m.turn.side,gun=weapon(m,side,cost).id,target=participants(m,other(side))[0];
+ for(const id of [...m.players[side].reserve])state.moveCard(m,id,'hand');
+ const force=m.players[side].force.length,used=m.players[side].used.length;
+ assert.ok(first(m,'fire:'+gun+':'+target));
+ m=fire(m,cost,target);m=until(m,x=>combat.battle(x).shots.at(-1)?.hit===false&&event(x)==='battle-weapons');
+ const shot=combat.battle(m).shots.at(-1);
+ assert.equal(shot.card,null);assert.equal(shot.total,null);assert.equal(shot.hit,false);
+ assert.equal(m.players[side].force.length,force-cost);assert.equal(m.players[side].used.length,used+cost);
+ assert.equal(combat.battle(m).hits.includes(target),false);
+ m=firing(m,side);assert.equal(!!first(m,'fire:'+gun+':'),false,'failed destiny still consumes the firing');
+});

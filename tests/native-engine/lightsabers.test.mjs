@@ -58,3 +58,12 @@ for(const row of oracle)test('executed GEMP lightsaber comparison '+row.name,()=
  if(row.name!=='drain-skip'){m=step(m,'saber:drain:'+f.saber);if(dup){m=seek(m,x=>x.stack.at(-2)?.action?.handler==='ground:drain'&&x.stack.at(-1)?.event===undefined);m=step(priority(m,f.side),'saber:drain:'+second)}}
  m=seek(m,x=>x.stack.at(-1)?.handler==='ground:force-loss');assert.deepEqual({name:row.name,total:m.stack.at(-1).payload.remaining},row);
 });
+
+for(const bp of ['1_155','1_157','1_324'])test('empty Reserve does not prohibit lightsaber initiation: '+bp,()=>{
+ const f=fixture(bp);drawCards(f,[]);const force=f.m.players[f.side].force.length,initialForfeit=board.forfeit(f.m,f.target);
+ const m=fire(f,[]),shot=battle.battle(m).saberShots[0];
+ assert.deepEqual(shot.draws.map(d=>d.value),[null,null]);assert.equal(shot.total,null);assert.equal(shot.outcome,'miss');
+ assert.equal(board.forfeit(m,f.target),initialForfeit);assert.equal(battle.battle(m).hits.includes(f.target),false);
+ assert.equal(m.players[f.side].force.length,force-1-(bp==='1_155'?1:0));
+ assert.ok(battle.battle(m).fired.includes(f.saber));
+});

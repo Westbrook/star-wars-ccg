@@ -30,7 +30,7 @@ export function normalizedCheckpoint(s,cards){
  return {...s,locations:[...groups.keys()].sort().flatMap(group=>groups.get(group)),players:Object.fromEntries(Object.entries(s.players).map(([side,p])=>[side,{...p,hand:[...p.hand].sort()}]))};
 }
 function snapshot(m,expected,version){
- const result={turn:m.turn.number,side:m.turn.side,phase:m.turn.phase,locations:[...m.locations],players:Object.fromEntries(['dark','light'].map(side=>[side,Object.fromEntries(['reserve','force','used','lost','hand'].map(p=>[p,[...m.players[side][p]]]))])),table:Object.values(m.cards).filter(c=>c.zone==='table'&&c.location).map(c=>({id:c.id,location:c.location,...(version>=2&&board.cardDefinition(m,c.id).type==='Character'?{stats:{power:board.power(m,c.id,combat.battle(m)?.stage!=='complete'&&combat.battle(m)?.initiator!==c.owner&&combat.members(m,c.owner).includes(c.id)),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)}}:{})})).sort((a,b)=>a.id.localeCompare(b.id))};
+ const result={turn:m.turn.number,side:m.turn.side,phase:m.turn.phase,locations:[...m.locations],players:Object.fromEntries(['dark','light'].map(side=>[side,Object.fromEntries(['reserve','force','used','lost','hand'].map(p=>[p,[...m.players[side][p]]]))])),table:Object.values(m.cards).filter(c=>c.zone==='table'&&c.location).map(c=>({id:c.id,location:c.location,...(version>=3?{...(c.attachedTo?{attachedTo:c.attachedTo}:{}),hit:combat.battle(m)?.hits.includes(c.id)??false}:{}),...(version>=2&&board.cardDefinition(m,c.id).type==='Character'?{stats:{power:board.power(m,c.id,combat.battle(m)?.stage!=='complete'&&combat.battle(m)?.initiator!==c.owner&&combat.members(m,c.owner).includes(c.id)),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)}}:{})})).sort((a,b)=>a.id.localeCompare(b.id))};
  if(expected.battleLosses){const b=combat.battle(m);assert.ok(b);result.battleLosses=Object.fromEntries(['dark','light'].map(side=>[side,{damage:combat.battleDamage(m,side),totalDamage:b.initialDamage[side],totalAttrition:b.initialAttrition[side]}]));}
  return result;
 }
@@ -39,17 +39,27 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
- if(!['activate','draw','deploy','battle','drain'].includes(kind))return;
+ if(!['activate','draw','deploy','equip','fire','site','move','battle','drain'].includes(kind))return;
  const index=row.parameters.actionId?.indexOf(row.answer);assert.ok(index>=0,'Reference action answer missing');
  const label=row.parameters.actionText[index].toLowerCase();
  const valid=kind==='activate'?label==='activate force':kind==='draw'?label==='draw card into hand from force pile':
-  kind==='deploy'?label.startsWith('deploy')&&row.state.players[row.semantic.side].hand.includes(row.semantic.card):
+  kind==='move'?label==='move using landspeed':kind==='fire'?label.startsWith('fire '):['deploy','equip','site'].includes(kind)?label.startsWith('deploy')&&row.state.players[row.semantic.side].hand.includes(row.semantic.card):
   kind==='battle'?label.startsWith('initiate battle'):label.startsWith('force drain');
  assert.ok(valid,'Reference semantic action does not match the chosen command: '+label);
 }
 
+
+/** Targets belong to their initiating action; never borrow a later action's choice. */
+export function followingTarget(rows,index,kind){
+ for(const row of rows.slice(index+1)){
+  const tag=row.semantic?.kind;if(!tag||tag==='pass')continue;
+  assert.equal(tag,kind,'Missing target before the next reference action');return row;
+ }
+ throw Error('Reference target missing: '+kind);
+}
+
 export function replayGempMatch(record){
- assert.equal(record.schema,1,'Unsupported reference schema');assert.equal(record.snapshotVersion,2,'Reference must contain stat and loss evidence');
+ assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
  const decks=starterDecks(60);assert.deepEqual(Object.fromEntries(decks.map(d=>[d.side,d.cards])),record.decks);
  let m=runtime.createMatch('gemp-complete-match',60,decks,auditRules),commands=0,checkpoints=0;
@@ -68,7 +78,7 @@ export function replayGempMatch(record){
   for(let i=0;i<1000;i++){
    if(m.status==='finished')throw Error('Native match ended before reference action '+JSON.stringify(row.semantic));
    const p=prompt();
-   if(m.turn.number===row.state.turn&&m.turn.phase===row.state.phase&&p.side===row.semantic.side){const wanted=choices.find(id=>p.choices.some(c=>c.id===id));if(wanted)return wanted;}
+   if(m.turn.number===row.state.turn&&m.turn.phase===row.state.phase&&p.side===row.semantic.side){const wanted=(typeof choices==='function'?choices():choices).find(id=>p.choices.some(c=>c.id===id));if(wanted)return wanted;}
    if(m.turn.number>row.state.turn||m.turn.number===row.state.turn&&phases.indexOf(m.turn.phase)>phases.indexOf(row.state.phase))throw Error('Native passed reference action '+JSON.stringify({semantic:row.semantic,native:m.turn,prompt:p}));
    const automatic=p.choices.find(c=>c.id==='pass')??p.choices.find(c=>c.id==='draw-destiny')??(p.mandatory&&p.choices.length===1?p.choices[0]:null);
    if(!automatic)throw Error('Unmapped native decision before '+JSON.stringify({semantic:row.semantic,frame:m.stack.at(-1),prompt:p}));
@@ -79,22 +89,31 @@ export function replayGempMatch(record){
  try{
   const rows=record.trace;
   for(let index=0;index<rows.length;index++){
-   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','activate-count'].includes(s.kind))continue;
+   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','activate-count'].includes(s.kind))continue;
    assertReferenceAction(row);
    let choices=[];
    if(s.kind==='activate')choices=['core:activate'];
    if(s.kind==='draw')choices=['core:draw'];
-   if(s.kind==='deploy'){const target=rows.slice(index+1).find(r=>r.semantic?.kind==='deploy-target');assert.ok(target);choices=['deploy:'+s.card+':'+target.semantic.card];}
+   if(s.kind==='deploy'){const target=followingTarget(rows,index,'deploy-target');assert.ok(target);choices=['deploy:'+s.card+':'+target.semantic.card];}
+   if(s.kind==='equip'){const target=followingTarget(rows,index,'deploy-target');assert.ok(target);choices=['equip:','saber:equip:','gaffi:equip:','mine:'].map(prefix=>prefix+s.card+':'+target.semantic.card);}
+   if(s.kind==='fire'){const target=followingTarget(rows,index,'fire-target');assert.ok(target);choices=['fire:','saber:fire:','gaffi:fire:'].map(prefix=>prefix+s.card+':'+target.semantic.card);}
+   if(s.kind==='move'){const target=followingTarget(rows,index,'move-target');assert.ok(target);choices=['move:'+s.card+':'+target.semantic.card];}
+   if(s.kind==='site'){
+    const deployed=rows.slice(index+1).find(r=>r.state.locations.includes(s.card))?.state??record.final;
+    choices=()=>board.sitePlacements(m,s.card).filter(p=>{const locations=[...m.locations];if(p.replace)locations[locations.indexOf(p.replace)]=s.card;else locations.splice(p.index,0,s.card);return JSON.stringify(normalizedCheckpoint({...row.state,locations},m.cards).locations)===JSON.stringify(normalizedCheckpoint(deployed,m.cards).locations);}).map(p=>'site:'+s.card+':'+p.id);
+   }
    if(s.kind==='battle')choices=['battle:'+s.card];
    if(s.kind==='drain')choices=['drain:'+s.card];
+   if(s.kind==='explode')choices=['explode:'+s.card];
+   if(s.kind==='loss-order')choices=['place-lost:'+s.card];
    if(s.kind==='forfeit')choices=['forfeit:'+s.card];
    if(s.kind==='lose'){
     if(row.lossZone==='HAND')choices=['lose-hand:'+s.card,'battle-lose-hand:'+s.card];
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
-   assert.ok(choices.length,s.kind);const choice=seek(row,choices);
-   if(['activate','draw','deploy','battle','drain','forfeit','lose'].includes(s.kind)){
-    try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion??1),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
+   assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
+   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode'].includes(s.kind)){
+    try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
    }
    command(choice);
    if(s.kind==='activate'){
@@ -107,7 +126,7 @@ export function replayGempMatch(record){
    if(!next)throw Error('Unmapped final native decision '+JSON.stringify(p));command(next.id);
   }
   assert.equal(m.status,'finished');assert.equal(m.result.winner,record.winner);
-  assert.deepEqual(normalizedCheckpoint(snapshot(m,record.final,record.snapshotVersion??1),m.cards),normalizedCheckpoint(record.final,m.cards));
+  assert.deepEqual(normalizedCheckpoint(snapshot(m,record.final,record.snapshotVersion),m.cards),normalizedCheckpoint(record.final,m.cards));
   return {commands,checkpoints,state:m,transcript};
  }catch(e){e.nativeState=m;e.nativeCommands=commands;e.checkpoints=checkpoints;e.transcript=transcript;throw e;}
 }

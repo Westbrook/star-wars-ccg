@@ -61,8 +61,8 @@ test('canceled deployment keeps payment spent; canceled transfer leaves attachme
 test('unarmed, own, remote and excluded characters are not legal targets',()=>{
  const f=fixture({armed:false});let m=priority(start(f),'dark');assert.ok(!ids(m).includes('gaffi:fire:'+f.stick+':'+f.target));assert.ok(!ids(m).includes('gaffi:fire:'+f.stick+':'+f.host));combat.battle(m).departed=[f.otherTarget];assert.ok(!ids(m).some(x=>x.startsWith('gaffi:fire:')));delete combat.battle(m).departed;board.moveWithAttachments(m,f.otherTarget,f.remote);assert.ok(!ids(m).some(x=>x.startsWith('gaffi:fire:')));
 });
-test('empty Reserve prohibits firing and ordinary weapons timing cannot fire the stick',()=>{
- const f=fixture();let m=priority(start(f),'dark');for(const id of [...m.players.dark.reserve])state.moveCard(m,id,'hand');assert.ok(!ids(m).some(x=>x.startsWith('gaffi:fire:')));m=weapons(m);m=priority(m,'dark');assert.ok(!ids(m).some(x=>x.startsWith('gaffi:fire:')));
+test('empty Reserve permits initiation but ordinary weapons timing cannot fire the stick',()=>{
+ const f=fixture();let m=priority(start(f),'dark');for(const id of [...m.players.dark.reserve])state.moveCard(m,id,'hand');assert.ok(ids(m).some(x=>x.startsWith('gaffi:fire:')));m=weapons(m);m=priority(m,'dark');assert.ok(!ids(m).some(x=>x.startsWith('gaffi:fire:')));
 });
 test('weapon may be attempted once per battle and character cannot switch weapons',()=>{
  const f=fixture();state.moveCard(f.m,f.second,'table');f.m.cards[f.second].attachedTo=f.host;f.m.cards[f.second].location=f.site;let m=fire(f,[2,2]).m;assert.equal(combat.battle(m).fired.includes(f.stick),true);assert.equal(use.canUseWeapon(m,f.second),false);m=seek(m,x=>pending(x)?.action?.handler==='battle:begin');m=priority(m,'dark');assert.ok(!ids(m).some(x=>x.startsWith('gaffi:fire:')));
@@ -143,4 +143,12 @@ test('each stick draw has its own before window and evaluates current location m
 test('shared substitution composes with serial Gaderffii draws and one combined total',()=>{
  const destiny=load(new URL('../../lib/native-engine/destiny.ts',import.meta.url));const f=fixture();let m=seek(fire(f,[2,2]).m,x=>kind(x)==='about-to-draw-destiny');const before=m.players.dark.reserve.length;
  assert.equal(destiny.substituteDestiny(m,pending(m),f.stick,4),true);m=weapons(m);assert.deepEqual(shot(m).draws.map(d=>d.value),[4,2]);assert.equal(shot(m).draws[0].card,null);assert.equal(shot(m).total,6);assert.equal(shot(m).outcome,'knocked');assert.equal(m.players.dark.reserve.length,before-1);
+});
+
+test('empty Reserve allows Gaderffii initiation but neither failed draw disables a weapon',()=>{
+ const f=fixture();for(const id of [...f.m.players.dark.reserve])state.moveCard(f.m,id,'hand');
+ let m=priority(start(f),'dark');const id='gaffi:fire:'+f.stick+':'+f.target;
+ assert.ok(ids(m).includes(id));m=weapons(step(m,id));
+ assert.equal(shot(m).total,null);assert.deepEqual(shot(m).draws.map(d=>d.value),[null,null]);assert.equal(shot(m).outcome,'miss');
+ assert.equal(use.canUseWeapon(m,f.gun),true);assert.ok(combat.battle(m).fired.includes(f.stick));
 });

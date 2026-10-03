@@ -1854,3 +1854,36 @@ Obsession adjudication, vehicles/space, special setup and the entire product
 scope remain required. Production `supports()` remains false; existing GEMP
 paths, studies and saved games are unchanged. This checkpoint changes validation
 and documentation only and does not require a website deployment.
+
+## Expanded full-match paths and empty-Reserve weapon fire
+
+Three further complete GEMP games replay natively: 35, 66 and 27 turns,
+8,456 native commands and 913 compared checkpoints. These introduce weapon
+shots/hits, 195 movements, 15 site deployments (including conversions), and
+player-chosen simultaneous loss ordering for attached weapons. Snapshot v3
+compares attachment hosts and hit flags as well as the earlier values. Exact
+reference sources, fixture hashes and limitations are recorded in
+`tests/native-engine/gemp/expanded-match-provenance.json`.
+
+The 66-turn game exposed a native legality error at turn 35: an Imperial Blaster
+could not fire when its owner's Reserve was empty. AR pp10/21 explicitly exempt
+destiny draws from empty-pile initiation restrictions; p31 explains failed destiny.
+Native blasters/rifles, lightsabers and Gaderffii Sticks now allow that initiation
+when all other requirements are met. Payment and weapon-use limits still apply.
+No completed draw means no total and no hit/weapon suppression; it is not a zero
+that can gain bonuses. Eight new native regressions cover all three weapon
+families, actual firing costs, misses, unchanged target forfeit and consumed use.
+An older Gaderffii test asserting the incorrect restriction was corrected.
+
+Five archived complete games now cover 12,527 commands and 1,270 checkpoints.
+The replay also rejects corrupted attachment hosts and hit status. The new
+source includes an adapter for choosing required Timer Mine ordering by
+observing the selected GEMP action's source; the three successful new games did
+not exercise that adapter. An earlier fresh run stopped at that previously
+unmapped required decision and is not counted as complete evidence.
+
+These are chosen legal paths, not exhaustive conformance or complete card
+admission. Remaining attrition is not compared separately from initial attrition.
+Optional card-text responses, automatic mine ordering in a complete replay,
+special setup and the broader engine/product scope remain required. Full native
+admission remains closed; existing studies, GEMP routes and saves are preserved.

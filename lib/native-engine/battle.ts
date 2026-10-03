@@ -139,7 +139,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
   if (event(w) === 'battle-weapons') {
     for (const weapon of Object.values(m.cards)) {
       const rule = weapons[weapon.blueprint], host = weapon.attachedTo;
-      if (!rule || weapon.owner !== side || weapon.zone !== 'table' || !host || !members(m, side).includes(host) || !warrior(m, host) || b.fired.includes(weapon.id) || !canUseWeapon(m, weapon.id) || !m.players[side].reserve.length) continue;
+      if (!rule || weapon.owner !== side || weapon.zone !== 'table' || !host || !members(m, side).includes(host) || !warrior(m, host) || b.fired.includes(weapon.id) || !canUseWeapon(m, weapon.id)) continue;
       for (const target of members(m, other(side))) actions.push(act('fire:' + weapon.id + ':' + target, 'Fire ' + name(m, weapon.id) + ' at ' + name(m, target), 'fire', {card: weapon.id, target}, {[side]: rule.fire}, weapon.id));
     }
   }

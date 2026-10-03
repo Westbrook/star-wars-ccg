@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readGempMatch,replayGempMatch,shuffleEntropy,normalizedCheckpoint,assertReferenceAction} from './gemp-match-replay.mjs';
+import {readGempMatch,replayGempMatch,shuffleEntropy,normalizedCheckpoint,assertReferenceAction,followingTarget} from './gemp-match-replay.mjs';
 import {load} from '../native-proof/load-engine.mjs';
 const {shuffled}=load(new URL('../../lib/native-engine/random.ts',import.meta.url));
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const loadMatch=name=>readGempMatch(new URL('./gemp/complete-matches/'+name+'.json.gz',import.meta.url));
 
-for(const name of ['ground-a','ground-b'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
+for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','ground-attachments'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
  const reference=loadMatch(name),before=JSON.stringify(reference),result=replayGempMatch(reference);
  assert.equal(JSON.stringify(reference),before,'reference fixture must stay immutable');
  assert.equal(result.state.result.winner,reference.winner);
@@ -49,4 +49,31 @@ test('an Interrupt drawing destiny cannot be mislabeled as an ordinary draw',()=
  const record=loadMatch('ground-a'),row=record.trace.find(r=>r.semantic?.kind==='draw');
  row.parameters.actionText[row.parameters.actionId.indexOf(row.answer)]='Draw destiny to retrieve troopers';
  assert.throws(()=>assertReferenceAction(row),/does not match/);
+});
+
+test('expanded reference includes movement, conversions and firing with an empty Reserve',()=>{
+ const r=loadMatch('ground-movement'),actions=r.trace.filter(x=>x.semantic);
+ assert.equal(actions.filter(x=>x.semantic.kind==='move').length,170);
+ assert.equal(actions.filter(x=>x.semantic.kind==='site').length,11);
+ assert.ok(actions.some(x=>x.semantic.kind==='fire'&&x.state.players[x.semantic.side].reserve.length===0));
+ assert.ok(r.trace.some(x=>x.state.table.some(c=>c.hit)));
+ assert.ok(actions.some((x,i)=>x.semantic.kind==='site'&&actions.slice(i+1).some(y=>y.state.locations.includes(x.semantic.card)&&y.state.locations.length===x.state.locations.length)));
+});
+for(const field of ['attachedTo','hit'])test('expanded replay rejects altered '+field+' at a checkpoint',()=>{
+ const r=loadMatch('ground-weapons');
+ const row=r.trace.find(x=>['activate','draw','deploy','fire','battle','drain','forfeit','lose'].includes(x.semantic?.kind)&&x.state.table.some(c=>c.attachedTo));
+ assert.ok(row);const card=row.state.table.find(c=>c.attachedTo);
+ if(field==='attachedTo')card.attachedTo=card.id;else card.hit=!card.hit;
+ assert.throws(()=>replayGempMatch(r),/Checkpoint/);
+});
+
+test('attachment reference records owner-chosen simultaneous Lost Pile order',()=>{
+ const r=loadMatch('ground-attachments'),rows=r.trace.filter(x=>x.semantic?.kind==='loss-order');
+ assert.equal(rows.length,2);for(const row of rows){assert.equal(row.type,'ARBITRARY_CARDS');assert.ok(row.semantic.card);assert.equal(row.text,'Choose card to put on Lost Pile');}
+});
+
+test('an absent target cannot be borrowed from a later action',()=>{
+ const rows=[{semantic:{kind:'fire'}},{semantic:{kind:'pass'}},{semantic:{kind:'deploy'}},{semantic:{kind:'fire-target',card:'other'}}];
+ assert.throws(()=>followingTarget(rows,0,'fire-target'),/Missing target/);
+ assert.equal(followingTarget([rows[0],rows[1],rows[3]],0,'fire-target').semantic.card,'other');
 });

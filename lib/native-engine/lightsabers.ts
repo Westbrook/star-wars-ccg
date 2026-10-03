@@ -47,7 +47,7 @@ export function lightsaberActions(m: Match, w: Window, side: Side): Action[] {
       const d=parent.action.payload as Drain;
       if(card.location===d.site && !m.cards[card.attachedTo].attachedTo && !d.saberUsed?.includes(card.id))actions.push(action('drain',{card:card.id,site:d.site}));
     }
-    if (w.timing !== 'response' || (w.event as {kind?: string})?.kind !== 'battle-weapons' || b?.stage !== 'weapons' || card.zone !== 'table' || !card.attachedTo || !validHost(m,card.id,card.attachedTo) || !members(m, side).includes(card.attachedTo) || b.fired.includes(card.id) || !canUseWeapon(m, card.id) || !m.players[side].reserve.length) continue;
+    if (w.timing !== 'response' || (w.event as {kind?: string})?.kind !== 'battle-weapons' || b?.stage !== 'weapons' || card.zone !== 'table' || !card.attachedTo || !validHost(m,card.id,card.attachedTo) || !members(m, side).includes(card.attachedTo) || b.fired.includes(card.id) || !canUseWeapon(m, card.id)) continue;
     for (const target of members(m, other(side)).filter(id => validTarget(m, id, side))) {
       const a = action('fire', {card: card.id, target, site: b.site}); a.label += ' at ' + name(m, target); a.payment={[side]:cost(m,card.id,card.attachedTo)}; actions.push(a);
     }

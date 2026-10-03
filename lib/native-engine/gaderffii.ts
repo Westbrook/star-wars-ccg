@@ -35,7 +35,7 @@ export function gaderffiiActions(m: Match, w: Window, side: Side): Action[] {
         a.id += ':react' + (via ? ':via:' + via : ''); a.label += ' as a react on ' + name(m, target.id); a.payment = {[side]: 2}; actions.push(a);
       }
     }
-    if (w.timing !== 'response' || b?.stage !== 'begin' || parent?.kind !== 'resolution' || parent.action.handler !== 'battle:begin' || parent.awaitingResponses || parent.cancelled || card.zone !== 'table' || !card.attachedTo || !raider(m, card.attachedTo) || !members(m, side).includes(card.attachedTo) || b.fired.includes(card.id) || !canUseWeapon(m, card.id) || !m.players[side].reserve.length) continue;
+    if (w.timing !== 'response' || b?.stage !== 'begin' || parent?.kind !== 'resolution' || parent.action.handler !== 'battle:begin' || parent.awaitingResponses || parent.cancelled || card.zone !== 'table' || !card.attachedTo || !raider(m, card.attachedTo) || !members(m, side).includes(card.attachedTo) || b.fired.includes(card.id) || !canUseWeapon(m, card.id)) continue;
     for (const target of members(m, other(side)).filter(id => validTarget(m, id, side))) {
       const a = action('fire', {card: card.id, target, site: b.site}); a.label += ' at ' + name(m, target); actions.push(a);
     }

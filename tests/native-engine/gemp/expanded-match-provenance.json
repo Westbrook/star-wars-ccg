@@ -1,0 +1,128 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedOn": "2026-10-03",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineExpandedMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "decks": "Exact introductory 60-card lists and identity hashes in complete-match-provenance.json",
+  "fixtures": [
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/ground-weapons.json.gz",
+      "sha256": "16198173e48e0b3b413b319b4d6b19959d21a79a130d8f4e9fb80477191ca74d",
+      "jsonSha256": "13c2f5e9089809f953b1e0739f4c6bb622bb8562716cbd8938648d3e53ba54e8",
+      "harness": "tests/native-engine/gemp/complete-matches/ground-weapons-source.java.txt",
+      "harnessSha256": "7029e3d7fa99c878f540c4e5a8c621348a3aa3d530f3bf157927f90966e4135a",
+      "winner": "light",
+      "turns": 35,
+      "referenceDecisions": 1225,
+      "nativeCommands": 1791,
+      "comparedCheckpoints": 182,
+      "actions": {
+        "untagged": 7,
+        "activate": 35,
+        "activate-count": 70,
+        "pass": 945,
+        "deploy": 17,
+        "deploy-target": 18,
+        "draw": 47,
+        "battle": 5,
+        "forfeit": 8,
+        "drain": 15,
+        "lose": 51,
+        "equip": 1,
+        "fire": 3,
+        "fire-target": 3
+      }
+    },
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/ground-movement.json.gz",
+      "sha256": "afd89299f94caa72cb3c2cfc881c3ccca3f37a75bc2cca0517de3f36e937fe47",
+      "jsonSha256": "c9ab7aa283122e1c47987efcea1c694ed09ac4b00a72920451702dc554220226",
+      "harness": "tests/native-engine/gemp/complete-matches/ground-movement-source.java.txt",
+      "harnessSha256": "8fc1238a5e3288b1dbdfc29992fef646112ab15a4ec4f6b074803893a6c1c74a",
+      "winner": "light",
+      "turns": 66,
+      "referenceDecisions": 4086,
+      "nativeCommands": 4857,
+      "comparedCheckpoints": 535,
+      "actions": {
+        "untagged": 6,
+        "activate": 66,
+        "activate-count": 131,
+        "pass": 3206,
+        "deploy": 21,
+        "deploy-target": 27,
+        "battle": 11,
+        "forfeit": 14,
+        "draw": 95,
+        "drain": 67,
+        "lose": 71,
+        "site": 11,
+        "site-placement": 8,
+        "move": 170,
+        "move-target": 170,
+        "equip": 6,
+        "fire": 3,
+        "fire-target": 3
+      }
+    },
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/ground-attachments.json.gz",
+      "sha256": "5d65c26d882b8da212774feb837759aa3e8d4b1ba09601689e3d43d1d9b067ce",
+      "jsonSha256": "83c1ee941284be4f8722b6758b139ab796e43ce3457964fad02148b1d45a29d8",
+      "harness": "tests/native-engine/gemp/NativeEngineExpandedMatchOracleTests.java",
+      "harnessSha256": "8e6a910f68872ae3a49fb9f924551c5d1aa020b61b509c3cd36fa7b2c4e849e2",
+      "winner": "light",
+      "turns": 27,
+      "referenceDecisions": 1322,
+      "nativeCommands": 1808,
+      "comparedCheckpoints": 196,
+      "actions": {
+        "untagged": 8,
+        "activate": 27,
+        "activate-count": 54,
+        "pass": 1015,
+        "deploy": 16,
+        "deploy-target": 19,
+        "draw": 43,
+        "equip": 3,
+        "battle": 5,
+        "fire": 1,
+        "fire-target": 1,
+        "forfeit": 8,
+        "loss-order": 2,
+        "lose": 47,
+        "drain": 15,
+        "site": 4,
+        "site-placement": 4,
+        "move": 25,
+        "move-target": 25
+      }
+    }
+  ],
+  "nativeFix": "Allow otherwise-legal weapon firing with an empty Reserve. Costs and use limits still apply; a failed destiny total cannot hit or knock weapons away. Applies to four blasters/rifles, three lightsabers and Gaderffii Stick.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "rulesSections": [
+    "AR p10: empty Reserve does not prevent a destiny draw; it fails.",
+    "AR p21: implied-target restrictions explicitly exempt destiny draws.",
+    "AR p31: failed destiny and partial multi-draw weapon totals."
+  ],
+  "reproducedFailure": "Before the fix, ground-movement reached turn35 with no native firing action for dark-57, while GEMP allowed and paid for Imperial Blaster fire with empty Reserve. After the fix all535 checkpoints and the final winner match.",
+  "comparison": "Snapshot v3 adds attachedTo and hit for on-table cards to prior ordered piles, within-system site order, occupants, stats and battle damage/initial attrition. Site action maps to a legal native placement yielding the recorded post-deployment arrangement; it never edits state. Owner-chosen loss ordering is replayed exactly.",
+  "harnessNotes": [
+    "Fresh randomized GEMP openings; fixed archived traces replay without later randomness/state correction.",
+    "Exact executed sources retained per fixture. Ground-attachments source uses read-only reflection of selected required-action source for Timer Mine ordering; no reference engine/card state is changed. That required-order adapter was not exercised by the three completed traces.",
+    "An intermediate fresh run stopped at multiple required Timer Mine actions before the driver had a required-action selector; it is not counted as a completed comparison.",
+    "Action target tags derive from actual player choices. Temporary Lost-order identities are recovered from the observed pile additions and checked against the selected blueprint."
+  ],
+  "limits": [
+    "Selected-path parity only; not complete legal-action sets or full card/deck certification.",
+    "Remaining attrition and every intermediate timing boundary are not compared.",
+    "Optional Interrupt/card-text responses, special setup, vehicles/space and broader providers remain required.",
+    "The empty-Reserve Imperial Blaster correction has full-match GEMP evidence; lightsaber/Gaderffii extensions are verified against official rules and native regressions, without fresh equivalent GEMP traces.",
+    "Full native production admission remains closed."
+  ],
+  "unchangedProductionFiles": 6820
+}
