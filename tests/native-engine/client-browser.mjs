@@ -85,7 +85,16 @@ try{
   await c.page.getByRole('button',{name:'Pause',exact:true}).click();await c.page.getByRole('button',{name:'Inspect A Tremor In The Force',exact:true}).click();await c.page.getByRole('dialog').waitFor();await c.page.keyboard.press('Escape');
   assert.match(await c.page.getByLabel('Declared activation').innerText(),/2 Force.*1 activated.*1 remaining/);const before=(await fresh().read(v.id,'owner')).revision;
   await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();await c.page.getByRole('button',{name:'Pause',exact:true}).click();await c.page.getByLabel('Revealed inserts').waitFor();assert.equal((await fresh().read(v.id,'owner')).revision,before);
-  assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await c.page.screenshot({path:path.join(output,`insert-reveal-${width}.png`),fullPage:true});await c.context.close();
+  assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await c.page.screenshot({path:path.join(output,`insert-reveal-${width}.png`),fullPage:true});
+  // After reveal responses, the opponent receives the first top-level interval.
+  for(let n=0;n<30;n++){
+   const saved=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);
+   if(saved.stack.at(-1)?.event?.kind==='activation-between'){assert.equal(runtime.prompt(saved,browserRules,'dark').side,'light');break;}
+   const ownerView=await fresh().read(v.id,'owner');let actor='owner',p=ownerView.game.prompt;if(!p?.choices.length){actor='guest';p=(await fresh().read(v.id,actor)).game.prompt}assert.ok(p?.choices.length);await fresh().command(v.id,actor,{commandId:randomUUID(),revision:ownerView.revision,choice:p.mandatory?p.choices[0].id:'pass'});
+  }
+  const interval=await fresh().read(v.id,'owner');assert.equal(interval.game.prompt.side,'light');assert.equal(interval.game.prompt.choices.length,0);
+  await c.page.getByRole('button',{name:'Refresh',exact:true}).click();await c.page.getByRole('heading',{name:"Your opponent’s move.",exact:true}).waitFor();assert.equal(await c.page.locator('.native-choices button').count(),0);
+  await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();await c.page.getByRole('heading',{name:"Your opponent’s move.",exact:true}).waitFor();assert.equal((await fresh().read(v.id,'owner')).revision,interval.revision);await c.context.close();
  }
  // Dark Path uses the real service for both private choices and refresh recovery.
  for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){

@@ -18,9 +18,10 @@ export function resolveDeclaredActivation(m:Match,r:Resolution):void{
  const p=declaration(m)!;
  if(r.cancelled||!p.remaining||!mayActivate(m,p.side)||!m.players[p.side].reserve.length){p.done=true;p.extend=!opposingInserts(m,p.side);return;}
  p.remaining--;queue(m);
- // Between ordinary activations players may still take phase actions. This
- // temporary phase window returns to the same declaration after both pass.
- openWindow(m,'phase',p.side,{kind:'activation-between',turn:p.turn});
+ // Between ordinary activations players may still take phase actions. The
+ // opponent gets the next top-level opportunity after this unit of Force.
+ // The temporary window returns to the same declaration after both pass.
+ openWindow(m,'phase',other(p.side),{kind:'activation-between',turn:p.turn});
  if(activateOneForce(m,p.side))m.turn.activated++;
 }
 export function assertDeclaredActivation(m:Match):void{
