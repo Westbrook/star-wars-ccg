@@ -1,3 +1,4 @@
+import {isSpecies} from './characteristics';
 import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {attached, cardDefinition, name} from './board';
@@ -12,7 +13,7 @@ export type GaderffiiShot = {scope?: string; weapon: string; host: string; targe
 type Payload = {attachment?: AttachmentAttempt; card: string; target?: string; site?: string; index?: number; draw?: Draw; draws?: Draw[]; total?: number | null; transfer?: boolean; react?: boolean; via?: string};
 const action = (step: string, p: Payload): Action => ({id: 'gaffi:' + step + ':' + p.card + (p.target ? ':' + p.target : ''), label: step === 'equip' ? (p.transfer ? 'Transfer ' : 'Deploy ') + 'Gaderffii Stick' : 'Swing Gaderffii Stick', handler: 'gaffi:' + step, source: p.card, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: Payload, side: Side) => m.stack.push({kind: 'resolution', actor: side, action: action(step, p), cancelled: false});
-const raider = (m: Match, id: string) => m.cards[id]?.blueprint === '1_196';
+const raider = (m: Match, id: string) => isSpecies(m, id, 'TUSKEN_RAIDER');
 const targetWeapons = (m: Match, id: string) => attached(m, id).filter(c => cardDefinition(m, c.id).type === 'Weapon').map(c => c.id);
 const validTarget = (m: Match, target: string, side: Side) => members(m, other(side)).includes(target) && targetWeapons(m, target).length > 0;
 export function gaderffiiActions(m: Match, w: Window, side: Side): Action[] {

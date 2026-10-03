@@ -1,16 +1,10 @@
-import manifest from '../../data/native-proof/manifest.json';
-import additionalCards from '../../data/native-engine/additional-cards.json';
+import {cardDefinition} from './definitions';
+export {cardDefinition, definition} from './definitions';
+import {hasCharacteristic, isSpecies, nonUnique} from './characteristics';
 import {premiereSites} from './premiere-setup';
 import {other, type Match, type Payment, type Side} from './types';
 import {equipmentState, nighttimeSites} from './equipment-state';
 
-const cards = new Map([...manifest.cards, ...additionalCards].map(card => [card.gempId, card]));
-export function definition(blueprint: string) {
-  const card = cards.get(blueprint);
-  if (!card) throw Error('Card needs an explicit native definition: ' + blueprint);
-  return card;
-}
-export const cardDefinition = (m: Match, id: string) => definition(m.cards[id].blueprint);
 export function printed(m: Match, id: string, property: string): number {
   const card = cardDefinition(m, id), value = (card.stats as Record<string, string>)[property];
   if (property === 'ability' && card.subType === 'Droid') return 0;
@@ -77,19 +71,25 @@ export function deploymentPayment(m: Match, id: string, site: string): Payment |
   return {[side]: Math.max(0, cost)};
 }
 
+function mosEisleyBonus(m: Match, id: string): number {
+  const card = m.cards[id], site = card.location;
+  return card.zone === 'table' && card.owner === 'dark' && !!site && m.locations.includes(site) && m.cards[site].blueprint === '1_295' &&
+    (['SPY', 'THIEF', 'BOUNTY_HUNTER', 'SMUGGLER'] as const).some(trait => hasCharacteristic(m, id, trait)) ? 1 : 0;
+}
+
 export function power(m: Match, id: string, defending = false, active: (id: string) => boolean = () => true): number {
   const card = m.cards[id], site = card.location, blueprint = card.blueprint;
   let value = printed(m, id, 'power');
   if (isGuard(blueprint) && defending) value += 4;
   if (blueprint === '1_170' && site && system(m, site) !== 'Death Star') value--;
-  if (blueprint === '1_196' && site && atSite(m, site).filter(c => c.blueprint === '1_196' && active(c.id)).length >= 2) value++;
+  if (blueprint === '1_196' && site && atSite(m, site).filter(c => isSpecies(m, c.id, 'TUSKEN_RAIDER') && nonUnique(m, c.id) && active(c.id)).length >= 2) value++;
   if (blueprint === '1_12' && site && m.cards[site].blueprint === '1_292') value--;
   // Core Shaft's erratum applies anywhere, not only on Death Star (AR Appendix A).
   if (blueprint === '101_2' && m.locations.some(at => m.cards[at].blueprint === '101_1' && controls(m, 'light', at))) value += 2;
   const currentBattle = m.data.battle as {site: string; stage: string; runLuke?: boolean} | undefined;
   if (blueprint === '101_2' && currentBattle?.runLuke && currentBattle.stage !== 'complete' && site === currentBattle.site &&
       !Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '101_5' && c.location && (c.location === site || adjacent(m, c.location, site)))) value += 2;
-  value += equipmentBonus(m, id, 'power');
+  value += equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id);
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
   return Math.max(0, value);
 }
@@ -98,16 +98,16 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
   const card = m.cards[id], site = card.location;
   let value = printed(m, id, 'forfeit');
   if (site && card.owner === 'light' && isWarrior(m, id) && active(id) && Object.values(m.cards).some(c => c.zone === 'table' && c.owner === 'light' && c.blueprint === '101_2' && c.location && active(c.id) && (c.location === site || adjacent(m, c.location, site)))) value++;
-  if (site && card.blueprint === '1_196' && m.cards[site].blueprint === '1_293') value++;
+  if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') value++;
   if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') value--;
-  value += equipmentBonus(m, id, 'forfeit');
+  value += equipmentBonus(m, id, 'forfeit') + mosEisleyBonus(m, id);
   return Math.max(0, value);
 }
 
 export function totalPower(m: Match, side: Side, site: string, defending = false, active: (id: string) => boolean = () => true): number {
   const members = atSite(m, site).filter(c => c.owner === side && active(c.id));
   return members.reduce((sum, c) => sum + power(m, c.id, defending, active), 0) +
-    (side === 'dark' && members.filter(c => c.blueprint === '1_196').length >= 4 ? 2 : 0);
+    (members.some(c => c.blueprint === '1_196') && members.filter(c => isSpecies(m, c.id, 'TUSKEN_RAIDER') && nonUnique(m, c.id)).length >= 4 ? 2 : 0);
 }
 
 export const battleDestinyRequirement = (m: Match, side: Side, site: string) =>

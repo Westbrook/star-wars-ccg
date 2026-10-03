@@ -1,3 +1,4 @@
+import {reinforcementTarget} from './characteristics';
 import {retrievalAmount, assertRetrievalModifiers} from './retrieval-policy';
 import {cardDefinition, name} from './board';
 import {moveCard} from './state';
@@ -7,9 +8,10 @@ import {other, sides, type Decision, type Json, type Match, type Resolution, typ
 export type Retrieval = {
   id: string; initial: number; amount: number | null; uncancelable: boolean;
   side: Side; source: string; remaining: number; destination: 'used' | 'hand';
-  // Null means ordinary top-of-Lost retrieval; a list restricts eligible blueprints.
+  // A list restricts blueprints. With null, selection may apply a rule-owned
+  // filter; otherwise retrieve normally from the top of Lost.
   blueprints: string[] | null; retrieved: string[]; announced: boolean; card?: string;
-  selection?: 'top-character';
+  selection?: 'top-character' | 'reinforcements';
 };
 type CharacterSearches = Partial<Record<Side, number>>;
 export const canSearchLostCharacter = (m: Match, side: Side) => (m.data.failedCharacterSearches as CharacterSearches | undefined)?.[side] !== m.turn.number;
@@ -18,13 +20,14 @@ function queue(m: Match, step: string, p: Retrieval): void {
 }
 const eligible = (m: Match, p: Retrieval) => {
   const cards = m.players[p.side].lost.filter(id => (!p.blueprints || p.blueprints.includes(m.cards[id].blueprint)) &&
-    (p.selection !== 'top-character' || cardDefinition(m, id).type === 'Character'));
+    (p.selection !== 'top-character' || cardDefinition(m, id).type === 'Character') &&
+    (p.selection !== 'reinforcements' || reinforcementTarget(m, id, p.side)));
   return p.selection === 'top-character' ? cards.slice(0, 1) : cards;
 };
 /** A single retrieval action, with serializable per-card response boundaries.
  * Ordinary retrieval preserves top-first selection, reversing that group onto
  * Used. Specific-card retrieval never rearranges the remaining Lost Pile. */
-export function retrieve(m: Match, side: Side, source: string, amount: number, blueprints: string[] | null = null, destination: 'used' | 'hand' = 'used', selection?: 'top-character', options: {uncancelable?: boolean} = {}): void {
+export function retrieve(m: Match, side: Side, source: string, amount: number, blueprints: string[] | null = null, destination: 'used' | 'hand' = 'used', selection?: 'top-character' | 'reinforcements', options: {uncancelable?: boolean} = {}): void {
   if (!Number.isSafeInteger(amount) || amount < 0 || !m.cards[source] || options.uncancelable !== undefined && typeof options.uncancelable !== 'boolean') throw Error('Invalid retrieval.');
   if (!amount) return;
   const p: Retrieval = {id: 'retrieval-' + ++m.serial, side, source, initial: amount, amount: null, uncancelable: options.uncancelable ?? false, remaining: amount, destination, blueprints, retrieved: [], announced: false, ...(selection ? {selection} : {})};
@@ -66,7 +69,7 @@ export function retrievalResolve(m: Match, r: Resolution): void {
       }
       openWindow(m, 'response', other(p.side), {kind: 'retrieval-complete', side: p.side, source: p.source, cards: p.retrieved}); return;
     }
-    if (p.blueprints && !p.selection) m.stack.push({kind: 'decision', side: p.side, handler: 'retrieval:select', payload: p as unknown as Json});
+    if (p.blueprints && !p.selection || p.selection === 'reinforcements') m.stack.push({kind: 'decision', side: p.side, handler: 'retrieval:select', payload: p as unknown as Json});
     else selected(m, p, eligible(m, p)[0]);
   } else if (r.action.handler === 'retrieval:place') {
     const card = p.card!; delete p.card;
@@ -101,7 +104,7 @@ export function assertRetrieval(m: Match): void {
         !Array.isArray(p.retrieved) || !Number.isSafeInteger(p.initial) || p.initial <= 0 || typeof p.uncancelable !== 'boolean' ||
         p.amount !== null && (!Number.isSafeInteger(p.amount) || p.amount < 0 || p.remaining + p.retrieved.length !== p.amount) ||
         p.amount === null && (p.remaining !== p.initial || p.announced || p.retrieved.length > 0) ||
-        !['used', 'hand'].includes(p.destination) || typeof p.announced !== 'boolean' || p.selection !== undefined && p.selection !== 'top-character' ||
+        !['used', 'hand'].includes(p.destination) || typeof p.announced !== 'boolean' || p.selection !== undefined && !['top-character', 'reinforcements'].includes(p.selection) ||
         p.blueprints !== null && (!Array.isArray(p.blueprints) || p.blueprints.some(b => typeof b !== 'string')) ||
         !Array.isArray(p.retrieved) || p.retrieved.some(id => m.cards[id]?.owner !== p.side) ||
         p.card && m.cards[p.card]?.owner !== p.side) throw Error('Invalid pending retrieval.');

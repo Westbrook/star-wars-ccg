@@ -1,3 +1,4 @@
+import {isSpecies} from './characteristics';
 import {cardDefinition, name} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
 import {openWindow} from './runtime';
@@ -7,9 +8,7 @@ import {other, type Action, type Decision, type Json, type Match, type Resolutio
 type Payload = {card: string; draw?: Draw; count?: number; cards?: string[]; remaining?: string[]; target?: string};
 const action = (step: string, p: Payload): Action => ({id: 'scavenge:' + step + ':' + p.card, label: 'Resolve Tusken Scavengers', handler: 'scavenge:' + step, source: p.card, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: Payload) => m.stack.push({kind: 'resolution', actor: 'dark', cancelled: false, action: action(step, p)});
-// This is the starter's Tusken Raider identity. Broader species modifiers and
-// additional Raiders must join the metadata/runtime before full admission.
-const raiders = (m: Match) => Object.values(m.cards).filter(c => c.zone === 'table' && c.blueprint === '1_196').length;
+const raiders = (m: Match) => Object.values(m.cards).filter(c => c.zone === 'table' && isSpecies(m, c.id, 'TUSKEN_RAIDER')).length;
 const equipment = (m: Match, id: string) => ['Vehicle','Weapon','Device'].includes(cardDefinition(m, id).type);
 const eligible = (m: Match, id: string) => m.cards[id]?.owner === 'light' && m.cards[id].zone === 'used' && equipment(m, id);
 const canSearch = (m: Match) => m.data.scavengeFailedTurn !== m.turn.number;

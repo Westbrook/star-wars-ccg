@@ -1,3 +1,4 @@
+import {assertCharacteristics} from './characteristics';
 import {secretPlansAutomatic, secretPlansResolve, secretPlansChoices, secretPlansChoose, assertSecretPlans} from './secret-plans';
 import {gamblersLuckActions, gamblersLuckInitiate, gamblersLuckResolve, assertGamblersLuck} from './gamblers-luck';
 import {selectionResolve, selectionChoices, selectionChoose, assertDestinySelection} from './destiny-selection';
@@ -134,6 +135,7 @@ export const premiereRules: Rules = {
     assertSubstitution(match);
     assertGamblersLuck(match);
     assertRetrieval(match);
+    assertCharacteristics(match);
     assertInterrupts(match);
     assertCharacterTriggers(match);
     assertDuel(match);

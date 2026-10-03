@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "auditedFromCommit": "7b8c793471de484d91a2f1c6310fc2d0535c8527",
+  "auditedFromCommit": "bb0f56099c56729e436d3216382c265b10bed96c",
   "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
   "purpose": "Source-and-evidence inventory of all 68 current starter definitions. Links are audit pointers, not automatic full-card certification. No card or deck is admitted by this inventory. The broader catalog and original product requirements remain in scope.",
   "productionAdmission": "closed",
@@ -237,16 +237,19 @@
       "implementation": [
         "lib/native-engine/interrupts.ts",
         "lib/native-engine/destiny.ts",
-        "lib/native-engine/retrieval.ts"
+        "lib/native-engine/retrieval.ts",
+        "lib/native-engine/characteristics.ts"
       ],
       "testFiles": [
-        "tests/native-engine/interrupts.test.mjs"
+        "tests/native-engine/interrupts.test.mjs",
+        "tests/native-engine/characteristics.test.mjs"
       ],
       "remaining": [
-        "Native retrieval filter currently selects Rebel Trooper 1_28 / Stormtrooper 1_194 only. Other trooper and Y-wing/TIE-ln identities remain."
+        "Shared filter now accepts verified Rebel troopers and Y-wing models. Broader identity metadata, modified species/models, retrieval prevention/replacement and full ship behavior remain."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/interrupt-provenance.json"
+        "tests/native-engine/gemp/interrupt-provenance.json",
+        "tests/native-engine/gemp/characteristics-provenance.json"
       ],
       "gempId": "1_106",
       "name": "Rebel Reinforcements",
@@ -722,17 +725,21 @@
       ],
       "implementation": [
         "lib/native-engine/board.ts",
-        "lib/native-engine/ground.ts"
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/characteristics.ts"
       ],
       "testFiles": [
         "tests/native-engine/ground.test.mjs",
         "tests/native-engine/battle.test.mjs",
-        "tests/native-engine/gaderffii.test.mjs"
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/characteristics.test.mjs"
       ],
       "remaining": [
-        "Other Raider identities and general characteristic modifiers remain."
+        "Shared species and non-unique predicates now drive the bonuses; dynamic species/uniqueness and broader modifier interactions remain."
       ],
-      "oracleEvidence": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/characteristics-provenance.json"
+      ],
       "gempId": "1_196",
       "name": "Tusken Raider",
       "type": "Character",
@@ -932,16 +939,19 @@
       "implementation": [
         "lib/native-engine/interrupts.ts",
         "lib/native-engine/destiny.ts",
-        "lib/native-engine/retrieval.ts"
+        "lib/native-engine/retrieval.ts",
+        "lib/native-engine/characteristics.ts"
       ],
       "testFiles": [
-        "tests/native-engine/interrupts.test.mjs"
+        "tests/native-engine/interrupts.test.mjs",
+        "tests/native-engine/characteristics.test.mjs"
       ],
       "remaining": [
-        "Native retrieval filter currently selects Rebel Trooper 1_28 / Stormtrooper 1_194 only. Other trooper and Y-wing/TIE-ln identities remain."
+        "Shared filter now accepts verified Stormtrooper subtypes and TIE/ln models. Broader identity metadata, modified species/models, retrieval prevention/replacement and full ship behavior remain."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/interrupt-provenance.json"
+        "tests/native-engine/gemp/interrupt-provenance.json",
+        "tests/native-engine/gemp/characteristics-provenance.json"
       ],
       "gempId": "1_251",
       "name": "Imperial Reinforcements",
@@ -1136,16 +1146,19 @@
       ],
       "implementation": [
         "lib/native-engine/scavenge.ts",
-        "lib/native-engine/destiny.ts"
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/characteristics.ts"
       ],
       "testFiles": [
-        "tests/native-engine/scavenge.test.mjs"
+        "tests/native-engine/scavenge.test.mjs",
+        "tests/native-engine/characteristics.test.mjs"
       ],
       "remaining": [
-        "Other Raiders/equipment identities; prevention/replacement; GEMP optionality/order differences retained."
+        "All verified Tusken Raider species now count. Broader equipment identities, prevention/replacement and recorded GEMP optionality/order differences remain."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/scavenge-provenance.json"
+        "tests/native-engine/gemp/scavenge-provenance.json",
+        "tests/native-engine/gemp/characteristics-provenance.json"
       ],
       "gempId": "1_275",
       "name": "Tusken Scavengers",
@@ -1318,17 +1331,21 @@
       "implementation": [
         "lib/native-engine/premiere-setup.ts",
         "lib/native-engine/board.ts",
-        "lib/native-engine/battle.ts"
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/characteristics.ts"
       ],
       "testFiles": [
         "tests/native-engine/setup.test.mjs",
         "tests/native-engine/ground.test.mjs",
-        "tests/native-engine/battle.test.mjs"
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/characteristics.test.mjs"
       ],
       "remaining": [
-        "Broader Raider identities remain."
+        "Forfeit now recognizes verified Tusken Raider species including unique Raiders; dynamic species and broader modifiers remain."
       ],
-      "oracleEvidence": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/characteristics-provenance.json"
+      ],
       "gempId": "1_293",
       "name": "Tatooine: Jundland Wastes",
       "type": "Location",
@@ -1342,18 +1359,21 @@
       ],
       "implementation": [
         "lib/native-engine/premiere-setup.ts",
-        "lib/native-engine/board.ts"
+        "lib/native-engine/board.ts",
+        "lib/native-engine/characteristics.ts"
       ],
       "testFiles": [
         "tests/native-engine/setup.test.mjs",
         "tests/native-engine/ground.test.mjs",
-        "tests/native-engine/travel.test.mjs"
+        "tests/native-engine/travel.test.mjs",
+        "tests/native-engine/characteristics.test.mjs"
       ],
       "remaining": [
-        "Power/forfeit for spies/thieves/bounty hunters/smugglers is not implemented; no such eligible starter character. Characteristic registry needed."
+        "Power/forfeit bonus now uses verified and granted spy/thief/bounty-hunter/smuggler traits. Text cancellation, inactive/aboard handling and broader location modifiers remain."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/travel-provenance.json"
+        "tests/native-engine/gemp/travel-provenance.json",
+        "tests/native-engine/gemp/characteristics-provenance.json"
       ],
       "gempId": "1_295",
       "name": "Tatooine: Mos Eisley",
@@ -1448,18 +1468,21 @@
       "implementation": [
         "lib/native-engine/gaderffii.ts",
         "lib/native-engine/weapon-state.ts",
-        "lib/native-engine/destiny.ts"
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/characteristics.ts"
       ],
       "testFiles": [
         "tests/native-engine/gaderffii.test.mjs",
-        "tests/native-engine/react-weapons.test.mjs"
+        "tests/native-engine/react-weapons.test.mjs",
+        "tests/native-engine/characteristics.test.mjs"
       ],
       "remaining": [
-        "Permanent weapons, other Raiders, external/repeated firing and generic target identity remain."
+        "Shared Tusken species eligibility now permits verified unique Raiders. Permanent weapons, dynamic species, external/repeated firing and generic target identity remain."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/gaderffii-provenance.json",
-        "tests/native-engine/gemp/react-weapons-provenance.json"
+        "tests/native-engine/gemp/react-weapons-provenance.json",
+        "tests/native-engine/gemp/characteristics-provenance.json"
       ],
       "gempId": "1_315",
       "name": "Gaderffii Stick",
@@ -1948,6 +1971,20 @@
         "tests/native-engine/gemp/travel-identity-provenance.json"
       ],
       "scope": "Original selected transit party, Run Luke target and move-away group; individual paid movement targets. Fresh reference differences are recorded, not claimed as parity."
+    },
+    "characteristics": {
+      "implementation": [
+        "lib/native-engine/definitions.ts",
+        "lib/native-engine/characteristics.ts",
+        "data/native-engine/identities.json"
+      ],
+      "testFiles": [
+        "tests/native-engine/characteristics.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/characteristics-provenance.json"
+      ],
+      "scope": "93 explicit definition identities; supported keyword families and rule-owned give/remove with instance/source/turn lifetime; species/model and printed uniqueness queries. 22 GEMP observations. Does not implement all characteristic/persona/species/uniqueness modifiers or admit metadata-only cards."
     }
   },
   "wholeMatchEvidence": {

@@ -1,0 +1,772 @@
+{
+  "101_1": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_001.java"
+  },
+  "101_2": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_002.java"
+  },
+  "101_3": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_003.java"
+  },
+  "101_4": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_004.java"
+  },
+  "101_5": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_005.java"
+  },
+  "101_6": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_006.java"
+  },
+  "1_100": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_100.java"
+  },
+  "1_105": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_105.java"
+  },
+  "1_106": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_106.java"
+  },
+  "1_113": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_113.java"
+  },
+  "1_115": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_115.java"
+  },
+  "1_12": {
+    "keywords": [
+      "SCAVENGER"
+    ],
+    "species": [
+      "JAWA"
+    ],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_012.java"
+  },
+  "1_120": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_120.java"
+  },
+  "1_124": {
+    "keywords": [
+      "DOCKING_BAY"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_124.java"
+  },
+  "1_129": {
+    "keywords": [
+      "DOCKING_BAY"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_129.java"
+  },
+  "1_130": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_130.java"
+  },
+  "1_131": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_131.java"
+  },
+  "1_132": {
+    "keywords": [
+      "FARM"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_132.java"
+  },
+  "1_152": {
+    "keywords": [
+      "BLASTER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_152.java"
+  },
+  "1_153": {
+    "keywords": [
+      "BLASTER_RIFLE"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_153.java"
+  },
+  "1_162": {
+    "keywords": [
+      "MINE"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_162.java"
+  },
+  "1_170": {
+    "keywords": [
+      "DEATH_STAR_TROOPER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_170.java"
+  },
+  "1_18": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "MINING"
+    ],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_018.java"
+  },
+  "1_181": {
+    "keywords": [
+      "IMPERIAL_TROOPER_GUARD"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_181.java"
+  },
+  "1_182": {
+    "keywords": [
+      "SCAVENGER"
+    ],
+    "species": [
+      "JAWA"
+    ],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_182.java"
+  },
+  "1_186": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "MINING"
+    ],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_186.java"
+  },
+  "1_194": {
+    "keywords": [
+      "STORMTROOPER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_194.java"
+  },
+  "1_196": {
+    "keywords": [],
+    "species": [
+      "TUSKEN_RAIDER"
+    ],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_196.java"
+  },
+  "1_201": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_201.java"
+  },
+  "1_207": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_207.java"
+  },
+  "1_221": {
+    "keywords": [
+      "DEPLOYS_ON_CHARACTERS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_221.java"
+  },
+  "1_224": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_224.java"
+  },
+  "1_237": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_237.java"
+  },
+  "1_238": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_238.java"
+  },
+  "1_249": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_249.java"
+  },
+  "1_251": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_251.java"
+  },
+  "1_252": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_252.java"
+  },
+  "1_254": {
+    "keywords": [
+      "DEJARIK"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_254.java"
+  },
+  "1_26": {
+    "keywords": [
+      "GUARD"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_026.java"
+  },
+  "1_262": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_262.java"
+  },
+  "1_266": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_266.java"
+  },
+  "1_268": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_268.java"
+  },
+  "1_269": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_269.java"
+  },
+  "1_275": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_275.java"
+  },
+  "1_279": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_279.java"
+  },
+  "1_28": {
+    "keywords": [
+      "TROOPER"
+    ],
+    "species": [
+      "ALDERAANIAN"
+    ],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_028.java"
+  },
+  "1_284": {
+    "keywords": [
+      "PRISON"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_284.java"
+  },
+  "1_285": {
+    "keywords": [
+      "DOCKING_BAY"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_285.java"
+  },
+  "1_291": {
+    "keywords": [
+      "DOCKING_BAY"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_291.java"
+  },
+  "1_292": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_292.java"
+  },
+  "1_293": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_293.java"
+  },
+  "1_295": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_295.java"
+  },
+  "1_30": {
+    "keywords": [
+      "SCOUT"
+    ],
+    "species": [
+      "SHISTAVANEN"
+    ],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_030.java"
+  },
+  "1_31": {
+    "keywords": [],
+    "species": [
+      "TALZ"
+    ],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_031.java"
+  },
+  "1_312": {
+    "keywords": [
+      "BLASTER_RIFLE"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_312.java"
+  },
+  "1_315": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_315.java"
+  },
+  "1_317": {
+    "keywords": [
+      "DH17_BLASTER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_317.java"
+  },
+  "1_322": {
+    "keywords": [
+      "MINE"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_322.java"
+  },
+  "1_35": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_035.java"
+  },
+  "1_40": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_040.java"
+  },
+  "1_6": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "COMMUNICATIONS"
+    ],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_006.java"
+  },
+  "1_64": {
+    "keywords": [
+      "DEPLOYS_ON_CHARACTERS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_064.java"
+  },
+  "1_77": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_077.java"
+  },
+  "1_80": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_080.java"
+  },
+  "1_84": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_084.java"
+  },
+  "1_90": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_090.java"
+  },
+  "1_91": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_091.java"
+  },
+  "1_98": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_098.java"
+  },
+  "1_148": {
+    "keywords": [
+      "ENCLOSED"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_148.java"
+  },
+  "1_5": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "PROTOCOL"
+    ],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_005.java"
+  },
+  "2_14": {
+    "keywords": [
+      "SPY"
+    ],
+    "species": [],
+    "models": [
+      "ASTROMECH"
+    ],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_014.java"
+  },
+  "1_11": {
+    "keywords": [
+      "GAMBLER",
+      "PIRATE",
+      "SMUGGLER"
+    ],
+    "species": [
+      "CORELLIAN"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_011.java"
+  },
+  "5_69": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_069.java"
+  },
+  "5_48": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_048.java"
+  },
+  "5_5": {
+    "keywords": [
+      "GAMBLER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_005.java"
+  },
+  "4_103": {
+    "keywords": [
+      "COMMANDER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_103.java"
+  },
+  "13_86": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set13/dark/Card13_086.java"
+  },
+  "8_108": {
+    "keywords": [
+      "TROOPER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/dark/Card8_108.java"
+  },
+  "8_114": {
+    "keywords": [
+      "STORMTROOPER"
+    ],
+    "species": [
+      "CORELLIAN"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/dark/Card8_114.java"
+  },
+  "1_99": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_099.java"
+  },
+  "1_101": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_101.java"
+  },
+  "5_59": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_059.java"
+  },
+  "1_195": {
+    "keywords": [
+      "FEMALE",
+      "SPY",
+      "THIEF"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_195.java"
+  },
+  "1_184": {
+    "keywords": [
+      "INFORMATION_BROKER",
+      "SPY"
+    ],
+    "species": [
+      "DEVARONIAN"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_184.java"
+  },
+  "1_171": {
+    "keywords": [
+      "BOUNTY_HUNTER"
+    ],
+    "species": [
+      "SAKIYAN"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_171.java"
+  },
+  "1_4": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_004.java"
+  },
+  "2_108": {
+    "keywords": [
+      "LEADER"
+    ],
+    "species": [
+      "TUSKEN_RAIDER"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_108.java"
+  },
+  "3_16": {
+    "keywords": [
+      "SCOUT"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_016.java"
+  },
+  "1_147": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "Y_WING"
+    ],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_147.java"
+  },
+  "3_91": {
+    "keywords": [
+      "SNOWTROOPER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_091.java"
+  },
+  "1_304": {
+    "keywords": [
+      "NO_HYPERDRIVE"
+    ],
+    "species": [],
+    "models": [
+      "TIE_LN"
+    ],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_304.java"
+  },
+  "1_172": {
+    "keywords": [
+      "SMUGGLER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_172.java"
+  },
+  "3_6": {
+    "keywords": [
+      "ECHO_BASE_TROOPER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_006.java"
+  }
+}

@@ -39,11 +39,8 @@ export function interruptResolve(m: Match, r: Resolution, context: Context): voi
     m.stack.push({kind: 'resolution', actor: r.actor, cancelled: false, action: action('cleanup:' + p.card, 'Finish Interrupt', 'cleanup', {card: p.card})});
     drawDestiny(m, r.actor, p.card, 'reinforcements', action('retrieve:' + p.card, 'Retrieve reinforcements', 'retrieve', {card: p.card}));
   } else if (h === 'interrupt:retrieve') {
-    // Current admitted metadata contains the ground troopers only. Broader Rebel
-    // trooper/Y-wing/stormtrooper/TIE-ln traits must join the registry before those
-    // cards can be admitted to full matches.
     if (p.draw?.value !== null && p.draw?.value !== undefined && p.draw.value > 0)
-      retrieve(m, r.actor, p.card, p.draw.value, [r.actor === 'light' ? '1_28' : '1_194']);
+      retrieve(m, r.actor, p.card, p.draw.value, null, 'used', 'reinforcements');
   } else if (h === 'interrupt:shuffle') {
     shufflePile(m, p.side!, p.pile!, context.entropy);
     m.stack.push({kind: 'resolution', actor: r.actor, cancelled: false, action: action('cleanup:' + p.card, 'Finish Interrupt', 'cleanup', {card: p.card})});

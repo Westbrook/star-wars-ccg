@@ -267,5 +267,241 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_059.java"
+  },
+  {
+    "gempId": "1_195",
+    "name": "Tonnika Sisters",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tonnikasisters.gif",
+    "text": "Twice during each of your control phases, may use 2 Force to draw 2 destiny for 2 chances at a destiny = 2. If successful, may steal or destroy up to 2 weapons or 2 devices present.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "2",
+      "destiny": "2",
+      "forfeit": "2"
+    },
+    "icons": [
+      "Warrior x2"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_195.java"
+  },
+  {
+    "gempId": "1_184",
+    "name": "Labria",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/labria.gif",
+    "text": "Once each turn, during your control phase, you may reveal the top card of your Reserve Deck to both players. If it is a vehicle or starship, card is immediately lost. Otherwise, return it to the top of your Reserve Deck, Force Pile or Used Pile.",
+    "stats": {
+      "deploy": "2",
+      "power": "1",
+      "ability": "1",
+      "destiny": "3",
+      "forfeit": "3"
+    },
+    "icons": [],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_184.java"
+  },
+  {
+    "gempId": "1_171",
+    "name": "Djas Puhr",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/djaspuhr.gif",
+    "text": "Power +1 for each [Dark Side Force] present, +2 under 'nighttime conditions.' Immune to attrition < 3.",
+    "stats": {
+      "deploy": "4",
+      "power": "1",
+      "ability": "4",
+      "destiny": "1",
+      "forfeit": "4"
+    },
+    "icons": [
+      "Warrior"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_171.java"
+  },
+  {
+    "gempId": "1_4",
+    "name": "BoShek",
+    "side": "light",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/boshek.gif",
+    "text": "Adds 3 to power of anything he pilots. May make a Kessel Run in place of a smuggler. Immune to attrition < 3.",
+    "stats": {
+      "deploy": "4",
+      "power": "2",
+      "ability": "4",
+      "destiny": "1",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Pilot"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_004.java"
+  },
+  {
+    "gempId": "2_108",
+    "name": "URoRRuR'R'R",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/urorrurrr.gif",
+    "text": "Deploys only on on Tatooine. When at same site as another Tusken Raider, may draw one battle destiny if not able to otherwise.",
+    "stats": {
+      "deploy": "3",
+      "power": "1",
+      "ability": "1",
+      "destiny": "3",
+      "forfeit": "4"
+    },
+    "icons": [
+      "A New Hope"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_108.java"
+  },
+  {
+    "gempId": "3_16",
+    "name": "Rebel Scout",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/rebelscout.gif",
+    "text": "May move as a 'react' (for free) to a battle where you have a Rebel of ability > 2 or a leader.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "1",
+      "destiny": "2",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Warrior",
+      "Hoth"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_016.java"
+  },
+  {
+    "gempId": "1_147",
+    "name": "Y-wing",
+    "side": "light",
+    "type": "Starship",
+    "subType": "Starfighter: Y-Wing",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/ywing.gif",
+    "text": "May add 1 pilot or passenger. Permanent pilot aboard provides ability of 1.",
+    "stats": {
+      "deploy": "1",
+      "power": "2",
+      "destiny": "3",
+      "forfeit": "2",
+      "maneuver": "3",
+      "hyperspeed": "4"
+    },
+    "icons": [
+      "Pilot",
+      "Nav Computer",
+      "Scomp Link"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_147.java"
+  },
+  {
+    "gempId": "3_91",
+    "name": "Snowtrooper",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/snowtrooper.gif",
+    "text": "Deploys only on Hoth. Power -1 when not at a Hoth site.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "1",
+      "destiny": "3",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Warrior",
+      "Hoth"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_091.java"
+  },
+  {
+    "gempId": "1_304",
+    "name": "TIE Fighter",
+    "side": "dark",
+    "type": "Starship",
+    "subType": "Starfighter: TIE/LN",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tiefighter.gif",
+    "text": "Deploy -1 to same system as any Imperial capital starship. Permanent pilot aboard provides ability of 1.",
+    "stats": {
+      "deploy": "1",
+      "power": "1",
+      "destiny": "1",
+      "forfeit": "2",
+      "maneuver": "3"
+    },
+    "icons": [
+      "Pilot"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_304.java"
+  },
+  {
+    "gempId": "1_172",
+    "name": "Dr. Evazan",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/drevazan.gif",
+    "text": "Adds 2 to power of anything he pilots. The not-so-good doctor may 'operate' on any other character present that was just 'hit' or just Disarmed; 'patient' is lost.",
+    "stats": {
+      "deploy": "2",
+      "power": "1",
+      "ability": "2",
+      "destiny": "3",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_172.java"
+  },
+  {
+    "gempId": "3_6",
+    "name": "Echo Base Trooper",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/echobasetrooper.gif",
+    "text": "Deploy only on Hoth, but may move elsewhere. Power -1 when at a site other than a Hoth site.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "1",
+      "destiny": "3",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Warrior",
+      "Hoth"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_006.java"
   }
 ]

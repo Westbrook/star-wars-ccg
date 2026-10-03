@@ -1,0 +1,26 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T04:09:07.837177+00:00",
+  "harness": "NativeEngineCharacteristicsOracleTests.java",
+  "harnessSha256": "d61f086c142780728c168994a9c63bbdd5caa5e468587b8959d75f84ee5ba903",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCharacteristicsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 2,
+  "observations": 22,
+  "productionFilesVerified": 6820,
+  "metadata": "data/native-engine/identities.json",
+  "metadataDefinitions": 93,
+  "scope": "18 actual card identity/filter observations with 16 Mos Eisley relative power/forfeit checks; two explicitly synthetic KeywordModifier/RemoveKeywordModifier checks. Metadata-only cards remain unadmitted. Dark Forest serves as GEMP control location with equal Dark Force icons to avoid mixing Djas Puhr\u2019s separate icon-based power into the Mos Eisley delta. Native fixtures measure only this location bonus, not complete Djas text. Two actual Reinforcements Interrupt plays recover variant trooper and ship while leaving the unmatched card; selected Used order and Interrupt cleanup are compared.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR Appendix D pp177\u2013178: characteristics depend on card type and exact contextual identification; troop and guard families; species. Runtime never guesses characteristics from catalog prose.",
+    "Pinned constructor addKeywords/setSpecies/addModelType and uniqueness metadata for 93 explicit definitions. Species-changing effects and modified uniqueness are not implemented by this metadata.",
+    "GEMP Keywords gives keywords then removes keywords; removal wins. Filters treats specialized troopers/scouts/guards as families and non-unique as not UNIQUE, including restricted cards.",
+    "Card1_295 grants one power/forfeit bonus to Dark spies, thieves, bounty hunters or smugglers here; multi-trait cards receive one bonus.",
+    "Card1_106/Card1_251 retrieve Rebel troopers/Y-wings or Stormtroopers/TIE-ln, not only the original physical blueprint."
+  ],
+  "limits": "Controlled table placements and synthetic grants/removals are not complete granting-card implementations. Native-only integration additionally verifies Gaderffii deployment to unique Raider, Scavengers count, generic gambler eligibility, filtered retrieval choices/order, instance/turn/source lifetimes, malformed saved changes and projection privacy. Full card text, species/model/uniqueness-changing effects, all characteristics, text cancellation/inactive conditions, personas, ship/vehicle gameplay and production admission remain incomplete."
+}

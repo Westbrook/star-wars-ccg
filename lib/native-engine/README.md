@@ -1200,3 +1200,43 @@ This covers ground character targets, not vehicles, general redirection, locatio
 conversion identity, every movement modifier or complete card admission. Pending
 native movements missing their new references are rejected rather than inferred;
 the separate published proof saves are unchanged.
+
+
+### Shared character characteristics and identity filters
+
+`definitions.ts` centralizes the explicit native definitions; `characteristics.ts`
+uses reviewed constructor metadata in `identities.json`. This covers 93 current
+definitions, including 11 additional metadata-only fixtures. It does not infer
+characteristics from lore substrings: BoShek's permission to make Kessel Runs in
+place of a smuggler does not make him a smuggler. Trooper, Stormtrooper, Scout and
+guard families follow their explicit subtype rules; restricted characters count
+as non-unique. Species and starship models have separate queries.
+
+Rule-owned characteristic grants/removals are saved with original source/target
+references. Removal overrides grants and printed keywords; derived families still
+consult each surviving specialized keyword. A resolved turn effect survives its
+source leaving; a continuous source effect does not. Both stop for a target that
+leaves play. No client command can register these changes. Printed species/model
+and uniqueness metadata are not a dynamic modifier implementation.
+
+Mos Eisley gives Dark's qualifying characters power and forfeit +1 exactly once,
+including a character with multiple qualifying traits. Jundland forfeit, Tusken
+Scavengers and Gaderffii eligibility use the shared Raider species, including
+unique Raiders. Ordinary Raider power text still requires non-unique Raiders.
+Reinforcements now selects verified Rebel troopers/Y-wings or Stormtroopers/TIE-ln
+from Lost, preserving choice, payment, responses, pile order and cleanup. Ship
+retrieval does not enable ship deployment or movement. Gambler's Luck reads the
+gambler trait; its Lando mode still awaits a general persona registry.
+
+`gemp/characteristics-provenance.json` records 22 fresh matching observations:
+18 actual identity/filter records (16 also check Mos Eisley stat deltas), two
+explicit synthetic keyword modifier checks and two actual Reinforcements plays
+with variant troopers and ships. GEMP's control location has equal Dark Force
+icons to isolate Djas Puhr's own icon-based power; that complete card text is not
+claimed. All 6,820 production reference files remain unchanged. Additional native
+integration covers instance/turn/source expiry, JSON recovery, private projections,
+invalid saved modifiers, unique Raider equipment/search and granted gamblers.
+
+Broader characteristic providers, species/model/uniqueness changes, text
+cancellation, inactive/aboard rules, personas and complete metadata-only card text
+remain required. Production admission and the separate proof studies are unchanged.
