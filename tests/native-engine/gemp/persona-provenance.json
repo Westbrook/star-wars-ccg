@@ -1,0 +1,39 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T04:24:17.888622+00:00",
+  "harness": "NativeEnginePersonaOracleTests.java",
+  "harnessSha256": "7d698013d1bb41bc826e773dd0aaad5d12511cbece1d20c7ad836645907ce42f",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEnginePersonaOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 15,
+  "matchingObservations": 14,
+  "differences": [
+    {
+      "name": "turn-persona",
+      "native": {
+        "tableAllowed": true,
+        "turnAllowed": false
+      },
+      "gemp": {
+        "tableAllowed": true,
+        "turnAllowed": true
+      },
+      "reason": "AR p75 explicitly includes persona in per-turn uniqueness limits. Pinned GEMP RecordCardsBeingPlayedEffect and CardTraits only record/check titles. Native applies the rulebook restriction; this is not claimed as GEMP parity."
+    }
+  ],
+  "productionFilesVerified": 6820,
+  "metadata": "data/native-engine/identities.json",
+  "metadataDefinitions": 98,
+  "scope": "Production table/out-of-play uniqueness queries and RecordCardsBeingPlayedEffect per-turn counters. Controlled placements and direct production recording are mechanism fixtures, not complete deployment, cancellation or return-card plays. Native runtime tests separately cover deployment, persistence, revival and pending-result revalidation.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p49: persona versions on table; each owner may have a different titled version.",
+    "AR p75: unique/restricted table and per-turn limits, including canceled plays, and shared title limits across players.",
+    "Pinned GEMP CardTraits, RecordCardsBeingPlayedEffect, Uniqueness enum and explicit constructor addPersona/addPersonas metadata."
+  ],
+  "limits": "Ordinary current metadata only. Dynamic uniqueness/persona changes, compound titles/permanent personas, capturing/stolen control, replacement, special conversion and diamond system restrictions remain unfinished. Metadata-only characters are not admitted. Legacy native component snapshots without a ledger default to no previous plays; no production native full matches are admitted. Full card/deck admission remains closed."
+}

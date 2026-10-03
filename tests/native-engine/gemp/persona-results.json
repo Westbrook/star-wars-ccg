@@ -1,0 +1,77 @@
+[
+  {
+    "turnAllowed": true,
+    "tableAllowed": true,
+    "name": "empty"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": false,
+    "name": "same-title"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": false,
+    "name": "same-persona"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": false,
+    "name": "opponent-same-title"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": false,
+    "name": "out-title"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": false,
+    "name": "out-persona"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": true,
+    "name": "lost-persona"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": true,
+    "name": "restricted-two"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": false,
+    "name": "restricted-three"
+  },
+  {
+    "turnAllowed": false,
+    "tableAllowed": true,
+    "name": "turn-title"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": true,
+    "name": "turn-persona"
+  },
+  {
+    "turnAllowed": false,
+    "tableAllowed": true,
+    "name": "turn-canceled"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": true,
+    "name": "turn-restricted-two"
+  },
+  {
+    "turnAllowed": false,
+    "tableAllowed": true,
+    "name": "turn-restricted-three"
+  },
+  {
+    "turnAllowed": true,
+    "tableAllowed": true,
+    "name": "next-turn"
+  }
+]

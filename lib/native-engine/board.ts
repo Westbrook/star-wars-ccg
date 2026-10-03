@@ -1,3 +1,4 @@
+import {canPlayCard, isUnique} from './persona';
 import {cardDefinition} from './definitions';
 export {cardDefinition, definition} from './definitions';
 import {hasCharacteristic, isSpecies, nonUnique} from './characteristics';
@@ -28,8 +29,6 @@ export function controls(m: Match, side: Side, site: string): boolean {
   return true;
 }
 
-export const uniqueCharacters = new Set(['101_2', '101_5']);
-export const characterLimits: Record<string, number> = {'101_2': 1, '101_5': 1, '1_30': 3, '1_31': 3};
 export const isGuard = (blueprint: string) => ['1_26', '1_181'].includes(blueprint);
 export const isJawa = (blueprint: string) => ['1_12', '1_182'].includes(blueprint);
 export const attached = (m: Match, id: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.attachedTo === id);
@@ -53,9 +52,8 @@ export function deploymentPayment(m: Match, id: string, site: string): Payment |
   const side = card.owner, blueprint = card.blueprint;
   if (!premiereSites[m.cards[site].blueprint].icons[side] && !presence(m, side, site)) return null;
   const onTable = Object.values(m.cards).filter(c => c.zone === 'table');
-  const limit = characterLimits[blueprint];
-  if (limit && onTable.filter(c => c.owner === side && c.blueprint === blueprint).length >= limit) return null;
-  if (uniqueCharacters.has(blueprint) && onTable.filter(c => c.owner === other(side) && uniqueCharacters.has(c.blueprint)).length >= 2) return null;
+  if (!canPlayCard(m, id)) return null;
+  if (['101_2', '101_5'].includes(blueprint) && onTable.filter(c => c.owner === other(side) && cardDefinition(m, c.id).type === 'Character' && isUnique(m, c.id)).length >= 2) return null;
   if ((isJawa(blueprint) || blueprint === '1_196' || blueprint === '101_2') && system(m, site) !== 'Tatooine') return null;
   if (['1_170', '101_5'].includes(blueprint) && system(m, site) !== 'Death Star') return null;
   if (isJawa(blueprint)) {

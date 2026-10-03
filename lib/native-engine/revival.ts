@@ -1,3 +1,4 @@
+import {canEnterTable, hasPersona} from './persona';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {cardDefinition, name, system} from './board';
 import {canSearchLostCharacter, retrieve} from './retrieval';
@@ -26,7 +27,7 @@ export function revivalActions(m: Match, w: Window, side: Side): Action[] {
   const result: Action[] = [];
   for (const card of m.players[side].hand) {
     if (m.cards[card].blueprint === '1_100' && e.kind === 'forfeited' && e.site && system(m, e.site) === 'Tatooine') {
-      for (const target of lost.filter(id => m.cards[id].owner === side && !name(m, id).includes('Obi-Wan'))) {
+      for (const target of lost.filter(id => m.cards[id].owner === side && !hasPersona(m, id, 'OBIWAN') && canEnterTable(m, id))) {
         const a = action('old-ben', {card, target, site: e.site}, side);
         a.id += ':' + target; a.label = 'Old Ben · revive ' + name(m, target); result.push(a);
       }
@@ -47,14 +48,14 @@ export function revivalResolve(m: Match, r: Resolution): void {
   }
   if (kind === 'revival:old-ben') {
     queue(m, 'finish', p);
-    if (sameCard(m, p.targetRef!) && m.cards[p.target!]?.zone === 'lost' && m.locations.includes(p.site!)) {
+    if (sameCard(m, p.targetRef!) && m.cards[p.target!]?.zone === 'lost' && m.locations.includes(p.site!) && canEnterTable(m, p.target!)) {
       queue(m, 'place', p);
       openWindow(m, 'response', other(r.actor), {kind: 'about-to-remove-just-lost', card: p.target!, source: p.card});
     }
   } else if (kind === 'revival:place') {
     // The selected visit to Lost must still exist; leaving and returning to
     // Lost cannot revive an old forfeiture opportunity. Returning to play is neither deployment nor retrieval.
-    if (sameCard(m, p.targetRef!) && m.cards[p.target!]?.zone === 'lost' && m.locations.includes(p.site!)) {
+    if (sameCard(m, p.targetRef!) && m.cards[p.target!]?.zone === 'lost' && m.locations.includes(p.site!) && canEnterTable(m, p.target!)) {
       moveCard(m, p.target!, 'table'); m.cards[p.target!].location = p.site!;
       openWindow(m, 'response', other(r.actor), {kind: 'placed-in-play', card: p.target!, site: p.site!, source: p.card});
     }
@@ -71,7 +72,7 @@ export function assertRevival(m: Match): void {
     if (!p || !['1_100', '1_254'].includes(bp) || m.cards[p.card].owner !== f.actor || m.cards[p.card].zone !== 'playing' ||
       !['revival:old-ben', 'revival:kintan', 'revival:place', 'revival:finish'].includes(kind) ||
       kind === 'revival:kintan' && bp !== '1_254' || ['revival:old-ben', 'revival:place'].includes(kind) && bp !== '1_100') throw Error('Invalid revival continuation.');
-    if (bp === '1_100' && (!p.target || !character(m, p.target) || m.cards[p.target].owner !== f.actor || !p.site || system(m, p.site) !== 'Tatooine' || name(m, p.target).includes('Obi-Wan'))) throw Error('Invalid revival target.');
+    if (bp === '1_100' && (!p.target || !character(m, p.target) || m.cards[p.target].owner !== f.actor || !p.site || system(m, p.site) !== 'Tatooine' || hasPersona(m, p.target, 'OBIWAN'))) throw Error('Invalid revival target.');
     if (bp === '1_100') assertCardReference(m, p.targetRef!, p.target);
     if (bp === '1_254' && (p.target !== undefined || p.site !== undefined)) throw Error('Invalid Kintan selection.');
   }

@@ -1205,7 +1205,7 @@ the separate published proof saves are unchanged.
 ### Shared character characteristics and identity filters
 
 `definitions.ts` centralizes the explicit native definitions; `characteristics.ts`
-uses reviewed constructor metadata in `identities.json`. This covers 93 current
+uses reviewed constructor metadata in `identities.json`. That checkpoint covered 93
 definitions, including 11 additional metadata-only fixtures. It does not infer
 characteristics from lore substrings: BoShek's permission to make Kessel Runs in
 place of a smuggler does not make him a smuggler. Trooper, Stormtrooper, Scout and
@@ -1226,7 +1226,7 @@ unique Raiders. Ordinary Raider power text still requires non-unique Raiders.
 Reinforcements now selects verified Rebel troopers/Y-wings or Stormtroopers/TIE-ln
 from Lost, preserving choice, payment, responses, pile order and cleanup. Ship
 retrieval does not enable ship deployment or movement. Gambler's Luck reads the
-gambler trait; its Lando mode still awaits a general persona registry.
+gambler trait; its Lando mode now uses the explicit persona registry below.
 
 `gemp/characteristics-provenance.json` records 22 fresh matching observations:
 18 actual identity/filter records (16 also check Mos Eisley stat deltas), two
@@ -1238,5 +1238,40 @@ integration covers instance/turn/source expiry, JSON recovery, private projectio
 invalid saved modifiers, unique Raider equipment/search and granted gamblers.
 
 Broader characteristic providers, species/model/uniqueness changes, text
-cancellation, inactive/aboard rules, personas and complete metadata-only card text
+cancellation, inactive/aboard rules, broader persona behavior and complete metadata-only card text
 remain required. Production admission and the separate proof studies are unchanged.
+
+
+### Persona, uniqueness and initiated plays
+
+`persona.ts` uses explicit constructor uniqueness and persona metadata for 98
+current definitions. Ordinary table placement checks shared title limits, the
+owner's existing persona and relevant out-of-play characters/ships/vehicles.
+Per-turn play history is private, serialized and recorded when an actual play or
+deployment begins; cancellation and returning to hand do not restore an allowance.
+A new turn resets the count. Restricted cards count every initiated play, not just
+copies still on the table. Ordinary plays and Reserve docking-bay deployment use
+this boundary. Transfers, losses from hand and revivals do not count as new plays.
+
+Starter Luke/Vader now count every reviewed opposing unique Character, excluding
+restricted characters. Old Ben excludes the Obi-Wan persona and checks table
+eligibility at selection, response resolution and placement. Revival does not use
+the character's per-turn deployment allowance. Pending ordinary deployment also
+rechecks table eligibility, preserving paid costs if it cannot enter play.
+Gambler's Luck and We're Doomed query explicit Lando and C-3PO/R2-D2 personas.
+
+`gemp/persona-provenance.json` records 15 production-query observations: 14 agree,
+while the persona-per-turn case is an explicit discrepancy. AR p75 includes persona
+in the turn restriction; pinned GEMP records and checks titles only. Native applies
+the rulebook's persona restriction. These are controlled table/pile placements and
+production play-counter calls, not complete reference deployment/cancellation
+plays. Native runtime tests cover ordinary deployment, restricted repeated plays,
+next-turn reset, save/projection recovery, revival and pending conflict handling.
+All 6,820 reference production files remain unchanged.
+
+This is not complete persona/card admission. Diamond system limits explicitly
+reject unsupported queries. Dynamic uniqueness/persona modifiers, compound titles,
+permanent personas, capture/stolen control, persona replacement and special
+conversion remain required. The five extra characters are metadata-only. Legacy
+native component snapshots without play history start with an empty ledger;
+production full matches remain closed, and separate proof saves are unchanged.

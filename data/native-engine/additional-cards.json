@@ -503,5 +503,117 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_006.java"
+  },
+  {
+    "gempId": "1_19",
+    "name": "Luke Skywalker",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/lukeskywalker.gif",
+    "text": "While Luke is not on Tatooine your total Force generation is +1. Adds 3 to power of anything he pilots. When piloting Red 5, also adds 2 to maneuver. Immune to attrition < 3.",
+    "stats": {
+      "deploy": "3",
+      "power": "3",
+      "ability": "4",
+      "destiny": "1",
+      "forfeit": "7"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_019.java"
+  },
+  {
+    "gempId": "3_3",
+    "name": "Commander Luke Skywalker",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/commanderlukeskywalker.gif",
+    "text": "Deploys only on Hoth. Adds 3 to power of anything he pilots. When piloting Rogue 1, also adds 2 to maneuver. Immune to attrition < 3. Adds 1 to forfeit of each other Rogue Squadron pilot or gunner at same Hoth site.",
+    "stats": {
+      "deploy": "4",
+      "power": "4",
+      "ability": "4",
+      "destiny": "1",
+      "forfeit": "7"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior",
+      "Hoth"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_003.java"
+  },
+  {
+    "gempId": "1_21",
+    "name": "Obi-Wan Kenobi",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/obiwankenobi.gif",
+    "text": "When a battle was just initiated where present, may use 1 Force to choose one opponent's character of ability = 1 present to move away (for free), or that character is lost. Immune to attrition < 5.",
+    "stats": {
+      "deploy": "5",
+      "power": "5",
+      "ability": "6",
+      "destiny": "1",
+      "forfeit": "9"
+    },
+    "icons": [
+      "Warrior"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_021.java"
+  },
+  {
+    "gempId": "5_99",
+    "name": "Lando Calrissian",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Dark/large/landocalrissian.gif",
+    "text": "Deploys only on Cloud City. Adds 2 to power of anything he pilots. When playing Sabacc, may subtract 1 from or add 1 to your total. If present at a site, can be replaced by opponent with any Light Side Lando.",
+    "stats": {
+      "deploy": "2",
+      "power": "3",
+      "ability": "3",
+      "destiny": "1",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior",
+      "Cloud City"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_099.java"
+  },
+  {
+    "gempId": "4_1",
+    "name": "Son Of Skywalker",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Light/large/sonofskywalker.gif",
+    "text": "Deploys only on Dagobah or Cloud City. Adds 2 to power of anything he pilots. Once per game, during your deploy phase, a lightsaber may deploy on Luke (for free) from Reserve Deck; reshuffle. Immune to attrition < 4.",
+    "stats": {
+      "deploy": "5",
+      "power": "5",
+      "ability": "5",
+      "destiny": "1",
+      "forfeit": "8"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior",
+      "Dagobah"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_001.java"
   }
 ]

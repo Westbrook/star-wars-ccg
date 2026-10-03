@@ -1,5 +1,6 @@
+import {isUnique, canEnterTable} from './persona';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
-import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, presence, sitePlacements, uniqueCharacters} from './board';
+import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, presence, sitePlacements} from './board';
 import {moveCard, moveTop} from './state';
 import {openWindow, type RequiredAction} from './runtime';
 import {other, sides, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
@@ -30,7 +31,7 @@ export function resolveCancelledReact(m: Match, r: Resolution): boolean {
   const card = m.cards[p.card!];
   registerReact(m, card.id);
   if (deployment) {
-    if (!uniqueCharacters.has(card.blueprint)) {const titles = record(m).cancelledReactTitles ??= []; if (!titles.includes(name(m, card.id))) titles.push(name(m, card.id));}
+    if (!isUnique(m, card.id)) {const titles = record(m).cancelledReactTitles ??= []; if (!titles.includes(name(m, card.id))) titles.push(name(m, card.id));}
     if (card.zone === 'playing') moveCard(m, card.id, 'hand');
   }
   openWindow(m, 'response', other(r.actor), {kind: 'react-cancelled', card: card.id, deployment});
@@ -170,6 +171,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     return;
   }
   if (kind === 'ground:deploy') {
+    if (!canEnterTable(m, data.card!)) {moveCard(m, data.card!, 'lost'); return;}
     moveCard(m, data.card!, 'table'); m.cards[data.card!].location = data.site;
     cancelDrainAfterReact(m, side, data);
     openWindow(m, 'response', other(side), {kind: 'deployed', card: data.card!});

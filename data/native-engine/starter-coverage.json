@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "auditedFromCommit": "bb0f56099c56729e436d3216382c265b10bed96c",
+  "auditedFromCommit": "a8d3dc5cfba7dc9228d19c0f5646166bc1bb5e81",
   "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
   "purpose": "Source-and-evidence inventory of all 68 current starter definitions. Links are audit pointers, not automatic full-card certification. No card or deck is admitted by this inventory. The broader catalog and original product requirements remain in scope.",
   "productionAdmission": "closed",
@@ -8,7 +8,7 @@
   "sharedRequiredWork": [
     "Complete actual destiny tax/cap providers, broader automatic modifiers and prevention/replacement, Force borrowing/redirection and fractional/separate costs, broader granting cards and weapon draw-X/choose-Y adapters, and last-draw choose-two adjudication. Fixed integer payments, pre-draw cost/failure, physical caps and battle if-unable/no-limit permission now have shared verified components; full admission remains closed.",
     "Extend action-specific identity semantics to remaining effects/events, retrieval/search/inspection targets and compound casualties; persona/conversion aliases and target redirection remain. Original duel participants and pending travel movements now have saved references.",
-    "Generic continuous modifier, prevention/replacement, persona/uniqueness and characteristic infrastructure.",
+    "Complete generic continuous modifier and prevention/replacement infrastructure; broader persona/uniqueness and characteristic providers. Ordinary explicit persona/title limits and initiated-play history are implemented components, not full admission.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
     "Expand complete-match coverage into executed GEMP parity and remaining reachable cross-card branches. Twenty randomized full 40/60 native test matches now finish and replay exactly; these runs do not prove exhaustive starter rules conformance.",
     "Native durable API, assigned seats, receipt/CAS, CPU dispatch and responsive /matches client are implemented with component/full-match/browser tests. Stronger strategy, independent scheduling if needed, match clocks/capacity, broader deck workflows and production full-match certification remain required.",
@@ -49,16 +49,20 @@
       ],
       "implementation": [
         "lib/native-engine/board.ts",
-        "lib/native-engine/ground.ts"
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/persona.ts"
       ],
       "testFiles": [
         "tests/native-engine/ground.test.mjs",
-        "tests/native-engine/battle.test.mjs"
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/persona.test.mjs"
       ],
       "remaining": [
-        "Other opponent unique identities and personas require general identity metadata."
+        "Broader persona/capture/permanent and uniqueness modifiers; full Luke text and cross-card admission remain."
       ],
-      "oracleEvidence": [],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/persona-provenance.json"
+      ],
       "gempId": "101_2",
       "name": "Luke",
       "type": "Character",
@@ -132,18 +136,21 @@
       ],
       "implementation": [
         "lib/native-engine/board.ts",
-        "lib/native-engine/character-triggers.ts"
+        "lib/native-engine/character-triggers.ts",
+        "lib/native-engine/persona.ts"
       ],
       "testFiles": [
         "tests/native-engine/ground.test.mjs",
         "tests/native-engine/character-triggers.test.mjs",
-        "tests/native-engine/battle.test.mjs"
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/persona.test.mjs"
       ],
       "remaining": [
-        "Generic persona/copy-limit metadata; AR physical-choke example conflicts with segment rule, recorded in choke provenance."
+        "Broader persona/capture/permanent and uniqueness modifiers; AR physical-choke example conflicts with segment rule, recorded in choke provenance."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/choke-provenance.json"
+        "tests/native-engine/gemp/choke-provenance.json",
+        "tests/native-engine/gemp/persona-provenance.json"
       ],
       "gempId": "101_5",
       "name": "Vader",
@@ -187,16 +194,19 @@
       ],
       "implementation": [
         "lib/native-engine/revival.ts",
-        "lib/native-engine/table.ts"
+        "lib/native-engine/table.ts",
+        "lib/native-engine/persona.ts"
       ],
       "testFiles": [
-        "tests/native-engine/revival.test.mjs"
+        "tests/native-engine/revival.test.mjs",
+        "tests/native-engine/persona.test.mjs"
       ],
       "remaining": [
-        "Persona-limit revalidation, revival prevention/replacement and broader source interactions remain; original Lost instance identity is implemented."
+        "Revival prevention/replacement, capture/permanent personas and broader source interactions remain. Original Lost-instance and ordinary persona-limit revalidation are implemented."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/revival-provenance.json"
+        "tests/native-engine/gemp/revival-provenance.json",
+        "tests/native-engine/gemp/persona-provenance.json"
       ],
       "gempId": "1_100",
       "name": "Old Ben",
@@ -1985,6 +1995,19 @@
         "tests/native-engine/gemp/characteristics-provenance.json"
       ],
       "scope": "93 explicit definition identities; supported keyword families and rule-owned give/remove with instance/source/turn lifetime; species/model and printed uniqueness queries. 22 GEMP observations. Does not implement all characteristic/persona/species/uniqueness modifiers or admit metadata-only cards."
+    },
+    "personas": {
+      "implementation": [
+        "lib/native-engine/persona.ts",
+        "data/native-engine/identities.json"
+      ],
+      "testFiles": [
+        "tests/native-engine/persona.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/persona-provenance.json"
+      ],
+      "scope": "98 explicit identities, ordinary title/persona and out-of-play limits, initiated-play per-turn history, deployment/revival revalidation and generic starter opponent unique count. 15 reference queries: 14 match, one recorded AR persona-turn discrepancy. Broader modifiers, capture/permanents/replacement/conversion and full admission remain."
     }
   },
   "wholeMatchEvidence": {

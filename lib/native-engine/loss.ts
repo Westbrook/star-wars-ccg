@@ -1,3 +1,4 @@
+import {hasPersona} from './persona';
 import type {Match, Side} from './types';
 
 /** Preserve the whole obligation; never halve the shrinking unpaid remainder. */
@@ -7,9 +8,9 @@ export const lossLedger = (base: number, kind: LossLedger['kind'], irreducible =
 export function doomedRounding(m: Match, side: Side): 'up' | 'down' | null {
   const d = m.data.doomed as Doomed | undefined;
   if (side !== 'light' || d?.turn !== m.turn.number) return null;
-  // Explicit current identities. Other personas, permanent astromechs,
-  // targeting immunity and inactive/captured cards require their own metadata.
-  return Object.values(m.cards).some(c => c.zone === 'table' && ['1_5','2_14'].includes(c.blueprint)) ? 'down' : 'up';
+  // Explicit persona metadata. Permanent astromechs, targeting immunity
+  // and inactive/captured cards require their own rules.
+  return Object.values(m.cards).some(c => c.zone === 'table' && (hasPersona(m, c.id, 'C3PO') || hasPersona(m, c.id, 'R2D2'))) ? 'down' : 'up';
 }
 export function lossTotal(m: Match, side: Side, ledger: LossLedger): number {
   // It's Worse is a drain bonus before loss reduction, but a later Force-loss

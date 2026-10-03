@@ -1,3 +1,4 @@
+import {canPlayCard, recordCardPlay} from './persona';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {adjacent, atSite, cardDefinition, controls, moveWithAttachments, name, printed, sitePlacements, system} from './board';
 import {battle, battleHistory, members} from './battle';
@@ -24,7 +25,7 @@ function then(m: Match, side: Side, handler: string, p: Payload, respondable = f
 }
 export const transitEligible = (m: Match, side: Side, from: string) => atSite(m, from).filter(c => c.owner === side && canMove(m, c.id)).map(c => c.id);
 const bays = (m: Match) => m.locations.filter(id => bayCosts[m.cards[id].blueprint]);
-const searchCandidates = (m: Match) => m.players.dark.reserve.filter(id => bayCosts[m.cards[id].blueprint] && sitePlacements(m, id).length).sort();
+const searchCandidates = (m: Match) => m.players.dark.reserve.filter(id => bayCosts[m.cards[id].blueprint] && canPlayCard(m, id) && sitePlacements(m, id).length).sort();
 const battleInitiation = (m: Match, w: Window) => {
   const parent = m.stack.at(-2);
   return w.timing === 'response' && parent?.kind === 'resolution' && parent.action.handler === 'battle:begin' && !parent.cancelled && !parent.awaitingResponses && battle(m)?.stage === 'begin';
@@ -143,6 +144,8 @@ export function travelChoose(m: Match, d: Decision, choice: string, context: Con
     else decision(m, 'dark', 'place', {...p, card: choice.slice(5)});
   } else if (d.handler === 'travel:verify') {shuffle(m, context); openWindow(m, 'response', 'light', {kind: 'reserve-shuffled', side: 'dark'});}
   else if (d.handler === 'travel:place') {
+    if (!canPlayCard(m, p.card!)) throw Error('Card play limit reached.');
+    recordCardPlay(m, p.card!);
     moveCard(m, p.card!, 'playing'); then(m, 'dark', 'search-deploy', {...p, placement: choice.slice(6)}, true);
   } else if (d.handler === 'travel:escape') {
     const selected = escapeOptions(m, p).find(({card, to}) => choice === 'away:' + card + ':' + to);

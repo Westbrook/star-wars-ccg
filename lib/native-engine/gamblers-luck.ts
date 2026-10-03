@@ -1,3 +1,4 @@
+import {hasPersona} from './persona';
 import {hasCharacteristic} from './characteristics';
 import {remainingDestinyDraws} from './destiny-limits';
 import {battle, members} from './battle';
@@ -29,9 +30,8 @@ export function gamblersLuckActions(m: Match, w: Window, side: Side): Action[] {
   }
   if (m.data.gamblersLuckPlayedTurn === m.turn.number || w.timing !== 'response' || (w.event as {kind?: string})?.kind !== 'battle-weapons' || !b || b.stage !== 'weapons' || b.initiator === side ||
     cardDefinition(m, b.site).subType !== 'Site' || own.length !== 1) return [];
-  // Shared gambler characteristic; Lando persona remains an explicit definition
-  // until the general persona registry is implemented.
-  const bp = m.cards[own[0]].blueprint, amounts: (1 | 2)[] = [...(hasCharacteristic(m, own[0], 'GAMBLER') ? [1 as const] : []), ...(bp === '5_5' ? [2 as const] : [])];
+  // Shared character characteristic and reviewed persona metadata.
+  const amounts: (1 | 2)[] = [...(hasCharacteristic(m, own[0], 'GAMBLER') ? [1 as const] : []), ...(hasPersona(m, own[0], 'LANDO') ? [2 as const] : [])];
   return m.players[side].hand.filter(card => m.cards[card].blueprint === '5_48').flatMap(card => amounts.map(amount => ({
     id: 'gamblers-luck:' + card + ':' + amount, label: 'Gambler’s Luck · add ' + amount + ' battle destiny', source: card,
     handler: 'gambler:play', payload: {card, amount} as Json,
