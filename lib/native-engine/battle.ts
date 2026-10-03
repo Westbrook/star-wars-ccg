@@ -343,7 +343,7 @@ export function battleResolve(m: Match, r: Resolution): void {
   } else if (kind === 'battle:forfeit') {
     forfeitCard(m, p.card!, side);
   } else if (kind === 'battle:forfeit-result') {
-    openWindow(m, 'response', other(side), {kind: 'forfeited', card: p.card!, site: b.site});
+    openWindow(m, 'response', other(side), {kind: 'forfeited', card: p.card!, cardRef: referenceCard(m,p.card!), site: b.site});
   } else if (kind === 'battle:premature-loss-result') {
     openWindow(m, 'response', other(side), {kind: 'cards-lost', cards: p.cards!});
   } else if (kind === 'battle:rescue') {b.hits = b.hits.filter(id => id !== p.target); restoreWeaponForfeit(m,p.target!);}

@@ -1,0 +1,107 @@
+[
+  {
+    "name": "protection-same",
+    "forfeit": 2
+  },
+  {
+    "name": "protection-other",
+    "forfeit": 1
+  },
+  {
+    "name": "protection-opponent",
+    "forfeit": 1
+  },
+  {
+    "name": "protection-lab-hoth",
+    "forfeit": 2
+  },
+  {
+    "name": "protection-lab-tatooine",
+    "forfeit": 1
+  },
+  {
+    "name": "protection-away-hoth",
+    "forfeit": 1
+  },
+  {
+    "protected": 2,
+    "after": 2,
+    "hit": true,
+    "name": "saber-false"
+  },
+  {
+    "protected": 2,
+    "after": 0,
+    "hit": true,
+    "name": "saber-true"
+  },
+  {
+    "paid": 2,
+    "forfeit": 2,
+    "lost": false,
+    "offered": true,
+    "used": true,
+    "forceSpent": 0,
+    "name": "recovery-use"
+  },
+  {
+    "returned": true,
+    "name": "usage",
+    "nextTurn": true,
+    "again": false
+  },
+  {
+    "paid": 2,
+    "forfeit": 2,
+    "lost": true,
+    "offered": true,
+    "used": false,
+    "forceSpent": 0,
+    "name": "recovery-skip"
+  },
+  {
+    "paid": 4,
+    "forfeit": 4,
+    "lost": true,
+    "offered": false,
+    "used": false,
+    "forceSpent": 0,
+    "name": "recovery-self"
+  },
+  {
+    "paid": 2,
+    "forfeit": 2,
+    "lost": true,
+    "offered": false,
+    "used": false,
+    "forceSpent": 0,
+    "name": "recovery-no-fx"
+  },
+  {
+    "paid": 3,
+    "forfeit": 3,
+    "lost": true,
+    "offered": false,
+    "used": false,
+    "forceSpent": 0,
+    "name": "recovery-fx-lost"
+  },
+  {
+    "paid": 2,
+    "forfeit": 2,
+    "lost": false,
+    "offered": true,
+    "used": true,
+    "forceSpent": 0,
+    "name": "recovery-source-leaves"
+  },
+  {
+    "paid": 2,
+    "forfeit": 2,
+    "lost": false,
+    "offered": true,
+    "used": false,
+    "forceSpent": 0,
+    "name": "recovery-target-leaves"
+  }
+]

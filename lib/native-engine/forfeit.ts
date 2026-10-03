@@ -1,4 +1,5 @@
 import {forfeit} from './board';
+import {medicProtectsForfeit} from './medics';
 import {statModifiers} from './stat-modifiers';
 import {cardDefinition} from './definitions';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
@@ -13,7 +14,7 @@ export function resetWeaponForfeit(m: Match, source: string, target: string, val
   m.data.forfeitResets = [...entries(m).filter(p=>sameCard(m,p.target)),p] as unknown as Json;
   assertForfeitResets(m);
 }
-export const forfeitReductionPrevented=(m:Match,target:string):boolean=>statModifiers(m,target,'forfeit').some(p=>p.kind==='prevent-reduce');
+export const forfeitReductionPrevented=(m:Match,target:string):boolean=>medicProtectsForfeit(m,target)||statModifiers(m,target,'forfeit').some(p=>p.kind==='prevent-reduce');
 export function currentForfeit(m:Match,target:string,printed:number,bonuses:number[]):number{
   const mods=statModifiers(m,target,'forfeit'),prevent=forfeitReductionPrevented(m,target),preventIncrease=mods.some(p=>p.kind==='prevent-increase');
   let value=printed;

@@ -1011,5 +1011,90 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_109.java"
+  },
+  {
+    "gempId": "8_5",
+    "name": "Corporal Delevar",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Endor-Light/large/corporaldelevar.gif",
+    "text": "Prevents your characters from having their forfeit reduced at same location (and at Hoth sites if Delevar is at Echo Med Lab). When with your FX droid, once per turn allows your character just forfeited from same site to be placed in Used Pile.",
+    "stats": {
+      "destiny": "2",
+      "deploy": "2",
+      "power": "1",
+      "ability": "2",
+      "forfeit": "4"
+    },
+    "icons": [
+      "Endor",
+      "Warrior"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/light/Card8_005.java"
+  },
+  {
+    "gempId": "3_9",
+    "name": "FX-7 (Effex-Seven)",
+    "side": "light",
+    "type": "Character",
+    "subType": "Droid",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/fx7effexseven.gif",
+    "text": "Once per turn, one of your 'hit' non-droid characters at same or adjacent site may be placed in your Used Pile instead of Lost Pile when forfeited. Cumulatively subtracts 2 from X on your Bacta Tank.",
+    "stats": {
+      "destiny": "2",
+      "deploy": "2",
+      "power": "0",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Hoth"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_009.java",
+    "rulesNote": "Current official erratum (Advanced Rulebook p113); FX card actions remain unimplemented."
+  },
+  {
+    "gempId": "3_60",
+    "name": "Hoth: Echo Med Lab",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/hothechomedlab.gif",
+    "text": "DARK: If you control, with an Imperial present, Force drain +1 here. LIGHT: Once per turn, one of your medical droids is deploy -2.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Hoth",
+      "Underground",
+      "Interior",
+      "Planet",
+      "Scomp Link"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_060.java"
+  },
+  {
+    "gempId": "3_59",
+    "name": "Hoth: Echo Docking Bay",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/hothechodockingbay.gif",
+    "text": "DARK: Your docking bay transit from here requires 3 Force. Your transit to here requires +4 Force. LIGHT: Your docking bay transit from here requires 1 Force.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Hoth",
+      "Interior",
+      "Exterior",
+      "Planet",
+      "Scomp Link"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_059.java"
   }
 ]

@@ -7,7 +7,7 @@ import {moveCard} from './state';
 import {other, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 type Payload = {card: string; target?: string; site?: string; targetRef?: CardReference};
-type LossEvent = {kind?: string; card?: string; cards?: string[]; site?: string};
+type LossEvent = {kind?: string; card?: string; cardRef?: CardReference; cards?: string[]; site?: string};
 const character = (m: Match, id: string) => !!m.cards[id] && cardDefinition(m, id).type === 'Character';
 const action = (step: string, p: Payload, side?: Side): Action => ({
   id: 'revival:' + step + ':' + p.card, label: step === 'old-ben' ? 'Old Ben · revive ' + p.target : 'Kintan Strider · retrieve your topmost lost character',
@@ -23,7 +23,7 @@ export function revivalActions(m: Match, w: Window, side: Side): Action[] {
   // Units of Force lost from hand/Life Force have no character aspect. These
   // events specifically describe cards lost from table, after Lost ordering.
   if (!e || !['forfeited', 'character-lost', 'cards-lost'].includes(e.kind ?? '')) return [];
-  const lost = (e.cards ?? (e.card ? [e.card] : [])).filter(id => character(m, id) && m.cards[id].zone === 'lost');
+  const lost = (e.cards ?? (e.card ? [e.card] : [])).filter(id => character(m, id) && m.cards[id].zone === 'lost' && (!e.cardRef || e.cardRef.id === id && sameCard(m,e.cardRef)));
   const result: Action[] = [];
   for (const card of m.players[side].hand) {
     if (m.cards[card].blueprint === '1_100' && e.kind === 'forfeited' && e.site && system(m, e.site) === 'Tatooine') {

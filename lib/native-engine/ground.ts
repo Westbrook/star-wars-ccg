@@ -65,7 +65,7 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
             const payment = deploymentPayment(m, id, site);
             if (payment && canPay(m, payment)) actions.push(action('deploy:' + id + ':' + site, 'Deploy ' + name(m, id) + ' to ' + name(m, site), 'deploy', {card: id, site}, payment, id));
           }
-        } else if (cardDefinition(m, id).type === 'Location') {
+        } else if (cardDefinition(m, id).type === 'Location' && cardDefinition(m,id).status !== 'metadata-only') {
           for (const placement of sitePlacements(m, id)) actions.push(action('site:' + id + ':' + placement.id, 'Deploy ' + name(m, id) + ' · ' + placement.label, 'site', {card: id, placement: placement.id}, {}, id));
         }
       }

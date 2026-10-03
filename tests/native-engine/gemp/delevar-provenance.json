@@ -1,0 +1,29 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T09:21:48.454160+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDelevarOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineDelevarOracleTests.java",
+  "harnessSha256": "24dff350408c38c923efd94469ad7182407c79a26d286e35271ba0eff8e60518",
+  "junitTests": 3,
+  "observations": 16,
+  "matchingObservations": 16,
+  "results": "delevar-results.json",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "officialRulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "scope": [
+    "Seven actual forfeiture/recovery branches: use/decline, self, absent FX, sole FX forfeited, source departure and target departure after initiation. Compare eligibility, destination, payment and Force cost.",
+    "Six current forfeiture modifier queries across same/different locations, opponent, Echo Med Lab and Hoth sites.",
+    "Two actual Vader lightsaber attacks with Delevar protecting before or arriving after hit. Check preservation vs suppression of weapon forfeiture reset and result after Delevar leaves.",
+    "Usage query after actual recovery, controlled source departure/reentry, and production end-of-turn cleanup."
+  ],
+  "limitations": [
+    "Ground characters and sites only. FX-7 and the two Hoth sites are metadata-only: their own card text and actions are not implemented or offered for deployment.",
+    "Reference fixtures explicitly arrange tables, modifier grants and some zone interventions. Full-match parity and all provider-card interactions remain unproven.",
+    "Native original-Lost identity and Old Ben guards follow AR p17: after departure, a card is no longer just lost. Target leave/reentry has native tests, not a fresh reference comparison here.",
+    "The reference FX-7 printed text includes ordinary-loss behavior removed by official AR p113 errata. Native metadata uses current erratum; no FX action implemented here.",
+    "Crossing-over, persona replacement, permanent FX droids, aboard/inactive/captured states, loss replacement/prevention, source text cancellation, broader catalog and full admission remain required."
+  ]
+}
