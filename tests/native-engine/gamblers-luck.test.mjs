@@ -162,3 +162,12 @@ test('Smoke Screen cannot start after a cap closes, but an already initiated sub
   const f=fixture('1_11');pull(f.m,'light','101_2','table',f.site);combat.syncBattle(f.m);const smoke=pull(f.m,'light','5_69'),scope=combat.battleDestinyScope(f.m,'light');drawLimits.setDestinyLimit(f.m,scope,1);let m=priority(step(ready(f.m),'draw-destiny'),'light');const id='smoke:'+smoke+':'+f.character;assert.ok(ids(m).includes(id));if(initiated)m=step(m,id);drawLimits.setDestinyLimit(m,scope,0);if(!initiated)assert.ok(!ids(m).includes(id));m=done(m);assert.equal(combat.battle(m).destiny.light,initiated?3:null);assert.equal(drawLimits.destinySequence(m,scope).physical,0);
  }
 });
+
+for(const amount of [1,2])test('Takeel counts chosen destinies rather than revealed Luck candidates: '+amount,()=>{
+ const f=fixture(amount===1?'1_11':'5_5'),takeel=pull(f.m,'dark','1_269');top(f.m,amount===1?[1,5]:[1,5,0]);
+ let m=play(f,amount);m=seek(m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='dark');m=step(m,'draw-destiny');m=ready(m);m=selection(step(m,'draw-destiny'));
+ for(let i=0;i<amount;i++)m=step(m,'destiny-choice:'+i);
+ m=priority(done(m),'dark');assert.equal(ids(m).includes('takeel:'+takeel),amount===1);
+ assert.equal(combat.battle(m).destinyResults.light.draws.length,amount);
+ if(amount===1){const before={...combat.battle(m).destiny};m=step(m,'takeel:'+takeel);m=seek(m,x=>event(x)?.kind==='battle-power');assert.deepEqual(combat.battle(m).destiny,{dark:before.light,light:before.dark})}
+});

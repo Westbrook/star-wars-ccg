@@ -1,0 +1,198 @@
+[
+  {
+    "name": "normal",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 1.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 5.0,
+      "light": 1.0
+    }
+  },
+  {
+    "name": "dark-two",
+    "offered": false,
+    "darkCount": 2,
+    "lightCount": 1,
+    "before": {
+      "dark": 6.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 6.0,
+      "light": 5.0
+    }
+  },
+  {
+    "name": "light-two",
+    "offered": false,
+    "darkCount": 1,
+    "lightCount": 2,
+    "before": {
+      "dark": 1.0,
+      "light": 6.0
+    },
+    "after": {
+      "dark": 1.0,
+      "light": 6.0
+    }
+  },
+  {
+    "name": "cancel-one",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 5.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 5.0,
+      "light": 5.0
+    }
+  },
+  {
+    "name": "cancel-only",
+    "offered": false,
+    "darkCount": 0,
+    "lightCount": 1,
+    "before": {
+      "dark": null,
+      "light": 5.0
+    },
+    "after": {
+      "dark": null,
+      "light": 5.0
+    }
+  },
+  {
+    "name": "substitute",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 4.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 5.0,
+      "light": 4.0
+    }
+  },
+  {
+    "name": "redraw",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 5.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 5.0,
+      "light": 5.0
+    }
+  },
+  {
+    "name": "limited",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 1.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 5.0,
+      "light": 1.0
+    }
+  },
+  {
+    "name": "reserve-one",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 1.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 5.0,
+      "light": 1.0
+    }
+  },
+  {
+    "name": "zero",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 0.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 5.0,
+      "light": 0.0
+    }
+  },
+  {
+    "name": "skip",
+    "offered": false,
+    "darkCount": 0,
+    "lightCount": 0,
+    "before": {
+      "dark": null,
+      "light": null
+    },
+    "after": {
+      "dark": null,
+      "light": null
+    }
+  },
+  {
+    "name": "individual-modifier",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 3.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 5.0,
+      "light": 3.0
+    }
+  },
+  {
+    "name": "total-modifier",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 3.0,
+      "light": 9.0
+    },
+    "after": {
+      "dark": 7.0,
+      "light": 5.0
+    }
+  },
+  {
+    "name": "repeat",
+    "offered": true,
+    "darkCount": 1,
+    "lightCount": 1,
+    "before": {
+      "dark": 1.0,
+      "light": 5.0
+    },
+    "after": {
+      "dark": 5.0,
+      "light": 1.0
+    }
+  }
+]

@@ -1151,20 +1151,26 @@
       "functionsReviewed": [
         "Both sides drew exactly one battle destiny",
         "Paid swap",
-        "Shared resulting totals"
+        "Shared resulting totals",
+        "Exactly one finalized successful battle destiny each, including replacement, cancellation, substitution, selection, limits and exhaustion",
+        "Individual modifiers switch; resolved total modifiers stay with their owner",
+        "Repeated Takeel retains the same switch, matching pinned GEMP"
       ],
       "implementation": [
         "lib/native-engine/battle.ts"
       ],
       "testFiles": [
         "tests/native-engine/battle.test.mjs",
-        "tests/native-engine/interrupts.test.mjs"
+        "tests/native-engine/interrupts.test.mjs",
+        "tests/native-engine/takeel.test.mjs",
+        "tests/native-engine/gamblers-luck.test.mjs"
       ],
       "remaining": [
-        "Combined multiple battle destiny draws require broader destiny-selection work."
+        "Broader modifier-granting cards, total resets and cross-card switch interactions require further integration; these component observations do not certify a full deck."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/interrupt-provenance.json"
+        "tests/native-engine/gemp/interrupt-provenance.json",
+        "tests/native-engine/gemp/takeel-provenance.json"
       ],
       "gempId": "1_269",
       "name": "Takeel",
@@ -2233,6 +2239,17 @@
         "Three empty-Reserve eligibility discrepancies and suppressed order prompt are documented; native follows the explicit official rules.",
         "Mid-sequence Reserve replenishment needs comparison against the GEMP snapshot amounts. Full admission remains closed."
       ]
+    },
+    "finalizedBattleDestiny": {
+      "implementation": [
+        "lib/native-engine/battle.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/takeel.test.mjs",
+        "tests/native-engine/gamblers-luck.test.mjs",
+        "tests/native-engine/gemp/takeel-provenance.json"
+      ],
+      "scope": "Persist finalized selected draw history independently of resolved totals; enforce Takeel count and modifier ownership, including repeat play. Existing saves preserve legacy draw fallback. Full match admission stays closed."
     }
   },
   "wholeMatchEvidence": {

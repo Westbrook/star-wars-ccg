@@ -1,0 +1,21 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T17:47:55.734920+00:00",
+  "harness": "NativeEngineTakeelOracleTests.java",
+  "harnessSha256": "86b1904a7316665db779844bf3374d9e79c721d22ccdec1be6cf71e21c9be5f1",
+  "result": "takeel-results.json",
+  "resultSha256": "f5c01bc896496b788f4ad6b2445680e8145256a12c60b89c3e7d14453cf337ac",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineTakeelOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; test harness only; pinned production source unchanged",
+  "junitTests": 1,
+  "observations": 14,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp55,153",
+  "scope": "Fourteen real Takeel availability/play outcomes compare finalized draw counts and battle totals. Controlled production modifier, draw cancellation/redraw and substitution providers exercise the actual battle pipeline. Native tests also cover actual Gambler\u2019s Luck selection, save reconstruction, canceled Takeel and rejected commands. A second actual Takeel confirms GEMP retains the existing switch while charging and disposing both Interrupts.",
+  "limitations": [
+    "Component boards, not exhaustive card or complete-match certification. No new standalone Rules Lab study.",
+    "Additional granting-card text, total-reset interactions and other switch sources remain outside this comparison. Repeated Takeel now matches pinned GEMP\u2019s persistent switch; the current starter has one Takeel.",
+    "Old snapshots without finalized draw records retain legacy single-draw values or planned draw history; historical total modifiers cannot be reconstructed. Production full-match admission remains closed."
+  ]
+}

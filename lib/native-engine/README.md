@@ -2177,3 +2177,21 @@ aboard/inactive states remain required. GEMP also snapshots the base amounts fro
 both Reserve sizes when results start, while native attempts each mandatory unit
 until Reserve empties; mid-sequence replenishment still needs reference coverage.
 These component tests do not certify the whole card or a complete deck.
+
+### Finalized battle destiny and Takeel
+
+Battles retain finalized selected draws separately from their resolved totals.
+Takeel requires exactly one successful draw for each player: canceled draws and
+unchosen candidates do not count, replacement draws occupy the original slot,
+and substitutions and successful zeroes do count. Its swap carries individual
+draw modifiers while keeping resolved total adjustments with their owner. A
+second Takeel keeps the switch in effect, matching GEMP, and still pays its cost.
+Physical destiny cards remain with their owners.
+
+`takeel.test.mjs` and the Gambler's Luck integration tests reconstruct saved state
+at each command, including selection, cancellation, limited/exhausted draws,
+modifier ownership and repeat play. Older saves use their existing single-draw
+or planned-draw history when the finalized record is absent. The executed GEMP
+component comparisons and source fingerprints are in `gemp/takeel-provenance.json`.
+This does not certify other modifier-granting cards, dynamic total resets or
+complete decks. Full native admission remains closed; no new Lab study was added.

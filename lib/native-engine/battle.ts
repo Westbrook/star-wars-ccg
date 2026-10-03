@@ -33,6 +33,10 @@ export type Battle = {
   participants: Pair<string[]>; hits: string[]; fired: string[]; users: Record<string, string>; shots: Shot[];
   destiny: Pair<number | null>; destinyCards: Pair<string | null>; power: Pair<number>;
   destinyDraws?: Pair<Draw | null>;
+  /** Final selected draws, before total modifiers. Physical attempts, canceled
+   * draws and discarded selection candidates must not count for Takeel. */
+  destinyResults?: Pair<{draws: Draw[]; total: number | null} | null>;
+  destinySwitched?: boolean;
   destinyPlans?: Pair<DestinyPlan | null>;
   destinyScopes?: Partial<Pair<string>>;
   drawModifiers?: BattleDrawModifier[];
@@ -50,6 +54,16 @@ export type Battle = {
 type History = {turn: number; sites: string[]; participants: string[]};
 type Payload = {flow?: DrawFlow; draws?: Draw[]; attachment?: AttachmentAttempt; site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
 const pair = <T>(dark: T, light: T): Pair<T> => ({dark, light});
+function completedBattleDraws(b: Battle, side: Side): Draw[] {
+  // Older saved battles predate the finalized record. Their plan contains all
+  // selected draws; the single-draw path retains its final total and card.
+  return (b.destinyResults?.[side]?.draws ?? b.destinyPlans?.[side]?.draws ??
+    (b.destiny[side] === null ? [] : [{card: b.destinyCards[side], value: b.destiny[side]}])).filter(d => d.value !== null);
+}
+function recordBattleDestiny(b: Battle, side: Side, draws: Draw[], total: number | null): void {
+  (b.destinyResults ??= pair(null, null))[side] = {draws: structuredClone(draws), total};
+  b.destiny[side] = total;
+}
 export const battle = (m: Match) => m.data.battle as Battle | undefined;
 /** One shared physical-draw allowance per side for this battle. */
 export function battleDestinyScope(m: Match, side: Side): string {
@@ -143,7 +157,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
       for (const target of members(m, other(side))) actions.push(act('fire:' + weapon.id + ':' + target, 'Fire ' + name(m, weapon.id) + ' at ' + name(m, target), 'fire', {card: weapon.id, target}, {[side]: rule.fire}, weapon.id));
     }
   }
-  if (event(w) === 'battle-destiny-complete' && b.destiny.dark !== null && b.destiny.light !== null) {
+  if (event(w) === 'battle-destiny-complete' && sides.every(s => b.destiny[s] !== null && completedBattleDraws(b, s).length === 1)) {
     for (const card of m.players[side].hand.filter(id => m.cards[id].blueprint === '1_269')) actions.push(act('takeel:' + card, 'Play Takeel · switch battle destiny', 'takeel', {card}, {[side]: 1}, card));
   }
   if (event(w) === 'battle-damage') {
@@ -293,10 +307,10 @@ export function battleResolve(m: Match, r: Resolution): void {
     b.destinyPlans![side]!.draws.push(...(p.draws ?? [p.draw!]));
     continueDestinyPlan(m, side);
   } else if (kind === 'battle:plan-result') {
-    b.destiny[side] = p.total!;
+    recordBattleDestiny(b, side, p.draws!, p.total!);
     windowThen(m, 'destiny-next', 'battle-destiny-player-complete', other(side), {side});
   } else if (kind === 'battle:destiny-result') {
-    b.destiny[p.side!] = p.draw!.value;
+    recordBattleDestiny(b, p.side!, p.draws ?? [p.draw!], p.draw!.value);
     windowThen(m, 'destiny-next', 'battle-destiny-player-complete', other(p.side!), {side: p.side});
   } else if (kind === 'battle:destiny-next') {
     if (p.side === b.initiator) windowThen(m, 'destiny-select', 'battle-destiny-before', other(p.side), {side: other(p.side)});
@@ -317,7 +331,21 @@ export function battleResolve(m: Match, r: Resolution): void {
   }
   else if (kind === 'battle:end') beginEnd(m);
   else if (kind === 'battle:ended') {b.stage = 'complete'; openWindow(m, 'response', other(b.initiator), {kind: 'battle-ended'});}
-  else if (kind === 'battle:takeel') {[b.destiny.dark, b.destiny.light] = [b.destiny.light, b.destiny.dark]; moveCard(m, p.card!, 'lost');}
+  else if (kind === 'battle:takeel') {
+    // Individual modifiers travel with the number; resolved total modifiers
+    // stay with their original player (AR, Takeel). Keep physical ownership.
+    const adjustment = (s: Side) => {
+      const result = b.destinyResults?.[s];
+      return result && result.total !== null ? result.total - result.draws.reduce((n,d) => n + (d.value ?? 0), 0) : 0;
+    };
+    if (!b.destinySwitched) {
+      const dark = adjustment('dark'), light = adjustment('light');
+      [b.destiny.dark, b.destiny.light] = [Math.max(0, b.destiny.light! - light + dark), Math.max(0, b.destiny.dark! - dark + light)];
+      // GEMP retains this battle-long switch; another Takeel does not undo it.
+      b.destinySwitched = true;
+    }
+    moveCard(m, p.card!, 'lost');
+  }
   else if (kind === 'battle:reduce') {if (!b.reduced[side]) {if (b.damageLedger) b.damageLedger[side].reduction = p.amount!; else b.damage[side] = Math.max(0, b.damage[side] - p.amount!); b.reduced[side] = true; syncBattleDamage(m);} moveCard(m, p.card!, 'used');}
   else if (kind === 'battle:fire') {
     const shot = b.shots[p.index!];
@@ -407,6 +435,16 @@ export function assertBattle(m: Match): void {
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
+  if (b.destinySwitched !== undefined && typeof b.destinySwitched !== 'boolean') throw Error('Invalid battle destiny switch.');
+  if (b.destinyResults !== undefined) {
+    if (!b.destinyResults || Object.keys(b.destinyResults).length !== 2 || !sides.every(s => Object.hasOwn(b.destinyResults!, s))) throw Error('Invalid completed battle destinies.');
+    for (const side of sides) {
+      const result = b.destinyResults[side]; if (result === null) continue;
+      if (!result || !Array.isArray(result.draws) || result.draws.some(d => !validDraw(m,d,side)) ||
+        result.total !== null && (!Number.isFinite(result.total) || result.total < 0) ||
+        (result.total === null) !== !result.draws.some(d => d.value !== null)) throw Error('Invalid completed battle destinies.');
+    }
+  }
   if (b.attritionProtected !== undefined) {
     if (!Array.isArray(b.attritionProtected) || new Set(b.attritionProtected.map(r=>r.id)).size !== b.attritionProtected.length) throw Error('Invalid frozen attrition immunity.');
     for (const ref of b.attritionProtected) {assertCardReference(m,ref);if(ref.zone!=='table' || !b.participants[m.cards[ref.id].owner].includes(ref.id))throw Error('Invalid frozen attrition immunity.');}
