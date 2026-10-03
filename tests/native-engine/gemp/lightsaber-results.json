@@ -1,0 +1,113 @@
+[
+  {
+    "name": "luke-armed",
+    "immunity": 6.0,
+    "power": 8.0
+  },
+  {
+    "name": "luke-alone-armed",
+    "immunity": 7.0,
+    "power": 8.0
+  },
+  {
+    "name": "drain-skip",
+    "total": 1
+  },
+  {
+    "name": "drain-use",
+    "total": 2
+  },
+  {
+    "name": "drain-duplicates",
+    "total": 2
+  },
+  {
+    "hit": false,
+    "forfeit": 7.0,
+    "spent": 0,
+    "name": "1_324-1-1"
+  },
+  {
+    "hit": true,
+    "forfeit": 0.0,
+    "spent": 0,
+    "name": "1_324-3-3"
+  },
+  {
+    "hit": true,
+    "forfeit": 0.0,
+    "spent": 0,
+    "name": "1_324-5-5"
+  },
+  {
+    "hit": true,
+    "forfeit": 0.0,
+    "spent": 0,
+    "name": "1_324-5--1"
+  },
+  {
+    "hit": false,
+    "forfeit": 5.0,
+    "spent": 0,
+    "name": "1_157-1-1"
+  },
+  {
+    "hit": false,
+    "forfeit": 5.0,
+    "spent": 0,
+    "name": "1_157-3-3"
+  },
+  {
+    "hit": true,
+    "forfeit": 0.0,
+    "spent": 0,
+    "name": "1_157-5-5"
+  },
+  {
+    "hit": false,
+    "forfeit": 5.0,
+    "spent": 0,
+    "name": "1_157-5--1"
+  },
+  {
+    "hit": false,
+    "forfeit": 5.0,
+    "spent": 1,
+    "name": "1_155-1-1"
+  },
+  {
+    "hit": false,
+    "forfeit": 5.0,
+    "spent": 1,
+    "name": "1_155-3-3"
+  },
+  {
+    "hit": true,
+    "forfeit": 5.0,
+    "spent": 1,
+    "name": "1_155-5-5"
+  },
+  {
+    "hit": false,
+    "forfeit": 5.0,
+    "spent": 1,
+    "name": "1_155-5--1"
+  },
+  {
+    "spent": 0,
+    "name": "deploy-1_324"
+  },
+  {
+    "spent": 0,
+    "name": "deploy-1_157"
+  },
+  {
+    "spent": 1,
+    "name": "deploy-1_155"
+  },
+  {
+    "name": "talz-restored",
+    "forfeit": 7.0,
+    "talzLost": true
+  }
+]

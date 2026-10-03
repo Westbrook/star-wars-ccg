@@ -1,3 +1,4 @@
+import {armedWithLightsaber} from './weapon-state';
 import {cardDefinition} from './definitions';
 import {referenceCard, sameCard, assertCardReference, type CardReference} from './identity';
 import type {Json, Match} from './types';
@@ -49,8 +50,7 @@ export function attritionImmunityValues(m: Match,id: string): {lessThan:number;e
   if(c.blueprint==='4_103' && c.location)value=Object.values(m.cards).filter(o=>o.zone==='table' && o.location===c.location && !o.attachedTo && o.owner!==c.owner && cardDefinition(m,o.id).subType==='Alien').length;
   if(c.blueprint==='9_24'){
     const alone=!!c.location && !Object.values(m.cards).some(o=>o.id!==id && o.zone==='table' && o.owner===c.owner && o.location===c.location && !o.attachedTo && ['Character','Vehicle','Starship'].includes(cardDefinition(m,o.id).type));
-    // No lightsabers are admitted in the current ground card registry.
-    value=5+(alone?1:0);
+    value=5+(alone?1:0)+(armedWithLightsaber(m,id)?1:0);
   }
   const baseLess=['9_109','4_2'].includes(c.blueprint) || mods.some(p=>p.kind==='immunity-full') ? Infinity : Math.max(value,...mods.filter(p=>p.kind==='immunity-less-than').map(p=>p.amount));
   const baseExact=Math.max(0,...mods.filter(p=>p.kind==='immunity-exact').map(p=>p.amount));

@@ -1,3 +1,5 @@
+import {weaponForfeit} from './forfeit';
+import {armedWithLightsaber} from './weapon-state';
 import {combatPowerBonus} from './combat-modifiers';
 import {locationAbility} from './location-ability';
 import {ability} from './ability';
@@ -91,6 +93,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   if (blueprint === '101_2' && currentBattle?.runLuke && currentBattle.stage !== 'complete' && site === currentBattle.site &&
       !Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '101_5' && c.location && (c.location === site || adjacent(m, c.location, site)))) value += 2;
   value += equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id);
+  if (blueprint === '9_24' && armedWithLightsaber(m,id)) value+=2;
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
   return Math.max(0, value);
 }
@@ -102,7 +105,7 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
   if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') value++;
   if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') value--;
   value += equipmentBonus(m, id, 'forfeit') + mosEisleyBonus(m, id);
-  return Math.max(0, value);
+  return weaponForfeit(m,id,Math.max(0, value));
 }
 
 export function totalPower(m: Match, side: Side, site: string, defending = false, active: (id: string) => boolean = () => true): number {

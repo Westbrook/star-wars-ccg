@@ -1,3 +1,5 @@
+import {restoreWeaponForfeit} from './forfeit';
+import type {LightsaberShot} from './lightsabers';
 import {immuneToAttrition} from './combat-modifiers';
 import {deployed} from './deployment';
 import {locationAbility} from './location-ability';
@@ -38,7 +40,7 @@ export type Battle = {
   attritionProtected?: CardReference[];
   worseIncrease?: number; damageLedger?: Pair<LossLedger>;
   damageMultipliers?: {card: string; factor: number; side: Side | 'both'}[];
-  knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[];
+  knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[]; saberShots?: LightsaberShot[];
 };
 type History = {turn: number; sites: string[]; participants: string[]};
 type Payload = {flow?: DrawFlow; draws?: Draw[]; attachment?: AttachmentAttempt; site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
@@ -343,7 +345,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     openWindow(m, 'response', other(side), {kind: 'forfeited', card: p.card!, site: b.site});
   } else if (kind === 'battle:premature-loss-result') {
     openWindow(m, 'response', other(side), {kind: 'cards-lost', cards: p.cards!});
-  } else if (kind === 'battle:rescue') b.hits = b.hits.filter(id => id !== p.target);
+  } else if (kind === 'battle:rescue') {b.hits = b.hits.filter(id => id !== p.target); restoreWeaponForfeit(m,p.target!);}
   else if (kind === 'battle:lose') {
     const id = p.card ?? m.players[side][p.from as 'reserve' | 'force' | 'used'][0];
     moveCard(m, id, 'lost'); if (b.damageLedger) b.damageLedger[side].paid++; else b.damage[side] = Math.max(0, b.damage[side] - 1); syncBattleDamage(m);

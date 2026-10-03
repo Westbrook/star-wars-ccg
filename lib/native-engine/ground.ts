@@ -1,3 +1,4 @@
+import {lightsaberDrainBonus} from './lightsabers';
 import {deployed} from './deployment';
 import {isUnique, canEnterTable} from './persona';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
@@ -27,7 +28,7 @@ export const canDeployAsReact = (m: Match, id: string) => !usage(m).reacted.incl
 export function resolveCancelledReact(m: Match, r: Resolution): boolean {
   const p = payload(r.action);
   if (!r.cancelled || !p?.react) return false;
-  const deployment = ['ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip'].includes(r.action.handler);
+  const deployment = ['ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
   if (!deployment && r.action.handler !== 'ground:move') throw Error('Unknown canceled react.');
   const card = m.cards[p.card!];
   registerReact(m, card.id);
@@ -198,7 +199,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
   } else if (kind === 'ground:expire') {
     delete record(m).barriers[data.target!];
   } else if (kind === 'ground:drain') {
-    if (controls(m, side, data.site!)) queueForceLoss(m, {side: other(side), remaining: drainAmount(m, side, data.site!), source: 'drain', site: data.site!, reductionUsed: false});
+    if (controls(m, side, data.site!)) queueForceLoss(m, {side: other(side), remaining: drainAmount(m, side, data.site!) + lightsaberDrainBonus(m, data as {site: string}), source: 'drain', site: data.site!, reductionUsed: false});
   } else if (kind === 'ground:force-loss') {
     const loss = resolution.action.payload as Loss;
     loss.remaining = remainingForceLoss(m, loss);

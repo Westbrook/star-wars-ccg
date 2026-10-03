@@ -1582,3 +1582,46 @@ There are 116 explicit definitions. Full admission remains closed. This does not
 implement Tusken Breath Mask's Utinni Effect lifecycle, all source cards for these
 modifiers, general game-text cancellation, immunity transfer to passengers,
 vehicles, wider personas or the still-required full-engine/product scope.
+
+### Premiere lightsabers and weapon forfeiture resets
+
+Jedi Lightsaber (`1_155`), Obi-Wan's Lightsaber (`1_157`), and Vader's
+Lightsaber (`1_324`) now have ground-character deployment, transfer, react
+permission, and battle firing implementations. Named weapons require their
+matching persona; Jedi Lightsaber requires a warrior and calculates its cost
+from current ability. The pinned reference uses rounding up for fractional
+deployment payment and truncation for this weapon's firing cost; that fractional
+case is not part of the executed comparison yet.
+
+Each firing uses one saved weapon-destiny sequence for both draws, including
+costs, limits, individual draw responses, substitutions, cancellation and total
+responses. A surviving successful draw still contributes when the other fails.
+Current ground-character ability is the represented defense value. Successful
+named lightsaber hits reset forfeit to zero; generic Jedi Lightsaber only hits.
+Hit prevention also prevents the reset. Weapon resets override ordinary bonuses,
+survive the weapon's departure and turn changes, and expire on restoration to
+normal or departure of the target's original table instance. Talz restoration
+now clears both hit status and the weapon reset, so restored cards regain their
+ordinary forfeiture value. A zero-forfeit hit still requires loss but pays no
+battle damage or attrition.
+
+The drain bonus is an optional response to the owner's initiated drain. The
+saved drain continuation records attempted and resolved sources, permitting each
+physical weapon once; same-title copies do not stack their +1. A resolved bonus
+uses the weapon for the bearer's turn allowance, which permits subsequent use of
+the same weapon but blocks a different weapon for a single-warrior-icon bearer.
+Printed Jedi Luke (`9_24`) now queries attached lightsabers for power +2 and his
+armed immunity branch, including the combined alone-and-armed value.
+
+Evidence: `tests/native-engine/lightsabers.test.mjs` has 51 tests, including exact
+comparisons to 21 fresh observations from five GEMP JUnit tests. The harness runs
+actual deployments, weapon actions, optional drain actions, and Talz restoration;
+all 6,820 production reference files remain byte-identical. See
+`tests/native-engine/gemp/lightsaber-provenance.json` for scope and limitations.
+
+This is component coverage, not full card admission. Creatures, aboard/captured
+and vehicle targets, permanent weapons, general defense-value and forfeiture
+modifiers/prevention, broader weapon targeting/cancellation and character text
+remain unfinished. Existing physical-target behavior is retained; this does not
+resolve the previously recorded target-departure/reentry differences. All full
+native deck admission remains closed. No new Rules Lab studies were added.

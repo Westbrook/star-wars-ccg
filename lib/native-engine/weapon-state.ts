@@ -1,3 +1,4 @@
+import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './board';
 import type {Json, Match} from './types';
 import {cardVersion} from './identity';
@@ -33,3 +34,5 @@ export function assertWeaponUse(m: Match): void {
     if (!m.cards[host] || cardDefinition(m, host).type !== 'Character' || !Array.isArray(weapons) || !weapons.length || weapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon') || versions && (!Array.isArray(versions) || versions.length !== weapons.length || versions.some((v, i) => !Number.isSafeInteger(v) || v < 0 || v > cardVersion(m, weapons[i]))) || new Set(weapons.map((id, i) => id + ':' + (versions?.[i] ?? 0))).size !== weapons.length) throw Error('Invalid weapon-use record.');
   }
 }
+
+export const armedWithLightsaber = (m: Match, id: string): boolean => m.cards[id]?.zone==='table' && Object.values(m.cards).some(c=>c.zone==='table' && c.attachedTo===id && (identities as Record<string,{keywords:string[]}>)[c.blueprint]?.keywords.includes('LIGHTSABER'));

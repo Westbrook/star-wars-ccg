@@ -1,0 +1,27 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T08:22:52.676022+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineLightsaberOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineLightsaberOracleTests.java",
+  "harnessSha256": "2c5019570e2a6c99e793fbba0e234df7b004e3aa935d30609093a26287a6882e",
+  "junitTests": 5,
+  "observations": 21,
+  "results": "lightsaber-results.json",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "officialRulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "scope": [
+    "Actual Premiere lightsaber firing: two physical draws, successful/missed/partial outcomes, Force costs, hit and forfeit reset.",
+    "Actual deployments and optional Force-drain actions; same-title duplicate modifiers do not stack.",
+    "Actual Talz restoration after Vader lightsaber hit; printed Jedi Luke armed power/immunity queries."
+  ],
+  "limitations": [
+    "Fixtures set table positions and Reserve order; they are component conformance, not full-match admission.",
+    "Native prevention, draw limits, react cancellation, original-host reentry and source/target reset lifetime tests are additional native regressions, not all independently executed by this harness.",
+    "Ground characters only; creatures, vehicles, permanent weapons, general defense/forfeit modifiers and weapon prevention/retargeting remain unfinished.",
+    "Jedi Lightsaber fractional deploy and firing costs follow distinct pinned GEMP code paths (ceil deployment, truncated firing); fractional interactions were not executed in this harness.",
+    "Previously recorded official/GEMP differences remain unresolved."
+  ]
+}

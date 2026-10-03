@@ -1218,5 +1218,42 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_159.java"
+  },
+  "1_155": {
+    "keywords": [
+      "LIGHTSABER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_155.java"
+  },
+  "1_157": {
+    "keywords": [
+      "LIGHTSABER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "OBIWANS_LIGHTSABER"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_157.java"
+  },
+  "1_324": {
+    "keywords": [
+      "LIGHTSABER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "VADERS_LIGHTSABER"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_324.java"
   }
 }

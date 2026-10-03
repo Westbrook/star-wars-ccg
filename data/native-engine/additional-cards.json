@@ -926,5 +926,50 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_159.java"
+  },
+  {
+    "gempId": "1_155",
+    "name": "Jedi Lightsaber",
+    "side": "light",
+    "type": "Weapon",
+    "subType": "Character",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/jedilightsaber.gif",
+    "text": "Use X Force to deploy on your warrior where X = (7 - warrior's ability). May add 1 to Force drain where present. May target a character or creature by using X Force. Draw two destiny. Target hit if total destiny > defense value.",
+    "stats": {
+      "destiny": "2"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_155.java"
+  },
+  {
+    "gempId": "1_157",
+    "name": "Obi-Wan's Lightsaber",
+    "side": "light",
+    "type": "Weapon",
+    "subType": "Character",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/obiwanslightsaber.gif",
+    "text": "Deploy on Obi-Wan. May add 1 to Force drain where present. May target a character or creature for free. Draw two destiny. Target hit, and its forfeit = 0, if total destiny > defense value.",
+    "stats": {
+      "destiny": "1"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_157.java"
+  },
+  {
+    "gempId": "1_324",
+    "name": "Vader's Lightsaber",
+    "side": "dark",
+    "type": "Weapon",
+    "subType": "Character",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/vaderslightsaber.gif",
+    "text": "Deploy on Vader. May add 1 to Force drain where present. May target a character or creature for free. Draw two destiny. Target hit, and its forfeit = 0, if total destiny > defense value.",
+    "stats": {
+      "destiny": "1"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_324.java"
   }
 ]
