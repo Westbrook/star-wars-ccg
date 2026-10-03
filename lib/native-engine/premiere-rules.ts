@@ -1,3 +1,4 @@
+import {astromechActions, astromechInitiate, astromechResolve, assertAstromech} from './astromech';
 import {deployEffectActions, deployEffectInitiate, deployEffectResolve, assertDeployEffects} from './deploy-effects';
 import {bactaActions, bactaInitiate, bactaResolve, assertBacta} from './bacta';
 import {assertStatModifiers} from './stat-modifiers';
@@ -35,7 +36,7 @@ import type {Rules} from './runtime';
 import type {Json, Side} from './types';
 import {assertBattle, battleActions, battleAutomatic, battleCanPass, battleChoose, battleChoices, battleInitiate, battleResolve, battleView, syncBattle} from './battle';
 import {equipmentActions, equipmentAutomatic, equipmentInitiate, equipmentResolve, equipmentChoices, equipmentChoose, equipmentView, assertEquipment} from './equipment';
-import {resolveDestiny, assertDestiny} from './destiny';
+import {resolveDestiny, assertDestiny, destinyChoices, destinyChoose} from './destiny';
 import {travelActions, travelInitiate, travelResolve, travelChoices, travelChoose, travelView, assertTravel} from './travel';
 import {assertLeaving, tableChoices, tableChoose} from './table';
 import {assertInterrupts, interruptActions, interruptInitiate, interruptResolve} from './interrupts';
@@ -61,12 +62,13 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
     if (r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
-    if (r.action.handler.startsWith('deploy-effect:')) deployEffectInitiate(m,r);
+    if (r.action.handler.startsWith('astromech:')) astromechInitiate(m,r);
+    else if (r.action.handler.startsWith('deploy-effect:')) deployEffectInitiate(m,r);
     else if (r.action.handler.startsWith('bacta:')) bactaInitiate(m,r);
     else if (r.action.handler.startsWith('fx:')) fxInitiate(m,r);
     else if (r.action.handler.startsWith('medic:')) medicInitiate(m,r);
@@ -102,6 +104,7 @@ export const premiereRules: Rules = {
   },
   resolve: (m, r, context) => {
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('astromech:')) astromechResolve(m,r);
     else if (r.action.handler.startsWith('deploy-effect:')) deployEffectResolve(m,r);
     else if (r.action.handler.startsWith('bacta:')) bactaResolve(m,r);
     else if (r.action.handler.startsWith('forfeiture:')) forfeitureResolve(m,r);
@@ -142,6 +145,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if (d.handler === 'destiny:value') return destinyChoices(m,d);
     if (d.handler.startsWith('force-effect:')) return forceEffectChoices(m, d);
     if (d.handler.startsWith('plans:')) return secretPlansChoices(m, d);
     if (d.handler.startsWith('selection:')) return selectionChoices(m, d);
@@ -157,7 +161,8 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
-    if (d.handler.startsWith('force-effect:')) forceEffectChoose(m, d, c);
+    if (d.handler === 'destiny:value') destinyChoose(m,d,c);
+    else if (d.handler.startsWith('force-effect:')) forceEffectChoose(m, d, c);
     else if (d.handler.startsWith('plans:')) secretPlansChoose(m, d, c);
     else if (d.handler.startsWith('selection:')) selectionChoose(m, d, c);
     else if (d.handler.startsWith('scavenge:')) scavengeChoose(m, d, c);
@@ -176,6 +181,7 @@ export const premiereRules: Rules = {
   canPass: battleCanPass,
   view: (m, seat, now) => ({...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
+    assertAstromech(match);
     assertDeployments(match);
     assertPhaseEffects(match);
     assertAbility(match);

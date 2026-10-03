@@ -1,3 +1,4 @@
+import {cardDefinition} from './definitions';
 import type {Battle} from './battle';
 import type {GroundState} from './ground';
 import type {Match, Side} from './types';
@@ -9,4 +10,13 @@ export function battleMembers(m: Match, side: Side): string[] {
   const b = m.data.battle as Battle | undefined;
   if (!b) return [];
   return b.participants[side].filter(id => !b.departed?.includes(id) && m.cards[id]?.zone === 'table' && m.cards[id].location === b.site && !barred(m,id));
+}
+
+/** Current ground presence. Excluded/nonparticipating cards at the battle site
+ * cannot supply continuous text or form a pair during that battle (AR p60). */
+export function groundPresent(m: Match, id: string): boolean {
+  const c = m.cards[id];
+  if (!c || c.zone !== 'table' || c.attachedTo || c.coveredBy || !c.location || !m.locations.includes(c.location) || cardDefinition(m,id).type !== 'Character') return false;
+  const b = m.data.battle as Battle | undefined;
+  return !b || b.stage === 'complete' || b.site !== c.location || battleMembers(m,c.owner).includes(id);
 }

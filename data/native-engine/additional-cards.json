@@ -52,10 +52,9 @@
       "forfeit": "4"
     },
     "icons": [
-      "Nav Computer",
       "A New Hope"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_014.java"
   },
   {

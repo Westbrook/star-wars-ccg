@@ -1,3 +1,4 @@
+import {selectedPrintedDestiny} from './destiny-values';
 import {protocolPowerBonus, protocolForfeitBonus} from './protocol-droid';
 import {deployValue, medicalDeployReduction} from './deploy-costs';
 import {currentForfeit} from './forfeit';
@@ -16,6 +17,7 @@ import {equipmentState, nighttimeSites} from './equipment-state';
 
 export function printed(m: Match, id: string, property: string): number {
   const card = cardDefinition(m, id), value = (card.stats as Record<string, string>)[property];
+  if (property === 'destiny') {const selected=selectedPrintedDestiny(m,id); if (selected !== undefined) return selected;}
   if (property === 'ability' && card.subType === 'Droid') return 0;
   if (value === undefined || !Number.isFinite(Number(value))) throw Error('Printed value needs a handler: ' + property);
   return Number(value);

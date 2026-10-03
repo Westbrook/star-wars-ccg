@@ -1,9 +1,10 @@
+import {alternateDestinies, choosePrintedDestiny, assertPrintedDestinies, selectedPrintedDestiny} from './destiny-values';
 import {mayBypassDestinyCost, beginDestinySequence, assertDestinyScope, assertDestinySequences, remainingDestinyDraws, countDestinyDraw, replaceDestinyDraw} from './destiny-limits';
 import {printed, weaponDrawBonus} from './board';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {moveCard, moveTop} from './state';
 import {openWindow} from './runtime';
-import {other, sides, type Action, type Json, type Match, type Resolution, type Side} from './types';
+import {other, sides, type Action, type Decision, type Json, type Match, type Resolution, type Side} from './types';
 export type Substitution = {source: string; value: number};
 export type Draw = {card: string | null; value: number | null; substitution?: Substitution; skipped?: 'cost-declined' | 'cost-unpaid' | 'limit'};
 type Context = {next: Action; side: Side; source: string; category: string; scope?: string};
@@ -87,6 +88,28 @@ export function drawDestiny(m: Match, side: Side, source: string, category: stri
   // Do not capture its top card: responses can change the deck before reveal.
   if (capable) openWindow(m, 'response', other(side), {kind: 'destiny-cost', category, source, side});
 }
+type ValueChoice = {start: PendingStart; card: CardReference};
+export function destinyChoices(m: Match, d: Decision): {id: string; label: string}[] {
+  const p=d.payload as unknown as ValueChoice;
+  if(d.handler!=='destiny:value')throw Error('Unknown destiny choice.');
+  return alternateDestinies(m,p.card.id).map(value=>({id:'value:'+value,label:'Choose printed destiny '+value}));
+}
+export function destinyChoose(m: Match, d: Decision, choice: string): void {
+  const p=d.payload as unknown as ValueChoice,value=Number(choice.slice(6));
+  if (d.handler !== 'destiny:value' || !destinyChoices(m,d).some(c=>c.id===choice) || !sameCard(m,p.card)) throw Error('Invalid destiny choice.');
+  choosePrintedDestiny(m,p.card.id,value); finishReveal(m,p.start,p.card.id,false);
+}
+function finishReveal(m: Match, p: PendingStart, card: string | null, limited: boolean): void {
+  const modifier = typeof p.modifier === 'number' ? p.modifier : weaponDrawBonus(m, p.modifier.weapon);
+  const draw: Draw = limited ? {card: null, value: null, skipped: 'limit'} : p.costFailure ? {card: null, value: null, skipped: p.costFailure} : p.substitution ? {card: null, value: p.substitution.value, substitution: {...p.substitution}} : {card, value: card ? printed(m, card, 'destiny') + modifier : null};
+  // Battle adapters preserve their public events and redraw protocol while
+  // sharing the same before-draw boundary and physical draw operation.
+  if (p.drawn) dispatch(m, {...p, next: p.drawn}, {draw: draw as unknown as Json, ...(p.drawn.handler === 'battle:planned-drawn' ? {flow: {...p, ...(card ? {reference: referenceCard(m, card)} : {})} as unknown as Json} : {})});
+  else {
+    queue(m, 'finish', {...p, draw, ...(p.retain && card ? {reference: referenceCard(m, card)} : {})});
+    if (!draw.skipped) openWindow(m, 'response', other(p.side), {kind: draw.value !== null ? 'destiny-drawn' : 'destiny-failed', category: p.category, source: p.source, side: p.side, card, ...(p.substitution ? {substituted: true, value: draw.value} : {})});
+  }
+}
 export function resolveDestiny(m: Match, r: Resolution): void {
   if (r.action.handler === 'destiny:cost') {
     const p = r.action.payload as unknown as PendingStart;
@@ -104,15 +127,9 @@ export function resolveDestiny(m: Match, r: Resolution): void {
     if (card) countDestinyDraw(m, p.scope, 'physical');
     else if (p.substitution) countDestinyDraw(m, p.scope, 'substituted');
     else if (p.costFailure) countDestinyDraw(m, p.scope, 'skipped');
-    const modifier = typeof p.modifier === 'number' ? p.modifier : weaponDrawBonus(m, p.modifier.weapon);
-    const draw: Draw = limited ? {card: null, value: null, skipped: 'limit'} : p.costFailure ? {card: null, value: null, skipped: p.costFailure} : p.substitution ? {card: null, value: p.substitution.value, substitution: {...p.substitution}} : {card, value: card ? printed(m, card, 'destiny') + modifier : null};
-    // Battle adapters preserve their public events and redraw protocol while
-    // sharing the same before-draw boundary and physical draw operation.
-    if (p.drawn) dispatch(m, {...p, next: p.drawn}, {draw: draw as unknown as Json, ...(p.drawn.handler === 'battle:planned-drawn' ? {flow: {...p, ...(card ? {reference: referenceCard(m, card)} : {})} as unknown as Json} : {})});
-    else {
-      queue(m, 'finish', {...p, draw, ...(p.retain && card ? {reference: referenceCard(m, card)} : {})});
-      if (!draw.skipped) openWindow(m, 'response', other(p.side), {kind: draw.value !== null ? 'destiny-drawn' : 'destiny-failed', category: p.category, source: p.source, side: p.side, card, ...(p.substitution ? {substituted: true, value: draw.value} : {})});
-    }
+    if (card && alternateDestinies(m,card).length) {
+      m.stack.push({kind:'decision',side:p.side,handler:'destiny:value',payload:{start:p,card:referenceCard(m,card)} as unknown as Json});
+    } else finishReveal(m,p,card,limited);
     return;
   }
   if (r.action.handler === 'destiny:total-finish') {
@@ -141,7 +158,15 @@ export function resolveDestiny(m: Match, r: Resolution): void {
 }
 
 export function assertDestiny(m: Match): void {
-  assertDestinySequences(m);
+  assertDestinySequences(m); assertPrintedDestinies(m);
+  for (const f of m.stack) if (f.kind==='decision' && f.handler==='destiny:value') {
+    const p=f.payload as unknown as ValueChoice,s=p?.start;
+    if (!s || s.side!==f.side || !sides.includes(s.side) || !m.cards[s.source] || typeof s.category!=='string' || !s.category || !s.next?.handler ||
+        typeof s.includeTotal!=='boolean' || !validModifier(m,s.modifier) || s.substitution || s.costFailure ||
+        s.retain!==undefined && typeof s.retain!=='boolean' || s.retain && (s.includeTotal || s.next.handler!=='selection:drawn' || s.drawn && s.drawn.handler!=='battle:planned-drawn') || s.drawn!==undefined && !s.drawn?.handler) throw Error('Invalid destiny value continuation.');
+    assertCardReference(m,p.card); assertDestinyScope(m,s.scope,s.side,s.source,s.category);
+    if (!sameCard(m,p.card) || p.card.zone!=='destiny' || m.cards[p.card.id].owner!==f.side || !alternateDestinies(m,p.card.id).length || selectedPrintedDestiny(m,p.card.id)!==undefined) throw Error('Invalid destiny value target.');
+  }
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler.startsWith('destiny:')) {
     const p = f.action.payload as unknown as PendingDraw & PendingTotal, h = f.action.handler;
     if (!p || !sides.includes(p.side) || f.actor !== p.side || !m.cards[p.source] || typeof p.category !== 'string' || !p.category || !p.next?.handler ||
