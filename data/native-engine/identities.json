@@ -1315,5 +1315,16 @@
     "uniqueness": "UNIQUE",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_059.java"
+  },
+  "3_86": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "MEDICAL"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_086.java"
   }
 }

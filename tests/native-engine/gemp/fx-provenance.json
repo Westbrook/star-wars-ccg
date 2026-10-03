@@ -1,0 +1,25 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T09:42:05.395648+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineFXOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineFXOracleTests.java",
+  "harnessSha256": "f06726b0085f44c074a5a80fcb3cc683c825462b2b421661c22490d50c4fc535",
+  "junitTests": 1,
+  "observations": 8,
+  "matchingObservations": 8,
+  "results": "fx-results.json",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "officialRulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "scope": [
+    "Actual GEMP blaster-hit and forfeiture flows for FX-7 and FX-10, each at same/adjacent site, declining replacement, and source departure after initiation. Compare credited battle damage and Used/Lost destination.",
+    "Native comparison matrix uses controlled hit setup. Separate native regressions execute real weapon hits for both sides."
+  ],
+  "limitations": [
+    "Official AR p113 erratum restricts replacement to forfeiture. Ordinary-loss wording in pinned GEMP card constructors is obsolete; native deliberately does not offer it.",
+    "Reference fixtures arrange tables and source departure. Only the eight recorded observations are fresh reference comparisons; cancellation, attachment ordering, Talz cost, save validation and instance/turn renewal have native regression coverage.",
+    "FX-7 Bacta Tank X modifier is not implemented. Both droids have component coverage only. Aboard/inactive/captured contexts, permanent droids, text cancellation, wider replacement/prevention and full native matches remain unfinished."
+  ]
+}

@@ -18,10 +18,9 @@ export function medicProtectsForfeit(m: Match, target: string): boolean {
 type Usage = {source: CardReference; turn: number};
 const uses = (m: Match) => (m.data.medicUses ?? []) as unknown as Usage[];
 const used = (m: Match, id: string) => uses(m).some(u => u.turn === m.turn.number && u.source.id === id && sameCard(m,u.source));
-// Explicit represented FX identity; additional FX droids need their own
-// metadata and behavior before full-deck admission.
+// Explicit represented FX identities; permanent droids require aboard rules.
 const withFX = (m: Match, source: string) => Object.values(m.cards).some(c => c.zone === 'table' && c.owner === m.cards[source].owner &&
-  c.blueprint === '3_9' && !c.attachedTo && c.location === m.cards[source].location);
+  ['3_9','3_86'].includes(c.blueprint) && !c.attachedTo && c.location === m.cards[source].location);
 type Payload = {source: CardReference; target: CardReference; site: string};
 const action = (step: string, p: Payload): Action => ({id: 'medic:' + step + ':' + p.source.id + ':' + p.target.id,
   label: 'Corporal Delevar · place forfeited character in Used', handler: 'medic:' + step, source: p.source.id, payload: p as unknown as Json});

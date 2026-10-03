@@ -1051,9 +1051,9 @@
     "icons": [
       "Hoth"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_009.java",
-    "rulesNote": "Current official erratum (Advanced Rulebook p113); FX card actions remain unimplemented."
+    "rulesNote": "Current official erratum (Advanced Rulebook p113). Forfeiture replacement implemented; Bacta Tank variable modifier remains pending."
   },
   {
     "gempId": "3_60",
@@ -1096,5 +1096,26 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_059.java"
+  },
+  {
+    "gempId": "3_86",
+    "name": "FX-10 (Effex-ten)",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Droid",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/fx10effexten.gif",
+    "text": "Once per turn, one of your 'hit' non-droid characters at same or adjacent site may be placed in your Used Pile instead of Lost Pile when forfeited.",
+    "stats": {
+      "deploy": "2",
+      "power": "1",
+      "destiny": "2",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_086.java",
+    "rulesNote": "Current official erratum (Advanced Rulebook p113): forfeiture only."
   }
 ]

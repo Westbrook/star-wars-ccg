@@ -1,5 +1,6 @@
 import {defenseValue} from './defense';
 import {restoreWeaponForfeit} from './forfeit';
+import {beginForfeiture} from './forfeiture';
 import type {LightsaberShot} from './lightsabers';
 import {immuneToAttrition} from './combat-modifiers';
 import {deployed} from './deployment';
@@ -184,7 +185,7 @@ export function battleInitiate(m: Match, r: Resolution): void {
 function forfeitCard(m: Match, id: string, side: Side): void {
   const b = battle(m)!, value = forfeit(m, id);
   if (b.damageLedger) b.damageLedger[side].paid += value; else b.damage[side] = Math.max(0, b.damage[side] - value); syncBattleDamage(m); b.attrition[side] = Math.max(0, b.attrition[side] - value);
-  continuation(m, 'forfeit-result', {card: id}, side); loseFromTable(m, [id]);
+  beginForfeiture(m,id,side,b.site);
 }
 
 function beginEnd(m: Match, premature = false): void {

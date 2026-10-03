@@ -281,7 +281,7 @@ function settle(match: Match, rules: Rules, context: Context): void {
     }
     // Empty cost and phase-boundary windows need no UI step. Check both
     // seats and mandatory triggers before advancing a durable continuation.
-    if (window?.kind === 'window' && ['destiny-cost', 'phase-start', 'phase-end'].includes((window.event as {kind?: string})?.kind ?? '') &&
+    if (window?.kind === 'window' && ['destiny-cost', 'phase-start', 'phase-end', 'about-to-forfeit'].includes((window.event as {kind?: string})?.kind ?? '') &&
       !required(match, window, rules).length && !sides.some(priority => available(match, {...window, priority}, rules).length || rules.canPass?.(match, {...window, priority}, priority) === false)) {
       match.stack.pop(); continue;
     }

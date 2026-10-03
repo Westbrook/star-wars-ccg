@@ -1,0 +1,50 @@
+[
+  {
+    "paid": 2,
+    "used": true,
+    "lost": false,
+    "name": "light-same"
+  },
+  {
+    "paid": 2,
+    "used": true,
+    "lost": false,
+    "name": "light-adjacent"
+  },
+  {
+    "paid": 2,
+    "used": false,
+    "lost": true,
+    "name": "light-skip"
+  },
+  {
+    "paid": 2,
+    "used": true,
+    "lost": false,
+    "name": "light-source-leaves"
+  },
+  {
+    "paid": 2,
+    "used": true,
+    "lost": false,
+    "name": "dark-same"
+  },
+  {
+    "paid": 2,
+    "used": true,
+    "lost": false,
+    "name": "dark-adjacent"
+  },
+  {
+    "paid": 2,
+    "used": false,
+    "lost": true,
+    "name": "dark-skip"
+  },
+  {
+    "paid": 2,
+    "used": true,
+    "lost": false,
+    "name": "dark-source-leaves"
+  }
+]
