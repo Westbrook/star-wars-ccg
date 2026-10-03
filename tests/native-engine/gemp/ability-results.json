@@ -1,0 +1,112 @@
+[
+  {
+    "reoffered": false,
+    "power": 5,
+    "ordinary": 4.0,
+    "name": "dark-trade-1",
+    "spent": 1,
+    "draws": 0
+  },
+  {
+    "reoffered": false,
+    "power": 8,
+    "ordinary": 4.0,
+    "name": "dark-trade-4",
+    "spent": 4,
+    "draws": 0
+  },
+  {
+    "reoffered": false,
+    "power": 5,
+    "ordinary": 4.0,
+    "name": "light-trade-1",
+    "spent": 1,
+    "draws": 0
+  },
+  {
+    "reoffered": false,
+    "power": 8,
+    "ordinary": 4.0,
+    "name": "light-trade-4",
+    "spent": 4,
+    "draws": 0
+  },
+  {
+    "battleAbility": 8.0,
+    "name": "query-add",
+    "ability": 8.0
+  },
+  {
+    "battleAbility": 8.0,
+    "name": "query-battle-add",
+    "ability": 6.0
+  },
+  {
+    "battleAbility": 0.0,
+    "name": "query-battle-prevent",
+    "ability": 6.0
+  },
+  {
+    "battleAbility": 14.0,
+    "name": "query-double-add",
+    "ability": 14.0
+  },
+  {
+    "battleAbility": 5.0,
+    "name": "query-droid",
+    "ability": 5.0
+  },
+  {
+    "battleAbility": 0.5,
+    "name": "query-fraction",
+    "ability": 0.5
+  },
+  {
+    "battleAbility": 2.0,
+    "name": "query-minimum-reset",
+    "ability": 2.0
+  },
+  {
+    "battleAbility": 2.0,
+    "name": "query-reset",
+    "ability": 2.0
+  },
+  {
+    "battleAbility": 4.0,
+    "name": "query-subtract",
+    "ability": 4.0
+  },
+  {
+    "battleAbility": 0.0,
+    "name": "query-zero",
+    "ability": 0.0
+  },
+  {
+    "battleAbility": 1.0,
+    "name": "scramble-no-pilot",
+    "ability": 1.0,
+    "sourceLost": true
+  },
+  {
+    "battleAbility": 0.0,
+    "name": "scramble-pilot",
+    "ability": 2.0,
+    "sourceLost": false
+  },
+  {
+    "battleAbility": 6.0,
+    "name": "scramble-vader",
+    "ability": 6.0,
+    "sourceLost": false
+  },
+  {
+    "name": "sense-lower-target",
+    "targetLost": true,
+    "senseUsed": true
+  },
+  {
+    "name": "sense-raise-other",
+    "targetLost": true,
+    "senseUsed": true
+  }
+]

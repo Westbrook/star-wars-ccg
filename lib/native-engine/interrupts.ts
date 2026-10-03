@@ -1,4 +1,5 @@
-import {cardDefinition, name, printed} from './board';
+import {ability} from './ability';
+import {cardDefinition, name} from './board';
 import {battle, members} from './battle';
 import {drawDestiny, type Draw} from './destiny';
 import {retrieve} from './retrieval';
@@ -25,7 +26,7 @@ export function interruptActions(m: Match, w: Window, side: Side): Action[] {
     if (bp === '1_84' && w.timing === 'response' && e?.kind === 'battle-destiny-drawn' && e.side === side) {
       const parent = m.stack.at(-2), b = battle(m);
       if (b && b.destiny[side] !== null && !b.destinyDraws?.[side]?.substitution && parent?.kind === 'resolution' && parent.action.handler === 'battle:destiny-finish' && !(parent.action.payload as {redraw?: boolean}).redraw)
-        for (const target of members(m, side).filter(id => printed(m, id, 'ability') > 2)) actions.push(action('dice:' + card + ':' + target, "Han's Dice · redraw battle destiny", 'dice', {card, target, drawn: e.card}, 1, side));
+        for (const target of members(m, side).filter(id => ability(m, id) > 2)) actions.push(action('dice:' + card + ':' + target, "Han's Dice · redraw battle destiny", 'dice', {card, target, drawn: e.card}, 1, side));
     }
   }
   return actions;

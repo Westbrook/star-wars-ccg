@@ -829,7 +829,7 @@
         "tests/native-engine/cancellation.test.mjs"
       ],
       "remaining": [
-        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai\u2019torr has native/source evidence."
+        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai’torr has native/source evidence."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/equipment-provenance.json",
@@ -1660,7 +1660,7 @@
         "tests/native-engine/cancellation.test.mjs"
       ],
       "remaining": [
-        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai\u2019torr has native/source evidence."
+        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai’torr has native/source evidence."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/equipment-provenance.json",
@@ -2044,6 +2044,21 @@
         "tests/native-engine/gemp/force-effects-provenance.json"
       ],
       "scope": "107 explicit definitions including two new Effects and three metadata-only Jedi characters. Paid exclusions, immediate retargeting, unrespondable result with cost responses, and defensive Assault destiny. 18 GEMP records: 16 matching, two production-removal differences retained. General ability modifiers, inactive/aboard/captured rules and full admission remain."
+    },
+    "ability": {
+      "implementation": [
+        "lib/native-engine/ability.ts",
+        "lib/native-engine/battle-effects.ts",
+        "lib/native-engine/cancellation.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/ability.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/ability-provenance.json"
+      ],
+      "scope": "Current Character ability, fractional presence, reset/base-double/add, scoped permissions and battle-destiny separation; Scramble and K'lor'slug/Molator table Effects; Sense retains original numerical target. 19 GEMP records: 18 match, one explicit synthetic droid-reset difference resolved in favor of official unmodifiable-zero rule. 111 definitions include metadata-only Darth Vader; full card/deck admission closed."
     }
   },
   "wholeMatchEvidence": {

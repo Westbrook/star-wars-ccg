@@ -1,4 +1,5 @@
-import {battle, members, participatingAbility} from './battle';
+import {battleAbility} from './battle-effects';
+import {battle, members} from './battle';
 import {battleDestinyRequirement, cardDefinition, name} from './board';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {sides, type Match, type Side} from './types';
@@ -52,7 +53,7 @@ export function battleDrawPolicy(m: Match, side: Side, baseLimit: number | null 
   if (cardDefinition(m, b.site).subType === 'Site' && own.some(id => m.cards[id].blueprint === '4_103')) mods.push({kind: 'if-unable', amount: 1});
   // Successfully played optional additions persist after the gambler leaves.
   if (b.gamblersLuck?.side === side) mods.push({kind: 'add', amount: b.gamblersLuck.amount});
-  const ability = participatingAbility(m, side), siteRequirement = battleDestinyRequirement(m, side, b.site);
+  const ability = battleAbility(m, side), siteRequirement = battleDestinyRequirement(m, side, b.site);
   const requirement = Math.max(siteRequirement > 4 ? siteRequirement : 0, ...mods.filter(p => p.kind === 'ability').map(p => p.amount));
   const ordinary = ability < requirement ? 0 : (ability >= 4 ? 1 : 0) + mods.filter(p => p.kind === 'add').reduce((n, p) => n + p.amount, 0);
   const minimum = Math.max(0, ...mods.filter(p => p.kind === 'if-unable').map(p => p.amount));

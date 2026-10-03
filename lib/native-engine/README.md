@@ -1348,9 +1348,53 @@ original table instance, so these two observations remain explicit differences;
 they rule out the earlier simple fixture-movement bypass as the sole cause, not
 adjudicate the rule. Returning-to-table cases still need independent resolution.
 
-The registry now has 107 explicit definitions. Jedi qualification currently uses
-printed side and ability >= 6. General ability
-modifiers, inactive/aboard/captured targets, broader immunity/prevention and full
+That checkpoint brought the registry to 107 explicit definitions. Jedi qualification
+uses printed side and current ability >= 6; the next section adds shared ability
+modifiers. Inactive/aboard/captured targets, broader immunity/prevention and full
 card/deck admission remain unfinished. Yoda, Emperor Palpatine and Jedi Knight
 Luke have explicit metadata for these targeting fixtures; their complete card
 text is not implemented or admitted. Existing studies and GEMP routes remain.
+
+### Current ability and battle Effects
+
+`ability.ts` supplies current Character ability to presence/control, battle
+initiation and premature ending, weapon defense, Sense/Alter, Jedi qualification,
+Smoke Screen, Han's Dice, deployment and movement conditions. Trusted providers
+can register source/turn-scoped additions, resets, and the ability portion of
+base doubling. Resets take precedence; the lowest competing reset wins. Fractional
+values remain fractional. Droids compare as unmodifiable zero (AR pp21,77).
+This is not yet the full doubled-card rule, defined printed ability, Jedi Test
+floors, permanent pilots, creature vehicles, or every ability-modifying card.
+
+Battle-destiny ability is a separate query. `battle-effects.ts` implements the
+ordinary table functions of Scramble (4_37), K'lor'slug (1_53) and Molator (1_225).
+Scramble restricts opposing pilots present at sites, except Vader, without
+changing ordinary ability or presence. All opposing pilots at sites, including
+Vader and excluded pilots, prevent its mandatory cancellation. K'lor'slug and
+Molator offer a once-per-battle weapons action: pay an integer amount up to
+ordinary ability present and available Force, add it to total power, and subtract
+it from ability available for battle destiny. Costs settle before the result;
+resolved bonuses survive source loss and end with that battle. Deployments obey
+unique/per-turn play limits and can be canceled with Alter.
+
+Sense/Alter retain the highest-ability character selected at initiation unless
+an effect explicitly retargets them. A later numerical change can alter the
+comparison, but cannot silently substitute a new character. Ability application
+prevention is checked after determining highest ability; it does not make a
+lower character eligible. Existing original-instance departure/return differences
+remain unresolved and are not hidden by this change.
+
+Evidence: 37 focused tests in `tests/native-engine/ability.test.mjs`, including
+serialized recovery, corruption rejection, fractional presence, source/turn
+expiry, successive battles, current weapon defense and Alter counterplay.
+`gemp/ability-provenance.json` records 19 fresh observations from the unchanged
+6,820-file GEMP production tree. Eighteen match; the synthetic droid-reset probe
+reports ability 5 in GEMP because AbstractDroid inherits an ability attribute.
+Native follows the explicit official unmodifiable-zero rule. The probe does not
+establish a legal named-card route that can grant ability to a droid.
+
+The registry now has 111 definitions. Darth Vader (1_168) is metadata-only for
+the pilot/persona exception check; his other text is not admitted. Dejarik and
+holosite behavior, dynamic icons, inactive/captured/aboard states, broader
+prevention/immunity, additional providers and full card/deck admission remain
+unfinished. No new standalone study or production admission bypass was added.

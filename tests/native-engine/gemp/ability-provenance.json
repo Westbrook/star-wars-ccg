@@ -1,0 +1,35 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T06:07:58.112375+00:00",
+  "harness": "NativeEngineAbilityOracleTests.java",
+  "harnessSha256": "a79638ce80faf0340a51460e0b7229b30d19e26c759db2f2c7b378d9a85886c1",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineAbilityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 4,
+  "observations": 19,
+  "matchingObservations": 18,
+  "productionFilesVerified": 6820,
+  "scope": "Actual mirrored K'lor'slug/Molator actions at weapons opportunities pay 1/4 Force, retain ordinary ability, alter power and battle destiny entitlement, and are not reoffered. Actual Scramble deployment with pilot, Vader or no pilot verifies cancellation and ability separation. Synthetic numeric grants exercise production add/reset/double/battle-ability queries, and two grants during actual Sense responses verify retaining its originally chosen character. Table placement and Reserve order are controlled fixtures.",
+  "differences": [
+    {
+      "name": "query-droid",
+      "gemp": "Synthetic ResetAbilityModifier sets CZ-3 to ability 5; AbstractDroid inherits hasAbilityAttribute=true from AbstractCharacter.",
+      "native": "Droids have no ability; comparisons are unmodifiable zero, including reset and battle-ability grants.",
+      "rules": "AR pp21,77: droid comparison is unmodifiable zero; pp79 excludes droids from highest ability.",
+      "status": "Explicit synthetic-provider difference. Native follows the stated official rule. No named card is claimed to legally grant ability to a droid in this window."
+    }
+  ],
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp28–30: reset precedence, lowest competing reset, no rounding except when specified, and unmodifiable values.",
+    "AR p43: presence requires total ability at least 1. AR p54: loss of presence before damage ends battle.",
+    "AR p148 K'lor'slug: once per battle, original card ability tradeoff.",
+    "Card4_037: opposing pilots except Vader present at sites cannot apply battle-destiny ability; all opposing pilots at sites count for cancellation.",
+    "Card1_053/Card1_225: floor ordinary ability present, pay Force, add total power and subtract total battle-destiny ability until battle ends.",
+    "Card1_109: chosen highest target retained; current ability compared after destiny."
+  ],
+  "limits": "Ground Character ability components only. Jedi Test floors, defined printed ability, permanent/creature-vehicle pilots, inactive/captured/aboard handling, dynamic icons, broad immunity/prevention and all provider cards remain. Base-double only changes ability, not the full doubled-card rule. Dejarik/holosite play and full admission stay closed. Source/turn lifetime, duplicate suppression, corruption, fractional presence, later battles, weapon defense and Alter counterplay also have native tests; do not infer executed GEMP parity for those extra cases."
+}

@@ -1,4 +1,5 @@
-import {cardDefinition, name, printed} from './board';
+import {ability} from './ability';
+import {cardDefinition, name} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
 import {openWindow} from './runtime';
 import {moveCard} from './state';
@@ -28,7 +29,7 @@ export function stunResolve(m: Match, r: Resolution): void {
   } else if (h === 'stun:result') {
     // Compare the completed total with current ability, including zero for a
     // Droid. Equality and failed draws do not return anything to hand.
-    if (sameCard(m, p.targetRef!) && eligible(m, p.target, r.actor) && p.draw!.value !== null && p.draw!.value > printed(m, p.target, 'ability')) {
+    if (sameCard(m, p.targetRef!) && eligible(m, p.target, r.actor) && p.draw!.value !== null && p.draw!.value > ability(m, p.target)) {
       queue(m, 'return', p);
       openWindow(m, 'response', other(r.actor), {kind: 'about-to-return-to-hand', card: p.target, source: p.card});
     }

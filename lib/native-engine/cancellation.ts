@@ -1,4 +1,5 @@
-import {cardDefinition, name, printed} from './board';
+import {ability, mayBeHighestAbility, mayApplySenseAbility} from './ability';
+import {cardDefinition, name} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
 import {topLevel} from './equipment';
 import {resolveCancelledReact} from './ground';
@@ -19,17 +20,18 @@ const action = (step: string, p: CancellationPayload): Action => ({id: 'cancel:'
   label: 'Resolve cancellation', source: p.card, handler: 'cancel:' + step, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: CancellationPayload) => m.stack.push({kind: 'resolution', actor: m.cards[p.card].owner, cancelled: false, action: action(step, p)});
 export function highestAbilityCharacters(m: Match, side: Side, excluded: CardReference[] = []): string[] {
-  const cards = Object.values(m.cards).filter(c => c.zone === 'table' && c.owner === side && cardDefinition(m, c.id).type === 'Character' && printed(m, c.id, 'ability') > 0 && !excluded.some(ref => ref.id === c.id && sameCard(m, ref)));
-  const max = Math.max(0, ...cards.map(c => printed(m, c.id, 'ability')));
-  return cards.filter(c => printed(m, c.id, 'ability') === max).map(c => c.id);
+  const cards = Object.values(m.cards).filter(c => c.zone === 'table' && c.owner === side && cardDefinition(m, c.id).type === 'Character' && ability(m, c.id) > 0 && mayBeHighestAbility(m, c.id) && !excluded.some(ref => ref.id === c.id && sameCard(m, ref)));
+  const max = Math.max(0, ...cards.map(c => ability(m, c.id)));
+  return cards.filter(c => ability(m, c.id) === max).map(c => c.id);
 }
+export const cancellationCharacters = (m: Match, side: Side, excluded: CardReference[] = []) => highestAbilityCharacters(m, side, excluded).filter(id => mayApplySenseAbility(m, id));
 function pending(m: Match, p: CancellationPayload): Resolution | undefined {
   const f = p.targetIndex === undefined ? undefined : m.stack[p.targetIndex], w = p.targetIndex === undefined ? undefined : m.stack[p.targetIndex + 1];
   return f?.kind === 'resolution' && !f.cancelled && !f.awaitingResponses && f.action.id === p.actionId &&
     w?.kind === 'window' && w.serial === p.windowSerial && sameCard(m, p.targetRef!) ? f : undefined;
 }
 export function cancellationActions(m: Match, w: Window, side: Side): Action[] {
-  const result: Action[] = [], highest = highestAbilityCharacters(m, side), parent = m.stack.at(-2);
+  const result: Action[] = [], highest = cancellationCharacters(m, side), parent = m.stack.at(-2);
   // An initiation response has no event. Subsequent effect/destiny responses
   // must never reopen cancellation of the already-resolving Interrupt.
   const responding = w.timing === 'response' && w.event === undefined && parent?.kind === 'resolution' && !parent.awaitingResponses && !parent.cancelled ? parent : undefined;
@@ -77,13 +79,13 @@ export function cancellationResolve(m: Match, r: Resolution): void {
     if (!validTarget(m, p)) return;
     if (p.mode === 'counter') queue(m, 'apply', p);
     else {
-      // Highest-ability targeting is evaluated before the draw; comparison uses
-      // that character's current ability after destiny, not a later arrival.
-      p.eligible = !p.noCharacter && sameCard(m, p.characterRef!) && highestAbilityCharacters(m, r.actor, p.excluded).includes(p.character!);
+      // The highest target was chosen at initiation (or explicit retargeting).
+      // Later numerical changes do not choose a different character.
+      p.eligible = !p.noCharacter && sameCard(m, p.characterRef!);
       drawDestiny(m, r.actor, p.card, 'sense-alter', action('result', p));
     }
   } else if (h === 'cancel:result') {
-    if (p.eligible && sameCard(m, p.characterRef!) && p.draw!.value !== null && p.draw!.value < printed(m, p.character!, 'ability') && validTarget(m, p)) {
+    if (p.eligible && sameCard(m, p.characterRef!) && p.draw!.value !== null && p.draw!.value < ability(m, p.character!) && validTarget(m, p)) {
       queue(m, 'apply', p);
       openWindow(m, 'response', other(r.actor), {kind: 'sense-alter-destiny-successful', source: p.card, side: r.actor});
     }

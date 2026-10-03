@@ -1,3 +1,5 @@
+import {tradedPower, type AbilityTrade} from './battle-effects';
+import {ability} from './ability';
 import {battleDrawPolicy, assertBattleDrawModifiers, type BattleDrawModifier} from './battle-destiny';
 import {beginDestinySequence, assertDestinyScope, remainingDestinyDraws, replaceDestinyDraw} from './destiny-limits';
 import {sameCard} from './identity';
@@ -25,6 +27,7 @@ export type Battle = {
   destinyPlans?: Pair<DestinyPlan | null>;
   destinyScopes?: Partial<Pair<string>>;
   drawModifiers?: BattleDrawModifier[];
+  abilityTrades?: AbilityTrade[];
   gamblersLuck?: {card: string; side: Side; amount: 1 | 2};
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
@@ -61,7 +64,7 @@ export function members(m: Match, side: Side): string[] {
   const b = battle(m); if (!b) return [];
   return b.participants[side].filter(id => !b.departed?.includes(id) && m.cards[id]?.zone === 'table' && m.cards[id].location === b.site && !barred(m, id));
 }
-export const participatingAbility = (m: Match, side: Side) => members(m, side).reduce((n, id) => n + printed(m, id, 'ability'), 0);
+export const participatingAbility = (m: Match, side: Side) => members(m, side).reduce((n, id) => n + ability(m, id), 0);
 export function syncBattle(m: Match): void {
   const b = battle(m); if (!b || b.stage === 'complete') return;
   // Departure ends this participation and clears its hit. A new table instance
@@ -118,7 +121,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
       }
     }
     if (m.turn.phase === 'battle' && (!b || b.stage === 'complete')) for (const site of m.locations) {
-      if (!battleHistory(m).sites.includes(name(m, site)) && sides.every(s => eligibleAt(m, s, site).some(c => printed(m, c.id, 'ability') > 0)))
+      if (!battleHistory(m).sites.includes(name(m, site)) && sides.every(s => eligibleAt(m, s, site).reduce((n,c) => n + ability(m,c.id),0) >= 1))
         actions.push(act('battle:' + site, 'Battle at ' + name(m, site), 'begin', {site}, {[side]: 1}));
     }
   }
@@ -162,7 +165,7 @@ export function battleInitiate(m: Match, r: Resolution): void {
     const b = battle(m)!, id = p.card!, host = m.cards[id].attachedTo!;
     useWeapon(m, id);
     b.fired.push(id); b.users[host] = id;
-    b.shots.push({weapon: id, target: p.target!, side: r.actor, defense: printed(m, p.target!, 'ability'), bonus: weaponBonus(m, id), card: null, destiny: null, hit: null});
+    b.shots.push({weapon: id, target: p.target!, side: r.actor, defense: ability(m, p.target!), bonus: weaponBonus(m, id), card: null, destiny: null, hit: null});
     p.index = b.shots.length - 1;
   } else if (kind === 'battle:rescue') {
     // Talz's forfeiture is the cost; the restoration follows its loss responses.
@@ -195,7 +198,7 @@ export function battleAutomatic(m: Match, w: Window): RequiredAction[] {
   // Only after the current action resolves: never abandon its costs, destiny or
   // pending choices. Presence loss during damage does not terminate the battle.
   if (!b || !['begin', 'weapons', 'power'].includes(b.stage) || m.stack.some(f => f.kind === 'resolution' && !['battle:begin', 'battle:power', 'battle:totals', 'battle:destiny-next', 'battle:destiny-select', 'battle:damage'].includes(f.action.handler))) return [];
-  if (sides.every(s => participatingAbility(m, s) > 0)) return [];
+  if (sides.every(s => participatingAbility(m, s) >= 1)) return [];
   return [{...act('battle-premature-end', 'End battle: presence removed', 'premature'), actor: b.initiator}];
 }
 export function battleResolve(m: Match, r: Resolution): void {
@@ -277,7 +280,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     else windowThen(m, 'power-actions', 'battle-destiny-complete', other(b.initiator));
   } else if (kind === 'battle:power-actions') windowThen(m, 'totals', 'battle-power', b.initiator);
   else if (kind === 'battle:totals') {
-    for (const s of sides) {const ids = members(m, s); b.power[s] = totalPower(m, s, b.site, s !== b.initiator, id => ids.includes(id)) + (b.destiny[s] ?? 0); b.attrition[s] = b.destiny[other(s)] ?? 0;}
+    for (const s of sides) {const ids = members(m, s); b.power[s] = totalPower(m, s, b.site, s !== b.initiator, id => ids.includes(id)) + (b.destiny[s] ?? 0) + tradedPower(m,s); b.attrition[s] = b.destiny[other(s)] ?? 0;}
     for (const s of sides) b.damage[s] = Math.max(0, b.power[other(s)] - b.power[s]);
     b.damageLedger = pair(lossLedger(b.damage.dark, 'battle'), lossLedger(b.damage.light, 'battle'));
     for (const s of sides) b.damageLedger[s].multiplier = (b.damageMultipliers ?? []).filter(v => v.side === 'both' || v.side === s).reduce((n, v) => n * v.factor, 1);
@@ -309,7 +312,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     completeDestinyTotal(m, side, shot.weapon, 'weapon', [p.draw!], act('shot-result', 'Resolve weapon result', 'shot-result', {index: p.index}));
   } else if (kind === 'battle:shot-result') {
     const shot = b.shots[p.index!]; shot.total = p.total!;
-    shot.defense = printed(m, shot.target, 'ability');
+    shot.defense = ability(m, shot.target);
     shot.hit = shot.total !== null && shot.total + weapons[m.cards[shot.weapon].blueprint].bonus > shot.defense;
     continuation(m, 'shot-complete', {index: p.index}, side);
     if (shot.hit && members(m, other(shot.side)).includes(shot.target)) {

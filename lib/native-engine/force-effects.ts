@@ -1,5 +1,6 @@
-import {cardDefinition, name, printed} from './board';
-import {highestAbilityCharacters, type CancellationPayload} from './cancellation';
+import {ability} from './ability';
+import {cardDefinition, name} from './board';
+import {cancellationCharacters, type CancellationPayload} from './cancellation';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {canEnterTable} from './persona';
 import {openWindow, queueForcePayment} from './runtime';
@@ -17,9 +18,9 @@ const target = (m: Match, p: Payload): Resolution | undefined => {
     w?.kind === 'window' && w.timing === 'response' && w.event === undefined && w.serial === p.windowSerial ? r : undefined;
 };
 // Jedi / Dark Jedi are current ability >= 6 and the printed side, not a
-// substring in a title or an icon. Shared ability modifiers remain outstanding.
+// substring in a title or an icon. Live modifiers feed both checks.
 const jedi = (m: Match, id: string, source: string) => m.cards[id]?.zone === 'table' &&
-  cardDefinition(m, id).side === other(m.cards[source].owner) && cardDefinition(m, id).type === 'Character' && printed(m, id, 'ability') >= 6;
+  cardDefinition(m, id).side === other(m.cards[source].owner) && cardDefinition(m, id).type === 'Character' && ability(m, id) >= 6;
 const candidates = (m: Match, p: Payload) => Object.keys(m.cards).filter(id => jedi(m, id, p.card));
 export function forceEffectActions(m: Match, w: Window, side: Side): Action[] {
   const actions: Action[] = [];
@@ -59,7 +60,7 @@ export function forceEffectResolve(m: Match, r: Resolution): void {
   else if (r.action.handler === 'force-effect:exclude') {
     const q = pending.action.payload as CancellationPayload;
     q.exclusionUsed = true; q.excluded = p.selected!;
-    const eligible = highestAbilityCharacters(m, pending.actor, q.excluded);
+    const eligible = cancellationCharacters(m, pending.actor, q.excluded);
     if (!q.character || !sameCard(m, q.characterRef!) || !eligible.includes(q.character)) {
       if (!eligible.length) {delete q.character; delete q.characterRef; q.noCharacter = true;}
       else m.stack.push({kind: 'decision', side: pending.actor, handler: 'force-effect:retarget', payload: p as unknown as Json});
@@ -69,8 +70,8 @@ export function forceEffectResolve(m: Match, r: Resolution): void {
 export function forceEffectChoices(m: Match, d: Decision) {
   const p = d.payload as Payload, r = target(m, p);
   if (!r) throw Error('Missing Force Effect target.');
-  if (d.handler === 'force-effect:retarget') return highestAbilityCharacters(m, r.actor, (r.action.payload as CancellationPayload).excluded)
-    .map(id => ({id: 'force-effect:target:' + id, label: 'Use ' + name(m, id) + ' · ability ' + printed(m, id, 'ability')}));
+  if (d.handler === 'force-effect:retarget') return cancellationCharacters(m, r.actor, (r.action.payload as CancellationPayload).excluded)
+    .map(id => ({id: 'force-effect:target:' + id, label: 'Use ' + name(m, id) + ' · ability ' + ability(m, id)}));
   const selected = p.selected!;
   return [...candidates(m, p).filter(id => selected.some(ref => ref.id === id) || selected.length < m.players[d.side].force.length)
     .map(id => ({id: 'force-effect:select:' + id, label: (selected.some(ref => ref.id === id) ? 'Remove ' : 'Exclude ') + name(m, id)})),
@@ -81,7 +82,7 @@ export function forceEffectChoose(m: Match, d: Decision, choice: string): void {
   if (!r) throw Error('Missing Force Effect target.');
   if (d.handler === 'force-effect:retarget') {
     const id = choice.slice('force-effect:target:'.length), q = r.action.payload as CancellationPayload;
-    if (!highestAbilityCharacters(m, r.actor, q.excluded).includes(id)) throw Error('Invalid highest-ability replacement.');
+    if (!cancellationCharacters(m, r.actor, q.excluded).includes(id)) throw Error('Invalid highest-ability replacement.');
     q.character = id; q.characterRef = referenceCard(m, id); return;
   }
   if (choice === 'force-effect:confirm') {
@@ -113,7 +114,7 @@ export function assertForceEffects(m: Match): void {
       if (f.kind !== 'resolution' || f.action.payment?.[side] !== 1 || (f.action.payment?.[other(side)] ?? 0) !== 0 || p.selected !== undefined) throw Error('Invalid Assault bonus cost.');
     } else {
       if (!Array.isArray(p.selected) || new Set(p.selected.map(ref => ref.id)).size !== p.selected.length || p.selected.length > m.deckSize) throw Error('Invalid Jedi selection.');
-      for (const ref of p.selected) {assertCardReference(m, ref); if (ref.zone !== 'table' || cardDefinition(m, ref.id).type !== 'Character' || cardDefinition(m, ref.id).side !== other(m.cards[p.card].owner) || printed(m, ref.id, 'ability') < 6) throw Error('Invalid Jedi reference.');}
+      for (const ref of p.selected) {assertCardReference(m, ref); if (ref.zone !== 'table' || cardDefinition(m, ref.id).type !== 'Character' || cardDefinition(m, ref.id).side !== other(m.cards[p.card].owner)) throw Error('Invalid Jedi reference.');}
       if (h === 'force-effect:select') {
         const parent = m.stack[index - 1];
         if (parent?.kind !== 'resolution' || parent.action.handler !== 'force-effect:exclude' || !parent.awaitingResponses || parent.action.source !== p.card ||

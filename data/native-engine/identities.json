@@ -1126,5 +1126,50 @@
       "LUKE"
     ],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/light/Card9_024.java"
+  },
+  "4_37": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_037.java"
+  },
+  "1_53": {
+    "keywords": [
+      "DEJARIK"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_053.java"
+  },
+  "1_225": {
+    "keywords": [
+      "DEJARIK",
+      "HOLOGRAM"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_225.java"
+  },
+  "1_168": {
+    "keywords": [
+      "BLACK_SQUADRON"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "VADER"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_168.java"
   }
 }

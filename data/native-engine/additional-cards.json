@@ -99,7 +99,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler\u2019s Luck",
+    "name": "Gambler’s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -774,5 +774,74 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/light/Card9_024.java"
+  },
+  {
+    "gempId": "4_37",
+    "name": "Scramble",
+    "side": "light",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Light/large/scramble.gif",
+    "text": "Deploy on opponent's side of table. Opponent's pilots (except Vader) present at sites may not use ability to draw battle destiny. Effect canceled when opponent has no pilots at sites.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "Dagobah"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_037.java"
+  },
+  {
+    "gempId": "1_53",
+    "name": "K'lor'slug",
+    "side": "light",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/klorslug.gif",
+    "text": "Deploy on your side of table. For each unit of ability you have present during a battle, you may use 1 Force to raise your total power by 1. Ability used in this way cannot also be used to draw destiny.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_053.java"
+  },
+  {
+    "gempId": "1_225",
+    "name": "Molator",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/molator.gif",
+    "text": "Deploy on your side of table. For each unit of ability you have present during a battle, you may use 1 Force to raise your total power by 1. Ability used in this way cannot also be used to draw destiny.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_225.java"
+  },
+  {
+    "gempId": "1_168",
+    "name": "Darth Vader",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/darthvader.gif",
+    "text": "When in battle, adds 1 to each of your battle destiny draws. Adds 3 to power of anything he pilots (or 4 to power and 3 to maneuver if Vader's Custom TIE). Immune to attrition < 5.",
+    "stats": {
+      "deploy": "6",
+      "power": "6",
+      "ability": "6",
+      "destiny": "1",
+      "forfeit": "8"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_168.java"
   }
 ]

@@ -1,6 +1,7 @@
+import {ability} from './ability';
 import {canPlayCard, recordCardPlay} from './persona';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
-import {adjacent, atSite, cardDefinition, controls, moveWithAttachments, name, printed, sitePlacements, system} from './board';
+import {adjacent, atSite, cardDefinition, controls, moveWithAttachments, name, sitePlacements, system} from './board';
 import {battle, battleHistory, members} from './battle';
 import {canMove, groundResolve, record} from './ground';
 import {openWindow, queueForcePayment, type Context} from './runtime';
@@ -50,10 +51,10 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
           result.push(action('run-luke:' + card + ':' + luke.id, 'Run Luke, Run! · move Luke to battle for free', 'run', {card, target: luke.id, from: luke.location, to: b.site}));
       // Move-away initiation needs a related destination, not affordable movement.
       if (m.cards[card].blueprint === '1_98' && b.initiator !== side && m.locations.some(id => id !== b.site && system(m, id) === system(m, b.site))) {
-        const rebels = members(m, side).filter(id => cardDefinition(m, id).subType === 'Rebel' && printed(m, id, 'ability') > 2);
+        const rebels = members(m, side).filter(id => cardDefinition(m, id).subType === 'Rebel' && ability(m, id) > 2);
         for (const target of rebels) result.push(action('escape:' + card + (rebels.length > 1 ? ':' + target : ''),
           'Narrow Escape · target ' + name(m, target) + ' and attempt to move your cards with ability away', 'escape',
-          {card, target, from: b.site, remaining: members(m, side).filter(id => printed(m, id, 'ability') > 0)}));
+          {card, target, from: b.site, remaining: members(m, side).filter(id => ability(m, id) > 0)}));
       }
     }
   }

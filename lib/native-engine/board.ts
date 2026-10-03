@@ -1,3 +1,4 @@
+import {ability} from './ability';
 import {canPlayCard, isUnique} from './persona';
 import {cardDefinition} from './definitions';
 export {cardDefinition, definition} from './definitions';
@@ -16,7 +17,7 @@ export const name = (m: Match, id: string) => cardDefinition(m, id).name;
 export const system = (m: Match, site: string) => premiereSites[m.cards[site]?.blueprint]?.system;
 export const atSite = (m: Match, site: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.location === site && !c.attachedTo && cardDefinition(m, c.id).type === 'Character');
 export const adjacent = (m: Match, a: string, b: string) => m.locations.includes(a) && m.locations.includes(b) && system(m, a) === system(m, b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
-export const abilityAt = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + printed(m, c.id, 'ability'), 0);
+export const abilityAt = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0);
 export const presence = (m: Match, side: Side, site: string) => abilityAt(m, side, site) >= 1;
 export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + premiereSites[m.cards[id].blueprint].icons[side], 0);
 
@@ -64,7 +65,7 @@ export function deploymentPayment(m: Match, id: string, site: string): Payment |
   if (blueprint === '101_2' && m.cards[site].blueprint === '1_132') cost--;
   if (['1_28', '1_194'].includes(blueprint)) {
     const faction = side === 'light' ? 'Rebel' : 'Imperial';
-    if (atSite(m, site).some(c => c.owner === side && cardDefinition(m, c.id).subType === faction && printed(m, c.id, 'ability') > 2)) cost = 0;
+    if (atSite(m, site).some(c => c.owner === side && cardDefinition(m, c.id).subType === faction && ability(m, c.id) > 2)) cost = 0;
   }
   return {[side]: Math.max(0, cost)};
 }
@@ -115,7 +116,7 @@ export function drainAmount(m: Match, side: Side, site: string): number {
   let value = premiereSites[m.cards[site].blueprint].icons[other(side)];
   const blueprint = m.cards[site].blueprint;
   if (side === 'light' && blueprint === '1_284' || side === 'dark' && blueprint === '1_293') value++;
-  if (side === 'light' && blueprint === '101_4' && atSite(m, site).some(c => c.owner === side && cardDefinition(m, c.id).subType === 'Rebel' && printed(m, c.id, 'ability') > 2)) value += 2;
+  if (side === 'light' && blueprint === '101_4' && atSite(m, site).some(c => c.owner === side && cardDefinition(m, c.id).subType === 'Rebel' && ability(m, c.id) > 2)) value += 2;
   return value;
 }
 
