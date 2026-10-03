@@ -1,3 +1,4 @@
+import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {attached, cardDefinition, name} from './board';
 import {battle, members} from './battle';
@@ -7,7 +8,7 @@ import {completeDestinyTotal, drawDestiny, validDraw, type Draw} from './destiny
 import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
-export type GaderffiiShot = {weapon: string; host: string; target: string; side: Side; draws: Draw[]; total: number | null; outcome: 'pending' | 'canceled' | 'invalid' | 'miss' | 'knocked'; weapons: string[]};
+export type GaderffiiShot = {scope?: string; weapon: string; host: string; target: string; side: Side; draws: Draw[]; total: number | null; outcome: 'pending' | 'canceled' | 'invalid' | 'miss' | 'knocked'; weapons: string[]};
 type Payload = {attachment?: AttachmentAttempt; card: string; target?: string; site?: string; index?: number; draw?: Draw; draws?: Draw[]; total?: number | null; transfer?: boolean; react?: boolean; via?: string};
 const action = (step: string, p: Payload): Action => ({id: 'gaffi:' + step + ':' + p.card + (p.target ? ':' + p.target : ''), label: step === 'equip' ? (p.transfer ? 'Transfer ' : 'Deploy ') + 'Gaderffii Stick' : 'Swing Gaderffii Stick', handler: 'gaffi:' + step, source: p.card, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: Payload, side: Side) => m.stack.push({kind: 'resolution', actor: side, action: action(step, p), cancelled: false});
@@ -61,10 +62,11 @@ export function gaderffiiResolve(m: Match, r: Resolution): void {
     // The weapon, bearer and armed target were legal at initiation. Changes
     // during responses don't undo that action (AR p15): finish both draws,
     // then determine whether the target can receive the result.
+    shot.scope = beginDestinySequence(m, side, shot.weapon, 'weapon');
     queue(m, 'draw', p, side);
   } else if (h === 'gaffi:draw') {
     if (p.draw) {shot.draws.push(p.draw); delete p.draw;}
-    if (shot.draws.length < 2) drawDestiny(m, side, shot.weapon, 'weapon', action('draw', p), false, {weapon: shot.weapon});
+    if (shot.draws.length < 2) drawDestiny(m, side, shot.weapon, 'weapon', action('draw', p), false, {weapon: shot.weapon}, undefined, false, shot.scope);
     else completeDestinyTotal(m, side, shot.weapon, 'weapon', shot.draws, action('result', p));
   } else if (h === 'gaffi:result') {
     shot.total = p.total!; shot.outcome = 'miss';
@@ -80,6 +82,7 @@ export function gaderffiiResolve(m: Match, r: Resolution): void {
 export function assertGaderffii(m: Match): void {
   const b = battle(m);
   for (const shot of b?.gaffiShots ?? []) {
+    assertDestinyScope(m, shot.scope, shot.side, shot.weapon, 'weapon');
     if (m.cards[shot.weapon]?.blueprint !== '1_315' || m.cards[shot.weapon].owner !== shot.side || !sides.includes(shot.side) || !m.cards[shot.host] || !m.cards[shot.target] || !Array.isArray(shot.draws) || shot.draws.length > 2 || shot.draws.some(d => !validDraw(m, d, shot.side)) || shot.total !== null && (!Number.isFinite(shot.total) || shot.total < 0) || !['pending','canceled','invalid','miss','knocked'].includes(shot.outcome) || !Array.isArray(shot.weapons) || new Set(shot.weapons).size !== shot.weapons.length || shot.weapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon')) throw Error('Invalid Gaderffii Stick record.');
     if (['miss','knocked'].includes(shot.outcome) && shot.draws.length !== 2 || shot.outcome === 'knocked' && (shot.total === null || shot.total <= 5 || !shot.weapons.length)) throw Error('Invalid Gaderffii Stick result.');
   }

@@ -1,0 +1,39 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T00:30:55.757257+00:00",
+  "harness": "NativeEngineDestinyLimitOracleTests.java",
+  "harnessSha256": "2ba8f15d1074b97d29b2a8da9c225c18ef0cbe5f415d19d2c34ee535b267938f",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDestinyLimitOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 13,
+  "productionFilesVerified": 6820,
+  "scope": "Production DrawDestinyEffect and MayNotDrawMoreThanBattleDestinyModifier during a real ground battle. Fixture sets a numeric cap and directly invokes controlled cancellation/substitution/cost-failure APIs; no granting card is certified. Full trace, total, physical reveals and unresolved count compared. Native battle integration additionally exercises real Gambler\u2019s Luck, Smoke Screen and Han\u2019s Dice with a fixture numeric cap.",
+  "comparisons": {
+    "matching": [
+      "zero",
+      "one",
+      "two",
+      "cancel",
+      "redraw",
+      "substitute-first",
+      "substitute-late",
+      "select-cap-one",
+      "select-cap-two",
+      "convert-cap-one",
+      "convert-cap-two",
+      "cost-skip",
+      "substitute-cap-lowered"
+    ]
+  },
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p32: canceled draws count against limits unless redrawn; each draw-X candidate counts; mandatory group truncates to limit; substituted values do not consume limits.",
+    "AR pp33\u201334: physical-first exhausts cap before later substitution; optional draw-two conversion is unavailable under cap one.",
+    "GEMP DrawDestinyEffect tracks physical and skipped-cost slots separately but applies both against limits; substitution consumes neither, redraw replaces physical count."
+  ],
+  "limits": "Current numeric cap supplied by rule-owned setter; general dynamic modifier registry, actual cap-granting card behavior and if-unable-to-otherwise/no-limits overrides remain required. Counts are per sequence; broader turn-wide destiny prohibitions need their own governing scope. Full deck/match admission remains closed."
+}

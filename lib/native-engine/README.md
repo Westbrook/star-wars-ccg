@@ -885,6 +885,24 @@ continuations still advance. Redraws and selection candidates each check costs.
 An empty Reserve cannot incur a draw cost, and cost windows with no legal action
 auto-settle. Eight mechanism observations agree with pinned GEMP.
 
-Physical draw limits, generic “if unable to otherwise” permission, cost
+Generic “if unable to otherwise” permission, cost
 prevention/replacement and card-specific tax providers remain required before
 full admission; this mechanism does not certify Gold Leader or other tax cards.
+
+### Physical destiny limits
+
+`destiny-limits.ts` stores independent draw sequences for each side of a battle,
+selection group, duel side, weapon action and Assault. Physical draws consume
+allowance; substitutions do not. Plain cancellation keeps its slot, while a
+cancel-and-redraw continuation releases it before the replacement's cost check.
+Skipped costs are recorded separately and count against the numeric cap, matching
+GEMP. Limits are checked before costs, before substitution opportunities and again
+before physical reveal. A resolved substitution remains a value if the limit
+changes afterward. Nested sequences cannot consume the parent's allowance.
+
+Required draw-and-choose groups stop at the cap and resolve surviving candidates;
+optional conversions require room for all X draws at initiation and resolution.
+Gambler’s Luck, Smoke Screen and both Dice paths share the battle sequence. Thirteen
+fresh reference observations match. General modifier aggregation, cap-granting
+cards, no-limit/if-unable overrides and turn-wide prohibitions remain required.
+The numeric setter is a rules-provider API, not a client command.

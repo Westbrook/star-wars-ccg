@@ -1,3 +1,4 @@
+import {beginDestinySequence, assertDestinyScope, remainingDestinyDraws} from './destiny-limits';
 import {name} from './board';
 import {completeDestinyTotal, drawDestiny, validDraw, type Draw, type Modifier} from './destiny';
 import {assertCardReference, sameCard, type CardReference} from './identity';
@@ -6,7 +7,7 @@ import {sides, type Action, type Decision, type Json, type Match, type Resolutio
 
 type Candidate = {draw: Draw; reference?: CardReference};
 type Selection = {
-  side: Side; source: string; category: string; next: Action; drawX: number; chooseY: number;
+  side: Side; source: string; category: string; scope?: string; next: Action; drawX: number; chooseY: number;
   complete: boolean; includeTotal: boolean; drawn?: Action; modifier: Modifier; remainder: 'used' | 'hand'; candidates: Candidate[]; selected: number[];
 };
 type Result = Selection & {draw: Draw; reference?: CardReference};
@@ -14,12 +15,12 @@ const eligible = (p: Selection) => p.candidates.flatMap((c, i) => c.draw.value !
 const queue = (m: Match, p: Selection) => m.stack.push({kind: 'resolution', actor: p.side, cancelled: false,
   action: {id: 'selection:next', label: 'Continue destiny selection', handler: 'selection:next', payload: p as unknown as Json}});
 
-/** Draw X, then select Y values. A caller supplies the applicable limit by
- * scheduling the permitted draw count. This does not grant any card permission
+/** Draw X, then select Y values. An optional shared sequence supplies the
+ * current physical limit, which is rechecked before each candidate. This does not grant any card permission
  * or replace the battle/weapon adapters' own legal drawing opportunities. */
 export function drawDestinySelection(m: Match, side: Side, source: string, category: string, drawX: number, chooseY: number,
-  next: Action, modifier: Modifier = 0, remainder: 'used' | 'hand' = 'used', options: {drawn?: Action; includeTotal?: boolean} = {}): void {
-  const p: Selection = {side, source, category, drawX, chooseY, next, complete: false, includeTotal: options.includeTotal !== false, ...(options.drawn ? {drawn: options.drawn} : {}), modifier, remainder, candidates: [], selected: []};
+  next: Action, modifier: Modifier = 0, remainder: 'used' | 'hand' = 'used', options: {drawn?: Action; includeTotal?: boolean; scope?: string} = {}): void {
+  const p: Selection = {side, source, category, scope: options.scope ?? beginDestinySequence(m, side, source, category), drawX, chooseY, next, complete: false, includeTotal: options.includeTotal !== false, ...(options.drawn ? {drawn: options.drawn} : {}), modifier, remainder, candidates: [], selected: []};
   assertSelection(m, p); advance(m, p);
 }
 
@@ -28,9 +29,9 @@ export function drawDestinySelection(m: Match, side: Side, source: string, categ
  * twice or revealing a candidate before the player elects to convert. */
 export function convertDestinySelection(m: Match, r: Resolution, drawX: number, chooseY: number, next: Action): boolean {
   if (!m.stack.includes(r) || r.action.handler !== 'destiny:draw' || r.cancelled) return false;
-  const p = r.action.payload as unknown as {side: Side; source: string; category: string; next: Action; includeTotal: boolean; modifier: Modifier; drawn?: Action; retain?: boolean; substitution?: unknown};
-  if (p.retain || p.substitution) return false;
-  const batch: Selection = {side: p.side, source: p.source, category: p.category, next, drawX, chooseY, complete: false,
+  const p = r.action.payload as unknown as {side: Side; source: string; category: string; scope?: string; next: Action; includeTotal: boolean; modifier: Modifier; drawn?: Action; retain?: boolean; substitution?: unknown};
+  if (p.retain || p.substitution || remainingDestinyDraws(m, p.scope) < drawX) return false;
+  const batch: Selection = {side: p.side, source: p.source, category: p.category, ...(p.scope ? {scope: p.scope} : {}), next, drawX, chooseY, complete: false,
     includeTotal: false, modifier: p.modifier, ...(p.drawn ? {drawn: p.drawn} : {}), remainder: 'used', candidates: [], selected: []};
   assertSelection(m, batch);
   p.next = {id: 'selection:drawn', label: 'Keep unresolved destiny', handler: 'selection:drawn', payload: batch as unknown as Json};
@@ -44,10 +45,10 @@ function place(m: Match, c: Candidate, zone: 'used' | 'hand'): void {
   if (c.reference && sameCard(m, c.reference)) moveCard(m, c.reference.id, zone);
 }
 function advance(m: Match, p: Selection): void {
-  p.complete ||= p.candidates.length === p.drawX || !m.players[p.side].reserve.length;
+  p.complete ||= p.candidates.length === p.drawX || !m.players[p.side].reserve.length || remainingDestinyDraws(m, p.scope) === 0;
   if (!p.complete) {
     const next: Action = {id: 'selection:drawn', label: 'Keep unresolved destiny', handler: 'selection:drawn', payload: p as unknown as Json};
-    drawDestiny(m, p.side, p.source, p.category, next, false, p.modifier, p.drawn, true); return;
+    drawDestiny(m, p.side, p.source, p.category, next, false, p.modifier, p.drawn, true, p.scope); return;
   }
   if (p.selected.length < p.chooseY && eligible(p).length) {
     m.stack.push({kind: 'decision', side: p.side, handler: 'selection:choose', payload: p as unknown as Json}); return;
@@ -91,6 +92,7 @@ function assertSelection(m: Match, p: Selection): void {
     p.selected.some(i => !Number.isSafeInteger(i) || i < 0 || !p.candidates[i] || p.candidates[i].draw.value === null) ||
     p.selected.length > 0 && !p.complete ||
     (typeof p.modifier === 'number' ? !Number.isFinite(p.modifier) : !p.modifier || !m.cards[p.modifier.weapon])) throw Error('Invalid destiny selection.');
+  assertDestinyScope(m, p.scope, p.side, p.source, p.category);
   p.candidates.forEach(c => assertCandidate(m, c, p.side));
   const refs = p.candidates.flatMap(c => c.reference ? [c.reference.id + ':' + c.reference.version] : []);
   if (new Set(refs).size !== refs.length) throw Error('Duplicate destiny candidate.');
@@ -110,10 +112,10 @@ export function assertDestinySelection(m: Match): void {
       if (handler === 'selection:drawn') {const r = payload as unknown as Result; assertCandidate(m, {draw: r.draw, reference: r.reference}, p.side);}
     } else if (f.kind === 'resolution') {
       const raw = f.action.payload as {flow?: unknown};
-      const p = (handler.startsWith('destiny:') ? raw : raw?.flow ?? {}) as {next?: Action; retain?: boolean; side?: Side; category?: string; source?: string};
+      const p = (handler.startsWith('destiny:') ? raw : raw?.flow ?? {}) as {next?: Action; retain?: boolean; side?: Side; category?: string; source?: string; scope?: string};
       if (p.next?.handler === 'selection:drawn') {
         const batch = p.next.payload as unknown as Selection; assertSelection(m, batch);
-        if (!p.retain || p.side !== batch.side || p.category !== batch.category || p.source !== batch.source || batch.complete || batch.candidates.length >= batch.drawX || batch.selected.length) throw Error('Invalid selection draw continuation.');
+        if (!p.retain || p.side !== batch.side || p.category !== batch.category || p.source !== batch.source || p.scope !== batch.scope || batch.complete || batch.candidates.length >= batch.drawX || batch.selected.length) throw Error('Invalid selection draw continuation.');
       }
     }
   }

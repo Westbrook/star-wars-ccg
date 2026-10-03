@@ -1,3 +1,4 @@
+import {beginDestinySequence, assertDestinyScope, remainingDestinyDraws, replaceDestinyDraw} from './destiny-limits';
 import {sameCard} from './identity';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import type {GaderffiiShot} from './gaderffii';
@@ -21,6 +22,7 @@ export type Battle = {
   destiny: Pair<number | null>; destinyCards: Pair<string | null>; power: Pair<number>;
   destinyDraws?: Pair<Draw | null>;
   destinyPlans?: Pair<DestinyPlan | null>;
+  destinyScopes?: Partial<Pair<string>>;
   gamblersLuck?: {card: string; side: Side; amount: 1 | 2};
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
@@ -33,6 +35,12 @@ type History = {turn: number; sites: string[]; participants: string[]};
 type Payload = {flow?: DrawFlow; draws?: Draw[]; attachment?: AttachmentAttempt; site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
 const pair = <T>(dark: T, light: T): Pair<T> => ({dark, light});
 export const battle = (m: Match) => m.data.battle as Battle | undefined;
+/** One shared physical-draw allowance per side for this battle. */
+export function battleDestinyScope(m: Match, side: Side): string {
+  const b = battle(m);
+  if (!b || b.stage === 'complete') throw Error('No active battle destiny scope.');
+  return (b.destinyScopes ??= {})[side] ??= beginDestinySequence(m, side, b.site, 'battle');
+}
 export const battleHistory = (m: Match): History => {
   const h = m.data.battles as History | undefined;
   return h?.turn === m.turn.number ? h : {turn: m.turn.number, sites: [], participants: []};
@@ -195,15 +203,17 @@ export function battleResolve(m: Match, r: Resolution): void {
       const f = p.flow, original = b!.destinyDraws![f.side]!;
       if (p.redraw && !original.substitution) {
         if (f.reference && sameCard(m, f.reference)) moveCard(m, f.reference.id, 'used');
-        drawDestiny(m, f.side, f.source, f.category, f.next, false, f.modifier, f.drawn, f.retain);
+        if (original.card) replaceDestinyDraw(m, f.scope);
+        drawDestiny(m, f.side, f.source, f.category, f.next, false, f.modifier, f.drawn, f.retain, f.scope);
       } else {
         const value = original.substitution?.value ?? (r.cancelled ? null : b!.destiny[f.side]);
         b!.destiny[f.side] = value === null ? null : Math.max(0, value);
-        completeDestinyDraw(m, f.side, f.source, f.category, {...original, value: b!.destiny[f.side]}, f.next, false, f.retain, f.retain ? f.reference : undefined);
+        completeDestinyDraw(m, f.side, f.source, f.category, {...original, value: b!.destiny[f.side]}, f.next, false, f.retain, f.retain ? f.reference : undefined, f.scope);
       }
       return;
     }
     if (p.redraw) {
+      if (p.card) replaceDestinyDraw(m, b!.destinyScopes?.[p.side!]);
       if (p.card && m.cards[p.card].zone === 'destiny') moveCard(m, p.card, 'used');
       if (m.players[p.side!].reserve.length) {battleChoose(m, {kind: 'decision', side: p.side!, handler: 'battle:destiny', payload: null}, 'draw-destiny'); return;}
       b!.destiny[p.side!] = null; b!.destinyCards[p.side!] = null;
@@ -245,9 +255,10 @@ export function battleResolve(m: Match, r: Resolution): void {
   else if (kind === 'battle:destiny-select') {
     const ability = participatingAbility(m, p.side!), requirement = battleDestinyRequirement(m, p.side!, b.site);
     const extra = b.gamblersLuck && b.gamblersLuck.side === p.side ? b.gamblersLuck.amount : 0;
+    const scope = battleDestinyScope(m, p.side!);
     const count = requirement > 4 && ability < requirement ? 0 : (ability >= 4 ? 1 : 0) + extra;
     if (extra && count && m.players[p.side!].reserve.length) (b.destinyPlans ??= pair(null, null))[p.side!] = {remaining: count, draws: [], selection: {x: extra + 1, y: extra}};
-    if (count && m.players[p.side!].reserve.length)
+    if (count && m.players[p.side!].reserve.length && remainingDestinyDraws(m, scope) > 0)
       m.stack.push({kind: 'decision', side: p.side!, handler: 'battle:destiny', payload: null});
     else continuation(m, 'destiny-next', {side: p.side});
   } else if (kind === 'battle:plan-draw' || kind === 'battle:plan-batch') {
@@ -331,17 +342,17 @@ export function battleChoose(m: Match, decision: Decision, choice: string): void
   if (choice === 'skip-destiny') {if (b.destinyPlans?.[side]) {b.destinyPlans[side]!.remaining = 0; b.destinyPlans[side]!.selection = null;} continuation(m, 'destiny-next', {side}); return;}
   if (b.destinyPlans?.[side]) {continueDestinyPlan(m, side); return;}
   const drawn = act('battle-drawn', 'Reveal battle destiny', 'drawn', {side});
-  drawDestiny(m, side, b.site, 'battle', drawn, true, 0, drawn);
+  drawDestiny(m, side, b.site, 'battle', drawn, true, 0, drawn, false, battleDestinyScope(m, side));
 }
 function continueDestinyPlan(m: Match, side: Side): void {
   const b = battle(m)!, plan = b.destinyPlans![side]!;
-  if (!plan.remaining || !m.players[side].reserve.length) {
+  if (!plan.remaining || !m.players[side].reserve.length || remainingDestinyDraws(m, battleDestinyScope(m, side)) === 0) {
     plan.remaining = 0; plan.selection = null;
     completeDestinyTotal(m, side, b.site, 'battle', plan.draws, act('battle-plan-result', 'Total battle destiny', 'plan-result', {side})); return;
   }
   const drawn = act('battle-planned-drawn', 'Reveal battle destiny', 'planned-drawn', {side});
   plan.remaining--;
-  drawDestiny(m, side, b.site, 'battle', act('battle-plan-draw', 'Resolve battle destiny', 'plan-draw', {side}), false, 0, drawn);
+  drawDestiny(m, side, b.site, 'battle', act('battle-plan-draw', 'Resolve battle destiny', 'plan-draw', {side}), false, 0, drawn, false, battleDestinyScope(m, side));
 }
 export function battleView(m: Match): Json {
   const b = battle(m);
@@ -352,12 +363,16 @@ export function assertBattle(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:equip') {const p = data(f); assertAttachmentAttempt(m, p.attachment!, p.card!, p.target!);}
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish') {
     const p = data(f);
-    if (p.flow) {assertDrawFlow(m, p.flow, battle(m)?.destinyDraws?.[p.side!]!); if (p.flow.side !== p.side || f.actor !== p.side || p.flow.source !== battle(m)?.site || p.flow.category !== 'battle' || !battle(m)?.destinyPlans?.[p.side!] || (p.flow.retain ? p.flow.next.handler !== 'selection:drawn' : p.flow.next.handler !== 'battle:plan-draw')) throw Error('Invalid battle draw actor.');}
+    if (p.flow) {assertDrawFlow(m, p.flow, battle(m)?.destinyDraws?.[p.side!]!); if (p.flow.side !== p.side || f.actor !== p.side || p.flow.source !== battle(m)?.site || p.flow.category !== 'battle' || p.flow.scope !== battle(m)?.destinyScopes?.[p.side!] || !battle(m)?.destinyPlans?.[p.side!] || (p.flow.retain ? p.flow.next.handler !== 'selection:drawn' : p.flow.next.handler !== 'battle:plan-draw')) throw Error('Invalid battle draw actor.');}
     if (!sides.includes(p.side!) || p.card !== undefined && m.cards[p.card]?.owner !== p.side || p.redraw !== undefined && typeof p.redraw !== 'boolean') throw Error('Invalid battle destiny continuation.');
   }
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
+  if (b.destinyScopes) {
+    if (Object.keys(b.destinyScopes).some(side => !sides.includes(side as Side))) throw Error('Invalid battle destiny scopes.');
+    for (const side of sides) assertDestinyScope(m, b.destinyScopes[side], side, b.site, 'battle');
+  }
   if (b.gamblersLuck && (m.cards[b.gamblersLuck.card]?.blueprint !== '5_48' || m.cards[b.gamblersLuck.card].owner !== b.gamblersLuck.side || ![1, 2].includes(b.gamblersLuck.amount))) throw Error('Invalid Gambler’s Luck grant.');
   if (b.destinyPlans) for (const side of sides) {
     const plan = b.destinyPlans[side]; if (!plan) continue;

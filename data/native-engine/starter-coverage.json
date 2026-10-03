@@ -1883,6 +1883,25 @@
       ],
       "status": "component-coverage-only",
       "scope": "Shared cost boundary before substitution/reveal; per-unit payment, skipped outcomes, redraw/selection/battle continuation and empty-window settlement. Eight matching GEMP mechanism observations. Physical limits, permission overrides, prevention/replacement and card providers remain; full admission closed."
+    },
+    "destinyLimits": {
+      "implementation": [
+        "lib/native-engine/destiny-limits.ts",
+        "lib/native-engine/destiny.ts",
+        "lib/native-engine/destiny-selection.ts",
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/gamblers-luck.ts",
+        "lib/native-engine/duel.ts",
+        "lib/native-engine/assault.ts",
+        "lib/native-engine/gaderffii.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/destiny-limits.test.mjs",
+        "tests/native-engine/gamblers-luck.test.mjs",
+        "tests/native-engine/gemp/destiny-limit-provenance.json"
+      ],
+      "status": "component-coverage-only",
+      "scope": "Serialized physical/skipped counts, substitution exemption, redraw replacement, dynamic numeric caps, selection truncation and optional conversion eligibility. Thirteen matching GEMP observations; cap-granting cards, modifier aggregation and override permissions remain before full admission."
     }
   }
 }

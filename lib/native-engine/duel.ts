@@ -1,3 +1,4 @@
+import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
 import {adjacent, power} from './board';
 import {completeDestinyTotal, drawDestiny, validDraw, type Draw} from './destiny';
 import {queueForceLoss} from './ground';
@@ -11,6 +12,7 @@ import {other, sides, type Action, type Json, type Match, type Resolution, type 
 export type Duel = {
   source: string; site: string; characters: Record<Side, string>;
   stage: 'begin' | 'draws' | 'result' | 'losses' | 'end' | 'complete';
+  scopes?: Partial<Record<Side, string>>;
   draws: Record<Side, Draw[]>; destinyTotals?: Record<Side, number | null>; total: Record<Side, number | null>;
   // Null is an unresolved rules amount, never zero Force loss. Such a result
   // cannot be applied or admitted to public matches until its ruling is verified.
@@ -91,7 +93,10 @@ export function duelResolve(m: Match, r: Resolution): void {
     const side = p.side!;
     if (p.draw) d.draws[side].push(p.draw);
     const next: Payload = {card: p.card, side};
-    if (d.draws[side].length < 2) drawDestiny(m, side, p.card, 'duel', action('draw-next', next), false);
+    if (d.draws[side].length < 2) {
+      const scope = (d.scopes ??= {})[side] ??= beginDestinySequence(m, side, p.card, 'duel');
+      drawDestiny(m, side, p.card, 'duel', action('draw-next', next), false, 0, undefined, false, scope);
+    }
     else completeDestinyTotal(m, side, p.card, 'duel', d.draws[side], action('player-total', next));
   } else if (h === 'duel:player-total') {
     (d.destinyTotals ??= {dark: null, light: null})[p.side!] = p.total!;
@@ -134,6 +139,7 @@ export function duelResolve(m: Match, r: Resolution): void {
 }
 export function duelView(m: Match): Json {return {duel: duel(m) ? structuredClone(duel(m)!) as unknown as Json : null};}
 export function assertDuel(m: Match): void {
+  const scoped = duel(m); if (scoped?.scopes) for (const side of sides) assertDestinyScope(m, scoped.scopes[side], side, scoped.source, 'duel');
   const u = m.data.duelUsage as Usage | undefined;
   if (u && (!Number.isSafeInteger(u.turn) || u.turn < 1 || u.turn > m.turn.number || typeof u.obsession !== 'boolean')) throw Error('Invalid duel usage.');
   const d = duel(m);

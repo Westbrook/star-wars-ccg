@@ -1,3 +1,4 @@
+import {remainingDestinyDraws} from './destiny-limits';
 import {battle, members} from './battle';
 import {cardDefinition} from './board';
 import {convertDestinySelection} from './destiny-selection';
@@ -19,8 +20,8 @@ export function gamblersLuckActions(m: Match, w: Window, side: Side): Action[] {
   if (w.timing === 'response' && e?.kind === 'about-to-draw-destiny' && e.side === side && e.category === 'battle' &&
     b?.stage === 'power' && grant?.side === side && plan?.selection && plan.remaining + 1 >= plan.selection.y &&
     draw?.kind === 'resolution' && draw.action.handler === 'destiny:draw' && !draw.cancelled && m.players[side].reserve.length) {
-    const p = draw.action.payload as {retain?: boolean; substitution?: unknown; next?: Action};
-    if (!p.retain && !p.substitution && p.next?.handler === 'battle:plan-draw') return [{
+    const p = draw.action.payload as {retain?: boolean; substitution?: unknown; next?: Action; scope?: string};
+    if (!p.retain && !p.substitution && remainingDestinyDraws(m, p.scope) >= plan.selection.x && p.next?.handler === 'battle:plan-draw') return [{
       id: 'gamblers-select:' + grant.card, label: 'Gambler’s Luck · draw ' + plan.selection.x + ' and choose ' + plan.selection.y,
       source: grant.card, handler: 'gambler:convert', payload: {card: grant.card, amount: grant.amount, pendingIndex: index, pendingId: draw.action.id} as Json,
     }];

@@ -1,3 +1,4 @@
+import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
 import {atSite, name, totalPower} from './board';
 import {completeDestinyTotal, drawDestiny, validDraw, type Draw} from './destiny';
 import {queueForceLoss} from './ground';
@@ -5,7 +6,7 @@ import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
-type Payload = {card: string; site: string; drain: string; count?: number; power?: number; draws?: Draw[]; draw?: Draw; total?: number | null; loser?: Side | null; amount?: number};
+type Payload = {scope?: string; card: string; site: string; drain: string; count?: number; power?: number; draws?: Draw[]; draw?: Draw; total?: number | null; loser?: Side | null; amount?: number};
 const action = (step: string, p: Payload, side?: Side): Action => ({id: 'assault:' + step + ':' + p.card,
   label: 'Play Assault', handler: 'assault:' + step, source: p.card, payload: p as unknown as Json,
   ...(side ? {payment: {[side]: 1}} : {})});
@@ -32,13 +33,13 @@ export function assaultResolve(m: Match, r: Resolution): void {
     // presence still need implementation before full card admission.
     p.count = atSite(m, p.site).filter(c => c.owner !== side).length;
     p.power = totalPower(m, other(side), p.site);
-    p.draws = [];
+    p.draws = []; p.scope = beginDestinySequence(m, side, p.card, 'assault');
     queue(m, 'finish', {card: p.card, site: p.site, drain: p.drain});
     queue(m, 'draw', p);
     if (!drain.cancelled) {drain.cancelled = true; openWindow(m, 'response', other(side), {kind: 'force-drain-cancelled', site: p.site, source: p.card});}
   } else if (h === 'assault:draw') {
     if (p.draw) {p.draws!.push(p.draw); delete p.draw;}
-    if (p.draws!.length < p.count!) drawDestiny(m, side, p.card, 'assault', action('draw', p), false);
+    if (p.draws!.length < p.count!) drawDestiny(m, side, p.card, 'assault', action('draw', p), false, 0, undefined, false, p.scope);
     else completeDestinyTotal(m, side, p.card, 'assault', p.draws!, action('result', p));
   } else if (h === 'assault:result') {
     // A failed set supplies no destiny total; its comparison contributes zero.
@@ -57,6 +58,7 @@ export function assertAssault(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler.startsWith('assault:')) {
     const p = f.action.payload as unknown as Payload, h = f.action.handler;
     if (!p || m.cards[p.card]?.blueprint !== (f.actor === 'light' ? '1_113' : '1_238') || m.cards[p.card]?.owner !== f.actor || m.cards[p.card]?.zone !== 'playing' || !m.locations.includes(p.site) || typeof p.drain !== 'string' || !['assault:play','assault:draw','assault:result','assault:loss','assault:finish'].includes(h)) throw Error('Invalid pending Assault.');
+    assertDestinyScope(m, p.scope, f.actor, p.card, 'assault');
     if (['assault:draw','assault:result','assault:loss'].includes(h) && (!Number.isSafeInteger(p.count) || p.count! < 0 || p.count! > m.deckSize || !Number.isFinite(p.power) || p.power! < 0 || !Array.isArray(p.draws) || p.draws.length > p.count! || p.draws.some(d => !validDraw(m, d, f.actor)))) throw Error('Invalid Assault snapshot.');
     if (['assault:result','assault:loss'].includes(h) && p.draws!.length !== p.count) throw Error('Incomplete Assault draws.');
     if (h === 'assault:loss' && (p.total !== null && (!Number.isFinite(p.total) || p.total! < 0) || p.loser !== null && !sides.includes(p.loser!) || !Number.isSafeInteger(p.amount) || p.amount! < 0)) throw Error('Invalid Assault loss.');

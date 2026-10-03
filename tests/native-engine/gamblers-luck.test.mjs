@@ -143,3 +143,22 @@ test('pending conversion refuses stale commands and forged draw ownership or lin
 test('concession during conversion keeps the exact frozen pending draw',()=>{
  const f=fixture();let m=priority(beforeDraw(f),'light');m=step(m,'gamblers-select:'+f.luck);const reserve=[...m.players.light.reserve];m=step(m,'concede','light');assert.equal(m.result.winner,'dark');assert.deepEqual(m.players.light.reserve,reserve);assert.equal(m.players.light.destiny.length,0);assert.equal(runtime.prompt(m,rules,'light'),null);
 });
+
+const drawLimits=load(new URL('../../lib/native-engine/destiny-limits.ts',import.meta.url));
+for(const cap of [1,2])test('Gambler conversion eligibility respects a physical cap of '+cap,()=>{
+ const f=fixture('1_11');top(f.m,[1,5]);const scope=combat.battleDestinyScope(f.m,'light');drawLimits.setDestinyLimit(f.m,scope,cap);let m=step(ready(play(f,1)),'draw-destiny');m=priority(m,'light');assert.equal(ids(m).some(id=>id.startsWith('gamblers-select:')),cap===2);m=done(m);assert.equal(drawLimits.destinySequence(m,scope).physical,cap);assert.equal(combat.battle(m).destiny.light,1);
+});
+test('Smoke Screen permits a subsequent physical battle draw under a one-card cap',()=>{
+ const f=fixture('1_11');let m=play(f,1);m=seek(m,x=>event(x)?.kind==='battle-weapons');pull(m,'light','101_2','table',f.site);combat.syncBattle(m);const smoke=pull(m,'light','5_69'),cards=top(m,[1,5]);const scope=combat.battleDestinyScope(m,'light');drawLimits.setDestinyLimit(m,scope,1);m=priority(step(ready(m),'draw-destiny'),'light');m=step(m,'smoke:'+smoke+':'+f.character);m=done(m);assert.equal(combat.battle(m).destiny.light,4);assert.equal(drawLimits.destinySequence(m,scope).physical,1);assert.equal(m.cards[cards[1]].zone,'reserve');
+});
+test('ordinary Han’s Dice replacement reuses the single allowed physical slot',()=>{
+ const f=fixture('1_11');pull(f.m,'light','101_2','table',f.site);combat.syncBattle(f.m);const cards=top(f.m,[1,5]),scope=combat.battleDestinyScope(f.m,'light');drawLimits.setDestinyLimit(f.m,scope,1);let m=step(ready(f.m),'draw-destiny');m=seek(m,x=>event(x)?.kind==='battle-destiny-drawn');m=priority(m,'light');m=step(m,'dice:'+f.dice+':'+f.character);m=done(m);assert.equal(combat.battle(m).destiny.light,5);assert.equal(drawLimits.destinySequence(m,scope).physical,1);assert.ok(cards.every(id=>m.cards[id].zone==='used'));
+});
+test('Dice replacement within a capped selection group preserves its allowance',()=>{
+ const f=fixture('1_11'),cards=top(f.m,[1,5,0]),scope=combat.battleDestinyScope(f.m,'light');drawLimits.setDestinyLimit(f.m,scope,2);let m=step(ready(play(f,1)),'draw-destiny');m=seek(m,x=>event(x)?.kind==='battle-destiny-drawn');m=priority(m,'light');m=step(m,'dice:'+f.dice+':'+f.character);m=selection(m);assert.deepEqual(prompt(m).choices.map(c=>c.label.split(' · ')[1]),['5','0']);m=done(m);assert.equal(drawLimits.destinySequence(m,scope).physical,2);assert.equal(combat.battle(m).destiny.light,5);assert.ok(cards.every(id=>m.cards[id].zone==='used'));
+});
+test('Smoke Screen cannot start after a cap closes, but an already initiated substitution finishes',()=>{
+ for(const initiated of [false,true]){
+  const f=fixture('1_11');pull(f.m,'light','101_2','table',f.site);combat.syncBattle(f.m);const smoke=pull(f.m,'light','5_69'),scope=combat.battleDestinyScope(f.m,'light');drawLimits.setDestinyLimit(f.m,scope,1);let m=priority(step(ready(f.m),'draw-destiny'),'light');const id='smoke:'+smoke+':'+f.character;assert.ok(ids(m).includes(id));if(initiated)m=step(m,id);drawLimits.setDestinyLimit(m,scope,0);if(!initiated)assert.ok(!ids(m).includes(id));m=done(m);assert.equal(combat.battle(m).destiny.light,initiated?3:null);assert.equal(drawLimits.destinySequence(m,scope).physical,0);
+ }
+});

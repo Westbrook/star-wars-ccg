@@ -1,6 +1,6 @@
 import {battle, members} from './battle';
 import {cardDefinition, name, printed} from './board';
-import {substituteDestiny} from './destiny';
+import {canSubstituteDestiny, substituteDestiny} from './destiny';
 import {moveCard} from './state';
 import type {Action, Json, Match, Resolution, Side, Window} from './types';
 
@@ -13,7 +13,7 @@ export function substitutionActions(m: Match, w: Window, side: Side): Action[] {
   const e = w.event as {kind?: string; category?: string; side?: Side} | undefined;
   const index = m.stack.length - 2, r = m.stack[index], b = battle(m);
   if (w.timing !== 'response' || e?.kind !== 'about-to-draw-destiny' || e.category !== 'battle' || e.side !== side || !b || b.stage !== 'power' ||
-    r?.kind !== 'resolution' || r.action.handler !== 'destiny:draw' || r.cancelled || (r.action.payload as {substitution?: unknown}).substitution || !m.players[side].reserve.length || cardDefinition(m, b.site).subType !== 'Site') return [];
+    r?.kind !== 'resolution' || !canSubstituteDestiny(m, r) || cardDefinition(m, b.site).subType !== 'Site') return [];
   const targets = members(m, side).filter(id => cardDefinition(m, id).type === 'Character' && printed(m, id, 'ability') > 0);
   return m.players[side].hand.filter(id => m.cards[id].blueprint === '5_69').flatMap(card => targets.map(target => ({
     id: 'smoke:' + card + ':' + target, label: 'Smoke Screen · use ' + name(m, target) + ' ability', handler: 'substitution:smoke', source: card,

@@ -1,0 +1,180 @@
+[
+  {
+    "total": null,
+    "name": "zero",
+    "events": [],
+    "physicalReveals": 0,
+    "unresolved": 0
+  },
+  {
+    "total": 1.0,
+    "name": "one",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "total": 6.0,
+    "name": "two",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 2,
+    "unresolved": 0
+  },
+  {
+    "total": null,
+    "name": "cancel",
+    "events": [
+      "cost",
+      "before",
+      "drawn"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "total": 5.0,
+    "name": "redraw",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 2,
+    "unresolved": 0
+  },
+  {
+    "total": 4.0,
+    "name": "substitute-first",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "total": 1.0,
+    "name": "substitute-late",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "total": 1.0,
+    "name": "select-cap-one",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "total": 1.0,
+    "name": "select-cap-two",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 2,
+    "unresolved": 0
+  },
+  {
+    "conversion": false,
+    "total": 1.0,
+    "name": "convert-cap-one",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "conversion": true,
+    "total": 1.0,
+    "name": "convert-cap-two",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 2,
+    "unresolved": 0
+  },
+  {
+    "total": null,
+    "name": "cost-skip",
+    "events": [
+      "cost"
+    ],
+    "physicalReveals": 0,
+    "unresolved": 0
+  },
+  {
+    "total": 3.0,
+    "name": "substitute-cap-lowered",
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 0,
+    "unresolved": 0
+  }
+]
