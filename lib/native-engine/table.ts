@@ -1,3 +1,5 @@
+import {referenceCard} from './identity';
+import {recordTableLossOrigins} from './loss-origin';
 import {moveCard} from './state';
 import {name} from './board';
 import {sides, type Decision, type Json, type Match} from './types';
@@ -26,8 +28,9 @@ function removeGroup(m: Match, ids: Set<string>, zone: 'leaving' | 'hand'): void
 /** Snapshot the complete affected group for response targeting before removal. */
 export const tableLossCards = (m: Match, hosts: string[]): string[] => [...tableGroup(m,hosts)];
 export function loseFromTable(m: Match, hosts: string[]): string[] {
-  const ids = tableGroup(m, hosts);
+  const ids = tableGroup(m, hosts), references = [...ids].map(id=>referenceCard(m,id));
   removeGroup(m, ids, 'leaving');
+  recordTableLossOrigins(m,references);
   orderNext(m, [...ids]);
   return [...ids];
 }
@@ -41,8 +44,9 @@ export function loseBuriedCards(m: Match, cards: string[]): void {
 /** A forfeiture replacement changes only the host's destination. Descendants
  * still leave simultaneously and are ordered in Lost before the host enters Used. */
 export function forfeitToUsed(m: Match, host: string): void {
-  const ids = tableGroup(m,[host]);
+  const ids = tableGroup(m,[host]), references = [...ids].filter(id=>id!==host).map(id=>referenceCard(m,id));
   removeGroup(m,ids,'leaving');
+  if (references.length) recordTableLossOrigins(m,references);
   orderNext(m,[...ids].filter(id => id !== host),[host]);
 }
 /** Returning to hand is neither losing nor forfeiting. Every descendant goes

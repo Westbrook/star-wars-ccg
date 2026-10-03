@@ -1,3 +1,4 @@
+import {assertTableLossOrigins} from './loss-origin';
 import {piles, sides, type Card, type Deck, type Definition, type Match, type Pile, type Player, type Side, type Zone} from './types';
 import {shuffled, type Entropy} from './random';
 import {assertCardVersions, cardVersion} from './identity';
@@ -96,6 +97,7 @@ export function shufflePile(match: Match, side: Side, pile: Pile, entropy?: Entr
 export function assertState(match: Match): void {
   assertSerializable(match);
   assertCardVersions(match);
+  assertTableLossOrigins(match);
   if (match.schema !== 1 || match.engine !== 'native-engine-1' || !match.rules || !match.id ||
       !Number.isSafeInteger(match.revision) || match.revision < 0 || ![40, 60].includes(match.deckSize)) throw Error('Invalid engine state.');
   if (!['setup', 'playing', 'finished'].includes(match.status) || (match.status === 'finished') !== !!match.result) throw Error('Invalid match status.');

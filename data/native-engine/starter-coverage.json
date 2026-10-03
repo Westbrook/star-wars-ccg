@@ -481,7 +481,7 @@
       "functionsReviewed": [
         "Ordinary location setup/deployment",
         "Per-weapon-destiny Dark modifier",
-        "Farm Luke deploy discount or Detention Block Light drain bonus"
+        "Beru Lars and Luke-persona deployment discount"
       ],
       "implementation": [
         "lib/native-engine/premiere-setup.ts",
@@ -493,14 +493,16 @@
         "tests/native-engine/setup.test.mjs",
         "tests/native-engine/ground.test.mjs",
         "tests/native-engine/battle.test.mjs",
-        "tests/native-engine/gaderffii.test.mjs"
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/lars.test.mjs"
       ],
       "remaining": [
-        "Beru Lars and other Luke identities not yet implemented."
+        "Broader location text cancellation and full cross-card admission remain."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/gaderffii-provenance.json",
-        "tests/native-engine/gemp/destiny-provenance.json"
+        "tests/native-engine/gemp/destiny-provenance.json",
+        "tests/native-engine/gemp/lars-provenance.json"
       ],
       "gempId": "1_132",
       "name": "Tatooine: Lars' Moisture Farm",
@@ -1107,7 +1109,7 @@
         "tests/native-engine/scan.test.mjs"
       ],
       "remaining": [
-        "Inspection uses player acknowledgment under current AR p10; obsolete printed deadlines removed. General inspection prevention/modifiers and full match clocks remain."
+        "Inspection uses player acknowledgment under current AR p10; obsolete printed deadlines removed. General inspection prevention/modifiers and timed CPU scheduling remain (optional durable PvP clocks are implemented)."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/scan-provenance.json"
@@ -1253,7 +1255,7 @@
       "functionsReviewed": [
         "Ordinary location setup/deployment",
         "Per-weapon-destiny Dark modifier",
-        "Farm Luke deploy discount or Detention Block Light drain bonus"
+        "Light control Force drain bonus"
       ],
       "implementation": [
         "lib/native-engine/premiere-setup.ts",
@@ -1267,9 +1269,7 @@
         "tests/native-engine/battle.test.mjs",
         "tests/native-engine/gaderffii.test.mjs"
       ],
-      "remaining": [
-        "Beru Lars and other Luke identities not yet implemented."
-      ],
+      "remaining": [],
       "oracleEvidence": [
         "tests/native-engine/gemp/gaderffii-provenance.json",
         "tests/native-engine/gemp/destiny-provenance.json"
@@ -2175,6 +2175,20 @@
         "tests/native-engine/gemp/mine-identity-provenance.json"
       ],
       "scope": "Mine casualty response boundaries and complete dependent losses; preserved GEMP defuse physical targeting. Native dud disposal and hidden inspection validation. Component-only; empty-peek reference discrepancy is explicit."
+    },
+    "larsFamily": {
+      "implementation": [
+        "lib/native-engine/lars.ts",
+        "lib/native-engine/loss-origin.ts",
+        "lib/native-engine/table.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/lars.test.mjs",
+        "tests/native-engine/gemp/lars-provenance.json"
+      ],
+      "scope": "Beru/Owen ground deployment, local modifiers and required Lost-from-table triggers. Global Luke power applies across card states/personas and through the next owner turn. Saved loss origins distinguish active table from hand/pile/buried/inactive losses. Device presence queries only; Hydroponics Station/Vaporator remain metadata-only.",
+      "limits": "Aboard/capture, compound identities, generic prevention and full production admission remain unfinished."
     }
   },
   "wholeMatchEvidence": {

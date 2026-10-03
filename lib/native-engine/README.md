@@ -1988,3 +1988,49 @@ smoke test verifies simultaneous expiry against the additive migration. Portable
 Playwright checks exercise timed invitations, setup, real service transitions,
 refresh and timeout UI at 1440, 834 and 390 pixels. These are match-service tests,
 not additional standalone Rules Lab studies or GEMP clock-conformance claims.
+
+### Lars family and durable table-loss origins
+
+Beru Lars (`1_2`) and Owen Lars (`1_22`) now have ground-character components.
+Beru deploys at -1 at the Light Lars' Moisture Farm; Owen deploys there for free.
+The farm's Luke discount now uses the existing explicit persona registry. Beru's
+forfeit bonus and Owen's power bonus check the named character/device at the same
+site, without adding twice when both alternatives are there. Excluded characters
+cannot supply local battle modifiers; site devices need not be battle participants.
+Forfeit increases still pass through the shared resets, caps and prevention query.
+
+Their required loss triggers use a saved original table instance. `table.ts`
+records the origin before the table → leaving → Lost sequence, including compound
+attachment ordering. `loss-origin.ts` distinguishes a real active-table loss from
+hand/Force loss, a buried dud, an inactive stacked character or forfeiture into
+Used. A departure and later return to Lost cannot revive an old loss opportunity.
+These records contain at most the latest origin per physical card and are not
+included in either player's private projection.
+
+Each initiated Lars trigger records its Lost instance once, survives source
+movement during responses, and applies a global Luke-persona power modifier
+through the end of the next owner turn. Beru and Owen combine to +6. Repeated
+same-title effects do not accumulate. This global power query works in every card
+state, including a Luke in Reserve, hand or Lost, and follows later Luke instances
+and personas. It is not locked to the Luke present when a Lars character was lost.
+See the official Advanced Rulebook pp27–28 (global-effects example), p104 (Beru),
+p123 (Owen), and p130 (Light farm):
+https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf.
+
+Four executed tests against unchanged pinned GEMP yield 18 matching observations:
+seven local attribute combinations, four actual deployment costs, five real
+forfeiture paths with cross-turn/zone/persona power checks, and two site-device
+queries during battle. All 6,820 production reference files match the pinned
+archive. See `tests/native-engine/gemp/lars-provenance.json`; its hashes bind the
+executed harness and observations. The native tests additionally cover saved
+continuations, cancellation, repeated loss instances, compound ordering, excluded
+characters and invalid state. These extra checks are not additional GEMP evidence.
+
+There are 135 explicit definitions. Hydroponics Station (`1_37`) and Vaporator
+(`1_41`) are metadata-only for the named-card queries; their deployment, activation
+replacement/protection behavior is still required. Aboard/captured contexts,
+compound character identities, wider prevention and generic modifier behavior
+remain incomplete. The two starter-location audit entries now distinguish the
+farm's deployment text from Detention Block's drain text. Full native admission
+remains closed, all broader engine/product scope is retained, and no standalone
+Rules Lab study was added.

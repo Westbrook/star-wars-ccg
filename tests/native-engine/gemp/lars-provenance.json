@@ -1,0 +1,21 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T15:53:26.152562+00:00",
+  "harness": "NativeEngineLarsOracleTests.java",
+  "harnessSha256": "2c69cb8bfb26773ce108fd239fccc9bb668352690682892228f2a6a0609bab4f",
+  "result": "lars-results.json",
+  "resultSha256": "7afc56ce4cd20490905490149d5bad07ffbcee017163a35632ab5913f36f3acf",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineLarsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; test harness only; unchanged pinned production source",
+  "junitTests": 4,
+  "observations": 18,
+  "unchangedProductionFiles": 6820,
+  "scope": "Seven locality/device-presence attribute queries, four actual deploy-cost outcomes, and five actual battle-forfeiture paths (Beru, Owen, both, Luke initially in hand and own-turn loss). Compare global Luke power in hand/new table instance/other persona, next owner turn and expiration. Device bodies are fixture metadata; no claim of Hydroponics or Vaporator activation/deployment implementation. Two additional actual-battle queries verify site devices contribute without being battle participants.",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp27-28 (global modifier across zones and personas),104 and123 (Beru/Owen text),130 (Light farm).",
+  "limitations": [
+    "Component boards, not complete-match exhaustive conformance. Existing production full-match admission remains closed.",
+    "Repeated same-source loss/noncumulative effects, cancellation, inactive loss, malformed state and refreshed pending source departure have native tests, not fresh GEMP observations.",
+    "Capture, aboard/vehicles, compound character identities, wider loss prevention and generic modifier prevention remain unfinished. Hydroponics Station and Vaporator are metadata-only."
+  ]
+}

@@ -1,3 +1,4 @@
+import {larsPowerBonus, larsForfeitBonus} from './lars';
 import {selectedPrintedDestiny} from './destiny-values';
 import {protocolPowerBonus, protocolForfeitBonus} from './protocol-droid';
 import {deployValue, medicalDeployReduction} from './deploy-costs';
@@ -7,7 +8,7 @@ import {armedWithLightsaber} from './weapon-state';
 import {combatPowerBonus} from './combat-modifiers';
 import {locationAbility} from './location-ability';
 import {ability} from './ability';
-import {canPlayCard, isUnique} from './persona';
+import {canPlayCard, isUnique, hasPersona} from './persona';
 import {cardDefinition} from './definitions';
 export {cardDefinition, definition} from './definitions';
 import {hasCharacteristic, isSpecies, nonUnique} from './characteristics';
@@ -71,7 +72,8 @@ export function deploymentPayment(m: Match, id: string, site: string): Payment |
     return ownCamp ? {[side]: 1} : {dark: 1, light: 1};
   }
   let cost = deployValue(m,id) - medicalDeployReduction(m,id);
-  if (blueprint === '101_2' && m.cards[site].blueprint === '1_132') cost--;
+  if ((blueprint === '1_2' || hasPersona(m,id,'LUKE')) && m.cards[site].blueprint === '1_132') cost--;
+  if (blueprint === '1_22' && cardDefinition(m,site).name === "Tatooine: Lars' Moisture Farm") cost = 0;
   if (['1_28', '1_194'].includes(blueprint)) {
     const faction = side === 'light' ? 'Rebel' : 'Imperial';
     if (atSite(m, site).some(c => c.owner === side && cardDefinition(m, c.id).subType === faction && ability(m, c.id) > 2)) cost = 0;
@@ -97,7 +99,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   const currentBattle = m.data.battle as {site: string; stage: string; runLuke?: boolean} | undefined;
   if (blueprint === '101_2' && currentBattle?.runLuke && currentBattle.stage !== 'complete' && site === currentBattle.site &&
       !Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '101_5' && c.location && (c.location === site || adjacent(m, c.location, site)))) value += 2;
-  value += equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id);
+  value += equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id) + larsPowerBonus(m,id,active);
   if (attachedArmor(m,id).length) value += 2;
   if (blueprint === '9_24' && armedWithLightsaber(m,id)) value+=2;
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
@@ -109,7 +111,7 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
   if (site && card.owner === 'light' && isWarrior(m, id) && active(id) && Object.values(m.cards).some(c => c.zone === 'table' && c.owner === 'light' && c.blueprint === '101_2' && c.location && active(c.id) && (c.location === site || adjacent(m, c.location, site)))) bonuses.push(1);
   if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') bonuses.push(1);
   if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') bonuses.push(-1);
-  bonuses.push(equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active));
+  bonuses.push(equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active),larsForfeitBonus(m,id,active));
   return currentForfeit(m,id,printed(m,id,'forfeit'),bonuses);
 }
 
