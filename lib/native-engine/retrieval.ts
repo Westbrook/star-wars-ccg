@@ -1,3 +1,4 @@
+import {mayContributeToRetrieval, assertRetrievalRestrictions} from './retrieval-contributors';
 import {reinforcementTarget} from './characteristics';
 import {canSearch, recordFailedSearch, searchFunctions} from './search-policy';
 import {retrievalAmount, assertRetrievalModifiers} from './retrieval-policy';
@@ -16,7 +17,7 @@ export type Retrieval = {
   upTo?: boolean; chosen?: number; random?: boolean; mayTakeIntoHand?: boolean;
   placement?: 'used' | 'hand';
 };
-type RetrievalOptions = {uncancelable?: boolean; upTo?: boolean; random?: boolean; mayTakeIntoHand?: boolean};
+type RetrievalOptions = {contributors?: string[]; uncancelable?: boolean; upTo?: boolean; random?: boolean; mayTakeIntoHand?: boolean};
 type CharacterSearches = Partial<Record<Side, number>>;
 export const canSearchLostCharacter = (m: Match, side: Side, blueprint = '1_254') => canSearch(m, {blueprint, side, function: searchFunctions.kintan, owner: side, pile: 'lost'});
 function queue(m: Match, step: string, p: Retrieval): void {
@@ -34,8 +35,11 @@ const eligible = (m: Match, p: Retrieval) => {
 export function retrieve(m: Match, side: Side, source: string, amount: number, blueprints: string[] | null = null, destination: 'used' | 'hand' = 'used', selection?: 'top-character' | 'reinforcements', options: RetrievalOptions = {}): void {
   if (!Number.isSafeInteger(amount) || amount < 0 || !m.cards[source] || !sides.includes(side) || !['used','hand'].includes(destination) ||
     [options.uncancelable, options.upTo, options.random, options.mayTakeIntoHand].some(v => v !== undefined && typeof v !== 'boolean') ||
-    options.random && (blueprints !== null || selection !== undefined)) throw Error('Invalid retrieval.');
-  if (!amount) return;
+    options.random && (blueprints !== null || selection !== undefined) ||
+    options.contributors !== undefined && (!Array.isArray(options.contributors) || options.contributors.some(id=>typeof id!=='string'||!m.cards[id]))) throw Error('Invalid retrieval.');
+  // GEMP checks contributors once, before emitting retrieval initiation.
+  // A new prohibition during those responses does not cancel this retrieval.
+  if (!amount || ![source,...(options.contributors ?? [])].every(id=>mayContributeToRetrieval(m,id))) return;
   const p: Retrieval = {id: 'retrieval-' + ++m.serial, side, source, initial: amount, amount: null, uncancelable: options.uncancelable ?? false, remaining: amount, destination, blueprints, retrieved: [], announced: false, ...(selection ? {selection} : {}), ...(options.upTo ? {upTo: true} : {}), ...(options.random ? {random: true} : {}), ...(options.mayTakeIntoHand ? {mayTakeIntoHand: true} : {})};
   queue(m, 'next', p);
   openWindow(m, 'response', other(side), {kind: 'retrieval-initiated', side, source, amount, retrieval: p.id});
@@ -122,6 +126,7 @@ export function retrievalView(m: Match): Json {
 }
 export function assertRetrieval(m: Match): void {
   assertRetrievalModifiers(m);
+  assertRetrievalRestrictions(m);
   const failures = m.data.failedCharacterSearches as CharacterSearches | undefined;
   if (failures && Object.entries(failures).some(([side, turn]) => !sides.includes(side as Side) || !Number.isSafeInteger(turn) || turn < 1 || turn > m.turn.number)) throw Error('Invalid failed character search.');
   const ids = new Set<string>();

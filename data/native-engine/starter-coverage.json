@@ -2277,9 +2277,27 @@
       ],
       "scope": "Actual Interrupt targeting, number choice before payment, general destiny, optional retrieval with Fenson/Secret Plans and failed-draw Rebel loss. Selected physical target persists through responses as in executed GEMP. Cancellation, attachment-loss ordering, Kintan response and save recovery have native coverage.",
       "remaining": [
-        "General retrieval-contributor restrictions and replacement providers",
+        "Broader retrieval restriction granting-card selectors and replacement providers; shared contributor eligibility is implemented",
         "Aboard, captured and inactive target states; general retargeting",
         "Whole-card/deck admission and broader CPU strategy"
+      ]
+    },
+    "offTheEdge": {
+      "implementation": [
+        "lib/native-engine/off-the-edge.ts",
+        "lib/native-engine/retrieval-contributors.ts",
+        "lib/native-engine/stat-modifiers.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/off-the-edge.test.mjs",
+        "tests/native-engine/gemp/off-edge-provenance.json"
+      ],
+      "scope": "Off The Edge ground targeting, three destiny outcomes, R2 printed selection, live table-character destiny additions/resets and source/additional-contributor retrieval checks. On The Edge contributor eligibility is integrated. Save reconstruction, ordinary loss reduction, attachments, cancellation and endgame tested.",
+      "remaining": [
+        "Fractional Force results are explicitly guarded pending shared implementation",
+        "Broader granting-card selectors, targetability/retargeting and aboard/captured/inactive states",
+        "Chasm Walkway Weather Vane text; current addition is metadata only",
+        "Complete decks/catalog admission, broader CPU and full original scope"
       ]
     }
   },

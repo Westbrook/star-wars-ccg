@@ -264,7 +264,7 @@
     "icons": [
       "Cloud City"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_059.java"
   },
   {
@@ -1314,5 +1314,23 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_072.java"
+  },
+  {
+    "gempId": "5_79",
+    "name": "Cloud City: Chasm Walkway",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Light/large/cloudcitychasmwalkway.gif",
+    "text": "If Weather Vane on table, characters 'hit' here are instead immediately relocated there.",
+    "stats": {},
+    "icons": [
+      "Cloud City",
+      "Interior",
+      "Mobile",
+      "Scomp Link"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_079.java"
   }
 ]

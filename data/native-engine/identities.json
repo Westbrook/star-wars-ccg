@@ -1442,5 +1442,16 @@
     "uniqueness": "UNIQUE",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_072.java"
+  },
+  "5_79": {
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "keywords": [
+      "CLOUD_CITY_LOCATION"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_079.java"
   }
 }

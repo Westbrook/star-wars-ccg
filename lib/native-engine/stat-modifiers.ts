@@ -2,11 +2,12 @@ import {cardDefinition} from './definitions';
 import {attachedArmor} from './armor-equipment';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {sides, type Json, type Match, type Side} from './types';
-export type Statistic = 'defense' | 'armor' | 'maneuver' | 'forfeit';
+export type Statistic = 'destiny' | 'defense' | 'armor' | 'maneuver' | 'forfeit';
 export type StatKind = 'add' | 'define' | 'reset' | 'base-double' | 'prevent-reduce' | 'prevent-increase' | 'minimum' | 'maximum' | 'increase-limit' | 'printed-cap' | 'base-cap';
 export type StatModifier = {source: CardReference; target: CardReference; stat: Statistic; kind: StatKind; amount: number;
  duration: 'turn' | 'source'; turn: number; function: string; cumulative: boolean; by: Side | 'both'};
 const allowed: Record<Statistic, StatKind[]> = {
+ destiny:['add','reset'],
  defense:['add','reset','prevent-reduce','minimum','maximum','base-cap'],
  armor:['add','define','reset','base-double'], maneuver:['add','define','reset','base-double'],
  forfeit:['add','define','reset','base-double','prevent-reduce','prevent-increase','increase-limit','printed-cap'],
@@ -63,4 +64,12 @@ export function characterAttribute(m:Match,id:string,stat:'armor'|'maneuver'):nu
  for(const p of mods.filter(p=>p.kind==='define'))value=p.amount;
  if(value===undefined)return 0;
  return Math.max(0,value*(mods.some(p=>p.kind==='base-double')?2:1)+mods.filter(p=>p.kind==='add').reduce((n,p)=>n+p.amount,0));
+}
+
+/** Current table-character destiny, after an owning action selects any alternate
+ * printed value. This is distinct from modifiers to a just-drawn destiny. */
+export function characterDestinyValue(m: Match,id: string,printedValue: number): number {
+ if(cardDefinition(m,id).type!=='Character'||!Number.isFinite(printedValue)||printedValue<0)throw Error('Invalid character destiny.');
+ const mods=statModifiers(m,id,'destiny'),resets=mods.filter(p=>p.kind==='reset');
+ return Math.max(0,resets.length?Math.min(...resets.map(p=>p.amount)):printedValue+mods.filter(p=>p.kind==='add').reduce((n,p)=>n+p.amount,0));
 }

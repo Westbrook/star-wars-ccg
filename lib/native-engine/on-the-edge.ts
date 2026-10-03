@@ -1,3 +1,4 @@
+import {mayContributeToRetrieval} from './retrieval-contributors';
 import {ability} from './ability';
 import {cardDefinition, name} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
@@ -31,7 +32,9 @@ export function edgeResolve(m: Match,r: Resolution): void {
   } else if(h==='edge:result'){
     // GEMP's chosen Rebel is a physical target retained after initiation. Losing
     // table presence during responses does not cancel the destiny/retrieval.
-    if(p.draw!.value!==null&&p.draw!.value>p.chosen!)m.stack.push({kind:'decision',side:r.actor,handler:'edge:retrieve',payload:p as unknown as Json});
+    if(p.draw!.value!==null&&p.draw!.value>p.chosen!){
+      if(mayContributeToRetrieval(m,p.target.id))m.stack.push({kind:'decision',side:r.actor,handler:'edge:retrieve',payload:p as unknown as Json});
+    }
     else if(m.cards[p.target.id].zone==='table'){
       p.site=m.cards[p.target.id].location;queue(m,'lose',p);
       openWindow(m,'response',other(r.actor),{kind:'about-to-lose',card:p.target.id,source:p.card,...(p.site?{site:p.site}:{}),cause:'on-the-edge'});

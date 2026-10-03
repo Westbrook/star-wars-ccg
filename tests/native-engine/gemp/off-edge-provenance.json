@@ -1,0 +1,23 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T18:50:58.027401+00:00",
+  "harness": "NativeEngineOffEdgeOracleTests.java",
+  "harnessSha256": "72210b87069073d9d4154cb37f3114221a51d925e5dfa98ac9d984ca5cbd5ea2",
+  "result": "off-edge-results.json",
+  "resultSha256": "3736c179ad79430b0c5900892b5a5c17756cf0ab0a358e0d0f4766a02fbef141",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineOffEdgeOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; test harness only; pinned production source unchanged",
+  "junitTests": 2,
+  "observations": 20,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "cardSource": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_059.java",
+  "scope": "Eighteen actual Off The Edge outcomes plus two On The Edge contributor restrictions. Retrieval, loss, equality/failure, Secret Plans/Fenson, R2 choice, live target modifiers and controlled departure/return/retrieval initiation timing.",
+  "limitations": [
+    "Controlled boards and supplied destiny values, not exhaustive whole-match conformance.",
+    "Response interventions and restrictions use real production modifiers with fixture grants; no claim that every granting card is implemented.",
+    "Native Sense, attachments, loss reduction, concession, final Life Force, corruption and JSON recovery checks are not fresh reference observations.",
+    "Fractional Force differences remain guarded. General granting-card selectors, retargeting and aboard/captured/inactive states remain. Chasm Walkway is metadata only; full admission stays closed."
+  ]
+}

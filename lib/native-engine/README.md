@@ -2247,3 +2247,38 @@ fixture interventions. Native tests additionally cover actual Sense, canceled
 destiny, attachments, Kintan and concession. Broader retrieval-contributor
 restrictions, retargeting, aboard/captured/inactive targets and CPU strategy
 remain required. This does not admit a complete card/deck or add a Lab study.
+
+### Off The Edge and retrieval contributors
+
+Off The Edge targets your active ground character at a Cloud City site and draws
+through the normal destiny pipeline. A higher destiny retrieves the difference;
+a lower one opens the ordinary, reducible Force-loss sequence; equality or a
+failed/canceled draw loses the character with attachment ordering and loss
+responses. Its unique-card turn limit, cancellation, endgame and saved choices
+use the existing engine paths. The Chasm Walkway definition and setup metadata
+identify a real Cloud City site for this integration; its Weather Vane text is
+not implemented and its metadata does not admit the site to full native games.
+
+R2-D2's 2-or-5 printed target value is chosen after the draw (even a failed draw),
+independently of any prior or later destiny draw. A shared current-character
+statistic query applies live additive/reset destiny modifiers; target labels and
+value choices show the current number. This table statistic is distinct from
+modifiers to a just-drawn destiny. Fractional differences remain explicitly
+guarded until shared fractional Force handling is implemented; they are never
+silently rounded to an invented outcome.
+
+The shared retrieval entry point now checks its source and explicit additional
+contributors before emitting initiation. Rule-owned instance restrictions can
+last for the turn or while their source remains on table. Later restrictions do
+not undo a retrieval already initiated. Off The Edge supplies its target as a
+contributor. On The Edge checks the target before offering its optional retrieval,
+then the shared entry point checks the source if retrieval is accepted. Source
+card cleanup continues even when retrieval cannot begin.
+
+`off-the-edge.test.mjs` reconstructs state after every command and checks both
+result paths and interactions. `gemp/off-edge-provenance.json` records actual
+card plays, including R2, Secret Plans, Fenson, target value changes and retrieval
+restrictions. Direct target/modifier interventions are controlled fixtures;
+continuous granting-card selectors, retargeting, aboard/captured/inactive states,
+fractional Force, Weather Vane and broader CPU strategy remain required. Full
+production admission stays closed; no standalone Lab study was added.

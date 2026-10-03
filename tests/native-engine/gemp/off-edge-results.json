@@ -1,0 +1,176 @@
+[
+  {
+    "spent": 1,
+    "name": "on-target-blocked",
+    "retrieved": 0,
+    "optional": 0
+  },
+  {
+    "spent": 1,
+    "name": "on-source-blocked",
+    "retrieved": 0,
+    "optional": 1
+  },
+  {
+    "retrieved": 4,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "retrieve",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 0,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "lose",
+    "lostForce": 2,
+    "payment": 0
+  },
+  {
+    "retrieved": 0,
+    "valueChoices": 0,
+    "lostTarget": true,
+    "spent": 0,
+    "name": "equal",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 0,
+    "valueChoices": 0,
+    "lostTarget": true,
+    "spent": 0,
+    "name": "failed",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 4,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 4,
+    "name": "plans",
+    "lostForce": 0,
+    "payment": 1
+  },
+  {
+    "retrieved": 0,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "plans-decline",
+    "lostForce": 0,
+    "payment": 1
+  },
+  {
+    "retrieved": 1,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "fenson",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 1,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 1,
+    "name": "fenson-plans",
+    "lostForce": 0,
+    "payment": 1
+  },
+  {
+    "retrieved": 1,
+    "valueChoices": 1,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "r2-two",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 0,
+    "valueChoices": 1,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "r2-five",
+    "lostForce": 2,
+    "payment": 0
+  },
+  {
+    "retrieved": 0,
+    "valueChoices": 1,
+    "lostTarget": true,
+    "spent": 0,
+    "name": "r2-failed",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 0,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "target-blocked",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 0,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "source-blocked",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 4,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "late-blocked",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 2,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "target-modifier",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 2,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "modifier-after",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 4,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "leave-before",
+    "lostForce": 0,
+    "payment": 0
+  },
+  {
+    "retrieved": 4,
+    "valueChoices": 0,
+    "lostTarget": false,
+    "spent": 0,
+    "name": "return-before",
+    "lostForce": 0,
+    "payment": 0
+  }
+]
