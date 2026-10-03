@@ -1081,3 +1081,27 @@ lost-response recovery through refresh, receipts, CPU dispatch, two identities
 joining, concession, empty timers/keyboard, inspection expiry, production gate,
 and screenshots at 1440, 834 and 390 pixels. This is client integration evidence,
 not exhaustive card conformance or an end-to-end production match certification.
+
+### Duel participant lifecycle
+
+Obsession captures both original table instances when its action is initiated.
+Before duel results, departure invalidates that participation even if the same
+physical card returns before the next continuation. An already drawn destiny
+finishes cleanup, but no further duel draws, retrieval or losses occur. Pending
+Interrupts also cannot start a duel with a returned replacement instance. Saved
+references are validated and excluded from player projections; older native
+snapshots with a pending duel but no references are rejected. Separate Rules Lab
+snapshots are unaffected.
+
+This follows the Advanced Rulebook p166, Dueling step 4. Twelve fresh pinned GEMP
+observations are recorded in `tests/native-engine/gemp/duel-identity-results.json`:
+eight final outcomes agree, while four pre-result returns continue in GEMP because
+its duel state retains mutable physical-card references and checks only current
+location. The native engine follows the explicit departure rule for those cases.
+The harness uses controlled zone interventions, not implemented return cards.
+
+Determined results still finish through later participant departure. Current
+post-result physical-card targeting follows the pinned GEMP observations; general
+later loss target identity, persona replacement, conversion and duel modifiers
+remain required work. One-sided failed-destiny Force difference remains guarded.
+This checkpoint does not open production card or full-match admission.

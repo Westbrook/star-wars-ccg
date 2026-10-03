@@ -1,0 +1,22 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T02:37:39.338576+00:00",
+  "harness": "NativeEngineDuelIdentityOracleTests.java",
+  "harnessSha256": "df2cafd55e7897f5133494e631e2db47dfde8d005b9745e37c7b9d175acdb0f3",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDuelIdentityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 12,
+  "productionFilesVerified": 6820,
+  "scope": "Actual Vader’s Obsession with controlled departure/return of either participant at duel initiation, first destiny draw, or determined results. Eight final-outcome comparisons match; four pre-result return observations explicitly disagree under AR p166. Native additionally tests pending Interrupt targeting before duel initiation, serialization, reference validation and private projection.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p166 Dueling step4: participant departure before results ends the duel without a result. Returning before the next continuation does not undo departure.",
+    "DuelState.canContinue checks current location until reachedResults, then returns true; it retains mutable PhysicalCard references. Four controlled pre-result returns therefore continue and apply losses in pinned GEMP.",
+    "Card101_006 / DuelEffect preserve determined results through later participant departure. Native preserves this existing behavior, including current physical-card character-loss targeting."
+  ],
+  "limits": "Controlled zone interventions are not played removal/return cards. Not general duel timing modifiers, persona replacement, conversion, targeting redirection or full card admission. Post-result return currently follows pinned GEMP physical-card targeting; general later loss target identity is not adjudicated here. One-sided failed duel destiny Force difference remains guarded. Native snapshots with pending duels now require original participant references; production admission remains closed and separate published proof snapshots are unchanged."
+}

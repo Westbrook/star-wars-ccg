@@ -7,10 +7,12 @@ import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {loseFromTable} from './table';
 import {markRunPlayed, travelState} from './travel';
+import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 export type Duel = {
   source: string; site: string; characters: Record<Side, string>;
+  participantRefs: Record<Side, CardReference>;
   stage: 'begin' | 'draws' | 'result' | 'losses' | 'end' | 'complete';
   scopes?: Partial<Record<Side, string>>;
   draws: Record<Side, Draw[]>; destinyTotals?: Record<Side, number | null>; total: Record<Side, number | null>;
@@ -18,7 +20,7 @@ export type Duel = {
   // cannot be applied or admitted to public matches until its ruling is verified.
   winner: Side | null; difference: number | null; interrupted: boolean;
 };
-type Payload = {card: string; vader?: string; luke?: string; site?: string; side?: Side; draw?: Draw; target?: string; total?: number | null};
+type Payload = {card: string; vader?: string; luke?: string; participantRefs?: Record<Side, CardReference>; site?: string; side?: Side; draw?: Draw; target?: string; total?: number | null};
 type Usage = {turn: number; obsession: boolean};
 export const duel = (m: Match) => m.data.duel as Duel | undefined;
 const usage = (m: Match): Usage => {
@@ -27,7 +29,7 @@ const usage = (m: Match): Usage => {
 };
 const action = (step: string, p: Payload, label = step): Action => ({id: 'duel:' + step + ':' + p.card + (p.target ? ':' + p.target : ''), label, handler: 'duel:' + step, source: p.card, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: Payload, actor: Side = 'dark') => m.stack.push({kind: 'resolution', actor, cancelled: false, action: action(step, p)});
-const together = (m: Match, d: Pick<Duel, 'characters' | 'site'>) => sides.every(side => m.cards[d.characters[side]]?.zone === 'table' && m.cards[d.characters[side]].location === d.site);
+const together = (m: Match, d: Pick<Duel, 'characters' | 'site' | 'participantRefs'>) => sides.every(side => sameCard(m, d.participantRefs[side]) && m.cards[d.characters[side]]?.zone === 'table' && m.cards[d.characters[side]].location === d.site);
 function boundary(m: Match, step: string, kind: string, p: Payload, priority: Side = 'light'): void {
   queue(m, step, p); openWindow(m, 'response', priority, {kind, source: p.card});
 }
@@ -55,7 +57,10 @@ export function duelActions(m: Match, w: Window, side: Side): Action[] {
 export function duelInitiate(m: Match, r: Resolution): void {
   const p = r.action.payload as unknown as Payload;
   moveCard(m, p.card, 'playing');
-  if (r.action.handler === 'duel:obsession') m.data.duelUsage = {turn: m.turn.number, obsession: true};
+  if (r.action.handler === 'duel:obsession') {
+    p.participantRefs = {dark: referenceCard(m, p.vader!), light: referenceCard(m, p.luke!)};
+    m.data.duelUsage = {turn: m.turn.number, obsession: true};
+  }
   else if (r.action.handler === 'duel:cancel') markRunPlayed(m);
   else throw Error('Invalid duel initiation.');
 }
@@ -78,7 +83,7 @@ export function duelResolve(m: Match, r: Resolution): void {
   if (h === 'duel:cancel-cleanup') {moveCard(m, p.card, 'lost'); return;}
   if (h === 'duel:obsession') {
     queue(m, 'cleanup', {card: p.card});
-    const d: Duel = {source: p.card, site: p.site!, characters: {dark: p.vader!, light: p.luke!}, stage: 'begin', draws: {dark: [], light: []}, total: {dark: null, light: null}, winner: null, difference: 0, interrupted: false};
+    const d: Duel = {source: p.card, site: p.site!, characters: {dark: p.vader!, light: p.luke!}, participantRefs: structuredClone(p.participantRefs!), stage: 'begin', draws: {dark: [], light: []}, total: {dark: null, light: null}, winner: null, difference: 0, interrupted: false};
     if (!together(m, d)) return;
     m.data.duel = d as unknown as Json;
     boundary(m, 'draws-before', 'duel-initiated', p); return;
@@ -86,7 +91,8 @@ export function duelResolve(m: Match, r: Resolution): void {
   if (h === 'duel:cleanup') {moveCard(m, p.card, 'lost'); return;}
   const d = duel(m); if (!d || d.source !== p.card) throw Error('Missing duel.');
   // Once results are determined, retrieval/losses complete even when a
-  // participant leaves. Before that boundary, both must remain at the site.
+  // participant leaves. Before that boundary, both original table instances
+  // must remain: returning the physical card cannot undo departure (AR p166).
   if (['begin', 'draws'].includes(d.stage) && !together(m, d)) {end(m, p, true); return;}
   if (h === 'duel:draws-before') {d.stage = 'draws'; boundary(m, 'draw-next', 'duel-destiny-before', {...p, side: 'dark'}, 'dark');}
   else if (h === 'duel:draw-next') {
@@ -116,6 +122,7 @@ export function duelResolve(m: Match, r: Resolution): void {
     d.difference = successful('dark') !== successful('light') ? null : d.winner ? Math.round(Math.abs(d.total.dark! - d.total.light!)) : 0;
     d.stage = 'result'; boundary(m, 'retrieve', 'duel-result', {card: p.card});
   } else if (h === 'duel:retrieve') {
+    assertParticipants(m, d.participantRefs, d.characters);
     if (d.difference === null) throw Error('Unverified rule: Obsession Force difference after a failed duel destiny.');
     d.stage = 'losses'; queue(m, 'force-loss', p);
     if (d.winner) retrieve(m, d.winner, p.card, d.difference);
@@ -137,7 +144,17 @@ export function duelResolve(m: Match, r: Resolution): void {
   else if (h === 'duel:complete') {d.stage = 'complete'; openWindow(m, 'response', 'light', {kind: 'duel-ended', source: p.card, winner: d.winner});}
   else throw Error('Unknown duel continuation.');
 }
-export function duelView(m: Match): Json {return {duel: duel(m) ? structuredClone(duel(m)!) as unknown as Json : null};}
+export function duelView(m: Match): Json {
+  const d = duel(m); if (!d) return {duel: null};
+  const {participantRefs: _private, ...publicDuel} = d;
+  return {duel: structuredClone(publicDuel) as unknown as Json};
+}
+function assertParticipants(m: Match, refs: Record<Side, CardReference> | undefined, characters: Record<Side, string>): void {
+  for (const side of sides) {
+    if (refs?.[side]?.zone !== 'table') throw Error('Invalid duel participant reference.');
+    assertCardReference(m, refs[side], characters[side]);
+  }
+}
 export function assertDuel(m: Match): void {
   const scoped = duel(m); if (scoped?.scopes) for (const side of sides) assertDestinyScope(m, scoped.scopes[side], side, scoped.source, 'duel');
   const u = m.data.duelUsage as Usage | undefined;
@@ -148,6 +165,7 @@ export function assertDuel(m: Match): void {
     for (const side of sides) if (m.cards[d.characters[side]]?.owner !== side || !Array.isArray(d.draws[side]) || d.draws[side].length > 2 || d.draws[side].some(x => !validDraw(m, x, side)) || d.total[side] !== null && (!Number.isFinite(d.total[side]) || d.total[side]! < 0)) throw Error('Invalid duel total.');
     if (d.destinyTotals && sides.some(side => d.destinyTotals![side] !== null && (!Number.isFinite(d.destinyTotals![side]) || d.destinyTotals![side]! < 0))) throw Error('Invalid duel destiny totals.');
     if (m.cards[d.characters.dark].blueprint !== '101_5' || m.cards[d.characters.light].blueprint !== '101_2') throw Error('Invalid duel participants.');
+    assertParticipants(m, d.participantRefs, d.characters);
     if (d.difference === null && (d.stage !== 'result' || d.draws.dark.some(x => x.value !== null) === d.draws.light.some(x => x.value !== null))) throw Error('Invalid unverified duel amount.');
     if (['result', 'losses'].includes(d.stage) && sides.some(side => d.draws[side].length !== 2 || d.total[side] === null)) throw Error('Incomplete duel result.');
   }
@@ -158,6 +176,7 @@ export function assertDuel(m: Match): void {
     if (cancel && (m.cards[p.card].blueprint !== '101_3' || m.cards[p.target!]?.blueprint !== '101_6' || f.actor !== 'light')) throw Error('Invalid duel cancellation.');
     if (!cancel && m.cards[p.card].blueprint !== '101_6') throw Error('Invalid duel source.');
     if (f.action.handler === 'duel:obsession' && (m.cards[p.vader!]?.blueprint !== '101_5' || m.cards[p.luke!]?.blueprint !== '101_2' || !m.locations.includes(p.site!))) throw Error('Invalid duel participants.');
+    if (f.action.handler === 'duel:obsession') assertParticipants(m, p.participantRefs, {dark: p.vader!, light: p.luke!});
     if (f.action.handler === 'duel:draw-next' && !sides.includes(p.side!)) throw Error('Invalid duel draw seat.');
   }
 }

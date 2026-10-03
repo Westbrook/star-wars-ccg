@@ -137,3 +137,70 @@ test('recorded GEMP failures do not override the rulebook’s failed-destiny win
   const f=fixture(dark,light),m=result(start(f));assert.equal(duel(m).winner,expected);assert.equal(observations.find(o=>o.name===name).winner,'dark');assert.notEqual(duel(m).winner,'dark');
  }
 });
+
+function atDuelBoundary(f,boundary){
+ const m=start(f);
+ if(boundary==='initiation')return m;
+ return seek(m,x=>boundary==='begin'?x.stack.at(-1)?.event?.kind==='duel-initiated'
+  :boundary==='draw'?x.stack.at(-1)?.event?.kind==='destiny-drawn'&&x.stack.at(-1)?.event?.category==='duel'
+  :x.stack.at(-1)?.event?.kind==='duel-result');
+}
+function leaveParticipant(m,f,side,returns){
+ const id=side==='dark'?f.vader:f.luke;state.moveCard(m,id,'hand');
+ if(returns){state.moveCard(m,id,'table');m.cards[id].location=f.site;}
+}
+for(const boundary of ['initiation','begin','draw'])for(const side of ['dark','light'])for(const returns of [false,true])
+test(`original ${side} participant ${returns?'returns':'leaves'} during duel ${boundary}: no result survives saved recovery`,()=>{
+ const f=fixture();let m=atDuelBoundary(f,boundary);const before=clone(m.players);
+ const drawn=boundary==='draw'?m.stack.at(-1).event.card:null;
+ leaveParticipant(m,f,side,returns);m=clone(m);state.assertState(m);
+ m=seek(m,x=>x.stack.length===1);assert.equal(m.cards[f.card].zone,'lost');
+ if(boundary==='initiation')assert.equal(duel(m),undefined);
+ else {assert.equal(duel(m).interrupted,true);assert.equal(duel(m).winner,null);assert.equal(duel(m).stage,'complete');}
+ if(drawn)assert.equal(m.cards[drawn].zone,'used','already drawn destiny finishes cleanup');
+ for(const seat of ['dark','light']){
+  assert.equal(m.players[seat].force.length,before[seat].force.length);
+  assert.deepEqual(m.players[seat].reserve,before[seat].reserve,'no further duel draws');
+  assert.ok(f.lost[seat].every(id=>m.cards[id].zone==='lost'),'no retrieval');
+ }
+ assert.equal(m.cards[side==='dark'?f.vader:f.luke].zone,returns?'table':'hand');
+ assert.equal(m.cards[side==='dark'?f.luke:f.vader].zone,'table');
+});
+
+for(const side of ['dark','light'])test(`departing ${side} after duel results preserves the finalized Force exchange`,()=>{
+ const f=fixture();let m=atDuelBoundary(f,'result');const before=clone(m.players);
+ leaveParticipant(m,f,side,false);m=finish(clone(m));
+ assert.equal(duel(m).interrupted,false);assert.equal(duel(m).winner,'dark');assert.equal(duel(m).difference,2);
+ assert.equal(before.light.force.length-m.players.light.force.length,2);
+ assert.equal(f.lost.dark.filter(id=>m.cards[id].zone==='used').length,2);
+ assert.equal(m.cards[side==='dark'?f.vader:f.luke].zone,'hand');
+});
+
+test('duel instance references are private, validated, and tolerate on-table relocation without a new zone visit',()=>{
+ const f=fixture();let m=atDuelBoundary(f,'begin');
+ for(const side of ['dark','light'])assert.equal(runtime.project(m,rules,side).rules.duel.participantRefs,undefined);
+ for(const mutate of [d=>delete d.participantRefs,d=>d.participantRefs.dark.version++,d=>d.participantRefs.light.id=f.vader,d=>d.participantRefs.dark.zone='hand']){
+  const bad=clone(m);mutate(duel(bad));assert.throws(()=>prompt(bad),/reference/);
+ }
+ m.cards[f.luke].location=f.from;m.cards[f.luke].location=f.site;
+ m=finish(m);assert.equal(duel(m).winner,'dark');assert.equal(duel(m).interrupted,false);
+});
+
+test('duel lifecycle matches departure observations and retains explicit GEMP return discrepancies',()=>{
+ const observations=JSON.parse(fs.readFileSync(new URL('./gemp/duel-identity-results.json',import.meta.url)));
+ for(const boundary of ['begin','draw','result'])for(const side of ['dark','light'])for(const returns of [false,true]){
+  const f=fixture();let m=atDuelBoundary(f,boundary);const before=clone(m.players);
+  leaveParticipant(m,f,side,returns);m=finish(clone(m));const d=duel(m);
+  const native={name:`${boundary}-${side}-${returns?'return':'leave'}`,
+   ...(d.winner?{darkTotal:d.total.dark,lightTotal:d.total.light,winner:d.winner}:{}),
+   vaderLost:m.cards[f.vader].zone==='lost',lukeLost:m.cards[f.luke].zone==='lost',
+   vaderZone:({table:'AT_LOCATION',hand:'HAND',lost:'TOP_OF_LOST_PILE'})[m.cards[f.vader].zone],
+   lukeZone:({table:'AT_LOCATION',hand:'HAND',lost:'TOP_OF_LOST_PILE'})[m.cards[f.luke].zone],
+   darkForceLost:before.dark.force.length-m.players.dark.force.length,lightForceLost:before.light.force.length-m.players.light.force.length,
+   darkRetrieved:f.lost.dark.filter(id=>m.cards[id].zone==='used').length,lightRetrieved:f.lost.light.filter(id=>m.cards[id].zone==='used').length};
+  const observed=observations.find(o=>o.name===native.name);assert.ok(observed);
+  if(returns&&boundary!=='result'){
+   assert.equal(d.interrupted,true);assert.equal(native.lightForceLost,0);assert.equal(observed.lightForceLost,2);assert.equal(observed.winner,'dark');
+  }else assert.deepEqual(native,observed);
+ }
+});
