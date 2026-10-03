@@ -1,9 +1,10 @@
+import {battleDrawPolicy, assertBattleDrawModifiers, type BattleDrawModifier} from './battle-destiny';
 import {beginDestinySequence, assertDestinyScope, remainingDestinyDraws, replaceDestinyDraw} from './destiny-limits';
 import {sameCard} from './identity';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import type {GaderffiiShot} from './gaderffii';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
-import {atSite, battleDestinyRequirement, cardDefinition, forfeit, isWarrior, name, printed, totalPower, weaponDrawBonus} from './board';
+import {atSite, cardDefinition, forfeit, isWarrior, name, printed, totalPower, weaponDrawBonus} from './board';
 export {weaponDrawBonus} from './board';
 import {barred, reactionActions} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
@@ -23,6 +24,7 @@ export type Battle = {
   destinyDraws?: Pair<Draw | null>;
   destinyPlans?: Pair<DestinyPlan | null>;
   destinyScopes?: Partial<Pair<string>>;
+  drawModifiers?: BattleDrawModifier[];
   gamblersLuck?: {card: string; side: Side; amount: 1 | 2};
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
@@ -253,11 +255,11 @@ export function battleResolve(m: Match, r: Resolution): void {
   if (kind === 'battle:begin') {b.stage = 'weapons'; windowThen(m, 'power', 'battle-weapons', b.initiator);}
   else if (kind === 'battle:power') {b.stage = 'power'; windowThen(m, 'destiny-select', 'battle-destiny-before', b.initiator, {side: b.initiator});}
   else if (kind === 'battle:destiny-select') {
-    const ability = participatingAbility(m, p.side!), requirement = battleDestinyRequirement(m, p.side!, b.site);
+    const policy = battleDrawPolicy(m, p.side!);
     const extra = b.gamblersLuck && b.gamblersLuck.side === p.side ? b.gamblersLuck.amount : 0;
     const scope = battleDestinyScope(m, p.side!);
-    const count = requirement > 4 && ability < requirement ? 0 : (ability >= 4 ? 1 : 0) + extra;
-    if (extra && count && m.players[p.side!].reserve.length) (b.destinyPlans ??= pair(null, null))[p.side!] = {remaining: count, draws: [], selection: {x: extra + 1, y: extra}};
+    const count = policy.count;
+    if ((extra || count > 1 || policy.minimum) && count && m.players[p.side!].reserve.length) (b.destinyPlans ??= pair(null, null))[p.side!] = {remaining: count, draws: [], selection: extra ? {x: extra + 1, y: extra} : null};
     if (count && m.players[p.side!].reserve.length && remainingDestinyDraws(m, scope) > 0)
       m.stack.push({kind: 'decision', side: p.side!, handler: 'battle:destiny', payload: null});
     else continuation(m, 'destiny-next', {side: p.side});
@@ -360,6 +362,7 @@ export function battleView(m: Match): Json {
   return {battle: b ? {...structuredClone(b), damage: pair(battleDamage(m, 'dark'), battleDamage(m, 'light'))} as unknown as Json : null};
 }
 export function assertBattle(m: Match): void {
+  assertBattleDrawModifiers(m);
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:equip') {const p = data(f); assertAttachmentAttempt(m, p.attachment!, p.card!, p.target!);}
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish') {
     const p = data(f);
@@ -376,9 +379,9 @@ export function assertBattle(m: Match): void {
   if (b.gamblersLuck && (m.cards[b.gamblersLuck.card]?.blueprint !== '5_48' || m.cards[b.gamblersLuck.card].owner !== b.gamblersLuck.side || ![1, 2].includes(b.gamblersLuck.amount))) throw Error('Invalid Gambler’s Luck grant.');
   if (b.destinyPlans) for (const side of sides) {
     const plan = b.destinyPlans[side]; if (!plan) continue;
-    if (!b.gamblersLuck || b.gamblersLuck.side !== side || !Number.isSafeInteger(plan.remaining) || plan.remaining < 0 || plan.remaining > 3 ||
-      !Array.isArray(plan.draws) || plan.draws.length > 3 || plan.draws.some(d => !validDraw(m, d, side)) ||
-      plan.selection && (plan.selection.x !== b.gamblersLuck.amount + 1 || plan.selection.y !== b.gamblersLuck.amount)) throw Error('Invalid battle destiny plan.');
+    if (!Number.isSafeInteger(plan.remaining) || plan.remaining < 0 ||
+      !Array.isArray(plan.draws) || plan.draws.some(d => !validDraw(m, d, side)) ||
+      plan.selection && (!b.gamblersLuck || b.gamblersLuck.side !== side || plan.selection.x !== b.gamblersLuck.amount + 1 || plan.selection.y !== b.gamblersLuck.amount)) throw Error('Invalid battle destiny plan.');
   }
 
   if (b.knockedWeapons && (new Set(b.knockedWeapons).size !== b.knockedWeapons.length || b.knockedWeapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon'))) throw Error('Invalid knocked-away weapons.');

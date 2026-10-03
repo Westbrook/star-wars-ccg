@@ -1,8 +1,10 @@
+import {battleDrawPolicy} from './battle-destiny';
+import {battle} from './battle';
 import {sides, type Match, type Side} from './types';
 
 /** A sequence is a rules action's draw group, not a physical card or a global
  * per-player counter. Nested draws and the two sides of a battle stay isolated. */
-export type DestinySequence = {side: Side; source: string; category: string; limit: number | null; physical: number; skipped: number};
+export type DestinySequence = {side: Side; source: string; category: string; limit: number | null; physical: number; skipped: number; substituted?: number};
 const sequences = (m: Match) => (m.data.destinySequences ??= {}) as Record<string, DestinySequence>;
 const validNumber = (n: unknown): n is number => Number.isSafeInteger(n) && Number(n) >= 0;
 export function beginDestinySequence(m: Match, side: Side, source: string, category: string, limit: number | null = null): string {
@@ -24,10 +26,20 @@ export function setDestinyLimit(m: Match, id: string, limit: number | null): voi
 export function remainingDestinyDraws(m: Match, id?: string): number {
   if (!id) return Infinity;
   const p = destinySequence(m, id);
-  return p.limit === null ? Infinity : Math.max(0, p.limit - p.physical - p.skipped);
+  const b = battle(m);
+  const limit = p.category === 'battle' && b?.stage !== 'complete' && b?.destinyScopes?.[p.side] === id ? battleDrawPolicy(m, p.side, p.limit).limit : p.limit;
+  return limit === null ? Infinity : Math.max(0, limit - p.physical - p.skipped);
 }
-export function countDestinyDraw(m: Match, id: string | undefined, kind: 'physical' | 'skipped'): void {
-  if (id) destinySequence(m, id)[kind]++;
+export function countDestinyDraw(m: Match, id: string | undefined, kind: 'physical' | 'skipped' | 'substituted'): void {
+  if (id) {const p = destinySequence(m, id); p[kind] = (p[kind] ?? 0) + 1;}
+}
+/** An involuntary cost failure can be bypassed by current if-unable text.
+ * Voluntary refusal is never overridden. Substitutions count as draws here. */
+export function mayBypassDestinyCost(m: Match, id?: string): boolean {
+  if (!id) return false;
+  const p = destinySequence(m, id), b = battle(m);
+  return p.category === 'battle' && b?.stage === 'power' && b.destinyScopes?.[p.side] === id &&
+    p.physical + p.skipped + (p.substituted ?? 0) < battleDrawPolicy(m, p.side).minimum;
 }
 /** Only cancel-and-redraw releases the original slot. Plain cancellation keeps
  * it consumed (AR p32). The resolving continuation calls this exactly once. */
@@ -52,6 +64,6 @@ export function assertDestinySequences(m: Match): void {
     const serial = Number(id.slice('destiny-sequence:'.length));
     if (!/^destiny-sequence:[1-9]\d*$/.test(id) || !Number.isSafeInteger(serial) || serial > m.serial || !p || !sides.includes(p.side) ||
       !m.cards[p.source] || typeof p.category !== 'string' || !p.category || p.limit !== null && !validNumber(p.limit) ||
-      !validNumber(p.physical) || !validNumber(p.skipped)) throw Error('Invalid destiny sequence.');
+      !validNumber(p.physical) || !validNumber(p.skipped) || p.substituted !== undefined && !validNumber(p.substituted)) throw Error('Invalid destiny sequence.');
   }
 }

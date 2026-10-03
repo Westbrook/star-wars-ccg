@@ -1,0 +1,40 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T00:52:41.772471+00:00",
+  "harness": "NativeEngineBattleDrawPolicyOracleTests.java",
+  "harnessSha256": "c4e5533cfd4cade7e2a05457a313c76d306e8539dcaabad5c5d6492e204ba33d",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineBattleDrawPolicyOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 14,
+  "productionFilesVerified": 6820,
+  "scope": "Real ground battle with actual Ardan continuous text and Jundland Wastes ability restriction. Other numeric additions, caps, no-limit and fallback-two grants use production modifier classes installed by the fixture. A separate DrawDestinyEffect exercises computed entitlement and caps with controlled cost failure, substitution, cancellation and redraw interventions. Compares count, cap, fallback minimum, events, total, physical reveals and unresolved count. Native tests additionally execute the actual battle draw planner and cost adapters.",
+  "comparisons": {
+    "matching": [
+      "ardan",
+      "ardan-cap-zero",
+      "ardan-hard-six",
+      "add-below-four",
+      "hard-denied",
+      "fallback-two",
+      "fallback-vs-cap",
+      "no-limit",
+      "fallback-no-limit",
+      "cost-involuntary",
+      "cost-voluntary",
+      "cost-substitution",
+      "cost-redraw",
+      "cost-cancel"
+    ]
+  },
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp59\u201360: normal additions, ability conditions, if-unable override, automatic versus resolved optional modifiers, and noncumulative text.",
+    "AR pp32\u201334: physical caps, substitutes, redraws and draw-X/choose-Y restrictions.",
+    "GEMP BattleDestiny.getNumBattleDestinyDraws separates count from physical limit; DrawDestinyEffect distinguishes involuntary failure from voluntary refusal and counts substitutions against cost-override eligibility."
+  ],
+  "limits": "Ardan remains metadata-only: this verifies his ground destiny permission, not attrition immunity or complete card admission. Registry providers must supply actual card conditions and both sides for bilateral no-limit text. Broader ability modifiers/exclusions, cap-granting cards, tax providers, prevention/replacement and full deck conformance remain required. Noncumulative registry, source lifetime and saved-state validation currently have native tests, not fresh reference card comparisons. Full match admission remains closed."
+}

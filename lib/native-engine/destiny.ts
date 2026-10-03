@@ -1,4 +1,4 @@
-import {beginDestinySequence, assertDestinyScope, assertDestinySequences, remainingDestinyDraws, countDestinyDraw, replaceDestinyDraw} from './destiny-limits';
+import {mayBypassDestinyCost, beginDestinySequence, assertDestinyScope, assertDestinySequences, remainingDestinyDraws, countDestinyDraw, replaceDestinyDraw} from './destiny-limits';
 import {printed, weaponDrawBonus} from './board';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {moveCard, moveTop} from './state';
@@ -34,7 +34,7 @@ export function substituteDestiny(m: Match, r: Resolution, source: string, value
 }
 /** Cost providers bind the exact pre-draw continuation. Declining a cost and
  * being unable to pay remain distinct for rules such as "if unable otherwise";
- * a provider must apply any such permission before declining this draw. */
+ * the shared cost resolver checks any current permission before the draw. */
 export function failDestinyCost(m: Match, r: Resolution, chosenByPlayer: boolean): boolean {
   if (typeof chosenByPlayer !== 'boolean') throw Error('Invalid destiny cost failure.');
   if (!m.stack.includes(r) || r.action.handler !== 'destiny:cost' || r.cancelled) return false;
@@ -90,6 +90,7 @@ export function drawDestiny(m: Match, side: Side, source: string, category: stri
 export function resolveDestiny(m: Match, r: Resolution): void {
   if (r.action.handler === 'destiny:cost') {
     const p = r.action.payload as unknown as PendingStart;
+    if (p.costFailure === 'cost-unpaid' && mayBypassDestinyCost(m, p.scope)) delete p.costFailure;
     queue(m, 'draw', p);
     if (r.cancelled) (m.stack.at(-1) as Resolution).cancelled = true;
     if (!p.costFailure && !r.cancelled && m.players[p.side].reserve.length && remainingDestinyDraws(m, p.scope) > 0)
@@ -101,6 +102,7 @@ export function resolveDestiny(m: Match, r: Resolution): void {
     const limited = !p.substitution && !p.costFailure && remainingDestinyDraws(m, p.scope) === 0;
     const card = !limited && !p.costFailure && !p.substitution && !r.cancelled && m.players[p.side].reserve.length ? moveTop(m, p.side, 'reserve', 'destiny') : null;
     if (card) countDestinyDraw(m, p.scope, 'physical');
+    else if (p.substitution) countDestinyDraw(m, p.scope, 'substituted');
     else if (p.costFailure) countDestinyDraw(m, p.scope, 'skipped');
     const modifier = typeof p.modifier === 'number' ? p.modifier : weaponDrawBonus(m, p.modifier.weapon);
     const draw: Draw = limited ? {card: null, value: null, skipped: 'limit'} : p.costFailure ? {card: null, value: null, skipped: p.costFailure} : p.substitution ? {card: null, value: p.substitution.value, substitution: {...p.substitution}} : {card, value: card ? printed(m, card, 'destiny') + modifier : null};

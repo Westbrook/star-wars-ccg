@@ -1,0 +1,243 @@
+[
+  {
+    "name": "ardan",
+    "count": 1,
+    "limit": 1,
+    "minimum": 1,
+    "total": 1.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "name": "ardan-cap-zero",
+    "count": 1,
+    "limit": 1,
+    "minimum": 1,
+    "total": 1.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "name": "ardan-hard-six",
+    "count": 1,
+    "limit": 1,
+    "minimum": 1,
+    "total": 1.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "name": "add-below-four",
+    "count": 2,
+    "limit": null,
+    "minimum": 0,
+    "total": 6.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 2,
+    "unresolved": 0
+  },
+  {
+    "name": "hard-denied",
+    "count": 0,
+    "limit": null,
+    "minimum": 0,
+    "total": null,
+    "events": [],
+    "physicalReveals": 0,
+    "unresolved": 0
+  },
+  {
+    "name": "fallback-two",
+    "count": 2,
+    "limit": 2,
+    "minimum": 2,
+    "total": 6.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 2,
+    "unresolved": 0
+  },
+  {
+    "name": "fallback-vs-cap",
+    "count": 3,
+    "limit": 2,
+    "minimum": 2,
+    "total": 6.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 2,
+    "unresolved": 0
+  },
+  {
+    "name": "no-limit",
+    "count": 3,
+    "limit": null,
+    "minimum": 0,
+    "total": 6.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 3,
+    "unresolved": 0
+  },
+  {
+    "name": "fallback-no-limit",
+    "count": 2,
+    "limit": 2,
+    "minimum": 2,
+    "total": 6.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 2,
+    "unresolved": 0
+  },
+  {
+    "name": "cost-involuntary",
+    "count": 1,
+    "limit": 1,
+    "minimum": 1,
+    "total": 1.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  },
+  {
+    "name": "cost-voluntary",
+    "count": 1,
+    "limit": 1,
+    "minimum": 1,
+    "total": null,
+    "events": [
+      "cost"
+    ],
+    "physicalReveals": 0,
+    "unresolved": 0
+  },
+  {
+    "name": "cost-substitution",
+    "count": 2,
+    "limit": null,
+    "minimum": 1,
+    "total": 3.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "cost",
+      "total"
+    ],
+    "physicalReveals": 0,
+    "unresolved": 0
+  },
+  {
+    "name": "cost-redraw",
+    "count": 1,
+    "limit": 1,
+    "minimum": 1,
+    "total": 5.0,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "cost",
+      "before",
+      "drawn",
+      "complete",
+      "total"
+    ],
+    "physicalReveals": 2,
+    "unresolved": 0
+  },
+  {
+    "name": "cost-cancel",
+    "count": 2,
+    "limit": null,
+    "minimum": 1,
+    "total": null,
+    "events": [
+      "cost",
+      "before",
+      "drawn",
+      "cost"
+    ],
+    "physicalReveals": 1,
+    "unresolved": 0
+  }
+]

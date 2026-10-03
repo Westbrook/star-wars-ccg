@@ -885,8 +885,7 @@ continuations still advance. Redraws and selection candidates each check costs.
 An empty Reserve cannot incur a draw cost, and cost windows with no legal action
 auto-settle. Eight mechanism observations agree with pinned GEMP.
 
-Generic “if unable to otherwise” permission, cost
-prevention/replacement and card-specific tax providers remain required before
+Cost prevention/replacement and card-specific tax providers remain required before
 full admission; this mechanism does not certify Gold Leader or other tax cards.
 
 ### Physical destiny limits
@@ -903,6 +902,37 @@ changes afterward. Nested sequences cannot consume the parent's allowance.
 Required draw-and-choose groups stop at the cap and resolve surviving candidates;
 optional conversions require room for all X draws at initiation and resolution.
 Gambler’s Luck, Smoke Screen and both Dice paths share the battle sequence. Thirteen
-fresh reference observations match. General modifier aggregation, cap-granting
-cards, no-limit/if-unable overrides and turn-wide prohibitions remain required.
+fresh reference observations match. Cap-granting cards and turn-wide prohibitions
+remain required; battle-specific aggregation and overrides are described below.
 The numeric setter is a rules-provider API, not a client command.
+
+
+### Battle destiny permissions
+
+`battle-destiny.ts` separates scheduled draws from physical limits. Resolved
+optional additions last through the battle; continuous providers require their
+original table instance and can require participation. Same-title/function
+additions are noncumulative unless explicitly permitted. Ability conditions block
+ordinary and added draws. “If unable to otherwise” supplies a minimum instead of
+adding extra draws, can override caps and ability restrictions, and limits a draw
+group when it is the source of the entitlement. No-limit text removes numeric
+caps without creating entitlement. The first-draw plan preserves scheduled draws
+after an automatic addition ceases to apply.
+
+Lieutenant Commander Ardan supplies his actual ground-site fallback permission.
+His remaining text is unimplemented, so he stays metadata-only and cannot enter
+production decks. Registry entries are written by rule providers, never by player
+commands; each provider remains responsible for its printed conditions.
+
+An involuntary pre-draw cost failure can use current fallback permission. A
+voluntary refusal cannot. The sequence also counts substituted values for this
+cost check, even though they consume no physical cap. Plain cancellation consumes
+the attempt, while redraw releases its slot before the replacement cost check.
+The override belongs to the active battle's exact side/scope and power segment.
+
+Fourteen executed GEMP observations match counts, caps, events, totals and cleanup;
+see `tests/native-engine/gemp/battle-draw-policy-provenance.json`. Native battle
+adapters, source departure/reentry, noncumulative grants and malformed saved states
+have additional tests. These checks do not admit complete cards or decks. Remaining
+work includes actual cap/tax providers, broader ability modifiers and exclusions,
+prevention/replacement, general granting-card integration and full-match delivery.
