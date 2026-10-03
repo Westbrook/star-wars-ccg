@@ -1,3 +1,5 @@
+import {assertDuelModifiers} from './duel-modifiers';
+import {duelInterruptActions, duelInterruptInitiate, duelInterruptResolve, assertDuelInterrupts} from './duel-interrupts';
 import {assertDeployments} from './deployment';
 import {phaseEffectActions, phaseEffectAutomatic, phaseEffectInitiate, phaseEffectResolve, assertPhaseEffects} from './phase-effects';
 import {abilityEffectActions, abilityEffectInitiate, abilityEffectResolve, assertAbilityEffects} from './ability-effects';
@@ -49,12 +51,13 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
     if (r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
-    if (r.action.handler.startsWith('phase-effect:')) phaseEffectInitiate(m,r);
+    if (r.action.handler.startsWith('duel-interrupt:')) duelInterruptInitiate(m,r);
+    else if (r.action.handler.startsWith('phase-effect:')) phaseEffectInitiate(m,r);
     else if (r.action.handler.startsWith('ability-effect:')) abilityEffectInitiate(m,r);
     else if (r.action.handler.startsWith('battle-effect:')) battleEffectInitiate(m,r);
     else if (r.action.handler.startsWith('force-effect:')) forceEffectInitiate(m, r);
@@ -83,6 +86,7 @@ export const premiereRules: Rules = {
   },
   resolve: (m, r, context) => {
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('duel-interrupt:')) duelInterruptResolve(m,r);
     else if (r.action.handler.startsWith('phase-effect:')) phaseEffectResolve(m,r);
     else if (r.action.handler.startsWith('ability-effect:')) abilityEffectResolve(m,r);
     else if (r.action.handler.startsWith('battle-effect:')) battleEffectResolve(m,r);
@@ -171,6 +175,8 @@ export const premiereRules: Rules = {
     assertInterrupts(match);
     assertCharacterTriggers(match);
     assertDuel(match);
+    assertDuelModifiers(match);
+    assertDuelInterrupts(match);
     assertRevival(match);
     assertAssault(match);
     assertAccident(match);

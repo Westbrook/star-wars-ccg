@@ -1,3 +1,4 @@
+import {duelModifier} from './duel-modifiers';
 import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
 import {adjacent, power} from './board';
 import {completeDestinyTotal, drawDestiny, validDraw, type Draw} from './destiny';
@@ -11,6 +12,7 @@ import {assertCardReference, referenceCard, sameCard, type CardReference} from '
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 export type Duel = {
+  serial?: number; drawCounts?: Partial<Record<Side, number>>;
   source: string; site: string; characters: Record<Side, string>;
   participantRefs: Record<Side, CardReference>;
   stage: 'begin' | 'draws' | 'result' | 'losses' | 'end' | 'complete';
@@ -83,7 +85,7 @@ export function duelResolve(m: Match, r: Resolution): void {
   if (h === 'duel:cancel-cleanup') {moveCard(m, p.card, 'lost'); return;}
   if (h === 'duel:obsession') {
     queue(m, 'cleanup', {card: p.card});
-    const d: Duel = {source: p.card, site: p.site!, characters: {dark: p.vader!, light: p.luke!}, participantRefs: structuredClone(p.participantRefs!), stage: 'begin', draws: {dark: [], light: []}, total: {dark: null, light: null}, winner: null, difference: 0, interrupted: false};
+    const d: Duel = {serial: ++m.serial, source: p.card, site: p.site!, characters: {dark: p.vader!, light: p.luke!}, participantRefs: structuredClone(p.participantRefs!), stage: 'begin', draws: {dark: [], light: []}, total: {dark: null, light: null}, winner: null, difference: 0, interrupted: false};
     if (!together(m, d)) return;
     m.data.duel = d as unknown as Json;
     boundary(m, 'draws-before', 'duel-initiated', p); return;
@@ -99,7 +101,8 @@ export function duelResolve(m: Match, r: Resolution): void {
     const side = p.side!;
     if (p.draw) d.draws[side].push(p.draw);
     const next: Payload = {card: p.card, side};
-    if (d.draws[side].length < 2) {
+    const count = (d.drawCounts ??= {})[side] ??= (d.scopes?.[side] !== undefined ? 2 : Math.max(0, 2 + duelModifier(m, side, 'draws')));
+    if (d.draws[side].length < count) {
       const scope = (d.scopes ??= {})[side] ??= beginDestinySequence(m, side, p.card, 'duel');
       drawDestiny(m, side, p.card, 'duel', action('draw-next', next), false, 0, undefined, false, scope);
     }
@@ -111,7 +114,7 @@ export function duelResolve(m: Match, r: Resolution): void {
   } else if (h === 'duel:totals') {
     if (!d.destinyTotals) throw Error('Missing duel destiny totals.');
     const successful = (side: Side) => d.destinyTotals![side] !== null;
-    for (const side of sides) d.total[side] = power(m, d.characters[side]) + (d.destinyTotals?.[side] ?? 0);
+    for (const side of sides) d.total[side] = Math.max(0, power(m, d.characters[side]) + (d.destinyTotals?.[side] ?? 0) + duelModifier(m, side, 'total'));
     // AR Failed Destiny Draws: no successful draw loses the action, even
     // against lower power. When both fail there is neither winner nor loser.
     d.winner = !successful('dark') ? successful('light') ? 'light' : null : !successful('light') ? 'dark'
@@ -161,13 +164,15 @@ export function assertDuel(m: Match): void {
   if (u && (!Number.isSafeInteger(u.turn) || u.turn < 1 || u.turn > m.turn.number || typeof u.obsession !== 'boolean')) throw Error('Invalid duel usage.');
   const d = duel(m);
   if (d) {
+    if (d.serial !== undefined && (!Number.isSafeInteger(d.serial) || d.serial < 1 || d.serial > m.serial) ||
+        d.drawCounts !== undefined && (!d.drawCounts || typeof d.drawCounts !== 'object' || Array.isArray(d.drawCounts) || Object.entries(d.drawCounts).some(([side,n]) => !sides.includes(side as Side) || !Number.isSafeInteger(n) || n < 0))) throw Error('Invalid duel draw plan.');
     if (m.cards[d.source]?.blueprint !== '101_6' || !m.locations.includes(d.site) || !['begin','draws','result','losses','end','complete'].includes(d.stage) || typeof d.interrupted !== 'boolean' || d.winner !== null && !sides.includes(d.winner) || d.difference !== null && (!Number.isSafeInteger(d.difference) || d.difference < 0)) throw Error('Invalid duel state.');
-    for (const side of sides) if (m.cards[d.characters[side]]?.owner !== side || !Array.isArray(d.draws[side]) || d.draws[side].length > 2 || d.draws[side].some(x => !validDraw(m, x, side)) || d.total[side] !== null && (!Number.isFinite(d.total[side]) || d.total[side]! < 0)) throw Error('Invalid duel total.');
+    for (const side of sides) if (m.cards[d.characters[side]]?.owner !== side || !Array.isArray(d.draws[side]) || d.draws[side].length > (d.drawCounts?.[side] ?? 2) || d.draws[side].some(x => !validDraw(m, x, side)) || d.total[side] !== null && (!Number.isFinite(d.total[side]) || d.total[side]! < 0)) throw Error('Invalid duel total.');
     if (d.destinyTotals && sides.some(side => d.destinyTotals![side] !== null && (!Number.isFinite(d.destinyTotals![side]) || d.destinyTotals![side]! < 0))) throw Error('Invalid duel destiny totals.');
     if (m.cards[d.characters.dark].blueprint !== '101_5' || m.cards[d.characters.light].blueprint !== '101_2') throw Error('Invalid duel participants.');
     assertParticipants(m, d.participantRefs, d.characters);
     if (d.difference === null && (d.stage !== 'result' || d.draws.dark.some(x => x.value !== null) === d.draws.light.some(x => x.value !== null))) throw Error('Invalid unverified duel amount.');
-    if (['result', 'losses'].includes(d.stage) && sides.some(side => d.draws[side].length !== 2 || d.total[side] === null)) throw Error('Incomplete duel result.');
+    if (['result', 'losses'].includes(d.stage) && sides.some(side => d.draws[side].length !== (d.drawCounts?.[side] ?? 2) || d.total[side] === null)) throw Error('Incomplete duel result.');
   }
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler.startsWith('duel:')) {
     const p = f.action.payload as unknown as Payload;

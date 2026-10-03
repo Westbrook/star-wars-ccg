@@ -1476,3 +1476,33 @@ Departure and numerical changes were explicit fixture interventions.
 This does not certify vehicles/permanent pilots, inactive/captured/aboard rules,
 all boundary-timing cards, broader continuous-trigger infrastructure or full
 matches. These remain in scope. `premiereRules.supports` remains closed.
+
+### Duel draw counts and total modifiers
+
+`duel-modifiers.ts` binds resolved draw additions and continuous total modifiers
+ to a saved duel identity. Continuous sources also bind their original table
+instance; returning sources cannot revive expired grants. Each side freezes its
+draw count when that side begins drawing. Totals remain live until the result,
+then freeze before retrieval and losses. Existing physical draw caps, failed
+extra draws, response windows and saved recovery still apply.
+
+Focused Attack (`5_141`) and Courage Of A Skywalker (`5_41`) now implement their
+duel-destiny addition functions during the duel modification step. They use the
+normal unique/per-turn play restrictions, Sense cancellation and Lost disposal.
+Their battle functions are unfinished; both remain component-only definitions.
+There are 115 explicit definitions, and production deck admission remains closed.
+
+Evidence: `tests/native-engine/duel-modifiers.test.mjs` and
+`tests/native-engine/gemp/duel-modifiers-provenance.json`. Six of seven complete
+reference outcomes agree. The fractional-total case retains an explicit rulebook
+difference: AR Appendix B, Brainiac (p139), rounds a small winning duel margin to
+zero Force while still losing the defeated character. Pinned GEMP instead
+retrieves/loses one Force. The raw reference record is retained unchanged.
+
+Failed Obsession destiny remains separately unresolved: AR Failed Destiny Draws
+establishes the loser, but the numerical Force difference after exactly one side
+fails has not been verified. The general undefined-value rule excludes values
+that literally do not exist, including failed destiny. The March 2021 official
+failed-destiny clarification does not supply this arithmetic either. Preserve
+the guard rather than inferring a number from GEMP's contradictory winner.
+No new standalone study or complete-match certification is implied.
