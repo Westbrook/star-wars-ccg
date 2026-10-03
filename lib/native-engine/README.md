@@ -1043,3 +1043,41 @@ and wire timers/recovery; this is not an independent background scheduler. The
 production starter admission gate remains closed. CPU self-play and durable
 service runs exercise complete 40/60-card test decks under test-only admission;
 they do not establish full card-text coverage, optimal strategy or GEMP parity.
+
+### Native match client
+
+`/matches` lists the signed-in player's saved matches and reads starter admission
+from the server. `/matches/:id` restores an assigned-seat projection on every
+refresh. The lobby currently offers the authored 60-card Premiere Introductory
+pair; 40-card/custom/sealed deck selection remains to be connected. No browser
+flag or test fixture opens the production rules gate. Existing GEMP and Rules Lab
+routes remain separate.
+
+`client.ts` serializes requests, rejects older/cross-match snapshots and retains
+uncertain commands with their original receipts in session storage. Refresh
+exposes an explicit safe retry. Deterministic rejection reloads the current view;
+authentication failure preserves pending work. CPU advancement is requested by
+the visible client, including simultaneous private starting selections. Private
+PvP invitations carry their token in the URL fragment, are retained only in that
+tab for sign-in/retry, and disappear from the URL after a successful join.
+
+The screen displays the location layout, attached and in-progress cards, own
+hand, public piles, setup icons, legal choices and both sides' battle debts.
+Desktop uses a decision sidebar; tablets compact that layout; phones have
+Table/Hand/Actions tabs. Empty opportunities pass after two seconds (pause and
+ArrowRight supported). Polling runs after that interval so it cannot continually
+restart the timer. Dialogs, hidden tabs, errors and uncertain writes suspend
+local automation. Server deadlines still expire: the countdown uses trusted
+`serverTime`, and a private inspection/card dialog is redacted at its deadline.
+Concession is a confirmed server command and final results freeze the controls.
+
+Run `npm run test:engine:client` with the normal local preview running at 5173
+(or set `NATIVE_UI_ORIGIN`). Playwright is pinned to 1.62.1, Chromium revision
+1234; install it with `npx playwright install chromium` (CI/Linux may need
+`--with-deps`). Browser fixtures intercept only the match HTTP boundary and
+execute the real handlers, native service and isolated SQLite adapter under
+test-only admission. They never seed shared/production storage. Tests cover
+lost-response recovery through refresh, receipts, CPU dispatch, two identities
+joining, concession, empty timers/keyboard, inspection expiry, production gate,
+and screenshots at 1440, 834 and 390 pixels. This is client integration evidence,
+not exhaustive card conformance or an end-to-end production match certification.

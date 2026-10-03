@@ -1,3 +1,4 @@
+import starterManifest from '../../data/native-proof/manifest.json';
 import {chooseComputerAction, computerPolicy} from './computer';
 import {applyCommand, advanceTime, createMatch, project, prompt, type Rules} from './runtime';
 import {secureEntropy, type Entropy} from './random';
@@ -32,10 +33,11 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     project(m, rulesFor(row.rules_version), row.owner_side, now());return m;
   }
   function response(row: Row, side: Side, actor?: string) {
+    const time = now();
     return {id: row.id, mode: row.mode, side, rules: row.rules_version, deckSize: row.deck_size, revision: row.version,
-      waitingForOpponent: !row.state, created: row.created, updated: row.updated,
+      serverTime: time, waitingForOpponent: !row.state, created: row.created, updated: row.updated,
       ...(actor === row.owner && !row.guest && row.mode === 'pvp' ? {inviteToken: row.invite_token} : {}),
-      game: row.state ? project(parse(row), rulesFor(row.rules_version), side, now()) : null};
+      game: row.state ? project(parse(row), rulesFor(row.rules_version), side, time) : null};
   }
   function deck(input: unknown, side: Side, size: number, rules: Rules): Deck {
     if (!Array.isArray(input) || input.length !== size || input.some(bp => typeof bp !== 'string' || !/^\d+_\d+$/.test(bp) || bp.length > 40)) fail('Choose a complete deck for this format.');
@@ -150,6 +152,7 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     return {...result,computer:{policy:computerPolicy,status,steps}};
   }
   return {create,join,read,advanceComputer,
+    starters: () => starterManifest.decks.map(d => ({id:d.id,side:d.side,size:d.size,admitted:d.main.every(bp => rulesFor(options.currentRules).supports(bp))})),
     list: async (actor: string) => {user(actor);return (await db.prepare("SELECT id,mode,CASE WHEN owner = ? THEN owner_side WHEN owner_side = 'dark' THEN 'light' ELSE 'dark' END AS side,rules_version AS rules,deck_size AS deckSize,version AS revision,created,updated FROM native_matches WHERE owner = ? OR guest = ? ORDER BY updated DESC LIMIT 30").bind(actor,actor,actor).all()).results;},
     command: (id: string, actor: string, body: Body) => {user(actor);return command(id,actor,body);},
     // Internal diagnostics/dispatcher only; never accept client-selected CPU moves.

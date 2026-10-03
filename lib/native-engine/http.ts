@@ -27,7 +27,7 @@ function failure(e: unknown) {
 }
 export function matchHandlers(service: () => Service) {
   return {
-    list: async (request: Request) => {try {const actor = matchIdentity(request);return json({matches:await service().list(actor)});} catch(e) {return failure(e);}},
+    list: async (request: Request) => {try {const actor = matchIdentity(request);const s=service();return json({matches:await s.list(actor),starters:s.starters()});} catch(e) {return failure(e);}},
     create: async (request: Request) => {try {const actor = matchIdentity(request),body = await matchInput(request);return json(await service().create(actor,body),201);} catch(e) {return failure(e);}},
     read: async (request: Request,context: Context) => {try {const actor = matchIdentity(request),{id} = await context.params;if (new URL(request.url).searchParams.has('seat')) throw new MatchServiceError('Your seat is assigned by the server.',403,'ASSIGNED_SEAT');return json(await service().read(id,actor));} catch(e) {return failure(e);}},
     update: async (request: Request,context: Context) => {try {const actor = matchIdentity(request),body = await matchInput(request),{id} = await context.params,s = service();if (body.operation === 'advance') return json(await s.advanceComputer(id,actor,body));if (body.operation === 'join') return json(await s.join(id,actor,body));if (body.operation === 'command') return json(await s.command(id,actor,body));throw new MatchServiceError('Choose a supported operation.');} catch(e) {return failure(e);}},
