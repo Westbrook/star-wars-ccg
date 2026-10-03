@@ -107,3 +107,53 @@ test('native battle movement agrees with all five fresh GEMP observations',()=>{
  for(const vader of [false,true]){let {m,site,luke,run}=battleBoard({vader});const base=board.power(m,luke),before=m.players.light.force.length;m=initiate(m,site);m=seek(step(m,'run-luke:'+run+':'+luke),weaponWindow);const name=vader?'run-vader':'run-clear';assert.deepEqual({name,bonus:board.power(m,luke)-base,cost:before-m.players.light.force.length,moved:m.cards[luke].location===site,interruptLost:m.cards[run].zone==='lost'},observed.find(r=>r.name===name))}
  for(const amount of [0,1,2]){let {m,site,luke,rebel,escape}=battleBoard({lukeAtBattle:true,forceCount:amount});m=initiate(m,site);m=step(m,'escape:'+escape);m=seek(m,x=>x.cards[escape].zone==='used');const name='escape-'+amount;assert.deepEqual({name,moved:[luke,rebel].filter(id=>m.cards[id].location!==site).length,remainingForce:m.players.light.force.length,interruptUsed:m.cards[escape].zone==='used'},observed.find(r=>r.name===name))}
 });
+
+for(const returns of [false,true])test('transit preserves paid group movement while excluding a departed original instance '+returns,()=>{
+ let m=fresh();const from=location(m,'light','1_124'),to=location(m,'dark','1_291'),a=pull(m,'dark','1_194','table',from),b=pull(m,'dark','1_194','table',from);force(m,'dark',2);m=phase(m,'move');m=transit(m,from,to,[a,b]);state.moveCard(m,a,'hand');if(returns){state.moveCard(m,a,'table');m.cards[a].location=from;}m=settle(m);assert.equal(m.cards[b].location,to);assert.equal(m.cards[a].zone,returns?'table':'hand');if(returns)assert.equal(m.cards[a].location,from);assert.equal(m.players.dark.force.length,1);assert.deepEqual(ground.usage(m).moved,[b]);
+});
+
+for(const boundary of ['interrupt','move'])for(const returns of [false,true])test('Run Luke retains its original target through '+boundary+' responses, return='+returns,()=>{
+ let {m,site,near,luke,run}=battleBoard();m=initiate(m,site);m=step(m,'run-luke:'+run+':'+luke);
+ if(boundary==='move')m=seek(m,x=>x.stack.at(-2)?.action?.handler==='travel:run-move');
+ state.moveCard(m,luke,'hand');if(returns){state.moveCard(m,luke,'table');m.cards[luke].location=near;}
+ m=seek(m,weaponWindow);assert.equal(m.cards[run].zone,'lost');assert.equal(m.cards[luke].zone,returns?'table':'hand');if(returns)assert.equal(m.cards[luke].location,near);assert.ok(!ground.usage(m).moved.includes(luke));assert.ok(!combat.battle(m).runLuke);
+});
+
+for(const boundary of ['interrupt','move'])test('Narrow Escape never moves a returned replacement using its old permission: '+boundary,()=>{
+ let {m,site,near,luke,rebel,escape}=battleBoard({lukeAtBattle:true});m=initiate(m,site);m=step(m,'escape:'+escape);
+ if(boundary==='move'){m=settle(m);m=step(m,'away:'+luke+':'+near);assert.equal(m.stack.at(-2).action.handler,'travel:escape-move');}
+ state.moveCard(m,luke,'hand');state.moveCard(m,luke,'table');m.cards[luke].location=site;m=seek(m,x=>x.cards[escape].zone==='used');
+ assert.equal(m.cards[luke].location,site);assert.equal(m.cards[rebel].location,near);assert.equal(m.players.light.force.length,boundary==='move'?2:3);assert.deepEqual(ground.usage(m).moved,[rebel]);
+});
+
+test('Narrow Escape targets its move-away group at initiation, excluding later arrivals',()=>{
+ let {m,site,luke,rebel,escape,extra}=battleBoard({lukeAtBattle:true});m=initiate(m,site);m=step(m,'escape:'+escape);state.moveCard(m,extra,'table');m.cards[extra].location=site;m=seek(m,x=>x.cards[escape].zone==='used');assert.equal(m.cards[extra].location,site);assert.notEqual(m.cards[luke].location,site);assert.notEqual(m.cards[rebel].location,site);assert.equal(m.players.light.force.length,2);
+});
+
+test('multiple qualifying Rebels offer explicit Narrow Escape targets',()=>{
+ let m=fresh({light:['1_11']});const site=location(m,'light','1_129'),near=location(m,'light','1_132'),luke=pull(m,'light','101_2','table',site),han=pull(m,'light','1_11','table',site),alien=pull(m,'light','1_30','table',site),escape=pull(m,'light','1_98','hand');pull(m,'dark','1_194','table',site);force(m,'dark',3);force(m,'light',4);m=initiate(m,site);const choices=prompt(m).choices.filter(c=>c.id.startsWith('escape:'));assert.equal(choices.length,2);assert.ok(choices.some(c=>c.id==='escape:'+escape+':'+luke));assert.ok(choices.some(c=>c.id==='escape:'+escape+':'+han));assert.ok(!choices.some(c=>c.id.endsWith(':'+alien)));m=step(m,'escape:'+escape+':'+han);assert.equal(m.stack.at(-2).action.payload.target,han);m=seek(m,x=>x.cards[escape].zone==='used');assert.ok([luke,han,alien].every(id=>m.cards[id].location===near));
+});
+
+test('pending movement instance references survive save and reject forged/missing identities',()=>{
+ let m=fresh();const from=location(m,'light','1_124'),to=location(m,'dark','1_291'),a=pull(m,'dark','1_194','table',from);force(m,'dark',2);m=phase(m,'move');m=transit(m,from,to,[a]);for(const mutate of [p=>delete p.memberRefs,p=>p.memberRefs[a].version=999,p=>p.memberRefs[a].id=to]){const bad=clone(m);mutate(bad.stack.at(-2).action.payload);assert.throws(()=>premiereRules.validate(bad),/reference|target/);}const resumed=settle(clone(m));assert.equal(resumed.cards[a].location,to);
+});
+
+const identityObservations=JSON.parse(fs.readFileSync(new URL('./gemp/travel-identity-results.json',import.meta.url)));
+for(const expected of identityObservations)test('movement identity reference: '+expected.name,()=>{
+ const runMode=expected.name.startsWith('run');let {m,site,near,luke,rebel,run,escape,extra}=battleBoard({lukeAtBattle:!runMode});
+ const card=runMode?run:escape,before=m.players.light.force.length;m=initiate(m,site);m=step(m,runMode?'run-luke:'+card+':'+luke:'escape:'+card);
+ if(/-(leave|return)$/.test(expected.name)){state.moveCard(m,luke,'hand');if(expected.name.endsWith('return')){state.moveCard(m,luke,'table');m.cards[luke].location=runMode?near:site;}}
+ if(expected.name.endsWith('arrival')){state.moveCard(m,extra,'table');m.cards[extra].location=site;}
+ m=seek(m,x=>x.cards[card].zone===(runMode?'lost':'used'));
+ const actual={name:expected.name,lukeMoved:m.cards[luke].location===(runMode?site:near),rebelMoved:m.cards[rebel].location===near,extraMoved:m.cards[extra].location===near,forceSpent:before-m.players.light.force.length,interruptZone:runMode?'TOP_OF_LOST_PILE':'TOP_OF_USED_PILE'};
+ if(expected.name==='run-leave'){
+  assert.equal(expected.referenceError,'NullPointerException');assert.match(expected.message,/action.*null/);
+  assert.deepEqual(actual,{name:expected.name,lukeMoved:false,rebelMoved:false,extraMoved:false,forceSpent:0,interruptZone:'TOP_OF_LOST_PILE'});
+ }else if(expected.name==='run-return'){
+  assert.equal(expected.lukeMoved,true);assert.deepEqual(actual,{...expected,lukeMoved:false});
+ }else if(expected.name==='escape-return'){
+  assert.equal(expected.lukeMoved,true);assert.equal(expected.forceSpent,2);assert.deepEqual(actual,{...expected,lukeMoved:false,forceSpent:1});
+ }else if(expected.name==='escape-arrival'){
+  assert.equal(expected.extraMoved,true);assert.equal(expected.forceSpent,3);assert.deepEqual(actual,{...expected,extraMoved:false,forceSpent:2});
+ }else assert.deepEqual(actual,expected);
+});

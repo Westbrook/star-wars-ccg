@@ -1,0 +1,55 @@
+[
+  {
+    "interruptZone": "TOP_OF_LOST_PILE",
+    "lukeMoved": true,
+    "name": "run-stay",
+    "rebelMoved": false,
+    "extraMoved": false,
+    "forceSpent": 0
+  },
+  {
+    "referenceError": "NullPointerException",
+    "message": "Cannot invoke \"com.gempukku.swccgo.logic.timing.Action.nextEffect(com.gempukku.swccgo.game.SwccgGame)\" because \"action\" is null",
+    "name": "run-leave"
+  },
+  {
+    "interruptZone": "TOP_OF_LOST_PILE",
+    "lukeMoved": true,
+    "name": "run-return",
+    "rebelMoved": false,
+    "extraMoved": false,
+    "forceSpent": 0
+  },
+  {
+    "interruptZone": "TOP_OF_USED_PILE",
+    "lukeMoved": true,
+    "name": "escape-stay",
+    "rebelMoved": true,
+    "extraMoved": false,
+    "forceSpent": 2
+  },
+  {
+    "interruptZone": "TOP_OF_USED_PILE",
+    "lukeMoved": false,
+    "name": "escape-leave",
+    "rebelMoved": true,
+    "extraMoved": false,
+    "forceSpent": 1
+  },
+  {
+    "interruptZone": "TOP_OF_USED_PILE",
+    "lukeMoved": true,
+    "name": "escape-return",
+    "rebelMoved": true,
+    "extraMoved": false,
+    "forceSpent": 2
+  },
+  {
+    "interruptZone": "TOP_OF_USED_PILE",
+    "lukeMoved": true,
+    "name": "escape-arrival",
+    "rebelMoved": true,
+    "extraMoved": true,
+    "forceSpent": 3
+  }
+]

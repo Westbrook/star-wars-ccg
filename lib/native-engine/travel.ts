@@ -1,3 +1,4 @@
+import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {adjacent, atSite, cardDefinition, controls, moveWithAttachments, name, printed, sitePlacements, system} from './board';
 import {battle, battleHistory, members} from './battle';
 import {canMove, groundResolve, record} from './ground';
@@ -8,7 +9,7 @@ import {other, type Action, type Decision, type Json, type Match, type Resolutio
 
 export const bayCosts: Record<string, Record<Side, number>> = {'1_124': {dark: 1, light: 1}, '1_285': {dark: 0, light: 2}, '1_129': {dark: 2, light: 1}, '1_291': {dark: 1, light: 2}};
 type TravelState = {turn: number; failedSearch: boolean; runPlayed: boolean; shuffles: number};
-type Payload = {card?: string; from?: string; to?: string; room?: string; selected?: string[]; remaining?: string[]; placement?: string; target?: string};
+type Payload = {card?: string; from?: string; to?: string; room?: string; selected?: string[]; remaining?: string[]; placement?: string; target?: string; targetRef?: CardReference; memberRefs?: Record<string, CardReference>};
 export const travelState = (m: Match): TravelState => {
   const s = m.data.travel as TravelState | undefined;
   return s?.turn === m.turn.number ? s : {turn: m.turn.number, failedSearch: false, runPlayed: false, shuffles: s?.shuffles ?? 0};
@@ -16,8 +17,8 @@ export const travelState = (m: Match): TravelState => {
 const remember = (m: Match) => {const s = travelState(m); m.data.travel = s as unknown as Json; return s;};
 export function markRunPlayed(m: Match): void {remember(m).runPlayed = true;}
 const data = (f: Resolution | Decision) => ('action' in f ? f.action.payload : f.payload) as Payload;
-const action = (id: string, label: string, handler: string, p: Payload): Action => ({id, label, handler: 'travel:' + handler, payload: p as Json});
-function decision(m: Match, side: Side, handler: string, p: Payload): void {m.stack.push({kind: 'decision', side, handler: 'travel:' + handler, payload: p as Json});}
+const action = (id: string, label: string, handler: string, p: Payload): Action => ({id, label, handler: 'travel:' + handler, payload: p as unknown as Json});
+function decision(m: Match, side: Side, handler: string, p: Payload): void {m.stack.push({kind: 'decision', side, handler: 'travel:' + handler, payload: p as unknown as Json});}
 function then(m: Match, side: Side, handler: string, p: Payload, respondable = false): void {
   m.stack.push({kind: 'resolution', actor: side, cancelled: false, ...(respondable ? {awaitingResponses: true} : {}), action: action('travel-step:' + handler, handler, handler, p)});
 }
@@ -47,9 +48,12 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
         for (const luke of Object.values(m.cards).filter(c => c.owner === side && runEligible(m, c.id, b.site)))
           result.push(action('run-luke:' + card + ':' + luke.id, 'Run Luke, Run! · move Luke to battle for free', 'run', {card, target: luke.id, from: luke.location, to: b.site}));
       // Move-away initiation needs a related destination, not affordable movement.
-      if (m.cards[card].blueprint === '1_98' && b.initiator !== side && m.locations.some(id => id !== b.site && system(m, id) === system(m, b.site)) &&
-          members(m, side).some(id => cardDefinition(m, id).subType === 'Rebel' && printed(m, id, 'ability') > 2))
-        result.push(action('escape:' + card, 'Narrow Escape · attempt to move your cards with ability away', 'escape', {card, from: b.site, remaining: members(m, side).filter(id => printed(m, id, 'ability') > 0)}));
+      if (m.cards[card].blueprint === '1_98' && b.initiator !== side && m.locations.some(id => id !== b.site && system(m, id) === system(m, b.site))) {
+        const rebels = members(m, side).filter(id => cardDefinition(m, id).subType === 'Rebel' && printed(m, id, 'ability') > 2);
+        for (const target of rebels) result.push(action('escape:' + card + (rebels.length > 1 ? ':' + target : ''),
+          'Narrow Escape · target ' + name(m, target) + ' and attempt to move your cards with ability away', 'escape',
+          {card, target, from: b.site, remaining: members(m, side).filter(id => printed(m, id, 'ability') > 0)}));
+      }
     }
   }
   return result;
@@ -57,20 +61,24 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
 export function travelInitiate(m: Match, r: Resolution): void {
   const p = data(r);
   if (r.action.handler === 'travel:party') decision(m, r.actor, 'party', p);
-  if (['travel:run', 'travel:escape'].includes(r.action.handler)) moveCard(m, p.card!, 'playing');
+  if (['travel:run', 'travel:escape'].includes(r.action.handler)) {
+    p.targetRef = referenceCard(m, p.target!);
+    if (r.action.handler === 'travel:escape') p.memberRefs = Object.fromEntries(p.remaining!.map(id => [id, referenceCard(m, id)]));
+    moveCard(m, p.card!, 'playing');
+  }
   if (r.action.handler === 'travel:run') markRunPlayed(m);
 }
 function shuffle(m: Match, context: Context): void {m.players.dark.reserve = shuffled(m.players.dark.reserve, context.entropy); remember(m).shuffles++;}
 function escapeOptions(m: Match, p: Payload): {card: string; to: string}[] {
   if (!m.players.light.force.length) return [];
-  return (p.remaining ?? []).filter(id => m.cards[id]?.zone === 'table' && m.cards[id].location === p.from && canMove(m, id)).flatMap(card =>
+  return (p.remaining ?? []).filter(id => sameCard(m, p.memberRefs?.[id]!) && m.cards[id]?.zone === 'table' && m.cards[id].location === p.from && canMove(m, id)).flatMap(card =>
     m.locations.filter(to => adjacent(m, p.from!, to)).map(to => ({card, to})));
 }
 export function travelResolve(m: Match, r: Resolution, context: Context): void {
   const p = data(r), handler = r.action.handler;
   if (r.cancelled) {if (p.card && m.cards[p.card].zone === 'playing') moveCard(m, p.card, 'lost'); return;}
   if (handler === 'travel:transit') {
-    const moved = p.selected!.filter(id => transitEligible(m, r.actor, p.from!).includes(id));
+    const moved = p.selected!.filter(id => sameCard(m, p.memberRefs?.[id]!) && transitEligible(m, r.actor, p.from!).includes(id));
     for (const id of moved) {moveWithAttachments(m, id, p.to!); record(m).moved.push(id);}
     if (moved.length) openWindow(m, 'response', other(r.actor), {kind: 'moved', cards: moved, from: p.from!, site: p.to!});
   } else if (handler === 'travel:search') {
@@ -80,12 +88,12 @@ export function travelResolve(m: Match, r: Resolution, context: Context): void {
     groundResolve(m, {...r, action: {...r.action, handler: 'ground:site'}});
   } else if (handler === 'travel:run') {
     then(m, r.actor, 'interrupt-done', {card: p.card!});
-    if (runEligible(m, p.target!, p.to!)) {
+    if (sameCard(m, p.targetRef!) && runEligible(m, p.target!, p.to!)) {
       // Nested regular movement has its own response step, even when free.
-      then(m, r.actor, 'run-move', p, true);
+      then(m, r.actor, 'run-move', {...p, from: m.cards[p.target!].location}, true);
     }
   } else if (handler === 'travel:run-move') {
-    if (runEligible(m, p.target!, p.to!)) {
+    if (sameCard(m, p.targetRef!) && m.cards[p.target!].location === p.from && runEligible(m, p.target!, p.to!)) {
       moveWithAttachments(m, p.target!, p.to!); record(m).moved.push(p.target!); battle(m)!.runLuke = true;
       openWindow(m, 'response', other(r.actor), {kind: 'moved', card: p.target!, from: p.from!, site: p.to!});
     }
@@ -94,7 +102,7 @@ export function travelResolve(m: Match, r: Resolution, context: Context): void {
   } else if (handler === 'travel:escape-next') {
     if (escapeOptions(m, p).length) decision(m, r.actor, 'escape', p);
   } else if (handler === 'travel:escape-move') {
-    if (canMove(m, p.target!) && m.cards[p.target!].location === p.from && adjacent(m, p.from!, p.to!)) {
+    if (sameCard(m, p.targetRef!) && canMove(m, p.target!) && m.cards[p.target!].location === p.from && adjacent(m, p.from!, p.to!)) {
       moveWithAttachments(m, p.target!, p.to!); record(m).moved.push(p.target!);
       openWindow(m, 'response', other(r.actor), {kind: 'moved', card: p.target!, from: p.from!, site: p.to!});
     }
@@ -126,6 +134,7 @@ export function travelChoose(m: Match, d: Decision, choice: string, context: Con
       m.stack.pop(); const w = m.stack.at(-1); if (w?.kind !== 'window') throw Error('Missing transit opportunity.'); w.priority = d.side; return;
     }
     if (choice.startsWith('toggle:')) {const id = choice.slice(7); p.selected = p.selected!.includes(id) ? p.selected!.filter(c => c !== id) : [...p.selected!, id]; decision(m, d.side, 'party', p); return;}
+    p.memberRefs = Object.fromEntries(p.selected!.map(id => [id, referenceCard(m, id)]));
     const payment = {[d.side]: bayCosts[m.cards[p.from!].blueprint][d.side]};
     parent.action = {...action('transit:' + p.from + ':' + p.to, 'Docking-bay transit', 'transit', p), payment};
     queueForcePayment(m, parent, payment);
@@ -139,7 +148,7 @@ export function travelChoose(m: Match, d: Decision, choice: string, context: Con
     const selected = escapeOptions(m, p).find(({card, to}) => choice === 'away:' + card + ':' + to);
     if (!selected) throw Error('Invalid move-away choice.');
     then(m, d.side, 'escape-next', {...p, remaining: p.remaining!.filter(id => id !== selected.card)});
-    then(m, d.side, 'escape-move', {target: selected.card, from: p.from, to: selected.to}, true);
+    then(m, d.side, 'escape-move', {target: selected.card, targetRef: p.memberRefs![selected.card], from: p.from, to: selected.to}, true);
     const parent = m.stack.at(-1) as Resolution; parent.action.payment = {[d.side]: 1};
     queueForcePayment(m, parent, parent.action.payment);
   } else throw Error('Unknown travel choice.');
@@ -153,6 +162,21 @@ export function travelView(m: Match, seat: Side): Json {
 export function assertTravel(m: Match): void {
   const s = m.data.travel as TravelState | undefined;
   if (s && (!Number.isSafeInteger(s.turn) || s.turn < 1 || s.turn > m.turn.number || typeof s.failedSearch !== 'boolean' || typeof s.runPlayed !== 'boolean' || !Number.isSafeInteger(s.shuffles) || s.shuffles < 0)) throw Error('Invalid travel history.');
+  for (const f of m.stack) {
+    const h = f.kind === 'resolution' ? f.action.handler : f.kind === 'decision' ? f.handler : '';
+    if (!h.startsWith('travel:')) continue;
+    const p = data(f as Resolution | Decision);
+    if (['travel:run', 'travel:run-move', 'travel:escape', 'travel:escape-move'].includes(h)) {
+      assertCardReference(m, p.targetRef!, p.target);
+      if (!p.target || p.targetRef!.zone !== 'table' || m.cards[p.target].owner !== (f.kind === 'decision' ? f.side : (f as Resolution).actor)) throw Error('Movement requires an original table target.');
+    }
+    const group = h === 'travel:transit' ? p.selected : ['travel:escape', 'travel:escape-next'].includes(h) ? p.remaining : undefined;
+    if (['travel:transit', 'travel:escape', 'travel:escape-next'].includes(h)) {
+      if (!Array.isArray(group) || !p.memberRefs || typeof p.memberRefs !== 'object' || Array.isArray(p.memberRefs) || Object.keys(p.memberRefs).length < group.length || new Set(group).size !== group.length) throw Error('Invalid movement group references.');
+      for (const [id, ref] of Object.entries(p.memberRefs)) {assertCardReference(m, ref, id); if (ref.zone !== 'table' || m.cards[id].owner !== (f.kind === 'decision' ? f.side : (f as Resolution).actor)) throw Error('Invalid movement group target.');}
+      if (group.some(id => !p.memberRefs![id])) throw Error('Missing movement group target.');
+    }
+  }
   for (const d of m.stack) if (d.kind === 'decision' && d.handler.startsWith('travel:')) {
     const p = data(d);
     if (d.handler === 'travel:party' && (d.side !== m.turn.side || m.turn.phase !== 'move' || !bays(m).includes(p.from!) || !bays(m).includes(p.to!) || p.from === p.to || !Array.isArray(p.selected) || new Set(p.selected).size !== p.selected.length || p.selected.some(id => !transitEligible(m, d.side, p.from!).includes(id)))) throw Error('Invalid transit party.');

@@ -1,17 +1,17 @@
 {
   "schema": 1,
-  "auditedFromCommit": "6d228ecc16ed94cf902bdf9fd81f059a72d504f9",
+  "auditedFromCommit": "7b8c793471de484d91a2f1c6310fc2d0535c8527",
   "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
   "purpose": "Source-and-evidence inventory of all 68 current starter definitions. Links are audit pointers, not automatic full-card certification. No card or deck is admitted by this inventory. The broader catalog and original product requirements remain in scope.",
   "productionAdmission": "closed",
   "rulesSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
   "sharedRequiredWork": [
     "Complete actual destiny tax/cap providers, broader automatic modifiers and prevention/replacement, Force borrowing/redirection and fractional/separate costs, broader granting cards and weapon draw-X/choose-Y adapters, and last-draw choose-two adjudication. Fixed integer payments, pre-draw cost/failure, physical caps and battle if-unable/no-limit permission now have shared verified components; full admission remains closed.",
-    "Extend action-specific source/target identity semantics to remaining effects/events, retrieval/search/inspection, group movement and duels; preserve initiated actions and handle persona/conversion aliases.",
+    "Extend action-specific identity semantics to remaining effects/events, retrieval/search/inspection targets and compound casualties; persona/conversion aliases and target redirection remain. Original duel participants and pending travel movements now have saved references.",
     "Generic continuous modifier, prevention/replacement, persona/uniqueness and characteristic infrastructure.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
     "Expand complete-match coverage into executed GEMP parity and remaining reachable cross-card branches. Twenty randomized full 40/60 native test matches now finish and replay exactly; these runs do not prove exhaustive starter rules conformance.",
-    "Native D1-backed match API, receipt/CAS transactions, assigned-seat authentication, invite joining and refresh recovery now have component and full-match persistence checks. Projected-information CPU decisions and bounded request-driven dispatch now complete 40/60 test matches with durable recovery. Independent scheduling, stronger strategy, realtime/polling client integration, capacity, full-match responsive UI and all remaining delivery requirements remain.",
+    "Native durable API, assigned seats, receipt/CAS, CPU dispatch and responsive /matches client are implemented with component/full-match/browser tests. Stronger strategy, independent scheduling if needed, match clocks/capacity, broader deck workflows and production full-match certification remain required.",
     "Broader catalog, vehicles/pilots/passengers, Objectives/special setup, open 40/60 and sealed/deck customization requirements."
   ],
   "cards": [
@@ -75,16 +75,20 @@
       "implementation": [
         "lib/native-engine/travel.ts",
         "lib/native-engine/duel.ts",
-        "lib/native-engine/board.ts"
+        "lib/native-engine/board.ts",
+        "lib/native-engine/identity.ts"
       ],
       "testFiles": [
         "tests/native-engine/travel.test.mjs",
         "tests/native-engine/duel.test.mjs"
       ],
-      "remaining": [],
+      "remaining": [
+        "Adjudicate original-target return discrepancy with pinned GEMP before full admission."
+      ],
       "oracleEvidence": [
         "tests/native-engine/gemp/travel-provenance.json",
-        "tests/native-engine/gemp/duel-provenance.json"
+        "tests/native-engine/gemp/duel-provenance.json",
+        "tests/native-engine/gemp/travel-identity-provenance.json"
       ],
       "gempId": "101_3",
       "name": "Run Luke, Run!",
@@ -189,7 +193,7 @@
         "tests/native-engine/revival.test.mjs"
       ],
       "remaining": [
-        "Generic zone-instance target identity and persona-limit revalidation required."
+        "Persona-limit revalidation, revival prevention/replacement and broader source interactions remain; original Lost instance identity is implemented."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/revival-provenance.json"
@@ -215,7 +219,7 @@
         "tests/native-engine/battle.test.mjs"
       ],
       "remaining": [
-        "Starship targets await starship engine. Generic zone-instance identity needed when target leaves and reenters."
+        "Starship targets await starship engine. Original table-instance targeting is implemented."
       ],
       "oracleEvidence": [],
       "gempId": "1_105",
@@ -910,7 +914,7 @@
         "tests/native-engine/battle.test.mjs"
       ],
       "remaining": [
-        "Starship targets await starship engine. Generic zone-instance identity needed when target leaves and reenters."
+        "Starship targets await starship engine. Original table-instance targeting is implemented."
       ],
       "oracleEvidence": [],
       "gempId": "1_249",
@@ -1060,7 +1064,7 @@
         "tests/native-engine/scan.test.mjs"
       ],
       "remaining": [
-        "Trusted timer exists in engine but is not wired to durable full-match transactions/scheduling/UI."
+        "Inspection uses player acknowledgment under current AR p10; obsolete printed deadlines removed. General inspection prevention/modifiers and full match clocks remain."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/scan-provenance.json"
@@ -1087,7 +1091,7 @@
         "tests/native-engine/stun.test.mjs"
       ],
       "remaining": [
-        "Zone-instance targets, aboard/capture/target immunity and general ability modifiers remain."
+        "Aboard/capture/target immunity and general ability modifiers remain; original target instance revalidation is implemented."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/stun-provenance.json"
@@ -1373,7 +1377,7 @@
         "tests/native-engine/react-weapons.test.mjs"
       ],
       "remaining": [
-        "Generic leave/reenter instance identity and external movement modifiers remain."
+        "External movement modifiers remain; table departure resets movement history through shared instance lifecycle."
       ],
       "oracleEvidence": [],
       "gempId": "1_30",
@@ -1725,7 +1729,7 @@
         "tests/native-engine/doomed.test.mjs"
       ],
       "remaining": [
-        "Generic individual Force-use timing and prevention/replacement remain."
+        "Force-use prevention/replacement and broader numeric costs remain; shared fixed-integer per-Force payment timing is implemented."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/worse-provenance.json",
@@ -1772,16 +1776,19 @@
       ],
       "implementation": [
         "lib/native-engine/travel.ts",
-        "lib/native-engine/ground.ts"
+        "lib/native-engine/ground.ts",
+        "lib/native-engine/identity.ts"
       ],
       "testFiles": [
         "tests/native-engine/travel.test.mjs"
       ],
       "remaining": [
-        "General movement replacement/identity, vehicles and landspeed modifiers remain."
+        "Vehicles, landspeed/cost modifiers and target redirection remain. Original move-away group, pending movement identity and explicit qualifying Rebel selection now implemented.",
+        "Adjudicate original-target return discrepancy with pinned GEMP before full admission."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/travel-provenance.json"
+        "tests/native-engine/gemp/travel-provenance.json",
+        "tests/native-engine/gemp/travel-identity-provenance.json"
       ],
       "gempId": "1_98",
       "name": "Narrow Escape",
@@ -1902,6 +1909,45 @@
       ],
       "status": "component-coverage-only",
       "scope": "Serialized physical/skipped counts, substitution exemption, redraw replacement, dynamic numeric caps, selection truncation and optional conversion eligibility. Thirteen matching GEMP observations; cap-granting cards, modifier aggregation and override permissions remain before full admission."
+    },
+    "retrievalPolicy": {
+      "implementation": [
+        "lib/native-engine/retrieval.ts",
+        "lib/native-engine/retrieval-policy.ts",
+        "lib/native-engine/secret-plans.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/retrieval-policy.test.mjs",
+        "tests/native-engine/secret-plans.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/retrieval-policy-provenance.json",
+        "tests/native-engine/gemp/secret-plans-provenance.json"
+      ],
+      "scope": "Exact nested cancellation, quantity finalization, integer scoped modifiers/reset, Secret Plans immunity and uncancelable permission. Component-only; broader providers/replacement and full admission remain."
+    },
+    "nativeClient": {
+      "implementation": [
+        "app/matches/screen.tsx",
+        "lib/native-engine/client.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/client-browser.mjs"
+      ],
+      "scope": "Responsive authenticated /matches client, CPU advancement, PvP invitation/rejoin, saved receipt recovery, private inspection acknowledgment, concession and empty opportunity timers. Production deck admission closed."
+    },
+    "travelIdentity": {
+      "implementation": [
+        "lib/native-engine/travel.ts",
+        "lib/native-engine/identity.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/travel-identity-provenance.json"
+      ],
+      "scope": "Original selected transit party, Run Luke target and move-away group; individual paid movement targets. Fresh reference differences are recorded, not claimed as parity."
     }
   },
   "wholeMatchEvidence": {

@@ -114,8 +114,9 @@ itself. Response handlers must check the actual event and pending action stage.
 
 ## Remaining implementation (not optional scope)
 
-No production rules package or native full-game API is enabled yet. A passing
-kernel test is not evidence that a card's printed behavior is implemented.
+The native service and full-match client are implemented, but production deck
+admission remains closed. A passing kernel test is not evidence that a card's
+printed behavior is implemented.
 
 1. Extend ordinary setup to Objectives, Starting Effects/Interrupts and other
    starting-card effects. `LocationSetupRules.ordinarySetup` rejects these until
@@ -128,9 +129,9 @@ kernel test is not evidence that a card's printed behavior is implemented.
    reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
    pilots, passengers and broader catalog effects remain required for broader
    engine coverage; they are not implicitly admitted by these primitives.
-4. Connect the implemented durable native service, assigned seats and computer
-   dispatcher to the full-match client. Add shared match delivery and saved
-   deadline handling in the responsive gameplay UI.
+4. Extend the connected native service/client beyond its authored 60-card lobby
+   to custom 40/60-card decks and sealed play. Complete independent scheduling,
+   applicable game clocks and capacity validation.
 5. Verify full-match GEMP/rule conformance, process recovery, concurrency,
    performance and phone/tablet/desktop gameplay before opening the game gate.
 
@@ -680,11 +681,11 @@ production reference files are unchanged. Native tests additionally exercise
 stale targets at response boundaries, paid failures, recursive attachment return,
 JSON recovery, malformed references and private projections.
 
-Identity coverage is not yet universal: pending weapon firing, react permission
-sources, event snapshots, retrieval/search/inspection targets, group movement,
-duels and other card effects still need the shared references. Persona replacement
-and conversion need their specific identity-preserving rules. Per-draw and
-individual-Force cost timing, full-match conformance and service/UI work remain next.
+Identity coverage is not universal. Later checkpoints below extend firing, react
+permissions, destiny, retrieval, duels and ground travel. Remaining search targets,
+other card effects, persona replacement and conversion need their specific rules.
+Full-match conformance, broader catalog behavior and the remaining service/UI
+requirements above are still required.
 
 
 ### Initiated firing and battle reentry
@@ -964,8 +965,9 @@ inspection across elapsed time and acknowledgment, and rejects corrupted transcr
 This is integration and recovery evidence, not full-game GEMP parity or exhaustive
 card certification. The exploration policy is not the production strategic CPU.
 Remaining work still includes reachable cross-card conformance/adjudication,
-identity/modifier coverage, CPU/PvP client delivery, capacity validation
-and responsive full-match presentation. Existing GEMP paths and studies remain.
+identity/modifier coverage, custom/open/sealed client workflows and capacity
+validation. The responsive CPU/PvP client is implemented below; existing GEMP
+paths and studies remain.
 
 ### Durable native match service
 
@@ -1038,8 +1040,8 @@ projection. `computer.status` is `waiting`, `ready` (request another batch), or
 `finished`; `steps` counts this request's newly committed computer moves. A
 restart resumes from saved state, with no process-local bot memory.
 
-Dispatch is request-driven. The native client still needs to request advancement
-and wire timers/recovery; this is not an independent background scheduler. The
+Dispatch is request-driven. The native client below requests advancement and
+handles recovery; this is not an independent background scheduler. The
 production starter admission gate remains closed. CPU self-play and durable
 service runs exercise complete 40/60-card test decks under test-only admission;
 they do not establish full card-text coverage, optimal strategy or GEMP parity.
@@ -1165,3 +1167,36 @@ selector scope, duplicate registrations, and invalid saved values. General
 fractional arithmetic, source-card admission, text cancellation/inactive states,
 replacement destinations, Code Clearance grabbing, Objectives and shield setup
 remain required. Full native deck admission is still closed.
+
+
+### Movement target instances
+
+Docking-bay transit, Run Luke, Run! and Narrow Escape retain their original
+table-instance references across costs, responses and saved continuations. A
+card leaving and returning does not inherit its previous movement permission.
+Transit moves other valid members of its paid party; a failed member does not
+refund the cost. Each Narrow Escape movement likewise retains a paid cost if
+that original target leaves during its responses.
+
+Narrow Escape selects its qualifying Rebel and move-away group during initiation
+(AR pp14–15,70–71), with an explicit Rebel choice when several qualify. The
+original group remains eligible after that Rebel leaves, but later arrivals and
+returned replacements are excluded. Each member's normal movement eligibility
+and destination are checked at its own movement step.
+
+Seven fresh GEMP records are retained in `gemp/travel-identity-results.json`:
+three outcomes match, three differ, and one reports a production exception. The
+pinned reference moves returned Luke and a late Narrow Escape arrival; native
+keeps the original targets. The two return differences apply the native identity
+model and still need independent card-specific adjudication before admission;
+the late-arrival group difference follows AR pp70–71. Removing Run Luke's target without returning it
+causes a null-action exception in the reference; native finishes Interrupt
+cleanup with no movement. These differences are explicit tests, not claimed
+conformance passes. Provenance records the untouched 6,820 production files.
+Additional native tests cover transit partial success, nested movement response
+boundaries, multiple qualifying Rebels, serialization and rejected references.
+
+This covers ground character targets, not vehicles, general redirection, location
+conversion identity, every movement modifier or complete card admission. Pending
+native movements missing their new references are rejected rather than inferred;
+the separate published proof saves are unchanged.

@@ -1,0 +1,38 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T03:45:50.784615+00:00",
+  "harness": "NativeEngineTravelIdentityOracleTests.java",
+  "harnessSha256": "1c6e01f90ade0dda8e91b8c9ba9f7e89358e12335856f24db28050b9079b876c",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineTravelIdentityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 7,
+  "productionFilesVerified": 6820,
+  "scope": "Actual Run Luke, Run! and Narrow Escape with controlled departure, return or arrival after Interrupt initiation. Three outcome comparisons match; three explicitly differ under native original-instance targeting and the AR move-away target rule; one records a production NullPointerException instead of claiming conformance.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp11,16 discuss departure and effect duration. Native applies its existing zone-instance identity model to pending movement; this is an interpretation supported by pinned GameState.addCardToZone/Filters.sameCardId identity behavior, not an explicit card-specific ruling. The two return discrepancies still require independent adjudication before full admission.",
+    "AR pp14\u201315: conditions, targets and costs are established during initiation; changing an initiation condition does not retroactively cancel the action. Removing the qualifying Rebel does not stop other originally targeted cards moving away.",
+    "AR pp70\u201371: choose the cards to attempt to move away during initiation; initiate their regular moves separately. Later arrivals are not part of that targeted group.",
+    "Pinned Card1_098 resolves its group from current battle participants; returned Luke and a late arrival therefore move. Card101_003 retains the mutable Luke object and moves its returned appearance. With Luke absent, the production action stack receives a null movement action and throws NullPointerException."
+  ],
+  "comparisons": {
+    "matches": [
+      "run-stay",
+      "escape-stay",
+      "escape-leave"
+    ],
+    "referenceErrors": [
+      "run-leave"
+    ],
+    "documentedDifferences": [
+      "run-return",
+      "escape-return",
+      "escape-arrival"
+    ]
+  },
+  "limits": "Controlled zone interventions are not played removal/redeployment cards. Native-only tests additionally cover transit party partial success, nested movement departure/return, paid failed movement, multiple qualifying Rebels, saved references and invalid snapshots. Does not cover vehicles, redirection, persona replacement, location conversion identity, all movement modifiers or full card admission. Pending native movement actions now require original references; published proof snapshots remain separate and unchanged. Original-target return behavior is not yet a card-specific adjudicated conformance result."
+}
