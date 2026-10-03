@@ -1,0 +1,204 @@
+[
+  {
+    "kind": "insert",
+    "telepathyUsed": true,
+    "telepathyLost": false,
+    "angerInserted": false,
+    "sense": false,
+    "angerLost": true
+  },
+  {
+    "kind": "insert",
+    "telepathyUsed": false,
+    "telepathyLost": true,
+    "angerInserted": true,
+    "sense": true,
+    "angerLost": false
+  },
+  {
+    "kind": "reveal",
+    "telepathyUsed": true,
+    "telepathyLost": false,
+    "angerInserted": false,
+    "sense": false,
+    "angerLost": true
+  },
+  {
+    "kind": "reveal",
+    "telepathyUsed": false,
+    "telepathyLost": true,
+    "angerInserted": false,
+    "sense": true,
+    "angerLost": true
+  },
+  {
+    "kind": "canceled-battle-satisfies",
+    "loss": 0,
+    "controlledCancel": true
+  },
+  {
+    "kind": "battle",
+    "pay": false,
+    "forceRemaining": 0,
+    "canceled": true,
+    "force": 0,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "battle",
+    "pay": true,
+    "forceRemaining": 0,
+    "canceled": true,
+    "force": 0,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "battle",
+    "pay": false,
+    "forceRemaining": 1,
+    "canceled": true,
+    "force": 1,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "battle",
+    "pay": true,
+    "forceRemaining": 1,
+    "canceled": true,
+    "force": 1,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "battle",
+    "pay": false,
+    "forceRemaining": 2,
+    "canceled": true,
+    "force": 2,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "battle",
+    "pay": true,
+    "forceRemaining": 0,
+    "canceled": false,
+    "force": 2,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "battle",
+    "pay": false,
+    "forceRemaining": 3,
+    "canceled": true,
+    "force": 3,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "battle",
+    "pay": true,
+    "forceRemaining": 1,
+    "canceled": false,
+    "force": 3,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "drain",
+    "pay": false,
+    "forceRemaining": 0,
+    "canceled": true,
+    "force": 0,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "drain",
+    "pay": true,
+    "forceRemaining": 0,
+    "canceled": true,
+    "force": 0,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "drain",
+    "pay": false,
+    "forceRemaining": 1,
+    "canceled": true,
+    "force": 1,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "drain",
+    "pay": true,
+    "forceRemaining": 1,
+    "canceled": true,
+    "force": 1,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "drain",
+    "pay": false,
+    "forceRemaining": 2,
+    "canceled": true,
+    "force": 2,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "drain",
+    "pay": true,
+    "forceRemaining": 0,
+    "canceled": false,
+    "force": 2,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "drain",
+    "pay": false,
+    "forceRemaining": 3,
+    "canceled": true,
+    "force": 3,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "kind": "drain",
+    "pay": true,
+    "forceRemaining": 1,
+    "canceled": false,
+    "force": 3,
+    "endingEventsAtObservation": 0,
+    "telepathyUsed": true
+  },
+  {
+    "sourceRetrieved": true,
+    "kind": "deadline",
+    "revealedDuring": "CONTROL",
+    "loss": 4.0,
+    "turnsLater": 0
+  },
+  {
+    "sourceRetrieved": true,
+    "kind": "deadline",
+    "revealedDuring": "BATTLE",
+    "loss": 4.0,
+    "turnsLater": 2
+  },
+  {
+    "sourceRetrieved": true,
+    "kind": "deadline",
+    "revealedDuring": "DRAW",
+    "loss": 4.0,
+    "turnsLater": 2
+  }
+]

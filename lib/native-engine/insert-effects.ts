@@ -1,3 +1,4 @@
+import {registerAnger} from './anger';
 import {name} from './board';
 import {preventActivation} from './activation';
 import {deployed} from './deployment';
@@ -7,7 +8,8 @@ import {insertsIn, reserveInserts, topInsert, revealInsert} from './reserve-inse
 import {insertCard, moveCard} from './state';
 import {openWindow, type Context} from './runtime';
 import {other, sides, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
-const blueprints=['1_42','1_208'];
+const onceOnly=['1_42','1_208'];
+const blueprints=[...onceOnly,'4_16'];
 type Payload={card:string;side:Side;ref?:CardReference};
 type Reveal={ref:CardReference;side:Side};
 const used=(m:Match):string[] => (m.data.insertPlays??[]) as string[];
@@ -21,8 +23,8 @@ export function insertActions(m:Match,w:Window,side:Side):Action[]{
 export function insertInitiate(m:Match,r:Resolution):void{
  if(r.action.handler!=='insert:deploy')return;
  const p=r.action.payload as Payload,bp=m.cards[p.card].blueprint;
- if(used(m).includes(bp))throw Error('Insert already deployed this game.');
- m.data.insertPlays=[...used(m),bp];moveCard(m,p.card,'playing');
+ if(onceOnly.includes(bp)){if(used(m).includes(bp))throw Error('Insert already deployed this game.');m.data.insertPlays=[...used(m),bp];}
+ moveCard(m,p.card,'playing');
 }
 function beginReveal(m:Match,x:Reveal):void{
  queue(m,'result',{card:x.ref.id,side:x.side,ref:x.ref});
@@ -51,10 +53,10 @@ export function insertResolve(m:Match,r:Resolution,context:Context):void{
  }
  if(h==='insert:result'){
   if(!sameCard(m,p.ref!)||!insertsIn(m,p.side).some(x=>x.card.id===p.card&&x.revealed))return;
-  // Both printed cards are lost immediately, then prohibit activation. Loss
-  // responses finish before the following effect in the result sequence.
+  // Revealed inserts are lost first. Loss responses finish before the
+  // activation restriction or delayed battle obligation takes effect.
   queue(m,'restrict',p);moveCard(m,p.card,'lost');openWindow(m,'response',other(r.actor),{kind:'cards-lost',cards:[p.card]});
- }else if(h==='insert:restrict')preventActivation(m,p.card,p.side);
+ }else if(h==='insert:restrict'){if(m.cards[p.card].blueprint==='4_16')registerAnger(m,p.ref!,p.side);else preventActivation(m,p.card,p.side);}
  else throw Error('Unknown insert continuation.');
 }
 export function insertChoices(m:Match,d:Decision){
@@ -68,7 +70,7 @@ export function insertChoose(m:Match,d:Decision,id:string):void{
  for(const x of [...all.filter(x=>x!==first),first])beginReveal(m,x);
 }
 export function assertInsertEffects(m:Match):void{
- if(m.data.insertPlays!==undefined&&(!Array.isArray(m.data.insertPlays)||new Set(used(m)).size!==used(m).length||used(m).some(x=>!blueprints.includes(x))))throw Error('Invalid insert play history.');
+ if(m.data.insertPlays!==undefined&&(!Array.isArray(m.data.insertPlays)||new Set(used(m)).size!==used(m).length||used(m).some(x=>!onceOnly.includes(x))))throw Error('Invalid insert play history.');
  for(const f of m.stack){
   const h=f.kind==='resolution'?f.action.handler:f.kind==='decision'?f.handler:'';if(!h.startsWith('insert:'))continue;
   if(f.kind==='decision'){
@@ -78,7 +80,7 @@ export function assertInsertEffects(m:Match):void{
   if(f.kind!=='resolution')throw Error('Invalid insert frame.');
   const p=f.action.payload as unknown as Payload;
   if(!p||!blueprints.includes(m.cards[p.card]?.blueprint)||!sides.includes(p.side)||p.side!==other(m.cards[p.card].owner)||f.actor!==m.cards[p.card].owner||f.action.source!==p.card||f.action.id!==action(h.slice(7),p).id||!['insert:deploy','insert:result','insert:restrict'].includes(h))throw Error('Invalid insert resolution.');
-  if(h==='insert:deploy'){if(m.cards[p.card].zone!=='playing'||!used(m).includes(m.cards[p.card].blueprint))throw Error('Invalid insert deployment.');}
+  if(h==='insert:deploy'){if(m.cards[p.card].zone!=='playing'||onceOnly.includes(m.cards[p.card].blueprint)&&!used(m).includes(m.cards[p.card].blueprint))throw Error('Invalid insert deployment.');}
   else{assertCardReference(m,p.ref!,p.card);if(p.ref!.zone!=='table'||f.awaitingResponses||f.action.payment)throw Error('Invalid insert result.');}
  }
  for(const x of reserveInserts(m))if(blueprints.includes(m.cards[x.card.id].blueprint)&&x.side!==other(m.cards[x.card.id].owner))throw Error('Insert in the wrong Reserve.');

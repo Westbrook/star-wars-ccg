@@ -18,7 +18,7 @@ const pileState=load(new URL('../../lib/native-engine/state.ts',import.meta.url)
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
 const db=new SqliteD1(),origin=process.env.NATIVE_UI_ORIGIN||'http://localhost:5173';
-const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||['1_42','4_133'].includes(bp),starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||['1_42','4_133'].includes(c.blueprint))}};
+const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||['1_42','4_133','4_16','5_149'].includes(bp),starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||['1_42','4_133','4_16','5_149'].includes(c.blueprint))}};
 let time=1_800_000_000_000;const fresh=()=>nativeMatchService(db,{currentRules:browserRules.id,rules:()=>browserRules,now:()=>time,entropy:seeded(1)}),handlers=matchHandlers(fresh);
 const browser=await chromium.launch({headless:true});const errors=[];
 const output=process.env.NATIVE_UI_OUTPUT||'/private/tmp/swccg-native-client-browser';fs.mkdirSync(output,{recursive:true});
@@ -106,6 +106,33 @@ try{
   await c.page.locator('.native-choices button').first().click();const afterFirst=(await fresh().read(v.id,'owner')).revision;await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();await c.page.getByText('Inserts passed during this peek',{exact:true}).waitFor();assert.equal((await fresh().read(v.id,'owner')).revision,afterFirst);assert.equal(await c.page.locator('.native-choices button').count(),2);
   assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await c.page.screenshot({path:path.join(output,`reserve-peek-${width}.png`),fullPage:true});await c.page.locator('.native-choices button').first().click();
   const final=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);assert.equal(final.cards[viewed[0]].zone,'lost');assert.equal(final.cards[viewed[1]].zone,'lost');assert.equal(final.players.dark.reserve[0],viewed[2]);assert.equal(final.data.reserveInserts[0].position,1);assert.equal(final.data.reserveInserts[0].revealed,false);await c.context.close();
+ }
+ // Real Telepathy choices and delayed Anger obligations use durable service state.
+ for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
+  for(const choice of ['pay','cancel','obligation']){
+   const dark=[...decks.find(d=>d.side==='dark').cards],light=[...decks.find(d=>d.side==='light').cards];dark[dark.indexOf('1_224')]='5_149';light[light.indexOf('1_64')]='4_16';
+   const owner=await fresh().create('owner',{...config(randomUUID(),'pvp'),deck:dark});await fresh().join(owner.id,'guest',{commandId:randomUUID(),inviteToken:owner.inviteToken,deck:light});let v=await fresh().read(owner.id,'owner');
+   for(let n=0;v.game.status==='setup'&&n<20;n++){let actor='owner',p=v.game.prompt;if(!p?.choices.length){actor='guest';p=(await fresh().read(v.id,actor)).game.prompt}assert.ok(p?.choices.length);await fresh().command(v.id,actor,{commandId:randomUUID(),revision:v.revision,choice:p.choices[0].id});v=await fresh().read(v.id,'owner')}
+   let m=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);const find=bp=>Object.values(m.cards).find(c=>c.blueprint===bp),anger=find('4_16'),telepathy=find('5_149'),troop=find('1_28');
+   pileState.moveCard(m,anger.id,'hand');pileState.moveCard(m,telepathy.id,'hand');pileState.moveCard(m,troop.id,'table');m.cards[troop.id].location=m.locations[0];
+   const step=id=>{const p=runtime.prompt(m,browserRules,'dark');m=runtime.applyCommand(m,browserRules,p.side,{revision:m.revision,choice:id},seeded(3))};
+   const seek=check=>{for(let i=0;i<300&&!check();i++){const p=runtime.prompt(m,browserRules,'dark'),own=runtime.prompt(m,browserRules,p.side);step(own.mandatory?own.choices[0].id:'pass')}assert.ok(check())};
+   if(choice==='obligation'){
+    seek(()=>m.turn.side==='dark'&&m.turn.phase==='control'&&m.stack.length===1);pileState.insertCard(m,anger.id,'dark',seeded(3));m.data.reserveInserts.find(x=>x.card.id===anger.id).position=1;runtime.activateForce(m,'dark',telepathy.id,1);runtime.openWindow(m,'response','light');
+    seek(()=>m.data.angerObligations?.length===1&&m.stack.length===1);
+   }else{
+    seek(()=>m.turn.side==='light'&&m.turn.phase==='control'&&m.stack.length===1&&runtime.prompt(m,browserRules,'light')?.side==='light');while(m.players.light.force.length<2)pileState.moveTop(m,'light','reserve','force');
+    step('drain:'+m.locations[0]);seek(()=>runtime.prompt(m,browserRules,'dark')?.choices.some(c=>c.id.startsWith('telepathy:play:')));step(runtime.prompt(m,browserRules,'dark').choices.find(c=>c.id.startsWith('telepathy:play:')).id);seek(()=>m.stack.at(-1)?.handler==='telepathy:choose');
+   }
+   const before=m.players.light.force.length;db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+   const c=await context(width,height,choice==='obligation'?'owner':'guest');await c.page.goto(origin+'/matches/'+v.id+'?progress-report');if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+   if(choice==='obligation'){await c.page.getByLabel('Pending battle obligations').waitFor();await c.page.getByRole('button',{name:'Pause',exact:true}).click();assert.match(await c.page.getByLabel('Pending battle obligations').innerText(),/You must initiate a battle.*your next battle phase/)}else{await c.page.getByRole('button',{name:'Use 2 Force · continue this Force drain',exact:true}).waitFor()}
+   await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+   if(choice==='obligation'){await c.page.getByLabel('Pending battle obligations').waitFor();await c.page.getByRole('button',{name:'Pause',exact:true}).click();assert.equal((await fresh().read(v.id,'owner')).game.rules.anger.length,1)}else{await c.page.getByRole('button',{name:'Use 2 Force · continue this Force drain',exact:true}).waitFor();assert.equal((await fresh().read(v.id,'guest')).revision,m.revision)}
+   assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await c.page.screenshot({path:path.join(output,`telepathy-${choice}-${width}.png`),fullPage:true});
+   if(choice!=='obligation'){await c.page.getByRole('button',{name:choice==='pay'?'Use 2 Force · continue this Force drain':'Cancel this Force drain',exact:true}).click();await c.page.getByRole('button',{name:'Cancel this Force drain',exact:true}).waitFor({state:'hidden'});const after=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);assert.equal(after.players.light.force.length,before-(choice==='pay'?2:0));assert.equal(after.stack.find(f=>f.action?.handler==='ground:drain')?.cancelled,choice==='cancel')}
+   await c.context.close();
+  }
  }
  // Timed match: real service transitions, responsive clocks, invitation terms,
  // refresh recovery and server-authoritative timeout. No browser clock decides a winner.

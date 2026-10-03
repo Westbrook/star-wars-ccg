@@ -1,3 +1,5 @@
+import {angerAutomatic,angerResolve,angerView,assertAnger} from './anger';
+import {telepathyActions,telepathyInitiate,telepathyResolve,telepathyChoices,telepathyChoose,assertTelepathy} from './telepathy';
 import {darkPathActions,darkPathInitiate,darkPathResolve,darkPathChoices,darkPathChoose,darkPathView,assertDarkPath} from './dark-path';
 import {insertActions,insertInitiate,insertResolve,insertChoices,insertChoose,assertInsertEffects,scheduleInserts} from './insert-effects';
 import {offEdgeActions, offEdgeInitiate, offEdgeResolve, offEdgeChoices, offEdgeChoose, assertOffEdge} from './off-the-edge';
@@ -74,11 +76,13 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   interrupt: m=>scheduleInserts(m),
-  automatic: (m, w) => [...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  automatic: (m, w) => [...angerAutomatic(m,w),...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
+  actions: (m, w, side) => [...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
+    if (r.action.handler.startsWith('anger:')) return;
+    if (r.action.handler.startsWith('telepathy:')) {telepathyInitiate(m,r);return;}
     if (r.action.handler.startsWith('game-text:') || r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
     if (r.action.handler.startsWith('dark-path:')) darkPathInitiate(m,r);
     else if (r.action.handler.startsWith('insert:')) insertInitiate(m,r);
@@ -125,6 +129,8 @@ export const premiereRules: Rules = {
     } else groundInitiate(m, r);
   },
   resolve: (m, r, context) => {
+    if (r.action.handler.startsWith('anger:')) {angerResolve(m,r);return;}
+    if (r.action.handler.startsWith('telepathy:')) {telepathyResolve(m,r);syncBattle(m);syncForceLosses(m);return;}
     if (r.action.handler.startsWith('dark-path:')) {darkPathResolve(m,r);return;}
     if (r.action.handler.startsWith('insert:')) {insertResolve(m,r,context);syncBattle(m);syncForceLosses(m);return;}
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
@@ -177,6 +183,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if (d.handler.startsWith('telepathy:')) return telepathyChoices(m,d);
     if (d.handler.startsWith('dark-path:')) return darkPathChoices(m,d);
     if (d.handler.startsWith('insert:')) return insertChoices(m,d);
     if (d.handler.startsWith('off-edge:')) return offEdgeChoices(m,d);
@@ -198,6 +205,7 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
+    if (d.handler.startsWith('telepathy:')) {telepathyChoose(m,d,c);syncBattle(m);syncForceLosses(m);return;}
     if (d.handler.startsWith('dark-path:')) {darkPathChoose(m,d,c);return;}
     if (d.handler.startsWith('insert:')) {insertChoose(m,d,c);return;}
     if (d.handler.startsWith('off-edge:')) offEdgeChoose(m,d,c);
@@ -221,8 +229,10 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   canPass: battleCanPass,
-  view: (m, seat, now) => ({values: publicValues(m),...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
+  view: (m, seat, now) => ({values: publicValues(m),...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
+    assertAnger(match);
+    assertTelepathy(match);
     assertDarkPath(match);
     assertInsertEffects(match);
     assertOffEdge(match);

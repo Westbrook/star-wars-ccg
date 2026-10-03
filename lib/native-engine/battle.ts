@@ -43,7 +43,7 @@ export type Battle = {
   abilityTrades?: AbilityTrade[];
   gamblersLuck?: {card: string; side: Side; amount: 1 | 2};
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
-  reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
+  reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; cancelled?: boolean; runLuke?: boolean;
   departed?: string[];
   attritionProtected?: CardReference[];
   characterDestinyUses?: CardReference[];
@@ -219,6 +219,7 @@ function beginEnd(m: Match, premature = false): void {
 }
 export function battleAutomatic(m: Match, w: Window): RequiredAction[] {
   const b = battle(m);
+  if (m.stack.some(f => f.kind === 'resolution' && f.action.handler === 'battle:begin' && f.cancelled)) return [];
   // Only after the current action resolves: never abandon its costs, destiny or
   // pending choices. Presence loss during damage does not terminate the battle.
   if (!b || !['begin', 'weapons', 'power'].includes(b.stage) || m.stack.some(f => f.kind === 'resolution' && !['battle:begin', 'battle:power', 'battle:totals', 'battle:destiny-next', 'battle:destiny-select', 'battle:damage'].includes(f.action.handler))) return [];
@@ -279,7 +280,12 @@ export function battleResolve(m: Match, r: Resolution): void {
   }
   if (r.cancelled) {
     if (['battle:takeel', 'battle:reduce'].includes(kind) && m.cards[p.card!].zone === 'playing') moveCard(m, p.card!, 'lost');
-    if (kind === 'battle:begin') beginEnd(m, true);
+    if (kind === 'battle:begin') {
+      // Cancellation preserves participation/cost history but does not emit
+      // normal end-of-battle response windows (GEMP BattleEffect steps 8–9).
+      b!.cancelled = true; b!.premature = true; b!.stage = 'complete';
+      b!.damage = pair(0, 0); b!.attrition = pair(0, 0);
+    }
     return;
   }
   if (kind === 'battle:equip') {
@@ -438,6 +444,7 @@ export function assertBattle(m: Match): void {
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
+  if (b.cancelled !== undefined && (typeof b.cancelled !== 'boolean' || b.cancelled && (b.stage !== 'complete' || !b.premature))) throw Error('Invalid canceled battle.');
   if (b.destinySwitched !== undefined && typeof b.destinySwitched !== 'boolean') throw Error('Invalid battle destiny switch.');
   if (b.destinyResults !== undefined) {
     if (!b.destinyResults || Object.keys(b.destinyResults).length !== 2 || !sides.every(s => Object.hasOwn(b.destinyResults!, s))) throw Error('Invalid completed battle destinies.');

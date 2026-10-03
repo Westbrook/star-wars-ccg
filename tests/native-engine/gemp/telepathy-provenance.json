@@ -1,0 +1,29 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T21:36:32.362446+00:00",
+  "files": {
+    "NativeEngineTelepathyOracleTests.java": "61a457eee9592a952def41c0d7c3a3f85940aee10daca982bf428964419fe6c8",
+    "NativeEngineInsertTimingOracleTests.java": "814617ae1141e64131765c3d8adcdbaf818f3b58031874e51f98da6e3cfa60d2",
+    "telepathy-results.json": "45c7020f87855a4f8c686ee5b402104eaf08d6a22c1ec0591ea78436f15e04ff"
+  },
+  "junitTests": 4,
+  "observations": 24,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineTelepathyOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; production sources unchanged",
+  "scope": "Real Anger, Fear, Aggression and Projective Telepathy card effects; controlled boards, fixed insert depth and a named production CancelBattleEffect proxy.",
+  "method": [
+    "Actual Telepathy cancels AFA during deployment/reveal; actual Sense cancels Telepathy in both insert modes.",
+    "Battle/drain observations cover 0/1/2/3 Force and pay/cancel. With fewer than 2 Force the card automatically cancels.",
+    "Delayed obligation reveals during Control, Battle or Draw, with source retrieved after loss; exact 4-Force loss occurs at the expected later battle-phase end.",
+    "Controlled production battle cancellation after actual initiation still satisfies the obligation. Native recovery, invalid bindings, concession, unique play limits and real-service responsive UI have additional native-only checks.",
+    "Canceled battle continuations emit neither BattleEndingResult nor BattleEndedResult; native keeps participation history and returns directly to phase play."
+  ],
+  "limitations": [
+    "No full native starter/deck admission. Full catalog, setup, formats, vehicles/ships, complete CPU/PvP/capacity and full-match certification remain.",
+    "Cancellation prevention, alternative disposal and broader loss/payment modifiers require further integration. The exposed-insert Reserve guard and nested opposing-side destiny responses remain to be adjudicated.",
+    "Fresh GEMP Sense observations cover insert/reveal; battle/drain Sense cancellation has native regression coverage. No full normal activation declaration trace in this receipt."
+  ],
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp53 and 60 (initiation and participation); pinned production BattleEffect steps 8\u20139 (cancellation cleanup)."
+}
