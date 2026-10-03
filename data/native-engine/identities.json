@@ -57,42 +57,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_006.java"
   },
-  "102_1": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set102/light/Card102_001.java"
-  },
-  "102_6": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set102/dark/Card102_006.java"
-  },
-  "13_86": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set13/dark/Card13_086.java"
-  },
-  "14_9": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set14/light/Card14_009.java"
-  },
   "1_100": {
     "keywords": [],
     "species": [],
@@ -101,15 +65,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_100.java"
-  },
-  "1_101": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_101.java"
   },
   "1_105": {
     "keywords": [],
@@ -128,32 +83,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_106.java"
-  },
-  "1_109": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_109.java"
-  },
-  "1_11": {
-    "keywords": [
-      "GAMBLER",
-      "PIRATE",
-      "SMUGGLER"
-    ],
-    "species": [
-      "CORELLIAN"
-    ],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "HAN"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_011.java"
   },
   "1_113": {
     "keywords": [],
@@ -246,28 +175,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_132.java"
   },
-  "1_147": {
-    "keywords": [],
-    "species": [],
-    "models": [
-      "Y_WING"
-    ],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_147.java"
-  },
-  "1_148": {
-    "keywords": [
-      "ENCLOSED"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_148.java"
-  },
   "1_152": {
     "keywords": [
       "BLASTER"
@@ -290,30 +197,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_153.java"
   },
-  "1_155": {
-    "keywords": [
-      "LIGHTSABER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_155.java"
-  },
-  "1_157": {
-    "keywords": [
-      "LIGHTSABER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "OBIWANS_LIGHTSABER"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_157.java"
-  },
   "1_162": {
     "keywords": [
       "MINE"
@@ -325,32 +208,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_162.java"
   },
-  "1_167": {
-    "keywords": [
-      "COMMANDER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "PRAJI"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_167.java"
-  },
-  "1_168": {
-    "keywords": [
-      "BLACK_SQUADRON"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "VADER"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_168.java"
-  },
   "1_170": {
     "keywords": [
       "DEATH_STAR_TROOPER"
@@ -361,44 +218,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_170.java"
-  },
-  "1_171": {
-    "keywords": [
-      "BOUNTY_HUNTER"
-    ],
-    "species": [
-      "SAKIYAN"
-    ],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_171.java"
-  },
-  "1_172": {
-    "keywords": [
-      "SMUGGLER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_172.java"
-  },
-  "1_179": {
-    "keywords": [
-      "LEADER",
-      "MOFF"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "TARKIN"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_179.java"
   },
   "1_18": {
     "keywords": [],
@@ -435,20 +254,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_182.java"
   },
-  "1_184": {
-    "keywords": [
-      "INFORMATION_BROKER",
-      "SPY"
-    ],
-    "species": [
-      "DEVARONIAN"
-    ],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_184.java"
-  },
   "1_186": {
     "keywords": [],
     "species": [],
@@ -459,19 +264,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_186.java"
-  },
-  "1_19": {
-    "keywords": [
-      "RED_SQUADRON"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "LUKE"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_019.java"
   },
   "1_194": {
     "keywords": [
@@ -484,19 +276,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_194.java"
   },
-  "1_195": {
-    "keywords": [
-      "FEMALE",
-      "SPY",
-      "THIEF"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_195.java"
-  },
   "1_196": {
     "keywords": [],
     "species": [
@@ -507,17 +286,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_196.java"
-  },
-  "1_2": {
-    "keywords": [
-      "FEMALE"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_002.java"
   },
   "1_201": {
     "keywords": [],
@@ -536,37 +304,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_207.java"
-  },
-  "1_208": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_208.java"
-  },
-  "1_21": {
-    "keywords": [
-      "GENERAL"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "OBIWAN"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_021.java"
-  },
-  "1_22": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_022.java"
   },
   "1_221": {
     "keywords": [
@@ -588,27 +325,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_224.java"
   },
-  "1_225": {
-    "keywords": [
-      "DEJARIK",
-      "HOLOGRAM"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_225.java"
-  },
-  "1_234": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_234.java"
-  },
   "1_237": {
     "keywords": [],
     "species": [],
@@ -626,15 +342,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_238.java"
-  },
-  "1_247": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_247.java"
   },
   "1_249": {
     "keywords": [],
@@ -702,15 +409,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_266.java"
-  },
-  "1_267": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_267.java"
   },
   "1_268": {
     "keywords": [],
@@ -834,31 +532,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_030.java"
   },
-  "1_304": {
-    "keywords": [
-      "NO_HYPERDRIVE"
-    ],
-    "species": [],
-    "models": [
-      "TIE_LN"
-    ],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_304.java"
-  },
-  "1_309": {
-    "keywords": [
-      "ENCLOSED",
-      "SANDCRAWLER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_309.java"
-  },
   "1_31": {
     "keywords": [],
     "species": [
@@ -912,19 +585,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_322.java"
   },
-  "1_324": {
-    "keywords": [
-      "LIGHTSABER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "VADERS_LIGHTSABER"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_324.java"
-  },
   "1_35": {
     "keywords": [],
     "species": [],
@@ -934,28 +594,6 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_035.java"
   },
-  "1_37": {
-    "keywords": [
-      "DEPLOYS_ON_SITE"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_037.java"
-  },
-  "1_4": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "BOSHEK"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_004.java"
-  },
   "1_40": {
     "keywords": [],
     "species": [],
@@ -964,61 +602,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_040.java"
-  },
-  "1_41": {
-    "keywords": [
-      "DEPLOYS_ON_SITE"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_041.java"
-  },
-  "1_42": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_042.java"
-  },
-  "1_43": {
-    "keywords": [
-      "DEPLOYS_ON_CHARACTERS"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_043.java"
-  },
-  "1_5": {
-    "keywords": [],
-    "species": [],
-    "models": [
-      "PROTOCOL"
-    ],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "C3PO"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_005.java"
-  },
-  "1_53": {
-    "keywords": [
-      "DEJARIK"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_053.java"
   },
   "1_6": {
     "keywords": [],
@@ -1041,24 +624,6 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_064.java"
-  },
-  "1_71": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_071.java"
-  },
-  "1_72": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_072.java"
   },
   "1_77": {
     "keywords": [],
@@ -1114,27 +679,29 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_098.java"
   },
-  "1_99": {
-    "keywords": [],
+  "1_148": {
+    "keywords": [
+      "ENCLOSED"
+    ],
     "species": [],
     "models": [],
     "nonUnique": true,
     "uniqueness": "UNRESTRICTED",
     "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_099.java"
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_148.java"
   },
-  "2_108": {
-    "keywords": [
-      "LEADER"
+  "1_5": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "PROTOCOL"
     ],
-    "species": [
-      "TUSKEN_RAIDER"
-    ],
-    "models": [],
     "nonUnique": false,
     "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_108.java"
+    "personas": [
+      "C3PO"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_005.java"
   },
   "2_14": {
     "keywords": [
@@ -1151,238 +718,31 @@
     ],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_014.java"
   },
-  "3_147": {
+  "1_11": {
     "keywords": [
-      "DOCKING_BAY"
+      "GAMBLER",
+      "PIRATE",
+      "SMUGGLER"
     ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_147.java"
-  },
-  "3_16": {
-    "keywords": [
-      "SCOUT"
+    "species": [
+      "CORELLIAN"
     ],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "RESTRICTED_3",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_016.java"
-  },
-  "3_3": {
-    "keywords": [
-      "COMMANDER",
-      "LEADER",
-      "ROGUE_SQUADRON"
-    ],
-    "species": [],
     "models": [],
     "nonUnique": false,
     "uniqueness": "UNIQUE",
     "personas": [
-      "LUKE"
+      "HAN"
     ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_003.java"
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_011.java"
   },
-  "3_32": {
+  "5_69": {
     "keywords": [],
     "species": [],
     "models": [],
     "nonUnique": false,
     "uniqueness": "UNIQUE",
     "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_032.java"
-  },
-  "3_59": {
-    "keywords": [
-      "DOCKING_BAY"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_059.java"
-  },
-  "3_6": {
-    "keywords": [
-      "ECHO_BASE_TROOPER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_006.java"
-  },
-  "3_60": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_060.java"
-  },
-  "3_86": {
-    "keywords": [],
-    "species": [],
-    "models": [
-      "MEDICAL"
-    ],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_086.java"
-  },
-  "3_9": {
-    "keywords": [],
-    "species": [],
-    "models": [
-      "MEDICAL"
-    ],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_009.java"
-  },
-  "3_91": {
-    "keywords": [
-      "SNOWTROOPER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_091.java"
-  },
-  "4_1": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "LUKE"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_001.java"
-  },
-  "4_103": {
-    "keywords": [
-      "COMMANDER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_103.java"
-  },
-  "4_116": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_116.java"
-  },
-  "4_133": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_133.java"
-  },
-  "4_16": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_016.java"
-  },
-  "4_2": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "YODA"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_002.java"
-  },
-  "4_37": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_037.java"
-  },
-  "5_109": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_109.java"
-  },
-  "5_110": {
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_110.java"
-  },
-  "5_141": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_141.java"
-  },
-  "5_149": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_149.java"
-  },
-  "5_159": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": true,
-    "uniqueness": "UNRESTRICTED",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_159.java"
-  },
-  "5_41": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_041.java"
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_069.java"
   },
   "5_48": {
     "keywords": [],
@@ -1406,47 +766,25 @@
     ],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_005.java"
   },
-  "5_59": {
+  "4_103": {
+    "keywords": [
+      "COMMANDER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_103.java"
+  },
+  "13_86": {
     "keywords": [],
     "species": [],
     "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
     "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_059.java"
-  },
-  "5_69": {
-    "keywords": [],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_069.java"
-  },
-  "5_79": {
-    "uniqueness": "UNIQUE",
-    "personas": [],
-    "keywords": [
-      "CLOUD_CITY_LOCATION"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_079.java"
-  },
-  "5_99": {
-    "keywords": [
-      "GAMBLER"
-    ],
-    "species": [],
-    "models": [],
-    "nonUnique": false,
-    "uniqueness": "UNIQUE",
-    "personas": [
-      "LANDO"
-    ],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_099.java"
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set13/dark/Card13_086.java"
   },
   "8_108": {
     "keywords": [
@@ -1474,16 +812,294 @@
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/dark/Card8_114.java"
   },
-  "8_5": {
+  "1_99": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_099.java"
+  },
+  "1_101": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_101.java"
+  },
+  "5_59": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_059.java"
+  },
+  "1_195": {
     "keywords": [
-      "SCOUT"
+      "FEMALE",
+      "SPY",
+      "THIEF"
     ],
     "species": [],
     "models": [],
     "nonUnique": false,
     "uniqueness": "UNIQUE",
     "personas": [],
-    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/light/Card8_005.java"
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_195.java"
+  },
+  "1_184": {
+    "keywords": [
+      "INFORMATION_BROKER",
+      "SPY"
+    ],
+    "species": [
+      "DEVARONIAN"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_184.java"
+  },
+  "1_171": {
+    "keywords": [
+      "BOUNTY_HUNTER"
+    ],
+    "species": [
+      "SAKIYAN"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_171.java"
+  },
+  "1_4": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "BOSHEK"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_004.java"
+  },
+  "2_108": {
+    "keywords": [
+      "LEADER"
+    ],
+    "species": [
+      "TUSKEN_RAIDER"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_108.java"
+  },
+  "3_16": {
+    "keywords": [
+      "SCOUT"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "RESTRICTED_3",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_016.java"
+  },
+  "1_147": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "Y_WING"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_147.java"
+  },
+  "3_91": {
+    "keywords": [
+      "SNOWTROOPER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_091.java"
+  },
+  "1_304": {
+    "keywords": [
+      "NO_HYPERDRIVE"
+    ],
+    "species": [],
+    "models": [
+      "TIE_LN"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_304.java"
+  },
+  "1_172": {
+    "keywords": [
+      "SMUGGLER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_172.java"
+  },
+  "3_6": {
+    "keywords": [
+      "ECHO_BASE_TROOPER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_006.java"
+  },
+  "1_19": {
+    "keywords": [
+      "RED_SQUADRON"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "LUKE"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_019.java"
+  },
+  "3_3": {
+    "keywords": [
+      "COMMANDER",
+      "LEADER",
+      "ROGUE_SQUADRON"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "LUKE"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_003.java"
+  },
+  "1_21": {
+    "keywords": [
+      "GENERAL"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "OBIWAN"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_021.java"
+  },
+  "5_99": {
+    "keywords": [
+      "GAMBLER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "LANDO"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_099.java"
+  },
+  "4_1": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "LUKE"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_001.java"
+  },
+  "1_71": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_071.java"
+  },
+  "1_109": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_109.java"
+  },
+  "1_234": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_234.java"
+  },
+  "1_267": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_267.java"
+  },
+  "102_1": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set102/light/Card102_001.java"
+  },
+  "102_6": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set102/dark/Card102_006.java"
+  },
+  "4_2": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "YODA"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_002.java"
   },
   "9_109": {
     "keywords": [
@@ -1510,5 +1126,389 @@
       "LUKE"
     ],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/light/Card9_024.java"
+  },
+  "4_37": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_037.java"
+  },
+  "1_53": {
+    "keywords": [
+      "DEJARIK"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_053.java"
+  },
+  "1_225": {
+    "keywords": [
+      "DEJARIK",
+      "HOLOGRAM"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_225.java"
+  },
+  "1_168": {
+    "keywords": [
+      "BLACK_SQUADRON"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "VADER"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_168.java"
+  },
+  "1_43": {
+    "keywords": [
+      "DEPLOYS_ON_CHARACTERS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_043.java"
+  },
+  "5_110": {
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_110.java"
+  },
+  "5_141": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_141.java"
+  },
+  "5_41": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_041.java"
+  },
+  "5_159": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_159.java"
+  },
+  "1_155": {
+    "keywords": [
+      "LIGHTSABER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_155.java"
+  },
+  "1_157": {
+    "keywords": [
+      "LIGHTSABER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "OBIWANS_LIGHTSABER"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_157.java"
+  },
+  "1_324": {
+    "keywords": [
+      "LIGHTSABER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "VADERS_LIGHTSABER"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_324.java"
+  },
+  "14_9": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set14/light/Card14_009.java"
+  },
+  "5_109": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_109.java"
+  },
+  "8_5": {
+    "keywords": [
+      "SCOUT"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/light/Card8_005.java"
+  },
+  "3_9": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "MEDICAL"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_009.java"
+  },
+  "3_60": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_060.java"
+  },
+  "3_59": {
+    "keywords": [
+      "DOCKING_BAY"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_059.java"
+  },
+  "3_86": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "MEDICAL"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_086.java"
+  },
+  "3_32": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_032.java"
+  },
+  "4_116": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_116.java"
+  },
+  "3_147": {
+    "keywords": [
+      "DOCKING_BAY"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_147.java"
+  },
+  "1_167": {
+    "keywords": [
+      "COMMANDER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "PRAJI"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_167.java"
+  },
+  "1_179": {
+    "keywords": [
+      "LEADER",
+      "MOFF"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "TARKIN"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_179.java"
+  },
+  "1_2": {
+    "keywords": [
+      "FEMALE"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_002.java"
+  },
+  "1_22": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_022.java"
+  },
+  "1_37": {
+    "keywords": [
+      "DEPLOYS_ON_SITE"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_037.java"
+  },
+  "1_41": {
+    "keywords": [
+      "DEPLOYS_ON_SITE"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_041.java"
+  },
+  "1_247": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_247.java"
+  },
+  "1_72": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_072.java"
+  },
+  "5_79": {
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "keywords": [
+      "CLOUD_CITY_LOCATION"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_079.java"
+  },
+  "1_42": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_042.java"
+  },
+  "1_208": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_208.java"
+  },
+  "4_133": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_133.java"
+  },
+  "4_16": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_016.java"
+  },
+  "5_149": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_149.java"
+  },
+  "1_309": {
+    "keywords": [
+      "ENCLOSED",
+      "SANDCRAWLER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_309.java"
   }
 }
