@@ -1,0 +1,155 @@
+[
+  {
+    "kind": "nested",
+    "parentPendingAtSecond": true,
+    "order": [
+      "first",
+      "second"
+    ],
+    "bothOwnerLost": true
+  },
+  {
+    "count": 0,
+    "ordinaryRemaining": 0,
+    "buried": false,
+    "kind": "shuffle",
+    "owner": "light",
+    "topOrdinary": false,
+    "ownerLost": true,
+    "cancel": false,
+    "prohibited": true,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 0,
+    "ordinaryRemaining": 0,
+    "buried": false,
+    "kind": "shuffle",
+    "owner": "light",
+    "topOrdinary": false,
+    "ownerLost": true,
+    "cancel": true,
+    "prohibited": false,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 1,
+    "ordinaryRemaining": 1,
+    "buried": true,
+    "kind": "shuffle",
+    "owner": "light",
+    "topOrdinary": true,
+    "ownerLost": true,
+    "cancel": false,
+    "prohibited": true,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 1,
+    "ordinaryRemaining": 1,
+    "buried": true,
+    "kind": "shuffle",
+    "owner": "light",
+    "topOrdinary": true,
+    "ownerLost": true,
+    "cancel": true,
+    "prohibited": false,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 4,
+    "ordinaryRemaining": 4,
+    "buried": true,
+    "kind": "shuffle",
+    "owner": "light",
+    "topOrdinary": true,
+    "ownerLost": true,
+    "cancel": false,
+    "prohibited": true,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 4,
+    "ordinaryRemaining": 4,
+    "buried": true,
+    "kind": "shuffle",
+    "owner": "light",
+    "topOrdinary": true,
+    "ownerLost": true,
+    "cancel": true,
+    "prohibited": false,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 0,
+    "ordinaryRemaining": 0,
+    "buried": false,
+    "kind": "shuffle",
+    "owner": "dark",
+    "topOrdinary": false,
+    "ownerLost": true,
+    "cancel": false,
+    "prohibited": true,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 0,
+    "ordinaryRemaining": 0,
+    "buried": false,
+    "kind": "shuffle",
+    "owner": "dark",
+    "topOrdinary": false,
+    "ownerLost": true,
+    "cancel": true,
+    "prohibited": false,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 1,
+    "ordinaryRemaining": 1,
+    "buried": true,
+    "kind": "shuffle",
+    "owner": "dark",
+    "topOrdinary": true,
+    "ownerLost": true,
+    "cancel": false,
+    "prohibited": true,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 1,
+    "ordinaryRemaining": 1,
+    "buried": true,
+    "kind": "shuffle",
+    "owner": "dark",
+    "topOrdinary": true,
+    "ownerLost": true,
+    "cancel": true,
+    "prohibited": false,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 4,
+    "ordinaryRemaining": 4,
+    "buried": true,
+    "kind": "shuffle",
+    "owner": "dark",
+    "topOrdinary": true,
+    "ownerLost": true,
+    "cancel": false,
+    "prohibited": true,
+    "pendingAfterShuffle": true
+  },
+  {
+    "count": 4,
+    "ordinaryRemaining": 4,
+    "buried": true,
+    "kind": "shuffle",
+    "owner": "dark",
+    "topOrdinary": true,
+    "ownerLost": true,
+    "cancel": true,
+    "prohibited": false,
+    "pendingAfterShuffle": true
+  }
+]

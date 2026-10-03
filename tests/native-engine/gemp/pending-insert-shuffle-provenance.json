@@ -1,0 +1,29 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T22:25:14.810038+00:00",
+  "files": {
+    "NativeEnginePendingInsertShuffleOracleTests.java": "c6e259a95f9cb842e92b52cef60df2cc4b74df9d98c8ec101113ecbc89518106",
+    "NativeEngineReserveInsertOracleTests.java": "40b3098f891b028fbbbdfba70bed11844081e2ea6941045f51f2514d6d69092b",
+    "NativeEngineInsertTimingOracleTests.java": "814617ae1141e64131765c3d8adcdbaf818f3b58031874e51f98da6e3cfa60d2",
+    "NativeEngineInsertResponseOracleTests.java": "db6732c3da6819dccdeace111b1687a890229872c83e012949e6896e63d1a9b4",
+    "pending-insert-shuffle-results.json": "8a1683d19e389747e35f75c73758dc84f10568920c00c4f643dae61e6873f95d"
+  },
+  "junitTests": 2,
+  "observations": 13,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEnginePendingInsertShuffleOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; unchanged production sources",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp167\u2013168",
+  "scope": "Production ShuffleReserveDeckEffect during a revealed insert response, both owners, zero/one/four ordinary cards, cancellation and completion; controlled post-shuffle later insert exposure.",
+  "method": [
+    "A fixture required-action proxy grants the shuffle response; no additional native response-granting card is claimed. Actual activation exposes a real insert, production shuffle moves it, and cancellation/result preserves original ownership.",
+    "Empty ordinary Reserve is a no-op, as production ShufflePileEffect checks getCardPileSize, which excludes inserted cards.",
+    "The nested trace fixes a post-shuffle physical order to test exposure before the original parent resolves. Random shuffle checks assert legal positions rather than random order parity.",
+    "Native-only cases cover real Telepathy cancellation of a buried insert, returned peeks, entropy atomicity, concession, and serialization after every command."
+  ],
+  "limitations": [
+    "No new shuffle response-granting card. Broader shuffle/search provider timing, prevention/replacement and complete engine/product scope remain.",
+    "Full native deck admission remains closed. Prior GEMP declaration, destiny and peek disagreements remain recorded separately."
+  ]
+}

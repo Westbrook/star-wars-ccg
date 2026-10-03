@@ -83,5 +83,13 @@ export function assertInsertEffects(m:Match):void{
   if(h==='insert:deploy'){if(m.cards[p.card].zone!=='playing'||onceOnly.includes(m.cards[p.card].blueprint)&&!used(m).includes(m.cards[p.card].blueprint))throw Error('Invalid insert deployment.');}
   else{assertCardReference(m,p.ref!,p.card);if(p.ref!.zone!=='table'||f.awaitingResponses||f.action.payment)throw Error('Invalid insert result.');}
  }
- for(const x of reserveInserts(m))if(blueprints.includes(m.cards[x.card.id].blueprint)&&x.side!==other(m.cards[x.card.id].owner))throw Error('Insert in the wrong Reserve.');
+ for(const x of reserveInserts(m))if(blueprints.includes(m.cards[x.card.id].blueprint)){
+  if(x.side!==other(m.cards[x.card.id].owner))throw Error('Insert in the wrong Reserve.');
+  if(x.revealed){
+   // A shuffle changes physical depth, never the already-started resolution.
+   // A recovered revealed flag must still have exactly one bound continuation.
+   const bindings=m.stack.flatMap(f=>f.kind==='resolution'&&f.action.handler==='insert:result'?[f.action.payload as unknown as Payload]:f.kind==='decision'&&f.handler==='insert:order'?(f.payload as unknown as {candidates:Reveal[]}).candidates.map(c=>({card:c.ref.id,ref:c.ref,side:c.side})):[]);
+   if(bindings.filter(p=>p.side===x.side&&p.ref?.id===x.card.id&&p.ref.version===x.card.version).length!==1)throw Error('Revealed insert needs its bound continuation.');
+  }
+ }
 }

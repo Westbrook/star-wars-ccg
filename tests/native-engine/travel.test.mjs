@@ -173,3 +173,12 @@ for(const expected of identityObservations)test('movement identity reference: '+
   assert.equal(expected.extraMoved,true);assert.equal(expected.forceSpent,3);assert.deepEqual(actual,{...expected,extraMoved:false,forceSpent:2});
  }else assert.deepEqual(actual,expected);
 });
+
+for(const found of [false,true])test('Death Star search reshuffles inserted cards with the ordinary Reserve: found='+found,()=>{
+ const inserts=load(new URL('../../lib/native-engine/reserve-inserts.ts',import.meta.url));let m=fresh({light:['1_42']});const room=location(m,'dark','101_4');pull(m,'dark','1_194','table',room);const insert=pull(m,'light','1_42','hand');
+ if(!found)for(const id of [...m.players.dark.reserve])if(travel.bayCosts[m.cards[id].blueprint])state.moveCard(m,id,'hand');
+ state.insertCard(m,insert,'dark',()=>0);inserts.insertsIn(m,'dark')[0].position=1;m=phase(m);m=settle(step(m,'search:'+room));
+ if(found){const candidate=m.players.dark.reserve.find(id=>m.cards[id].blueprint==='1_285');m=step(m,'take:'+candidate);m=step(m,'place:'+board.sitePlacements(m,candidate)[0].id);m=settle(m)}
+ else{m=step(m,'not-found');m=settle(step(m,'verified'))}
+ assert.equal(travel.travelState(m).shuffles,1);assert.ok(inserts.insertsIn(m,'dark')[0].position>1);assert.equal(inserts.insertsIn(m,'dark')[0].revealed,false);assert.equal(m.cards[insert].zone,'table');assert.equal(runtime.project(m,rules,'dark').players.dark.counts.reserve,null);assert.equal(inserts.topInsert(m,'dark'),undefined);
+});

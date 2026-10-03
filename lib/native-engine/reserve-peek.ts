@@ -25,7 +25,7 @@ export function assertReservePeek(m: Match, p: ReservePeek): void {
  * selected cards. Ordinary identities/order remain unchanged by inspection. */
 export function returnReservePeek(m: Match, p: ReservePeek): void {
   assertReservePeek(m,p);
-  for(const x of insertsIn(m,p.side))if(!x.revealed&&x.position<p.cards.length)x.position=p.cards.length;
+  for(const x of insertsIn(m,p.side))if(x.position<p.cards.length)x.position=p.cards.length;
 }
 export function reservePeekView(m: Match,p: ReservePeek) {
   return {peek:p.cards.map(ref=>({...m.cards[ref.id]})),peekInserts:p.inserts.map(ref=>({...m.cards[ref.id]}))};

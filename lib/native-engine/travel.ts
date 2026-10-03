@@ -6,8 +6,7 @@ import {adjacent, atSite, cardDefinition, controls, moveWithAttachments, name, s
 import {battle, battleHistory, members} from './battle';
 import {canMove, groundResolve, record} from './ground';
 import {openWindow, queueForcePayment, type Context} from './runtime';
-import {shuffled} from './random';
-import {moveCard} from './state';
+import {moveCard, shufflePile} from './state';
 import {other, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 export const bayCosts: Record<string, Record<Side, number>> = {'1_124': {dark: 1, light: 1}, '1_285': {dark: 0, light: 2}, '1_129': {dark: 2, light: 1}, '1_291': {dark: 1, light: 2}, '3_59': {dark: 3, light: 1}, '3_147': {dark: 2, light: 1}};
@@ -78,7 +77,7 @@ export function travelInitiate(m: Match, r: Resolution): void {
   }
   if (r.action.handler === 'travel:run') markRunPlayed(m);
 }
-function shuffle(m: Match, context: Context): void {m.players.dark.reserve = shuffled(m.players.dark.reserve, context.entropy); remember(m).shuffles++;}
+function shuffle(m: Match, context: Context): void {shufflePile(m, 'dark', 'reserve', context.entropy); remember(m).shuffles++;}
 function escapeOptions(m: Match, p: Payload): {card: string; to: string}[] {
   if (!m.players.light.force.length) return [];
   return (p.remaining ?? []).filter(id => sameCard(m, p.memberRefs?.[id]!) && m.cards[id]?.zone === 'table' && m.cards[id].location === p.from && canMove(m, id)).flatMap(card =>
