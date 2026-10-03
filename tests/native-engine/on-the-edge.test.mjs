@@ -1,0 +1,67 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {load} from '../native-proof/load-engine.mjs';
+const runtime=load(new URL('../../lib/native-engine/runtime.ts',import.meta.url));
+const state=load(new URL('../../lib/native-engine/state.ts',import.meta.url));
+const combat=load(new URL('../../lib/native-engine/battle.ts',import.meta.url));
+const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
+const manifest=JSON.parse(fs.readFileSync(new URL('../../data/native-proof/manifest.json',import.meta.url)));
+// Component-only boards. Production admission stays closed.
+const rules={...premiereRules,starting:undefined,supports:()=>true,setupComplete:()=>true,resolve:(m,r,c)=>{if(r.action.handler==='probe:done')m.data.observed=r.action.payload;else premiereRules.resolve(m,r,c)}};
+const clone=x=>JSON.parse(JSON.stringify(x));
+function fresh(extra={}){return runtime.createMatch('interrupt-test',60,manifest.decks.map(d=>({side:d.side,cards:[...(extra[d.side]??[]),...d.main].slice(0,60)})),rules)}
+function pull(m,side,bp,zone='table',site){const c=Object.values(m.cards).find(c=>c.owner===side&&c.blueprint===bp&&c.zone==='reserve');assert.ok(c,'fixture '+bp);state.moveCard(m,c.id,zone);if(site)m.cards[c.id].location=site;return c.id}
+function location(m,side,bp){const id=pull(m,side,bp);m.locations.push(id);return id}
+function force(m,side,n){for(let i=0;i<n;i++)state.moveCard(m,m.players[side].reserve.at(-1),'force')}
+function prompt(m){const p=runtime.prompt(m,rules,'dark');return p&&runtime.prompt(m,rules,p.side)}
+const ids=m=>prompt(m).choices.map(c=>c.id);
+function step(m,id,side=prompt(m).side){const before=clone(m),r=runtime.applyCommand(clone(m),rules,side,{revision:m.revision,choice:id},()=>0);assert.deepEqual(m,before);state.assertState(r);for(const s of ['dark','light'])assert.deepEqual(runtime.project(r,rules,s),runtime.project(clone(r),rules,s));return r}
+function seek(m,predicate){for(let n=0;n<900;n++){if(predicate(m))return m;const p=prompt(m);assert.ok(p,'ended too soon');m=step(m,p.choices.some(c=>c.id==='pass')?'pass':p.choices.some(c=>c.id==='skip-destiny')?'skip-destiny':p.choices[0].id)}throw Error('boundary not reached')}
+function phase(m,p='deploy'){if(m.status==='setup')m=runtime.startTurns(m,rules);return seek(m,x=>x.turn.phase===p&&x.stack.length===1)}
+function settle(m){return seek(m,x=>x.stack.length===1||x.stack.at(-1)?.kind==='decision')}
+function priority(m,side){if(prompt(m).side!==side)m=step(m,'pass');assert.equal(prompt(m).side,side);return m}
+function topDestiny(m,side,bp){const id=pull(m,side,bp,'hand');state.moveCard(m,id,'reserve');return id}
+
+const edge=load(new URL('../../lib/native-engine/on-the-edge.ts',import.meta.url));
+const ability=load(new URL('../../lib/native-engine/ability.ts',import.meta.url));
+const response=load(new URL('../../lib/native-engine/destiny-response.ts',import.meta.url));
+const event=m=>m.stack.at(-1)?.event;
+function base(){let m=fresh({light:['1_101','1_101','1_115','1_28','1_115','1_28','1_115','1_28','1_109','1_153','1_115'],dark:['13_86','8_108','1_267','1_254','1_168']});const site=location(m,'light','1_129'),remote=location(m,'dark','1_284'),target=pull(m,'light','101_2','table',site),card=pull(m,'light','1_101','hand');const cards=['1_28','1_115','1_28','1_115','1_28','1_115'].map(bp=>pull(m,'light',bp,'hand'));for(const id of [...cards].reverse())state.moveCard(m,id,'lost');force(m,'light',8);m=phase(m);m=priority(m,'light');return {m,site,remote,target,card,cards};}
+function play(m,card,target,n=3){m=priority(m,'light');m=step(m,'edge:play:'+card+':'+target);assert.equal(m.stack.at(-1).handler,'edge:number');return step(m,'edge:number:'+n);}
+function finish(m,card){return seek(m,x=>x.cards[card].zone==='lost')}
+function result(mode){let f=base(),{m,target,card,cards,site,remote}=f;const chosen=mode==='one'?1:mode.endsWith('six')?6:3;
+ if(mode.startsWith('plans'))pull(m,'dark','13_86','table');if(mode.includes('fenson'))pull(m,'dark','8_108','table',remote);
+ if(mode==='failed')for(const id of [...m.players.light.reserve])state.moveCard(m,id,'hand');
+ m=play(m,card,target,chosen);let changed=false,drawn=false,optional=0,payment=0;
+ for(let i=0;i<180&&m.cards[card].zone!=='lost';i++){
+  const w=m.stack.at(-1),e=event(m);
+  if(!changed&&((mode.endsWith('before')&&w.kind==='window'&&w.event===undefined)||(mode.endsWith('after')&&e?.kind==='destiny-drawn'))){if(mode==='ability-before')ability.addAbilityModifier(m,remote,target,'reset',1);else {state.moveCard(m,target,'hand');if(mode.includes('return')){state.moveCard(m,target,'table');m.cards[target].location=site;}}changed=true;}
+  // Like GEMP PrepareLSDestiny, this component fixture supplies a known draw.
+  if(!drawn&&e?.kind==='destiny-drawn'){m.stack.at(-2).action.payload.draw.value=mode==='equal'?3:mode.startsWith('low')?2:7;drawn=true;}
+  const d=m.stack.at(-1);
+  if(d.handler==='edge:retrieve'){optional++;m=step(m,mode==='decline'?'edge:decline':'edge:retrieve');}
+  else if(d.handler==='plans:choose'){payment++;m=step(m,mode==='plans-decline'?'plans:cancel':'plans:pay');}
+  else m=step(m,ids(m).includes('pass')?'pass':ids(m)[0]);
+ }
+ assert.equal(m.cards[card].zone,'lost');if(mode.includes('before')||mode.includes('after'))assert.ok(changed);
+ return {name:mode,chosen,retrieved:cards.filter(id=>m.cards[id].zone==='used').length,lostTarget:m.cards[target].zone==='lost',spent:8-m.players.light.force.length,optional,payment,used:m.players.light.used.length};
+}
+const oracle=JSON.parse(fs.readFileSync(new URL('./gemp/edge-results.json',import.meta.url)));
+for(const expected of oracle)test('actual GEMP On The Edge comparison: '+expected.name,()=>assert.deepEqual(result(expected.name),expected));
+test('number choice is private, occurs before Force payment and offers exactly 1 through 6',()=>{let {m,card,target}=base();m=step(m,'edge:play:'+card+':'+target);assert.equal(m.players.light.force.length,8);assert.deepEqual(ids(m),[1,2,3,4,5,6].map(n=>'edge:number:'+n));assert.equal(runtime.prompt(m,rules,'dark').choices.length,0);m=step(m,'edge:number:4');assert.equal(m.players.light.force.length,7);assert.equal(m.stack.at(-1).kind,'window');assert.equal(event(m),undefined);});
+test('eligibility uses current Rebel ability, actual table presence and available Force',()=>{const f=base();let {m,site,target}=f;const options=()=>edge.edgeActions(m,m.stack.at(-1),'light');assert.equal(options().length,1);ability.addAbilityModifier(m,site,target,'reset',2);assert.equal(options().length,0);m.data.abilityModifiers=[];ability.addAbilityModifier(m,site,target,'reset',2.5);assert.equal(options().length,1);for(const id of [...m.players.light.force])state.moveCard(m,id,'used');assert.equal(options().length,0);});
+test('On The Edge cannot be played during another card or destiny response',()=>{const {m}=base();for(const e of [undefined,{kind:'destiny-drawn'},{kind:'about-to-lose'}])assert.equal(edge.edgeActions(m,{kind:'window',timing:'response',event:e},'light').length,0);assert.equal(edge.edgeActions(m,{kind:'window',timing:'response',event:{kind:'battle-weapons'}},'light').length,1);});
+test('invalid and foreign choices reject atomically; stale choice cannot spend again',()=>{let {m,card,target}=base();m=step(m,'edge:play:'+card+':'+target);const snapshot=clone(m);for(const id of ['edge:number:0','edge:number:7','edge:number:1.5','edge:number:01','edge:retrieve'])assert.throws(()=>step(m,id));assert.throws(()=>step(m,'edge:number:1','dark'));assert.deepEqual(m,snapshot);const revision=m.revision;m=step(m,'edge:number:1');assert.throws(()=>runtime.applyCommand(m,rules,'light',{revision,choice:'edge:number:1'},()=>0));assert.equal(m.players.light.force.length,7);});
+test('actual Sense cancels On The Edge after its cost without losing its target or drawing',()=>{let {m,card,target,site,remote}=base();const vader=pull(m,'dark','1_168','table',remote),sense=pull(m,'dark','1_267','hand');topDestiny(m,'dark','1_194');m=play(m,card,target);m=seek(m,x=>x.stack.at(-1)?.kind==='window'&&event(x)===undefined);m=priority(m,'dark');m=step(m,'cancel:play:'+sense+':'+card+':'+vader);m=seek(m,x=>x.cards[card].zone==='lost'&&x.cards[sense].zone!=='playing');assert.equal(m.cards[target].zone,'table');assert.equal(m.players.light.force.length,7);assert.equal(m.players.light.used.length,1);assert.equal(m.cards[sense].zone,'used');});
+test('failed comparison loses target and equipment with the owner choosing Lost order before response',()=>{let {m,card,target,site}=base();const gun=pull(m,'light','1_153','table',site);m.cards[gun].attachedTo=target;topDestiny(m,'light','1_101');m=play(m,card,target,3);m=seek(m,x=>x.stack.at(-1)?.handler==='table:lost-order');assert.equal(m.cards[target].zone,'leaving');assert.equal(m.cards[gun].zone,'leaving');m=step(m,ids(m).find(id=>id.includes(gun)));m=seek(m,x=>event(x)?.kind==='character-lost');assert.deepEqual(new Set(event(m).cards),new Set([target,gun]));m=finish(m,card);assert.equal(m.players.light.lost[0],card);assert.equal(m.cards[target].zone,'lost');});
+test('Kintan Strider can respond to the actual failed Rebel loss',()=>{let {m,card,target,remote}=base();const kintan=pull(m,'dark','1_254','hand'),trooper=pull(m,'dark','1_194','lost');force(m,'dark',2);topDestiny(m,'light','1_101');m=play(m,card,target,3);m=seek(m,x=>event(x)?.kind==='character-lost');m=priority(m,'dark');m=step(m,'revival:kintan:'+kintan);m=finish(m,card);assert.equal(m.cards[target].zone,'lost');assert.equal(m.cards[trooper].zone,'hand');assert.equal(m.cards[kintan].zone,'lost');});
+test('a canceled destiny fails the comparison and loses the Rebel',()=>{let {m,card,target}=base();m=play(m,card,target);m=seek(m,x=>event(x)?.kind==='destiny-drawn');assert.equal(response.cancelPendingDestiny(m,m.stack.at(-2)),true);m=finish(m,card);assert.equal(m.cards[target].zone,'lost');});
+test('successful optional retrieval can be declined even when Lost is empty',()=>{let {m,card,target,cards}=base();for(const id of cards)state.moveCard(m,id,'hand');topDestiny(m,'light','1_101');m=play(m,card,target,1);m=seek(m,x=>x.stack.at(-1)?.handler==='edge:retrieve');assert.ok(ids(m).includes('edge:decline'));m=step(m,'edge:decline');m=finish(m,card);assert.equal(m.cards[target].zone,'table');});
+test('saved source, target, number, actor and parent corruption are rejected',()=>{let {m,card,target}=base();m=step(m,'edge:play:'+card+':'+target);for(const mutate of [x=>x.stack.at(-1).side='dark',x=>x.stack.at(-1).payload.chosen=7,x=>x.stack.at(-1).payload.target.zone='hand',x=>x.stack.at(-2).action.payment={light:2},x=>x.stack.at(-1).handler='edge:unknown',x=>x.stack.at(-2).action.id='other']){const bad=clone(m);mutate(bad);assert.throws(()=>prompt(bad));}m=step(m,'edge:number:3');const bad=clone(m);bad.stack.find(f=>f.action?.handler==='edge:play').action.payload.chosen=0;assert.throws(()=>prompt(bad));assert.equal(premiereRules.supports('1_101'),false);});
+test('concession at the number decision freezes the unfinished card without paying its cost',()=>{let {m,card,target}=base();m=step(m,'edge:play:'+card+':'+target);m=runtime.applyCommand(m,rules,'light',{revision:m.revision,choice:'concede'},()=>0);assert.equal(m.status,'finished');assert.equal(m.result.winner,'dark');assert.equal(m.players.light.force.length,8);assert.throws(()=>step(m,'edge:number:1','light'));});
+test('a failed result does not lose a target that left during its about-to-lose response',()=>{let {m,card,target}=base();topDestiny(m,'light','1_101');m=play(m,card,target);m=seek(m,x=>event(x)?.kind==='about-to-lose');state.moveCard(m,target,'hand');m=finish(m,card);assert.equal(m.cards[target].zone,'hand');});
+test('a second On The Edge can play after the first fully resolves and pays separately',()=>{let {m,card,target}=base();topDestiny(m,'light','1_101');m=play(m,card,target,1);m=seek(m,x=>x.stack.at(-1)?.handler==='edge:retrieve');m=step(m,'edge:decline');m=finish(m,card);const second=m.players.light.used.find(id=>m.cards[id].blueprint==='1_101');assert.ok(second);state.moveCard(m,second,'hand');m=play(m,second,target,6);m=finish(m,second);assert.equal(m.players.light.force.length,6);assert.equal(m.cards[target].zone,'lost');});
+test('a real printed destiny retrieves top Lost cards in order while the Interrupt stays out of that pile',()=>{let {m,card,target,cards}=base();const drawn=topDestiny(m,'light','1_115');m=play(m,card,target,3);m=seek(m,x=>x.stack.at(-1)?.handler==='edge:retrieve');assert.equal(m.cards[drawn].zone,'used');assert.equal(m.cards[card].zone,'playing');m=step(m,'edge:retrieve');m=finish(m,card);assert.deepEqual(m.players.light.used.slice(0,4),[cards[2],cards[1],cards[0],drawn]);assert.deepEqual(m.players.light.lost.slice(0,4),[card,...cards.slice(3)]);assert.equal(m.cards[target].zone,'table');});
+import crypto from 'node:crypto';
+test('On The Edge evidence fingerprints the executed reference and keeps production admission closed',()=>{const p=JSON.parse(fs.readFileSync(new URL('./gemp/edge-provenance.json',import.meta.url)));for(const [file,hash] of [[p.harness,p.harnessSha256],[p.result,p.resultSha256]])assert.equal(crypto.createHash('sha256').update(fs.readFileSync(new URL('./gemp/'+file,import.meta.url))).digest('hex'),hash);assert.equal(p.observations,oracle.length);assert.equal(p.junitTests,1);assert.equal(p.unchangedProductionFiles,6820);assert.equal(premiereRules.supports('1_101'),false);});

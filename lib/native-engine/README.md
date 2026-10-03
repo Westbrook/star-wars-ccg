@@ -2222,3 +2222,28 @@ quantity/response invariants; independent RNG orders are not compared. See
 of additional granting cards or complete decks. Compound-card counting,
 fractional quantities, wider prevention/replacement and granting-card integration
 remain required. No new Rules Lab study was added.
+
+### On The Edge card integration
+
+On The Edge now targets a current ground Rebel with ability greater than two,
+asks its player to choose 1–6 before using one Force, and opens normal Interrupt
+responses. General destiny timing determines whether it succeeds (strictly
+higher) or loses the Rebel (including equal, canceled and failed draws). Success
+allows retrieval to be declined. Accepted retrieval uses the shared quantity,
+Fenson reduction, Secret Plans payment and per-card response machinery. The
+Interrupt remains in play until all its effects and loss responses finish.
+
+Executed GEMP retains the originally selected physical Rebel through response
+changes, including departure, return and ability reduction. Native follows this
+card-specific behavior: it still draws and can retrieve, while a failed result
+only loses the target if currently on table. Attached cards leave with it and
+the owner orders Lost before character-loss responses, including Kintan Strider.
+Number/retrieval choices and all continuations survive JSON reconstruction;
+invalid commands, corrupted bindings and repeat payment are rejected.
+
+Evidence is in `on-the-edge.test.mjs` and `gemp/edge-provenance.json`. GEMP plays
+the actual card on controlled boards; response removals and destiny values are
+fixture interventions. Native tests additionally cover actual Sense, canceled
+destiny, attachments, Kintan and concession. Broader retrieval-contributor
+restrictions, retargeting, aboard/captured/inactive targets and CPU strategy
+remain required. This does not admit a complete card/deck or add a Lab study.

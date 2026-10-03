@@ -1,0 +1,202 @@
+[
+  {
+    "chosen": 1,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 1,
+    "name": "one",
+    "used": 3,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 3,
+    "name": "three",
+    "used": 5,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 6,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 6,
+    "name": "six",
+    "used": 8,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": true,
+    "payment": 0,
+    "retrieved": 0,
+    "name": "equal",
+    "used": 2,
+    "spent": 1,
+    "optional": 0
+  },
+  {
+    "chosen": 3,
+    "lostTarget": true,
+    "payment": 0,
+    "retrieved": 0,
+    "name": "low",
+    "used": 2,
+    "spent": 1,
+    "optional": 0
+  },
+  {
+    "chosen": 3,
+    "lostTarget": true,
+    "payment": 0,
+    "retrieved": 0,
+    "name": "failed",
+    "used": 1,
+    "spent": 1,
+    "optional": 0
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 0,
+    "name": "decline",
+    "used": 2,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 1,
+    "retrieved": 3,
+    "name": "plans",
+    "used": 8,
+    "spent": 4,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 1,
+    "retrieved": 0,
+    "name": "plans-decline",
+    "used": 2,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 0,
+    "name": "fenson",
+    "used": 2,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 3,
+    "name": "depart-before",
+    "used": 5,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 3,
+    "name": "return-before",
+    "used": 5,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 3,
+    "name": "depart-after",
+    "used": 5,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 3,
+    "name": "return-after",
+    "used": 5,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 0,
+    "name": "low-depart-before",
+    "used": 2,
+    "spent": 1,
+    "optional": 0
+  },
+  {
+    "chosen": 3,
+    "lostTarget": true,
+    "payment": 0,
+    "retrieved": 0,
+    "name": "low-return-before",
+    "used": 2,
+    "spent": 1,
+    "optional": 0
+  },
+  {
+    "chosen": 3,
+    "lostTarget": true,
+    "payment": 0,
+    "retrieved": 0,
+    "name": "low-return-after",
+    "used": 2,
+    "spent": 1,
+    "optional": 0
+  },
+  {
+    "chosen": 3,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 3,
+    "name": "ability-before",
+    "used": 5,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 6,
+    "lostTarget": false,
+    "payment": 0,
+    "retrieved": 3,
+    "name": "fenson-six",
+    "used": 5,
+    "spent": 1,
+    "optional": 1
+  },
+  {
+    "chosen": 6,
+    "lostTarget": false,
+    "payment": 1,
+    "retrieved": 3,
+    "name": "plans-fenson-six",
+    "used": 8,
+    "spent": 4,
+    "optional": 1
+  }
+]

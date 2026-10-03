@@ -2266,6 +2266,21 @@
         "Broader prevention/replacement and optional-destination granting providers",
         "Complete card/deck admission"
       ]
+    },
+    "onTheEdge": {
+      "implementation": [
+        "lib/native-engine/on-the-edge.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/on-the-edge.test.mjs",
+        "tests/native-engine/gemp/edge-provenance.json"
+      ],
+      "scope": "Actual Interrupt targeting, number choice before payment, general destiny, optional retrieval with Fenson/Secret Plans and failed-draw Rebel loss. Selected physical target persists through responses as in executed GEMP. Cancellation, attachment-loss ordering, Kintan response and save recovery have native coverage.",
+      "remaining": [
+        "General retrieval-contributor restrictions and replacement providers",
+        "Aboard, captured and inactive target states; general retargeting",
+        "Whole-card/deck admission and broader CPU strategy"
+      ]
     }
   },
   "wholeMatchEvidence": {
