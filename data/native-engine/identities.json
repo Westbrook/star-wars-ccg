@@ -1424,5 +1424,14 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_041.java"
+  },
+  "1_247": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_247.java"
   }
 }

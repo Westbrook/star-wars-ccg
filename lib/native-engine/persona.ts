@@ -50,7 +50,7 @@ export function recordCardPlay(m: Match, id: string): void {
 }
 const playHandlers = new Set(['farm:deploy', 'deploy-effect:deploy', 'bacta:deploy', 'phase-effect:deploy', 'ability-effect:deploy', 'battle-effect:deploy','force-effect:deploy','ground:deploy','ground:site','ground:barrier','ground:reduce','battle:equip','battle:takeel','battle:reduce',
   'equipment:attach','equipment:macroscan','equipment:mine','gaffi:equip','saber:equip','travel:run','travel:escape']);
-const interruptProviders = ['trooper-assault:', 'duel-interrupt:', 'cancel:','interrupt:','duel:','revival:','assault:','accident:','stun:','scan:','scavenge:','worse:','doomed:','stakes:','substitution:','gambler:'];
+const interruptProviders = ['gravel:', 'trooper-assault:', 'duel-interrupt:', 'cancel:','interrupt:','duel:','revival:','assault:','accident:','stun:','scan:','scavenge:','worse:','doomed:','stakes:','substitution:','gambler:'];
 export function actionPlayCard(m: Match, a: Action): string | undefined {
   const p = a.payload as {card?: string} | null, id = p?.card;
   if (!id || m.cards[id]?.zone !== 'hand') return;

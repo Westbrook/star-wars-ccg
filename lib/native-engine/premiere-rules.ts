@@ -1,3 +1,4 @@
+import {gravelActions, gravelInitiate, gravelResolve, assertGravel} from './gravel-storm';
 import {farmDeviceActions, farmDeviceInitiate, farmDeviceResolve, assertFarmDevices} from './farm-devices';
 import {larsAutomatic,larsInitiate,larsResolve,assertLars} from './lars';
 import {publicValues} from './public-values';
@@ -68,7 +69,7 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
@@ -96,6 +97,7 @@ export const premiereRules: Rules = {
     else if (r.action.handler.startsWith('worse:')) worseInitiate(m, r);
     else if (r.action.handler.startsWith('scavenge:')) scavengeInitiate(m, r);
     else if (r.action.handler.startsWith('scan:')) scanInitiate(m, r);
+    else if (r.action.handler.startsWith('gravel:')) gravelInitiate(m,r);
     else if (r.action.handler.startsWith('stun:')) stunInitiate(m, r);
     else if (r.action.handler.startsWith('accident:')) accidentInitiate(m, r);
     else if (r.action.handler.startsWith('assault:')) assaultInitiate(m, r);
@@ -139,6 +141,7 @@ export const premiereRules: Rules = {
     else if (r.action.handler.startsWith('worse:')) worseResolve(m, r);
     else if (r.action.handler.startsWith('scavenge:')) scavengeResolve(m, r);
     else if (r.action.handler.startsWith('scan:')) scanResolve(m, r);
+    else if (r.action.handler.startsWith('gravel:')) gravelResolve(m,r);
     else if (r.action.handler.startsWith('stun:')) stunResolve(m, r);
     else if (r.action.handler.startsWith('accident:')) accidentResolve(m, r);
     else if (r.action.handler.startsWith('assault:')) assaultResolve(m, r);
@@ -230,7 +233,7 @@ export const premiereRules: Rules = {
     assertRevival(match);
     assertAssault(match);
     assertAccident(match);
-    assertStun(match);
+    assertStun(match); assertGravel(match);
     assertScan(match);
     assertScavenge(match);
     assertWorse(match);

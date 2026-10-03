@@ -1,0 +1,19 @@
+package com.gempukku.swccgo.rules.devices;
+import com.gempukku.swccgo.common.*;
+import com.gempukku.swccgo.framework.*;
+import com.gempukku.swccgo.game.*;
+import com.google.gson.GsonBuilder;
+import org.junit.Test;
+import org.junit.AfterClass;
+import java.nio.file.*;
+import java.util.*;
+import static org.junit.Assert.*;
+public class NativeEngineGravelOracleTests {
+ static final String LS=VirtualTableScenario.LS,DS=VirtualTableScenario.DS;
+ static final List<Map<String,Object>> rows=new ArrayList<>();
+ @AfterClass public static void output() throws Exception{Files.writeString(Path.of("/opt/gemp-swccg/gravel-results.json"),new GsonBuilder().setPrettyPrinting().create().toJson(rows));}
+ void pass(VirtualTableScenario s){try{if(s.GetCurrentDecision().getText().contains("Draw destiny?"))s.PlayerChooseYes(s.GetDecidingPlayer());else s.PlayerPass(s.GetDecidingPlayer());}catch(Exception e){throw new AssertionError(s.GetDecidingPlayer()+" "+s.GetCurrentDecision().getText()+" "+s.GetCurrentDecision().getDecisionParameters(),e);}}
+ VirtualTableScenario fixture(){var s=new VirtualTableScenario(new HashMap<>(Map.of("beru","1_2","vapor","1_41","dune","1_130","jawa","1_131","bay","1_129","luke","101_2")),new HashMap<>(Map.of("storm","1_247","enemy","1_194")),40,40,StartingSetup.LSStartingLocation("1_132"),StartingSetup.DSStartingLocation("1_284"),StartingSetup.NoLSStartingInterrupts,StartingSetup.NoDSStartingInterrupts,StartingSetup.NoLSShields,StartingSetup.NoDSShields,VirtualTableScenario.Open);s.StartGame();s.SkipToPhase(Phase.CONTROL);s.MoveCardsToLocation(s.GetLSStartingLocation(),s.GetLSCard("beru"));s.MoveCardsToHand(s.GetDSCard("storm"));return s;}
+ @Test public void protection(){for(String mode:List.of("none","same","adjacent","remote","other-system","wrong-site")){var s=fixture();var site=s.GetLSStartingLocation();s.MoveLocationToTable(s.GetLSCard("dune"));s.MoveLocationToTable(s.GetLSCard("jawa"));if(mode.equals("wrong-site")){s.MoveLocationToTable(s.GetLSCard("bay"));s.MoveCardsToLocation(s.GetLSCard("bay"),s.GetLSCard("beru"));}if(!mode.equals("none")&&!mode.equals("wrong-site"))s.AttachCardsTo(mode.equals("same")?site:mode.equals("adjacent")?s.GetLSCard("dune"):mode.equals("remote")?s.GetLSCard("jawa"):s.GetDSStartingLocation(),s.GetLSCard("vapor"));s.SkipToPhase(Phase.DEPLOY);rows.add(Map.of("name","target-"+mode,"offered",s.DSCardActionAvailable(s.GetDSCard("storm"))));}}
+ @Test public void resolution(){for(String mode:List.of("success","equal","failed","vapor-before","move-before","vapor-after","move-after","reentry-before","reentry-after")){var s=fixture();var target=s.GetLSCard("beru");var storm=s.GetDSCard("storm");s.PrepareDSDestiny(mode.equals("equal")?1:3);if(mode.equals("failed"))s.MoveCardsToDSHand(s.GetDSReserveDeck().toArray(new PhysicalCardImpl[0]));s.SkipToPhase(Phase.DEPLOY);s.DSPlayCard(storm);if(s.GetDecidingPlayer().equals(DS)&&s.DSHasCardChoiceAvailable(target))s.DSChooseCard(target);boolean changed=false;for(int i=0;i<100&&!s.GetDSLostPile().contains(storm);i++){String text=s.GetCurrentDecision().getText();System.out.println("GRAVEL "+mode+" "+s.GetDecidingPlayer()+" "+text);boolean after=text.contains("DESTINY_DRAWN");if(!changed&&((mode.endsWith("before")&&text.contains("Playing"))||(mode.endsWith("after")&&after))){if(mode.startsWith("vapor"))s.AttachCardsTo(s.GetLSStartingLocation(),s.GetLSCard("vapor"));else if(mode.startsWith("move"))s.MoveCardsToLocation(s.GetDSStartingLocation(),target);else{s.MoveCardsToHand(target);s.MoveCardsToLocation(s.GetLSStartingLocation(),target);}changed=true;}pass(s);}assertTrue(s.GetDSLostPile().contains(storm));if(mode.contains("before")||mode.contains("after"))assertTrue("intervention "+mode,changed);rows.add(Map.of("name",mode,"lost",s.GetLSLostPile().contains(target),"destinyUsed",s.GetDSUsedPileCount()));}}
+}

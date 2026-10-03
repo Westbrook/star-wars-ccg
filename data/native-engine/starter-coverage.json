@@ -2198,11 +2198,23 @@
       ],
       "gempEvidence": "tests/native-engine/gemp/farm-provenance.json",
       "remaining": [
-        "Vaporator Gravel Storm protection",
         "Generic activation and draw prohibition, costs, replacement and prevention",
         "Farm Reserve deployment and broader location catalog",
         "CPU strategy for these optional device choices",
         "Full reachable conformance and production admission"
+      ]
+    },
+    "gravelStorm": {
+      "scope": "Gravel Storm targeting at named ground sites, current ability comparison, failed/equal destiny, ordered character/dependent loss and normal response integration. Vaporator prevents initial targeting at same/adjacent sites through a shared named-card immunity query.",
+      "tests": [
+        "tests/native-engine/gravel-storm.test.mjs"
+      ],
+      "gempEvidence": "tests/native-engine/gemp/gravel-provenance.json",
+      "targetTiming": "Executed GEMP retains the chosen physical character after initiation. Later movement/protection/reentry does not cancel that Storm; no universal targeting-policy change.",
+      "remaining": [
+        "Broader protection providers, retargeting and identity interactions",
+        "Aboard, vehicles, capture and broader site catalog",
+        "CPU strategy and full reachable production admission"
       ]
     }
   },

@@ -2073,3 +2073,39 @@ Generic activation/draw restrictions and replacement, Farm deployment from
 Reserve, broader locations and CPU policy for these optional device choices also
 remain. The full native-engine scope and production admission gate are unchanged;
 no standalone Rules Lab study was added.
+
+### Gravel Storm and named-card immunity
+
+Gravel Storm (`1_247`) is implemented as a ground Interrupt component. It targets
+an opponent's character present at one of its six named Tatooine sites, during
+a normal top-level opportunity or the battle weapons segment. Its destiny goes
+through the shared cost, draw, response and cleanup machinery. A successful
+strict greater-than comparison uses current ability (Droids remain zero); failed
+or equal destiny does not lose the target. The victim and attached cards leave
+together, with owner-controlled Lost ordering and normal before/after loss
+responses, including Beru's required Luke modifier.
+
+`immuneToCardTitle` separates named-card protection from attrition immunity.
+Vaporator now supplies its Gravel Storm protection to characters at its site or
+an adjacent site, regardless of their owner. Its active game text is required;
+range uses the current site layout. A device need not participate in a battle to
+protect a character there. This closes the earlier farm-device protection gap.
+
+The executed GEMP timing cases are significant: initial protection prevents
+selection, but adding protection or moving the selected character afterward does
+not undo the initiated Storm. GEMP also retains its physical target across a
+controlled hand departure/re-entry, both during initiation responses and after
+destiny is drawn. This implementation follows that observed card-specific
+behavior. The saved selection reference validates provenance; it does not impose
+a different instance-retargeting policy. A character absent from table when loss
+is carried out is not lost from its new pile.
+
+Fifteen observations across two fresh GEMP JUnit tests cover target availability,
+strict/failed draws, and movement/protection/re-entry interventions. All 6,820
+production reference files are unchanged; see `gemp/gravel-provenance.json`.
+Native-only checks additionally cover actual Sense cancellation, battle context,
+attachment ordering, Beru's trigger, modified ability and corrupt saves. The
+interventions are controlled component tests, not proof of exhaustive reachable
+full matches. There are now 136 explicit definitions, with full admission still
+closed. Aboard/capture/vehicles, other immunity providers, broader retargeting,
+site catalog and CPU strategy remain in scope. No new Rules Lab study was added.

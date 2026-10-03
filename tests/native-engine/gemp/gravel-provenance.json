@@ -1,0 +1,22 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T16:32:27.981628+00:00",
+  "harness": "NativeEngineGravelOracleTests.java",
+  "harnessSha256": "fbfaf8ba7c9cc1c82e8f50bafd6984b7371394ae831c5385f40d502c41fe3e73",
+  "result": "gravel-results.json",
+  "resultSha256": "daa0ba0ee7a956b01673df1f921846cbfa10c250db2224940c74b5a62ae77ea8",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineGravelOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; unchanged pinned production source; test harness only",
+  "junitTests": 2,
+  "observations": 15,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp16,54,114",
+  "scope": "Six target-availability checks and nine actual Gravel Storm outcomes: success, equal/failed destiny, protection/movement/reentry during initial responses and just-drawn destiny.",
+  "limitations": [
+    "Controlled boards and timing interventions, not whole-match exhaustive conformance.",
+    "GEMP retains selected physical target; later protection/movement/reentry does not undo the initiated Storm. This behavior is card-specific, not a universal identity rule.",
+    "Native cancellation, battle-context, attachment ordering and required Beru-trigger tests are not fresh GEMP observations.",
+    "Aboard/capture/vehicles, alternate title protection providers and retargeting remain unfinished; production admission remains closed."
+  ]
+}

@@ -1,0 +1,71 @@
+[
+  {
+    "name": "target-none",
+    "offered": true
+  },
+  {
+    "name": "target-same",
+    "offered": false
+  },
+  {
+    "name": "target-adjacent",
+    "offered": false
+  },
+  {
+    "name": "target-remote",
+    "offered": true
+  },
+  {
+    "name": "target-other-system",
+    "offered": true
+  },
+  {
+    "name": "target-wrong-site",
+    "offered": false
+  },
+  {
+    "name": "success",
+    "destinyUsed": 1,
+    "lost": true
+  },
+  {
+    "name": "equal",
+    "destinyUsed": 1,
+    "lost": false
+  },
+  {
+    "name": "failed",
+    "destinyUsed": 0,
+    "lost": false
+  },
+  {
+    "name": "vapor-before",
+    "destinyUsed": 1,
+    "lost": true
+  },
+  {
+    "name": "move-before",
+    "destinyUsed": 1,
+    "lost": true
+  },
+  {
+    "name": "vapor-after",
+    "destinyUsed": 1,
+    "lost": true
+  },
+  {
+    "name": "move-after",
+    "destinyUsed": 1,
+    "lost": true
+  },
+  {
+    "name": "reentry-before",
+    "destinyUsed": 1,
+    "lost": true
+  },
+  {
+    "name": "reentry-after",
+    "destinyUsed": 1,
+    "lost": true
+  }
+]

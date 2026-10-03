@@ -1284,5 +1284,20 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_041.java"
+  },
+  {
+    "gempId": "1_247",
+    "name": "Gravel Storm",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/gravelstorm.gif",
+    "text": "Strikes at Dune Sea, Jundland Wastes, Beggar's Canyon, Lars' Moisture Farm, Jawa Camp, or Mos Eisley. Target opponent's character present at that site. Draw destiny. Target lost if destiny > ability.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_247.java"
   }
 ]
