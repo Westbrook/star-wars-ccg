@@ -1,0 +1,83 @@
+[
+  {
+    "mode": "reserve",
+    "bothSeeReveal": true,
+    "blueprint": "1_194",
+    "insertRevealed": false,
+    "repeat": false,
+    "destination": "RESERVE_DECK",
+    "insertLost": false
+  },
+  {
+    "mode": "force",
+    "bothSeeReveal": true,
+    "blueprint": "1_194",
+    "insertRevealed": false,
+    "repeat": false,
+    "destination": "FORCE_PILE",
+    "insertLost": false
+  },
+  {
+    "mode": "used",
+    "bothSeeReveal": true,
+    "blueprint": "1_194",
+    "insertRevealed": false,
+    "repeat": false,
+    "destination": "USED_PILE",
+    "insertLost": false
+  },
+  {
+    "mode": "vehicle",
+    "bothSeeReveal": true,
+    "blueprint": "1_309",
+    "insertRevealed": false,
+    "repeat": false,
+    "destination": "LOST_PILE",
+    "insertLost": false
+  },
+  {
+    "mode": "starship",
+    "bothSeeReveal": true,
+    "blueprint": "1_304",
+    "insertRevealed": false,
+    "repeat": false,
+    "destination": "LOST_PILE",
+    "insertLost": false
+  },
+  {
+    "mode": "source-departs",
+    "bothSeeReveal": true,
+    "blueprint": "1_194",
+    "insertRevealed": false,
+    "repeat": false,
+    "destination": "RESERVE_DECK",
+    "insertLost": false
+  },
+  {
+    "mode": "short",
+    "bothSeeReveal": true,
+    "blueprint": "1_194",
+    "insertRevealed": false,
+    "repeat": false,
+    "destination": "RESERVE_DECK",
+    "insertLost": false
+  },
+  {
+    "mode": "insert-reserve",
+    "bothSeeReveal": true,
+    "blueprint": "1_194",
+    "insertRevealed": false,
+    "repeat": false,
+    "destination": "RESERVE_DECK",
+    "insertLost": false
+  },
+  {
+    "mode": "insert-force",
+    "bothSeeReveal": true,
+    "blueprint": "1_194",
+    "insertRevealed": true,
+    "repeat": false,
+    "destination": "FORCE_PILE",
+    "insertLost": false
+  }
+]

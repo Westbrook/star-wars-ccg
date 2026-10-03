@@ -5,7 +5,7 @@ import {premiereSites} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-5';
+export const computerPolicy = 'native-cpu-6';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -79,6 +79,12 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (c.id === 'core:activate' || c.id === 'core:declare-activation') return 100;
     if (c.id.startsWith('core:activation-amount:')) return 100 + Number(c.id.split(':')[2]);
     if (c.id === 'core:draw') return wantsCard ? 20 : -10;
+    // Labria trades an unknown top card for information and optional usable Force.
+    // Avoid the risk at low Life Force; choose only from the public prompt.
+    if (kind === 'labria' && a === 'reveal') return own.lifeForce !== null && own.lifeForce > 4 && (own.counts?.force ?? 0) < 4 ? 12 : -5;
+    if (c.id === 'labria:return:force') return 70;
+    if (c.id === 'labria:return:reserve') return 20;
+    if (c.id === 'labria:return:used') return 10;
     if (c.id === 'noble:retrieve') return 80;
     if (c.id === 'noble:decline') return -5;
     if (kind === 'noble' && a === 'play') {

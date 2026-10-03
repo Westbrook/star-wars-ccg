@@ -1,3 +1,4 @@
+import {invalidatePileReveals} from './pile-reveal';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {insertsIn, assertReserveTopAccessible} from './reserve-inserts';
 import {sides, type Match, type Side} from './types';
@@ -25,6 +26,7 @@ export function assertReservePeek(m: Match, p: ReservePeek): void {
  * selected cards. Ordinary identities/order remain unchanged by inspection. */
 export function returnReservePeek(m: Match, p: ReservePeek): void {
   assertReservePeek(m,p);
+  invalidatePileReveals(m,p.cards.map(ref=>ref.id));
   for(const x of insertsIn(m,p.side))if(x.position<p.cards.length)x.position=p.cards.length;
 }
 export function reservePeekView(m: Match,p: ReservePeek) {

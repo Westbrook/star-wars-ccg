@@ -304,7 +304,7 @@
       "forfeit": "3"
     },
     "icons": [],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_184.java"
   },
   {
@@ -1413,5 +1413,25 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_149.java"
+  },
+  {
+    "gempId": "1_309",
+    "name": "Sandcrawler",
+    "side": "dark",
+    "type": "Vehicle",
+    "subType": "Transport",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/sandcrawler.gif",
+    "text": "Deploys only to a Tatooine site. May add 1 driver and 7 passengers. Cannot move to mobile sites. Adds 1 to forfeit of each Jawa at same exterior site.",
+    "stats": {
+      "deploy": "3",
+      "power": "3",
+      "destiny": "2",
+      "forfeit": "5",
+      "armor": "3",
+      "landspeed": "2"
+    },
+    "icons": [],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_309.java"
   }
 ]

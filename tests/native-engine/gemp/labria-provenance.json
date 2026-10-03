@@ -1,0 +1,25 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T23:41:49.408172+00:00",
+  "files": {
+    "NativeEngineLabriaOracleTests.java": "eb350c93762cd647f9ac4b1a12dd1c5379cb4f97178368de6a5d3ee195a15f3f",
+    "labria-results.json": "ddeba0934107d19023bbef965f11653a4dc073ac815e22c38a07d79bfa05e2d1"
+  },
+  "junitTests": 1,
+  "observations": 9,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineLabriaOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; production source bytes compared against pinned archive",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp10,15,167\u2013168",
+  "scope": "Actual Labria Control action, public reveal acknowledgment, all three return piles, automatic vehicle/starship loss, source departure, short Reserve, adjacent-insert retention/exposure and consumed usage. Native emits reveal completion after placement/loss response timing.",
+  "method": [
+    "Board and top card are controlled fixture placements; actual Labria text action and both public reveal acknowledgments execute in GEMP.",
+    "Source departure and inserted card/depth are controlled fixture interventions; no removal/insertion granting card newly claimed.",
+    "Native-only tests cover canceled action usage, source return, empty Reserve during responses, stale reveal after move/replace/shuffle/insert/peek, exact pile order, corruption rejection, CPU choices and real-service browser recovery."
+  ],
+  "limitations": [
+    "Sandcrawler and TIE Fighter are metadata-only loss targets. This does not implement vehicle, pilot/passenger, space or capture rules.",
+    "Generic prevention/replacement granting cards and broader reveal providers remain. All production full-match admission remains closed."
+  ]
+}

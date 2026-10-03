@@ -1,3 +1,4 @@
+import {assertRevealVersions,invalidatePileReveals} from './pile-reveal';
 import {assertReserveInserts, reserveInserts, insertsIn, isInserted, saveInserts, assertReserveTopAccessible, reserveCardRemoved, reserveCardAdded, forgetInsert, shuffledReserve} from './reserve-inserts';
 import {validForceQuantity} from './force-quantity';
 import {assertTableLossOrigins} from './loss-origin';
@@ -67,6 +68,7 @@ export function moveCard(match: Match, id: string, zone: Zone, position: 'top' |
     if (zone === 'reserve') reserveCardAdded(match,card.owner,position === 'top');
     if (position === 'bottom') pile.push(id); else pile.unshift(id);
   }
+  invalidatePileReveals(match,[id]);
 }
 
 export function moveTop(match: Match, side: Side, from: Pile, to: Pile): string {
@@ -109,6 +111,7 @@ export function insertCard(match: Match, id: string, side: Side, entropy?: Entro
   shufflePile(next,side,'reserve',entropy);assertReserveInserts(next);
   moveCard(match,id,'table');
   match.players[side].reserve=next.players[side].reserve;
+  if(next.data.revealVersions)match.data.revealVersions=next.data.revealVersions;
   saveInserts(match,reserveInserts(next));
 }
 export function shufflePile(match: Match, side: Side, pile: Pile, entropy?: Entropy): void {
@@ -117,11 +120,13 @@ export function shufflePile(match: Match, side: Side, pile: Pile, entropy?: Entr
     match.players[side].reserve=plan.cards;
     saveInserts(match,[...reserveInserts(match).filter(x=>x.side!==side),...plan.entries]);
   } else match.players[side][pile] = shuffled(match.players[side][pile], entropy);
+  invalidatePileReveals(match,match.players[side][pile]);
 }
 
 export function assertState(match: Match): void {
   assertSerializable(match);
   assertCardVersions(match);
+  assertRevealVersions(match);
   assertTableLossOrigins(match);
   assertReserveInserts(match);
   if (match.schema !== 1 || match.engine !== 'native-engine-1' || !match.rules || !match.id ||

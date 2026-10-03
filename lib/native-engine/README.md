@@ -2512,3 +2512,44 @@ Nine executed GEMP observations and their exact fixture limits are recorded in
 coverage: captured/aboard characters, escort releases, broader prevention and
 replacement cards, and full card/deck certification remain incomplete. No new
 Rules Lab study or production deck admission is introduced.
+
+### Labria: public Reserve reveal and pile return
+
+`labria.ts` implements Premiere Labria (`1_184`) during its owner's Control
+phase: once per table instance per turn, reveal the top ordinary Reserve card to
+both players; a vehicle or starship is lost, otherwise choose the top of Reserve,
+Force or Used. A required opponent acknowledgment makes the public reveal
+reviewable through network polling and refresh. This acknowledgment adds no
+rules-action window. Placing a card on Force is not activation. Placement/loss
+responses precede the reveal-completed response, matching the executed reference.
+An initiated result survives source departure, while cancellation still consumes
+that instance's use. The source returning to table creates a new instance.
+
+`pile-reveal.ts` distinguishes a public reveal from a private peek. Revealed
+cards remain in their original pile, and manipulation history invalidates the
+reveal when a card moves (including replacement in the same pile), its pile is
+shuffled, or a peek returns it. A stale reveal never moves or loses a replacement
+card. Insert deployment propagates shuffle invalidation from its staged state.
+Returning Labria's card to Reserve preserves the insert underneath; moving it to
+Force/Used exposes that insert before the suspended result continues. Saved
+source/reveal references, usage and acknowledgment ownership are validated.
+
+Both `/matches` seats can inspect the revealed card. `native-cpu-6` conservatively
+uses Labria only above four Life Force when short of usable Force, and routes the
+revealed card to Force. It reads only the ordinary player projection. This is a
+heuristic, not hidden-deck inference or a complete strategic opponent.
+
+`tests/native-engine/gemp/labria-provenance.json` records nine actual GEMP
+observations (one JUnit test), with all 6820 production source files unchanged.
+These cover the three destinations, vehicle/starship loss, source departure,
+short Reserve and adjacent inserts. Board, top-card, source-departure and insert
+positions are controlled fixtures. Native tests separately cover manipulation,
+forged snapshots, canceled usage, source return, CPU decisions and concession.
+The real-service browser suite verifies both-seat recovery, acknowledgment,
+inspection and Force placement at 1440, 834 and 390 pixels.
+
+Sandcrawler (`1_309`) is explicitly defined only as a metadata/loss target; neither
+it nor TIE Fighter gains vehicle/space gameplay admission. Captured/aboard Labria,
+other public-reveal providers, broader prevention/replacement and the full engine
+remain required work. Production full-match admission stays closed; no new
+standalone Rules Lab scenario is introduced.

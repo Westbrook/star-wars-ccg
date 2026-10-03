@@ -7,6 +7,7 @@ import {pathToFileURL} from 'node:url';
 import {randomUUID} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {load} from '../native-proof/load-engine.mjs';
+import {fixture as labriaFixture} from './labria-fixture.mjs';
 import {fixture as nobleFixture} from './noble-fixture.mjs';
 import {SqliteD1} from './sqlite-d1.mjs';
 import {auditRules,starterDecks,runStarterMatch,seeded} from './match-runner.mjs';
@@ -19,7 +20,7 @@ const pileState=load(new URL('../../lib/native-engine/state.ts',import.meta.url)
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
 const db=new SqliteD1(),origin=process.env.NATIVE_UI_ORIGIN||'http://localhost:5173';
-const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86'].includes(bp),starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86'].includes(c.blueprint))}};
+const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86','1_184'].includes(bp),starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86','1_184'].includes(c.blueprint))}};
 let time=1_800_000_000_000;const fresh=()=>nativeMatchService(db,{currentRules:browserRules.id,rules:()=>browserRules,now:()=>time,entropy:seeded(1)}),handlers=matchHandlers(fresh);
 const browser=await chromium.launch({headless:true});const errors=[];
 const output=process.env.NATIVE_UI_OUTPUT||'/private/tmp/swccg-native-client-browser';fs.mkdirSync(output,{recursive:true});
@@ -234,6 +235,40 @@ try{
   const done=await advanceUntil(m=>m.cards[f.noble].zone==='lost');assert.equal(done.cards[f.target].zone,'out');assert.equal(f.lost.filter(id=>done.cards[id].zone==='used').length,2);
   await c.context.close();
  }
+ // Public Labria reveal survives refresh for both authenticated seats.
+ for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
+  const v=await fresh().create('owner',config(randomUUID(),'pvp','dark'));
+  await fresh().join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:decks.find(d=>d.side==='light').cards});
+  const f=labriaFixture(),m=f.m;m.id=v.id;
+  m.setup={stage:'complete',selected:{light:f.site,dark:f.remote},committed:{light:true,dark:true},revealed:true,rejected:[],priority:'dark',covered:null};
+  db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+  const c=await context(width,height),op=await context(width,height,'guest');
+  await c.page.goto(origin+'/matches/'+v.id+'?progress-report');
+  if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await c.page.getByRole('button',{name:'Labria · reveal the top Reserve card',exact:true}).click();
+  await c.page.getByRole('button',{name:'Labria · reveal the top Reserve card',exact:true}).waitFor({state:'hidden'});
+  for(let n=0;n<30;n++){
+   const saved=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);
+   if(saved.stack.at(-1)?.handler==='labria:acknowledge')break;
+   const p=runtime.prompt(saved,browserRules,'dark'),actor=p.side==='dark'?'owner':'guest';
+   const view=await fresh().read(v.id,actor);await fresh().command(v.id,actor,{commandId:randomUUID(),revision:view.revision,choice:'pass'});
+  }
+  await op.page.goto(origin+'/matches/'+v.id);await op.page.reload();if(width<640)await op.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await op.page.getByRole('heading',{name:'Revealed Reserve card',exact:true}).waitFor();
+  await op.page.locator('.native-inspection').getByRole('button',{name:'Inspect Stormtrooper',exact:true}).click();
+  await op.page.getByRole('dialog').waitFor();await op.page.keyboard.press('Escape');await op.page.getByRole('dialog').waitFor({state:'hidden'});
+  if(width<640)await op.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await op.page.getByRole('button',{name:'Continue · I have seen the revealed card',exact:true}).click();
+  await op.page.getByRole('button',{name:'Continue · I have seen the revealed card',exact:true}).waitFor({state:'hidden'});
+  await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();await c.page.getByRole('heading',{name:'Revealed Reserve card',exact:true}).waitFor();
+  assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  await c.page.screenshot({path:path.join(output,`labria-reveal-${width}.png`),fullPage:true});
+  if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await c.page.getByRole('button',{name:/Return Stormtrooper to top of Force Pile/}).click();
+  await c.page.getByRole('button',{name:/Return Stormtrooper to top of Force Pile/}).waitFor({state:'hidden'});
+  const saved=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);assert.equal(saved.players.dark.force[0],f.top);assert.equal(saved.turn.activated,m.turn.activated);
+  await c.context.close();await op.context.close();
+ }
  // A failed creation response survives refresh without creating another match.
  const start=await context(1440,1000,'new-owner');await start.page.goto(origin+'/matches');await start.page.getByRole('button',{name:'Start match'}).waitFor();await start.page.getByLabel('Your opponent').selectOption('pvp');await start.page.getByLabel('Match clock',{exact:true}).selectOption('30');start.interrupt('create');await start.page.getByRole('button',{name:'Start match'}).click();await start.page.getByRole('alert').waitFor();const owned=await fresh().list('new-owner');assert.equal(owned.length,1);await start.page.reload();await start.page.getByRole('button',{name:'Start match'}).click();await start.page.waitForURL('**/matches/'+owned[0].id);assert.equal((await fresh().list('new-owner')).length,1);await start.context.close();
  const bad=await context(834,1112,'other-guest');await bad.page.goto(origin+'/matches/'+wait.id+'#'+new URLSearchParams({invite:'invalid',side:'light',size:'60'}));await bad.page.getByRole('button',{name:'Join match',exact:true}).click();await bad.page.getByRole('alert').filter({hasText:'This invitation cannot seat you'}).waitFor();await bad.context.close();
@@ -257,5 +292,5 @@ try{
  await x.page.locator('.native-inspection').waitFor({state:'hidden'});await x.context.close();time=1_800_000_000_000;
  // The production registry advertises closed starter admission, without a bypass.
  const gate=await context(1440,1000);await gate.context.unroute('**/api/matches**');await gate.context.route('**/api/matches',async route=>{const h=matchHandlers(()=>nativeMatchService(db,{currentRules:premiereRules.id,rules:()=>premiereRules}));const r=await h.list(new Request(route.request().url(),{headers:{'oai-authenticated-user-id':'owner','oai-authenticated-user-email':'owner@test.invalid'}}));await route.fulfill({status:r.status,contentType:'application/json',body:await r.text()})});await gate.page.goto(origin+'/matches');await gate.page.getByText('Starter admission is not open yet.',{exact:false}).waitFor();assert.equal(await gate.page.getByRole('button',{name:'Start match'}).isDisabled(),true);await gate.context.close();
- assert.deepEqual(errors,[]);console.log('Browser passed: Noble Sacrifice cost/retrieval recovery and public out-of-play inspection at three sizes; real service recovery, receipt retry after refresh, concession/cancel, CPU dispatch, guest invitation, timed invitation acknowledgment, durable clocks/timeout across refresh, private views, card inspection timed/keyboard empty passes, untimed inspection recovery/acknowledgment, admission gate and responsive 1440/834/390 layouts.');
+ assert.deepEqual(errors,[]);console.log('Browser passed: Labria public reveal/acknowledgment/return with both-seat refresh at three sizes; Noble Sacrifice cost/retrieval recovery and public out-of-play inspection at three sizes; real service recovery, receipt retry after refresh, concession/cancel, CPU dispatch, guest invitation, timed invitation acknowledgment, durable clocks/timeout across refresh, private views, card inspection timed/keyboard empty passes, untimed inspection recovery/acknowledgment, admission gate and responsive 1440/834/390 layouts.');
 }finally{await browser.close();db.close()}
