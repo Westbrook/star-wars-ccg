@@ -1,0 +1,46 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T21:00:16.975166+00:00",
+  "files": {
+    "NativeEngineReservePeekOracleTests.java": "8f9b0e7561f15ae98dcef4af7b284c70503aa780fa9482f1e19da11bf0e2ba6f",
+    "NativeEngineInsertTimingOracleTests.java": "814617ae1141e64131765c3d8adcdbaf818f3b58031874e51f98da6e3cfa60d2",
+    "NativeEngineReserveInsertOracleTests.java": "40b3098f891b028fbbbdfba70bed11844081e2ea6941045f51f2514d6d69092b",
+    "reserve-peek-results.json": "62a6a28aff1cb2be0da59cbd5346cbef621180d60d888162220be8c1d3324b21"
+  },
+  "junitTests": 2,
+  "observations": 26,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp167\u2013168",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineReservePeekOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; production sources unchanged",
+  "scope": "Real Dark Path and Macroscan actions with controlled source placement, insert position and nighttime modifier. Ordinary peeking/selection outcomes match; physical replacement is adjudicated separately against the official Advanced Rulebook.",
+  "method": [
+    "Twenty-three Dark Path cases cover short decks, three/six ordinary cards, all kept-card positions, and absent/depth-one/depth-two inserts. Three Macroscan cases inspect three cards under controlled nighttime conditions.",
+    "The actual GEMP granting cards execute. Source table placement, insert placement, depth and nighttime are fixture controls, not deployment/timing certification. Existing position helper dependencies are fingerprinted.",
+    "Native tests cover real deployment, selected loss order, once-per-turn instances, source departure/cancellation, invalid saved state, privacy, recovery, actual later activation and responsive real-service browser interaction."
+  ],
+  "adjudication": {
+    "native": "Return every retained peeked card above encountered inserts, preserving ordinary order and physical insert order; do not reveal during a peek.",
+    "gemp": "The pinned peek providers filter insert cards out of the inspected list but do not reposition them on replacement. Dark Path may therefore expose and resolve an insert when losing cards that were above it, despite a retained peeked card.",
+    "source": "AR pp167\u2013168 explicitly requires returned peeked cards above inserts and illustrates The Dark Path. Native follows this explicit rule; these mismatches are not claimed as parity.",
+    "differingObservationIndices": [
+      0,
+      1,
+      6,
+      12,
+      13,
+      16,
+      21,
+      22,
+      25
+    ],
+    "matchingObservations": 17,
+    "differingObservations": 9
+  },
+  "limitations": [
+    "No full native starter admission. Broader catalog, formats, setup, ships/vehicles, CPU/PvP/capacity and complete-match certification remain.",
+    "Actual insert cancellation-granting cards, nested destiny/draw responses during a revealed insert, normal-activation reference traces and general replacement/prevention remain. Existing exposed-insert guard is unchanged.",
+    "Dark Path short-deck behavior follows the printed requirement for two of those three and the executed GEMP card. Additional prevention/replacement effects and new peek providers need integration."
+  ]
+}

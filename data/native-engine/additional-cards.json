@@ -1362,5 +1362,22 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_208.java"
+  },
+  {
+    "gempId": "4_133",
+    "name": "The Dark Path",
+    "side": "dark",
+    "type": "Effect",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Dark/large/thedarkpath.gif",
+    "text": "Deploy on your side of table. Once per turn, you may peek at the top three cards of your Reserve Deck. Place any two of those three in your Lost Pile.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [
+      "Dagobah"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_133.java",
+    "subType": ""
   }
 ]

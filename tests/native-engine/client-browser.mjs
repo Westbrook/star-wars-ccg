@@ -18,7 +18,7 @@ const pileState=load(new URL('../../lib/native-engine/state.ts',import.meta.url)
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
 const db=new SqliteD1(),origin=process.env.NATIVE_UI_ORIGIN||'http://localhost:5173';
-const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||bp==='1_42',starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||c.blueprint==='1_42')}};
+const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||['1_42','4_133'].includes(bp),starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||['1_42','4_133'].includes(c.blueprint))}};
 let time=1_800_000_000_000;const fresh=()=>nativeMatchService(db,{currentRules:browserRules.id,rules:()=>browserRules,now:()=>time,entropy:seeded(1)}),handlers=matchHandlers(fresh);
 const browser=await chromium.launch({headless:true});const errors=[];
 const output=process.env.NATIVE_UI_OUTPUT||'/private/tmp/swccg-native-client-browser';fs.mkdirSync(output,{recursive:true});
@@ -86,6 +86,26 @@ try{
   assert.match(await c.page.getByLabel('Declared activation').innerText(),/2 Force.*1 activated.*1 remaining/);const before=(await fresh().read(v.id,'owner')).revision;
   await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();await c.page.getByRole('button',{name:'Pause',exact:true}).click();await c.page.getByLabel('Revealed inserts').waitFor();assert.equal((await fresh().read(v.id,'owner')).revision,before);
   assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await c.page.screenshot({path:path.join(output,`insert-reveal-${width}.png`),fullPage:true});await c.context.close();
+ }
+ // Dark Path uses the real service for both private choices and refresh recovery.
+ for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
+  const dark=[...decks.find(d=>d.side==='dark').cards];dark[dark.indexOf('1_224')]='4_133';
+  const owner=await fresh().create('owner',{...config(randomUUID(),'pvp'),deck:dark}),light=[...decks.find(d=>d.side==='light').cards];light[light.indexOf('1_64')]='1_42';
+  await fresh().join(owner.id,'guest',{commandId:randomUUID(),inviteToken:owner.inviteToken,deck:light});
+  let v=await fresh().read(owner.id,'owner');
+  for(let n=0;v.game.status==='setup'&&n<20;n++){let actor='owner',p=v.game.prompt;if(!p?.choices.length){actor='guest';p=(await fresh().read(v.id,actor)).game.prompt}assert.ok(p?.choices.length);await fresh().command(v.id,actor,{commandId:randomUUID(),revision:v.revision,choice:p.choices[0].id});v=await fresh().read(v.id,'owner')}
+  let m=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);
+  const pathCard=Object.values(m.cards).find(c=>c.blueprint==='4_133'),insert=Object.values(m.cards).find(c=>c.blueprint==='1_42');assert.ok(pathCard);pileState.moveCard(m,pathCard.id,'table');pileState.moveCard(m,insert.id,'hand');pileState.insertCard(m,insert.id,'dark',seeded(4));m.data.reserveInserts.find(x=>x.card.id===insert.id).position=1;
+  for(let n=0;n<20&&!(m.stack.length===1&&m.stack[0].timing==='phase');n++){const p=runtime.prompt(m,browserRules,'dark');const own=runtime.prompt(m,browserRules,p.side);m=runtime.applyCommand(m,browserRules,p.side,{revision:m.revision,choice:own.mandatory?own.choices[0].id:'pass'},seeded(3))}
+  m=runtime.applyCommand(m,browserRules,'dark',{revision:m.revision,choice:'dark-path:peek:'+pathCard.id},seeded(4));
+  for(let n=0;n<20&&m.stack.at(-1)?.handler!=='dark-path:select';n++){const p=runtime.prompt(m,browserRules,'dark');m=runtime.applyCommand(m,browserRules,p.side,{revision:m.revision,choice:'pass'},seeded(4))}
+  assert.equal(m.stack.at(-1)?.handler,'dark-path:select');const viewed=m.stack.at(-1).payload.inspection.cards.map(c=>c.id);db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+  assert.deepEqual((await fresh().read(v.id,'guest')).game.rules.peek,[]);
+  const c=await context(width,height);await c.page.goto(origin+'/matches/'+v.id+'?progress-report');if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await c.page.getByText('Inserts passed during this peek',{exact:true}).waitFor();await c.page.getByRole('button',{name:'Inspect A Tremor In The Force',exact:true}).click();await c.page.getByRole('dialog').waitFor();await c.page.keyboard.press('Escape');
+  await c.page.locator('.native-choices button').first().click();const afterFirst=(await fresh().read(v.id,'owner')).revision;await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();await c.page.getByText('Inserts passed during this peek',{exact:true}).waitFor();assert.equal((await fresh().read(v.id,'owner')).revision,afterFirst);assert.equal(await c.page.locator('.native-choices button').count(),2);
+  assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await c.page.screenshot({path:path.join(output,`reserve-peek-${width}.png`),fullPage:true});await c.page.locator('.native-choices button').first().click();
+  const final=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);assert.equal(final.cards[viewed[0]].zone,'lost');assert.equal(final.cards[viewed[1]].zone,'lost');assert.equal(final.players.dark.reserve[0],viewed[2]);assert.equal(final.data.reserveInserts[0].position,1);assert.equal(final.data.reserveInserts[0].revealed,false);await c.context.close();
  }
  // Timed match: real service transitions, responsive clocks, invitation terms,
  // refresh recovery and server-authoritative timeout. No browser clock decides a winner.

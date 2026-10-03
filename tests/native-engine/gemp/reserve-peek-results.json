@@ -1,0 +1,276 @@
+[
+  {
+    "revealed": false,
+    "shown": 3,
+    "insertDepth": 1,
+    "depth": 1,
+    "kind": "macroscan"
+  },
+  {
+    "revealed": false,
+    "shown": 3,
+    "insertDepth": 2,
+    "depth": 2,
+    "kind": "macroscan"
+  },
+  {
+    "revealed": false,
+    "shown": 3,
+    "insertDepth": 3,
+    "depth": 3,
+    "kind": "macroscan"
+  },
+  {
+    "kind": "dark-path",
+    "count": 1,
+    "depth": -1,
+    "keep": 0,
+    "lost": 0,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 1,
+    "depth": 1,
+    "keep": 0,
+    "lost": 0,
+    "keptOnTop": true,
+    "insertDepth": 1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 2,
+    "depth": -1,
+    "keep": 0,
+    "lost": 0,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 2,
+    "depth": 1,
+    "keep": 0,
+    "lost": 0,
+    "keptOnTop": true,
+    "insertDepth": 1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 2,
+    "depth": 2,
+    "keep": 0,
+    "lost": 0,
+    "keptOnTop": true,
+    "insertDepth": 2,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 3,
+    "depth": -1,
+    "keep": 0,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 3,
+    "depth": -1,
+    "keep": 1,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 3,
+    "depth": -1,
+    "keep": 2,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 3,
+    "depth": 1,
+    "keep": 0,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": 1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 3,
+    "depth": 1,
+    "keep": 1,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": true,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 3,
+    "depth": 1,
+    "keep": 2,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": true,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 3,
+    "depth": 2,
+    "keep": 0,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": 1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 3,
+    "depth": 2,
+    "keep": 1,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": 1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 3,
+    "depth": 2,
+    "keep": 2,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": true,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 6,
+    "depth": -1,
+    "keep": 0,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 6,
+    "depth": -1,
+    "keep": 1,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 6,
+    "depth": -1,
+    "keep": 2,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 6,
+    "depth": 1,
+    "keep": 0,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": 1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 6,
+    "depth": 1,
+    "keep": 1,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": true,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 6,
+    "depth": 1,
+    "keep": 2,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": true,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 6,
+    "depth": 2,
+    "keep": 0,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": 1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 6,
+    "depth": 2,
+    "keep": 1,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": 1,
+    "insertLost": false,
+    "revealed": false
+  },
+  {
+    "kind": "dark-path",
+    "count": 6,
+    "depth": 2,
+    "keep": 2,
+    "lost": 2,
+    "keptOnTop": true,
+    "insertDepth": -1,
+    "insertLost": true,
+    "revealed": false
+  }
+]

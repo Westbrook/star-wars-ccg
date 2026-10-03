@@ -1,3 +1,4 @@
+import {peekReserve, assertReservePeek, returnReservePeek, reservePeekView, type ReservePeek} from './reserve-peek';
 import {deployed} from './deployment';
 import {assertArmorEquipment, isArmorDevice, recordArmor} from './armor-equipment';
 import {hasCharacterArmor} from './stat-modifiers';
@@ -14,7 +15,7 @@ import {moveCard} from './state';
 import {loseFromTable, loseBuriedCards, tableLossCards} from './table';
 import {other, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
 
-type Payload = {source?: string; attachment?: AttachmentAttempt; card?: string; target?: string; site?: string; mode?: 'warrior' | 'power'; react?: boolean; via?: string; draw?: Draw; cards?: string[]; selected?: string[]; count?: number; victims?: CardReference[]; trippedBy?: Side};
+type Payload = {inspection?: ReservePeek; source?: string; attachment?: AttachmentAttempt; card?: string; target?: string; site?: string; mode?: 'warrior' | 'power'; react?: boolean; via?: string; draw?: Draw; cards?: string[]; selected?: string[]; count?: number; victims?: CardReference[]; trippedBy?: Side};
 export const isMine = (blueprint: string) => ['1_162', '1_322'].includes(blueprint);
 const mining = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side && ['1_18', '1_186'].includes(c.blueprint));
 const isTraining = (bp: string) => ['1_64', '1_221'].includes(bp);
@@ -149,8 +150,8 @@ export function equipmentResolve(m: Match, r: Resolution): void {
   else if (kind === 'equipment:bury') {moveCard(m, p.card!, 'buried'); m.cards[p.card!].location = p.site; openWindow(m, 'response', other(side), {kind: 'card-buried', site: p.site!});}
   else if (kind === 'equipment:peek') {
     const binoculars = m.cards[p.card!].blueprint === '1_35', target = binoculars ? side : other(side), count = binoculars || !nighttimeSites(m).length ? 1 : 3;
-    const cards = m.players[target].reserve.slice(0, count);
-    if (cards.length) m.stack.push({kind: 'decision', side, handler: 'equipment:peek', payload: {card: p.card!, cards} as Json});
+    const inspection = peekReserve(m,target,count), cards = inspection.cards.map(ref=>ref.id);
+    if (cards.length) m.stack.push({kind: 'decision', side, handler: 'equipment:peek', payload: {card: p.card!, cards, inspection} as unknown as Json});
   } else if (kind === 'equipment:defuse') discardMine(m, p.target!, side);
   else if (kind === 'equipment:explode') {
     const mine = m.cards[p.card!]; if (mine.zone !== 'table') return;
@@ -191,7 +192,7 @@ export function equipmentResolve(m: Match, r: Resolution): void {
 }
 export function equipmentChoices(m: Match, d: Decision) {
   const p = data(d);
-  if (d.handler === 'equipment:peek') return [{id: 'keep', label: 'Keep the order unchanged'}, ...(m.cards[p.card!].blueprint === '1_35' ? [{id: 'to-force', label: 'Put the viewed card on top of Force'}] : [])];
+  if (d.handler === 'equipment:peek') return [{id: 'keep', label: 'Return viewed cards in the same order'}, ...(m.cards[p.card!].blueprint === '1_35' ? [{id: 'to-force', label: 'Put the viewed card on top of Force'}] : [])];
   if (d.handler === 'equipment:mine-victims') return p.cards!.filter(id => !p.selected!.includes(id)).map(id => ({id: 'select:' + id, label: 'Lose ' + name(m, id)}));
   if (d.handler === 'equipment:mine-order') return p.cards!.map(id => ({id: 'lose-mine:' + id, label: 'Lose ' + name(m, id) + ' next'}));
   if (d.handler === 'equipment:trip-order') return p.cards!.map(id => ({id: 'explode:' + id, label: 'Resolve ' + name(m, id) + ' · ' + id}));
@@ -200,6 +201,8 @@ export function equipmentChoices(m: Match, d: Decision) {
 export function equipmentChoose(m: Match, d: Decision, choice: string): void {
   const p = data(d);
   if (d.handler === 'equipment:peek') {
+    const target=m.cards[p.card!].blueprint==='1_35'?d.side:other(d.side);
+    returnReservePeek(m,p.inspection ?? peekReserve(m,target,p.cards!.length));
     if (choice === 'to-force') {
       const id = p.cards![0]; if (m.cards[id].owner !== d.side || m.players[d.side].reserve[0] !== id) throw Error('Peeked card changed.');
       moveCard(m, id, 'force'); openWindow(m, 'response', other(d.side), {kind: 'card-to-force', side: d.side});
@@ -219,7 +222,8 @@ export function equipmentChoose(m: Match, d: Decision, choice: string): void {
 }
 export function equipmentView(m: Match, seat: Side): Json {
   const d = m.stack.at(-1);
-  return {peek: d?.kind === 'decision' && d.handler === 'equipment:peek' && d.side === seat ? data(d).cards!.map(id => ({...m.cards[id]})) : []};
+  if(d?.kind==='decision'&&d.handler==='equipment:peek'&&d.side===seat){const p=data(d),target=m.cards[p.card!].blueprint==='1_35'?d.side:other(d.side);return reservePeekView(m,p.inspection??peekReserve(m,target,p.cards!.length));}
+  return {peek:[],peekInserts:[]};
 }
 export function assertEquipment(m: Match): void {
   assertArmorEquipment(m);
@@ -255,6 +259,7 @@ export function assertEquipment(m: Match): void {
     if (f.handler === 'equipment:peek') {
       const bp = m.cards[p.card!]?.blueprint, target = bp === '1_35' ? f.side : other(f.side);
       if (!['1_35','1_224'].includes(bp) || m.cards[p.card!].owner !== f.side || !p.cards.length || p.cards.length > (bp === '1_35' ? 1 : 3) || p.cards.some((id,i) => m.players[target].reserve[i] !== id)) throw Error('Invalid private equipment inspection.');
+      if(p.inspection){assertReservePeek(m,p.inspection);if(p.inspection.side!==target||p.inspection.cards.length!==p.cards.length||p.inspection.cards.some((ref,i)=>ref.id!==p.cards![i]))throw Error('Invalid equipment peek snapshot.');}
     }
     if (f.handler === 'equipment:mine-victims' && (!Number.isSafeInteger(p.count) || p.count! < 1 || p.count! > p.cards.length || !Array.isArray(p.selected) || new Set(p.selected).size !== p.selected.length || p.selected.some(id => !p.cards!.includes(id)) || p.selected.length >= p.count!)) throw Error('Invalid mine victim selection.');
   }
