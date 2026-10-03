@@ -1,0 +1,70 @@
+[
+  {
+    "owner": "light",
+    "lifeChange": 0,
+    "ordinaryCount": 4,
+    "kind": "removal",
+    "registrationCleared": true,
+    "ownerLost": true
+  },
+  {
+    "owner": "dark",
+    "lifeChange": 0,
+    "ordinaryCount": 4,
+    "kind": "removal",
+    "registrationCleared": true,
+    "ownerLost": true
+  },
+  {
+    "kind": "placement",
+    "owner": "light",
+    "count": 1,
+    "allowed": false
+  },
+  {
+    "kind": "placement",
+    "owner": "light",
+    "count": 2,
+    "allowed": true,
+    "ordinaryCount": 2,
+    "lifeChange": 0,
+    "ownerPreserved": true,
+    "topOrdinary": true
+  },
+  {
+    "kind": "placement",
+    "owner": "light",
+    "count": 4,
+    "allowed": true,
+    "ordinaryCount": 4,
+    "lifeChange": 0,
+    "ownerPreserved": true,
+    "topOrdinary": true
+  },
+  {
+    "kind": "placement",
+    "owner": "dark",
+    "count": 1,
+    "allowed": false
+  },
+  {
+    "kind": "placement",
+    "owner": "dark",
+    "count": 2,
+    "allowed": true,
+    "ordinaryCount": 2,
+    "lifeChange": 0,
+    "ownerPreserved": true,
+    "topOrdinary": true
+  },
+  {
+    "kind": "placement",
+    "owner": "dark",
+    "count": 4,
+    "allowed": true,
+    "ordinaryCount": 4,
+    "lifeChange": 0,
+    "ownerPreserved": true,
+    "topOrdinary": true
+  }
+]

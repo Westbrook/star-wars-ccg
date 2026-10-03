@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T20:02:10.533982+00:00",
+  "harness": "NativeEngineReserveInsertOracleTests.java",
+  "harnessSha256": "40b3098f891b028fbbbdfba70bed11844081e2ea6941045f51f2514d6d69092b",
+  "result": "reserve-inserts-results.json",
+  "resultSha256": "ef8bbc50ace9e0bba97149d8f0579ce2161762d3f62288bf6265b1e2a1dfa373",
+  "junitTests": 2,
+  "observations": 8,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp167\u2013168",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineReserveInsertOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; production sources unchanged",
+  "scope": "Native physical placement/removal invariants compared to real GEMP Tremor/Disturbance deployments and production LoseInsertCardEffect. Native card-specific deployment, reveal effects and activation declaration integration are not claimed.",
+  "method": [
+    "Six actual card deployments test minimum ordinary Reserve size, preserved ownership, unchanged Life Force and normal Reserve size, and thirty post-deployment shuffles per accepted case.",
+    "Two removal cases deliberately set the revealed flag, then execute production LoseInsertCardEffect; this tests destination and physical accounting, not reveal timing.",
+    "Native represents inserts as on-table records with private positions among ordinary Reserve IDs. GEMP keeps a combined internal list and filters inserts out of accounting. Equivalent observable invariants are compared, not internal representation or independent random orders.",
+    "Native conditional shuffle is uniform over permutations with an ordinary top card; exhaustive two-card tests verify all legal outcomes. Hidden counts/order, recovery/corruption and ordinary movement suspension have native tests."
+  ],
+  "limitations": [
+    "This checkpoint supplies shared physical lifecycle and projection; no new card is admitted. Card-specific deployment/once-per-game rules, automatic reveal scheduling, reveal cancellation/response effects, normal/variable activation declarations and peek replacement integration remain required.",
+    "An exposed insert prevents ordinary Reserve removal until its provider resolves it. Providers must yield at this boundary; multi-card loops cannot silently skip the insert.",
+    "Reserve reshuffling with a revealed insert or no ordinary cards is guarded pending timing adjudication; no full-match coverage claim.",
+    "Whole native engine, broader catalog, ships/vehicles, Objectives/setup, formats, CPU/PvP, capacity and responsive full-match admission remain unfinished."
+  ]
+}

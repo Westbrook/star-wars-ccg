@@ -31,7 +31,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   const strength = (site: string, seat: Side, defending = false) => rules?.values?.sites[site]?.[seat]?.[defending ? 'defendingPower' : 'power'] ?? at(site,seat).reduce((n,c) => n + stat(c.id,'power'),0);
   const icons = (site: string, seat: Side) => premiereSites[cards.get(site)?.blueprint ?? '']?.icons[seat] ?? 0;
   const value = (id: string) => stat(id,'power') * 2 + stat(id,'ability') - stat(id,'deploy');
-  const wantsCard = own.hand.length < 9 && own.lifeForce > 1;
+  const wantsCard = own.hand.length < 9 && (own.lifeForce === null || own.lifeForce > 1);
   const ownStations = view.table.filter(c => c.zone === 'table' && !c.coveredBy && c.owner === side && c.blueprint === '1_37');
   const vaporators = view.table.filter(c => c.zone === 'table' && !c.coveredBy && c.blueprint === '1_41');
   const near = (a: string | undefined, b: string | undefined) => {
@@ -48,7 +48,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   const activationLeft = view.turn.side === side && view.turn.phase === 'activate' ? Math.min(own.counts?.reserve ?? 0,Math.max(0,view.turn.generation-view.turn.activated)) : 0;
   const canSpareActivation = own.hand.length < 3 || (own.counts?.force ?? 0) + activationLeft > cheapestCharacter + 1;
   const farmScore = (id: string, site: string) => {
-    if (cards.get(id)?.blueprint === '1_37') return ownStations.length || own.lifeForce <= 4 ? -5 : 22 + at(site,side).filter(c => c.blueprint === '1_2').length * 3;
+    if (cards.get(id)?.blueprint === '1_37') return ownStations.length || own.lifeForce !== null && own.lifeForce <= 4 ? -5 : 22 + at(site,side).filter(c => c.blueprint === '1_2').length * 3;
     if (cards.get(id)?.blueprint !== '1_41') return -5;
     const unprotected = view.table.filter(c => c.zone === 'table' && !c.attachedTo && !c.coveredBy && definition(c.blueprint).type === 'Character' && near(site,c.location) && !vaporators.some(v => near(v.attachedTo,c.location)));
     const protection = unprotected.reduce((n,c) => n + (c.owner === side ? 3 : -3),0);

@@ -1,8 +1,9 @@
+import {assertReserveInserts, reserveInserts, insertsIn, isInserted, saveInserts, assertReserveTopAccessible, reserveCardRemoved, reserveCardAdded, forgetInsert, shuffledReserve} from './reserve-inserts';
 import {validForceQuantity} from './force-quantity';
 import {assertTableLossOrigins} from './loss-origin';
 import {piles, sides, type Card, type Deck, type Definition, type Match, type Pile, type Player, type Side, type Zone} from './types';
 import {shuffled, type Entropy} from './random';
-import {assertCardVersions, cardVersion} from './identity';
+import {assertCardVersions, cardVersion, referenceCard} from './identity';
 import {leaveTable} from './lifecycle';
 
 const emptyPlayer = (): Player => ({reserve: [], force: [], used: [], lost: [], hand: [], destiny: []});
@@ -49,16 +50,21 @@ export function moveCard(match: Match, id: string, zone: Zone, position: 'top' |
   if (isPile(card.zone)) {
     const pile = match.players[card.owner][card.zone], index = pile.indexOf(id);
     if (index < 0) throw Error('Card is missing from its pile.');
+    if (card.zone === 'reserve') {
+      assertReserveTopAccessible(match,card.owner);
+      reserveCardRemoved(match,card.owner,index);
+    }
     pile.splice(index, 1);
   }
   if (changed) {
-    if (card.zone === 'table') leaveTable(match, id);
+    if (card.zone === 'table') {leaveTable(match, id); forgetInsert(match,id);}
     const versions = (match.data.cardVersions ??= {}) as Record<string, number>; versions[id] = nextVersion;
   }
   card.zone = zone;
   delete card.location; delete card.attachedTo; delete card.coveredBy; delete card.stackedOn;
   if (isPile(zone)) {
     const pile = match.players[card.owner][zone];
+    if (zone === 'reserve') reserveCardAdded(match,card.owner,position === 'top');
     if (position === 'bottom') pile.push(id); else pile.unshift(id);
   }
 }
@@ -91,14 +97,33 @@ export function recirculate(match: Match): void {
   }
 }
 
+/** Rule-owned insertion. A provider owns deployment eligibility, costs, once-per-game
+ * limits and reveal effects. Foreign cards never join the ordinary pile arrays. */
+export function insertCard(match: Match, id: string, side: Side, entropy?: Entropy): void {
+  const card=match.cards[id];
+  if (!card || !sides.includes(side) || match.players[side].reserve.length < 2 || isInserted(match,id) || !['hand','playing','table'].includes(card.zone)) throw Error('Invalid insert deployment.');
+  // Stage on a private copy: broken entropy or unresolved dependent cards cannot
+  // leave a half-deployed insert when this primitive is used outside a command.
+  const next=structuredClone(match);moveCard(next,id,'table');
+  saveInserts(next,[...reserveInserts(next),{card:referenceCard(next,id),side,position:next.players[side].reserve.length,revealed:false}]);
+  shufflePile(next,side,'reserve',entropy);assertReserveInserts(next);
+  moveCard(match,id,'table');
+  match.players[side].reserve=next.players[side].reserve;
+  saveInserts(match,reserveInserts(next));
+}
 export function shufflePile(match: Match, side: Side, pile: Pile, entropy?: Entropy): void {
-  match.players[side][pile] = shuffled(match.players[side][pile], entropy);
+  if(pile === 'reserve' && insertsIn(match,side).length){
+    const plan=shuffledReserve(match,side,entropy);
+    match.players[side].reserve=plan.cards;
+    saveInserts(match,[...reserveInserts(match).filter(x=>x.side!==side),...plan.entries]);
+  } else match.players[side][pile] = shuffled(match.players[side][pile], entropy);
 }
 
 export function assertState(match: Match): void {
   assertSerializable(match);
   assertCardVersions(match);
   assertTableLossOrigins(match);
+  assertReserveInserts(match);
   if (match.schema !== 1 || match.engine !== 'native-engine-1' || !match.rules || !match.id ||
       !Number.isSafeInteger(match.revision) || match.revision < 0 || ![40, 60].includes(match.deckSize)) throw Error('Invalid engine state.');
   if (!['setup', 'playing', 'finished'].includes(match.status) || (match.status === 'finished') !== !!match.result) throw Error('Invalid match status.');
@@ -167,11 +192,12 @@ export function publicState(match: Match, seat: Side) {
   return {
     id: match.id, revision: match.revision, status: match.status, turn: {...match.turn}, result: match.result && {...match.result},
     players: Object.fromEntries(sides.map(side => [side, {
-      counts: Object.fromEntries(piles.map(pile => [pile, match.players[side][pile].length])),
-      lifeForce: lifeForce(match, side), hand: side === seat ? shown(match.players[side].hand) : [],
+      counts: Object.fromEntries(piles.map(pile => [pile, pile === 'reserve' && insertsIn(match,side).length ? null : match.players[side][pile].length])),
+      lifeForce: insertsIn(match,side).length ? null : lifeForce(match, side), hand: side === seat ? shown(match.players[side].hand) : [],
       lost: shown(match.players[side].lost), destiny: shown(match.players[side].destiny),
     }])),
-    table: shown(Object.values(match.cards).filter(c => c.zone === 'table' || c.zone === 'playing' || c.zone === 'leaving' || c.zone === 'stacked').map(c => c.id)),
+    table: shown(Object.values(match.cards).filter(c => !isInserted(match,c.id) && (c.zone === 'table' || c.zone === 'playing' || c.zone === 'leaving' || c.zone === 'stacked')).map(c => c.id)),
+    inserts: [...reserveInserts(match)].sort((a,b)=>a.card.id.localeCompare(b.card.id)).map(x=>({side:x.side,owner:match.cards[x.card.id].owner,revealed:x.revealed,card:x.revealed || match.cards[x.card.id].owner === seat || match.cards[x.card.id].owner === x.side ? {...match.cards[x.card.id]} : null})),
     locations: [...match.locations],
     buried: shown(Object.values(match.cards).filter(c => c.zone === 'buried' && c.owner === seat).map(c => c.id)),
     buriedCounts: match.locations.map(site => ({site, count: Object.values(match.cards).filter(c => c.zone === 'buried' && c.location === site).length})),

@@ -14,6 +14,7 @@ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version
 const {chromium}=await import(pathToFileURL(path.join(root,'index.mjs')));
 const {nativeMatchService}=load(new URL('../../lib/native-engine/service.ts',import.meta.url));
 const runtime=load(new URL('../../lib/native-engine/runtime.ts',import.meta.url));
+const pileState=load(new URL('../../lib/native-engine/state.ts',import.meta.url));
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
 const db=new SqliteD1(),origin=process.env.NATIVE_UI_ORIGIN||'http://localhost:5173';
@@ -51,7 +52,19 @@ try{
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);assert.equal(overflow,false,'horizontal overflow at '+width);
   if(width<640){await page.getByRole('button',{name:'Your hand',exact:false}).click();await page.locator('.native-hand').waitFor({state:'visible'});await page.getByRole('button',{name:'Actions',exact:false}).click();await page.locator('.native-actions').waitFor({state:'visible'});await page.getByRole('button',{name:'Table',exact:true}).click()}
   const card=page.locator('.native-site[data-battle="true"] .native-card').first();await card.click();await page.getByRole('dialog').waitFor();await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});
-  await page.screenshot({path:path.join(output,`table-${width}.png`),fullPage:true});await ctx.close();
+  await page.screenshot({path:path.join(output,`table-${width}.png`),fullPage:true});
+  // A controlled Effect supplies physical insert placement only. This does not
+  // grant Macroscan insert gameplay; it exercises the real service projection.
+  const insertSnapshot=structuredClone(snapshot),insert=Object.values(insertSnapshot.cards).find(c=>c.blueprint==='1_224');assert.ok(insert);
+  pileState.moveCard(insertSnapshot,insert.id,'hand');pileState.insertCard(insertSnapshot,insert.id,'dark',seeded(7));
+  db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(insertSnapshot),insertSnapshot.revision,id);
+  await fresh().read(id,'owner');
+  await page.reload();await page.locator('.native-player.dark [title="Count unavailable while an insert is in Reserve"]').first().waitFor();
+  assert.equal(await page.locator('.native-player.dark [title="Count unavailable while an insert is in Reserve"]').count(),2);
+  assert.equal(await page.locator('.native-player.dark .native-piles b').first().innerText(),'?');
+  assert.equal(await page.locator('.native-player.light .native-piles b').first().innerText(),String(insertSnapshot.players.light.reserve.length));
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  await page.screenshot({path:path.join(output,`insert-counts-${width}.png`),fullPage:true});await ctx.close();
  }
  // Timed match: real service transitions, responsive clocks, invitation terms,
  // refresh recovery and server-authoritative timeout. No browser clock decides a winner.

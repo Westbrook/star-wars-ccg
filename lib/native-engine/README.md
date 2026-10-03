@@ -2389,3 +2389,50 @@ Compound counting, activation replacement/prevention beyond prohibitions, insert
 cards, generation modifier providers and the complete engine/product scope remain
 required, including broader catalog, ships/vehicles/pilots/passengers, special
 setup, deck formats, CPU/PvP, clocks/capacity and responsive match UX.
+
+### Physical Reserve inserts
+
+`reserve-inserts.ts` keeps inserts on table with an owner-preserving card-instance
+reference and a private position among ordinary Reserve cards. The pile arrays
+continue to contain only ordinary cards belonging to that player. This follows
+AR pp167–168: inserts are not part of the opponent's Reserve Deck, cannot supply
+Life Force, and cannot become a destiny, activation, or Force payment.
+
+`state.insertCard` is a rule-owned physical primitive. It requires at least two
+ordinary Reserve cards, validates and shuffles on a private copy before committing
+movement, and preserves existing mutable frame references. All subsequent
+Reserve shuffles include the inserts. The conditional uniform shuffle chooses an
+ordinary first card and shuffles the rest, producing the same allowed distribution
+as repeated complete shuffles while avoiding an endless deterministic test loop.
+All four possible orders of two ordinary cards and one insert are tested.
+
+Ordinary removal and top/bottom additions maintain insert positions; recirculation
+keeps Used order. An exposed insert blocks ordinary Reserve removal until its
+provider handles it. `revealInsert` marks just the first exposed insert, permits
+public inspection, and preserves adjacent-insert order. Moving the inserted card
+off table removes its registration and expires its table instance. These are
+physical primitives, not automatic reveal scheduling or card-effect handlers.
+Providers must yield at exposure; a multi-card loop cannot silently move past it.
+
+Public projections conceal positions, relative insert order, unrevealed opponent
+identities, Reserve counts, and the derived Life Force total. Counts are `null`
+until counting is legal again; the match UI renders `?` with an explanation.
+Own inserts and inserts in their owner's own Reserve are visible by identity,
+without exposing position. CPU draw/low-Life-Force heuristics handle an unknown
+Life Force total explicitly; broader insert activation planning remains required.
+Legacy snapshots with no registry retain their existing numeric projections.
+
+The receipt `gemp/reserve-inserts-provenance.json` records eight observations from
+two executed JUnit tests with 6,820 unchanged production source files. Placement
+uses real Tremor/Disturbance deployments; removal deliberately sets the revealed
+flag before production `LoseInsertCardEffect`. It establishes physical placement,
+shuffle and removal invariants, not native card-specific conformance. Native
+fixtures deliberately grant physical insertion to controlled cards and do not
+change those cards' actual game text or the production admission gate.
+
+Next integration work includes card-specific deployment and once-per-game rules,
+automatic topmost reveal scheduling, response/cancellation windows, activation
+amount declarations, and peek replacement. Shuffling while a revealed insert is
+pending, or with no ordinary cards remaining, is explicitly guarded until timing
+is established. No new standalone Rules Lab scenario or full-match admission is
+added. The entire engine/product scope remains required.
