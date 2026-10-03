@@ -1,3 +1,4 @@
+import {defenseValue} from './defense';
 import {deployed} from './deployment';
 import {ability} from './ability';
 import {hasPersona} from './persona';
@@ -89,7 +90,7 @@ export function lightsaberResolve(m: Match, r: Resolution): void {
     if (shot.draws.length < 2) drawDestiny(m, side, shot.weapon, 'weapon', action('draw', p), false, {weapon: shot.weapon}, undefined, false, shot.scope);
     else completeDestinyTotal(m, side, shot.weapon, 'weapon', shot.draws, action('result', p));
   } else if (h === 'saber:result') {
-    shot.total = p.total!; shot.outcome = 'miss'; shot.defense=ability(m,shot.target);
+    shot.total = p.total!; shot.outcome = 'miss'; shot.defense=defenseValue(m,shot.target);
     queue(m,'finish',p,side);
     if(shot.total!==null && shot.total>shot.defense && validTarget(m,shot.target,side)){
       queue(m,'hit',p,side);openWindow(m,'response',other(side),{kind:'about-to-hit',target:shot.target,weapon:shot.weapon});

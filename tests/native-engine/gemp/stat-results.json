@@ -1,0 +1,422 @@
+[
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "baseline",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 0.0,
+    "forfeit": 4.0,
+    "defense": 0.0,
+    "name": "droid-zero",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "armor-addition-without-attribute",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 5.0,
+    "name": "armor-define",
+    "maneuver": 0.0,
+    "armor": 5.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 7.0,
+    "name": "armor-defined-add",
+    "maneuver": 0.0,
+    "armor": 7.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 5.0,
+    "name": "armor-reset",
+    "maneuver": 0.0,
+    "armor": 5.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "armor-competing-reset",
+    "maneuver": 0.0,
+    "armor": 3.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "maneuver-addition-without-attribute",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "maneuver-define",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "maneuver-defined-add",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "maneuver-reset",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "maneuver-competing-reset",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 0.0,
+    "forfeit": 4.0,
+    "defense": 5.0,
+    "name": "droid-armor",
+    "maneuver": 0.0,
+    "armor": 5.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 5.0,
+    "name": "highest-attribute",
+    "maneuver": 0.0,
+    "armor": 5.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 6.0,
+    "name": "defense-add",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 0.0,
+    "name": "defense-negative",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 2.0,
+    "name": "defense-minimum",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "defense-minimum-no-grant",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 6.0,
+    "name": "defense-minimum-positive",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 6.0,
+    "name": "defense-maximum",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 2.0,
+    "name": "defense-maximum-low",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "defense-maximum-high",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 2.0,
+    "name": "defense-reset",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 3.0,
+    "name": "defense-competing-resets",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "defense-base-cap",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "defense-reset-base-cap",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "defense-prevent-negative",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "defense-prevent-reset",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "defense-protect-opponent",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 2.0,
+    "name": "defense-protect-owner",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 9.0,
+    "defense": 4.0,
+    "name": "forfeit-add",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 0.0,
+    "defense": 4.0,
+    "name": "forfeit-negative",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 0.0,
+    "defense": 4.0,
+    "name": "forfeit-reset",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 3.0,
+    "defense": 4.0,
+    "name": "forfeit-competing-resets",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "forfeit-prevent-negative",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "forfeit-prevent-positive",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "forfeit-prevent-reset",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 10.0,
+    "defense": 4.0,
+    "name": "forfeit-raising-reset",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 8.0,
+    "defense": 4.0,
+    "name": "forfeit-increase-limit",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 8.0,
+    "defense": 4.0,
+    "name": "forfeit-reset-limit",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "forfeit-printed-cap",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "forfeit-reset-printed-cap",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 5.0,
+    "defense": 4.0,
+    "name": "forfeit-defined",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 4.0,
+    "forfeit": 7.0,
+    "defense": 4.0,
+    "name": "forfeit-defined-cap",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 8.0,
+    "forfeit": 16.0,
+    "defense": 8.0,
+    "name": "forfeit-double",
+    "maneuver": 0.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 2.0,
+    "forfeit": 4.0,
+    "defense": 7.0,
+    "name": "printed-maneuver-addition-without-attribute",
+    "maneuver": 7.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 2.0,
+    "forfeit": 4.0,
+    "defense": 5.0,
+    "name": "printed-maneuver-define",
+    "maneuver": 5.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 2.0,
+    "forfeit": 4.0,
+    "defense": 7.0,
+    "name": "printed-maneuver-defined-add",
+    "maneuver": 7.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 2.0,
+    "forfeit": 4.0,
+    "defense": 5.0,
+    "name": "printed-maneuver-reset",
+    "maneuver": 5.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 2.0,
+    "forfeit": 4.0,
+    "defense": 3.0,
+    "name": "printed-maneuver-competing-reset",
+    "maneuver": 3.0,
+    "armor": 0.0
+  },
+  {
+    "ability": 2.0,
+    "forfeit": 4.0,
+    "defense": 6.0,
+    "name": "printed-highest-attribute",
+    "maneuver": 6.0,
+    "armor": 5.0
+  },
+  {
+    "after": 7.0,
+    "hit": true,
+    "name": "protection-before-hit",
+    "protected": 7.0
+  },
+  {
+    "after": 0.0,
+    "hit": true,
+    "name": "protection-after-hit",
+    "protected": 7.0
+  }
+]

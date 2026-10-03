@@ -1625,3 +1625,43 @@ modifiers/prevention, broader weapon targeting/cancellation and character text
 remain unfinished. Existing physical-target behavior is retained; this does not
 resolve the previously recorded target-departure/reentry differences. All full
 native deck admission remains closed. No new Rules Lab studies were added.
+
+### Current defense and forfeiture values
+
+`stat-modifiers.ts` supplies saved, original-instance ground Character modifiers
+for armor, maneuver, defense and forfeit. Turn grants survive source departure;
+continuous source grants expire with their source. Duplicate title/function
+grants are noncumulative unless explicitly declared otherwise. Additions do not
+invent absent attributes. Armor can be defined or reset; maneuver modifiers
+require a character with a printed maneuver attribute.
+
+`defenseValue` selects the greatest applicable current ability, armor, maneuver
+or explicit special defense value, then applies defense modifiers. Defense-only
+changes leave the underlying attributes unchanged. Reduction prevention may
+restrict either player or both; minimum/maximum constraints and competing resets
+follow the separately tested reference ordering. The `base-cap` operation caps
+at the value of current underlying attributes before defense-only modifiers; it
+is deliberately distinct from a literal printed-stat cap. Both blasters and
+lightsabers query the current defense when their result resolves.
+
+Forfeit now supports defined values, doubled base, signed bonuses, resets,
+prevention of increases/reductions, limits above printed forfeit and a printed
+cap. Existing Luke, location and equipment bonuses pass through this same
+calculation. Weapon resets consult reduction protection when the hit occurs:
+protection present then prevents storing a reduction; protection added later
+suppresses an existing reset while it remains active. Neither prevents the hit
+itself. Actual battle damage/attrition payments use the resulting forfeit value.
+
+Evidence: `tests/native-engine/stat-values.test.mjs` has 60 focused tests. The
+pinned GEMP harness executes 51 current-stat query cases and two actual protected
+lightsaber attacks. Exact outputs are checked by the native tests. Dams Denna
+(`14_9`) is added as **metadata-only**, solely to exercise a real Character's
+printed maneuver; its deployment/download and creature-vehicle text are not
+implemented or admitted. The definition registry now contains 120 cards.
+
+These APIs are mechanisms, not implementations of every provider card. The
+`DoubledModifier` reference fixture is represented by separate native ability,
+armor, maneuver and forfeit grants; comprehensive doubled-card text/power is
+still unfinished. Vehicle piloting/unpiloted values, creatures/Dejarik,
+conditional text cancellation, broad provider cards and full native admission
+remain in scope. No new standalone Rules Lab scenario is introduced.

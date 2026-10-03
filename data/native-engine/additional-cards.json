@@ -971,5 +971,28 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_324.java"
+  },
+  {
+    "gempId": "14_9",
+    "name": "Dams Denna",
+    "side": "light",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/TheedPalace-Light/large/damsdenna.gif",
+    "text": "Once during your deploy phase, you may deploy a Kaadu, Fambaa or Eopie to same site from Reserve Deck; reshuffle. If you just lost a creature vehicle from same site, you may place that creature in your Used Pile.",
+    "stats": {
+      "destiny": "3",
+      "deploy": "1",
+      "power": "1",
+      "ability": "2",
+      "forfeit": "4",
+      "maneuver": "4"
+    },
+    "icons": [
+      "Theed Palace",
+      "Episode I"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set14/light/Card14_009.java"
   }
 ]

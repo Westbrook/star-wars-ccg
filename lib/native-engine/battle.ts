@@ -1,3 +1,4 @@
+import {defenseValue} from './defense';
 import {restoreWeaponForfeit} from './forfeit';
 import type {LightsaberShot} from './lightsabers';
 import {immuneToAttrition} from './combat-modifiers';
@@ -171,7 +172,7 @@ export function battleInitiate(m: Match, r: Resolution): void {
     const b = battle(m)!, id = p.card!, host = m.cards[id].attachedTo!;
     useWeapon(m, id);
     b.fired.push(id); b.users[host] = id;
-    b.shots.push({weapon: id, target: p.target!, side: r.actor, defense: ability(m, p.target!), bonus: weaponBonus(m, id), card: null, destiny: null, hit: null});
+    b.shots.push({weapon: id, target: p.target!, side: r.actor, defense: defenseValue(m, p.target!), bonus: weaponBonus(m, id), card: null, destiny: null, hit: null});
     p.index = b.shots.length - 1;
   } else if (kind === 'battle:rescue') {
     // Talz's forfeiture is the cost; the restoration follows its loss responses.
@@ -323,7 +324,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     completeDestinyTotal(m, side, shot.weapon, 'weapon', [p.draw!], act('shot-result', 'Resolve weapon result', 'shot-result', {index: p.index}));
   } else if (kind === 'battle:shot-result') {
     const shot = b.shots[p.index!]; shot.total = p.total!;
-    shot.defense = ability(m, shot.target);
+    shot.defense = defenseValue(m, shot.target);
     shot.hit = shot.total !== null && shot.total + weapons[m.cards[shot.weapon].blueprint].bonus > shot.defense;
     continuation(m, 'shot-complete', {index: p.index}, side);
     if (shot.hit && members(m, other(shot.side)).includes(shot.target)) {

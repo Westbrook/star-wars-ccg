@@ -1,0 +1,830 @@
+[
+  {
+    "name": "baseline",
+    "droid": false,
+    "ops": []
+  },
+  {
+    "name": "droid-zero",
+    "droid": true,
+    "ops": []
+  },
+  {
+    "name": "armor-addition-without-attribute",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "armor",
+        "kind": "add",
+        "amount": 3,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "armor-define",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "armor",
+        "kind": "define",
+        "amount": 5,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "armor-defined-add",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "armor",
+        "kind": "define",
+        "amount": 5,
+        "source": "hero"
+      },
+      {
+        "stat": "armor",
+        "kind": "add",
+        "amount": 2,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "armor-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "armor",
+        "kind": "reset",
+        "amount": 5,
+        "source": "opponent"
+      },
+      {
+        "stat": "armor",
+        "kind": "add",
+        "amount": 2,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "armor-competing-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "armor",
+        "kind": "reset",
+        "amount": 5,
+        "source": "opponent"
+      },
+      {
+        "stat": "armor",
+        "kind": "reset",
+        "amount": 3,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "maneuver-addition-without-attribute",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "add",
+        "amount": 3,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "maneuver-define",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "define",
+        "amount": 5,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "maneuver-defined-add",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "define",
+        "amount": 5,
+        "source": "hero"
+      },
+      {
+        "stat": "maneuver",
+        "kind": "add",
+        "amount": 2,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "maneuver-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "reset",
+        "amount": 5,
+        "source": "opponent"
+      },
+      {
+        "stat": "maneuver",
+        "kind": "add",
+        "amount": 2,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "maneuver-competing-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "reset",
+        "amount": 5,
+        "source": "opponent"
+      },
+      {
+        "stat": "maneuver",
+        "kind": "reset",
+        "amount": 3,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "droid-armor",
+    "droid": true,
+    "ops": [
+      {
+        "stat": "armor",
+        "kind": "define",
+        "amount": 5,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "highest-attribute",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "armor",
+        "kind": "define",
+        "amount": 5,
+        "source": "hero"
+      },
+      {
+        "stat": "maneuver",
+        "kind": "define",
+        "amount": 6,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-add",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": 2,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "defense-negative",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": -9,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "defense-minimum",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": -3,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "minimum",
+        "amount": 2,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-minimum-no-grant",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "minimum",
+        "amount": 6,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "defense-minimum-positive",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": 3,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": -8,
+        "source": "hero"
+      },
+      {
+        "stat": "defense",
+        "kind": "minimum",
+        "amount": 6,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-maximum",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": 4,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "maximum",
+        "amount": 6,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-maximum-low",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "maximum",
+        "amount": 2,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "defense-maximum-high",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "maximum",
+        "amount": 6,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "defense-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": 3,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "reset",
+        "amount": 2,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-competing-resets",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "reset",
+        "amount": 7,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "reset",
+        "amount": 3,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-base-cap",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": 3,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "base-cap",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-reset-base-cap",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "reset",
+        "amount": 9,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "base-cap",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-prevent-negative",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": -2,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "prevent-reduce",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-prevent-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "reset",
+        "amount": 0,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "prevent-reduce",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "defense-protect-opponent",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": -2,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "prevent-reduce",
+        "amount": 1,
+        "source": "hero",
+        "by": "dark"
+      }
+    ]
+  },
+  {
+    "name": "defense-protect-owner",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "defense",
+        "kind": "add",
+        "amount": -2,
+        "source": "opponent"
+      },
+      {
+        "stat": "defense",
+        "kind": "prevent-reduce",
+        "amount": 1,
+        "source": "hero",
+        "by": "light"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-add",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": 2,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-negative",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": -9,
+        "source": "opponent"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": 3,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "reset",
+        "amount": 0,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-competing-resets",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "reset",
+        "amount": 8,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "reset",
+        "amount": 3,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-prevent-negative",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": -2,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "prevent-reduce",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-prevent-positive",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": 2,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "prevent-increase",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-prevent-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "reset",
+        "amount": 0,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "prevent-reduce",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-raising-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "reset",
+        "amount": 10,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "prevent-increase",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-increase-limit",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": 4,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "increase-limit",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-reset-limit",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "reset",
+        "amount": 10,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "increase-limit",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-printed-cap",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": 3,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "printed-cap",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-reset-printed-cap",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "reset",
+        "amount": 9,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "printed-cap",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-defined",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "define",
+        "amount": 3,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": 2,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-defined-cap",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "define",
+        "amount": 3,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": 10,
+        "source": "hero"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "printed-cap",
+        "amount": 1,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "forfeit-double",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "forfeit",
+        "kind": "base-double",
+        "amount": 1,
+        "source": "opponent"
+      },
+      {
+        "stat": "forfeit",
+        "kind": "add",
+        "amount": 2,
+        "source": "hero"
+      }
+    ]
+  },
+  {
+    "name": "printed-maneuver-addition-without-attribute",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "add",
+        "amount": 3,
+        "source": "opponent"
+      }
+    ],
+    "blueprint": "14_9"
+  },
+  {
+    "name": "printed-maneuver-define",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "define",
+        "amount": 5,
+        "source": "hero"
+      }
+    ],
+    "blueprint": "14_9"
+  },
+  {
+    "name": "printed-maneuver-defined-add",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "define",
+        "amount": 5,
+        "source": "hero"
+      },
+      {
+        "stat": "maneuver",
+        "kind": "add",
+        "amount": 2,
+        "source": "opponent"
+      }
+    ],
+    "blueprint": "14_9"
+  },
+  {
+    "name": "printed-maneuver-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "reset",
+        "amount": 5,
+        "source": "opponent"
+      },
+      {
+        "stat": "maneuver",
+        "kind": "add",
+        "amount": 2,
+        "source": "opponent"
+      }
+    ],
+    "blueprint": "14_9"
+  },
+  {
+    "name": "printed-maneuver-competing-reset",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "maneuver",
+        "kind": "reset",
+        "amount": 5,
+        "source": "opponent"
+      },
+      {
+        "stat": "maneuver",
+        "kind": "reset",
+        "amount": 3,
+        "source": "hero"
+      }
+    ],
+    "blueprint": "14_9"
+  },
+  {
+    "name": "printed-highest-attribute",
+    "droid": false,
+    "ops": [
+      {
+        "stat": "armor",
+        "kind": "define",
+        "amount": 5,
+        "source": "hero"
+      },
+      {
+        "stat": "maneuver",
+        "kind": "define",
+        "amount": 6,
+        "source": "hero"
+      }
+    ],
+    "blueprint": "14_9"
+  }
+]

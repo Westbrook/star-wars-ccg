@@ -1,0 +1,32 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T08:44:59.393514+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineStatOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineStatOracleTests.java",
+  "harnessSha256": "aa84ad4690ac446e724d60311923a3c983c5a32e63ef365854d0a8a70093da19",
+  "inputs": "stat-cases.json",
+  "inputsSha256": "d9488881addc419653e08edf4ea2eab29a77362428676d3a16e7312f5c53ddd7",
+  "junitTests": 2,
+  "queryCases": 51,
+  "actualWeaponCases": 2,
+  "results": "stat-results.json",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "officialRulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "scope": [
+    "Production statistic queries after installing production modifiers on actual Character blueprints. Shared input matrix; independent native and GEMP query implementations.",
+    "Droid ability-zero and armor definition; printed character maneuver, missing maneuver, highest current attribute, defense additive/reset/minimum/maximum/player protection/baseline cap.",
+    "Forfeit definitions, addition/reset/doubling, change prevention, increase limits and printed cap.",
+    "Actual Vader lightsaber attacks with reduction protection installed before or after the hit; production end-turn modifier expiry verifies whether a stored reset survives."
+  ],
+  "limitations": [
+    "Fixtures arrange table and Reserve; queries use trusted rule modifier APIs rather than claiming all source cards implemented.",
+    "Dams Denna metadata-only; its card actions remain unavailable.",
+    "GEMP DoubledModifier affects multiple attributes; native fixture composes separate stat grants and an ability grant, not full doubled-card text.",
+    "Defense base-cap uses current underlying attributes, matching the reference method. A literal printed-defense cap is not implied.",
+    "Native lifetime, serialization, duplicate grants, blaster comparisons and loss-payment tests are additional regressions, not every one an independently executed GEMP observation.",
+    "Vehicles, creatures, Dejarik, general provider cards, text cancellation, full-match admission and previously retained rules differences remain unfinished."
+  ]
+}

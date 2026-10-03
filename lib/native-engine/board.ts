@@ -1,4 +1,4 @@
-import {weaponForfeit} from './forfeit';
+import {currentForfeit} from './forfeit';
 import {armedWithLightsaber} from './weapon-state';
 import {combatPowerBonus} from './combat-modifiers';
 import {locationAbility} from './location-ability';
@@ -99,13 +99,12 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
 }
 
 export function forfeit(m: Match, id: string, active: (id: string) => boolean = () => true): number {
-  const card = m.cards[id], site = card.location;
-  let value = printed(m, id, 'forfeit');
-  if (site && card.owner === 'light' && isWarrior(m, id) && active(id) && Object.values(m.cards).some(c => c.zone === 'table' && c.owner === 'light' && c.blueprint === '101_2' && c.location && active(c.id) && (c.location === site || adjacent(m, c.location, site)))) value++;
-  if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') value++;
-  if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') value--;
-  value += equipmentBonus(m, id, 'forfeit') + mosEisleyBonus(m, id);
-  return weaponForfeit(m,id,Math.max(0, value));
+  const card = m.cards[id], site = card.location, bonuses:number[]=[];
+  if (site && card.owner === 'light' && isWarrior(m, id) && active(id) && Object.values(m.cards).some(c => c.zone === 'table' && c.owner === 'light' && c.blueprint === '101_2' && c.location && active(c.id) && (c.location === site || adjacent(m, c.location, site)))) bonuses.push(1);
+  if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') bonuses.push(1);
+  if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') bonuses.push(-1);
+  bonuses.push(equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id));
+  return currentForfeit(m,id,printed(m,id,'forfeit'),bonuses);
 }
 
 export function totalPower(m: Match, side: Side, site: string, defending = false, active: (id: string) => boolean = () => true): number {

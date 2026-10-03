@@ -1,3 +1,4 @@
+import {assertStatModifiers} from './stat-modifiers';
 import {lightsaberActions, lightsaberInitiate, lightsaberResolve, assertLightsaber} from './lightsabers';
 import {assertForfeitResets} from './forfeit';
 import {trooperAssaultActions, trooperAssaultInitiate, trooperAssaultResolve, assertTrooperAssault} from './trooper-assault';
@@ -185,6 +186,7 @@ export const premiereRules: Rules = {
     assertDuel(match);
     assertDuelModifiers(match);
     assertCombatModifiers(match);
+    assertStatModifiers(match);
     assertLightsaber(match); assertForfeitResets(match);
     assertTrooperAssault(match);
     assertDuelInterrupts(match);
