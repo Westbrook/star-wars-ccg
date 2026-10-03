@@ -1,4 +1,5 @@
-import {cardDefinition, name, printed} from './board';
+import {deployValue} from './deploy-costs';
+import {cardDefinition, name} from './board';
 import {deployed} from './deployment';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {canEnterTable} from './persona';
@@ -16,8 +17,7 @@ const nonDroid = (m: Match, id: string) => cardDefinition(m,id).type==='Characte
 /** This is an attribute query, not deployment to a site. Site discounts and
  * deployment permissions do not apply; a printed asterisk is zero (AR p138). */
 export function bactaCost(m: Match, tank: string, target: string): number {
-  const value=(cardDefinition(m,target).stats as Record<string,string>).deploy;
-  const base=value==='*'?0:printed(m,target,'deploy');
+  const base=deployValue(m,target,{asteriskZero:true});
   const fx=Object.values(m.cards).filter(c=>c.zone==='table' && c.owner===m.cards[tank].owner && c.blueprint==='3_9').length;
   return Math.max(0,base-2*fx);
 }

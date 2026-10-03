@@ -1,0 +1,30 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T10:23:48.887938+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDeployCostOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineDeployCostOracleTests.java",
+  "harnessSha256": "0c2f3ceb521a40aaa76f8ee6a523d183df1a3ff71b20caf82ef334c62d838a7f",
+  "junitTests": 6,
+  "observations": 31,
+  "matchingObservations": 31,
+  "results": "deploy-cost-results.json",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "officialRulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "scope": [
+    "21 global deploy-cost queries: seven represented persona cards in hand, Lost and at a site, with Bad Feeling Have I active and after removal. Includes Dark Lando.",
+    "Actual free Effect deployment and modified Luke deployment; two medical droid deployments demonstrating first successful deployment discount.",
+    "Three actual Bacta patient-return actions with active Bad Feeling Have I, Echo Med Lab and zero/one/two FX-7 droids.",
+    "Four current Force-drain value queries: controlled by an Imperial, controlled by an alien, contested, empty.",
+    "Two separately arranged battle-initiation runs record whether the matching Interrupt is offered with/without the prohibition."
+  ],
+  "limitations": [
+    "All observations are component fixtures. Some character cards remain metadata-only for their own actions; query comparison does not admit their whole text.",
+    "The Bacta comparison uses the reference framework stacked-card setup, not a fresh forfeiture. Full inactive lifecycle was checked separately in the Bacta oracle.",
+    "The play prohibition observation traverses each complete initiation opportunity in separate fixtures; it does not query a cached GEMP decision after modifying its source.",
+    "Native tests additionally cover controlled retirement, observer history, serialization, current location status and committed payment preservation; these are not fresh GEMP comparisons here.",
+    "Full free-deployment policies, broader deploy-cost providers, all named persona cards, Echo Docking Bay, vehicles/pilots/passengers, text cancellation, crossed-over/captured contexts and entire-engine admission remain unfinished."
+  ]
+}

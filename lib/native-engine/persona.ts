@@ -1,3 +1,4 @@
+import {playProhibited} from './deploy-costs';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition, definition} from './definitions';
 import {sides, type Action, type Match, type Side} from './types';
@@ -39,7 +40,7 @@ export function canPlayThisTurn(m: Match, id: string): boolean {
   return true;
 }
 export function canPlayCard(m: Match, id: string): boolean {
-  return canPlayThisTurn(m, id) && (cardDefinition(m, id).type === 'Interrupt' || canEnterTable(m, id));
+  return !playProhibited(m,id) && canPlayThisTurn(m, id) && (cardDefinition(m, id).type === 'Interrupt' || canEnterTable(m, id));
 }
 /** Record when a real play/deployment is initiated, before costs and responses.
  * A canceled action still consumes its allowance. No record for revival. */
@@ -47,7 +48,7 @@ export function recordCardPlay(m: Match, id: string): void {
   const h = history(m); h.cards.push({card: id, blueprint: m.cards[id].blueprint, side: m.cards[id].owner});
   m.data.cardPlays = h as unknown as import('./types').Json;
 }
-const playHandlers = new Set(['bacta:deploy', 'phase-effect:deploy', 'ability-effect:deploy', 'battle-effect:deploy','force-effect:deploy','ground:deploy','ground:site','ground:barrier','ground:reduce','battle:equip','battle:takeel','battle:reduce',
+const playHandlers = new Set(['deploy-effect:deploy', 'bacta:deploy', 'phase-effect:deploy', 'ability-effect:deploy', 'battle-effect:deploy','force-effect:deploy','ground:deploy','ground:site','ground:barrier','ground:reduce','battle:equip','battle:takeel','battle:reduce',
   'equipment:attach','equipment:macroscan','equipment:mine','gaffi:equip','saber:equip','travel:run','travel:escape']);
 const interruptProviders = ['trooper-assault:', 'duel-interrupt:', 'cancel:','interrupt:','duel:','revival:','assault:','accident:','stun:','scan:','scavenge:','worse:','doomed:','stakes:','substitution:','gambler:'];
 export function actionPlayCard(m: Match, a: Action): string | undefined {

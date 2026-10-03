@@ -1073,7 +1073,7 @@
       "Planet",
       "Scomp Link"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_060.java"
   },
   {
@@ -1135,5 +1135,22 @@
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_032.java",
     "rulesNote": "Official AR p104 erratum. Current ground loss/patient recovery components; broader modifiers and aboard states remain pending."
+  },
+  {
+    "gempId": "4_116",
+    "name": "Bad Feeling Have I",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Dark/large/badfeelinghavei.gif",
+    "text": "Deploy on opponent's side of table. Luke, Leia, Han, Chewie, Lando, Yoda, and Obi-Wan are deploy +2. Also, opponent may not play any cards with the words 'bad feeling' in the title.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "Dagobah"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_116.java"
   }
 ]

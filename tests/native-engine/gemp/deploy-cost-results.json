@@ -1,0 +1,150 @@
+[
+  {
+    "name": "drain-imperial",
+    "amount": 2.0
+  },
+  {
+    "name": "drain-alien",
+    "amount": 1.0
+  },
+  {
+    "name": "drain-contested",
+    "amount": 1.0
+  },
+  {
+    "name": "drain-empty",
+    "amount": 1.0
+  },
+  {
+    "name": "query-1_19-hand",
+    "off": 3.0,
+    "on": 5.0
+  },
+  {
+    "name": "query-1_19-lost",
+    "off": 3.0,
+    "on": 5.0
+  },
+  {
+    "name": "query-1_19-table",
+    "off": 3.0,
+    "on": 5.0
+  },
+  {
+    "name": "query-101_2-hand",
+    "off": 4.0,
+    "on": 6.0
+  },
+  {
+    "name": "query-101_2-lost",
+    "off": 4.0,
+    "on": 6.0
+  },
+  {
+    "name": "query-101_2-table",
+    "off": 4.0,
+    "on": 6.0
+  },
+  {
+    "name": "query-1_11-hand",
+    "off": 3.0,
+    "on": 5.0
+  },
+  {
+    "name": "query-1_11-lost",
+    "off": 3.0,
+    "on": 5.0
+  },
+  {
+    "name": "query-1_11-table",
+    "off": 3.0,
+    "on": 5.0
+  },
+  {
+    "name": "query-1_21-hand",
+    "off": 5.0,
+    "on": 7.0
+  },
+  {
+    "name": "query-1_21-lost",
+    "off": 5.0,
+    "on": 7.0
+  },
+  {
+    "name": "query-1_21-table",
+    "off": 5.0,
+    "on": 7.0
+  },
+  {
+    "name": "query-4_2-hand",
+    "off": 5.0,
+    "on": 7.0
+  },
+  {
+    "name": "query-4_2-lost",
+    "off": 5.0,
+    "on": 7.0
+  },
+  {
+    "name": "query-4_2-table",
+    "off": 5.0,
+    "on": 7.0
+  },
+  {
+    "name": "query-5_5-hand",
+    "off": 3.0,
+    "on": 5.0
+  },
+  {
+    "name": "query-5_5-lost",
+    "off": 3.0,
+    "on": 5.0
+  },
+  {
+    "name": "query-5_5-table",
+    "off": 3.0,
+    "on": 5.0
+  },
+  {
+    "name": "query-5_99-hand",
+    "off": 2.0,
+    "on": 4.0
+  },
+  {
+    "name": "query-5_99-lost",
+    "off": 2.0,
+    "on": 4.0
+  },
+  {
+    "name": "query-5_99-table",
+    "off": 2.0,
+    "on": 4.0
+  },
+  {
+    "name": "play-ban",
+    "blocked": true,
+    "allowed": true
+  },
+  {
+    "second": 2,
+    "name": "medical",
+    "first": 0
+  },
+  {
+    "heroCost": 6,
+    "name": "deployment",
+    "effectCost": 0
+  },
+  {
+    "cost": 5,
+    "name": "patient-0"
+  },
+  {
+    "cost": 3,
+    "name": "patient-1"
+  },
+  {
+    "cost": 1,
+    "name": "patient-2"
+  }
+]

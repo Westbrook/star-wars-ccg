@@ -1,3 +1,4 @@
+import {deployValue, medicalDeployReduction} from './deploy-costs';
 import {currentForfeit} from './forfeit';
 import {attachedArmor} from './armor-equipment';
 import {armedWithLightsaber} from './weapon-state';
@@ -66,7 +67,7 @@ export function deploymentPayment(m: Match, id: string, site: string): Payment |
     const ownCamp = m.cards[site].blueprint === (side === 'light' ? '1_131' : '1_292');
     return ownCamp ? {[side]: 1} : {dark: 1, light: 1};
   }
-  let cost = printed(m, id, 'deploy');
+  let cost = deployValue(m,id) - medicalDeployReduction(m,id);
   if (blueprint === '101_2' && m.cards[site].blueprint === '1_132') cost--;
   if (['1_28', '1_194'].includes(blueprint)) {
     const faction = side === 'light' ? 'Rebel' : 'Imperial';
@@ -121,6 +122,7 @@ export const battleDestinyRequirement = (m: Match, side: Side, site: string) =>
 export function drainAmount(m: Match, side: Side, site: string): number {
   let value = premiereSites[m.cards[site].blueprint].icons[other(side)];
   const blueprint = m.cards[site].blueprint;
+  if (side === 'dark' && blueprint === '3_60' && controls(m,side,site) && atSite(m,site).some(c=>c.owner===side && cardDefinition(m,c.id).subType==='Imperial')) value++;
   if (side === 'light' && blueprint === '1_284' || side === 'dark' && blueprint === '1_293') value++;
   if (side === 'light' && blueprint === '101_4' && atSite(m, site).some(c => c.owner === side && cardDefinition(m, c.id).subType === 'Rebel' && ability(m, c.id) > 2)) value += 2;
   return value;
