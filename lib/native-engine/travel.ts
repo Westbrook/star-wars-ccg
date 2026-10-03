@@ -9,7 +9,7 @@ import {shuffled} from './random';
 import {moveCard} from './state';
 import {other, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
-export const bayCosts: Record<string, Record<Side, number>> = {'1_124': {dark: 1, light: 1}, '1_285': {dark: 0, light: 2}, '1_129': {dark: 2, light: 1}, '1_291': {dark: 1, light: 2}};
+export const bayCosts: Record<string, Record<Side, number>> = {'1_124': {dark: 1, light: 1}, '1_285': {dark: 0, light: 2}, '1_129': {dark: 2, light: 1}, '1_291': {dark: 1, light: 2}, '3_59': {dark: 3, light: 1}, '3_147': {dark: 2, light: 1}};
 type TravelState = {turn: number; failedSearch: boolean; runPlayed: boolean; shuffles: number};
 type Payload = {card?: string; from?: string; to?: string; room?: string; selected?: string[]; remaining?: string[]; placement?: string; target?: string; targetRef?: CardReference; memberRefs?: Record<string, CardReference>};
 export const travelState = (m: Match): TravelState => {
@@ -26,6 +26,12 @@ function then(m: Match, side: Side, handler: string, p: Payload, respondable = f
 }
 export const transitEligible = (m: Match, side: Side, from: string) => atSite(m, from).filter(c => c.owner === side && canMove(m, c.id)).map(c => c.id);
 const bays = (m: Match) => m.locations.filter(id => bayCosts[m.cards[id].blueprint]);
+/** The whole party pays once. Explicitly free movement cannot be increased (AR pp66,70). */
+export function transitCost(m: Match, side: Side, from: string, to: string): number {
+  if (from === to || !bays(m).includes(from) || !bays(m).includes(to)) throw Error('Invalid docking-bay route.');
+  if (side === 'dark' && m.cards[from].blueprint === '1_285') return 0;
+  return bayCosts[m.cards[from].blueprint][side] + (side === 'dark' && m.cards[to].blueprint === '3_59' ? 4 : 0);
+}
 const searchCandidates = (m: Match) => m.players.dark.reserve.filter(id => bayCosts[m.cards[id].blueprint] && canPlayCard(m, id) && sitePlacements(m, id).length).sort();
 const battleInitiation = (m: Match, w: Window) => {
   const parent = m.stack.at(-2);
@@ -36,8 +42,8 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
   const result: Action[] = [];
   if (w.timing === 'phase' && side === m.turn.side) {
     if (m.turn.phase === 'move') for (const from of bays(m)) {
-      if (!transitEligible(m, side, from).length || m.players[side].force.length < bayCosts[m.cards[from].blueprint][side]) continue;
-      for (const to of bays(m).filter(id => id !== from)) result.push(action('transit:' + from + ':' + to, 'Docking-bay transit · ' + name(m, from) + ' → ' + name(m, to), 'party', {from, to, selected: []}));
+      if (!transitEligible(m, side, from).length) continue;
+      for (const to of bays(m).filter(id => id !== from && m.players[side].force.length >= transitCost(m, side, from, id))) result.push(action('transit:' + from + ':' + to, 'Docking-bay transit · ' + name(m, from) + ' → ' + name(m, to), 'party', {from, to, selected: []}));
     }
     if (m.turn.phase === 'deploy' && side === 'dark' && m.players.dark.reserve.length && !travelState(m).failedSearch)
       for (const room of m.locations.filter(id => m.cards[id].blueprint === '101_4' && controls(m, 'dark', id)))
@@ -115,7 +121,7 @@ export function travelChoices(m: Match, d: Decision): {id: string; label: string
   const p = data(d);
   if (d.handler === 'travel:party') return [
     ...transitEligible(m, d.side, p.from!).map(id => ({id: 'toggle:' + id, label: (p.selected!.includes(id) ? 'Remove ' : 'Add ') + name(m, id)})),
-    ...(p.selected!.length ? [{id: 'confirm', label: 'Move party · ' + bayCosts[m.cards[p.from!].blueprint][d.side] + ' Force total'}] : []),
+    ...(p.selected!.length ? [{id: 'confirm', label: 'Move party · ' + transitCost(m, d.side, p.from!, p.to!) + ' Force total'}] : []),
     {id: 'cancel', label: 'Cancel transit'},
   ];
   if (d.handler === 'travel:search') {
@@ -137,7 +143,7 @@ export function travelChoose(m: Match, d: Decision, choice: string, context: Con
     }
     if (choice.startsWith('toggle:')) {const id = choice.slice(7); p.selected = p.selected!.includes(id) ? p.selected!.filter(c => c !== id) : [...p.selected!, id]; decision(m, d.side, 'party', p); return;}
     p.memberRefs = Object.fromEntries(p.selected!.map(id => [id, referenceCard(m, id)]));
-    const payment = {[d.side]: bayCosts[m.cards[p.from!].blueprint][d.side]};
+    const payment = {[d.side]: transitCost(m, d.side, p.from!, p.to!)};
     parent.action = {...action('transit:' + p.from + ':' + p.to, 'Docking-bay transit', 'transit', p), payment};
     queueForcePayment(m, parent, payment);
   } else if (d.handler === 'travel:search') {

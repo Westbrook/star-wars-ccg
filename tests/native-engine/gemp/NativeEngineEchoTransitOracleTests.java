@@ -1,0 +1,27 @@
+package com.gempukku.swccgo.rules.devices;
+import com.gempukku.swccgo.common.*;
+import com.gempukku.swccgo.framework.*;
+import com.gempukku.swccgo.game.*;
+import com.google.gson.GsonBuilder;
+import org.junit.Test;
+import org.junit.AfterClass;
+import java.nio.file.*;
+import java.util.*;
+import static org.junit.Assert.*;
+public class NativeEngineEchoTransitOracleTests {
+ static final String LS=VirtualTableScenario.LS,DS=VirtualTableScenario.DS;
+ static final List<Map<String,Object>> rows=new ArrayList<>();
+ @AfterClass public static void output() throws Exception{Files.writeString(Path.of("/opt/gemp-swccg/echo-transit-results.json"),new GsonBuilder().setPrettyPrinting().create().toJson(rows));}
+ boolean light(String bp){return List.of("1_124","1_129","3_59").contains(bp);}
+ VirtualTableScenario fixture(String echo,String other){var ls=new HashMap<>(Map.of("one","1_28","two","1_28"));var ds=new HashMap<>(Map.of("one","1_194","two","1_194","room","101_4"));(light(echo)?ls:ds).put("echo",echo);(light(other)?ls:ds).put("other",other);var s=new VirtualTableScenario(ls,ds,18,18,StartingSetup.LSStartingLocation("1_132"),StartingSetup.DSStartingLocation("1_284"),StartingSetup.NoLSStartingInterrupts,StartingSetup.NoDSStartingInterrupts,StartingSetup.NoLSShields,StartingSetup.NoDSShields,VirtualTableScenario.Open);s.StartGame();s.SkipToPhase(Phase.CONTROL);s.LSActivateForceCheat(12);s.DSActivateForceCheat(12);return s;}
+ PhysicalCardImpl get(VirtualTableScenario s,String bp,String key){return light(bp)?s.GetLSCard(key):s.GetDSCard(key);}
+ void phase(VirtualTableScenario s,boolean light,Phase phase){if(light)s.SkipToLSTurn(phase);else s.SkipToPhase(phase);}
+ void ready(VirtualTableScenario s,boolean light){for(int i=0;i<40&&!s.GetDecidingPlayer().equals(light?LS:DS);i++)s.PlayerPass(s.GetDecidingPlayer());assertEquals(light?LS:DS,s.GetDecidingPlayer());}
+ int force(VirtualTableScenario s,boolean light){return light?s.GetLSForcePileCount():s.GetDSForcePileCount();}
+ void move(VirtualTableScenario s,boolean light,PhysicalCardImpl from,PhysicalCardImpl to,PhysicalCardImpl one,PhysicalCardImpl two){ready(s,light);if(light){s.LSUseCardAction(from,"transit");s.LSChooseCard(to);s.LSChooseCards(one,two);}else{s.DSUseCardAction(from,"transit");s.DSChooseCard(to);s.DSChooseCards(one,two);}s.PassAllResponses();assertEquals(to,one.getAtLocation());assertEquals(to,two.getAtLocation());}
+ @Test public void routes(){for(String echo:List.of("3_59","3_147"))for(String other:List.of("1_124","1_285","1_129","1_291"))for(boolean light:List.of(false,true))for(boolean outbound:List.of(false,true)){var s=fixture(echo,other);PhysicalCardImpl e=get(s,echo,"echo"),o=get(s,other,"other"),from=outbound?e:o,to=outbound?o:e,one=light?s.GetLSCard("one"):s.GetDSCard("one"),two=light?s.GetLSCard("two"):s.GetDSCard("two");s.MoveLocationToTable(e);s.MoveLocationToTable(o);s.MoveCardsToLocation(from,one,two);phase(s,light,Phase.MOVE);int before=force(s,light);move(s,light,from,to,one,two);ready(s,light);boolean repeat=light?s.LSCardActionAvailable(to,"transit"):s.DSCardActionAvailable(to,"transit");assertFalse(repeat);rows.add(Map.of("name",echo+"-"+other+"-"+(light?"light":"dark")+"-"+(outbound?"out":"in"),"cost",before-force(s,light),"moved",2,"repeat",repeat));}}
+ @Test public void conversion(){for(boolean light:List.of(false,true)){String incoming=light?"3_59":"3_147",old=light?"3_147":"3_59";var s=fixture(incoming,old);PhysicalCardImpl next=get(s,incoming,"echo"),before=get(s,old,"other"),one=light?s.GetLSCard("one"):s.GetDSCard("one"),two=light?s.GetLSCard("two"):s.GetDSCard("two"),to=s.GetLSStartingLocation();s.MoveLocationToTable(before);s.MoveCardsToLocation(before,one,two);s.MoveCardsToHand(next);phase(s,light,Phase.DEPLOY);ready(s,light);if(light)s.LSDeployLocation(next);else s.DSDeployLocation(next);s.PassAllResponses();assertEquals(Zone.CONVERTED_LOCATIONS,before.getZone());assertEquals(next,one.getAtLocation());float darkCost=s.game().getModifiersQuerying().getDockingBayTransitCost(s.gameState(),s.GetDSCard("one"),next,to,0);float lightCost=s.game().getModifiersQuerying().getDockingBayTransitCost(s.gameState(),s.GetLSCard("one"),next,to,0);rows.add(Map.of("name","convert-"+incoming,"darkDeparture",darkCost,"lightDeparture",lightCost,"charactersStay",true));}}
+ @Test public void search(){var s=fixture("3_59","3_147");PhysicalCardImpl old=s.GetLSCard("echo"),next=s.GetDSCard("other"),room=s.GetDSCard("room");s.MoveLocationToTable(old);s.MoveLocationToTable(room);s.MoveCardsToLocation(room,s.GetDSCard("one"));s.MoveCardsToTopOfOwnReserveDeck(next);s.SkipToPhase(Phase.DEPLOY);ready(s,false);s.DSUseCardAction(room,"Deploy a docking bay");s.PassAllResponses();s.DSChooseCard(next);s.PassAllResponses();assertEquals(Zone.LOCATIONS,next.getZone());assertEquals(Zone.CONVERTED_LOCATIONS,old.getZone());rows.add(Map.of("name","search-convert","converted",true));}
+ @Test public void affordability(){for(String other:List.of("1_124","1_129","1_291","1_285"))for(int amount:new int[]{0,4,6}){var s=fixture("3_59",other);PhysicalCardImpl echo=s.GetLSCard("echo"),from=get(s,other,"other");s.MoveLocationToTable(echo);s.MoveLocationToTable(from);s.MoveCardsToLocation(from,s.GetDSCard("one"));for(var c:new ArrayList<>(s.gameState().getForcePile(DS)))s.MoveCardsToTopOfOwnReserveDeck((PhysicalCardImpl)c);s.DSActivateForceCheat(amount);s.SkipToPhase(Phase.MOVE);ready(s,false);boolean offered=s.DSCardActionAvailable(from,"transit");rows.add(Map.of("name","afford-"+other+"-"+amount,"offered",offered));}}
+
+}

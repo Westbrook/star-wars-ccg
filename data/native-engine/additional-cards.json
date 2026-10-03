@@ -1094,7 +1094,7 @@
       "Planet",
       "Scomp Link"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_059.java"
   },
   {
@@ -1152,5 +1152,26 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_116.java"
+  },
+  {
+    "gempId": "3_147",
+    "name": "Hoth: Echo Docking Bay",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/hothechodockingbay.gif",
+    "text": "DARK: Your docking bay transit from here requires 2 Force. LIGHT: Your docking bay transit from here requires 1 Force.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Hoth",
+      "Interior",
+      "Exterior",
+      "Planet",
+      "Scomp Link"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_147.java"
   }
 ]

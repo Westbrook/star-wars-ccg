@@ -1,0 +1,258 @@
+[
+  {
+    "name": "3_59-1_124-dark-in",
+    "moved": 2,
+    "cost": 5,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_124-dark-out",
+    "moved": 2,
+    "cost": 3,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_124-light-in",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_124-light-out",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_285-dark-in",
+    "moved": 2,
+    "cost": 0,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_285-dark-out",
+    "moved": 2,
+    "cost": 3,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_285-light-in",
+    "moved": 2,
+    "cost": 2,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_285-light-out",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_129-dark-in",
+    "moved": 2,
+    "cost": 6,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_129-dark-out",
+    "moved": 2,
+    "cost": 3,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_129-light-in",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_129-light-out",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_291-dark-in",
+    "moved": 2,
+    "cost": 5,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_291-dark-out",
+    "moved": 2,
+    "cost": 3,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_291-light-in",
+    "moved": 2,
+    "cost": 2,
+    "repeat": false
+  },
+  {
+    "name": "3_59-1_291-light-out",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_124-dark-in",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_124-dark-out",
+    "moved": 2,
+    "cost": 2,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_124-light-in",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_124-light-out",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_285-dark-in",
+    "moved": 2,
+    "cost": 0,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_285-dark-out",
+    "moved": 2,
+    "cost": 2,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_285-light-in",
+    "moved": 2,
+    "cost": 2,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_285-light-out",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_129-dark-in",
+    "moved": 2,
+    "cost": 2,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_129-dark-out",
+    "moved": 2,
+    "cost": 2,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_129-light-in",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_129-light-out",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_291-dark-in",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_291-dark-out",
+    "moved": 2,
+    "cost": 2,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_291-light-in",
+    "moved": 2,
+    "cost": 2,
+    "repeat": false
+  },
+  {
+    "name": "3_147-1_291-light-out",
+    "moved": 2,
+    "cost": 1,
+    "repeat": false
+  },
+  {
+    "converted": true,
+    "name": "search-convert"
+  },
+  {
+    "offered": false,
+    "name": "afford-1_124-0"
+  },
+  {
+    "offered": false,
+    "name": "afford-1_124-4"
+  },
+  {
+    "offered": true,
+    "name": "afford-1_124-6"
+  },
+  {
+    "offered": false,
+    "name": "afford-1_129-0"
+  },
+  {
+    "offered": false,
+    "name": "afford-1_129-4"
+  },
+  {
+    "offered": true,
+    "name": "afford-1_129-6"
+  },
+  {
+    "offered": false,
+    "name": "afford-1_291-0"
+  },
+  {
+    "offered": false,
+    "name": "afford-1_291-4"
+  },
+  {
+    "offered": true,
+    "name": "afford-1_291-6"
+  },
+  {
+    "offered": true,
+    "name": "afford-1_285-0"
+  },
+  {
+    "offered": true,
+    "name": "afford-1_285-4"
+  },
+  {
+    "offered": true,
+    "name": "afford-1_285-6"
+  },
+  {
+    "name": "convert-3_147",
+    "charactersStay": true,
+    "darkDeparture": 2.0,
+    "lightDeparture": 1.0
+  },
+  {
+    "name": "convert-3_59",
+    "charactersStay": true,
+    "darkDeparture": 3.0,
+    "lightDeparture": 1.0
+  }
+]

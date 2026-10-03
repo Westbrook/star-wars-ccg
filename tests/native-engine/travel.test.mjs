@@ -39,7 +39,7 @@ test('paid and free docking groups match recorded GEMP outcomes and consume each
 });
 
 test('all docking-bay departure costs apply to both sides, including free travel without Force',()=>{
- for(const [bp,costs] of Object.entries(travel.bayCosts))for(const side of ['dark','light']){let m=fresh();const owner=['1_124','1_129'].includes(bp)?'light':'dark',bay=location(m,owner,bp),target=location(m,'dark',bp.includes('285')||bp.includes('124')?'1_291':'1_285'),trooper=pull(m,side,side==='dark'?'1_194':'1_28','table',bay);force(m,side,costs[side]);m=phase(m,'move',side);const before=m.players[side].force.length;m=settle(transit(m,bay,target,[trooper]));assert.equal(m.players[side].force.length,before-costs[side]);assert.equal(m.cards[trooper].location,target)}
+ for(const [bp,costs] of Object.entries(travel.bayCosts))for(const side of ['dark','light']){const owner=['1_124','1_129','3_59'].includes(bp)?'light':'dark';let m=fresh({[owner]:[bp]});const bay=location(m,owner,bp),target=location(m,'dark',bp.includes('285')||bp.includes('124')?'1_291':'1_285'),trooper=pull(m,side,side==='dark'?'1_194':'1_28','table',bay);force(m,side,costs[side]);m=phase(m,'move',side);const before=m.players[side].force.length;m=settle(transit(m,bay,target,[trooper]));assert.equal(m.players[side].force.length,before-costs[side]);assert.equal(m.cards[trooper].location,target)}
 });
 
 test('a group arrival trips a buried mine once after all party members arrive',()=>{
