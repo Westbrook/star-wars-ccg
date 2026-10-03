@@ -88,7 +88,7 @@ test('invalid origins, duplicate claims, duration and source payloads are reject
   const bad=clone(m);mutate(bad);assert.throws(()=>runtime.project(bad,rules,'light'));
  }
 });
-test('new definitions remain explicitly gated; device metadata does not invent device behavior',()=>{
+test('Lars definitions remain gated; character deploy-cost queries do not claim device costs',()=>{
  for(const bp of ['1_2','1_22','1_37','1_41'])assert.equal(premiereRules.supports(bp),false);
  let f=base(),m=phase(f.m,'deploy');for(const bp of ['1_37','1_41']){const id=pull(m,'light',bp,'hand');assert.equal(board.deploymentPayment(m,id,f.site),null);}
 });

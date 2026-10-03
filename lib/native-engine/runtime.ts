@@ -1,4 +1,5 @@
 import {assertCardReference, referenceCard, type CardReference} from './identity';
+import {assertActivations, recordActivation} from './activation';
 import {assertState, initialState, lifeForce, moveTop, publicState, recirculate} from './state';
 import {secureEntropy, type Entropy} from './random';
 import {initializeSetup, setupPrompt, applySetup, projectSetup, assertSetup, type LocationSetupRules} from './setup';
@@ -36,6 +37,7 @@ const core = (id: string, label: string): Action => ({id, label, handler: id, pa
 
 function validate(match: Match, rules: Rules): void {
   assertState(match);
+  assertActivations(match);
   for (let index = 0; index < match.stack.length; index++) {
     const f = match.stack[index];
     if (f.kind === 'resolution' && f.action.unrespondable !== undefined && f.action.unrespondable !== true) throw Error('Invalid action response policy.');
@@ -66,6 +68,15 @@ export function openWindow(match: Match, timing: Timing, priority: Side, event?:
   if (e && ['forfeited','character-lost','cards-lost'].includes(e.kind ?? '') && e.cardRefs === undefined)
     event = {...e, cardRefs: (e.cards ?? (e.card ? [e.card] : [])).filter(id => match.cards[id]?.zone === 'lost').map(id => referenceCard(match,id))} as Json;
   match.stack.push({kind: 'window', serial: ++match.serial, timing, priority, passes: 0, completed: [], ...(event === undefined ? {} : {event})});
+}
+
+/** Real activation, including card text, counts each unit and yields its own
+ * response window. Merely placing a card on Force does not call this helper. */
+export function activateOneForce(m: Match, side: Side): boolean {
+  if (!m.players[side].reserve.length) return false;
+  const id = moveTop(m,side,'reserve','force');
+  openWindow(m,'response',other(side),recordActivation(m,side,id) as unknown as Json);
+  return true;
 }
 
 /** Retire an initiated action without shifting suspended frame indices. The
@@ -284,7 +295,7 @@ function settle(match: Match, rules: Rules, context: Context): void {
     }
     // Empty cost and phase-boundary windows need no UI step. Check both
     // seats and mandatory triggers before advancing a durable continuation.
-    if (window?.kind === 'window' && ['destiny-cost', 'phase-start', 'phase-end', 'about-to-forfeit'].includes((window.event as {kind?: string})?.kind ?? '') &&
+    if (window?.kind === 'window' && ['destiny-cost', 'phase-start', 'phase-end', 'about-to-forfeit', 'force-activated'].includes((window.event as {kind?: string})?.kind ?? '') &&
       !required(match, window, rules).length && !sides.some(priority => available(match, {...window, priority}, rules).length || rules.canPass?.(match, {...window, priority}, priority) === false)) {
       match.stack.pop(); continue;
     }
@@ -303,7 +314,7 @@ function settle(match: Match, rules: Rules, context: Context): void {
     if (resolution.action.handler === 'core:phase') {resolvePhase(match, resolution); continue;}
     if (resolution.action.handler === 'core:payment') payForceStep(match, rules, resolution);
     else if (resolution.action.handler === 'core:activate') {
-      if (!resolution.cancelled) {moveTop(match, resolution.actor, 'reserve', 'force'); match.turn.activated++;}
+      if (!resolution.cancelled && activateOneForce(match,resolution.actor)) match.turn.activated++;
     } else if (resolution.action.handler === 'core:draw') {
       if (!resolution.cancelled) moveTop(match, resolution.actor, 'force', 'hand');
     } else rules.resolve(match, resolution, context); // Includes cancellation cleanup.

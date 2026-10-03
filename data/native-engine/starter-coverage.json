@@ -2189,6 +2189,21 @@
       ],
       "scope": "Beru/Owen ground deployment, local modifiers and required Lost-from-table triggers. Global Luke power applies across card states/personas and through the next owner turn. Saved loss origins distinguish active table from hand/pile/buried/inactive losses. Device presence queries only; Hydroponics Station/Vaporator remain metadata-only.",
       "limits": "Aboard/capture, compound identities, generic prevention and full production admission remain unfinished."
+    },
+    "farmDevices": {
+      "scope": "Hydroponics/Vaporator one-Force deployment at their eligible Tatooine sites, fixed location attachment, Hydroponics first/second activation draws, and shared per-card Force-activated windows/phase counts. Normal generation and R2 card-text activation use the same event path.",
+      "tests": [
+        "tests/native-engine/farm-devices.test.mjs",
+        "tests/native-engine/astromech.test.mjs"
+      ],
+      "gempEvidence": "tests/native-engine/gemp/farm-provenance.json",
+      "remaining": [
+        "Vaporator Gravel Storm protection",
+        "Generic activation and draw prohibition, costs, replacement and prevention",
+        "Farm Reserve deployment and broader location catalog",
+        "CPU strategy for these optional device choices",
+        "Full reachable conformance and production admission"
+      ]
     }
   },
   "wholeMatchEvidence": {

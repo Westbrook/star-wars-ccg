@@ -2034,3 +2034,42 @@ remain incomplete. The two starter-location audit entries now distinguish the
 farm's deployment text from Detention Block's drain text. Full native admission
 remains closed, all broader engine/product scope is retained, and no standalone
 Rules Lab study was added.
+
+### Farm devices and Force activation responses
+
+Hydroponics Station (`1_37`) and Vaporator (`1_41`) now have component gameplay,
+replacing their earlier metadata-only status. Both deploy for 1 Force to Tatooine
+sites; Hydroponics additionally requires an exterior icon. They attach to their
+chosen location, record the normal deployment event, and expose no transfer or
+movement action. Pending deployment binds the source and site instances and
+retains paid costs if canceled or invalidated.
+
+`runtime.activateOneForce` is the shared actual-activation primitive. Normal
+Force generation and R2-D2's response both emit a `force-activated` result for
+each transferred card and increment a durable per-phase count. R2 activation
+does not spend the ordinary generation allowance. Moving a card onto Force by
+another effect is not activation. Empty result windows settle automatically;
+required or optional responses suspend the continuation. Counts and event
+references survive serialization without exposing hidden card identities.
+
+Hydroponics can draw the first activated Force during its owner's Activate
+phase, and the second when a Vaporator is on the table. Declining the first
+leaves the second opportunity intact. Multiple Stations do not duplicate a draw:
+the activated instance must still be the Force top, and each Station can respond
+only once to that event. After initiation, GEMP's effect draws the current Force
+top; source departure does not cancel it. Location devices use themselves and do
+not share a character's one-different-device restriction.
+
+Six observations from two executed GEMP JUnit tests verify both actual deploy
+costs and three-card activation outcomes with a Station alone, a Vaporator,
+a declined first draw, and two Stations. All 6,820 reference production files
+remain byte-identical. `gemp/farm-provenance.json` fingerprints the executed
+harness and results. Additional native checks cover R2 integration, interrupted
+source/target instances, cancellation, stale saves, private projections, and
+last-Life-Force victory. These extra cases are not fresh GEMP observations.
+
+This does not finish Vaporator: Gravel Storm protection remains unimplemented.
+Generic activation/draw restrictions and replacement, Farm deployment from
+Reserve, broader locations and CPU policy for these optional device choices also
+remain. The full native-engine scope and production admission gate are unchanged;
+no standalone Rules Lab study was added.

@@ -1,0 +1,21 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T16:15:56.079013+00:00",
+  "harness": "NativeEngineFarmOracleTests.java",
+  "harnessSha256": "b4c6a751bab4485b13d6fc79556b6512a31bc218e0000105c44de2ef243f011a",
+  "result": "farm-results.json",
+  "resultSha256": "fd67c8b7b2258787f4dc7ac4a6b0920d38635c1395fd671e3643592337990324",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineFarmOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; unchanged pinned production source; test harness only",
+  "junitTests": 2,
+  "observations": 6,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf p116 Hydroponics errata",
+  "scope": "Actual 3-Force activation with Station alone, Vaporator, declined first draw and two Stations. Actual deployment of both farm devices. Pile deltas and paid costs compared.",
+  "limitations": [
+    "Controlled boards, not whole-match exhaustive conformance.",
+    "R2 integration, interrupted/canceled responses, source/target reentry, hidden-state and malformed-save tests are native-only.",
+    "Vaporator Gravel Storm protection, generic activation/draw prevention and replacement, Farm Reserve deployment and broader card/engine coverage remain unfinished. Production supports() stays false."
+  ]
+}

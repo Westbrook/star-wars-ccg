@@ -4,6 +4,7 @@ import {cardDefinition} from './definitions';
 import {assertCardReference, referenceCard, type CardReference} from './identity';
 import {groundPresent} from './participation';
 import {moveTop} from './state';
+import {activateOneForce} from './runtime';
 import {type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 type Payload = {source: CardReference; window: number; branch: 'activate' | 'draw'};
@@ -34,7 +35,8 @@ export function astromechResolve(m: Match, r: Resolution): void {
   const p = r.action.payload as unknown as Payload;
   // The initiated effect survives source departure and uses the current top
   // card. Text activation does not consume the turn's generation allowance.
-  moveTop(m,r.actor,'reserve',p.branch==='activate'?'force':'hand');
+  if (p.branch==='activate') activateOneForce(m,r.actor);
+  else moveTop(m,r.actor,'reserve','hand');
 }
 export function assertAstromech(m: Match): void {
   for (const f of m.stack) if (f.kind==='resolution' && f.action.handler.startsWith('astromech:')) {

@@ -1,0 +1,38 @@
+[
+  {
+    "name": "deploy-hydro",
+    "cost": 1
+  },
+  {
+    "name": "deploy-vapor",
+    "cost": 1
+  },
+  {
+    "hand": 1,
+    "offers": 1,
+    "force": 2,
+    "name": "alone",
+    "draws": 1
+  },
+  {
+    "hand": 2,
+    "offers": 2,
+    "force": 1,
+    "name": "vapor",
+    "draws": 2
+  },
+  {
+    "hand": 1,
+    "offers": 2,
+    "force": 2,
+    "name": "decline-first",
+    "draws": 1
+  },
+  {
+    "hand": 1,
+    "offers": 1,
+    "force": 2,
+    "name": "two-stations",
+    "draws": 1
+  }
+]
