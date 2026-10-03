@@ -1764,7 +1764,9 @@
       "functionsReviewed": [
         "Ability >2 participant target",
         "Paid cancel/redraw of just-drawn battle destiny",
-        "Repeated replacement and old-card cleanup"
+        "Repeated replacement and old-card cleanup",
+        "Exact pending battle draw/window and historical character/destiny references; character qualification is latched at initiation",
+        "Character departure, return, ability reset and destiny-card departure match five executed GEMP traces; nested Sense/Alter and recovery checked natively"
       ],
       "implementation": [
         "lib/native-engine/interrupts.ts",
@@ -1775,11 +1777,12 @@
         "tests/native-engine/interrupts.test.mjs"
       ],
       "remaining": [
-        "Generic target revalidation and substitution/choose-X timing remain."
+        "Broader cancellation prevention, substitution/selection-granting providers and full reachable cross-card conformance remain. Exact Dice draw binding and post-initiation character changes now have component coverage."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/interrupt-provenance.json",
-        "tests/native-engine/gemp/destiny-provenance.json"
+        "tests/native-engine/gemp/destiny-provenance.json",
+        "tests/native-engine/gemp/dice-identity-provenance.json"
       ],
       "gempId": "1_84",
       "name": "Han's Dice",

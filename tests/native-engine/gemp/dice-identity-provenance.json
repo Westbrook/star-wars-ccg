@@ -1,0 +1,23 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T22:49:26.320993+00:00",
+  "files": {
+    "NativeEngineDiceIdentityOracleTests.java": "3aa1acedc32d067d4e4a5c4d251ea786d6621104a5ad484ad3f4daff58f9f6b2",
+    "dice-identity-results.json": "903bc3c36e0f4b9b5a83fc735ab9dec5198ba8036492abd70728d6dd12e5aa6d"
+  },
+  "junitTests": 1,
+  "observations": 5,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDiceIdentityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; production files compared byte-for-byte against pinned archive",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf p15",
+  "scope": "Actual Han\u2019s Dice after a battle destiny draw, with the chosen character unchanged, departed, returned, or reset to ability 2, plus the original destiny card moved to hand during responses. All five redraw and retain the paid Force. The departed destiny stays in hand rather than being moved to Used.",
+  "method": [
+    "Actual card play and production cancellation/redraw. Character movement and ability reset are controlled fixture interventions; no new response-granting card is claimed.",
+    "Native-only regressions cover exact pending action/window binding, historical card references, malformed snapshot rejection, nested actual Sense/Alter commands, serialization and public projection."
+  ],
+  "limitations": [
+    "This is component conformance, not full card/deck admission. Broader cancellation prevention, draw selection providers, ships/vehicles and complete engine/product scope remain."
+  ]
+}

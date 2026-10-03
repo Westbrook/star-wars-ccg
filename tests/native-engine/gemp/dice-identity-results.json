@@ -1,0 +1,42 @@
+[
+  {
+    "mode": "stay",
+    "diceUsed": true,
+    "diceLost": false,
+    "redrawn": true,
+    "paid": 1,
+    "originalUsed": true
+  },
+  {
+    "mode": "depart",
+    "diceUsed": true,
+    "diceLost": false,
+    "redrawn": true,
+    "paid": 1,
+    "originalUsed": true
+  },
+  {
+    "mode": "return",
+    "diceUsed": true,
+    "diceLost": false,
+    "redrawn": true,
+    "paid": 1,
+    "originalUsed": true
+  },
+  {
+    "mode": "ability-two",
+    "diceUsed": true,
+    "diceLost": false,
+    "redrawn": true,
+    "paid": 1,
+    "originalUsed": true
+  },
+  {
+    "mode": "destiny-depart",
+    "diceUsed": true,
+    "diceLost": false,
+    "redrawn": true,
+    "paid": 1,
+    "originalUsed": false
+  }
+]
