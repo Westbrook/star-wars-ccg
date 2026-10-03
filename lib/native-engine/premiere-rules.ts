@@ -1,3 +1,4 @@
+import {stewActions,stewInitiate,stewResolve,stewChoices,stewChoose,assertStew} from './beru-stew';
 import {gravelActions, gravelInitiate, gravelResolve, assertGravel} from './gravel-storm';
 import {farmDeviceActions, farmDeviceInitiate, farmDeviceResolve, assertFarmDevices} from './farm-devices';
 import {larsAutomatic,larsInitiate,larsResolve,assertLars} from './lars';
@@ -69,12 +70,13 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
     if (r.action.handler.startsWith('game-text:') || r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
-    if (r.action.handler.startsWith('lars:')) larsInitiate(m,r);
+    if (r.action.handler.startsWith('stew:')) stewInitiate(m,r);
+    else if (r.action.handler.startsWith('lars:')) larsInitiate(m,r);
     else if (r.action.handler.startsWith('character-destiny:')) characterDestinyInitiate(m,r);
     else if (r.action.handler.startsWith('astromech:')) astromechInitiate(m,r);
     else if (r.action.handler.startsWith('deploy-effect:')) deployEffectInitiate(m,r);
@@ -115,6 +117,7 @@ export const premiereRules: Rules = {
   },
   resolve: (m, r, context) => {
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('stew:')) stewResolve(m,r);
     else if (r.action.handler.startsWith('lars:')) larsResolve(m,r);
     else if (r.action.handler.startsWith('game-text:')) gameTextResolve(m,r);
     else if (r.action.handler.startsWith('character-destiny:')) characterDestinyResolve(m,r);
@@ -161,6 +164,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if (d.handler.startsWith('stew:')) return stewChoices(m,d);
     if (d.handler === 'destiny:value') return destinyChoices(m,d);
     if (d.handler.startsWith('force-effect:')) return forceEffectChoices(m, d);
     if (d.handler.startsWith('plans:')) return secretPlansChoices(m, d);
@@ -177,7 +181,8 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
-    if (d.handler === 'destiny:value') destinyChoose(m,d,c);
+    if (d.handler.startsWith('stew:')) stewChoose(m,d,c);
+    else if (d.handler === 'destiny:value') destinyChoose(m,d,c);
     else if (d.handler.startsWith('force-effect:')) forceEffectChoose(m, d, c);
     else if (d.handler.startsWith('plans:')) secretPlansChoose(m, d, c);
     else if (d.handler.startsWith('selection:')) selectionChoose(m, d, c);
@@ -197,6 +202,7 @@ export const premiereRules: Rules = {
   canPass: battleCanPass,
   view: (m, seat, now) => ({values: publicValues(m),...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
+    assertStew(match);
     assertSearchPolicy(match);
     assertGameText(match);
     assertCharacterDestiny(match);

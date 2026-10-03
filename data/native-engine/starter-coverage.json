@@ -2216,6 +2216,23 @@
         "Aboard, vehicles, capture and broader site catalog",
         "CPU strategy and full reachable production admission"
       ]
+    },
+    "beruStew": {
+      "status": "component-coverage-only",
+      "source": "lib/native-engine/beru-stew.ts",
+      "tests": [
+        "tests/native-engine/beru-stew.test.mjs"
+      ],
+      "gempEvidence": "tests/native-engine/gemp/stew-provenance.json",
+      "implemented": [
+        "Turn-player ordering, per-unit activation and response resumption, optional extra amount, dynamic contributor count, cancellation and unique play allowance.",
+        "Hydroponics/Vaporator interaction, JSON recovery, immediate Life Force endgame and projected CPU choices."
+      ],
+      "remaining": [
+        "Generic activation prevention/replacement, doubling, wider persona/aboard activity and full cross-card timing.",
+        "Three empty-Reserve eligibility discrepancies and suppressed order prompt are documented; native follows the explicit official rules.",
+        "Mid-sequence Reserve replenishment needs comparison against the GEMP snapshot amounts. Full admission remains closed."
+      ]
     }
   },
   "wholeMatchEvidence": {

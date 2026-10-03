@@ -1299,5 +1299,20 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_247.java"
+  },
+  {
+    "gempId": "1_72",
+    "name": "Beru Stew",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/berustew.gif",
+    "text": "Each player must immediately activate 2 Force. Also, you may activate 1 additional Force for each Beru Lars, Owen Lars or Hydroponics Station on table.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_072.java"
   }
 ]

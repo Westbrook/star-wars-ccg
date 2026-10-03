@@ -2138,3 +2138,42 @@ eight CPU requests: one response is committed and one card drawn. Existing
 receipt namespaces isolate human commands from the new policy's identifiers.
 The production admission gate stays closed; these tests do not certify complete
 deck or card coverage. No new Rules Lab study was added.
+
+### Beru Stew and ordered activation
+
+Beru Stew (`1_72`) now plays in phase windows or the battle weapons segment.
+The turn player chooses which player activates first; each mandatory group then
+attempts two activations through `activateOneForce`. Each unit updates the shared
+phase ledger and completes its responses before the next unit. Empty response
+windows settle automatically. These activations do not spend the ordinary Force
+generation allowance. Once both groups finish, Light can choose additional
+activation based on the current Beru, Owen and Station cards on table. The choice
+is capped by remaining Reserve; the chosen sequence survives serialization.
+
+The unique Interrupt consumes its per-turn play allowance even when canceled.
+Successful Sense cancels it before results. Once results begin, the Interrupt
+itself is no longer open to cancellation; individual activation responses remain.
+Hydroponics and Vaporator use the existing activation ledger. Drawing the last
+Life Force through a Station ends the game immediately, including mid-sequence.
+
+Official AR pp14–15,39,54,104,138 establish the ordering, activation, timing and
+erratum. The pinned GEMP differs in two observed ways: it suppresses Stew if
+either Reserve is empty, and shortcuts both-player ordering without a prompt.
+Native follows the official turn-player choice and the explicit erratum that
+activation is a result, not an initiation condition. Ten executed component
+outcomes match GEMP when Light activates first, including a contributor leaving
+before the extra amount is chosen; three eligibility discrepancies are retained
+as evidence. See `gemp/stew-provenance.json`. All 6,820 reference production files
+remain unchanged. Native-only tests cover the alternate order, actual Sense,
+endgame, corruption and CPU choices; there is no new Rules Lab study.
+
+`native-cpu-4` adds conservative Stew play, ordering and optional-amount choices
+using only the seat projection. It preserves one Reserve card when choosing
+extra activation and avoids building Force beyond its resource target.
+
+There are 137 explicit definitions; full admission remains closed. Generic
+activation prevention/replacement, doubling, other Beru/Owen identities and
+aboard/inactive states remain required. GEMP also snapshots the base amounts from
+both Reserve sizes when results start, while native attempts each mandatory unit
+until Reserve empties; mid-sequence replenishment still needs reference coverage.
+These component tests do not certify the whole card or a complete deck.

@@ -5,7 +5,7 @@ import {premiereSites} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-3';
+export const computerPolicy = 'native-cpu-4';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -69,6 +69,8 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     8 + Math.min(stat(id,'forfeit'),Math.max(remainingDamage,remainingAttrition)) * 4 - value(id);
   const amounts = p.choices.filter(c => c.id.startsWith('battle-reduce:')).map(c => Number(c.id.split(':')[2]));
   const reduceAmount = Math.min(Math.ceil(avoidableDamage),Math.max(0,...amounts));
+  const extraActivations = p.choices.filter(c => c.id.startsWith('stew:amount:')).map(c => Number(c.id.split(':')[2]));
+  const extraActivation = Math.min(Math.max(0,...extraActivations),Math.max(0,(own.counts?.reserve ?? 0)-1),Math.max(0,6-(own.counts?.force ?? 0)));
   const score = (c: typeof p.choices[number]): number => {
     const [kind,a,b] = c.id.split(':');
     if (c.id === 'concede') return -Infinity;
@@ -79,6 +81,11 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (kind === 'farm-deploy') return farmScore(a,b);
     if (kind === 'hydroponics') return wantsCard && canSpareActivation ? 30 : -5;
     if (kind === 'r2') return b === 'activate' ? 90 : b === 'draw' && wantsCard ? 60 : -5;
+    if (kind === 'stew') {
+      if (a === 'first') return b === side ? 70 : 60;
+      if (a === 'amount') return Number(b) === extraActivation ? 70 : -5;
+      if (a === 'play') return (own.counts?.reserve ?? 0) > 2 && own.hand.length >= 2 && (own.counts?.force ?? 0) < 3 ? 18 : -5;
+    }
     // No hidden destiny distribution is available. Prefer low-ability targets
     // using their current public value; uncertain high-ability shots can wait.
     if (kind === 'gravel' && a === 'play') {

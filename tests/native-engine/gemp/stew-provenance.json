@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T17:20:24.883453+00:00",
+  "harness": "NativeEngineStewOracleTests.java",
+  "harnessSha256": "90d496b78dbaab48fba659c6f35f72c0c3ea777df349db5cd76465911c012cba",
+  "result": "stew-results.json",
+  "resultSha256": "af6002f95cb8302e632d3f7b3db3a82830ebf9669b9651ee42a1ccb554ddbb18",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineStewOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; test harness only; pinned production source unchanged",
+  "junitTests": 2,
+  "observations": 13,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp14-15,39,54,104,138",
+  "scope": "Ten matching activation/draw/optional-amount outcomes and three explicit empty-Reserve eligibility discrepancies. Both turn contexts, Hydroponics/Vaporator, one-card Reserve and controlled Beru departure during a response.",
+  "differences": [
+    "GEMP requires both players to have Reserve cards before offering Stew. Native follows the specific official erratum: activation is a result, not an initiation condition.",
+    "GEMP ChooseEffectOrderEffect uses its default shortcut and never asks for ordering. Native offers the official turn-player choice when both groups can activate; comparisons choose Light first.",
+    "Pinned GEMP clamps both groups to initial Reserve counts at result start. Native attempts each mandatory activation until the current Reserve empties. Mid-sequence Reserve replenishment remains unverified against the reference."
+  ],
+  "limitations": [
+    "Controlled component boards, not exhaustive whole-card or whole-match certification.",
+    "The contributor departure is a fixture intervention, not a removal card play. Native Sense, endgame and corrupted-save cases are not new reference observations.",
+    "Generic activation restrictions/replacements, activation doubling, other Beru/Owen personas and broader on-table/aboard activity rules remain unfinished. Full admission stays closed."
+  ]
+}

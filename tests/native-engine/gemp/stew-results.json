@@ -1,0 +1,94 @@
+[
+  {
+    "offered": false,
+    "name": "empty-light"
+  },
+  {
+    "offered": false,
+    "name": "empty-dark"
+  },
+  {
+    "offered": false,
+    "name": "empty-both"
+  },
+  {
+    "name": "dark-turn",
+    "light": 2,
+    "dark": 2,
+    "draws": 0,
+    "extra": -1,
+    "orderPrompt": false
+  },
+  {
+    "name": "light-turn",
+    "light": 2,
+    "dark": 2,
+    "draws": 0,
+    "extra": -1,
+    "orderPrompt": false
+  },
+  {
+    "name": "bonus-zero",
+    "light": 2,
+    "dark": 2,
+    "draws": 0,
+    "extra": 0,
+    "orderPrompt": false
+  },
+  {
+    "name": "bonus-max",
+    "light": 5,
+    "dark": 2,
+    "draws": 0,
+    "extra": 3,
+    "orderPrompt": false
+  },
+  {
+    "name": "hydro",
+    "light": 2,
+    "dark": 2,
+    "draws": 1,
+    "extra": 1,
+    "orderPrompt": false
+  },
+  {
+    "name": "vapor",
+    "light": 1,
+    "dark": 2,
+    "draws": 2,
+    "extra": 1,
+    "orderPrompt": false
+  },
+  {
+    "name": "short-dark",
+    "light": 2,
+    "dark": 1,
+    "draws": 0,
+    "extra": -1,
+    "orderPrompt": false
+  },
+  {
+    "name": "short-light",
+    "light": 1,
+    "dark": 2,
+    "draws": 0,
+    "extra": -1,
+    "orderPrompt": false
+  },
+  {
+    "name": "short-both",
+    "light": 1,
+    "dark": 1,
+    "draws": 0,
+    "extra": -1,
+    "orderPrompt": false
+  },
+  {
+    "name": "source-leaves",
+    "light": 3,
+    "dark": 2,
+    "draws": 1,
+    "extra": 2,
+    "orderPrompt": false
+  }
+]
