@@ -114,6 +114,9 @@ export function battleDamage(m: Match, side: Side): number {
 export function syncBattleDamage(m: Match): void {
   const b = battle(m); if (b) for (const side of sides) b.damage[side] = battleDamage(m, side);
 }
+// AR pp56–57: pending means greater than zero. Battle loss is an action that
+// loses exactly one Force, unlike a card effect that instructs 'lose X Force'.
+// Keep fractional damage/attrition and fractional forfeiture credits intact.
 export function damagePending(m: Match, side: Side): boolean {
   const b = battle(m)!;
   return battleDamage(m, side) > 0 || members(m, side).some(id => b.hits.includes(id) || b.attrition[side] > 0 && !b.attritionProtected?.some(ref=>ref.id===id && sameCard(m,ref)));

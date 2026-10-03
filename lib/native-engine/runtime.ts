@@ -1,6 +1,6 @@
 import {validForceQuantity, wholeForce} from './force-quantity';
 import {assertCardReference, referenceCard, type CardReference} from './identity';
-import {assertActivations, recordActivation} from './activation';
+import {assertActivations, recordActivation, mayActivate, type ActivationBatch} from './activation';
 import {assertState, initialState, lifeForce, moveTop, publicState, recirculate} from './state';
 import {secureEntropy, type Entropy} from './random';
 import {initializeSetup, setupPrompt, applySetup, projectSetup, assertSetup, type LocationSetupRules} from './setup';
@@ -74,10 +74,25 @@ export function openWindow(match: Match, timing: Timing, priority: Side, event?:
 /** Real activation, including card text, counts each unit and yields its own
  * response window. Merely placing a card on Force does not call this helper. */
 export function activateOneForce(m: Match, side: Side): boolean {
-  if (!m.players[side].reserve.length) return false;
+  if (!mayActivate(m,side) || !m.players[side].reserve.length) return false;
   const id = moveTop(m,side,'reserve','force');
   openWindow(m,'response',other(side),recordActivation(m,side,id) as unknown as Json);
   return true;
+}
+
+/** Card-text activation rounds once, then rechecks Reserve and prohibitions
+ * after each unit's responses. It never spends the turn's generation allowance. */
+export function activateForce(m: Match, side: Side, source: string, amount: number): void {
+  const count=wholeForce(amount), sourceRef=referenceCard(m,source);
+  if (!sides.includes(side)) throw Error('Invalid activation side.');
+  if (!count) return;
+  const p: ActivationBatch={id:'activation-'+ ++m.serial,side,source:sourceRef,requested:amount,count,remaining:count};
+  m.stack.push({kind:'resolution',actor:side,cancelled:false,action:{id:p.id,handler:'core:activate-batch',source,label:'Activate Force',payload:p as unknown as Json}});
+}
+function activateBatch(m: Match, r: Resolution): void {
+  const p=r.action.payload as unknown as ActivationBatch;
+  if (r.cancelled || !p.remaining || !mayActivate(m,p.side) || !m.players[p.side].reserve.length) return;
+  p.remaining--; m.stack.push(r); activateOneForce(m,p.side);
 }
 
 /** Retire an initiated action without shifting suspended frame indices. The
@@ -187,7 +202,7 @@ function available(match: Match, window: Window, rules: Rules): Action[] {
   const actions: Action[] = [];
   if (window.timing === 'phase' && window.priority === match.turn.side) {
     const player = match.players[match.turn.side];
-    if (match.turn.phase === 'activate' && match.turn.activated < match.turn.generation && player.reserve.length)
+    if (match.turn.phase === 'activate' && match.turn.activated < Math.floor(match.turn.generation) && player.reserve.length && mayActivate(match,window.priority))
       actions.push(core('core:activate', 'Activate one Force'));
     if (match.turn.phase === 'draw' && player.force.length) actions.push(core('core:draw', 'Draw one card'));
   }
@@ -273,7 +288,9 @@ function closeWindow(match: Match, window: Window, rules: Rules): void {
   if (window.timing === 'response') return;
   if (window.timing === 'start') {
     const generation = rules.generation(match, match.turn.side);
-    if (!Number.isSafeInteger(generation) || generation < 0) throw Error('Invalid Force generation.');
+    if (!validForceQuantity(generation)) throw Error('Invalid Force generation.');
+    // Preserve the frozen numeric generation. The legal whole-card allowance
+    // is its floor because normal activation is an "up to" bound.
     match.turn.generation = generation; match.turn.activated = 0;
     beginPhase(match);
   } else if (window.timing === 'phase') {
@@ -314,6 +331,7 @@ function settle(match: Match, rules: Rules, context: Context): void {
     if (resolution.action.handler === 'core:canceled') continue;
     if (resolution.action.handler === 'core:phase') {resolvePhase(match, resolution); continue;}
     if (resolution.action.handler === 'core:payment') payForceStep(match, rules, resolution);
+    else if (resolution.action.handler === 'core:activate-batch') activateBatch(match,resolution);
     else if (resolution.action.handler === 'core:activate') {
       if (!resolution.cancelled && activateOneForce(match,resolution.actor)) match.turn.activated++;
     } else if (resolution.action.handler === 'core:draw') {

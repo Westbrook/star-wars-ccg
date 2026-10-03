@@ -108,3 +108,11 @@ test('an initiated R2 effect keeps its chosen branch if the triggering draw late
 test('R2 ground deployment pays three Force and preserves full-match admission gate',()=>{
  let {m,site}=base();const r2=pull(m,'light','2_14','hand');m=seek(m,x=>x.turn.side==='light'&&x.turn.phase==='deploy'&&x.stack.length===1);const force=m.players.light.force.length;m=step(m,'deploy:'+r2+':'+site);m=seek(m,x=>x.cards[r2].zone==='table');assert.equal(m.players.light.force.length,force-3);assert.equal(m.cards[r2].location,site);assert.equal(premiereRules.supports('2_14'),false);
 });
+
+const activationPolicy=load(new URL('../../lib/native-engine/activation.ts',import.meta.url));
+test('activation prohibition suppresses R2 activation but leaves its draw branch available',()=>{
+ for(const value of [2,5]){let {m,source,r2}=scomp(value);activationPolicy.preventActivation(m,source,'light');assert.deepEqual(offered(m),value===2?[]:['r2:'+r2+':draw']);}
+});
+test('a prohibition resolving after R2 initiation prevents its activation result',()=>{
+ let {m,source,r2}=scomp(2);const before=m.players.light.force.length;m=step(m,'r2:'+r2+':activate');activationPolicy.preventActivation(m,source,'light');m=finish(m);assert.equal(m.players.light.force.length,before);
+});

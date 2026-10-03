@@ -7,8 +7,11 @@ const state=load(new URL('../../lib/native-engine/state.ts',import.meta.url));
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const {activatedThisPhase}=load(new URL('../../lib/native-engine/activation.ts',import.meta.url));
 const manifest=JSON.parse(fs.readFileSync(new URL('../../data/native-proof/manifest.json',import.meta.url)));
-// Test-only observer records actual one-card transfers without adding decisions.
-const rules={...premiereRules,starting:undefined,supports:()=>true,setupComplete:()=>true,resolve:(m,r,c)=>{const before={light:m.players.light.reserve.length,dark:m.players.dark.reserve.length};premiereRules.resolve(m,r,c);if(['stew:activate','stew:bonus'].includes(r.action.handler))for(const side of ['light','dark'])if(m.players[side].reserve.length<before[side])(m.data.activationTrace??=[]).push(side)}};
+// A required test observer records each actual activation event, including
+// core batches, without depending on a particular card's continuation layout.
+const rules={...premiereRules,starting:undefined,supports:()=>true,setupComplete:()=>true,
+ automatic:(m,w)=>[...premiereRules.automatic(m,w),...(w.event?.kind==='force-activated'?[{id:'probe:'+w.serial,label:'Observe activation',handler:'probe:activation',payload:w.event.side,actor:w.event.side}]:[])],
+ resolve:(m,r,c)=>{if(r.action.handler==='probe:activation')(m.data.activationTrace??=[]).push(r.action.payload);else premiereRules.resolve(m,r,c)}};
 const clone=x=>JSON.parse(JSON.stringify(x));
 const extras={light:['1_132','1_72','1_72','1_2','1_22','1_37','1_37','1_41'],dark:['1_284','1_267']};
 function fresh(){return runtime.createMatch('stew',60,manifest.decks.map(d=>({side:d.side,cards:[...extras[d.side],...d.main].slice(0,60)})),rules)}
@@ -47,7 +50,7 @@ for(const n of [0,1,3])test('optional extra amount '+n+' follows both mandatory 
 for(const vapor of [false,true])test('Hydroponics responds separately within mandatory activation '+vapor,()=>{
  let {m,card,site}=base('light');const {hydro}=addBonus(m,site);if(vapor){const v=pull(m,'light','1_41');m.cards[v].attachedTo=site;}
  const before=m.players.light.hand.length,seen=new Set();m=finish(play(m,card),card,{extra:3,draw:true,onState:x=>{const e=x.stack.at(-1)?.event;if(e?.kind==='force-activated'&&e.side==='light')seen.add(e.count)}});
- assert.deepEqual([...seen],vapor?[1,2]:[1]);assert.equal(m.data.activationTrace.filter(s=>s==='light').length,5);assert.equal(activatedThisPhase(m,'light'),5);assert.equal(m.players.light.hand.length,before-1+(vapor?2:1));assert.equal(m.players.light.force.length,vapor?3:4);assert.equal(m.turn.activated,0);
+ assert.deepEqual([...seen],[1,2,3,4,5]);assert.equal(m.data.activationTrace.filter(s=>s==='light').length,5);assert.equal(activatedThisPhase(m,'light'),5);assert.equal(m.players.light.hand.length,before-1+(vapor?2:1));assert.equal(m.players.light.force.length,vapor?3:4);assert.equal(m.turn.activated,0);
  assert.equal(m.cards[hydro].zone,'table');
 });
 for(const [light,dark] of [[0,4],[4,0],[0,0],[1,1],[1,4],[4,1]])test('activation results allow depleted Reserve '+light+'/'+dark,()=>{
@@ -118,4 +121,17 @@ for(const expected of oracle)test((expected.name.startsWith('empty-')?'documente
 import crypto from 'node:crypto';
 test('Stew evidence fingerprints actual GEMP execution without opening deck admission',()=>{
  const p=JSON.parse(fs.readFileSync(new URL('./gemp/stew-provenance.json',import.meta.url)));for(const [file,hash] of [[p.harness,p.harnessSha256],[p.result,p.resultSha256]])assert.equal(crypto.createHash('sha256').update(fs.readFileSync(new URL('./gemp/'+file,import.meta.url))).digest('hex'),hash);assert.equal(p.observations,oracle.length);assert.equal(p.junitTests,2);assert.equal(p.unchangedProductionFiles,6820);assert.equal(premiereRules.supports('1_72'),false);
+});
+
+const activationPolicy=load(new URL('../../lib/native-engine/activation.ts',import.meta.url));
+test('legacy Stew saves with one mandatory unit remaining resume through the shared batch',()=>{
+ let {m,card,site}=base('light');addBonus(m,site);m=seekWith(play(m,card),x=>x.stack.at(-1)?.event?.kind==='force-activated');
+ const legacy=clone(m),batch=legacy.stack.findIndex(f=>f.action?.handler==='core:activate-batch');assert.ok(batch>=0);const remaining=legacy.stack[batch].action.payload.remaining;legacy.stack.splice(batch,1);legacy.stack.find(f=>f.action?.handler==='stew:activate').action.payload.remaining=remaining;
+ const a=finish(m,card,{extra:3}),b=finish(legacy,card,{extra:3});assert.deepEqual(a.players,b.players);assert.deepEqual(a.data.activationTrace,b.data.activationTrace);assert.equal(a.turn.activated,b.turn.activated);
+});
+test('Stew remains playable under an activation prohibition and skips that player and optional bonus',()=>{
+ let {m,card,site}=base('light');addBonus(m,site);activationPolicy.preventActivation(m,site,'light');assert.ok(prompt(m).choices.some(c=>c.id==='stew:play:'+card));const seen=[];m=finish(play(m,card),card,{extra:3,onState:x=>seen.push(x.stack.at(-1)?.handler)});assert.equal(m.players.light.force.length,0);assert.equal(m.players.dark.force.length,2);assert.ok(!seen.includes('stew:amount'));
+});
+test('a new prohibition after the first Stew activation stops that group, preserving the other player',()=>{
+ let {m,card,site}=base('light');addBonus(m,site);m=seekWith(play(m,card),x=>x.stack.at(-1)?.event?.kind==='force-activated');activationPolicy.preventActivation(m,site,'light');m=finish(m,card,{extra:3});assert.equal(m.players.light.force.length,1);assert.equal(m.players.dark.force.length,2);assert.equal(activatedThisPhase(m,'light'),1);
 });

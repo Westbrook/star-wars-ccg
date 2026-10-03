@@ -5,6 +5,7 @@ import {assertCardReference, referenceCard, type CardReference} from './identity
 import {groundPresent} from './participation';
 import {moveTop} from './state';
 import {activateOneForce} from './runtime';
+import {mayActivate} from './activation';
 import {type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 type Payload = {source: CardReference; window: number; branch: 'activate' | 'draw'};
@@ -12,7 +13,7 @@ const key = (id: string) => 'r2-response:' + id;
 function eligible(m: Match, w: Window, side: Side): Payload['branch'] | undefined {
   const d = destinyInWindow(m,w);
   if (!d || d.side === side || d.value === null || !m.players[side].reserve.length) return;
-  if (d.value >= 1 && d.value <= 3) return 'activate';
+  if (d.value >= 1 && d.value <= 3 && mayActivate(m,side)) return 'activate';
   if (d.value >= 4 && d.value <= 6) return 'draw';
 }
 export function astromechActions(m: Match, w: Window, side: Side): Action[] {

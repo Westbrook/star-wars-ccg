@@ -1,3 +1,4 @@
+import {validForceQuantity} from './force-quantity';
 import {assertTableLossOrigins} from './loss-origin';
 import {piles, sides, type Card, type Deck, type Definition, type Match, type Pile, type Player, type Side, type Zone} from './types';
 import {shuffled, type Entropy} from './random';
@@ -132,7 +133,7 @@ export function assertState(match: Match): void {
   }
   if (new Set(match.locations).size !== match.locations.length || match.locations.some(id => match.cards[id]?.zone !== 'table' || match.cards[id].coveredBy)) throw Error('Invalid active locations.');
   if (!Number.isSafeInteger(match.turn.number) || match.turn.number < 1 || !sides.includes(match.turn.side) || !['activate', 'control', 'deploy', 'battle', 'move', 'draw'].includes(match.turn.phase) ||
-      !Number.isSafeInteger(match.turn.generation) || match.turn.generation < 0 || !Number.isSafeInteger(match.turn.activated) || match.turn.activated < 0 || match.turn.activated > match.turn.generation) throw Error('Invalid turn.');
+      !validForceQuantity(match.turn.generation) || !Number.isSafeInteger(match.turn.activated) || match.turn.activated < 0 || match.turn.activated > Math.floor(match.turn.generation)) throw Error('Invalid turn.');
   if (!Number.isSafeInteger(match.serial) || match.serial < 0 || !Array.isArray(match.stack)) throw Error('Invalid action stack.');
   const serials = new Set<number>();
   for (const frame of match.stack) {

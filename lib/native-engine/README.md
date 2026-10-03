@@ -2329,3 +2329,63 @@ remain required. This is shared engine work, with no new standalone Lab study.
 Full native admission stays closed; the complete catalog, vehicles/pilots/
 passengers/space, Objectives/setup, 40/60/custom/sealed, CPU/PvP, persistence,
 clocks/capacity and responsive gameplay remain in scope.
+
+### Activation batches and fractional battle payments
+
+`runtime.activateForce` now queues a durable card-effect activation batch. It
+rounds a finite requested amount once at the whole-card boundary, then moves one
+current Reserve top at a time through the existing activation event/history
+path. Responses complete between cards. Empty Reserve or a newly applicable
+prohibition stops the remaining batch without claiming additional activations;
+source departure alone does not undo an initiated result. Nested batches keep
+independent counts. Text activation does not consume normal generation.
+
+Normal generation is different: the full numeric value stays frozen in the turn
+record and survives projection/recovery, but the legal activation count cannot
+exceed its floor. This implements an "up to" bound without changing the numeric
+statistic. A 1.5 generation value permits one ordinary activation, while a
+mandatory "activate 1.5 Force" result activates two whole cards under the general
+rounding rule. GEMP's production generation limit query matches the former;
+its activation-effect constructor only accepts integers, so the latter is an
+explicit native rulebook adjudication, not a fractional GEMP argument test.
+
+`activation.preventActivation` registers side-specific, rule-owned restrictions
+for the current turn or a source's original table instance. Every actual unit
+rechecks them. Turn restrictions survive source departure; source restrictions
+expire when that instance leaves; a later turn releases turn restrictions.
+Normal activation and R2's optional activation branch are suppressed when
+prohibited; a late prohibition prevents the already initiated R2 result.
+R2's draw branch is unaffected. Granting-card selectors and insert-card reveal
+semantics remain separate work.
+
+Beru Stew now uses shared batches for both mandatory groups and its chosen bonus,
+while preserving turn-player ordering, current bonus calculation, source cleanup,
+per-unit Hydroponics responses and unique play limits. A prohibited player is
+skipped without suppressing the other player's result or making Stew unplayable.
+Old `stew:activate` saves with a partially completed group still resume correctly.
+The regression fixture now observes actual activation events rather than tying
+its trace to the former card-specific one-unit resolver.
+
+Battle damage must not use the rounding policy of "lose X Force" effects.
+AR pp56–57 defines pending battle damage as any positive remainder and permits a
+one-Force loss action to satisfy one point. Thus 0.14 damage still requires a
+payment, and a fractional forfeit reduces damage and attrition by its exact
+value. The existing numeric ledger and battle actions now have executed coverage
+for these cases, including mixed forfeiture/card losses and no premature pass.
+Attrition remains unrounded and cannot be paid by losing Life Force.
+
+`gemp/activation-battle-provenance.json` records 25 matching observations from
+three JUnit tests: twelve real battles, eight activation sequences and five
+normal-generation limit queries. Battle observations read the production float
+values directly; the test framework's integer damage convenience accessor would
+hide fractional remainders. All 6,820 production reference files remain unchanged.
+Native tests additionally verify fractional mandatory amounts, nested batches,
+legacy recovery, private projections, concession, corrupted snapshots and actual
+Stew/R2 integration. Direct modifier/reorder interventions are fixture controls,
+not certification of their granting cards.
+
+This checkpoint adds no standalone study and does not open full-match admission.
+Compound counting, activation replacement/prevention beyond prohibitions, insert
+cards, generation modifier providers and the complete engine/product scope remain
+required, including broader catalog, ships/vehicles/pilots/passengers, special
+setup, deck formats, CPU/PvP, clocks/capacity and responsive match UX.

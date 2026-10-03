@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T19:36:39.693259+00:00",
+  "harness": "NativeEngineActivationBattleOracleTests.java",
+  "harnessSha256": "f6bb035da90beae81ecd2ea2d2c4795565095774063688932d8465a02c27cab4",
+  "result": "activation-battle-results.json",
+  "resultSha256": "a3e30c715750a6047b2bc050e989e51c803c813ecc10c3748de9995ace2397bc",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineActivationBattleOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; only test harness changes",
+  "junitTests": 3,
+  "observations": 25,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp30,39\u201340,56\u201357,138\u2013139",
+  "scope": "Twelve actual battles compare fractional damage, fractional forfeitures, each numeric remainder and whole-card losses; eight production activation effect sequences cover per-unit responses, empty/short Reserve, initial/mid-effect prohibition, source departure and changed top card; five production Force-generation limit queries compare fractional maxima. All reference observations agree with native tested outcomes.",
+  "method": [
+    "Battle harness reads production floating-point BattleState directly; framework GetUnpaidLSBattleDamage truncates to integer and is intentionally not used. Float comparisons tolerate only 0.00001 numeric representation error; card losses and action sequences are exact.",
+    "Reference activation count constructor accepts integers. Native fractional mandatory amounts are adjudicated from AR rounding, then unit sequences match the production integer effect. This is not a GEMP fractional-argument execution claim.",
+    "Generation uses the production limit query with a controlled frozen raw generation value and increments its generation-only counter. Native tests exercise actual core activation commands and preserve the raw value across refresh.",
+    "The last-card reorder uses reserveCount to normalize different fixture deck sizes while preserving first/last/second original-card selection."
+  ],
+  "limitations": [
+    "Controlled PowerModifier, ResetForfeitModifier, activation-prohibition grants and response interventions do not certify their granting cards. Insert cards and their reveal/replacement timing remain required.",
+    "Native-only cases cover fractional attrition, continuous-source restriction lifetime, R2 optional/late prohibition, legacy Stew continuation migration, corrupted snapshots and concession.",
+    "Activation prevention/replacement beyond prohibitions, compound-card counts, raw generation modifier providers, ability to inspect/choose arbitrary activation totals, source-specific insert interruptions and complete card/ship/vehicle/setup coverage remain unfinished.",
+    "Full native admission remains closed; existing GEMP and Rules Lab paths preserved."
+  ]
+}

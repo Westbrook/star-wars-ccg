@@ -1,5 +1,6 @@
 import {name} from './board';
-import {activateOneForce} from './runtime';
+import {activateForce} from './runtime';
+import {mayActivate} from './activation';
 import {moveCard} from './state';
 import {other, sides, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
@@ -24,23 +25,21 @@ export function stewResolve(m: Match,r: Resolution): void {
     queue(m,'finish',{card:p.card});
     // The turn player orders the two automatic results, even on Dark's turn.
     // If either group is empty there is no meaningful ordering choice.
-    if(sides.every(side=>m.players[side].reserve.length>0))m.stack.push({kind:'decision',side:m.turn.side,handler:'stew:order',payload:{card:p.card}});
+    if(sides.every(side=>m.players[side].reserve.length>0 && mayActivate(m,side)))m.stack.push({kind:'decision',side:m.turn.side,handler:'stew:order',payload:{card:p.card}});
     else startGroups(m,p,r.actor);
   } else if(h==='stew:activate') {
     const side=p.order![p.group!];
-    if(p.remaining!>0 && m.players[side].reserve.length) {
-      queue(m,'activate',{...p,remaining:p.remaining!-1});activateOneForce(m,side);
+    if(p.remaining!>0 && m.players[side].reserve.length && mayActivate(m,side)) {
+      queue(m,'activate',{...p,remaining:0});activateForce(m,side,p.card,p.remaining!);
     } else if(p.group===0) queue(m,'activate',{...p,group:1,remaining:2});
     else {
       // "Also" follows both mandatory groups. Count the current table now,
       // after every response to the individual activations has finished.
-      const maximum=Math.min(bonus(m),m.players[r.actor].reserve.length);
+      const maximum=mayActivate(m,r.actor) ? Math.min(bonus(m),m.players[r.actor].reserve.length) : 0;
       if(maximum>0)m.stack.push({kind:'decision',side:r.actor,handler:'stew:amount',payload:{card:p.card,maximum}});
     }
   } else if(h==='stew:bonus') {
-    if(p.remaining!>0 && m.players[r.actor].reserve.length) {
-      queue(m,'bonus',{...p,remaining:p.remaining!-1});activateOneForce(m,r.actor);
-    }
+    if(p.remaining!>0) activateForce(m,r.actor,p.card,p.remaining!);
   } else if(h==='stew:finish') moveCard(m,p.card,'lost');
   else throw Error('Unknown Beru Stew continuation.');
 }
@@ -69,7 +68,7 @@ export function assertStew(m: Match): void {
     if(!['stew:play','stew:finish'].includes(h) && !m.stack.slice(0,index).some(q=>q.kind==='resolution'&&q.action.handler==='stew:finish'&&(q.action.payload as Payload).card===p.card))throw Error('Missing Beru Stew result.');
     if(h==='stew:activate' && (!Array.isArray(p.order)||p.order.length!==2||!sides.every(s=>p.order!.includes(s))||![0,1].includes(p.group!)||!Number.isSafeInteger(p.remaining)||p.remaining!<0||p.remaining!>2))throw Error('Invalid ordered activation.');
     if(['stew:amount','stew:bonus'].includes(h) && (!Number.isSafeInteger(p.maximum)||p.maximum!<1||p.maximum!>Object.keys(m.cards).length))throw Error('Invalid extra activation bound.');
-    if(h==='stew:amount' && p.maximum!==Math.min(bonus(m),m.players[owner].reserve.length))throw Error('Stale extra activation choice.');
+    if(h==='stew:amount' && (!mayActivate(m,owner) || p.maximum!==Math.min(bonus(m),m.players[owner].reserve.length)))throw Error('Stale extra activation choice.');
     if(h==='stew:bonus' && (!Number.isSafeInteger(p.remaining)||p.remaining!<0||p.remaining!>p.maximum!))throw Error('Invalid extra activation count.');
     if(h!=='stew:activate' && (p.order!==undefined||p.group!==undefined) || !['stew:activate','stew:bonus'].includes(h) && p.remaining!==undefined || !['stew:amount','stew:bonus'].includes(h) && p.maximum!==undefined)throw Error('Unexpected activation state.');
   }
