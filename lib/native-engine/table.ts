@@ -49,6 +49,17 @@ export function forfeitToUsed(m: Match, host: string): void {
   if (references.length) recordTableLossOrigins(m,references);
   orderNext(m,[...ids].filter(id => id !== host),[host]);
 }
+/** Out-of-play costs remove the host permanently. Its dependents are lost,
+ * not sacrificed; their ordering must finish before the parent can respond. */
+export function placeOutFromTable(m: Match, host: string): string[] {
+  const ids = tableGroup(m, [host]), lost = [...ids].filter(id => id !== host);
+  const references = lost.map(id => referenceCard(m, id));
+  removeGroup(m, ids, 'leaving');
+  moveCard(m, host, 'out');
+  if (references.length) recordTableLossOrigins(m, references);
+  orderNext(m, lost);
+  return lost;
+}
 /** Returning to hand is neither losing nor forfeiting. Every descendant goes
  * to its own owner's hand, without Lost ordering or forfeiture credit. */
 export function returnToHand(m: Match, hosts: string[]): string[] {

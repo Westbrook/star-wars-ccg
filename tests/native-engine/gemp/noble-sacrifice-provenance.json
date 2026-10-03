@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T23:12:36.217143+00:00",
+  "files": {
+    "NativeEngineNobleSacrificeOracleTests.java": "57c631dc12373d23274e01d8a8699d8046d414152bb13b14aab6c8d82f657565",
+    "noble-sacrifice-results.json": "e55648a1de2f910584cb77f962df75a26d93ec5086dab0bd2054b042ee4eecf6"
+  },
+  "junitTests": 1,
+  "observations": 9,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineNobleSacrificeOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; unchanged production sources compared with pinned archive",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp15,27,150",
+  "scope": "Actual opponent deployment, Noble Sacrifice initiation, attachment cleanup, optional retrieval, Sense cancellation, Secret Plans and Sergeant Tarl. Native matching final costs/quantities and cost-before-response ordering.",
+  "method": [
+    "Direct fixture placements prepare targets, attachments, Lost cards, active Tarl/Secret Plans and highest-ability Vader. Actual Stormtrooper deployment and Noble Sacrifice/Sense actions are played through GEMP decisions.",
+    "Forfeit addition, retrieval-contributor restriction and response-time deployed-character departure are controlled fixture interventions.",
+    "Native-only tests cover redirected/failed out-of-play cost, returned target identity, contributor/forfeit freezing, corrupted snapshots, concession, out-of-play persona lock and CPU emergency choices."
+  ],
+  "limitations": [
+    "Captured characters, captives aboard sacrificed escorts, vehicles/starships and their departure rules, targeting immunity/redirection and broader prevention/replacement providers remain required engine scope.",
+    "Current out-of-play primitive supports existing table/stacked dependents; it is not a capture, escort-release or location-destruction implementation.",
+    "Production full-match admission remains closed."
+  ]
+}

@@ -2489,3 +2489,26 @@ insert text, and conversion of multi-card movement providers to yield at exposur
 The physical guard still rejects ordinary Reserve removal past a pending insert;
 these cross-card interactions must be adjudicated before admitting full decks.
 The whole engine/product scope remains required; no standalone Lab study was added.
+
+### Noble Sacrifice and out-of-play costs
+
+Noble Sacrifice (`1_99`) now responds to actual opponent character deployments
+and offers own table characters with equal current power. The selected forfeit
+and retrieval-contributor eligibility are frozen during initiation. A serialized
+out-of-play cost opens its own before/after responses and orders dependent card
+losses before Sense can answer the Interrupt. Canceling the Interrupt never
+returns the sacrificed character. A redirected cost fails the Interrupt under
+AR Appendix B; a later departure of the opposing deployed character does not
+undo a paid sacrifice. Retrieval remains optional and uses the shared modifier,
+Secret Plans and ordered Lost-to-Used pipeline.
+
+Both players can inspect out-of-play cards in the match UI. Existing persona
+rules prevent replaying a unique character after its sacrifice. `native-cpu-5`
+accepts optional retrieval and considers sacrificing a small exposed unit only
+in a Life Force emergency, using public information.
+
+Nine executed GEMP observations and their exact fixture limits are recorded in
+`tests/native-engine/gemp/noble-sacrifice-provenance.json`. This is component
+coverage: captured/aboard characters, escort releases, broader prevention and
+replacement cards, and full card/deck certification remain incomplete. No new
+Rules Lab study or production deck admission is introduced.

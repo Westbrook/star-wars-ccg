@@ -198,6 +198,7 @@ export function publicState(match: Match, seat: Side) {
     }])),
     table: shown(Object.values(match.cards).filter(c => !isInserted(match,c.id) && (c.zone === 'table' || c.zone === 'playing' || c.zone === 'leaving' || c.zone === 'stacked')).map(c => c.id)),
     inserts: [...reserveInserts(match)].sort((a,b)=>a.card.id.localeCompare(b.card.id)).map(x=>({side:x.side,owner:match.cards[x.card.id].owner,revealed:x.revealed,card:x.revealed || match.cards[x.card.id].owner === seat || match.cards[x.card.id].owner === x.side ? {...match.cards[x.card.id]} : null})),
+    out: shown(Object.values(match.cards).filter(c => c.zone === 'out').map(c => c.id)),
     locations: [...match.locations],
     buried: shown(Object.values(match.cards).filter(c => c.zone === 'buried' && c.owner === seat).map(c => c.id)),
     buriedCounts: match.locations.map(site => ({site, count: Object.values(match.cards).filter(c => c.zone === 'buried' && c.location === site).length})),

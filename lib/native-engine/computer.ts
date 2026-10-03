@@ -5,7 +5,7 @@ import {premiereSites} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-4';
+export const computerPolicy = 'native-cpu-5';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -79,6 +79,17 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (c.id === 'core:activate' || c.id === 'core:declare-activation') return 100;
     if (c.id.startsWith('core:activation-amount:')) return 100 + Number(c.id.split(':')[2]);
     if (c.id === 'core:draw') return wantsCard ? 20 : -10;
+    if (c.id === 'noble:retrieve') return 80;
+    if (c.id === 'noble:decline') return -5;
+    if (kind === 'noble' && a === 'play') {
+      const id = c.id.split(':')[3], target = cards.get(id), site = target?.location;
+      // Emergency trade of a small ground unit for Life Force. Do not abandon
+      // an uncontested garrison, sacrifice equipment, or assume hidden cards.
+      const recovery = Math.min(own.lost.length,stat(id,'forfeit'));
+      const plans = view.table.some(c => c.blueprint === '13_86' && c.owner === opponent);
+      return own.lifeForce !== null && own.lifeForce <= 4 && recovery >= 2 && stat(id,'power') <= 1 && stat(id,'ability') <= 1 &&
+        !!site && (at(site,side).length > 1 || at(site,opponent).length > 0) && !view.table.some(c => c.attachedTo === id) && !plans ? 30 + recovery : -5;
+    }
     if (kind === 'farm-deploy') return farmScore(a,b);
     if (kind === 'hydroponics') return wantsCard && canSpareActivation ? 30 : -5;
     if (kind === 'r2') return b === 'activate' ? 90 : b === 'draw' && wantsCard ? 60 : -5;

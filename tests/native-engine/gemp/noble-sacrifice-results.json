@@ -1,0 +1,92 @@
+[
+  {
+    "paidBeforeResponse": true,
+    "gunZone": "HAND",
+    "spent": 0,
+    "out": true,
+    "optional": 1,
+    "deviceZone": "HAND",
+    "mode": "retrieve",
+    "retrieved": 2
+  },
+  {
+    "paidBeforeResponse": true,
+    "gunZone": "HAND",
+    "spent": 0,
+    "out": true,
+    "optional": 1,
+    "deviceZone": "HAND",
+    "mode": "decline",
+    "retrieved": 0
+  },
+  {
+    "paidBeforeResponse": true,
+    "gunZone": "TOP_OF_USED_PILE",
+    "spent": 0,
+    "out": true,
+    "optional": 1,
+    "deviceZone": "USED_PILE",
+    "mode": "attachments",
+    "retrieved": 0
+  },
+  {
+    "paidBeforeResponse": true,
+    "gunZone": "HAND",
+    "spent": 0,
+    "out": true,
+    "optional": 0,
+    "deviceZone": "HAND",
+    "mode": "blocked",
+    "retrieved": 0
+  },
+  {
+    "paidBeforeResponse": true,
+    "gunZone": "HAND",
+    "spent": 0,
+    "out": true,
+    "optional": 1,
+    "deviceZone": "HAND",
+    "mode": "forfeit-four",
+    "retrieved": 4
+  },
+  {
+    "paidBeforeResponse": true,
+    "gunZone": "HAND",
+    "spent": 0,
+    "out": true,
+    "optional": 1,
+    "deviceZone": "HAND",
+    "mode": "tarl",
+    "retrieved": 0
+  },
+  {
+    "paidBeforeResponse": true,
+    "gunZone": "HAND",
+    "spent": 2,
+    "out": true,
+    "optional": 1,
+    "deviceZone": "HAND",
+    "mode": "plans",
+    "retrieved": 2
+  },
+  {
+    "paidBeforeResponse": true,
+    "gunZone": "HAND",
+    "spent": 0,
+    "out": true,
+    "optional": 0,
+    "deviceZone": "HAND",
+    "mode": "sense",
+    "retrieved": 0
+  },
+  {
+    "paidBeforeResponse": true,
+    "gunZone": "HAND",
+    "spent": 0,
+    "out": true,
+    "optional": 1,
+    "deviceZone": "HAND",
+    "mode": "deployed-departs",
+    "retrieved": 2
+  }
+]

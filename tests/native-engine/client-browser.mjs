@@ -7,6 +7,7 @@ import {pathToFileURL} from 'node:url';
 import {randomUUID} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {load} from '../native-proof/load-engine.mjs';
+import {fixture as nobleFixture} from './noble-fixture.mjs';
 import {SqliteD1} from './sqlite-d1.mjs';
 import {auditRules,starterDecks,runStarterMatch,seeded} from './match-runner.mjs';
 const require=createRequire(import.meta.url),root=process.env.PLAYWRIGHT_PACKAGE||path.dirname(require.resolve('playwright/package.json'));
@@ -18,7 +19,7 @@ const pileState=load(new URL('../../lib/native-engine/state.ts',import.meta.url)
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
 const db=new SqliteD1(),origin=process.env.NATIVE_UI_ORIGIN||'http://localhost:5173';
-const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||['1_42','4_133','4_16','5_149','1_109','1_267'].includes(bp),starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||['1_42','4_133','4_16','5_149','1_109','1_267'].includes(c.blueprint))}};
+const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86'].includes(bp),starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86'].includes(c.blueprint))}};
 let time=1_800_000_000_000;const fresh=()=>nativeMatchService(db,{currentRules:browserRules.id,rules:()=>browserRules,now:()=>time,entropy:seeded(1)}),handlers=matchHandlers(fresh);
 const browser=await chromium.launch({headless:true});const errors=[];
 const output=process.env.NATIVE_UI_OUTPUT||'/private/tmp/swccg-native-client-browser';fs.mkdirSync(output,{recursive:true});
@@ -78,6 +79,7 @@ try{
   const insert=Object.values(m.cards).find(c=>c.blueprint==='1_42');pileState.moveCard(m,insert.id,'hand');pileState.insertCard(m,insert.id,'dark',seeded(3));m.data.reserveInserts.find(x=>x.card.id===insert.id).position=1;
   for(let n=0;n<20&&!(m.stack.length===1&&m.stack[0].timing==='phase');n++){const p=runtime.prompt(m,browserRules,'dark');const own=runtime.prompt(m,browserRules,p.side);m=runtime.applyCommand(m,browserRules,p.side,{revision:m.revision,choice:own.mandatory?own.choices[0].id:'pass'},seeded(3))}
   db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+  await fresh().read(v.id,'owner');
   const c=await context(width,height);await c.page.goto(origin+'/matches/'+v.id+'?progress-report');if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
   await c.page.getByRole('button',{name:'Declare your Force activation',exact:true}).click();
   for(let n=0;n<10;n++){v=await fresh().read(v.id,'owner');if(v.game.prompt?.choices.some(x=>x.id==='core:activation-amount:2'))break;let actor='owner',p=v.game.prompt;if(!p?.choices.length){actor='guest';p=(await fresh().read(v.id,actor)).game.prompt}assert.ok(p);await fresh().command(v.id,actor,{commandId:randomUUID(),revision:v.revision,choice:'pass'})}
@@ -194,6 +196,44 @@ try{
  // Separate signed-in guest joins through a private fragment invitation.
  const wait=await fresh().create('owner',config(randomUUID(),'pvp','dark')),j=await context(834,1112,'guest');
  await j.page.goto(origin+'/matches/'+wait.id+'#'+new URLSearchParams({invite:wait.inviteToken,side:'light',size:'60'}));await j.page.getByRole('button',{name:'Join match',exact:true}).click();await j.page.getByRole('heading',{name:'The opening table.'}).waitFor();assert.equal((await fresh().read(wait.id,'guest')).side,'light');assert.equal(new URL(j.page.url()).hash,'');await j.context.close();
+ // Real Noble Sacrifice commands, refresh before optional retrieval, and the
+ // public out-of-play area across desktop/tablet/phone. Component admission only.
+ for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
+  const v=await fresh().create('owner',config(randomUUID(),'pvp','light'));
+  await fresh().join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:decks.find(d=>d.side==='dark').cards});
+  const f=nobleFixture(),m=f.m;m.id=v.id;
+  m.setup={stage:'complete',selected:{light:f.site,dark:f.remote},committed:{light:true,dark:true},revealed:true,rejected:[],priority:'dark',covered:null};
+  db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+  await fresh().read(v.id,'owner');
+  const c=await context(width,height);await c.page.goto(origin+'/matches/'+v.id+'?progress-report');
+  if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await c.page.getByRole('button',{name:/Noble Sacrifice · place Rebel Trooper/}).click();
+  async function advanceUntil(predicate){
+   for(let n=0;n<60;n++){
+    const saved=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);
+    if(predicate(saved))return saved;
+    const p=runtime.prompt(saved,browserRules,'light'),actor=p.side==='light'?'owner':'guest';
+    const view=await fresh().read(v.id,actor),choice=view.game.prompt.choices.find(c=>c.id==='pass')??view.game.prompt.choices[0];assert.ok(choice);
+    await fresh().command(v.id,actor,{commandId:randomUUID(),revision:view.revision,choice:choice.id});
+   }throw Error('Noble Sacrifice boundary not reached');
+  }
+  // Let the initiating UI request commit before sending the response passes.
+  await c.page.getByRole('button',{name:/Noble Sacrifice · place Rebel Trooper/}).waitFor({state:'hidden'});
+  await advanceUntil(m=>m.stack.at(-1)?.handler==='noble:retrieve');
+  await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await c.page.getByRole('button',{name:'Retrieve 2 Force',exact:true}).waitFor();
+  if(width<640)await c.page.getByRole('button',{name:'Table',exact:true}).click();
+  await c.page.locator('.native-public-piles summary').click();
+  await c.page.locator('.native-public-piles').getByRole('button',{name:'Inspect Rebel Trooper',exact:true}).click();
+  await c.page.getByRole('dialog').waitFor();await c.page.keyboard.press('Escape');await c.page.getByRole('dialog').waitFor({state:'hidden'});
+  assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  await c.page.screenshot({path:path.join(output,`noble-out-of-play-${width}.png`),fullPage:true});
+  if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await c.page.getByRole('button',{name:'Retrieve 2 Force',exact:true}).click();
+  await c.page.getByRole('button',{name:'Retrieve 2 Force',exact:true}).waitFor({state:'hidden'});
+  const done=await advanceUntil(m=>m.cards[f.noble].zone==='lost');assert.equal(done.cards[f.target].zone,'out');assert.equal(f.lost.filter(id=>done.cards[id].zone==='used').length,2);
+  await c.context.close();
+ }
  // A failed creation response survives refresh without creating another match.
  const start=await context(1440,1000,'new-owner');await start.page.goto(origin+'/matches');await start.page.getByRole('button',{name:'Start match'}).waitFor();await start.page.getByLabel('Your opponent').selectOption('pvp');await start.page.getByLabel('Match clock',{exact:true}).selectOption('30');start.interrupt('create');await start.page.getByRole('button',{name:'Start match'}).click();await start.page.getByRole('alert').waitFor();const owned=await fresh().list('new-owner');assert.equal(owned.length,1);await start.page.reload();await start.page.getByRole('button',{name:'Start match'}).click();await start.page.waitForURL('**/matches/'+owned[0].id);assert.equal((await fresh().list('new-owner')).length,1);await start.context.close();
  const bad=await context(834,1112,'other-guest');await bad.page.goto(origin+'/matches/'+wait.id+'#'+new URLSearchParams({invite:'invalid',side:'light',size:'60'}));await bad.page.getByRole('button',{name:'Join match',exact:true}).click();await bad.page.getByRole('alert').filter({hasText:'This invitation cannot seat you'}).waitFor();await bad.context.close();
@@ -217,5 +257,5 @@ try{
  await x.page.locator('.native-inspection').waitFor({state:'hidden'});await x.context.close();time=1_800_000_000_000;
  // The production registry advertises closed starter admission, without a bypass.
  const gate=await context(1440,1000);await gate.context.unroute('**/api/matches**');await gate.context.route('**/api/matches',async route=>{const h=matchHandlers(()=>nativeMatchService(db,{currentRules:premiereRules.id,rules:()=>premiereRules}));const r=await h.list(new Request(route.request().url(),{headers:{'oai-authenticated-user-id':'owner','oai-authenticated-user-email':'owner@test.invalid'}}));await route.fulfill({status:r.status,contentType:'application/json',body:await r.text()})});await gate.page.goto(origin+'/matches');await gate.page.getByText('Starter admission is not open yet.',{exact:false}).waitFor();assert.equal(await gate.page.getByRole('button',{name:'Start match'}).isDisabled(),true);await gate.context.close();
- assert.deepEqual(errors,[]);console.log('Browser passed: real service recovery, receipt retry after refresh, concession/cancel, CPU dispatch, guest invitation, timed invitation acknowledgment, durable clocks/timeout across refresh, private views, card inspection timed/keyboard empty passes, untimed inspection recovery/acknowledgment, admission gate and responsive 1440/834/390 layouts.');
+ assert.deepEqual(errors,[]);console.log('Browser passed: Noble Sacrifice cost/retrieval recovery and public out-of-play inspection at three sizes; real service recovery, receipt retry after refresh, concession/cancel, CPU dispatch, guest invitation, timed invitation acknowledgment, durable clocks/timeout across refresh, private views, card inspection timed/keyboard empty passes, untimed inspection recovery/acknowledgment, admission gate and responsive 1440/834/390 layouts.');
 }finally{await browser.close();db.close()}
