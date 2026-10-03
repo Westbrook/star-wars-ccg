@@ -4,6 +4,7 @@ import {openWindow} from './runtime';
 import {other, sides, type Decision, type Json, type Match, type Resolution, type Side} from './types';
 
 export type Retrieval = {
+  id: string;
   side: Side; source: string; remaining: number; destination: 'used' | 'hand';
   // Null means ordinary top-of-Lost retrieval; a list restricts eligible blueprints.
   blueprints: string[] | null; retrieved: string[]; announced: boolean; card?: string;
@@ -25,15 +26,28 @@ const eligible = (m: Match, p: Retrieval) => {
 export function retrieve(m: Match, side: Side, source: string, amount: number, blueprints: string[] | null = null, destination: 'used' | 'hand' = 'used', selection?: 'top-character'): void {
   if (!Number.isSafeInteger(amount) || amount < 0 || !m.cards[source]) throw Error('Invalid retrieval.');
   if (!amount) return;
-  const p: Retrieval = {side, source, remaining: amount, destination, blueprints, retrieved: [], announced: false, ...(selection ? {selection} : {})};
+  const p: Retrieval = {id: 'retrieval-' + ++m.serial, side, source, remaining: amount, destination, blueprints, retrieved: [], announced: false, ...(selection ? {selection} : {})};
   queue(m, 'next', p);
-  openWindow(m, 'response', other(side), {kind: 'retrieval-initiated', side, source, amount});
+  openWindow(m, 'response', other(side), {kind: 'retrieval-initiated', side, source, amount, retrieval: p.id});
+}
+/** Bind responses to one suspended retrieval, including nested actions by the
+ * same source. Canceling retrieval never cancels its parent card's cleanup. */
+export function pendingRetrieval(m: Match, id: string): Resolution | undefined {
+  return m.stack.find((f): f is Resolution => f.kind === 'resolution' && f.action.handler.startsWith('retrieval:') && (f.action.payload as unknown as Retrieval).id === id);
+}
+export function cancelRetrieval(m: Match, id: string, source: string): boolean {
+  const f = pendingRetrieval(m, id); if (!f || f.cancelled) return false;
+  if (!m.cards[source]) throw Error('Invalid retrieval cancellation source.');
+  f.cancelled = true;
+  const p = f.action.payload as unknown as Retrieval;
+  openWindow(m, 'response', other(p.side), {kind: 'retrieval-canceled', side: p.side, source, retrieval: id, cards: [...p.retrieved]});
+  return true;
 }
 function selected(m: Match, p: Retrieval, card: string): void {
   p.card = card; queue(m, 'place', p);
   if (!p.announced) {
     p.announced = true;
-    openWindow(m, 'response', other(p.side), {kind: 'about-to-retrieve', side: p.side, source: p.source, amount: p.remaining, card});
+    openWindow(m, 'response', other(p.side), {kind: 'about-to-retrieve', side: p.side, source: p.source, amount: p.remaining, card, retrieval: p.id});
   }
 }
 export function retrievalResolve(m: Match, r: Resolution): void {
@@ -74,15 +88,17 @@ export function retrievalView(m: Match): Json {
 export function assertRetrieval(m: Match): void {
   const failures = m.data.failedCharacterSearches as CharacterSearches | undefined;
   if (failures && Object.entries(failures).some(([side, turn]) => !sides.includes(side as Side) || !Number.isSafeInteger(turn) || turn < 1 || turn > m.turn.number)) throw Error('Invalid failed character search.');
+  const ids = new Set<string>();
   for (const f of m.stack) {
     const handler = f.kind === 'resolution' ? f.action.handler : f.kind === 'decision' ? f.handler : '';
     if (!handler.startsWith('retrieval:')) continue;
     const p = (f.kind === 'resolution' ? f.action.payload : f.kind === 'decision' ? f.payload : null) as unknown as Retrieval;
-    if (!p || !sides.includes(p.side) || !m.cards[p.source] || !Number.isSafeInteger(p.remaining) || p.remaining < 0 ||
+    if (!p || typeof p.id !== 'string' || !/^retrieval-[1-9]\d*$/.test(p.id) || !Number.isSafeInteger(Number(p.id.slice(10))) || Number(p.id.slice(10)) > m.serial || ids.has(p.id) || !sides.includes(p.side) || !m.cards[p.source] || !Number.isSafeInteger(p.remaining) || p.remaining < 0 ||
         !['used', 'hand'].includes(p.destination) || typeof p.announced !== 'boolean' || p.selection !== undefined && p.selection !== 'top-character' ||
         p.blueprints !== null && (!Array.isArray(p.blueprints) || p.blueprints.some(b => typeof b !== 'string')) ||
         !Array.isArray(p.retrieved) || p.retrieved.some(id => m.cards[id]?.owner !== p.side) ||
         p.card && m.cards[p.card]?.owner !== p.side) throw Error('Invalid pending retrieval.');
+    ids.add(p.id);
     if (f.kind === 'decision' && (f.side !== p.side || !p.remaining || !eligible(m, p).length)) throw Error('Invalid retrieval choice.');
   }
 }

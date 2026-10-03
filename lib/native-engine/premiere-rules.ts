@@ -1,3 +1,4 @@
+import {secretPlansAutomatic, secretPlansResolve, secretPlansChoices, secretPlansChoose, assertSecretPlans} from './secret-plans';
 import {gamblersLuckActions, gamblersLuckInitiate, gamblersLuckResolve, assertGamblersLuck} from './gamblers-luck';
 import {selectionResolve, selectionChoices, selectionChoose, assertDestinySelection} from './destiny-selection';
 import {substitutionActions, substitutionInitiate, substitutionResolve, assertSubstitution} from './substitution';
@@ -37,10 +38,10 @@ export const premiereRules: Rules = {
   supports: () => false,
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
-  automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w)],
+  automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
   actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)],
   initiate: (m, r) => {
-    if (r.action.handler.startsWith('character:')) return;
+    if (r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
     if (r.action.handler.startsWith('gambler:')) gamblersLuckInitiate(m, r);
     else if (r.action.handler.startsWith('substitution:')) substitutionInitiate(m, r);
     else if (r.action.handler.startsWith('gaffi:')) gaderffiiInitiate(m, r);
@@ -65,6 +66,7 @@ export const premiereRules: Rules = {
   },
   resolve: (m, r, context) => {
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('plans:')) secretPlansResolve(m, r);
     else if (r.action.handler.startsWith('gambler:')) gamblersLuckResolve(m, r);
     else if (r.action.handler.startsWith('substitution:')) substitutionResolve(m, r);
     else if (r.action.handler.startsWith('gaffi:')) gaderffiiResolve(m, r);
@@ -91,6 +93,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if (d.handler.startsWith('plans:')) return secretPlansChoices(m, d);
     if (d.handler.startsWith('selection:')) return selectionChoices(m, d);
     if (d.handler.startsWith('scavenge:')) return scavengeChoices(m, d);
     if (d.handler.startsWith('scan:')) return scanChoices(m, d);
@@ -104,7 +107,8 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
-    if (d.handler.startsWith('selection:')) selectionChoose(m, d, c);
+    if (d.handler.startsWith('plans:')) secretPlansChoose(m, d, c);
+    else if (d.handler.startsWith('selection:')) selectionChoose(m, d, c);
     else if (d.handler.startsWith('scavenge:')) scavengeChoose(m, d, c);
     else if (d.handler.startsWith('scan:')) scanChoose(m, d, c);
     else if (d.handler.startsWith('accident:')) accidentChoose(m, d, c);
@@ -121,6 +125,7 @@ export const premiereRules: Rules = {
   canPass: battleCanPass,
   view: (m, seat, now) => ({...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
+    assertSecretPlans(match);
     assertGround(match);
     assertEquipment(match);
     assertTravel(match);

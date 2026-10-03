@@ -158,5 +158,23 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_103.java"
+  },
+  {
+    "gempId": "13_86",
+    "name": "Secret Plans",
+    "side": "dark",
+    "type": "Defensive Shield",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/ReflectionsIII-Dark/large/secretplans.gif",
+    "text": "Plays on table. If opponent is about to retrieve X Force, opponent must first use X Force or that retrieval is canceled. (X is equal to the full amount of Force allowed to be retrieved, regardless of the number of cards in opponent's Lost Pile.)",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Defensive Shield",
+      "Reflections 3"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set13/dark/Card13_086.java"
   }
 ]

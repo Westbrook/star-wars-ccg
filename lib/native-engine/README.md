@@ -1105,3 +1105,30 @@ post-result physical-card targeting follows the pinned GEMP observations; genera
 later loss target identity, persona replacement, conversion and duel modifiers
 remain required work. One-sided failed-destiny Force difference remains guarded.
 This checkpoint does not open production card or full-match admission.
+
+### Retrieval cancellation and Secret Plans
+
+Each retrieval has a unique saved action identity. Cancellation targets that
+exact suspended retrieval, including nested retrievals from the same source.
+Already retrieved cards remain in their destination; the parent Interrupt still
+finishes its own disposal. Pending native retrieval snapshots without the new
+identity are rejected. Separate Rules Lab snapshots are unchanged.
+
+Secret Plans Defensive Shield (13_86) now implements its table trigger: before
+Light retrieves its first eligible card, Light must use the full retrieval amount
+or cancel that retrieval. A smaller Lost Pile does not reduce the payment. Empty
+Lost Piles and zero retrievals do not reach the trigger. Payment uses the shared
+per-Force response boundaries and resumes through serialized state. One retrieval
+is charged once, including specific-card selection across multiple cards.
+
+Seven fresh pinned GEMP outcomes in `tests/native-engine/gemp/secret-plans-results.json`
+agree on payment, retrieval, decision count and Used order, including source
+departure after trigger initiation. They use the actual shield and production
+retrieval/payment effects with a fixture-supplied retrieval action. Native tests
+also cover nested cancellation, specific retrieval, parent Interrupt disposal,
+selected-card departure, hidden information and invalid continuations.
+
+This implements the shield's table text, not shield setup/play or full card
+admission. The Effect version, X modifiers, retrieval immunity/prevention and
+replacement, and fractional costs remain required work. Production deck and
+full-match admission stays closed.
