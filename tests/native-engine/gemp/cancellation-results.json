@@ -1,0 +1,178 @@
+[
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "light-zero",
+    "alterLost": false,
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "alterUsed": false
+  },
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "light-equal",
+    "alterLost": false,
+    "cardsDrawn": 1,
+    "targetLost": false,
+    "alterUsed": false
+  },
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "light-empty",
+    "alterLost": false,
+    "cardsDrawn": 0,
+    "targetLost": false,
+    "alterUsed": false
+  },
+  {
+    "senseLost": true,
+    "secondUsed": false,
+    "senseUsed": false,
+    "name": "light-counter",
+    "alterLost": false,
+    "cardsDrawn": 0,
+    "targetLost": false,
+    "alterUsed": true
+  },
+  {
+    "senseLost": false,
+    "secondUsed": true,
+    "senseUsed": true,
+    "name": "light-nested",
+    "alterLost": true,
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "alterUsed": false
+  },
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "light-leave",
+    "alterLost": false,
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "alterUsed": false
+  },
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "light-return",
+    "alterLost": false,
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "alterUsed": false
+  },
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "dark-zero",
+    "alterLost": false,
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "alterUsed": false
+  },
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "dark-equal",
+    "alterLost": false,
+    "cardsDrawn": 1,
+    "targetLost": false,
+    "alterUsed": false
+  },
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "dark-empty",
+    "alterLost": false,
+    "cardsDrawn": 0,
+    "targetLost": false,
+    "alterUsed": false
+  },
+  {
+    "senseLost": true,
+    "secondUsed": false,
+    "senseUsed": false,
+    "name": "dark-counter",
+    "alterLost": false,
+    "cardsDrawn": 0,
+    "targetLost": false,
+    "alterUsed": true
+  },
+  {
+    "senseLost": false,
+    "secondUsed": true,
+    "senseUsed": true,
+    "name": "dark-nested",
+    "alterLost": true,
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "alterUsed": false
+  },
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "dark-leave",
+    "alterLost": false,
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "alterUsed": false
+  },
+  {
+    "senseLost": false,
+    "secondUsed": false,
+    "senseUsed": true,
+    "name": "dark-return",
+    "alterLost": false,
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "alterUsed": false
+  },
+  {
+    "name": "table",
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "forceSpent": 2,
+    "alterUsed": true
+  },
+  {
+    "name": "deploy",
+    "cardsDrawn": 1,
+    "targetLost": true,
+    "forceSpent": 2,
+    "alterUsed": true
+  },
+  {
+    "name": "immune-table",
+    "offered": false
+  },
+  {
+    "name": "immune-deploy",
+    "offered": false
+  },
+  {
+    "senseUsed": true,
+    "stayedAtOrigin": true,
+    "name": "react-move",
+    "forceSpent": 1,
+    "returnedToHand": false
+  },
+  {
+    "senseUsed": true,
+    "stayedAtOrigin": false,
+    "name": "react-deploy",
+    "forceSpent": 3,
+    "returnedToHand": true
+  }
+]

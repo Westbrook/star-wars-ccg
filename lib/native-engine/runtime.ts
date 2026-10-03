@@ -35,6 +35,12 @@ const core = (id: string, label: string): Action => ({id, label, handler: id, pa
 
 function validate(match: Match, rules: Rules): void {
   assertState(match);
+  for (let index = 0; index < match.stack.length; index++) {
+    const f = match.stack[index]; if (f.kind !== 'resolution' || f.action.handler !== 'core:canceled') continue;
+    const w = match.stack[index + 1];
+    if (!f.cancelled || f.awaitingResponses !== undefined || f.action.payload !== null || f.action.source !== undefined ||
+        w?.kind !== 'window' || w.timing !== 'response' || w.event !== undefined) throw Error('Invalid retired action.');
+  }
   if (match.rules !== rules.id) throw Error('This match requires its original rules version.');
   if (rules.starting) assertSetup(match, rules.starting);
   assertPayments(match);
@@ -53,6 +59,20 @@ export function createMatch(id: string, size: 40 | 60, decks: readonly Deck[], r
 
 export function openWindow(match: Match, timing: Timing, priority: Side, event?: Json): void {
   match.stack.push({kind: 'window', serial: ++match.serial, timing, priority, passes: 0, completed: [], ...(event === undefined ? {} : {event})});
+}
+
+/** Retire an initiated action without shifting suspended frame indices. The
+ * card rule owns cancellation disposal/results; this inert slot is removed
+ * together with its response window when the canceling action finishes. */
+export function retireAction(match: Match, index: number, actionId: string, windowSerial: number): Resolution {
+  const frame = match.stack[index], response = match.stack[index + 1];
+  if (frame?.kind !== 'resolution' || frame.action.id !== actionId || frame.cancelled || frame.awaitingResponses ||
+      response?.kind !== 'window' || response.timing !== 'response' || response.event !== undefined || response.serial !== windowSerial)
+    throw Error('Cancellation requires its original pending action.');
+  const retired = structuredClone(frame); retired.cancelled = true;
+  frame.cancelled = true;
+  frame.action = {id: frame.action.id, label: 'Canceled action', handler: 'core:canceled', payload: null};
+  return retired;
 }
 
 /** Called by the setup resolver, after starting cards and both starting hands. */
@@ -214,6 +234,11 @@ function settle(match: Match, rules: Rules, context: Context): void {
   let transitions = 0;
   while (match.status === 'playing') {
     const window = top(match);
+    const parent = match.stack.at(-2);
+    if (window?.kind === 'window' && window.timing === 'response' && window.event === undefined &&
+        parent?.kind === 'resolution' && parent.action.handler === 'core:canceled' && parent.cancelled) {
+      match.stack.pop(); continue;
+    }
     // A draw without applicable cost text must not add an empty UI step.
     // Recheck both seats and required actions after every cost response.
     if (window?.kind === 'window' && (window.event as {kind?: string})?.kind === 'destiny-cost' &&
@@ -231,6 +256,7 @@ function settle(match: Match, rules: Rules, context: Context): void {
       break;
     }
     const resolution = match.stack.pop() as Resolution;
+    if (resolution.action.handler === 'core:canceled') continue;
     if (resolution.action.handler === 'core:payment') payForceStep(match, rules, resolution);
     else if (resolution.action.handler === 'core:activate') {
       if (!resolution.cancelled) {moveTop(match, resolution.actor, 'reserve', 'force'); match.turn.activated++;}

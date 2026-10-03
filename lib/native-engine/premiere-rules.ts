@@ -1,3 +1,4 @@
+import {cancellationActions, cancellationInitiate, cancellationResolve, assertCancellation} from './cancellation';
 import {actionPlayCard, canPlayCard, recordCardPlay, assertCardPlays} from './persona';
 import {assertCharacteristics} from './characteristics';
 import {secretPlansAutomatic, secretPlansResolve, secretPlansChoices, secretPlansChoose, assertSecretPlans} from './secret-plans';
@@ -41,12 +42,13 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
     if (r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
-    if (r.action.handler.startsWith('gambler:')) gamblersLuckInitiate(m, r);
+    if (r.action.handler.startsWith('cancel:')) cancellationInitiate(m, r);
+    else if (r.action.handler.startsWith('gambler:')) gamblersLuckInitiate(m, r);
     else if (r.action.handler.startsWith('substitution:')) substitutionInitiate(m, r);
     else if (r.action.handler.startsWith('gaffi:')) gaderffiiInitiate(m, r);
     else if (r.action.handler.startsWith('stakes:')) stakesInitiate(m, r);
@@ -70,6 +72,7 @@ export const premiereRules: Rules = {
   },
   resolve: (m, r, context) => {
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('cancel:')) cancellationResolve(m, r);
     else if (r.action.handler.startsWith('plans:')) secretPlansResolve(m, r);
     else if (r.action.handler.startsWith('gambler:')) gamblersLuckResolve(m, r);
     else if (r.action.handler.startsWith('substitution:')) substitutionResolve(m, r);
@@ -140,6 +143,7 @@ export const premiereRules: Rules = {
     assertRetrieval(match);
     assertCharacteristics(match);
     assertCardPlays(match);
+    assertCancellation(match);
     assertInterrupts(match);
     assertCharacterTriggers(match);
     assertDuel(match);

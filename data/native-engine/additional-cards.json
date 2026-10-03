@@ -615,5 +615,65 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_001.java"
+  },
+  {
+    "gempId": "1_71",
+    "name": "Alter",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/alter.gif",
+    "text": "Cancel one Effect (or Utinni Effect) by drawing a destiny < ability of your highest-ability character on table. OR Cancel one Sense card just played.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_071.java"
+  },
+  {
+    "gempId": "1_109",
+    "name": "Sense",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/sense.gif",
+    "text": "Cancel one Interrupt (or one 'react') by drawing a destiny < ability of your highest-ability character on table. OR Cancel one Alter card just played.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_109.java"
+  },
+  {
+    "gempId": "1_234",
+    "name": "Alter",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/alter.gif",
+    "text": "Cancel one Effect (or Utinni Effect) by drawing a destiny < ability of your highest-ability character on table. OR Cancel one Sense card just played.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_234.java"
+  },
+  {
+    "gempId": "1_267",
+    "name": "Sense",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/sense.gif",
+    "text": "Cancel one Interrupt (or one 'react') by drawing a destiny < ability of your highest-ability character on table. OR Cancel one Alter card just played.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_267.java"
   }
 ]

@@ -629,8 +629,8 @@ title filter even for unique cards; that branch is not claimed as parity.
 
 Twenty-one tests include fifteen native component cases and six fresh GEMP
 comparisons. The reference executes actual Comlink deployment and Sense plays;
-native tests inject cancellation at the shared pending-react boundary because
-Sense itself is not yet implemented. The shared outcome, paid costs, hand return
+those native tests injected cancellation at the shared pending-react boundary.
+The later Sense/Alter checkpoint below implements actual native card plays. The shared outcome, paid costs, hand return
 and other-copy availability agree for all five non-unique deployment types. The
 sixth reference confirms deployment followed by firing. Tests reconstruct every
 command and cover range/host/cost restrictions, separate multiple reacts, source
@@ -758,9 +758,9 @@ or redraw the value. A nested action cannot substitute the wrong pending draw.
 
 Four fresh GEMP comparisons cover actual Smoke Screen, targeted-character removal,
 Reserve depletion after initiation, and actual Sense cancellation. All compare
-timing, physical pile counts, source disposal and Dice eligibility. Native Sense
-is not implemented: its cancellation is injected in the corresponding native
-fixture. Reference zone interventions are explicit, not played removal cards.
+timing, physical pile counts, source disposal and Dice eligibility. That native
+fixture injects cancellation; actual Sense/Alter plays now have separate evidence
+below. Reference zone interventions are explicit, not played removal cards.
 Native-only shared primitive tests include zero, total changes, immunity to draw
 cancellation/modification, malformed saves, serial and weapon draws, and private
 recovery. See `tests/native-engine/gemp/substitution-provenance.json`.
@@ -1275,3 +1275,43 @@ permanent personas, capture/stolen control, persona replacement and special
 conversion remain required. The five extra characters are metadata-only. Legacy
 native component snapshots without play history start with an empty ledger;
 production full matches remain closed, and separate proof saves are unchanged.
+
+
+### Sense, Alter and suspended-action cancellation
+
+Both Premiere mirrors of Sense and Alter now execute through `cancellation.ts`.
+Sense can target an initiated Interrupt or one paid react; Alter can target an
+Effect/Utinni Effect on table or during deployment. Neither can interrupt the
+subsequent execution of an Effect's text. Their direct counterplay functions need
+no character or destiny. Destiny modes offer each tied highest positive-ability
+Character; droids and permanent pilots do not qualify. Success requires a strict
+less-than comparison, so equality and an empty Reserve fail. Sense/Alter go Used
+when resolved and Lost when canceled. Paid costs are retained.
+
+The cancel-result continuation binds the exact pending action and response-window
+serial. `retireAction` leaves an inert validated frame, preserving suspended
+indices while disposal/results resolve. Once the canceling action finishes, the
+old response window and retired frame disappear together without reopening the
+canceled action. Nested Sense–Alter–Sense preserves the original Interrupt and
+correctly resumes the restored Sense. Failed Sense permits a second attempt.
+React cancellation delegates to the existing physical/title restrictions and
+original-zone restoration. Printed Alter immunity protects both training Effects
+on table and during deployment.
+
+Twenty fresh executed GEMP observations include sixteen matching outcomes:
+mirrored success/equality/empty draws, direct and nested counters, Macroscan table
+and deployment cancellation, Ket Maliss immunity and paid movement/deployment
+react cancellation. Four controlled character leave/return records differ:
+GEMP retains the physical highest-ability target, while native requires its
+original table instance. These are not played removal-card comparisons and need
+independent adjudication; they are not claimed as parity or complete admission.
+All 6,820 production reference files are unchanged. Native tests also exercise
+Sai'torr immunity, repeated attempts, target reentry, invalid saved references,
+private projection and JSON recovery at every command, including retired frames.
+See `gemp/cancellation-provenance.json` and `cancellation.test.mjs`.
+
+There are now 102 explicit metadata definitions; adding these four Interrupts does
+not admit full decks. Ability modifiers, forced retargeting/exclusion providers,
+conditional immunity and cancellation prevention/replacement, alternate cleanup,
+inactive/captured/aboard rules and broader cancellation-result triggers remain.
+The production full-match gate, GEMP routes and existing studies remain unchanged.

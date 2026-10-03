@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "auditedFromCommit": "a8d3dc5cfba7dc9228d19c0f5646166bc1bb5e81",
+  "auditedFromCommit": "713dd2e7f99bdcb880e0d8f4c1b5ef931f84f1bc",
   "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
   "purpose": "Source-and-evidence inventory of all 68 current starter definitions. Links are audit pointers, not automatic full-card certification. No card or deck is admitted by this inventory. The broader catalog and original product requirements remain in scope.",
   "productionAdmission": "closed",
@@ -814,22 +814,26 @@
         "Persistent selected mode",
         "Noncumulative power",
         "No droid training",
-        "Immune to Alter text retained"
+        "Immune to Alter text retained",
+        "Printed immunity enforced for actual Alter during deployment and on table"
       ],
       "implementation": [
         "lib/native-engine/equipment.ts",
         "lib/native-engine/equipment-state.ts",
-        "lib/native-engine/board.ts"
+        "lib/native-engine/board.ts",
+        "lib/native-engine/cancellation.ts"
       ],
       "testFiles": [
         "tests/native-engine/equipment.test.mjs",
-        "tests/native-engine/gaderffii.test.mjs"
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/cancellation.test.mjs"
       ],
       "remaining": [
-        "Alter engine not implemented, so cancellation immunity has no executable opposing-card conformance yet."
+        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai\u2019torr has native/source evidence."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/equipment-provenance.json"
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/cancellation-provenance.json"
       ],
       "gempId": "1_221",
       "name": "Ket Maliss",
@@ -1641,22 +1645,26 @@
         "Persistent selected mode",
         "Noncumulative power",
         "No droid training",
-        "Immune to Alter text retained"
+        "Immune to Alter text retained",
+        "Printed immunity enforced for actual Alter during deployment and on table"
       ],
       "implementation": [
         "lib/native-engine/equipment.ts",
         "lib/native-engine/equipment-state.ts",
-        "lib/native-engine/board.ts"
+        "lib/native-engine/board.ts",
+        "lib/native-engine/cancellation.ts"
       ],
       "testFiles": [
         "tests/native-engine/equipment.test.mjs",
-        "tests/native-engine/gaderffii.test.mjs"
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/cancellation.test.mjs"
       ],
       "remaining": [
-        "Alter engine not implemented, so cancellation immunity has no executable opposing-card conformance yet."
+        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai\u2019torr has native/source evidence."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/equipment-provenance.json"
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/cancellation-provenance.json"
       ],
       "gempId": "1_64",
       "name": "Sai'torr Kal Fas",
@@ -2008,6 +2016,19 @@
         "tests/native-engine/gemp/persona-provenance.json"
       ],
       "scope": "98 explicit identities, ordinary title/persona and out-of-play limits, initiated-play per-turn history, deployment/revival revalidation and generic starter opponent unique count. 15 reference queries: 14 match, one recorded AR persona-turn discrepancy. Broader modifiers, capture/permanents/replacement/conversion and full admission remain."
+    },
+    "cancellation": {
+      "implementation": [
+        "lib/native-engine/cancellation.ts",
+        "lib/native-engine/runtime.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/cancellation.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/cancellation-provenance.json"
+      ],
+      "scope": "Four Premiere Sense/Alter definitions, positive highest ability, strict destiny, direct/nested counters, exact pending frames and Effect/react cancellation. 20 GEMP records: 16 match; four controlled ability-target departure/return differences require adjudication. Broader modifiers, retargeting/exclusions, immunity/prevention/replacement and full admission remain."
     }
   },
   "wholeMatchEvidence": {

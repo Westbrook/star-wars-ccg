@@ -1,0 +1,39 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T04:58:46.324604+00:00",
+  "harness": "NativeEngineCancellationOracleTests.java",
+  "harnessSha256": "629e4da0f92bfe0557a1a795a425c1c8f0f5134cd1fc80ceee2b6a40120be34d",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCancellationOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 3,
+  "observations": 20,
+  "matchingObservations": 16,
+  "productionFilesVerified": 6820,
+  "scope": "Actual Premiere Sense/Alter Interrupt plays on both sides: successful/equal/empty destiny, direct and nested counterplays, Macroscan table/deployment cancellation, Ket Maliss immunity, paid Wolfman movement and CZ-3 deployment reacts. Table setup and character leave/return are controlled fixture interventions; source production code remains unchanged. Results wait for both the target Interrupt and Sense cleanup. Force cost is measured against the actual fixture balance before deployment, not an assumed activation count.",
+  "differences": [
+    {
+      "names": [
+        "light-leave",
+        "dark-leave",
+        "light-return",
+        "dark-return"
+      ],
+      "gemp": "Chosen highest-ability physical card still supplies ability after controlled departure or return; zero destiny cancels the target.",
+      "native": "Original table-instance requirement fails; destiny still completes, Sense goes Used and original Interrupt resolves.",
+      "status": "Unresolved independent conformance: controlled GEMP fixture movement is not an executed removal-card play. Do not claim these as matching or complete Sense/Alter admission. AR p26 unit-of-Force aspects and original-instance policy motivate native handling but do not independently adjudicate the returned-character case."
+    }
+  ],
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp15-16: initiation targets and immunity; pp18-19: nested Sense/Alter actions and canceled action removal.",
+    "AR p26: units of Force and aspects; p79: positive-ability character cards only, tied highest choice.",
+    "AR p137 Alter: Effect/Utinni deployment response, not a response to their subsequent use; immune cards cannot be targeted.",
+    "AR p152 Sense: highest-ability target, one react deployment/movement canceled at a time.",
+    "AR p170: canceled react restoration and restrictions; existing react module retains paid costs.",
+    "Pinned Card1_071/Card1_109/Card1_234/Card1_267; Card1_064/Card1_221 immunity."
+  ],
+  "limits": "Full card/deck admission remains closed. General ability modifiers, retargeting/exclusions (For Luck/Dark Forces), conditional immunity/prevention/replacement, inactive/captured/aboard targets, alternate Interrupt disposition, pile/stack react deployment and broad cancel-result triggers remain. Four controlled removal differences require independent adjudication. Native-only tests additionally cover Sai\u2019torr immunity, repeated failed Sense, source/effect instance revalidation, malformed saved targets, inert-frame recovery, privacy and paid Set For Stun cancellation."
+}
