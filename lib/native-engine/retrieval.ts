@@ -1,10 +1,11 @@
+import {retrievalAmount, assertRetrievalModifiers} from './retrieval-policy';
 import {cardDefinition, name} from './board';
 import {moveCard} from './state';
 import {openWindow} from './runtime';
 import {other, sides, type Decision, type Json, type Match, type Resolution, type Side} from './types';
 
 export type Retrieval = {
-  id: string;
+  id: string; initial: number; amount: number | null; uncancelable: boolean;
   side: Side; source: string; remaining: number; destination: 'used' | 'hand';
   // Null means ordinary top-of-Lost retrieval; a list restricts eligible blueprints.
   blueprints: string[] | null; retrieved: string[]; announced: boolean; card?: string;
@@ -23,10 +24,10 @@ const eligible = (m: Match, p: Retrieval) => {
 /** A single retrieval action, with serializable per-card response boundaries.
  * Ordinary retrieval preserves top-first selection, reversing that group onto
  * Used. Specific-card retrieval never rearranges the remaining Lost Pile. */
-export function retrieve(m: Match, side: Side, source: string, amount: number, blueprints: string[] | null = null, destination: 'used' | 'hand' = 'used', selection?: 'top-character'): void {
-  if (!Number.isSafeInteger(amount) || amount < 0 || !m.cards[source]) throw Error('Invalid retrieval.');
+export function retrieve(m: Match, side: Side, source: string, amount: number, blueprints: string[] | null = null, destination: 'used' | 'hand' = 'used', selection?: 'top-character', options: {uncancelable?: boolean} = {}): void {
+  if (!Number.isSafeInteger(amount) || amount < 0 || !m.cards[source] || options.uncancelable !== undefined && typeof options.uncancelable !== 'boolean') throw Error('Invalid retrieval.');
   if (!amount) return;
-  const p: Retrieval = {id: 'retrieval-' + ++m.serial, side, source, remaining: amount, destination, blueprints, retrieved: [], announced: false, ...(selection ? {selection} : {})};
+  const p: Retrieval = {id: 'retrieval-' + ++m.serial, side, source, initial: amount, amount: null, uncancelable: options.uncancelable ?? false, remaining: amount, destination, blueprints, retrieved: [], announced: false, ...(selection ? {selection} : {})};
   queue(m, 'next', p);
   openWindow(m, 'response', other(side), {kind: 'retrieval-initiated', side, source, amount, retrieval: p.id});
 }
@@ -38,8 +39,9 @@ export function pendingRetrieval(m: Match, id: string): Resolution | undefined {
 export function cancelRetrieval(m: Match, id: string, source: string): boolean {
   const f = pendingRetrieval(m, id); if (!f || f.cancelled) return false;
   if (!m.cards[source]) throw Error('Invalid retrieval cancellation source.');
-  f.cancelled = true;
   const p = f.action.payload as unknown as Retrieval;
+  if (p.uncancelable) return false;
+  f.cancelled = true;
   openWindow(m, 'response', other(p.side), {kind: 'retrieval-canceled', side: p.side, source, retrieval: id, cards: [...p.retrieved]});
   return true;
 }
@@ -54,6 +56,7 @@ export function retrievalResolve(m: Match, r: Resolution): void {
   const p = r.action.payload as unknown as Retrieval;
   if (r.cancelled) return;
   if (r.action.handler === 'retrieval:next') {
+    if (p.amount === null) p.remaining = p.amount = retrievalAmount(m, p.side, p.source, p.initial);
     if (!p.remaining || !eligible(m, p).length) {
       if (p.remaining && p.selection === 'top-character') {
         // An unsuccessful Kintan search disables this same-title search function
@@ -86,6 +89,7 @@ export function retrievalView(m: Match): Json {
   return {retrievedCards: cards.map(id => ({id, blueprint: m.cards[id].blueprint}))};
 }
 export function assertRetrieval(m: Match): void {
+  assertRetrievalModifiers(m);
   const failures = m.data.failedCharacterSearches as CharacterSearches | undefined;
   if (failures && Object.entries(failures).some(([side, turn]) => !sides.includes(side as Side) || !Number.isSafeInteger(turn) || turn < 1 || turn > m.turn.number)) throw Error('Invalid failed character search.');
   const ids = new Set<string>();
@@ -94,6 +98,9 @@ export function assertRetrieval(m: Match): void {
     if (!handler.startsWith('retrieval:')) continue;
     const p = (f.kind === 'resolution' ? f.action.payload : f.kind === 'decision' ? f.payload : null) as unknown as Retrieval;
     if (!p || typeof p.id !== 'string' || !/^retrieval-[1-9]\d*$/.test(p.id) || !Number.isSafeInteger(Number(p.id.slice(10))) || Number(p.id.slice(10)) > m.serial || ids.has(p.id) || !sides.includes(p.side) || !m.cards[p.source] || !Number.isSafeInteger(p.remaining) || p.remaining < 0 ||
+        !Array.isArray(p.retrieved) || !Number.isSafeInteger(p.initial) || p.initial <= 0 || typeof p.uncancelable !== 'boolean' ||
+        p.amount !== null && (!Number.isSafeInteger(p.amount) || p.amount < 0 || p.remaining + p.retrieved.length !== p.amount) ||
+        p.amount === null && (p.remaining !== p.initial || p.announced || p.retrieved.length > 0) ||
         !['used', 'hand'].includes(p.destination) || typeof p.announced !== 'boolean' || p.selection !== undefined && p.selection !== 'top-character' ||
         p.blueprints !== null && (!Array.isArray(p.blueprints) || p.blueprints.some(b => typeof b !== 'string')) ||
         !Array.isArray(p.retrieved) || p.retrieved.some(id => m.cards[id]?.owner !== p.side) ||

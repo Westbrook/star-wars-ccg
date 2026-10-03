@@ -1,3 +1,4 @@
+import {retrievalImmuneToSecretPlans} from './retrieval-policy';
 import {cancelRetrieval, pendingRetrieval, type Retrieval} from './retrieval';
 import {queueForcePayment, type RequiredAction} from './runtime';
 import {type Action, type Decision, type Json, type Match, type Resolution, type Window} from './types';
@@ -12,10 +13,10 @@ const active = (m: Match, p: Payload) => {
 /** Defensive Shield's table text only. Shield setup/play and other Secret Plans
  * versions must be implemented before they are admitted to native decks. */
 export function secretPlansAutomatic(m: Match, w: Window): RequiredAction[] {
-  const e = w.event as {kind?: string; side?: string; amount?: number; retrieval?: string} | undefined;
+  const e = w.event as {kind?: string; side?: string; amount?: number; retrieval?: string; source?: string} | undefined;
   if (w.timing !== 'response' || e?.kind !== 'about-to-retrieve' || e.side !== 'light') return [];
   const card = Object.values(m.cards).find(c => c.blueprint === '13_86' && c.owner === 'dark' && c.zone === 'table');
-  if (!card) return [];
+  if (!card || !e.source || retrievalImmuneToSecretPlans(m, 'light', e.source)) return [];
   const p: Payload = {card: card.id, retrieval: e.retrieval!, amount: e.amount!};
   return active(m, p) ? [{...action('check', p), actor: 'dark'}] : [];
 }
@@ -30,7 +31,7 @@ export function secretPlansResolve(m: Match, r: Resolution): void {
 }
 export function secretPlansChoices(m: Match, d: Decision) {
   const p = d.payload as unknown as Payload;
-  return [...(active(m, p) && m.players.light.force.length >= p.amount ? [{id: 'plans:pay', label: `Use ${p.amount} Force to retrieve`}]: []), {id: 'plans:cancel', label: 'Cancel this retrieval'}];
+  return [...(active(m, p) && m.players.light.force.length >= p.amount ? [{id: 'plans:pay', label: `Use ${p.amount} Force to retrieve`}]: []), {id: 'plans:cancel', label: (pendingRetrieval(m, p.retrieval)?.action.payload as unknown as Retrieval)?.uncancelable ? 'Decline payment (retrieval cannot be canceled)' : 'Cancel this retrieval'}];
 }
 export function secretPlansChoose(m: Match, d: Decision, choice: string): void {
   const p = d.payload as unknown as Payload;

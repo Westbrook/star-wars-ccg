@@ -1132,3 +1132,36 @@ This implements the shield's table text, not shield setup/play or full card
 admission. The Effect version, X modifiers, retrieval immunity/prevention and
 replacement, and fractional costs remain required work. Production deck and
 full-match admission stays closed.
+
+### Retrieval quantity and permissions
+
+`retrieval-policy.ts` combines rule-owned additions/reductions, unmodifiable
+resets, and source-specific Secret Plans immunity. The lowest applicable reset
+wins over arithmetic modifiers; quantities floor at zero. Modifiers can last
+through the current turn or require their original table instance. Same-title,
+same-function registrations are noncumulative unless explicitly granted otherwise.
+Blueprint selectors and player ownership keep effects scoped to their retrieval.
+
+Each retrieval now saves its initial and finalized amount. Finalization occurs
+after initiation responses and before the first selection/payment. Per-card
+responses do not recompute it. This also means reductions affect named-card
+retrieval and the amount Secret Plans charges. Pending native snapshots lacking
+these new fields are rejected; separate Rules Lab snapshots are unchanged.
+
+Navy Trooper Fenson's On The Edge/Off The Edge reduction and Sergeant Tarl's
+Noble Sacrifice reduction now supply actual continuous table modifiers. Their
+other text and source Interrupt gameplay remain outside current admission.
+An explicit rule-owned uncancelable retrieval permission makes cancellation fail
+without emitting a cancellation event. This differs from Secret Plans immunity:
+immunity suppresses the trigger, while an uncancelable retrieval can receive the
+payment decision and survive a refusal. No current granting card is claimed for
+that permission hook.
+
+Twelve fresh pinned GEMP comparisons agree on retrieved quantity, Force spent,
+payment decision count and Used order. Fenson, Tarl and Secret Plans use actual
+card classes; other grants and the retrieval action are controlled fixtures.
+Native tests cover saved continuations, modifier lifetimes, per-card freezing,
+selector scope, duplicate registrations, and invalid saved values. General
+fractional arithmetic, source-card admission, text cancellation/inactive states,
+replacement destinations, Code Clearance grabbing, Objectives and shield setup
+remain required. Full native deck admission is still closed.

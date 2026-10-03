@@ -176,5 +176,96 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set13/dark/Card13_086.java"
+  },
+  {
+    "gempId": "8_108",
+    "name": "Navy Trooper Fenson",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/Endor-Dark/large/navytrooperfenson.gif",
+    "text": "Subtracts 3 from Force opponent retrieves for On The Edge and Off The Edge. When at Bunker, adds 2 to deploy cost of each opponent's character (except Ewoks, spies and scouts) to Endor sites (except Rebel Landing Site).",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "1",
+      "destiny": "3",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Warrior",
+      "Endor"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/dark/Card8_108.java"
+  },
+  {
+    "gempId": "8_114",
+    "name": "Sergeant Tarl",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/Endor-Dark/large/sergeanttarl.gif",
+    "text": "While Tarl is the trooper targeted by Spice Mines of Kessel, that Utinni Effect is immune to Alter and Tarl adds 4 to Force retrieved when completed. Subtracts 3 from Force opponent retrieves with Noble Sacrifice.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "2",
+      "destiny": "3",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Warrior",
+      "Endor"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/dark/Card8_114.java"
+  },
+  {
+    "gempId": "1_99",
+    "name": "Noble Sacrifice",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/noblesacrifice.gif",
+    "text": "If opponent just deployed a character, sacrifice (out of play) from table one of your characters with the same power (even a captured character). You may retrieve Force from Lost Pile equal to your sacrificed character's forfeit value.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_099.java"
+  },
+  {
+    "gempId": "1_101",
+    "name": "On The Edge",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/ontheedge.gif",
+    "text": "Use 1 Force and target one Rebel (on table) of ability > 2. Choose a number from 1 to 6. You may retrieve that amount from your Lost Pile if you now draw destiny > chosen number. If you fail, Rebel is lost.",
+    "stats": {
+      "destiny": "2"
+    },
+    "icons": [],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_101.java"
+  },
+  {
+    "gempId": "5_59",
+    "name": "Off The Edge",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Light/large/offtheedge.gif",
+    "text": "Target one of your characters at a Cloud City site. Draw destiny. If destiny > character's destiny number, retrieve Force equal to the distance. If destiny < character's destiny number, lose difference. If destiny = character's destiny number, character is lost.",
+    "stats": {
+      "destiny": "2"
+    },
+    "icons": [
+      "Cloud City"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_059.java"
   }
 ]

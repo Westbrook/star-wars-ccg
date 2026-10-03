@@ -1,0 +1,22 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T03:24:58.322181+00:00",
+  "harness": "NativeEngineRetrievalPolicyOracleTests.java",
+  "harnessSha256": "ee7ba2c3991e19ae593b5ad0975c3e95f96c62414d78afb1b480d6a90cbfcc94",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineRetrievalPolicyOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 12,
+  "productionFilesVerified": 6820,
+  "scope": "Production RetrieveForceEffect, ForceRetrievalModifier, ResetForceRetrievalFromCardModifier, ForceRetrievalImmuneToSecretPlansModifier and actual Secret Plans trigger. Actual Fenson and Tarl table reductions exercised with applicable and unrelated source cards. Synthetic top-level action grants the retrieval; source Interrupt play and the rest of these characters are not tested. Uncancelable case supplies the production virtual permission hook; no current card grant is claimed.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p142 Do They Have A Code Clearance? reductions apply before Secret Plans X and also affect named-card retrieval.",
+    "GEMP ForceRetrievalEffect finalizes quantity after retrieval-initiation responses; Force.getForceToRetrieve adds modifiers then applies the lowest unmodifiable reset.",
+    "Card8_108 and Card8_114 source-specific reductions; Card13_086 immunity check; CancelForceRetrievalEffect permission hook."
+  ],
+  "limits": "Component fixtures do not prove full granting-card legality or all modifier/prevention/replacement rules. Lifetime, nested timing, noncumulative registrations and corrupted-save checks have native-only evidence in this checkpoint. Integer quantities only; objectives, shields setup/play, inactive/text-canceled modifiers and full admission remain unfinished."
+}

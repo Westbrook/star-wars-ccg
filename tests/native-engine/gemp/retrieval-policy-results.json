@@ -1,0 +1,177 @@
+[
+  {
+    "source": "1_99",
+    "decisions": 1,
+    "retrieved": 7,
+    "name": "add",
+    "spent": 7,
+    "usedOrder": [
+      "lost-6",
+      "lost-5",
+      "lost-4",
+      "lost-3",
+      "lost-2",
+      "lost-1",
+      "lost-0",
+      "force-6",
+      "force-5",
+      "force-4",
+      "force-3",
+      "force-2",
+      "force-1",
+      "force-0"
+    ]
+  },
+  {
+    "source": "1_99",
+    "decisions": 1,
+    "retrieved": 3,
+    "name": "subtract",
+    "spent": 3,
+    "usedOrder": [
+      "lost-2",
+      "lost-1",
+      "lost-0",
+      "force-2",
+      "force-1",
+      "force-0"
+    ]
+  },
+  {
+    "source": "1_99",
+    "decisions": 0,
+    "retrieved": 0,
+    "name": "zero",
+    "spent": 0,
+    "usedOrder": []
+  },
+  {
+    "source": "1_99",
+    "decisions": 1,
+    "retrieved": 2,
+    "name": "reset",
+    "spent": 2,
+    "usedOrder": [
+      "lost-1",
+      "lost-0",
+      "force-1",
+      "force-0"
+    ]
+  },
+  {
+    "source": "1_99",
+    "decisions": 1,
+    "retrieved": 1,
+    "name": "minimum-reset",
+    "spent": 1,
+    "usedOrder": [
+      "lost-0",
+      "force-0"
+    ]
+  },
+  {
+    "source": "1_99",
+    "decisions": 0,
+    "retrieved": 5,
+    "name": "immune",
+    "spent": 0,
+    "usedOrder": [
+      "lost-4",
+      "lost-3",
+      "lost-2",
+      "lost-1",
+      "lost-0"
+    ]
+  },
+  {
+    "source": "1_99",
+    "decisions": 1,
+    "retrieved": 5,
+    "name": "uncancelable",
+    "spent": 0,
+    "usedOrder": [
+      "lost-4",
+      "lost-3",
+      "lost-2",
+      "lost-1",
+      "lost-0"
+    ]
+  },
+  {
+    "source": "1_101",
+    "decisions": 1,
+    "retrieved": 2,
+    "name": "fenson-on",
+    "spent": 2,
+    "usedOrder": [
+      "lost-1",
+      "lost-0",
+      "force-1",
+      "force-0"
+    ]
+  },
+  {
+    "source": "5_59",
+    "decisions": 1,
+    "retrieved": 2,
+    "name": "fenson-off",
+    "spent": 2,
+    "usedOrder": [
+      "lost-1",
+      "lost-0",
+      "force-1",
+      "force-0"
+    ]
+  },
+  {
+    "source": "1_99",
+    "decisions": 1,
+    "retrieved": 5,
+    "name": "fenson-other",
+    "spent": 5,
+    "usedOrder": [
+      "lost-4",
+      "lost-3",
+      "lost-2",
+      "lost-1",
+      "lost-0",
+      "force-4",
+      "force-3",
+      "force-2",
+      "force-1",
+      "force-0"
+    ]
+  },
+  {
+    "source": "1_99",
+    "decisions": 1,
+    "retrieved": 2,
+    "name": "tarl",
+    "spent": 2,
+    "usedOrder": [
+      "lost-1",
+      "lost-0",
+      "force-1",
+      "force-0"
+    ]
+  },
+  {
+    "source": "1_101",
+    "decisions": 1,
+    "retrieved": 5,
+    "name": "tarl-other",
+    "spent": 5,
+    "usedOrder": [
+      "lost-4",
+      "lost-3",
+      "lost-2",
+      "lost-1",
+      "lost-0",
+      "force-4",
+      "force-3",
+      "force-2",
+      "force-1",
+      "force-0"
+    ]
+  }
+]
