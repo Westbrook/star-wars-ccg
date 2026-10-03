@@ -6,11 +6,11 @@
   "productionAdmission": "closed",
   "rulesSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
   "sharedRequiredWork": [
-    "Complete destiny-specific per-draw costs/failure and physical draw limits, Force borrowing/redirection and payment prevention/replacement/fractional/separate costs, broader card-granted draw-X/choose-Y and weapon adapters, last-draw choose-two adjudication, broader substitution providers and automatic modifiers. Fixed integer payments now have shared before-use and per-unit response continuations across actions/travel; full admission remains closed.",
+    "Complete actual destiny tax/cap providers, broader automatic modifiers and prevention/replacement, Force borrowing/redirection and fractional/separate costs, broader granting cards and weapon draw-X/choose-Y adapters, and last-draw choose-two adjudication. Fixed integer payments, pre-draw cost/failure, physical caps and battle if-unable/no-limit permission now have shared verified components; full admission remains closed.",
     "Extend action-specific source/target identity semantics to remaining effects/events, retrieval/search/inspection, group movement and duels; preserve initiated actions and handle persona/conversion aliases.",
     "Generic continuous modifier, prevention/replacement, persona/uniqueness and characteristic infrastructure.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
-    "Full randomized starter match conformance, including cross-card event timing and replay/recovery, not only component fixtures.",
+    "Expand complete-match coverage into executed GEMP parity and remaining reachable cross-card branches. Twenty randomized full 40/60 native test matches now finish and replay exactly; these runs do not prove exhaustive starter rules conformance.",
     "Durable full-match API/CAS/receipts, trusted deadlines, authenticated seats, CPU/PvP and responsive gameplay.",
     "Broader catalog, vehicles/pilots/passengers, Objectives/special setup, open 40/60 and sealed/deck customization requirements."
   ],
@@ -1903,5 +1903,11 @@
       "status": "component-coverage-only",
       "scope": "Serialized physical/skipped counts, substitution exemption, redraw replacement, dynamic numeric caps, selection truncation and optional conversion eligibility. Thirteen matching GEMP observations; cap-granting cards, modifier aggregation and override permissions remain before full admission."
     }
+  },
+  "wholeMatchEvidence": {
+    "receipt": "tests/native-engine/audit/starter-match-results.json",
+    "tests": "tests/native-engine/full-match.test.mjs",
+    "admission": "unchanged, closed",
+    "scope": "20 complete randomized 40/60 native test matches and exact transcript replay; not full GEMP match parity or exhaustive reachable-card coverage."
   }
 }

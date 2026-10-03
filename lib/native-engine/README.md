@@ -936,3 +936,33 @@ adapters, source departure/reentry, noncumulative grants and malformed saved sta
 have additional tests. These checks do not admit complete cards or decks. Remaining
 work includes actual cap/tax providers, broader ability modifiers and exclusions,
 prevention/replacement, general granting-card integration and full-match delivery.
+
+
+### Whole-match integration and replay
+
+The test-only match driver now runs ordinary 40/60 setup, shuffled decks and
+continuing turns to an actual Life Force victory. It never arranges a mid-game
+board, concedes to force an ending, changes card effects, or skips a rules error.
+Production admission remains unchanged. The 60-card lists are the introductory
+manifest lists; the 40-card test derivatives preserve every unique definition and
+remove duplicate copies, and are not represented as official starter lists.
+
+Run `npm run test:engine:matches -- --size 60 --seed 1 --count 10 --replay`
+(or `--size 40`). Use `--output <private-directory>` for complete command traces
+and saved states. Output defaults to the operating system's temporary directory.
+Each receipt records command/time/entropy inputs, handler coverage and final-state
+hashes. Failures stop immediately and preserve the exact state and attempted
+command. Treat full traces as private: they include hidden piles for replay.
+
+Twenty recorded runs cover 56,279 commands and end with normal victories;
+`tests/native-engine/audit/starter-match-results.json` records summaries, source
+fingerprints and final/transcript hashes. Every recorded run replayed from setup
+to an identical final state. `full-match.test.mjs` keeps six seeded 40/60 runs in
+the regular suite, checks saved-boundary recovery, replays a reached Scanning Crew
+deadline, and rejects corrupted transcripts/commands after completion.
+
+This is integration and recovery evidence, not full-game GEMP parity or exhaustive
+card certification. The exploration policy is not the production strategic CPU.
+Remaining work still includes reachable cross-card conformance/adjudication,
+identity/modifier coverage, authenticated durable transactions, CPU/PvP service
+and responsive full-match presentation. Existing GEMP paths and studies remain.
