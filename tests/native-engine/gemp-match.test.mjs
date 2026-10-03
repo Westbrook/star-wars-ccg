@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readGempMatch,replayGempMatch,shuffleEntropy,normalizedCheckpoint,assertReferenceAction,followingTarget} from './gemp-match-replay.mjs';
+import {readGempMatch,replayGempMatch,shuffleEntropy,normalizedCheckpoint,assertReferenceAction,followingTarget,inspectionChoice} from './gemp-match-replay.mjs';
 import {load} from '../native-proof/load-engine.mjs';
 const {shuffled}=load(new URL('../../lib/native-engine/random.ts',import.meta.url));
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const loadMatch=name=>readGempMatch(new URL('./gemp/complete-matches/'+name+'.json.gz',import.meta.url));
 
-for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','ground-attachments','ground-mines','ground-responses'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
+for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','ground-attachments','ground-mines','ground-responses','ground-devices','ground-inspections','ground-mine-pairs','ground-hand-retention'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
  const reference=loadMatch(name),before=JSON.stringify(reference),result=replayGempMatch(reference);
  assert.equal(JSON.stringify(reference),before,'reference fixture must stay immutable');
  assert.equal(result.state.result.winner,reference.winner);
@@ -87,5 +87,37 @@ test('response match exercises actual Barrier, damage reduction and serial mine 
 });
 for(const kind of ['barrier','reduce'])test('reference '+kind+' tag must match its chosen action',()=>{
  const row=loadMatch('ground-responses').trace.find(x=>x.semantic?.kind===kind);assertReferenceAction(row);
+ row.parameters.actionText[row.parameters.actionId.indexOf(row.answer)]='Pass';assert.throws(()=>assertReferenceAction(row),/does not match/);
+});
+
+
+test('device match includes paired mine ordering, both inspections and battle loss reduction',()=>{
+ const r=loadMatch('ground-devices'),rows=r.trace,count=kind=>rows.filter(x=>x.semantic?.kind===kind).length;
+ assert.equal(r.snapshotVersion,4);assert.equal(count('explode'),2);assert.equal(count('inspection'),63);assert.equal(count('inspection-force'),29);
+ assert.ok(rows.some(x=>x.semantic?.kind==='reduce'&&x.state.battleLosses));
+ const mine=rows.find(x=>x.semantic?.kind==='explode');assert.ok(mine.parameters.actionText.length>=2);
+ assert.ok(rows.some(x=>x.semantic?.kind==='inspection'&&x.state.table.some(c=>!c.location)));
+});
+test('inspection follows its actual Yes/No answer and never borrows a later choice',()=>{
+ const rows=loadMatch('ground-devices').trace,target=rows.findIndex(x=>x.semantic?.kind==='inspection-force'),index=rows.findLastIndex((x,i)=>i<target&&x.semantic?.kind==='inspection');assert.ok(index>=0);
+ assert.equal(inspectionChoice(rows,index,true),'to-force');rows[target].answer='1';assert.equal(inspectionChoice(rows,index,true),'keep');
+ rows[target].answer='unexpected';assert.throws(()=>inspectionChoice(rows,index,true),/Invalid inspection answer/);
+ rows[target].semantic.kind='draw';assert.throws(()=>inspectionChoice(rows,index,true),/Missing target/);
+});
+test('private inspection rejects altered revealed blueprint evidence',()=>{
+ const r=loadMatch('ground-devices'),row=r.trace.find(x=>x.semantic?.kind==='inspection');row.parameters.blueprintId[0]='1_999';
+ assert.throws(()=>replayGempMatch(r),/Private inspection/);
+});
+test('unattached Macroscan is included in full-match table comparisons',()=>{
+ const r=loadMatch('ground-devices'),row=r.trace.find(x=>x.semantic?.kind==='peek'&&x.state.table.some(c=>!c.location));
+ assert.ok(row);row.state.table=row.state.table.filter(c=>c.location);assert.throws(()=>replayGempMatch(r),/Checkpoint/);
+});
+test('battle total comparison includes reductions without discarding the obligation',()=>{
+ const r=loadMatch('ground-devices'),index=r.trace.findIndex(x=>x.semantic?.kind==='reduce'&&x.state.battleLosses),row=r.trace.slice(index+1).find(x=>x.semantic?.kind==='forfeit');
+ assert.ok(index>=0&&row);assert.equal(row.state.battleLosses.light.totalDamage,5);row.state.battleLosses.light.totalDamage=7;
+ assert.throws(()=>replayGempMatch(r),/Checkpoint/);
+});
+for(const kind of ['macroscan','peek','explode'])test('device reference '+kind+' tag must match its chosen action',()=>{
+ const row=loadMatch('ground-devices').trace.find(x=>x.semantic?.kind===kind);assertReferenceAction(row);
  row.parameters.actionText[row.parameters.actionId.indexOf(row.answer)]='Pass';assert.throws(()=>assertReferenceAction(row),/does not match/);
 });

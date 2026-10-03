@@ -1887,3 +1887,39 @@ admission. Remaining attrition is not compared separately from initial attrition
 Optional card-text responses, automatic mine ordering in a complete replay,
 special setup and the broader engine/product scope remain required. Full native
 admission remains closed; existing studies, GEMP routes and saves are preserved.
+
+## Complete matches with responses, mines and devices
+
+The next two complete games add 9,263 commands and 982 checkpoints, including
+actual Barrier and It Could Be Worse plays. The 71-turn game exposed a Timer
+Mine sequencing error: the native engine removed multiple characters together.
+It now records the chosen target set, lets the owner select the next casualty,
+and finishes that character's loss and responses before proceeding. Each
+character and its attached cards still leave together, with their own Lost Pile
+ordering. Pending targets use saved zone-instance references; departed or
+returned instances cannot become replacement casualties. See
+`tests/native-engine/gemp/response-match-provenance.json` for exact evidence and
+the native-only recovery/identity checks.
+
+Four subsequent complete games add 14,246 commands and 1,585 checkpoints. They
+exercise device attachment bonuses, four explicit required mine-order choices,
+and 99 private inspections using Macroscan and Electrobinoculars. Snapshot v4
+also compares unattached active Effects. Native owner views must reveal the
+recorded inspection blueprints in order, while opponent views reveal none. The
+optional Reserve-to-Force movement follows the actual Yes/No answer. The replay
+now compares current modified battle-damage totals rather than the separate
+initial-damage record. That was a comparison correction: the native remaining
+obligation already matched GEMP. No runtime rule changed in this device batch.
+Exact executed sources and fixture hashes are in
+`tests/native-engine/gemp/device-match-provenance.json`.
+
+The eleven-game corpus covers 36,036 commands and 3,837 checkpoints. Every game
+uses the exact introductory lists and unmodified reference production sources.
+Fresh client policies preserve pairs of mines and some Force/hand cards; these
+are ordinary player decisions, not altered rules or mid-game fixture mutations.
+Old Ben and Kintan driver branches were added but were never offered in these
+four completed games, so no full-match conformance is claimed for them. Device
+transfer, other recovery/response branches, complete legal-choice comparisons,
+remaining attrition and the broader native engine/product requirements remain
+unfinished. Full production admission stays closed. This validation-only batch
+does not require a website deployment.
