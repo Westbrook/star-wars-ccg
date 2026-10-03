@@ -1016,3 +1016,29 @@ concession, timer races, oversized/foreign requests and the production gate.
 `npm run test:engine:service` additionally runs an isolated Miniflare D1/workerd
 instance with real batch rollback/concurrency and first-primary sessions. It uses
 the installed runtime's pinned compatibility date and touches no shared database.
+
+### Server-controlled computer opponent
+
+`computer.ts` chooses only from a seat's projected legal prompt. It receives no
+raw match, opponent hand or hidden pile ordering, and consumes no engine random
+numbers. The first deterministic policy favors Force generation, spreading
+characters, drains, favorable printed-power battles, weapons and preserving
+Life Force during draws. Printed statistics are strategic estimates, not new
+rules or claims of optimal play. Unknown optional actions pass; required choices
+still resolve using an offered action. Transfers require a strict printed-power
+improvement, and party choices confirm rather than repeatedly toggle.
+
+`POST /api/matches/:id` with exactly `{"operation":"advance"}` authorizes the
+owner and runs at most 24 CPU attempts. Each successful move uses the ordinary
+revision-bound transaction and a separate computer receipt namespace. Concurrent
+requests share deterministic receipts; stale revisions reload, while rule and
+storage failures remain failures. The returned game is always the human's
+projection. `computer.status` is `waiting`, `ready` (request another batch), or
+`finished`; `steps` counts this request's newly committed computer moves. A
+restart resumes from saved state, with no process-local bot memory.
+
+Dispatch is request-driven. The native client still needs to request advancement
+and wire timers/recovery; this is not an independent background scheduler. The
+production starter admission gate remains closed. CPU self-play and durable
+service runs exercise complete 40/60-card test decks under test-only admission;
+they do not establish full card-text coverage, optimal strategy or GEMP parity.

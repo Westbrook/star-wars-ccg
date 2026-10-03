@@ -112,3 +112,59 @@ test('late command itself settles the timer before checking its stale revision',
  let snapshot;const run=runStarterMatch({seed:1,size:40,onStep:m=>{if(!snapshot&&m.stack.at(-1)?.handler==='scan:peek')snapshot=clone(m)}});const f=fixture(t),v=await f.service.create('owner',config(40,'dark','cpu',run.state.id));f.db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(snapshot),snapshot.revision,v.id);f.setTime(snapshot.stack.at(-1).payload.expiresAt);
  await rejects(f.service.command(v.id,'owner',{commandId:randomUUID(),revision:snapshot.revision,choice:'scan:continue'}),409,'STALE_REVISION');assert.equal(stored(f.db,v.id).revision,snapshot.revision+1);assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands WHERE actor=?').get('timer').n,1);
 });
+
+test('authorized computer dispatch stops at the human prompt and returns only the human projection',async t=>{
+ const f=fixture(t),v=await f.service.create('owner',config(40,'light'));
+ const next=await f.service.advanceComputer(v.id,'owner',{operation:'advance'});
+ assert.equal(next.side,'light');assert.equal(next.computer.steps,1);assert.equal(next.computer.status,'waiting');assert.equal(next.game.setup.selected.dark,null);assert.deepEqual(next.game.players.dark.hand,[]);
+ assert.equal((await f.fresh().advanceComputer(v.id,'owner',{})).revision,next.revision);
+ await rejects(f.service.advanceComputer(v.id,'outsider',{}),404);await rejects(f.service.advanceComputer(v.id,'owner',{choice:'concede'}),400);
+ const pvp=await f.service.create('owner',config(40,'dark','pvp'));await rejects(f.service.advanceComputer(pvp.id,'owner',{}),403,'NO_COMPUTER');
+});
+test('concurrent computer dispatch commits each revision once and cannot be poisoned by human command IDs',async t=>{
+ const f=fixture(t),v=await f.service.create('owner',config(40,'dark'));
+ await f.service.command(v.id,'owner',cmd(v,undefined,'native-cpu-1-1'));
+ const results=await Promise.all(Array.from({length:8},()=>f.fresh().advanceComputer(v.id,'owner',{})));
+ assert.ok(results.every(r=>r.side==='dark'));assert.equal(results.reduce((n,r)=>n+r.computer.steps,0),1);
+ const rows=f.db.sqlite.prepare('SELECT id,result_version FROM native_commands ORDER BY result_version').all();assert.equal(rows.length,2);assert.ok(rows[0].id.includes(':command:'));assert.ok(rows[1].id.includes(':computer:'));assert.equal(rows[1].result_version,2);
+});
+test('computer storage failure is atomic and retry works after service recreation',async t=>{
+ const f=fixture(t),v=await f.service.create('owner',config(40,'light'));f.db.failBatch=true;
+ await assert.rejects(f.service.advanceComputer(v.id,'owner',{}),/storage failure/);assert.equal((await f.service.read(v.id,'owner')).revision,0);assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands').get().n,0);
+ assert.equal((await f.fresh().advanceComputer(v.id,'owner',{})).revision,1);
+});
+test('HTTP advance authorizes before work and rejects supplied CPU policy/choice/clock',async t=>{
+ const f=fixture(t),h=matchHandlers(f.fresh),v=await f.service.create('owner',config(40,'light'));
+ for(const extra of [{choice:'pass'},{policy:'cheat'},{now:1},{side:'dark'},{budget:10000}])assert.equal((await h.update(request('/'+v.id,{operation:'advance',...extra}),context(v.id))).status,400);
+ assert.equal((await h.update(request('/'+v.id,{operation:'advance'},'stranger'),context(v.id))).status,404);
+ assert.equal((await h.update(request('/'+v.id,{operation:'advance'},null),context(v.id))).status,401);
+ const r=await h.update(request('/'+v.id,{operation:'advance'}),context(v.id));assert.equal(r.status,200);const body=await r.json();assert.equal(body.side,'light');assert.equal(body.computer.steps,1);assert.deepEqual(body.game.players.dark.hand,[]);
+ await f.service.command(v.id,'owner',{commandId:randomUUID(),revision:body.revision,choice:'concede'});const ended=await f.service.advanceComputer(v.id,'owner',{});assert.equal(ended.computer.status,'finished');assert.equal(ended.computer.steps,0);
+});
+for(const [size,ownerSide] of [[40,'dark'],[60,'light']])test(`CPU dispatcher completes ${size}-card match across service restarts with owner ${ownerSide}`,async t=>{
+ const {chooseComputerAction}=load(new URL('../../lib/native-engine/computer.ts',import.meta.url));
+ const f=fixture(t);let v=await f.service.create('owner',config(size,ownerSide));let ready=0,steps=0;
+ for(let i=0;i<15000&&v.game.status!=='finished';i++){
+  f.setTime(1_800_000_000_000+i*1000);
+  v=await f.fresh().advanceComputer(v.id,'owner',{operation:'advance'});
+  assert.ok(v.computer.steps>=0&&v.computer.steps<=24);steps+=v.computer.steps;if(v.computer.status==='ready')ready++;
+  assert.equal(v.side,ownerSide);assert.deepEqual(v.game.players[ownerSide==='dark'?'light':'dark'].hand,[]);
+  if(v.game.status==='finished')break;
+  const choice=chooseComputerAction(v.game,ownerSide);
+  if(choice)v=await f.fresh().command(v.id,'owner',cmd(v,choice));
+ }
+ assert.equal(v.game.status,'finished');assert.equal(v.game.result.reason,'life-force');assert.ok(steps>50);assert.equal(v.game.data,undefined);
+ const receipts=f.db.sqlite.prepare("SELECT count(*) n,count(DISTINCT result_version) versions FROM native_commands WHERE match_id=?").get(v.id);assert.equal(receipts.n,receipts.versions);assert.equal(receipts.n,v.revision);
+});
+test('dispatch work budget yields a resumable ready state without fabricating a pass',async t=>{
+ // A test-only chain isolates the dispatcher bound from card-specific timing.
+ const rules={...auditRules,starting:undefined,setupComplete:()=>true,validate:()=>{},
+  decisions:()=>[{id:'required',label:'Resolve required step'}],
+  choose:m=>{m.data.remaining--;if(m.data.remaining)m.stack.push({kind:'decision',side:'dark',handler:'test:chain',payload:null});else runtime.openWindow(m,'phase','light')},
+  automatic:()=>[],actions:()=>[]};
+ const f=fixture(t,{rules:()=>rules}),v=await f.service.create('owner',config(40,'light'));
+ const m=runtime.startTurns(stored(f.db,v.id),rules);m.data.remaining=30;m.stack=[{kind:'decision',side:'dark',handler:'test:chain',payload:null}];
+ f.db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+ const first=await f.service.advanceComputer(v.id,'owner',{});assert.equal(first.computer.steps,24);assert.equal(first.computer.status,'ready');assert.equal(stored(f.db,v.id).data.remaining,6);
+ const second=await f.fresh().advanceComputer(v.id,'owner',{});assert.equal(second.computer.steps,6);assert.equal(second.computer.status,'waiting');assert.equal(second.revision,first.revision+6);assert.equal((await f.service.advanceComputer(v.id,'owner',{})).computer.steps,0);
+});

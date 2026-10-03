@@ -1,3 +1,4 @@
+import {chooseComputerAction, computerPolicy} from './computer';
 import {applyCommand, advanceTime, createMatch, project, prompt, type Rules} from './runtime';
 import {secureEntropy, type Entropy} from './random';
 import {other, type Deck, type Match, type Side} from './types';
@@ -105,7 +106,7 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     let row = await rowFor(id);
     if (actor === null && row.mode !== 'cpu') fail('This match has no computer seat.',403,'NO_COMPUTER');
     const side = actor === null ? other(row.owner_side) : seat(row,actor), principal = actor === null ? 'computer' : user(actor);
-    const key = id + ':command:' + body.commandId, hash = await digest({operation:'command',actor:principal,side,revision:body.revision,choice:body.choice});
+    const key = id + (actor === null ? ':computer:' : ':command:') + body.commandId, hash = await digest({operation:'command',actor:principal,side,revision:body.revision,choice:body.choice});
     const receipt = await prior(key);
     if (receipt) {sameReceipt(receipt,principal,hash);row = await settleTime(await rowFor(id));return {...response(row,side,actor ?? undefined),duplicate:true,acceptedRevision:receipt.result_version};}
     if (!row.state) fail('Wait for the other player to join.',409,'WAITING_FOR_OPPONENT');
@@ -120,12 +121,39 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     if (!won) {const accepted = await prior(key);if (!accepted) fail('Another command advanced this match.',409,'STALE_REVISION');sameReceipt(accepted,principal,hash);}
     return {...response(row,side,actor ?? undefined),duplicate:!won,acceptedRevision:state.revision};
   }
-  return {create,join,read,
+  async function readComputer(id: string) {
+    const row = await rowFor(id);
+    if (row.mode !== 'cpu') fail('This match has no computer seat.',403,'NO_COMPUTER');
+    return response(await settleTime(row),other(row.owner_side));
+  }
+  async function advanceComputer(id: string, actor: string, body: Body) {
+    keys(body,['operation']);
+    const owner = await read(id,actor); // Authorize before any computer work.
+    if (owner.mode !== 'cpu') fail('This match has no computer seat.',403,'NO_COMPUTER');
+    let steps = 0;
+    // Bound requests including contention. A client may request another batch;
+    // exhaustion never invents a pass, concession or success receipt.
+    for (let attempt = 0; attempt < 24; attempt++) {
+      const view = await readComputer(id);
+      const choice = view.game && chooseComputerAction(view.game,view.side);
+      if (!choice) break;
+      try {
+        const result = await command(id,null,{commandId:computerPolicy+'-'+view.revision,revision:view.revision,choice});
+        if (!result.duplicate) steps++;
+      } catch(e) {
+        if (!(e instanceof MatchServiceError) || !['STALE_REVISION','MATCH_FINISHED'].includes(e.code)) throw e;
+      }
+    }
+    const row = await settleTime(await rowFor(id));
+    const result = response(row,seat(row,actor),actor), cpu = response(row,other(row.owner_side));
+    const status = result.game?.status === 'finished' ? 'finished' : cpu.game && chooseComputerAction(cpu.game,cpu.side) ? 'ready' : 'waiting';
+    return {...result,computer:{policy:computerPolicy,status,steps}};
+  }
+  return {create,join,read,advanceComputer,
     list: async (actor: string) => {user(actor);return (await db.prepare("SELECT id,mode,CASE WHEN owner = ? THEN owner_side WHEN owner_side = 'dark' THEN 'light' ELSE 'dark' END AS side,rules_version AS rules,deck_size AS deckSize,version AS revision,created,updated FROM native_matches WHERE owner = ? OR guest = ? ORDER BY updated DESC LIMIT 30").bind(actor,actor,actor).all()).results;},
     command: (id: string, actor: string, body: Body) => {user(actor);return command(id,actor,body);},
-    // Never exposed by HTTP. A future trusted CPU scheduler consumes only this
-    // seat's projection and submits ordinary revision-bound legal commands.
-    readComputer: async (id: string) => {const row = await rowFor(id);if (row.mode !== 'cpu') fail('This match has no computer seat.',403,'NO_COMPUTER');return response(await settleTime(row),other(row.owner_side));},
+    // Internal diagnostics/dispatcher only; never accept client-selected CPU moves.
+    readComputer,
     computerCommand: (id: string, body: Body) => command(id,null,body),
   };
 }

@@ -19,12 +19,12 @@ try{
  const responses=await Promise.all(Array.from({length:8},()=>http.update(request(choice),ctx)));assert.ok(responses.every(r=>r.status===200));const results=await Promise.all(responses.map(r=>r.json()));assert.equal(results.filter(r=>!r.duplicate).length,1);assert.ok(results.every(r=>r.acceptedRevision===1&&r.revision===1));
  assert.equal((await db.prepare('SELECT count(*) n FROM native_commands').first()).n,1);
  assert.equal((await http.read(request(undefined,'outsider'),ctx)).status,404);
- const computer=await fresh().readComputer(body.id);const bot={commandId:randomUUID(),revision:computer.revision,choice:computer.game.prompt.choices[0].id};
  await db.prepare("CREATE TRIGGER rollback_native BEFORE UPDATE ON native_matches BEGIN SELECT RAISE(ABORT,'rollback-probe'); END").run();
- await assert.rejects(fresh().computerCommand(body.id,bot),/rollback-probe/);assert.equal((await db.prepare('SELECT version FROM native_matches WHERE id=?').bind(body.id).first()).version,1);assert.equal((await db.prepare('SELECT count(*) n FROM native_commands').first()).n,1);
- await db.prepare('DROP TRIGGER rollback_native').run();await fresh().computerCommand(body.id,bot);
+ await assert.rejects(fresh().advanceComputer(body.id,'owner',{}),/rollback-probe/);assert.equal((await db.prepare('SELECT version FROM native_matches WHERE id=?').bind(body.id).first()).version,1);assert.equal((await db.prepare('SELECT count(*) n FROM native_commands').first()).n,1);
+ await db.prepare('DROP TRIGGER rollback_native').run();
+ const dispatch=await Promise.all(Array.from({length:8},()=>http.update(request({operation:'advance'}),ctx)));assert.ok(dispatch.every(r=>r.status===200));const dispatched=await Promise.all(dispatch.map(r=>r.json()));assert.equal(dispatched.reduce((n,r)=>n+r.computer.steps,0),1);assert.ok(dispatched.every(r=>r.side==='dark'&&r.computer.status==='waiting'&&!r.game.setup.selected.light));
  view=await fresh().read(body.id,'owner');assert.equal(view.revision,2);assert.equal((await fresh().command(body.id,'owner',choice)).acceptedRevision,1);
  const pvp=await fresh().create('owner',{...body,id:randomUUID(),mode:'pvp',computerDeck:undefined});const guestDeck=decks.find(d=>d.side==='light').cards;
  const joins=await Promise.allSettled(['guest-a','guest-b'].map(actor=>fresh().join(pvp.id,actor,{commandId:randomUUID(),inviteToken:pvp.inviteToken,deck:guestDeck})));assert.equal(joins.filter(r=>r.status==='fulfilled').length,1);assert.equal(joins.filter(r=>r.status==='rejected').length,1);
- console.log('D1/workerd: atomic retry receipts, transaction rollback/retry, first-primary session reads, private projections and competing invitation claims passed.');
+ console.log('D1/workerd: atomic retry receipts, transaction rollback/retry, first-primary session reads, private projections, concurrent authorized computer dispatch and competing invitation claims passed.');
 }finally{await mf.dispose()}
