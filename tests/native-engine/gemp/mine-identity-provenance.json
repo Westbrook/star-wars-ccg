@@ -1,0 +1,29 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T12:22:28.995852+00:00",
+  "harness": "NativeEngineMineIdentityOracleTests.java",
+  "harnessSha256": "6d192d6e88a3ae155348db994b559545d5415d001b4e1321f3be875250aaea34",
+  "result": "mine-identity-results.json",
+  "resultSha256": "fd64cc15d4492e814d153557e209f833925d902ba48e78c39590f9b16cc6df53",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineMineIdentityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; pinned source; test harness only",
+  "junitTests": 3,
+  "observations": 10,
+  "matchingObservations": 9,
+  "unchangedProductionFiles": 6820,
+  "scope": "Seven actual defuse actions with controlled source/target leave/return/movement; casualty pre-loss and loss events including attached weapon; Electrobinoculars empty/nonempty Reserve action eligibility. Native grouped casualty events are normalized to per-card events for comparison.",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf (p21 implied target rule; p169 mining droids and duds)",
+  "differences": [
+    {
+      "case": "peek-empty",
+      "gemp": "Card1_035 offers the action with empty Reserve.",
+      "native": "Rejects initiation under the explicit AR p21 prohibition on peeking into an empty pile. Paid actions already initiated still complete as far as possible."
+    }
+  ],
+  "limitations": [
+    "Controlled defuse zone changes are fixture interventions, not a played removal/redeployment combo. GEMP physical-card target behavior is preserved; no universal target-instance policy is inferred.",
+    "Dud disposal/state validation and stale just-lost response protection have native tests and official rules support, not new equivalent GEMP traces.",
+    "Aboard targets, enclosed vehicles, other mines and generic loss prevention/replacement remain required. Full match admission stays closed."
+  ]
+}

@@ -23,10 +23,20 @@ function removeGroup(m: Match, ids: Set<string>, zone: 'leaving' | 'hand'): void
     moveCard(m, id, zone); waiting.delete(id);
   }
 }
-export function loseFromTable(m: Match, hosts: string[]): void {
+/** Snapshot the complete affected group for response targeting before removal. */
+export const tableLossCards = (m: Match, hosts: string[]): string[] => [...tableGroup(m,hosts)];
+export function loseFromTable(m: Match, hosts: string[]): string[] {
   const ids = tableGroup(m, hosts);
   removeGroup(m, ids, 'leaving');
   orderNext(m, [...ids]);
+  return [...ids];
+}
+/** Revealed minefield duds are discarded from their buried state. They never
+ * deploy or become active characters/locations while their Lost order is chosen. */
+export function loseBuriedCards(m: Match, cards: string[]): void {
+  if (new Set(cards).size !== cards.length || cards.some(id => m.cards[id]?.zone !== 'buried')) throw Error('Invalid buried-card loss.');
+  for (const id of cards) moveCard(m,id,'leaving');
+  orderNext(m,cards);
 }
 /** A forfeiture replacement changes only the host's destination. Descendants
  * still leave simultaneously and are ordered in Lost before the host enters Used. */

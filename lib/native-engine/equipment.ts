@@ -2,7 +2,7 @@ import {deployed} from './deployment';
 import {assertArmorEquipment, isArmorDevice, recordArmor} from './armor-equipment';
 import {hasCharacterArmor} from './stat-modifiers';
 import {hasPersona} from './persona';
-import {cardVersion} from './identity';
+import {cardVersion, referenceCard} from './identity';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {atSite, cardDefinition, isWarrior, name, system} from './board';
 import {weapons} from './battle';
@@ -11,10 +11,10 @@ import {drawDestiny, type Draw} from './destiny';
 import {canDeployAsReact, pendingReactSite, reactionSources, registerReact} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
 import {moveCard} from './state';
-import {loseFromTable} from './table';
+import {loseFromTable, loseBuriedCards, tableLossCards} from './table';
 import {other, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
 
-type Payload = {attachment?: AttachmentAttempt; card?: string; target?: string; site?: string; mode?: 'warrior' | 'power'; react?: boolean; via?: string; draw?: Draw; cards?: string[]; selected?: string[]; count?: number; trippedBy?: Side};
+type Payload = {source?: string; attachment?: AttachmentAttempt; card?: string; target?: string; site?: string; mode?: 'warrior' | 'power'; react?: boolean; via?: string; draw?: Draw; cards?: string[]; selected?: string[]; count?: number; trippedBy?: Side};
 export const isMine = (blueprint: string) => ['1_162', '1_322'].includes(blueprint);
 const mining = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side && ['1_18', '1_186'].includes(c.blueprint));
 const isTraining = (bp: string) => ['1_64', '1_221'].includes(bp);
@@ -72,7 +72,7 @@ export function equipmentActions(m: Match, w: Window, side: Side): Action[] {
     for (const via of sources.filter(id => m.cards[id].blueprint === '1_201')) result.push(...deployActions(m, side, reactSite, via));
   }
   if (topLevel(w)) for (const c of Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table')) {
-    if (c.blueprint === '1_35' && c.attachedTo && isWarrior(m, c.attachedTo) && canUseDevice(m, c.id))
+    if (c.blueprint === '1_35' && c.attachedTo && isWarrior(m, c.attachedTo) && canUseDevice(m, c.id) && m.players[side].reserve.length)
       result.push(act('peek:' + c.id, 'Use Electrobinoculars · 2 Force', 'peek', {card: c.id}, {[side]: 2}, c.id));
     if (c.blueprint === '1_224' && m.players[other(side)].reserve.length)
       result.push(act('peek:' + c.id, 'Use Macroscan · 1 Force', 'peek', {card: c.id}, {[side]: 1}, c.id));
@@ -109,10 +109,12 @@ export function equipmentInitiate(m: Match, r: Resolution): void {
   if (p.react) registerReact(m, p.card!);
   if (kind === 'equipment:peek' && m.cards[p.card!].blueprint === '1_35') useDevice(m, p.card!);
 }
-function loss(m: Match, cards: string[], side: Side): void {
+function loss(m: Match, cards: string[], side: Side, source?: string): void {
   const live = cards.filter(id => m.cards[id]?.zone === 'table');
   if (!live.length) return;
-  then(m, 'lost', side, {cards: live}); loseFromTable(m, live);
+  then(m, 'lose', side, {cards: live, ...(source ? {source} : {})});
+  const targets = tableLossCards(m,live);
+  openWindow(m, 'response', other(side), {kind: 'about-to-lose', cards: targets, cardRefs: targets.map(id => referenceCard(m,id)), ...(live.length === 1 ? {card: live[0]} : {}), ...(source ? {source} : {})});
 }
 function discardMine(m: Match, id: string, side: Side): void {loss(m, [id], side);}
 function resolveMineVictims(m: Match, r: Resolution): void {
@@ -121,7 +123,7 @@ function resolveMineVictims(m: Match, r: Resolution): void {
   const count = Math.min(victims.length, Math.max(0, Math.floor(p.draw?.value ?? 0)));
   then(m, 'discard-mine', mine.owner, {card: mine.id});
   if (!count) return;
-  if (count === victims.length) loss(m, victims, other(mine.owner));
+  if (count === victims.length) loss(m, victims, other(mine.owner), mine.id);
   else m.stack.push({kind: 'decision', side: other(mine.owner), handler: 'equipment:mine-victims', payload: {card: mine.id, cards: victims, selected: [], count} as Json});
 }
 export function equipmentResolve(m: Match, r: Resolution): void {
@@ -148,11 +150,25 @@ export function equipmentResolve(m: Match, r: Resolution): void {
     drawDestiny(m, mine.owner, mine.id, 'timer-mine', act('mine-victims:' + mine.id, 'Resolve Timer Mine', 'mine-victims', {card: mine.id, site: mine.location!}));
   } else if (kind === 'equipment:mine-victims') resolveMineVictims(m, r);
   else if (kind === 'equipment:discard-mine') discardMine(m, p.card!, side);
-  else if (kind === 'equipment:lost') openWindow(m, 'response', other(side), {kind: 'cards-lost', cards: p.cards!});
+  else if (kind === 'equipment:lose') {
+    const live = p.cards!.filter(id => m.cards[id]?.zone === 'table');
+    if (live.length) {
+      // Put the response after all owners finish ordering every dependent in Lost.
+      const pending: Payload = {...p, cards: []};
+      then(m, 'lost', side, pending);
+      pending.cards = loseFromTable(m, live);
+    }
+  } else if (kind === 'equipment:lost') {
+    const cards = p.cards!.filter(id => m.cards[id]?.zone === 'lost');
+    if (cards.length) openWindow(m, 'response', other(side), {kind: 'cards-lost', cards, cardRefs: cards.map(id => referenceCard(m,id)), ...(p.source ? {source: p.source} : {})});
+  }
   else if (kind === 'equipment:trip') {
     const cards = Object.values(m.cards).filter(c => c.zone === 'buried' && c.location === p.site).map(c => c.id), mines: string[] = [], duds: string[] = [];
-    for (const id of cards) {moveCard(m, id, 'table'); m.cards[id].location = p.site; if (isMine(m.cards[id].blueprint)) {mines.push(id); recordEquipment(m).mines[id] = m.turn.number;} else duds.push(id);}
-    then(m, 'trip-defuse', side, {cards: mines, site: p.site, trippedBy: p.trippedBy}); loss(m, duds, side);
+    for (const id of cards) {if (isMine(m.cards[id].blueprint)) {moveCard(m,id,'table'); m.cards[id].location = p.site; mines.push(id); recordEquipment(m).mines[id] = m.turn.number;} else duds.push(id);}
+    then(m, 'trip-defuse', side, {cards: mines, site: p.site, trippedBy: p.trippedBy});
+    if (duds.length) {then(m,'duds-lost',side,{cards:duds}); loseBuriedCards(m,duds);}
+  } else if (kind === 'equipment:duds-lost') {
+    openWindow(m,'response',other(side),{kind:'buried-cards-lost',cards:p.cards!,cardRefs:p.cards!.map(id=>referenceCard(m,id))});
   } else if (kind === 'equipment:trip-defuse') {
     then(m, 'trip-order', side, p);
     if (mining(m, m.turn.side, p.site!).length) openWindow(m, 'response', m.turn.side, {kind: 'mines-before-explosion', cards: p.cards!});
@@ -177,7 +193,7 @@ export function equipmentChoose(m: Match, d: Decision, choice: string): void {
     }
   } else if (d.handler === 'equipment:mine-victims') {
     p.selected!.push(choice.slice(7));
-    if (p.selected!.length < p.count!) m.stack.push({...d, payload: p as Json}); else loss(m, p.selected!, d.side);
+    if (p.selected!.length < p.count!) m.stack.push({...d, payload: p as Json}); else loss(m, p.selected!, d.side, p.card);
   } else if (d.handler === 'equipment:trip-order') {
     const id = choice.slice(8); then(m, 'trip-order', d.side, {...p, cards: p.cards!.filter(card => card !== id)});
     if (m.cards[id].owner === p.trippedBy) discardMine(m, id, m.cards[id].owner);
@@ -191,6 +207,10 @@ export function equipmentView(m: Match, seat: Side): Json {
 export function assertEquipment(m: Match): void {
   assertArmorEquipment(m);
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'equipment:attach') {const p = data(f); assertAttachmentAttempt(m, p.attachment!, p.card!, p.target!);}
+  for (const f of m.stack) if (f.kind === 'resolution' && ['equipment:lose','equipment:lost','equipment:duds-lost'].includes(f.action.handler)) {
+    const p = data(f);
+    if (!p || !Array.isArray(p.cards) || !p.cards.length || new Set(p.cards).size !== p.cards.length || p.cards.some(id => !m.cards[id] || m.locations.includes(id)) || p.source !== undefined && !m.cards[p.source]) throw Error('Invalid pending equipment loss.');
+  }
   const s = equipmentState(m), raw = m.data.equipment as {turn: number} | undefined;
   if (raw && (!Number.isSafeInteger(raw.turn) || raw.turn < 1 || raw.turn > m.turn.number)) throw Error('Invalid equipment turn.');
   if (s.deviceVersions && (typeof s.deviceVersions !== 'object' || Array.isArray(s.deviceVersions) || Object.entries(s.deviceVersions).some(([host, v]) => !s.devices[host] || !Number.isSafeInteger(v) || v < 0 || v > cardVersion(m, s.devices[host])))) throw Error('Invalid device instance history.');
@@ -207,6 +227,10 @@ export function assertEquipment(m: Match): void {
   for (const f of m.stack) if (f.kind === 'decision' && f.handler.startsWith('equipment:')) {
     const p = data(f);
     if (!Array.isArray(p.cards) || new Set(p.cards).size !== p.cards.length || p.cards.some(id => !m.cards[id])) throw Error('Invalid equipment choice cards.');
+    if (f.handler === 'equipment:peek') {
+      const bp = m.cards[p.card!]?.blueprint, target = bp === '1_35' ? f.side : other(f.side);
+      if (!['1_35','1_224'].includes(bp) || m.cards[p.card!].owner !== f.side || !p.cards.length || p.cards.length > (bp === '1_35' ? 1 : 3) || p.cards.some((id,i) => m.players[target].reserve[i] !== id)) throw Error('Invalid private equipment inspection.');
+    }
     if (f.handler === 'equipment:mine-victims' && (!Number.isSafeInteger(p.count) || p.count! < 1 || p.count! > p.cards.length || !Array.isArray(p.selected) || new Set(p.selected).size !== p.selected.length || p.selected.some(id => !p.cards!.includes(id)) || p.selected.length >= p.count!)) throw Error('Invalid mine victim selection.');
   }
 }

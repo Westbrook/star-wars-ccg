@@ -357,7 +357,7 @@
         "tests/native-engine/doomed.test.mjs"
       ],
       "remaining": [
-        "Other R2/C-3PO identities/permanent astromechs; fractional/general modifier interactions; metadata-only droids cannot deploy."
+        "C-3PO 1_5 and R2-D2 2_14 now have ground deployment/abilities. Other personas, aboard/permanent astromechs and general modifier interactions remain."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/doomed-provenance.json"
@@ -567,7 +567,8 @@
         "Mining-droid deployment/react",
         "Next owner start explosion",
         "Destiny and owner casualty choice",
-        "Buried minefield arrival/reveal/explosion"
+        "Buried minefield arrival/reveal/explosion",
+        "Pre-loss response boundary, simultaneous dependent-card loss/order, and instance-bound just-lost events."
       ],
       "implementation": [
         "lib/native-engine/equipment.ts",
@@ -576,13 +577,15 @@
       ],
       "testFiles": [
         "tests/native-engine/equipment.test.mjs",
-        "tests/native-engine/react-weapons.test.mjs"
+        "tests/native-engine/react-weapons.test.mjs",
+        "tests/native-engine/mine-identity.test.mjs"
       ],
       "remaining": [
-        "Enclosed vehicles/capacity and broader mine prevention/replacement; compound casualty target identity."
+        "Enclosed vehicles/capacity and general loss prevention/replacement remain. Starter mine/dud timing now has dedicated recovery tests; broader interactions remain before full admission."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/equipment-provenance.json"
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/mine-identity-provenance.json"
       ],
       "gempId": "1_162",
       "name": "Timer Mine",
@@ -615,19 +618,23 @@
       "functionsReviewed": [
         "Paid own-turn mine defusing",
         "Permission to deploy/bury mines",
-        "Arrival and before-explosion interaction"
+        "Arrival and before-explosion interaction",
+        "Defuse source/target departure and movement match executed GEMP; physical returned target remains affected.",
+        "Buried location/device/character duds discard without becoming active table cards."
       ],
       "implementation": [
         "lib/native-engine/equipment.ts"
       ],
       "testFiles": [
-        "tests/native-engine/equipment.test.mjs"
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/mine-identity.test.mjs"
       ],
       "remaining": [
         "Other mine types and enclosed vehicles not implemented."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/equipment-provenance.json"
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/mine-identity-provenance.json"
       ],
       "gempId": "1_18",
       "name": "LIN-V8K (Elleyein-Veeatekay)",
@@ -687,19 +694,23 @@
       "functionsReviewed": [
         "Paid own-turn mine defusing",
         "Permission to deploy/bury mines",
-        "Arrival and before-explosion interaction"
+        "Arrival and before-explosion interaction",
+        "Defuse source/target departure and movement match executed GEMP; physical returned target remains affected.",
+        "Buried location/device/character duds discard without becoming active table cards."
       ],
       "implementation": [
         "lib/native-engine/equipment.ts"
       ],
       "testFiles": [
-        "tests/native-engine/equipment.test.mjs"
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/mine-identity.test.mjs"
       ],
       "remaining": [
         "Other mine types and enclosed vehicles not implemented."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/equipment-provenance.json"
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/mine-identity-provenance.json"
       ],
       "gempId": "1_186",
       "name": "LIN-V8M (Elleyein-Veeateemm)",
@@ -1538,7 +1549,8 @@
         "Mining-droid deployment/react",
         "Next owner start explosion",
         "Destiny and owner casualty choice",
-        "Buried minefield arrival/reveal/explosion"
+        "Buried minefield arrival/reveal/explosion",
+        "Pre-loss response boundary, simultaneous dependent-card loss/order, and instance-bound just-lost events."
       ],
       "implementation": [
         "lib/native-engine/equipment.ts",
@@ -1547,13 +1559,15 @@
       ],
       "testFiles": [
         "tests/native-engine/equipment.test.mjs",
-        "tests/native-engine/react-weapons.test.mjs"
+        "tests/native-engine/react-weapons.test.mjs",
+        "tests/native-engine/mine-identity.test.mjs"
       ],
       "remaining": [
-        "Enclosed vehicles/capacity and broader mine prevention/replacement; compound casualty target identity."
+        "Enclosed vehicles/capacity and general loss prevention/replacement remain. Starter mine/dud timing now has dedicated recovery tests; broader interactions remain before full admission."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/equipment-provenance.json"
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/mine-identity-provenance.json"
       ],
       "gempId": "1_322",
       "name": "Timer Mine",
@@ -1566,20 +1580,23 @@
         "Own warrior paid deployment/transfer/react",
         "Private paid top-Reserve peek",
         "Optional Force placement",
-        "One different device per bearer per turn"
+        "One different device per bearer per turn",
+        "Reject empty Reserve under AR implied targeting; validate saved private inspection against actual ordered pile."
       ],
       "implementation": [
         "lib/native-engine/equipment.ts",
         "lib/native-engine/equipment-state.ts"
       ],
       "testFiles": [
-        "tests/native-engine/equipment.test.mjs"
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/mine-identity.test.mjs"
       ],
       "remaining": [
-        "Generic source/target instance revalidation and full peek prevention remain."
+        "Generic inspection prevention/replacement and wider device interactions. Pinned GEMP offers an empty-pile peek; native follows explicit AR p21."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/equipment-provenance.json"
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/mine-identity-provenance.json"
       ],
       "gempId": "1_35",
       "name": "Electrobinoculars",
@@ -1798,7 +1815,7 @@
         "tests/native-engine/stakes.test.mjs"
       ],
       "remaining": [
-        "Han metadata is not admitted to deployment; other Han personas/permanent pilots and general target identity remain."
+        "Han Solo 1_11 now has ground deployment and destiny response components. Other personas/permanent pilots and remaining cross-card admission work remain."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/stakes-provenance.json"
@@ -2133,6 +2150,19 @@
         "tests/native-engine/gemp/immunity-provenance.json"
       ],
       "scope": "Exact/change/cap/uncancelable immunity and actual Trooper Assault; resolved-group membership, cancellation/duplicate behavior and frozen immunity through complete battle.26 reference observations match;116 definitions. Broader applicability and full admission remain."
+    },
+    "equipmentLoss": {
+      "implementation": [
+        "lib/native-engine/equipment.ts",
+        "lib/native-engine/table.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/mine-identity.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/mine-identity-provenance.json"
+      ],
+      "scope": "Mine casualty response boundaries and complete dependent losses; preserved GEMP defuse physical targeting. Native dud disposal and hidden inspection validation. Component-only; empty-peek reference discrepancy is explicit."
     }
   },
   "wholeMatchEvidence": {
@@ -2140,5 +2170,39 @@
     "tests": "tests/native-engine/full-match.test.mjs",
     "admission": "unchanged, closed",
     "scope": "20 complete randomized 40/60 native test matches and exact transcript replay; not full GEMP match parity or exhaustive reachable-card coverage."
+  },
+  "firstGroundMatchReview": {
+    "baseCommit": "bcdea2b19f2879d3aff6ca8d40807b2626ba69db",
+    "scope": "Current 60-card intro lists and their open-40 test derivatives. This identifies next validation work; it is not a narrowed replacement for the entire engine/product goal.",
+    "decks": [
+      {
+        "id": "intro-light",
+        "side": "light",
+        "cards": 60,
+        "definitions": 33,
+        "orderedBlueprintsSha256": "49c5ec2c109f8edb1cfa7b9a471d5bb60301e78e1e60574565232cfe95541707"
+      },
+      {
+        "id": "intro-dark",
+        "side": "dark",
+        "cards": 60,
+        "definitions": 35,
+        "orderedBlueprintsSha256": "277059fa0f510581ec4c59ba2f392ed6da9522e581a761706fc61815ac0063ec"
+      }
+    ],
+    "productionAdmission": "closed",
+    "nextRequiredVerification": [
+      "Resolve the one-failed-destiny-set Vader\u2019s Obsession guard reachable as Reserve Decks empty in an introductory match.",
+      "Audit remaining pending loss/target/search and timing behavior across the exact two deck lists, distinguishing unreachable broader-catalog features from reachable starter interactions.",
+      "Execute GEMP complete-match comparisons; seeded native full-match victory/replay is integration evidence, not exhaustive rules certification."
+    ],
+    "retainedFullScope": [
+      "Full card catalog and reachable timing",
+      "Open 40/60 custom decks and sealed",
+      "Vehicles, pilots, passengers and space",
+      "Objectives and special setup",
+      "CPU/PvP, durable saves/deep links, clocks and capacity",
+      "Responsive gameplay UI and preserved GEMP/proof paths"
+    ]
   }
 }

@@ -1,0 +1,77 @@
+[
+  {
+    "forceSpent": 1,
+    "mode": "stay",
+    "mineLost": true
+  },
+  {
+    "forceSpent": 1,
+    "mode": "target-leave",
+    "mineLost": false
+  },
+  {
+    "forceSpent": 1,
+    "mode": "target-return",
+    "mineLost": true
+  },
+  {
+    "forceSpent": 1,
+    "mode": "target-move",
+    "mineLost": true
+  },
+  {
+    "forceSpent": 1,
+    "mode": "source-leave",
+    "mineLost": true
+  },
+  {
+    "forceSpent": 1,
+    "mode": "source-return",
+    "mineLost": true
+  },
+  {
+    "forceSpent": 1,
+    "mode": "source-move",
+    "mineLost": true
+  },
+  {
+    "available": true,
+    "mode": "peek-nonempty"
+  },
+  {
+    "available": true,
+    "mode": "peek-empty"
+  },
+  {
+    "events": [
+      {
+        "stage": "about-to-lose",
+        "actor": "light"
+      },
+      {
+        "stage": "about-to-lose",
+        "actor": "light"
+      },
+      {
+        "stage": "lost",
+        "actor": "light",
+        "card": "1_152"
+      },
+      {
+        "stage": "lost",
+        "actor": "light",
+        "card": "1_28"
+      },
+      {
+        "stage": "about-to-lose",
+        "actor": "dark"
+      },
+      {
+        "stage": "lost",
+        "actor": "dark",
+        "card": "1_322"
+      }
+    ],
+    "mode": "casualty-timing"
+  }
+]
