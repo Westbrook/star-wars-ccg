@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {randomUUID} from 'node:crypto';
+import {Miniflare} from 'miniflare';
+import {load} from '../native-proof/load-engine.mjs';
+import {auditRules,starterDecks} from './match-runner.mjs';
+const {nativeMatchService}=load(new URL('../../lib/native-engine/service.ts',import.meta.url));
+const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
+// Isolated real D1/workerd runtime. No production Site or shared local DB used.
+const mf=new Miniflare({modules:true,script:'export default { fetch() { return new Response("native-service-test") } }',compatibilityDate:'2026-05-22',d1Databases:['DB'],cf:false});
+try{
+ const db=await mf.getD1Database('DB');const migration=fs.readFileSync(new URL('../../drizzle/0002_native_match_sessions.sql',import.meta.url),'utf8');
+ await db.batch(migration.split('--> statement-breakpoint').map(s=>s.trim()).filter(Boolean).map(s=>db.prepare(s)));
+ const fresh=()=>nativeMatchService(db.withSession('first-primary'),{currentRules:auditRules.id,rules:id=>id===auditRules.id?auditRules:undefined});
+ const http=matchHandlers(fresh),decks=starterDecks(40),body={id:randomUUID(),mode:'cpu',side:'dark',deckSize:40,deck:decks.find(d=>d.side==='dark').cards,computerDeck:decks.find(d=>d.side==='light').cards};
+ const request=(body,actor='owner')=>new Request('http://localhost/api/matches',{method:body?'POST':'GET',headers:{'content-type':'application/json','oai-authenticated-user-id':actor,'oai-authenticated-user-email':actor+'@example.test'},...(body?{body:JSON.stringify(body)}:{})});
+ const created=await http.create(request(body));assert.equal(created.status,201);let view=await created.json();
+ const choice={operation:'command',commandId:randomUUID(),revision:0,choice:view.game.prompt.choices[0].id},ctx={params:Promise.resolve({id:body.id})};
+ const responses=await Promise.all(Array.from({length:8},()=>http.update(request(choice),ctx)));assert.ok(responses.every(r=>r.status===200));const results=await Promise.all(responses.map(r=>r.json()));assert.equal(results.filter(r=>!r.duplicate).length,1);assert.ok(results.every(r=>r.acceptedRevision===1&&r.revision===1));
+ assert.equal((await db.prepare('SELECT count(*) n FROM native_commands').first()).n,1);
+ assert.equal((await http.read(request(undefined,'outsider'),ctx)).status,404);
+ const computer=await fresh().readComputer(body.id);const bot={commandId:randomUUID(),revision:computer.revision,choice:computer.game.prompt.choices[0].id};
+ await db.prepare("CREATE TRIGGER rollback_native BEFORE UPDATE ON native_matches BEGIN SELECT RAISE(ABORT,'rollback-probe'); END").run();
+ await assert.rejects(fresh().computerCommand(body.id,bot),/rollback-probe/);assert.equal((await db.prepare('SELECT version FROM native_matches WHERE id=?').bind(body.id).first()).version,1);assert.equal((await db.prepare('SELECT count(*) n FROM native_commands').first()).n,1);
+ await db.prepare('DROP TRIGGER rollback_native').run();await fresh().computerCommand(body.id,bot);
+ view=await fresh().read(body.id,'owner');assert.equal(view.revision,2);assert.equal((await fresh().command(body.id,'owner',choice)).acceptedRevision,1);
+ const pvp=await fresh().create('owner',{...body,id:randomUUID(),mode:'pvp',computerDeck:undefined});const guestDeck=decks.find(d=>d.side==='light').cards;
+ const joins=await Promise.allSettled(['guest-a','guest-b'].map(actor=>fresh().join(pvp.id,actor,{commandId:randomUUID(),inviteToken:pvp.inviteToken,deck:guestDeck})));assert.equal(joins.filter(r=>r.status==='fulfilled').length,1);assert.equal(joins.filter(r=>r.status==='rejected').length,1);
+ console.log('D1/workerd: atomic retry receipts, transaction rollback/retry, first-primary session reads, private projections and competing invitation claims passed.');
+}finally{await mf.dispose()}

@@ -966,3 +966,53 @@ card certification. The exploration policy is not the production strategic CPU.
 Remaining work still includes reachable cross-card conformance/adjudication,
 identity/modifier coverage, authenticated durable transactions, CPU/PvP service
 and responsive full-match presentation. Existing GEMP paths and studies remain.
+
+### Durable native match service
+
+`service.ts` persists native matches independently of the Rules Lab and GEMP.
+`/api/matches` lists the signed-in player's matches and accepts creation requests;
+`/api/matches/:id` restores the assigned seat or accepts `join`/`command` operations.
+Sites gateway identity supplies the actor. JSON cannot choose an actor, seat,
+snapshot, rules implementation, entropy or clock. Responses are private/no-store.
+
+Creation supplies `{id, mode, side, deckSize, deck}`; CPU mode also supplies
+`computerDeck`. Decks contain blueprint IDs and pass the server's rules admission
+before storage. PvP initially stores only the creator's private deck. An invited
+opponent submits `{operation:"join", commandId, inviteToken, deck}` for the
+opposite side; the two decks then enter ordinary starting setup. Concurrent joins
+claim one seat exactly once. Only the waiting owner sees the invitation token.
+A future UI should share it in a URL fragment and keep the stable match ID as the
+refresh/deeplink identity; tokens must not be exposed in public listings or logs.
+
+Commands contain `{operation:"command", commandId, revision, choice}`. The server
+assigns the seat, checks the current legal prompt and computes a new snapshot with
+server entropy. Receipt insertion and the conditional snapshot update occur in a
+single D1 batch transaction. A random per-invocation claim prevents simultaneous
+retries from both updating the game. Repeating an accepted request returns its
+original `acceptedRevision` plus the current private projection. Reusing an ID for
+a different actor/choice or sending an old revision returns a conflict. SQL/rules
+failures cannot leave a partially applied move. Keep receipt IDs across retries.
+
+Each HTTP request starts a D1 `first-primary` session and retains sequential
+consistency through the transaction and response. Expired engine decisions are
+advanced by the trusted server clock on reads/commands, with their own revision
+and transactional receipt. A late command sees the advanced revision; repeated
+reads cannot restart deadlines or apply a timer twice. This settles persisted
+engine deadlines on interaction; autonomous CPU scheduling and game clocks remain
+future required service work.
+
+The internal `readComputer`/`computerCommand` methods expose only the computer's
+seat to a future trusted scheduler. No HTTP operation can impersonate it. This
+checkpoint stores CPU matches but does not implement a strategic bot or its loop.
+Production still uses `premiereRules.supports() === false`, so creating full
+matches returns `DECK_NOT_ADMITTED` until the reachable rules gate is satisfied.
+Existing saved proof games, proof URLs and GEMP routes are unchanged.
+
+Migration `drizzle/0002_native_match_sessions.sql` adds only `native_matches` and
+`native_commands`. Tests run the production SQL in real SQLite (including disk
+reopen and rollback), persist complete 40-card PvP/60-card computer-seat command
+traces, and check seat privacy, invitation races, duplicates, stale revisions,
+concession, timer races, oversized/foreign requests and the production gate.
+`npm run test:engine:service` additionally runs an isolated Miniflare D1/workerd
+instance with real batch rollback/concurrency and first-primary sessions. It uses
+the installed runtime's pinned compatibility date and touches no shared database.
