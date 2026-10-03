@@ -5,7 +5,7 @@ import {premiereSites} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-2';
+export const computerPolicy = 'native-cpu-3';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -31,6 +31,32 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   const strength = (site: string, seat: Side, defending = false) => rules?.values?.sites[site]?.[seat]?.[defending ? 'defendingPower' : 'power'] ?? at(site,seat).reduce((n,c) => n + stat(c.id,'power'),0);
   const icons = (site: string, seat: Side) => premiereSites[cards.get(site)?.blueprint ?? '']?.icons[seat] ?? 0;
   const value = (id: string) => stat(id,'power') * 2 + stat(id,'ability') - stat(id,'deploy');
+  const wantsCard = own.hand.length < 9 && own.lifeForce > 1;
+  const ownStations = view.table.filter(c => c.zone === 'table' && !c.coveredBy && c.owner === side && c.blueprint === '1_37');
+  const vaporators = view.table.filter(c => c.zone === 'table' && !c.coveredBy && c.blueprint === '1_41');
+  const near = (a: string | undefined, b: string | undefined) => {
+    if (!a || !b) return false;
+    if (a === b) return true;
+    const locations = view.locations ?? [], i = locations.indexOf(a), j = locations.indexOf(b);
+    const system = premiereSites[cards.get(a)?.blueprint ?? '']?.system;
+    return i >= 0 && j >= 0 && Math.abs(i-j) === 1 && !!system && system === premiereSites[cards.get(b)?.blueprint ?? '']?.system;
+  };
+  const cheapestCharacter = Math.min(6,...own.hand.filter(c => definition(c.blueprint).type === 'Character').map(c => Math.max(0,stat(c.id,'deploy'))));
+  // This is a planning estimate, not a deployment-cost or activation rule.
+  // Keep enough projected Force for a character plus a move/battle when the
+  // hand already has options. A nearly empty hand needs cards first.
+  const activationLeft = view.turn.side === side && view.turn.phase === 'activate' ? Math.min(own.counts?.reserve ?? 0,Math.max(0,view.turn.generation-view.turn.activated)) : 0;
+  const canSpareActivation = own.hand.length < 3 || (own.counts?.force ?? 0) + activationLeft > cheapestCharacter + 1;
+  const farmScore = (id: string, site: string) => {
+    if (cards.get(id)?.blueprint === '1_37') return ownStations.length || own.lifeForce <= 4 ? -5 : 22 + at(site,side).filter(c => c.blueprint === '1_2').length * 3;
+    if (cards.get(id)?.blueprint !== '1_41') return -5;
+    const unprotected = view.table.filter(c => c.zone === 'table' && !c.attachedTo && !c.coveredBy && definition(c.blueprint).type === 'Character' && near(site,c.location) && !vaporators.some(v => near(v.attachedTo,c.location)));
+    const protection = unprotected.reduce((n,c) => n + (c.owner === side ? 3 : -3),0);
+    const extraDraw = ownStations.length && !vaporators.length ? 12 : 0;
+    const owen = at(site,side).some(c => c.blueprint === '1_22') && !vaporators.some(v => v.attachedTo === site) ? 6 : 0;
+    const benefit = protection + extraDraw + owen;
+    return benefit > 0 ? 10 + benefit : -5;
+  };
   const handLoss = (id: string) => 12 - value(id);
   const remainingDamage = battle?.damage[side] ?? 0, remainingAttrition = battle?.attrition[side] ?? 0;
   const hits = battle?.hits.filter(id => cards.get(id)?.owner === side) ?? [];
@@ -49,7 +75,16 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (c.id === 'pass') return 0;
     if (p.timing === 'setup') return c.forceIcons ? 20 + c.forceIcons[side] * 3 - c.forceIcons[opponent] : 10;
     if (c.id === 'core:activate') return 100;
-    if (c.id === 'core:draw') return own.hand.length < 9 && own.lifeForce > 1 ? 20 : -10;
+    if (c.id === 'core:draw') return wantsCard ? 20 : -10;
+    if (kind === 'farm-deploy') return farmScore(a,b);
+    if (kind === 'hydroponics') return wantsCard && canSpareActivation ? 30 : -5;
+    if (kind === 'r2') return b === 'activate' ? 90 : b === 'draw' && wantsCard ? 60 : -5;
+    // No hidden destiny distribution is available. Prefer low-ability targets
+    // using their current public value; uncertain high-ability shots can wait.
+    if (kind === 'gravel' && a === 'play') {
+      const target = c.id.split(':')[3], ability = stat(target,'ability');
+      return (own.counts?.reserve ?? 0) > 0 && cards.has(target) && ability <= 3 ? 50 + Math.min(12,Math.max(0,value(target))) - ability * 10 : -5;
+    }
     if (c.id === 'draw-destiny') return 80;
     if (c.id === 'skip-destiny') return -10;
     if (kind === 'drain') return 100 + icons(a,opponent);

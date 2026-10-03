@@ -2109,3 +2109,32 @@ interventions are controlled component tests, not proof of exhaustive reachable
 full matches. There are now 136 explicit definitions, with full admission still
 closed. Aboard/capture/vehicles, other immunity providers, broader retargeting,
 site catalog and CPU strategy remain in scope. No new Rules Lab study was added.
+
+### Computer policy 3: farm resources and desert responses
+
+`native-cpu-3` adds optional choices for Hydroponics Station, Vaporator, R2-D2's
+Scomp Link responses and Gravel Storm. It uses only its seat's player projection
+and engine-offered legal choices. Station deployment avoids redundant copies;
+Vaporator placement estimates extra draws, Owen's local bonus and protection for
+both sides across the public site layout. Hydroponics preserves estimated Force
+for characters when the hand has options, while a nearly empty hand prioritizes
+drawing. Both draw responses preserve the final Life Force and cap hand growth.
+R2's free activation can still be taken at one Life Force. Gravel prefers targets
+with low current public ability and retains the card if Reserve is empty or only
+high-ability targets are offered. Hidden destiny values are never inspected.
+
+These are conservative strategy estimates, not new rules or an optimal resource
+planner. Printed deployment costs can differ from actual costs; canceled-text
+providers and further cross-card tactics still need policy work. Rules selectors
+remain authoritative for every offered action, target, cost and effect.
+
+`computer-cards.test.mjs` resolves paid deployments, activation responses, both
+R2 branches and a Gravel loss through the actual engine, including save/reload
+and hidden-order invariance. Two extended, shuffled 40/60-card test-only games
+finish by Life Force loss and each exercises farm deployment, Hydroponics and
+Gravel; R2 response coverage comes from component boards. Service tests inject a
+real Station window, roll back a storage failure, recreate the service and race
+eight CPU requests: one response is committed and one card drawn. Existing
+receipt namespaces isolate human commands from the new policy's identifiers.
+The production admission gate stays closed; these tests do not certify complete
+deck or card coverage. No new Rules Lab study was added.

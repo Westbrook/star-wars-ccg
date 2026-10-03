@@ -11,6 +11,7 @@ const {nativeMatchService,MatchServiceError}=load(new URL('../../lib/native-engi
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
 const runtime=load(new URL('../../lib/native-engine/runtime.ts',import.meta.url));
+const {computerPolicy}=load(new URL('../../lib/native-engine/computer.ts',import.meta.url));
 const state=load(new URL('../../lib/native-engine/state.ts',import.meta.url));
 const clone=x=>JSON.parse(JSON.stringify(x));
 const config=(size=60,side='dark',mode='cpu',id=randomUUID())=>{const decks=starterDecks(size);return{id,mode,side,deckSize:size,deck:decks.find(d=>d.side===side).cards,...(mode==='cpu'?{computerDeck:decks.find(d=>d.side!==side).cards}:{})}};
@@ -141,7 +142,7 @@ test('authorized computer dispatch stops at the human prompt and returns only th
 });
 test('concurrent computer dispatch commits each revision once and cannot be poisoned by human command IDs',async t=>{
  const f=fixture(t),v=await f.service.create('owner',config(40,'dark'));
- await f.service.command(v.id,'owner',cmd(v,undefined,'native-cpu-2-1'));
+ await f.service.command(v.id,'owner',cmd(v,undefined,computerPolicy+'-1'));
  const results=await Promise.all(Array.from({length:8},()=>f.fresh().advanceComputer(v.id,'owner',{})));
  assert.ok(results.every(r=>r.side==='dark'));assert.equal(results.reduce((n,r)=>n+r.computer.steps,0),1);
  const rows=f.db.sqlite.prepare('SELECT id,result_version FROM native_commands ORDER BY result_version').all();assert.equal(rows.length,2);assert.ok(rows[0].id.includes(':command:'));assert.ok(rows[1].id.includes(':computer:'));assert.equal(rows[1].result_version,2);
@@ -150,6 +151,28 @@ test('computer storage failure is atomic and retry works after service recreatio
  const f=fixture(t),v=await f.service.create('owner',config(40,'light'));f.db.failBatch=true;
  await assert.rejects(f.service.advanceComputer(v.id,'owner',{}),/storage failure/);assert.equal((await f.service.read(v.id,'owner')).revision,0);assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands').get().n,0);
  assert.equal((await f.fresh().advanceComputer(v.id,'owner',{})).revision,1);
+});
+test('concurrent CPU activation responses survive rollback, recreation and retry without a second draw',async t=>{
+ const componentRules={...auditRules,starting:undefined,supports:()=>true,setupComplete:()=>true};
+ const f=fixture(t,{rules:()=>componentRules}),body=config(60,'dark');body.computerDeck=[...body.computerDeck];body.computerDeck[body.computerDeck.lastIndexOf('1_28')]='1_37';
+ const v=await f.service.create('owner',body);let m=stored(f.db,v.id);
+ const pull=(side,bp)=>{const c=Object.values(m.cards).find(c=>c.owner===side&&c.blueprint===bp&&c.zone==='reserve');assert.ok(c);state.moveCard(m,c.id,'table');return c.id};
+ const site=pull('light','1_132'),station=pull('light','1_37');m.locations.push(site);m.cards[station].attachedTo=site;
+ m=runtime.startTurns(m,componentRules);m.turn.side='light';
+ runtime.activateOneForce(m,'light');
+ const current=()=>{const p=runtime.prompt(m,componentRules,'dark');return runtime.prompt(m,componentRules,p.side)};
+ if(current().side!=='light')m=runtime.applyCommand(m,componentRules,'dark',{revision:m.revision,choice:'pass'});
+ assert.ok(current().choices.some(c=>c.id==='hydroponics:'+station));const revision=m.revision,activated=m.players.light.force[0];
+ f.db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),revision,v.id);
+ f.db.failBatch=true;await assert.rejects(f.service.advanceComputer(v.id,'owner',{}),/storage failure/);assert.deepEqual(stored(f.db,v.id),m);assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands').get().n,0);
+ const replies=await Promise.all(Array.from({length:8},()=>f.fresh().advanceComputer(v.id,'owner',{})));
+ assert.equal(replies.reduce((n,r)=>n+r.computer.steps,0),1);let saved=stored(f.db,v.id);assert.equal(saved.revision,revision+1);assert.equal(saved.cards[activated].zone,'force');assert.equal(saved.stack.filter(q=>q.action?.handler==='farm:draw').length,1);
+ for(let i=0;i<30&&saved.cards[activated].zone!=='hand';i++){
+  const human=await f.fresh().read(v.id,'owner');if(human.game.prompt?.choices.length)await f.fresh().command(v.id,'owner',cmd(human,'pass'));await f.fresh().advanceComputer(v.id,'owner',{});saved=stored(f.db,v.id);
+ }
+ assert.equal(saved.cards[activated].zone,'hand');assert.equal(saved.players.light.hand.length,1);
+ const again=await f.fresh().advanceComputer(v.id,'owner',{});assert.equal(again.computer.steps,0);assert.equal(stored(f.db,v.id).players.light.hand.length,1);
+ const rows=f.db.sqlite.prepare('SELECT base_version FROM native_commands').all();assert.equal(new Set(rows.map(r=>r.base_version)).size,rows.length);
 });
 test('HTTP advance authorizes before work and rejects supplied CPU policy/choice/clock',async t=>{
  const f=fixture(t),h=matchHandlers(f.fresh),v=await f.service.create('owner',config(40,'light'));
