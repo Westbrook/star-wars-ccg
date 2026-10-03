@@ -1,0 +1,24 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T07:34:16.866316+00:00",
+  "harness": "NativeEngineBattleCourageOracleTests.java",
+  "harnessSha256": "131d92b78836706114fbc11616d23a7885a8bb381e469e3c2b72b9f57daa672a",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineBattleCourageOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 4,
+  "observations": 22,
+  "matchingObservations": 22,
+  "productionFilesVerified": 6820,
+  "scope": "Actual Focused Attack/Courage battle actions on Premiere Vader/Luke; current ability changes or loss of immunity after target selection and before resolution; no-immunity beginner personas ineligible. Ten printed ground immunity providers and two dynamic company changes. Two actual damage-boundary snapshots remain frozen after a synthetic immunity cancellation. Native frozen protection compares against GEMP frozen threshold; native current-stat query remains live.",
+  "differences": [],
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p22 Implied Target Rule: Focused Attack requires immunity at initiation.",
+    "AR pp61-62: immunity freezes on entering damage, highest grant wins, cancellation overrides gains, voluntary forfeit remains legal.",
+    "GEMP Card5_141/Card5_041 read current ability at resolution and continue other results after immunity disappeared during responses."
+  ],
+  "limits": "Ground targets with represented personas only. Jedi Luke lightsaber branch, aboard/vehicle protection, exact-value immunity, immunity modifiers/caps, text cancellation, targeting immunity/redirection and complete card behavior remain. Target departure/reentry obeys existing native original-instance policy, not independently adjudicated here. Full native admission remains closed."
+}

@@ -1489,7 +1489,7 @@ extra draws, response windows and saved recovery still apply.
 Focused Attack (`5_141`) and Courage Of A Skywalker (`5_41`) now implement their
 duel-destiny addition functions during the duel modification step. They use the
 normal unique/per-turn play restrictions, Sense cancellation and Lost disposal.
-Their battle functions are unfinished; both remain component-only definitions.
+Their ground battle functions are documented below; both remain component-only definitions.
 There are 115 explicit definitions, and production deck admission remains closed.
 
 Evidence: `tests/native-engine/duel-modifiers.test.mjs` and
@@ -1506,3 +1506,43 @@ that literally do not exist, including failed destiny. The March 2021 official
 failed-destiny clarification does not supply this arithmetic either. Preserve
 the guard rather than inferring a number from GEMP's contradictory winner.
 No new standalone study or complete-match certification is implied.
+
+### Battle courage and attrition immunity
+
+The battle functions of Focused Attack and Courage Of A Skywalker now target
+eligible represented ground personas during ordinary weapons opportunities.
+Immunity must exist when the action starts. On resolution the target's current
+ability becomes a fixed power bonus for the rest of the turn, its immunity is
+canceled, and its ability cannot contribute toward battle destiny. Ordinary
+ability, presence and weapon defense remain unchanged. Removing immunity during
+responses does not undo the other already-initiated results. Sense cancels all
+three results; a departing/reentered target follows the existing original-instance
+policy. Resolved modifiers survive the Interrupt entering Lost, expire at turn
+end, and cannot follow the target through a new table visit.
+
+`combat-modifiers.ts` provides ground power additions, immunity thresholds, full
+immunity and cancellation with separate source/turn lifetimes. Multiple immunity
+grants use the highest value; cancellation overrides them. Explicit ground
+providers cover the fixed immunities in the current metadata registry, Ardan's
+opposing Aliens present and Jedi Luke's alone branch. The lightsaber branch and
+other unimplemented card text remain unverified and unadmitted.
+
+When entering the damage segment, `battle.ts` saves the original instances that
+are protected against that battle's total attrition. Later forfeits and immunity
+changes cannot recalculate the protection. Unpaid attrition can be ignored only
+when all remaining participants are protected; hits and battle damage still
+require resolution. Immune cards may be voluntarily forfeited, crediting both
+balances. Legacy damage saves without the new snapshot retain their old behavior;
+production full-native admission was and remains closed.
+
+Evidence: `tests/native-engine/battle-courage.test.mjs` and
+`tests/native-engine/gemp/battle-courage-provenance.json`: four executed JUnit
+methods produce 22 matching observations, with 6,820 production reference files
+unchanged. Actual Interrupt actions, fractional current ability and missing
+immunity during responses are covered; numeric interventions are explicit.
+Damage-boundary records compare native frozen protection with GEMP's frozen
+threshold. Native tests additionally verify cancellation, original-instance
+lifetime, voluntary forfeiture, shrinking attrition, hit/damage obligations and
+saved-state validation/recovery. Full cards, vehicles/aboard protection,
+exact-value immunity, general immunity modifiers, text cancellation, targeting
+immunity/redirection, and full native match certification remain in scope.

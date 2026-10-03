@@ -1,10 +1,11 @@
+import {attritionImmunity} from './combat-modifiers';
 import {deployed} from './deployment';
 import {locationAbility} from './location-ability';
 import {tradedPower, type AbilityTrade} from './battle-effects';
 import {ability} from './ability';
 import {battleDrawPolicy, assertBattleDrawModifiers, type BattleDrawModifier} from './battle-destiny';
 import {beginDestinySequence, assertDestinyScope, remainingDestinyDraws, replaceDestinyDraw} from './destiny-limits';
-import {sameCard} from './identity';
+import {sameCard, referenceCard, assertCardReference, type CardReference} from './identity';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import type {GaderffiiShot} from './gaderffii';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
@@ -34,6 +35,7 @@ export type Battle = {
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; runLuke?: boolean;
   departed?: string[];
+  attritionProtected?: CardReference[];
   worseIncrease?: number; damageLedger?: Pair<LossLedger>;
   damageMultipliers?: {card: string; factor: number; side: Side | 'both'}[];
   knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[];
@@ -97,7 +99,7 @@ export function syncBattleDamage(m: Match): void {
 }
 export function damagePending(m: Match, side: Side): boolean {
   const b = battle(m)!;
-  return battleDamage(m, side) > 0 || members(m, side).some(id => b.hits.includes(id) || b.attrition[side] > 0);
+  return battleDamage(m, side) > 0 || members(m, side).some(id => b.hits.includes(id) || b.attrition[side] > 0 && !b.attritionProtected?.some(ref=>ref.id===id && sameCard(m,ref)));
 }
 export function battleCanPass(m: Match, w: Window, side: Side): boolean {
   return event(w) !== 'battle-damage' || !damagePending(m, side);
@@ -290,7 +292,11 @@ export function battleResolve(m: Match, r: Resolution): void {
     syncBattleDamage(m);
     b.initialAttrition = {...b.attrition}; b.initialDamage = {...b.damage}; b.totalsReady = true;
     windowThen(m, 'damage', 'battle-result', other(b.initiator));
-  } else if (kind === 'battle:damage') {b.stage = 'damage'; windowThen(m, 'end', 'battle-damage', b.initiator);}
+  } else if (kind === 'battle:damage') {
+    b.stage = 'damage';
+    b.attritionProtected = sides.flatMap(side=>members(m,side).filter(id=>attritionImmunity(m,id)>b.attrition[side]).map(id=>referenceCard(m,id)));
+    windowThen(m, 'end', 'battle-damage', b.initiator);
+  }
   else if (kind === 'battle:end') beginEnd(m);
   else if (kind === 'battle:ended') {b.stage = 'complete'; openWindow(m, 'response', other(b.initiator), {kind: 'battle-ended'});}
   else if (kind === 'battle:takeel') {[b.destiny.dark, b.destiny.light] = [b.destiny.light, b.destiny.dark]; moveCard(m, p.card!, 'lost');}
@@ -378,6 +384,10 @@ export function assertBattle(m: Match): void {
   const history = m.data.battles as History | undefined;
   if (history && (!Number.isSafeInteger(history.turn) || history.turn < 1 || history.turn > m.turn.number || new Set(history.sites).size !== history.sites.length || new Set(history.participants).size !== history.participants.length || history.participants.some(id => !m.cards[id]))) throw Error('Invalid battle history.');
   const b = battle(m); if (!b) return;
+  if (b.attritionProtected !== undefined) {
+    if (!Array.isArray(b.attritionProtected) || new Set(b.attritionProtected.map(r=>r.id)).size !== b.attritionProtected.length) throw Error('Invalid frozen attrition immunity.');
+    for (const ref of b.attritionProtected) {assertCardReference(m,ref);if(ref.zone!=='table' || !b.participants[m.cards[ref.id].owner].includes(ref.id))throw Error('Invalid frozen attrition immunity.');}
+  }
   if (b.destinyScopes) {
     if (Object.keys(b.destinyScopes).some(side => !sides.includes(side as Side))) throw Error('Invalid battle destiny scopes.');
     for (const side of sides) assertDestinyScope(m, b.destinyScopes[side], side, b.site, 'battle');

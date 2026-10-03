@@ -1,3 +1,4 @@
+import {combatPowerBonus} from './combat-modifiers';
 import {locationAbility} from './location-ability';
 import {ability} from './ability';
 import {canPlayCard, isUnique} from './persona';
@@ -89,7 +90,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   const currentBattle = m.data.battle as {site: string; stage: string; runLuke?: boolean} | undefined;
   if (blueprint === '101_2' && currentBattle?.runLuke && currentBattle.stage !== 'complete' && site === currentBattle.site &&
       !Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '101_5' && c.location && (c.location === site || adjacent(m, c.location, site)))) value += 2;
-  value += equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id);
+  value += equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id);
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
   return Math.max(0, value);
 }

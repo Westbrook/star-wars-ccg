@@ -1,3 +1,4 @@
+import {assertCombatModifiers} from './combat-modifiers';
 import {assertDuelModifiers} from './duel-modifiers';
 import {duelInterruptActions, duelInterruptInitiate, duelInterruptResolve, assertDuelInterrupts} from './duel-interrupts';
 import {assertDeployments} from './deployment';
@@ -176,6 +177,7 @@ export const premiereRules: Rules = {
     assertCharacterTriggers(match);
     assertDuel(match);
     assertDuelModifiers(match);
+    assertCombatModifiers(match);
     assertDuelInterrupts(match);
     assertRevival(match);
     assertAssault(match);

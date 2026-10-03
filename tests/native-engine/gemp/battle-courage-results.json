@@ -1,0 +1,118 @@
+[
+  {
+    "immunity": 3.0,
+    "name": "printed-1_171"
+  },
+  {
+    "immunity": 3.0,
+    "name": "printed-1_4"
+  },
+  {
+    "immunity": 3.0,
+    "name": "printed-1_19"
+  },
+  {
+    "immunity": 3.0,
+    "name": "printed-3_3"
+  },
+  {
+    "immunity": 5.0,
+    "name": "printed-1_21"
+  },
+  {
+    "immunity": 4.0,
+    "name": "printed-4_1"
+  },
+  {
+    "immunity": 5.0,
+    "name": "printed-1_168"
+  },
+  {
+    "immunity": "all",
+    "name": "printed-9_109"
+  },
+  {
+    "immunity": 0.0,
+    "name": "printed-4_103"
+  },
+  {
+    "immunity": 1.0,
+    "name": "printed-company-4_103"
+  },
+  {
+    "immunity": 6.0,
+    "name": "printed-9_24"
+  },
+  {
+    "immunity": 5.0,
+    "name": "printed-company-9_24"
+  },
+  {
+    "available": false,
+    "name": "dark-no-immunity"
+  },
+  {
+    "available": false,
+    "name": "light-no-immunity"
+  },
+  {
+    "sourceLost": true,
+    "name": "dark-normal",
+    "immunity": 0.0,
+    "power": 12.0,
+    "ability": 6.0,
+    "battleAbility": 0.0
+  },
+  {
+    "sourceLost": true,
+    "name": "dark-ability-change",
+    "immunity": 0.0,
+    "power": 8.5,
+    "ability": 2.5,
+    "battleAbility": 0.0
+  },
+  {
+    "sourceLost": true,
+    "name": "dark-immunity-gone",
+    "immunity": 0.0,
+    "power": 12.0,
+    "ability": 6.0,
+    "battleAbility": 0.0
+  },
+  {
+    "sourceLost": true,
+    "name": "light-normal",
+    "immunity": 0.0,
+    "power": 7.0,
+    "ability": 4.0,
+    "battleAbility": 0.0
+  },
+  {
+    "sourceLost": true,
+    "name": "light-ability-change",
+    "immunity": 0.0,
+    "power": 5.5,
+    "ability": 2.5,
+    "battleAbility": 0.0
+  },
+  {
+    "sourceLost": true,
+    "name": "light-immunity-gone",
+    "immunity": 0.0,
+    "power": 7.0,
+    "ability": 4.0,
+    "battleAbility": 0.0
+  },
+  {
+    "name": "frozen-4",
+    "after": 5.0,
+    "attrition": 4,
+    "before": 5.0
+  },
+  {
+    "name": "frozen-5",
+    "after": 5.0,
+    "attrition": 5,
+    "before": 5.0
+  }
+]

@@ -2103,7 +2103,22 @@
       "oracleEvidence": [
         "tests/native-engine/gemp/duel-modifiers-provenance.json"
       ],
-      "scope": "Scoped duel draw-count and total modifiers; Focused Attack and Courage Of A Skywalker duel functions.21 focused tests; six matching reference outcomes and one official fractional-rounding difference.115 definitions; battle functions, wider rules and full admission remain."
+      "scope": "Scoped duel draw-count and total modifiers; Focused Attack and Courage Of A Skywalker duel functions.21 focused tests; six matching reference outcomes and one official fractional-rounding difference.115 definitions; ground battle functions now covered by battleCourage; wider rules and full admission remain."
+    },
+    "battleCourage": {
+      "implementation": [
+        "lib/native-engine/combat-modifiers.ts",
+        "lib/native-engine/duel-interrupts.ts",
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/battle-courage.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/battle-courage-provenance.json"
+      ],
+      "scope": "Focused Attack/Courage battle functions with current ability snapshot, power and destiny exclusion; ground immunity grants/cancellation, frozen protection at damage entry.22 matching reference observations; broader immunity/persona applicability and full admission remain."
     }
   },
   "wholeMatchEvidence": {
