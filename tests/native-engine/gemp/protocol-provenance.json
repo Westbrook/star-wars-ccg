@@ -1,0 +1,23 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T10:58:10.678554+00:00",
+  "harness": "NativeEngineProtocolOracleTests.java",
+  "harnessSha256": "fa4f9d4661b79cb0459abe6af82f336c0b042d763657d2cf8173169872910db1",
+  "result": "protocol-results.json",
+  "resultSha256": "d7c563f1a9dae6b1fafb9934a054c7230ce391d830ff155f3154607b3c912328",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineProtocolOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; pinned reference; test harness only; no production rule changes",
+  "junitTests": 4,
+  "observations": 32,
+  "unchangedProductionFiles": 6820,
+  "scope": "20 actual total-power queries for one to four droids and zero to four Rebels; eight location/source/target-state queries; two actual battle forfeiture orders; two actual C-3PO deployments with/without Imperial Barrier, complete exclusion responses, power-segment totals, current forfeit, and post-battle reactivation. All32 rows compared against native execution. Power is sampled before GEMP clears its power fields in damage.",
+  "limitations": [
+    "Ground-character components only; aboard/captured/crossed-over/dual-type contexts remain required.",
+    "R2-D2 remains metadata-only; its own Scomp-link responses, floating destiny and pilot bonuses are not implemented by this checkpoint.",
+    "Native reset/cap/inactive-stack/attached-character cases are component checks, not fresh GEMP traces.",
+    "Barrier final effects and post-battle reactivation agree; this does not certify every before-exclusion prevention/response window.",
+    "Production full-match admission remains closed."
+  ],
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf (p139 C-3PO distinct pairs; p60 battle exclusion)"
+}

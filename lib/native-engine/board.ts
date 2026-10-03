@@ -1,3 +1,4 @@
+import {protocolPowerBonus, protocolForfeitBonus} from './protocol-droid';
 import {deployValue, medicalDeployReduction} from './deploy-costs';
 import {currentForfeit} from './forfeit';
 import {attachedArmor} from './armor-equipment';
@@ -106,13 +107,13 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
   if (site && card.owner === 'light' && isWarrior(m, id) && active(id) && Object.values(m.cards).some(c => c.zone === 'table' && c.owner === 'light' && c.blueprint === '101_2' && c.location && active(c.id) && (c.location === site || adjacent(m, c.location, site)))) bonuses.push(1);
   if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') bonuses.push(1);
   if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') bonuses.push(-1);
-  bonuses.push(equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id));
+  bonuses.push(equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active));
   return currentForfeit(m,id,printed(m,id,'forfeit'),bonuses);
 }
 
 export function totalPower(m: Match, side: Side, site: string, defending = false, active: (id: string) => boolean = () => true): number {
   const members = atSite(m, site).filter(c => c.owner === side && active(c.id));
-  return members.reduce((sum, c) => sum + power(m, c.id, defending, active), 0) +
+  return members.reduce((sum, c) => sum + power(m, c.id, defending, active), 0) + protocolPowerBonus(m,side,site,active) +
     (members.some(c => c.blueprint === '1_196') && members.filter(c => isSpecies(m, c.id, 'TUSKEN_RAIDER') && nonUnique(m, c.id)).length >= 4 ? 2 : 0);
 }
 

@@ -1,3 +1,5 @@
+import {barred} from './participation';
+export {barred} from './participation';
 import {lightsaberDrainBonus} from './lightsabers';
 import {deployed} from './deployment';
 import {isUnique, canEnterTable} from './persona';
@@ -18,7 +20,6 @@ export function usage(m: Match): GroundState {
   return stored?.turn === m.turn.number ? stored : {turn: m.turn.number, moved: [], reacted: [], drained: [], barriers: {...stored?.barriers}};
 }
 export function record(m: Match): GroundState {const current = usage(m); m.data.ground = current as unknown as Json; return current;}
-export const barred = (m: Match, id: string) => (usage(m).barriers[id] ?? 0) >= m.turn.number;
 /** Comlink grants a continuous react permission; it does not use its bearer’s device action. */
 export function registerReact(m: Match, id: string): void {const used = record(m).reacted; if (!used.includes(id)) used.push(id);}
 export const canDeployAsReact = (m: Match, id: string) => !usage(m).reacted.includes(id) && !usage(m).cancelledReactTitles?.includes(name(m, id));

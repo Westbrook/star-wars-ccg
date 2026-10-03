@@ -82,8 +82,8 @@ for(const droid of [null,'1_5'])test('battle loss is halved once with '+droid+' 
 test('battle live view and legal actions re-evaluate rounding without mutating the save',()=>{
  const f=battleFixture('1_5');let m=seek(step(f.m,'battle-lose:reserve'),x=>event(x)?.kind==='force-lost');assert.equal(combat.battle(m).damage.light,0);state.moveCard(m,f.droidId,'hand');const before=clone(m);assert.equal(view(m).battle.damage.light,1);assert.deepEqual(m,before);m=seek(m,x=>event(x)?.kind==='battle-damage');m=priority(m,'light');assert.ok(ids(m).includes('battle-lose:reserve'));
 });
-test('metadata-only droids cannot deploy or be admitted as fully implemented cards',()=>{
- const f=fixture();let m=play(f);m=seek(m,x=>x.turn.side==='light'&&x.turn.phase==='deploy'&&x.stack.length===1);for(const bp of ['1_5','2_14']){const droid=Object.values(m.cards).find(c=>c.blueprint===bp);assert.equal(board.deploymentPayment(m,droid.id,f.site),null);assert.equal(premiereRules.supports(bp),false);assert.ok(!ids(m).some(x=>x.startsWith('deploy:'+droid.id+':')));}
+test('metadata-only R2-D2 cannot deploy or be admitted as a fully implemented card',()=>{
+ const f=fixture();let m=play(f);m=seek(m,x=>x.turn.side==='light'&&x.turn.phase==='deploy'&&x.stack.length===1);for(const bp of ['2_14']){const droid=Object.values(m.cards).find(c=>c.blueprint===bp);assert.equal(board.deploymentPayment(m,droid.id,f.site),null);assert.equal(premiereRules.supports(bp),false);assert.ok(!ids(m).some(x=>x.startsWith('deploy:'+droid.id+':')));}
 });
 test('invalid duration, loss accounting and stale commands are rejected atomically',()=>{
  const f=fixture(),before=clone(f.m);assert.throws(()=>runtime.applyCommand(f.m,rules,'dark',{revision:f.m.revision,choice:'doomed:'+f.card}));assert.throws(()=>runtime.applyCommand(f.m,rules,'light',{revision:f.m.revision-1,choice:'doomed:'+f.card}));assert.deepEqual(f.m,before);

@@ -34,7 +34,7 @@
       "forfeit": "4"
     },
     "icons": [],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_005.java"
   },
   {

@@ -1,3 +1,5 @@
+import {battleMembers as members} from './participation';
+export {battleMembers as members} from './participation';
 import {defenseValue} from './defense';
 import {restoreWeaponForfeit} from './forfeit';
 import {beginForfeiture} from './forfeiture';
@@ -67,10 +69,6 @@ function continuation(m: Match, step: string, payload: Payload = {}, actor = bat
 }
 function windowThen(m: Match, step: string, kind: string, priority: Side, payload: Payload = {}): void {
   continuation(m, step, payload); openWindow(m, 'response', priority, {kind});
-}
-export function members(m: Match, side: Side): string[] {
-  const b = battle(m); if (!b) return [];
-  return b.participants[side].filter(id => !b.departed?.includes(id) && m.cards[id]?.zone === 'table' && m.cards[id].location === b.site && !barred(m, id));
 }
 export const participatingAbility = (m: Match, side: Side) => members(m, side).reduce((n, id) => n + ability(m, id), 0);
 export function syncBattle(m: Match): void {
