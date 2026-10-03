@@ -1000,8 +1000,8 @@ consistency through the transaction and response. Expired engine decisions are
 advanced by the trusted server clock on reads/commands, with their own revision
 and transactional receipt. A late command sees the advanced revision; repeated
 reads cannot restart deadlines or apply a timer twice. This settles persisted
-engine deadlines on interaction; autonomous CPU scheduling and game clocks remain
-future required service work.
+engine deadlines on interaction. Optional durable PvP clocks are implemented below;
+autonomous CPU scheduling and timed CPU matches remain required service work.
 
 The internal `readComputer`/`computerCommand` methods expose only the computer's
 seat to trusted server code. HTTP accepts an authorized advance request, never
@@ -1946,3 +1946,45 @@ computer receipt namespace; the policy identifier changes for new receipts.
 This remains a bounded heuristic opponent, not an optimal strategy or additional
 rules implementation. Broader card tactics, resource planning and production
 full-match admission remain required. No new Rules Lab scenario is added.
+
+### Optional durable PvP clocks
+
+Private native matches can select `clockMinutes: 15 | 30 | 45 | 60` at creation;
+null/omitted remains untimed. This is an explicit online match time control, not a
+change to card rules or a claim to implement tournament round scoring. CPU matches
+remain untimed until independent computer scheduling exists. Setup and waiting for
+a guest are untimed. During gameplay, time belongs to the seat owning the current
+legal prompt, including responses and required decisions; it is not necessarily
+the turn player. Closing a browser, pausing the empty-opportunity UI, or inspecting
+a card does not pause match time. There is no per-decision timeout or time extension.
+
+The invitation fragment includes the chosen duration. Joining must acknowledge the
+exact server-stored `clockMinutes`; missing/tampered terms cannot seat a player in
+a timed game. Existing untimed invitation links and idempotency hashes remain
+compatible. The duration cannot change after creation. The separate nullable
+`native_matches.clock` column stores both balances, decision owner and server-time
+anchor. Migration 0003 adds it without rewriting existing matches or receipts.
+
+Every legal move consumes elapsed time and moves the clock to the new decision
+owner in the same receipt/snapshot transaction. Reads project elapsed time without
+writing or resetting the anchor. At zero, the next authorized read or command
+commits a terminal `timeout` result through the timer CAS; a late move cannot act.
+Concurrent readers and expired commands cannot produce two wins or partial clock
+writes. Concession and ordinary wins freeze both balances. Persisted clocks are
+validated against the current decision owner. Client-supplied balances/timestamps
+are rejected. Backwards timestamps cannot refund committed time.
+
+Both scoreboards display remaining time on desktop, tablet and phone. Local
+countdown interpolation is display-only; only a saved server result declares a
+winner. Refresh/retry and original invitation retry preserve the clock. Until an
+autonomous scheduler exists, expiry is materialized on the next interaction, with
+all subsequent actions checking it first. Full production rules admission remains
+closed; this service and UI implementation does not certify any additional cards.
+
+`match-clock.test.mjs` and the service suite verify duration validation, immutable
+invitation terms, boundary expiry, duplicate commands/joins, transactional rollback,
+corrupt state, untimed compatibility and concession. The isolated real D1/workerd
+smoke test verifies simultaneous expiry against the additive migration. Portable
+Playwright checks exercise timed invitations, setup, real service transitions,
+refresh and timeout UI at 1440, 834 and 390 pixels. These are match-service tests,
+not additional standalone Rules Lab studies or GEMP clock-conformance claims.

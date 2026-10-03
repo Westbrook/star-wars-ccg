@@ -99,7 +99,7 @@ export function assertState(match: Match): void {
   if (match.schema !== 1 || match.engine !== 'native-engine-1' || !match.rules || !match.id ||
       !Number.isSafeInteger(match.revision) || match.revision < 0 || ![40, 60].includes(match.deckSize)) throw Error('Invalid engine state.');
   if (!['setup', 'playing', 'finished'].includes(match.status) || (match.status === 'finished') !== !!match.result) throw Error('Invalid match status.');
-  if (match.result && (!sides.includes(match.result.winner) || !sides.includes(match.result.loser) || match.result.winner === match.result.loser || !['concession', 'life-force'].includes(match.result.reason))) throw Error('Invalid match result.');
+  if (match.result && (!sides.includes(match.result.winner) || !sides.includes(match.result.loser) || match.result.winner === match.result.loser || !['concession', 'life-force', 'timeout'].includes(match.result.reason))) throw Error('Invalid match result.');
   const seen = new Set<string>();
   for (const side of sides) {
     for (const pile of piles) {

@@ -53,6 +53,34 @@ try{
   const card=page.locator('.native-site[data-battle="true"] .native-card').first();await card.click();await page.getByRole('dialog').waitFor();await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});
   await page.screenshot({path:path.join(output,`table-${width}.png`),fullPage:true});await ctx.close();
  }
+ // Timed match: real service transitions, responsive clocks, invitation terms,
+ // refresh recovery and server-authoritative timeout. No browser clock decides a winner.
+ for(const [width,height] of [[1440,1000],[834,1112],[390,844]]){
+  const owner=await fresh().create('owner',{...config(randomUUID(),'pvp'),clockMinutes:15});
+  const guest=await context(width,height,'guest');
+  await guest.page.goto(origin+'/matches/'+owner.id+'#'+new URLSearchParams({invite:owner.inviteToken,side:'light',size:'60',minutes:'15'}));
+  await guest.page.getByText(/15 minutes per player/).waitFor();
+  await guest.page.getByRole('button',{name:'Join match',exact:true}).click();await guest.page.getByText('Starts after setup',{exact:true}).first().waitFor();
+  assert.equal(await guest.page.locator('.native-clock').count(),2);await guest.context.close();
+  let v=await fresh().read(owner.id,'owner');
+  for(let n=0;v.game.status==='setup'&&n<20;n++){
+   let actor='owner',choice=v.game.prompt?.choices[0]?.id;if(!choice){actor='guest';choice=(await fresh().read(v.id,actor)).game.prompt?.choices[0]?.id}
+   assert.ok(choice);await fresh().command(v.id,actor,{commandId:randomUUID(),revision:v.revision,choice});v=await fresh().read(v.id,'owner');
+  }
+  assert.equal(v.game.status,'playing');const started=time;time+=123000;
+  const client=await context(width,height);await client.page.goto(origin+'/matches/'+owner.id);
+  const dark=client.page.getByLabel('Dark side match clock');await dark.getByText('12:57',{exact:true}).waitFor();
+  // Pause only the empty-opportunity UI timer, not the authoritative match clock.
+  if(width<640)await client.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await client.page.getByRole('button',{name:'Pause',exact:true}).click();
+  assert.equal(await client.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  await client.page.screenshot({path:path.join(output,`clock-${width}.png`),fullPage:true});
+  time=started+124000;await client.page.reload();await dark.getByText('12:56',{exact:true}).waitFor();
+  time=started+900000;await client.page.getByRole('button',{name:'Refresh',exact:true}).click();await client.page.getByRole('heading',{name:'Light side wins.'}).waitFor();
+  if(width<640)await client.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await client.page.getByText('The losing side ran out of match time.',{exact:true}).waitFor();assert.equal(await dark.locator('strong').textContent(),'0:00');
+  await client.context.close();
+ }
  // CPU dispatch is driven by the client, and private opponent cards never enter DOM.
  const c=await context(1440,1000),cpu=await fresh().create('owner',config(randomUUID(),'cpu','light'));
  await c.page.goto(origin+'/matches/'+cpu.id);await c.page.getByText('Saved · move 1',{exact:true}).waitFor();assert.equal((await fresh().read(cpu.id,'owner')).revision,1);assert.equal(await c.page.locator('.report-return').count(),0);await c.context.close();
@@ -60,7 +88,7 @@ try{
  const wait=await fresh().create('owner',config(randomUUID(),'pvp','dark')),j=await context(834,1112,'guest');
  await j.page.goto(origin+'/matches/'+wait.id+'#'+new URLSearchParams({invite:wait.inviteToken,side:'light',size:'60'}));await j.page.getByRole('button',{name:'Join match',exact:true}).click();await j.page.getByRole('heading',{name:'The opening table.'}).waitFor();assert.equal((await fresh().read(wait.id,'guest')).side,'light');assert.equal(new URL(j.page.url()).hash,'');await j.context.close();
  // A failed creation response survives refresh without creating another match.
- const start=await context(1440,1000,'new-owner');await start.page.goto(origin+'/matches');await start.page.getByRole('button',{name:'Start match'}).waitFor();start.interrupt('create');await start.page.getByRole('button',{name:'Start match'}).click();await start.page.getByRole('alert').waitFor();const owned=await fresh().list('new-owner');assert.equal(owned.length,1);await start.page.reload();await start.page.getByRole('button',{name:'Start match'}).click();await start.page.waitForURL('**/matches/'+owned[0].id);assert.equal((await fresh().list('new-owner')).length,1);await start.context.close();
+ const start=await context(1440,1000,'new-owner');await start.page.goto(origin+'/matches');await start.page.getByRole('button',{name:'Start match'}).waitFor();await start.page.getByLabel('Your opponent').selectOption('pvp');await start.page.getByLabel('Match clock',{exact:true}).selectOption('30');start.interrupt('create');await start.page.getByRole('button',{name:'Start match'}).click();await start.page.getByRole('alert').waitFor();const owned=await fresh().list('new-owner');assert.equal(owned.length,1);await start.page.reload();await start.page.getByRole('button',{name:'Start match'}).click();await start.page.waitForURL('**/matches/'+owned[0].id);assert.equal((await fresh().list('new-owner')).length,1);await start.context.close();
  const bad=await context(834,1112,'other-guest');await bad.page.goto(origin+'/matches/'+wait.id+'#'+new URLSearchParams({invite:'invalid',side:'light',size:'60'}));await bad.page.getByRole('button',{name:'Join match',exact:true}).click();await bad.page.getByRole('alert').filter({hasText:'This invitation cannot seat you'}).waitFor();await bad.context.close();
  // Empty opportunity timers survive polling; paused prompts also support ArrowRight.
  const e=await context(1440,1000),ev=await fresh().create('owner',config(randomUUID(),'pvp'));await fresh().join(ev.id,'guest',{commandId:randomUUID(),inviteToken:ev.inviteToken,deck:decks.find(d=>d.side==='light').cards});
@@ -82,5 +110,5 @@ try{
  await x.page.locator('.native-inspection').waitFor({state:'hidden'});await x.context.close();time=1_800_000_000_000;
  // The production registry advertises closed starter admission, without a bypass.
  const gate=await context(1440,1000);await gate.context.unroute('**/api/matches**');await gate.context.route('**/api/matches',async route=>{const h=matchHandlers(()=>nativeMatchService(db,{currentRules:premiereRules.id,rules:()=>premiereRules}));const r=await h.list(new Request(route.request().url(),{headers:{'oai-authenticated-user-id':'owner','oai-authenticated-user-email':'owner@test.invalid'}}));await route.fulfill({status:r.status,contentType:'application/json',body:await r.text()})});await gate.page.goto(origin+'/matches');await gate.page.getByText('Starter admission is not open yet.',{exact:false}).waitFor();assert.equal(await gate.page.getByRole('button',{name:'Start match'}).isDisabled(),true);await gate.context.close();
- assert.deepEqual(errors,[]);console.log('Browser passed: real service recovery, receipt retry after refresh, concession/cancel, CPU dispatch, guest invitation, private views, card inspection timed/keyboard empty passes, untimed inspection recovery/acknowledgment, admission gate and responsive 1440/834/390 layouts.');
+ assert.deepEqual(errors,[]);console.log('Browser passed: real service recovery, receipt retry after refresh, concession/cancel, CPU dispatch, guest invitation, timed invitation acknowledgment, durable clocks/timeout across refresh, private views, card inspection timed/keyboard empty passes, untimed inspection recovery/acknowledgment, admission gate and responsive 1440/834/390 layouts.');
 }finally{await browser.close();db.close()}

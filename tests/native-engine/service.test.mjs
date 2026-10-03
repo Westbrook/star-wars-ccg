@@ -78,8 +78,8 @@ test('HTTP requires gateway identity, same origin, bounded JSON and server-assig
  assert.equal((await h.update(request('/'+v.id,{...cmd(v),operation:'computer'}),context(v.id))).status,400);
 });
 for(const [size,mode,ownerSide] of [[40,'pvp','dark'],[60,'cpu','light']])test(`complete ${size}-card ${mode} match persists every legal command and survives service recreation`,async t=>{
- const run=runStarterMatch({seed:1,size});let time=1_800_000_000_000,entropy=seeded(1);const f=fixture(t,{now:()=>time,entropy:()=>entropy()});const body=config(size,ownerSide,mode,run.state.id);let v=await f.service.create('owner',body);const offset=mode==='pvp'?1:0;
- if(mode==='pvp')await f.service.join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:starterDecks(size).find(d=>d.side!==ownerSide).cards});
+ const run=runStarterMatch({seed:1,size});let time=1_800_000_000_000,entropy=seeded(1);const f=fixture(t,{now:()=>time,entropy:()=>entropy()});const body={...config(size,ownerSide,mode,run.state.id),clockMinutes:mode==='pvp'?60:null};let v=await f.service.create('owner',body);const offset=mode==='pvp'?1:0;
+ if(mode==='pvp')await f.service.join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,clockMinutes:body.clockMinutes,deck:starterDecks(size).find(d=>d.side!==ownerSide).cards});
  for(const [i,entry] of run.transcript.entries()){
   time=entry.time;entropy=seeded(entry.entropy);
   if(!entry.command){await f.fresh().read(v.id,'owner');continue}
@@ -88,7 +88,7 @@ for(const [size,mode,ownerSide] of [[40,'pvp','dark'],[60,'cpu','light']])test(`
   assert.equal(next.revision,entry.command.revision+offset+1);assert.equal(next.side,entry.side);
   if(i%100===0){const read=await f.fresh().read(v.id,'owner');assert.equal(read.revision,next.revision);assert.equal(read.side,ownerSide);assert.equal(read.game.data,undefined);assert.equal(read.game.stack,undefined);assert.deepEqual(read.game.players[ownerSide==='dark'?'light':'dark'].hand,[]);for(const side of ['dark','light'])for(const pile of ['reserve','force','used'])assert.equal(read.game.players[side][pile],undefined);}
  }
- const final=stored(f.db,v.id),expected={...run.state,revision:run.state.revision+offset};assert.deepEqual(final,expected);assert.equal(final.status,'finished');assert.equal(final.result.reason,'life-force');assert.equal((await f.fresh().read(v.id,'owner')).game.prompt,null);assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands WHERE match_id=?').get(v.id).n,run.transcript.length+offset);
+ const final=stored(f.db,v.id),expected={...run.state,revision:run.state.revision+offset};assert.deepEqual(final,expected);assert.equal(final.status,'finished');assert.equal(final.result.reason,'life-force');const finished=await f.fresh().read(v.id,'owner');assert.equal(finished.game.prompt,null);if(mode==='pvp'){assert.equal(finished.clock.running,null);time+=86400000;assert.deepEqual((await f.fresh().read(v.id,'owner')).clock,finished.clock);}assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands WHERE match_id=?').get(v.id).n,run.transcript.length+offset);
 });
 // A synthetic expiry provider exercises service CAS without assigning invented
 // timing restrictions to a real card. Production Scanning Crew is untimed.
@@ -185,4 +185,77 @@ test('dispatch work budget yields a resumable ready state without fabricating a 
  f.db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
  const first=await f.service.advanceComputer(v.id,'owner',{});assert.equal(first.computer.steps,24);assert.equal(first.computer.status,'ready');assert.equal(stored(f.db,v.id).data.remaining,6);
  const second=await f.fresh().advanceComputer(v.id,'owner',{});assert.equal(second.computer.steps,6);assert.equal(second.computer.status,'waiting');assert.equal(second.revision,first.revision+6);assert.equal((await f.service.advanceComputer(v.id,'owner',{})).computer.steps,0);
+});
+
+async function timedMatch(t, minutes=15) {
+ const f=fixture(t),created=await f.service.create('owner',{...config(40,'dark','pvp'),clockMinutes:minutes});
+ const invitation={commandId:randomUUID(),inviteToken:created.inviteToken,deck:starterDecks(40).find(d=>d.side==='light').cards,clockMinutes:minutes};
+ await f.service.join(created.id,'guest',invitation);
+ let v=await f.service.read(created.id,'owner');
+ for(let n=0;v.game.status==='setup'&&n<20;n++) {
+  let actor='owner',choice=v.game.prompt?.choices[0]?.id;
+  if(!choice){actor='guest';choice=(await f.service.read(v.id,actor)).game.prompt?.choices[0]?.id;}
+  assert.ok(choice);await f.service.command(v.id,actor,cmd(v,choice));v=await f.service.read(v.id,'owner');
+ }
+ assert.equal(v.game.status,'playing');assert.equal(v.clock.running,'dark');
+ return {...f,id:v.id,view:v,invitation};
+}
+test('timed invitations acknowledge immutable time control; untimed legacy creation remains stable',async t=>{
+ const f=fixture(t),c={...config(40,'dark','pvp'),clockMinutes:30},v=await f.service.create('owner',c);
+ assert.deepEqual(v.clock,{minutes:30,remainingMs:{dark:1800000,light:1800000},running:null});
+ f.setTime(v.serverTime+86400000);assert.deepEqual((await f.service.read(v.id,'owner')).clock,v.clock);
+ const join={commandId:randomUUID(),inviteToken:v.inviteToken,deck:starterDecks(40).find(d=>d.side==='light').cards};
+ for(const clockMinutes of [undefined,15,0,'30'])await rejects(f.service.join(v.id,'guest',{...join,clockMinutes}),409,'TIME_CONTROL_MISMATCH');
+ const seated=await f.service.join(v.id,'guest',{...join,clockMinutes:30});assert.equal(seated.clock.running,null);
+ assert.equal((await f.service.join(v.id,'guest',{...join,clockMinutes:30})).duplicate,true);
+ await rejects(f.service.create('owner',{...c,clockMinutes:15}),409,'MATCH_ID_REUSED');
+ const legacy=config(40,'dark','pvp'),a=await f.service.create('owner',legacy),b=await f.service.create('owner',{...legacy,clockMinutes:null});assert.equal(a.id,b.id);assert.equal(b.clock,null);
+ for(const clockMinutes of [0,1,90,-1,1.5,{},'15'])await rejects(f.service.create('owner',{...config(40,'dark','pvp'),clockMinutes}),400);
+ await rejects(f.service.create('owner',{...config(),clockMinutes:15}),400);
+});
+test('clock charges the decision owner, survives refresh, and reads do not reset its anchor',async t=>{
+ const f=await timedMatch(t),start=f.view.serverTime,revision=f.view.revision;
+ f.setTime(start+7000);let v=await f.service.read(f.id,'guest');assert.equal(v.clock.remainingMs.dark,893000);assert.equal(v.clock.remainingMs.light,900000);assert.equal(v.revision,revision);
+ const before=f.db.sqlite.prepare('SELECT clock FROM native_matches WHERE id=?').get(f.id).clock;
+ f.setTime(start+12000);v=await f.fresh().read(f.id,'owner');assert.equal(v.clock.remainingMs.dark,888000);assert.equal(f.db.sqlite.prepare('SELECT clock FROM native_matches WHERE id=?').get(f.id).clock,before);
+ const request=cmd(v,'pass');await f.service.command(f.id,'owner',request);
+ f.setTime(start+15000);v=await f.fresh().read(f.id,'owner');assert.equal(v.clock.running,'light');assert.deepEqual(v.clock.remainingMs,{dark:888000,light:897000});
+ const retry=await f.service.command(f.id,'owner',request);assert.equal(retry.duplicate,true);assert.deepEqual(retry.clock,v.clock);
+ // Reopening the original invitation cannot reset the clock either.
+ assert.deepEqual((await f.service.join(f.id,'guest',f.invitation)).clock,v.clock);
+});
+test('clock expiration at the exact boundary commits one terminal result despite concurrent reads and a move',async t=>{
+ const f=await timedMatch(t),start=f.view.serverTime,base=f.view.revision;
+ f.setTime(start+899999);assert.equal((await f.service.read(f.id,'owner')).clock.remainingMs.dark,1);
+ f.setTime(start+900000);const results=await Promise.allSettled([
+  ...Array.from({length:6},()=>f.fresh().read(f.id,'owner')),
+  f.service.command(f.id,'owner',cmd(f.view,'pass'))
+ ]);
+ assert.equal(results.at(-1).status,'rejected');assert.equal(results.at(-1).reason.code,'STALE_REVISION');
+ for(const r of results.slice(0,-1)){assert.equal(r.status,'fulfilled');assert.equal(r.value.revision,base+1);assert.deepEqual(r.value.game.result,{winner:'light',loser:'dark',reason:'timeout'});assert.equal(r.value.game.prompt,null);assert.equal(r.value.clock.running,null);}
+ assert.equal(f.db.sqlite.prepare("SELECT count(*) n FROM native_commands WHERE actor='timer'").get().n,1);
+ f.setTime(start+999999999);const final=await f.fresh().read(f.id,'guest');assert.equal(final.revision,base+1);assert.deepEqual(final.clock.remainingMs,{dark:0,light:900000});
+ await rejects(f.service.command(f.id,'guest',cmd(final,'concede')),409,'MATCH_FINISHED');
+});
+test('clock changes roll back with failed command transactions; illegal and outsider requests consume no revision',async t=>{
+ const f=await timedMatch(t),start=f.view.serverTime,before=f.db.sqlite.prepare('SELECT state,clock FROM native_matches WHERE id=?').get(f.id);
+ f.setTime(start+4000);await rejects(f.service.command(f.id,'owner',cmd(f.view,'not-legal')),422);await rejects(f.service.read(f.id,'outsider'),404);
+ f.db.failBatch=true;await assert.rejects(f.service.command(f.id,'owner',cmd(f.view,'pass')),/Injected/);
+ assert.deepEqual(f.db.sqlite.prepare('SELECT state,clock FROM native_matches WHERE id=?').get(f.id),before);
+ f.setTime(start+8000);const next=await f.service.command(f.id,'owner',cmd(f.view,'pass'));assert.deepEqual(next.clock.remainingMs,{dark:892000,light:900000});
+});
+test('concession freezes both clocks and untimed matches do not expire',async t=>{
+ const f=await timedMatch(t);f.setTime(f.view.serverTime+1200);
+ const result=await f.service.command(f.id,'guest',cmd(f.view,'concede'));assert.equal(result.clock.running,null);assert.equal(result.game.result.reason,'concession');assert.equal(result.clock.remainingMs.dark,898800);
+ f.setTime(f.view.serverTime+10000000);assert.deepEqual((await f.service.read(f.id,'owner')).clock,result.clock);
+ const u=await f.service.create('owner',config());f.setTime(f.view.serverTime+100000000);assert.equal((await f.service.read(u.id,'owner')).game.status,'setup');
+});
+test('a repeated join after timeout settles expiry and cannot revive the game',async t=>{
+ const f=await timedMatch(t);f.setTime(f.view.serverTime+900000);const v=await f.service.join(f.id,'guest',f.invitation);assert.equal(v.duplicate,true);assert.equal(v.game.result.reason,'timeout');assert.equal(v.clock.running,null);
+});
+test('corrupt persisted clock ownership and timeout receipts fail closed',async t=>{
+ const f=await timedMatch(t),row=f.db.sqlite.prepare('SELECT clock FROM native_matches WHERE id=?').get(f.id),c=JSON.parse(row.clock);
+ f.db.sqlite.prepare('UPDATE native_matches SET clock=? WHERE id=?').run(JSON.stringify({...c,running:'light'}),f.id);await assert.rejects(f.service.read(f.id,'owner'),/Saved clock/);
+ f.db.sqlite.prepare('UPDATE native_matches SET clock=? WHERE id=?').run(row.clock,f.id);f.setTime(f.view.serverTime+900000);await f.service.read(f.id,'owner');
+ f.db.sqlite.prepare('UPDATE native_matches SET clock=NULL WHERE id=?').run(f.id);await assert.rejects(f.service.read(f.id,'owner'),/Missing timeout/);
 });

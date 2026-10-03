@@ -1,0 +1,1 @@
+ALTER TABLE `native_matches` ADD `clock` text;

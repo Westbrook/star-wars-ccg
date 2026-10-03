@@ -5,3 +5,5 @@
 .native-sites{align-items:flex-start}.native-site[data-battle=true]{border-color:#e4bf76;background:linear-gradient(#37412c,#17282b);box-shadow:inset 0 0 38px #b99c4812}.native-battle-label{color:#edc983;font-size:10px;letter-spacing:1.5px}.native-site>.native-force{margin-top:-12px;font-size:10px}.native-site h3{margin-bottom:0}.native-inspection .native-card{min-width:108px}
 
 .native-card .native-patient{background:#254b48;color:#d4f2e2;border:1px solid #83b8a877}
+
+.native-clock{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;background:#0d171a;color:#a5b5ac;border-bottom:1px solid #ffffff15}.native-clock span{font-size:11px}.native-clock strong{font-size:22px;font-variant-numeric:tabular-nums;letter-spacing:1px}.native-clock[data-running=true]{color:#f1d7a2;background:#29302a}.native-clock[data-low=true]{color:#ffb3a4}@media(max-width:640px){.native-clock{padding:8px;flex-wrap:wrap}.native-clock span{font-size:9px}.native-clock strong{font-size:19px}}

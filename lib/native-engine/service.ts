@@ -1,3 +1,4 @@
+import {assertClock, createClock, expiredClock, moveClock, projectClock, validClockMinutes, type MatchClock} from './match-clock';
 import starterManifest from '../../data/native-proof/manifest.json';
 import {chooseComputerAction, computerPolicy} from './computer';
 import {applyCommand, advanceTime, createMatch, project, prompt, type Rules} from './runtime';
@@ -5,7 +6,7 @@ import {secureEntropy, type Entropy} from './random';
 import {other, type Deck, type Match, type Side} from './types';
 
 type Database = Pick<D1Database, 'prepare' | 'batch'>;
-type Row = {id: string; owner: string; guest: string | null; owner_side: Side; mode: 'pvp' | 'cpu'; rules_version: string; deck_size: 40 | 60; owner_deck: string; invite_token: string | null; creation_hash: string; state: string | null; version: number; created: number; updated: number};
+type Row = {id: string; owner: string; guest: string | null; owner_side: Side; mode: 'pvp' | 'cpu'; rules_version: string; deck_size: 40 | 60; owner_deck: string; invite_token: string | null; creation_hash: string; state: string | null; clock: string | null; version: number; created: number; updated: number};
 type Receipt = {actor: string; request_hash: string; result_version: number};
 type Body = Record<string, unknown>;
 export class MatchServiceError extends Error {constructor(message: string, public status = 400, public code = 'INVALID_REQUEST') {super(message);}}
@@ -32,12 +33,25 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     // Projection invokes all runtime and rules validators before any state is used.
     project(m, rulesFor(row.rules_version), row.owner_side, now());return m;
   }
+  function clockSeat(m: Match): Side | null {
+    if (m.status !== 'playing') return null;
+    const rules = rulesFor(m.rules), pending = (['dark','light'] as const).filter(side => prompt(m,rules,side)?.choices.length);
+    if (pending.length !== 1) throw Error('A timed match requires exactly one gameplay decision owner.');
+    return pending[0];
+  }
+  function savedClock(row: Row, m?: Match): MatchClock | null {
+    if (!row.clock) {if (m?.result?.reason === 'timeout') throw Error('Missing timeout clock.');return null;}
+    const c = JSON.parse(row.clock) as MatchClock; assertClock(c);
+    if (row.mode !== 'pvp' || c.running !== (m ? clockSeat(m) : null) ||
+        m?.result?.reason === 'timeout' && c.remaining[m.result.loser] !== 0) throw Error('Saved clock does not match the game.');
+    return c;
+  }
   function response(row: Row, side: Side, actor?: string) {
-    const time = now();
-    return {id: row.id, mode: row.mode, side, rules: row.rules_version, deckSize: row.deck_size, revision: row.version,
+    const time = now(), m = row.state ? parse(row) : null, c = savedClock(row,m ?? undefined);
+    return {clock: c ? projectClock(c,time) : null, id: row.id, mode: row.mode, side, rules: row.rules_version, deckSize: row.deck_size, revision: row.version,
       serverTime: time, waitingForOpponent: !row.state, created: row.created, updated: row.updated,
       ...(actor === row.owner && !row.guest && row.mode === 'pvp' ? {inviteToken: row.invite_token} : {}),
-      game: row.state ? project(parse(row), rulesFor(row.rules_version), side, time) : null};
+      game: m ? project(m, rulesFor(row.rules_version), side, time) : null};
   }
   function deck(input: unknown, side: Side, size: number, rules: Rules): Deck {
     if (!Array.isArray(input) || input.length !== size || input.some(bp => typeof bp !== 'string' || !/^\d+_\d+$/.test(bp) || bp.length > 40)) fail('Choose a complete deck for this format.');
@@ -50,12 +64,12 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
   function sameReceipt(receipt: Receipt, actor: string, hash: string) {if (receipt.actor !== actor || receipt.request_hash !== hash) fail('That command ID was already used for a different request.', 409, 'COMMAND_ID_REUSED');}
   /** Receipt and snapshot are committed together. Only the invocation that
    * inserts its random claim may advance the row. No receipt on a lost CAS. */
-  async function commit(row: Row, state: Match, actor: string, key: string, hash: string, guest = row.guest) {
+  async function commit(row: Row, state: Match, actor: string, key: string, hash: string, guest = row.guest, clock = row.clock) {
     if (state.revision !== row.version + 1) throw Error('Invalid committed revision.');
     const claim = uuid(), time = now();
     const result = await db.batch([
       db.prepare('INSERT INTO native_commands (id,match_id,actor,request_hash,claim,base_version,result_version,created) SELECT ?,?,?,?,?,?,?,? WHERE EXISTS (SELECT 1 FROM native_matches WHERE id = ? AND version = ?) ON CONFLICT(id) DO NOTHING').bind(key,row.id,actor,hash,claim,row.version,state.revision,time,row.id,row.version),
-      db.prepare('UPDATE native_matches SET state = ?, version = ?, guest = ?, updated = ? WHERE id = ? AND version = ? AND EXISTS (SELECT 1 FROM native_commands WHERE id = ? AND claim = ?)').bind(JSON.stringify(state),state.revision,guest,time,row.id,row.version,key,claim),
+      db.prepare('UPDATE native_matches SET state = ?, version = ?, guest = ?, clock = ?, updated = ? WHERE id = ? AND version = ? AND EXISTS (SELECT 1 FROM native_commands WHERE id = ? AND claim = ?)').bind(JSON.stringify(state),state.revision,guest,clock,time,row.id,row.version,key,claim),
     ]);
     return result[1].meta.changes === 1;
   }
@@ -63,37 +77,43 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     // A stale reader always reloads the winning state. It cannot overwrite a
     // command or another timer; a read does not create a new rules deadline.
     for (let i = 0; i < 3 && row.state; i++) {
-      const m = parse(row), next = advanceTime(m, rulesFor(row.rules_version), time, entropy);
+      const m = parse(row), c = savedClock(row,m), loser = c && expiredClock(c,time);
+      const next = loser ? {...m, revision: m.revision + 1, status: 'finished' as const, result: {winner: other(loser), loser, reason: 'timeout' as const}} : advanceTime(m, rulesFor(row.rules_version), time, entropy);
       if (next.revision === m.revision) return row;
-      await commit(row, next, 'timer', row.id + ':timer:' + row.version, await digest({version: row.version, time}));
+      const updatedClock = c ? JSON.stringify(moveClock(c,clockSeat(next),time)) : null;
+      await commit(row, next, 'timer', row.id + ':timer:' + row.version, await digest({version: row.version, time}),row.guest,updatedClock);
       row = await rowFor(row.id);
     }
     return row;
   }
   async function read(id: string, actor: string) {let row = await rowFor(id);const side = seat(row, actor);row = await settleTime(row);return response(row, side, actor);}
   async function create(actor: string, body: Body) {
-    user(actor);keys(body, ['id','mode','side','deckSize','deck','computerDeck']);
+    user(actor);keys(body, ['id','mode','side','deckSize','deck','computerDeck','clockMinutes']);
     const {id, mode, side, deckSize} = body;
     if (!validId(id) || mode !== 'pvp' && mode !== 'cpu' || side !== 'dark' && side !== 'light' || deckSize !== 40 && deckSize !== 60) fail('Choose a valid match, format, mode and side.');
     if (mode === 'pvp' && body.computerDeck !== undefined) fail('The other player supplies their own deck.');
-    const hash = await digest({actor,mode,side,deckSize,deck:body.deck,computerDeck:body.computerDeck ?? null,rules:options.currentRules});
+    const minutes = body.clockMinutes ?? null;
+    if (minutes !== null && (!validClockMinutes(minutes) || mode !== 'pvp')) fail('Choose an untimed match or a 15, 30, 45 or 60 minute clock for private opponents.');
+    const hash = await digest({...(minutes !== null ? {clockMinutes:minutes} : {}),actor,mode,side,deckSize,deck:body.deck,computerDeck:body.computerDeck ?? null,rules:options.currentRules});
     const existing = await find(id as string);
     if (existing) {if (existing.owner !== actor || existing.creation_hash !== hash) fail('That match ID was already used.', 409, 'MATCH_ID_REUSED');return read(existing.id, actor);}
     const rules = rulesFor(options.currentRules), ownerDeck = deck(body.deck, side as Side, deckSize as number, rules);
     const state = mode === 'cpu' ? createMatch(id as string, deckSize as 40 | 60, [ownerDeck,deck(body.computerDeck,other(side as Side),deckSize as number,rules)],rules) : null;
-    const time = now(), invite = mode === 'pvp' ? uuid() + uuid() : null;
-    await db.prepare('INSERT INTO native_matches (id,owner,guest,owner_side,mode,rules_version,deck_size,owner_deck,invite_token,creation_hash,state,version,created,updated) VALUES (?,?,NULL,?,?,?,?,?,?,?,?,0,?,?) ON CONFLICT(id) DO NOTHING').bind(id,actor,side,mode,rules.id,deckSize,JSON.stringify(ownerDeck.cards),invite,hash,state ? JSON.stringify(state) : null,time,time).run();
+    const time = now(), c = minutes === null ? null : createClock(minutes as number,time), invite = mode === 'pvp' ? uuid() + uuid() : null;
+    await db.prepare('INSERT INTO native_matches (id,owner,guest,owner_side,mode,rules_version,deck_size,owner_deck,invite_token,creation_hash,state,clock,version,created,updated) VALUES (?,?,NULL,?,?,?,?,?,?,?,?,?,0,?,?) ON CONFLICT(id) DO NOTHING').bind(id,actor,side,mode,rules.id,deckSize,JSON.stringify(ownerDeck.cards),invite,hash,state ? JSON.stringify(state) : null,c ? JSON.stringify(c) : null,time,time).run();
     const row = await rowFor(id as string);if (row.owner !== actor || row.creation_hash !== hash) fail('That match ID was already used.', 409, 'MATCH_ID_REUSED');
     return response(row, side as Side, actor);
   }
   async function join(id: string, actor: string, body: Body) {
-    const principal = user(actor);keys(body, ['operation','commandId','inviteToken','deck']);
+    const principal = user(actor);keys(body, ['operation','commandId','inviteToken','deck','clockMinutes']);
     if (!validId(body.commandId) || typeof body.inviteToken !== 'string') fail('Use a valid invitation and request ID.');
     let row = await rowFor(id);
     if (row.mode !== 'pvp' || row.owner === actor || body.inviteToken !== row.invite_token) fail('This invitation cannot seat you in this match.', 403, 'INVALID_INVITATION');
-    const key = id + ':command:' + body.commandId, hash = await digest({operation:'join',actor,invite:body.inviteToken,deck:body.deck});
+    const minutes = savedClock(row,row.state ? parse(row) : undefined)?.minutes ?? null;
+    if ((body.clockMinutes ?? null) !== minutes) fail('This invitation requires acknowledgment of its time control.',409,'TIME_CONTROL_MISMATCH');
+    const key = id + ':command:' + body.commandId, hash = await digest({operation:'join',actor,invite:body.inviteToken,deck:body.deck,...(minutes !== null ? {clockMinutes:minutes} : {})});
     const receipt = await prior(key);
-    if (receipt) {sameReceipt(receipt,principal,hash);row = await rowFor(id);return {...response(row,seat(row,actor),actor),duplicate:true,acceptedRevision:receipt.result_version};}
+    if (receipt) {sameReceipt(receipt,principal,hash);row = await settleTime(await rowFor(id));return {...response(row,seat(row,actor),actor),duplicate:true,acceptedRevision:receipt.result_version};}
     if (row.guest || row.state) fail('Both seats are already occupied.', 409, 'SEAT_OCCUPIED');
     const side = other(row.owner_side), rules = rulesFor(row.rules_version);
     const guestDeck = deck(body.deck, side, row.deck_size, rules), ownerDeck = deck(JSON.parse(row.owner_deck),row.owner_side,row.deck_size,rules);
@@ -119,7 +139,8 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     if (body.choice !== 'concede') {const p = prompt(m,rules,side);if (!p || p.side !== side || !p.choices.some(c => c.id === body.choice)) fail('That choice is not available to your seat.',422,'ILLEGAL_CHOICE');}
     // Rules errors abort before any database mutation. No partial action is saved.
     const state = applyCommand(m,rules,side,{revision:body.revision,choice:body.choice},entropy,time);
-    const won = await commit(row,state,principal,key,hash);row = await rowFor(id);
+    const c = savedClock(row,m), updatedClock = c ? JSON.stringify(moveClock(c,clockSeat(state),time)) : null;
+    const won = await commit(row,state,principal,key,hash,row.guest,updatedClock);row = await rowFor(id);
     if (!won) {const accepted = await prior(key);if (!accepted) fail('Another command advanced this match.',409,'STALE_REVISION');sameReceipt(accepted,principal,hash);}
     return {...response(row,side,actor ?? undefined),duplicate:!won,acceptedRevision:state.revision};
   }

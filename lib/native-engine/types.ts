@@ -76,7 +76,7 @@ export type Match = {
   // Rule-owned serialized continuations, restrictions, per-turn usage and effects.
   data: Record<string, Json>;
   setup?: Setup;
-  result: null | {winner: Side; loser: Side; reason: 'concession' | 'life-force'};
+  result: null | {winner: Side; loser: Side; reason: 'concession' | 'life-force' | 'timeout'};
 };
 export type Deck = {side: Side; cards: readonly string[]};
 export type Definition = {side: Side; name: string};
