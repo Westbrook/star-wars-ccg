@@ -36,7 +36,9 @@ const core = (id: string, label: string): Action => ({id, label, handler: id, pa
 function validate(match: Match, rules: Rules): void {
   assertState(match);
   for (let index = 0; index < match.stack.length; index++) {
-    const f = match.stack[index]; if (f.kind !== 'resolution' || f.action.handler !== 'core:canceled') continue;
+    const f = match.stack[index];
+    if (f.kind === 'resolution' && f.action.unrespondable !== undefined && f.action.unrespondable !== true) throw Error('Invalid action response policy.');
+    if (f.kind !== 'resolution' || f.action.handler !== 'core:canceled') continue;
     const w = match.stack[index + 1];
     if (!f.cancelled || f.awaitingResponses !== undefined || f.action.payload !== null || f.action.source !== undefined ||
         w?.kind !== 'window' || w.timing !== 'response' || w.event !== undefined) throw Error('Invalid retired action.');
@@ -252,8 +254,8 @@ function settle(match: Match, rules: Rules, context: Context): void {
     // becomes respondable only when every such continuation has finished.
     if (pending.awaitingResponses) {
       delete pending.awaitingResponses;
-      openWindow(match, 'response', other(pending.actor));
-      break;
+      if (!pending.action.unrespondable) {openWindow(match, 'response', other(pending.actor)); break;}
+      continue;
     }
     const resolution = match.stack.pop() as Resolution;
     if (resolution.action.handler === 'core:canceled') continue;

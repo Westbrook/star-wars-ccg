@@ -1,3 +1,4 @@
+import {forceEffectActions, forceEffectInitiate, forceEffectResolve, forceEffectChoices, forceEffectChoose, assertForceEffects} from './force-effects';
 import {cancellationActions, cancellationInitiate, cancellationResolve, assertCancellation} from './cancellation';
 import {actionPlayCard, canPlayCard, recordCardPlay, assertCardPlays} from './persona';
 import {assertCharacteristics} from './characteristics';
@@ -42,12 +43,13 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
     if (r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
-    if (r.action.handler.startsWith('cancel:')) cancellationInitiate(m, r);
+    if (r.action.handler.startsWith('force-effect:')) forceEffectInitiate(m, r);
+    else if (r.action.handler.startsWith('cancel:')) cancellationInitiate(m, r);
     else if (r.action.handler.startsWith('gambler:')) gamblersLuckInitiate(m, r);
     else if (r.action.handler.startsWith('substitution:')) substitutionInitiate(m, r);
     else if (r.action.handler.startsWith('gaffi:')) gaderffiiInitiate(m, r);
@@ -72,6 +74,7 @@ export const premiereRules: Rules = {
   },
   resolve: (m, r, context) => {
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('force-effect:')) forceEffectResolve(m, r);
     else if (r.action.handler.startsWith('cancel:')) cancellationResolve(m, r);
     else if (r.action.handler.startsWith('plans:')) secretPlansResolve(m, r);
     else if (r.action.handler.startsWith('gambler:')) gamblersLuckResolve(m, r);
@@ -100,6 +103,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if (d.handler.startsWith('force-effect:')) return forceEffectChoices(m, d);
     if (d.handler.startsWith('plans:')) return secretPlansChoices(m, d);
     if (d.handler.startsWith('selection:')) return selectionChoices(m, d);
     if (d.handler.startsWith('scavenge:')) return scavengeChoices(m, d);
@@ -114,7 +118,8 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
-    if (d.handler.startsWith('plans:')) secretPlansChoose(m, d, c);
+    if (d.handler.startsWith('force-effect:')) forceEffectChoose(m, d, c);
+    else if (d.handler.startsWith('plans:')) secretPlansChoose(m, d, c);
     else if (d.handler.startsWith('selection:')) selectionChoose(m, d, c);
     else if (d.handler.startsWith('scavenge:')) scavengeChoose(m, d, c);
     else if (d.handler.startsWith('scan:')) scanChoose(m, d, c);
@@ -132,6 +137,7 @@ export const premiereRules: Rules = {
   canPass: battleCanPass,
   view: (m, seat, now) => ({...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
+    assertForceEffects(match);
     assertSecretPlans(match);
     assertGround(match);
     assertEquipment(match);

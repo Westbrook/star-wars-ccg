@@ -1,0 +1,158 @@
+[
+  {
+    "name": "light-assault-4",
+    "draws": [
+      3.0,
+      1.0,
+      4.0
+    ],
+    "attackerLost": 2,
+    "defenderLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "light-assault-0",
+    "draws": [
+      3.0,
+      1.0,
+      0.0
+    ],
+    "attackerLost": 0,
+    "defenderLost": 2,
+    "interruptLost": true
+  },
+  {
+    "name": "light-assault--1",
+    "draws": [
+      3.0,
+      1.0
+    ],
+    "attackerLost": 0,
+    "defenderLost": 2,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-assault-4",
+    "draws": [
+      3.0,
+      1.0,
+      4.0
+    ],
+    "attackerLost": 2,
+    "defenderLost": 0,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-assault-0",
+    "draws": [
+      3.0,
+      1.0,
+      0.0
+    ],
+    "attackerLost": 0,
+    "defenderLost": 2,
+    "interruptLost": true
+  },
+  {
+    "name": "dark-assault--1",
+    "draws": [
+      3.0,
+      1.0
+    ],
+    "attackerLost": 0,
+    "defenderLost": 2,
+    "interruptLost": true
+  },
+  {
+    "senseUsed": true,
+    "name": "light-production-return",
+    "heroInHand": true,
+    "targetLost": true
+  },
+  {
+    "senseUsed": true,
+    "name": "dark-production-return",
+    "heroInHand": true,
+    "targetLost": true
+  },
+  {
+    "forceSpent": 1,
+    "name": "light-fallback",
+    "targetLost": true,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "light-none",
+    "targetLost": false,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  },
+  {
+    "forceSpent": 2,
+    "name": "light-multiple",
+    "targetLost": false,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "light-other",
+    "targetLost": true,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "light-fail",
+    "targetLost": false,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "dark-fallback",
+    "targetLost": true,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "dark-none",
+    "targetLost": false,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  },
+  {
+    "forceSpent": 2,
+    "name": "dark-multiple",
+    "targetLost": false,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "dark-other",
+    "targetLost": true,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  },
+  {
+    "forceSpent": 1,
+    "name": "dark-fail",
+    "targetLost": false,
+    "cardsDrawn": 1,
+    "senseUsed": true,
+    "reoffered": false
+  }
+]

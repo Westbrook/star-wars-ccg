@@ -25,6 +25,8 @@ export type Action = {
   handler: string;
   payload: Json;
   payment?: Payment;
+  /** Card text may prohibit responses to its result, while costs still respond. */
+  unrespondable?: true;
   source?: string;
 };
 export type Window = {

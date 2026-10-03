@@ -6,7 +6,7 @@ import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
-type Payload = {scope?: string; card: string; site: string; drain: string; count?: number; power?: number; draws?: Draw[]; draw?: Draw; total?: number | null; loser?: Side | null; amount?: number};
+type Payload = {defensiveDestiny?: boolean; defensiveScope?: string; defensiveDraw?: Draw; defensiveTotal?: number | null; attackTotal?: number | null; attackDraws?: Draw[]; scope?: string; card: string; site: string; drain: string; count?: number; power?: number; draws?: Draw[]; draw?: Draw; total?: number | null; loser?: Side | null; amount?: number};
 const action = (step: string, p: Payload, side?: Side): Action => ({id: 'assault:' + step + ':' + p.card,
   label: 'Play Assault', handler: 'assault:' + step, source: p.card, payload: p as unknown as Json,
   ...(side ? {payment: {[side]: 1}} : {})});
@@ -22,7 +22,7 @@ export function assaultActions(m: Match, w: Window, side: Side): Action[] {
 }
 export function assaultInitiate(m: Match, r: Resolution): void {moveCard(m, (r.action.payload as Payload).card, 'playing');}
 export function assaultResolve(m: Match, r: Resolution): void {
-  const p = r.action.payload as unknown as Payload, h = r.action.handler, side = r.actor;
+  const p = r.action.payload as unknown as Payload, h = r.action.handler, side = m.cards[p.card].owner;
   if (r.cancelled) {if (h === 'assault:play') moveCard(m, p.card, 'lost'); return;}
   if (h === 'assault:play') {
     const drain = [...m.stack].reverse().find(f => f.kind === 'resolution' && f.action.handler === 'ground:drain' && f.action.id === p.drain);
@@ -41,14 +41,23 @@ export function assaultResolve(m: Match, r: Resolution): void {
     if (p.draw) {p.draws!.push(p.draw); delete p.draw;}
     if (p.draws!.length < p.count!) drawDestiny(m, side, p.card, 'assault', action('draw', p), false, 0, undefined, false, p.scope);
     else completeDestinyTotal(m, side, p.card, 'assault', p.draws!, action('result', p));
+  } else if (h === 'assault:defense') {
+    p.defensiveDraw = p.draw; p.defensiveTotal = p.total; p.total = p.attackTotal; p.draws = p.attackDraws;
+    delete p.draw; delete p.attackTotal; delete p.attackDraws;
+    queue(m, 'result', p);
   } else if (h === 'assault:result') {
+    if (p.defensiveDestiny && p.defensiveTotal === undefined) {
+      p.attackTotal = p.total; p.attackDraws = p.draws;
+      p.defensiveScope = beginDestinySequence(m, other(side), p.card, 'assault-defense');
+      drawDestiny(m, other(side), p.card, 'assault-defense', action('defense', p), true, 0, undefined, false, p.defensiveScope); return;
+    }
     // A failed set supplies no destiny total; its comparison contributes zero.
     // A zero-draw Assault is explicitly covered by AR's holosite ruling.
-    const total = p.total ?? 0;
-    p.loser = p.total === null && p.count! > 0 || total < p.power! ? side : total > p.power! ? other(side) : null;
-    p.amount = Math.abs(total - p.power!);
+    const total = p.total ?? 0, defense = p.power! + (p.defensiveTotal ?? 0);
+    p.loser = p.total === null && p.count! > 0 || total < defense ? side : total > defense ? other(side) : null;
+    p.amount = Math.abs(total - defense);
     queue(m, 'loss', p);
-    openWindow(m, 'response', other(side), {kind: 'assault-result', source: p.card, site: p.site, count: p.count!, power: p.power!, destiny: p.total!, loser: p.loser, amount: p.amount});
+    openWindow(m, 'response', other(side), {kind: 'assault-result', source: p.card, site: p.site, count: p.count!, power: p.power!, destiny: p.total!, loser: p.loser, amount: p.amount, ...(p.defensiveDestiny ? {defensiveDestiny: p.defensiveTotal!, defensiveTotal: defense} : {})});
   } else if (h === 'assault:loss') {
     if (p.loser && p.amount) queueForceLoss(m, {side: p.loser, remaining: p.amount, source: p.card, site: p.site, reductionUsed: false});
   } else if (h === 'assault:finish') moveCard(m, p.card, 'lost');
@@ -56,9 +65,13 @@ export function assaultResolve(m: Match, r: Resolution): void {
 }
 export function assertAssault(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler.startsWith('assault:')) {
-    const p = f.action.payload as unknown as Payload, h = f.action.handler;
-    if (!p || m.cards[p.card]?.blueprint !== (f.actor === 'light' ? '1_113' : '1_238') || m.cards[p.card]?.owner !== f.actor || m.cards[p.card]?.zone !== 'playing' || !m.locations.includes(p.site) || typeof p.drain !== 'string' || !['assault:play','assault:draw','assault:result','assault:loss','assault:finish'].includes(h)) throw Error('Invalid pending Assault.');
-    assertDestinyScope(m, p.scope, f.actor, p.card, 'assault');
+    const p = f.action.payload as unknown as Payload, h = f.action.handler, owner = m.cards[p?.card]?.owner;
+    if (!p || m.cards[p.card]?.blueprint !== (owner === 'light' ? '1_113' : '1_238') || f.actor !== (h === 'assault:defense' ? other(owner) : owner) || m.cards[p.card]?.zone !== 'playing' || !m.locations.includes(p.site) || typeof p.drain !== 'string' || !['assault:play','assault:draw','assault:result','assault:defense','assault:loss','assault:finish'].includes(h)) throw Error('Invalid pending Assault.');
+    assertDestinyScope(m, p.scope, owner, p.card, 'assault');
+    if (p.defensiveDestiny !== undefined && p.defensiveDestiny !== true) throw Error('Invalid defensive destiny flag.');
+    assertDestinyScope(m, p.defensiveScope, other(owner), p.card, 'assault-defense');
+    if (p.defensiveTotal !== undefined && (!p.defensiveDestiny || p.defensiveTotal !== null && (!Number.isFinite(p.defensiveTotal) || p.defensiveTotal < 0) || !p.defensiveDraw || !validDraw(m, p.defensiveDraw, other(owner)) || p.defensiveDraw.value !== p.defensiveTotal)) throw Error('Invalid defensive Assault destiny.');
+    if (h === 'assault:defense' && (!p.defensiveDestiny || !p.defensiveScope || !Number.isSafeInteger(p.count) || p.count! < 0 || p.count! > m.deckSize || !Number.isFinite(p.power) || p.power! < 0 || p.total !== null && (!Number.isFinite(p.total) || p.total! < 0) || !p.draw || !validDraw(m, p.draw, other(owner)) || !Array.isArray(p.attackDraws) || p.attackDraws.length !== p.count || p.attackDraws.some(d => !validDraw(m, d, owner)) || p.attackTotal !== null && (!Number.isFinite(p.attackTotal) || p.attackTotal! < 0))) throw Error('Invalid defensive Assault continuation.');
     if (['assault:draw','assault:result','assault:loss'].includes(h) && (!Number.isSafeInteger(p.count) || p.count! < 0 || p.count! > m.deckSize || !Number.isFinite(p.power) || p.power! < 0 || !Array.isArray(p.draws) || p.draws.length > p.count! || p.draws.some(d => !validDraw(m, d, f.actor)))) throw Error('Invalid Assault snapshot.');
     if (['assault:result','assault:loss'].includes(h) && p.draws!.length !== p.count) throw Error('Incomplete Assault draws.');
     if (h === 'assault:loss' && (p.total !== null && (!Number.isFinite(p.total) || p.total! < 0) || p.loser !== null && !sides.includes(p.loser!) || !Number.isSafeInteger(p.amount) || p.amount! < 0)) throw Error('Invalid Assault loss.');

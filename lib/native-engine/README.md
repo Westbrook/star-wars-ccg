@@ -1310,8 +1310,47 @@ Sai'torr immunity, repeated attempts, target reentry, invalid saved references,
 private projection and JSON recovery at every command, including retired frames.
 See `gemp/cancellation-provenance.json` and `cancellation.test.mjs`.
 
-There are now 102 explicit metadata definitions; adding these four Interrupts does
-not admit full decks. Ability modifiers, forced retargeting/exclusion providers,
+The Sense/Alter checkpoint brought the registry to 102 explicit definitions.
+The following checkpoint implements For Luck/Dark Forces retargeting. General
+ability modifiers,
 conditional immunity and cancellation prevention/replacement, alternate cleanup,
 inactive/captured/aboard rules and broader cancellation-result triggers remain.
 The production full-match gate, GEMP routes and existing studies remain unchanged.
+
+### For Luck / Dark Forces and live retargeting
+
+`force-effects.ts` implements deployment and both functions of 102_1/102_6 in
+continuous matches. Their optional exclusion selects one or more qualifying
+characters before paying X Force. The original Sense/Alter gets an action-local
+exclusion list; its owner immediately chooses a new highest-ability character
+when needed, including ties. With no remaining target the destiny still draws
+and the Interrupt fails. A later Sense/Alter starts with a fresh target set.
+The Effect cannot influence Alter while its own deployment is still pending.
+
+The runtime now supports explicitly unrespondable results without suppressing
+Force-use cost responses. Selection, costs, retargeting and the suspended
+Interrupt are JSON continuations with validated response identities. Nested
+counterplay retains paid costs and does not revive an excluded ability target.
+
+For Luck / Dark Forces can also pay 1 Force in response to the opponent's
+Counter/Surprise Assault. The opponent draws one extra general destiny after the
+Assault player's draws; it is added to frozen power, not the attacking destiny
+or battle destiny. Each side's sequence, Used placement, failed draws, total
+responses and Force loss use the shared rules pipeline. Canceling Assault after
+the bonus was paid suppresses both sets of draws without refunding either cost.
+
+Evidence: `tests/native-engine/force-effects.test.mjs` and
+`tests/native-engine/gemp/force-effects-provenance.json`. Sixteen actual card
+comparisons match the unchanged GEMP engine. Two additional injected test
+actions execute GEMP's production return-to-hand effect and confirm that its
+Sense still uses the removed character's printed ability. Native requires the
+original table instance, so these two observations remain explicit differences;
+they rule out the earlier simple fixture-movement bypass as the sole cause, not
+adjudicate the rule. Returning-to-table cases still need independent resolution.
+
+The registry now has 107 explicit definitions. Jedi qualification currently uses
+printed side and ability >= 6. General ability
+modifiers, inactive/aboard/captured targets, broader immunity/prevention and full
+card/deck admission remain unfinished. Yoda, Emperor Palpatine and Jedi Knight
+Luke have explicit metadata for these targeting fixtures; their complete card
+text is not implemented or admitted. Existing studies and GEMP routes remain.

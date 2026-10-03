@@ -2028,7 +2028,22 @@
       "oracleEvidence": [
         "tests/native-engine/gemp/cancellation-provenance.json"
       ],
-      "scope": "Four Premiere Sense/Alter definitions, positive highest ability, strict destiny, direct/nested counters, exact pending frames and Effect/react cancellation. 20 GEMP records: 16 match; four controlled ability-target departure/return differences require adjudication. Broader modifiers, retargeting/exclusions, immunity/prevention/replacement and full admission remain."
+      "scope": "Four Premiere Sense/Alter definitions, positive highest ability, strict destiny, direct/nested counters, exact pending frames and Effect/react cancellation. 20 GEMP records: 16 match; four controlled ability-target departure/return differences require adjudication. Broader modifiers, immunity/prevention/replacement and full admission remain."
+    },
+    "forceEffects": {
+      "implementation": [
+        "lib/native-engine/force-effects.ts",
+        "lib/native-engine/cancellation.ts",
+        "lib/native-engine/assault.ts",
+        "lib/native-engine/runtime.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/force-effects.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/force-effects-provenance.json"
+      ],
+      "scope": "107 explicit definitions including two new Effects and three metadata-only Jedi characters. Paid exclusions, immediate retargeting, unrespondable result with cost responses, and defensive Assault destiny. 18 GEMP records: 16 matching, two production-removal differences retained. General ability modifiers, inactive/aboard/captured rules and full admission remain."
     }
   },
   "wholeMatchEvidence": {

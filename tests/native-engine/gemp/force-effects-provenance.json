@@ -1,0 +1,36 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T05:35:16.345707+00:00",
+  "harness": "NativeEngineForceEffectsOracleTests.java",
+  "harnessSha256": "acdb41497ffa4749672b9793aa70842cba9738aa3d0d5e074c171646726d90a4",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineForceEffectsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 3,
+  "observations": 18,
+  "matchingObservations": 16,
+  "productionFilesVerified": 6820,
+  "scope": "Actual For Luck/Dark Forces actions: mirrored Sense exclusions, fallback/no remaining target, multiple selections, non-target Jedi exclusion, replacement threshold failure; mirrored Assault boosts with defensive 4, zero and failed destiny. Table setup/Reserve order are explicit fixture interventions. Attacking Assault draws are explicitly ordered 3 then 1. Exclusion payment is measured after resolution, not at its initial Force-use response. Two extra injected test actions execute ReturnCardToHandFromTableEffect through its normal lifecycle. Exclusion is not reoffered during the same pending Interrupt, including when another Jedi remains the highest target.",
+  "differences": [
+    {
+      "names": [
+        "light-production-return",
+        "dark-production-return"
+      ],
+      "gemp": "Production return-to-hand effect puts the chosen character in hand, but its ability still makes zero-destiny Sense succeed.",
+      "native": "Original table instance is required; Sense draws, goes Used and fails to cancel the target.",
+      "status": "Unresolved independent adjudication. Confirms production removal lifecycle does not resolve the earlier controlled departure difference. This injected action is a production effect mechanism check, not a claim that a named card can legally return this target in this particular window. Original return-to-table differences remain unresolved."
+    }
+  ],
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p141 Dark Forces: inactive until deployment result; immediately retarget highest ability if possible, otherwise Interrupt fails.",
+    "AR p143 For Luck refers to Dark Forces.",
+    "AR p79 highest ability; pinned Filters.Jedi/Dark_Jedi require printed side and current ability >=6.",
+    "Card102_001/Card102_006: use X Force; unrespondable exclusion; effect scoped until end of this card play.",
+    "Card1_113/Card1_238: defender draws one after attacker, adds to frozen power; failed defensive draw contributes zero."
+  ],
+  "limits": "No full card/deck admission. Dynamic ability providers, inactive/aboard/captured rules and broader immunity/prevention remain. Jedi-character additions are metadata-only, not complete implementations. Native-only checks cover Alter retargeting, deployment timing, ties, stale references, privacy, nested cancellation, cost responses and saved recovery."
+}

@@ -675,5 +675,104 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_267.java"
+  },
+  {
+    "gempId": "102_1",
+    "name": "For Luck",
+    "side": "light",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/JediPack-Light/large/forluck.gif",
+    "text": "Deploy on table. If Counter Assault is played, may use 1 Force to add one destiny to your total. If Sense or Alter just played, may use X Force to exclude X Dark Jedi from being the 'highest-ability character.'",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set102/light/Card102_001.java"
+  },
+  {
+    "gempId": "102_6",
+    "name": "Dark Forces",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/JediPack-Dark/large/darkforces.gif",
+    "text": "Deploy on your side of table. When Surprise Assault is played, may use 1 Force to add one destiny to your total. Also, when Sense or Alter is played, may use X Force to exclude X Jedi from being the 'highest-ability character.'",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set102/dark/Card102_006.java"
+  },
+  {
+    "gempId": "4_2",
+    "name": "Yoda",
+    "side": "light",
+    "type": "Character",
+    "subType": "Jedi Master",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Light/large/yoda.gif",
+    "text": "Deploy on Dagobah I must, but move elsewhere I may, yes. When the mentor, 1 to training destiny I add. Where present am I, battles and attacks happen not unless present a Dark Side character of ability > 3 there is. To attrition, immune am I.",
+    "stats": {
+      "deploy": "5",
+      "power": "2",
+      "ability": "7",
+      "destiny": "1",
+      "forfeit": "9"
+    },
+    "icons": [
+      "Dagobah"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_002.java"
+  },
+  {
+    "gempId": "9_109",
+    "name": "Emperor Palpatine",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Dark Jedi Master/Imperial",
+    "image": "https://res.starwarsccg.org/cards/DeathStarII-Dark/large/emperorpalpatine.gif",
+    "text": "Never deploys or moves (even aboard a starship or vehicle) to a site opponent occupies. Where present, subtracts 3 from attempts to cross Vader over. Once per turn, you may take Force Lightning into hand from Reserve Deck; reshuffle. Immune to attrition.",
+    "stats": {
+      "deploy": "5",
+      "power": "4",
+      "ability": "7",
+      "destiny": "6",
+      "forfeit": "9"
+    },
+    "icons": [
+      "Death Star II"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/dark/Card9_109.java"
+  },
+  {
+    "gempId": "9_24",
+    "name": "Luke Skywalker, Jedi Knight",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/DeathStarII-Light/large/lukeskywalkerjediknight.gif",
+    "text": "Deploys -3 to Home One or Endor. Adds 2 to power of anything he pilots. Power +2 when armed with a lightsaber. Subtracts 3 from any attempt to cross him over (even if captured). Immune to attrition < 5 (< 6 if alone or armed with a lightsaber, < 7 if both).",
+    "stats": {
+      "deploy": "8",
+      "power": "6",
+      "ability": "6",
+      "destiny": "6",
+      "forfeit": "9"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior",
+      "Death Star II"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/light/Card9_024.java"
   }
 ]
