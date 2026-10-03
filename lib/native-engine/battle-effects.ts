@@ -1,3 +1,4 @@
+import {deployed} from './deployment';
 import {locationAbility} from './location-ability';
 import {abilityForBattleDestiny, pilotAtSite} from './ability';
 import {battle, members, participatingAbility} from './battle';
@@ -68,7 +69,7 @@ export function battleEffectResolve(m: Match, r: Resolution): void {
   const p = r.action.payload as Payload, h = r.action.handler;
   if (h === 'battle-effect:deploy') {
     if (r.cancelled || !canEnterTable(m, p.card)) moveCard(m, p.card, 'lost');
-    else {moveCard(m, p.card, 'table'); openWindow(m, 'response', other(r.actor), {kind: 'deployed', card: p.card});}
+    else {moveCard(m, p.card, 'table'); deployed(m, p.card);}
   } else if (h === 'battle-effect:cancel') {
     if (!r.cancelled && sameCard(m, p.reference!) && scrambleExpires(m, p.card)) {
       moveCard(m, p.card, 'lost');

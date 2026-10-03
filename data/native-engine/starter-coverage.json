@@ -829,7 +829,7 @@
         "tests/native-engine/cancellation.test.mjs"
       ],
       "remaining": [
-        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai’torr has native/source evidence."
+        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai\u2019torr has native/source evidence."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/equipment-provenance.json",
@@ -1660,7 +1660,7 @@
         "tests/native-engine/cancellation.test.mjs"
       ],
       "remaining": [
-        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai’torr has native/source evidence."
+        "Conditional immunity and text-cancellation interactions remain; Ket Maliss has executed GEMP immunity comparisons, Sai\u2019torr has native/source evidence."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/equipment-provenance.json",
@@ -2075,6 +2075,21 @@
         "tests/native-engine/gemp/location-ability-provenance.json"
       ],
       "scope": "Ground location total ability, reset/reduction prevention and battle-only modifier ordering. Actual Affect Mind deployment/attachment and continuous site restriction with Dark Jedi suppression; individual ability and ordinary present-ability costs stay separate. 19 matching GEMP records.112 definitions;32 focused native tests. Full card/deck admission remains closed."
+    },
+    "phaseEffects": {
+      "implementation": [
+        "lib/native-engine/runtime.ts",
+        "lib/native-engine/deployment.ts",
+        "lib/native-engine/phase-effects.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/phase-effects.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/phase-effects-provenance.json"
+      ],
+      "scope": "Explicit serializable phase starts/ends, automatic empty-boundary settlement, successful-deployment history with ability/source snapshots; actual Ability, Ability, Ability end-phase loss, count-based self-loss and Alter immunity. Nine matching GEMP records and 29 focused native tests.113 definitions; broader applicability and full admission remain."
     }
   },
   "wholeMatchEvidence": {

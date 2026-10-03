@@ -1,3 +1,4 @@
+import {deployed} from './deployment';
 import {cardVersion} from './identity';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {atSite, cardDefinition, isWarrior, name, system} from './board';
@@ -127,9 +128,9 @@ export function equipmentResolve(m: Match, r: Resolution): void {
     if (!validAttachmentAttempt(m, p.attachment!) || !validHost(m, c.blueprint, host.id, side)) {if (c.zone === 'playing') moveCard(m, c.id, 'lost'); return;}
     if (!transfer) moveCard(m, c.id, 'table'); c.attachedTo = host.id; c.location = host.location;
     if (p.mode) recordEquipment(m).training[c.id] = p.mode;
-    openWindow(m, 'response', other(side), {kind: transfer ? 'transferred' : 'deployed', card: c.id});
-  } else if (kind === 'equipment:macroscan') {moveCard(m, p.card!, 'table'); openWindow(m, 'response', other(side), {kind: 'deployed', card: p.card!});}
-  else if (kind === 'equipment:mine') {moveCard(m, p.card!, 'table'); m.cards[p.card!].location = p.site; recordEquipment(m).mines[p.card!] = m.turn.number; openWindow(m, 'response', other(side), {kind: 'deployed', card: p.card!});}
+    if (transfer) openWindow(m, 'response', other(side), {kind: 'transferred', card: c.id}); else deployed(m, c.id);
+  } else if (kind === 'equipment:macroscan') {moveCard(m, p.card!, 'table'); deployed(m, p.card!);}
+  else if (kind === 'equipment:mine') {moveCard(m, p.card!, 'table'); m.cards[p.card!].location = p.site; recordEquipment(m).mines[p.card!] = m.turn.number; deployed(m, p.card!);}
   else if (kind === 'equipment:bury') {moveCard(m, p.card!, 'buried'); m.cards[p.card!].location = p.site; openWindow(m, 'response', other(side), {kind: 'card-buried', site: p.site!});}
   else if (kind === 'equipment:peek') {
     const binoculars = m.cards[p.card!].blueprint === '1_35', target = binoculars ? side : other(side), count = binoculars || !nighttimeSites(m).length ? 1 : 3;

@@ -1,3 +1,4 @@
+import {deployed} from './deployment';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {cardDefinition} from './definitions';
 import {isJedi} from './location-ability';
@@ -28,7 +29,7 @@ export function abilityEffectResolve(m: Match, r: Resolution): void {
   // not a new deployment target selection. Original instance must still exist.
   const host = m.cards[p.host];
   moveCard(m, p.card, 'table'); m.cards[p.card].attachedTo = p.host; m.cards[p.card].location = host.location;
-  openWindow(m, 'response', other(r.actor), {kind: 'deployed', card: p.card});
+  deployed(m, p.card);
 }
 export function assertAbilityEffects(m: Match): void {
   for (const c of Object.values(m.cards)) if (c.zone === 'table' && c.blueprint === '1_43' &&

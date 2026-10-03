@@ -1,0 +1,54 @@
+[
+  {
+    "name": "total-zero",
+    "loss": 0.0,
+    "effectLost": false,
+    "phase": "BATTLE"
+  },
+  {
+    "alterAvailable": false,
+    "name": "immune"
+  },
+  {
+    "name": "next-turn",
+    "loss": 2.0,
+    "effectLost": false,
+    "phase": "DEPLOY"
+  },
+  {
+    "name": "none",
+    "loss": 2.0,
+    "effectLost": false,
+    "phase": "DEPLOY"
+  },
+  {
+    "name": "character",
+    "loss": 0.0,
+    "effectLost": false,
+    "phase": "BATTLE"
+  },
+  {
+    "name": "droid",
+    "loss": 2.0,
+    "effectLost": false,
+    "phase": "DEPLOY"
+  },
+  {
+    "name": "departed",
+    "loss": 0.0,
+    "effectLost": false,
+    "phase": "BATTLE"
+  },
+  {
+    "name": "ability-reduced",
+    "loss": 0.0,
+    "effectLost": false,
+    "phase": "BATTLE"
+  },
+  {
+    "name": "outnumbered",
+    "loss": 0.0,
+    "effectLost": true,
+    "phase": "BATTLE"
+  }
+]

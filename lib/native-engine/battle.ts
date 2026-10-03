@@ -1,3 +1,4 @@
+import {deployed} from './deployment';
 import {locationAbility} from './location-ability';
 import {tradedPower, type AbilityTrade} from './battle-effects';
 import {ability} from './ability';
@@ -248,7 +249,8 @@ export function battleResolve(m: Match, r: Resolution): void {
     const c = m.cards[p.card!], host = m.cards[p.target!];
     if (!validAttachmentAttempt(m, p.attachment!) || host.zone !== 'table' || host.owner !== side || !warrior(m, host.id)) {if (c.zone === 'playing') moveCard(m, c.id, 'lost'); return;}
     if (c.zone === 'playing') moveCard(m, c.id, 'table'); c.attachedTo = host.id; c.location = host.location;
-    openWindow(m, 'response', other(side), {kind: 'deployed', card: c.id}); return;
+    if (p.attachment!.transfer) openWindow(m, 'response', other(side), {kind: 'weapon-transferred', card: c.id});
+    else deployed(m, c.id); return;
   }
   if (!b) throw Error('Missing battle.');
   if (kind === 'battle:premature') {

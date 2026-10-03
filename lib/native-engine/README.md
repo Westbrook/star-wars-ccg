@@ -1440,3 +1440,39 @@ all Affect Mind interactions: vehicle/aboard/captured/inactive and crossing-over
 rules, other provider cards, broader prevention/replacement, full match
 conformance and the complete original product scope remain unfinished. Existing
 GEMP and Rules Lab paths remain intact; no new standalone study was added.
+
+### Phase boundaries and successful deployments
+
+`runtime.ts` now represents every phase start/end with a saved continuation.
+An end-of-Deploy effect resolves with the turn still in Deploy; only afterward
+can Battle begin. Empty boundaries settle automatically after checking required
+actions and both players' legal responses. Draw-phase end precedes recirculation.
+Boundary source snapshots retain original instances, so a newly entering card
+cannot retroactively claim the boundary. Existing ordinary-phase saves remain
+valid and enter the new boundary handling on their next transition.
+
+`deployment.ts` records successful table entry before arrival responses. It
+freezes the deployed card's current individual ability and active observer
+instances, distinguishes canceled attempts, transfers, setup and revival, and
+retains only the latest recorded turn. Departure or numerical changes do not
+rewrite a completed deployment. Observer lists sort by physical ID so setup deck
+input order and storage reconstruction produce identical snapshots. This is
+rule-owned private state, not player-supplied action data.
+
+`phase-effects.ts` implements the ground-character behavior of Ability, Ability,
+Ability (`5_110`): free unique deployment, Alter immunity, mandatory 2-Force loss
+when no qualifying opposing deployment was observed during Deploy, and self-loss
+when opposing cards with positive individual ability outnumber its owner's.
+Current totals and battle exclusion do not replace that individual-card query.
+Normal Force-loss responses, reduction, pile choices and concession still apply.
+Blaster transfers now emit `weapon-transferred`, rather than `deployed`.
+
+Evidence: `tests/native-engine/phase-effects.test.mjs` and
+`tests/native-engine/gemp/phase-effects-provenance.json`: four fresh JUnit tests,
+nine matching observations, unchanged 6,820 GEMP production files. The named
+Effect was actually deployed; character/droid arrivals were actual deployments.
+Departure and numerical changes were explicit fixture interventions.
+
+This does not certify vehicles/permanent pilots, inactive/captured/aboard rules,
+all boundary-timing cards, broader continuous-trigger infrastructure or full
+matches. These remain in scope. `premiereRules.supports` remains closed.

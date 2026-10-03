@@ -54,7 +54,7 @@ test('Barrier on a battle react excludes its ability without removing the arrivi
 test('weapon deployment and transfer pay full cost and require a present own warrior',()=>{
  let {m,site,dark,light}=basic();const gun=pull(m,'dark','1_317','hand'),rifle=pull(m,'dark','1_312','hand'),guard=pull(m,'dark','1_181','table',site);m=phase(m,'deploy');
  assert.ok(!ids(m).includes('equip:'+gun+':'+light[0]));assert.ok(!ids(m).includes('equip:'+gun+':'+guard));m=step(m,'equip:'+gun+':'+dark[0]);m=seek(m,x=>x.stack.length===1);if(prompt(m).side==='light')m=step(m,'pass');m=step(m,'equip:'+rifle+':'+dark[1]);m=seek(m,x=>x.stack.length===1);if(prompt(m).side==='light')m=step(m,'pass');assert.equal(m.players.dark.force.length,5);
- m=step(m,'transfer:'+rifle+':'+dark[0]);m=seek(m,x=>x.stack.length===1);assert.equal(m.players.dark.force.length,3);assert.equal(m.cards[rifle].attachedTo,dark[0]);
+ m=step(m,'transfer:'+rifle+':'+dark[0]);m=seek(m,x=>x.stack.length===1);assert.equal(m.players.dark.force.length,3);assert.equal(m.cards[rifle].attachedTo,dark[0]);assert.equal(m.data.deployments.filter(d=>d.card.id===rifle).length,1);
 });
 
 for(const side of ['dark','light'])test(side+' weapon equality, hit return fire, and once-per-weapon/bearer restrictions',()=>{

@@ -1,0 +1,24 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T06:54:28.267024+00:00",
+  "harness": "NativeEnginePhaseEffectsOracleTests.java",
+  "harnessSha256": "dff275e62160ac3accbc377bdee267a33ef91c1757515ea6abed2644b5f7613f",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEnginePhaseEffectsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 4,
+  "observations": 9,
+  "matchingObservations": 9,
+  "productionFilesVerified": 6820,
+  "scope": "Actual Ability, Ability, Ability deployment and end-of-opponent-Deploy loss or advancement. Actual Rebel Trooper and CZ-3 deployments; three opposing characters lose the Effect. Controlled post-deployment departure/current ability reset, total ability reset and next-turn reset; Alter immunity. Every reported loss boundary retains Deploy until the loss resolves.",
+  "differences": [],
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR Appendix A Ability, Ability, Ability erratum.",
+    "GEMP Card5_110 records successful deployments while active and resets that memory at the start of opponent Deploy; end-of-phase loss and table-change self-loss.",
+    "GEMP Filters.hasAbilityOrHasPermanentPilotWithAbility uses current positive individual ability, not aggregate location ability."
+  ],
+  "limits": "Ground Character components only. Permanent pilots, vehicles, aboard/inactive/captured applicability, text cancellation, source entry during phase boundaries and wider replacement/loss windows require additional conformance. Generic phase boundaries, source-instance snapshots, canceled reacts, deterministic persistence and history validation have native coverage beyond the nine reference records. Full native card/deck admission remains closed."
+}

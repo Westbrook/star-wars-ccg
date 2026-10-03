@@ -1,3 +1,4 @@
+import {assertCardReference, referenceCard, type CardReference} from './identity';
 import {assertState, initialState, lifeForce, moveTop, publicState, recirculate} from './state';
 import {secureEntropy, type Entropy} from './random';
 import {initializeSetup, setupPrompt, applySetup, projectSetup, assertSetup, type LocationSetupRules} from './setup';
@@ -46,6 +47,7 @@ function validate(match: Match, rules: Rules): void {
   if (match.rules !== rules.id) throw Error('This match requires its original rules version.');
   if (rules.starting) assertSetup(match, rules.starting);
   assertPayments(match);
+  assertPhaseContinuations(match);
   rules.validate(match);
   if (match.status === 'playing' && !match.stack.length) throw Error('A playing match needs a continuation.');
 }
@@ -214,6 +216,43 @@ function concludeIfEmpty(match: Match): void {
   }
 }
 
+type PhaseContinuation = {step: 'advance' | 'ready'; phase: Phase; turn: number};
+function phaseContinuation(m: Match, step: PhaseContinuation['step']): void {
+  m.stack.push({kind: 'resolution', actor: m.turn.side, cancelled: false,
+    action: {id: 'core:phase', label: 'Continue phase', handler: 'core:phase',
+      payload: {step, phase: m.turn.phase, turn: m.turn.number}}});
+}
+function assertPhaseContinuations(m: Match): void {
+  for (const [index, f] of m.stack.entries()) if (f.kind === 'window' && ['phase-start','phase-end'].includes((f.event as {kind?: string})?.kind ?? '')) {
+    const e = f.event as {kind: string; phase: Phase; side: Side; turn: number; sources: CardReference[]}, parent = m.stack[index - 1];
+    if (f.timing !== 'response' || e.phase !== m.turn.phase || e.side !== m.turn.side || e.turn !== m.turn.number ||
+        !Array.isArray(e.sources) || parent?.kind !== 'resolution' || parent.action.handler !== 'core:phase' ||
+        (parent.action.payload as PhaseContinuation).step !== (e.kind === 'phase-start' ? 'ready' : 'advance')) throw Error('Invalid phase boundary.');
+    const seen = new Set<string>();
+    for (const ref of e.sources) {assertCardReference(m, ref); if (ref.zone !== 'table' || seen.has(ref.id)) throw Error('Invalid phase boundary source.'); seen.add(ref.id);}
+  }
+  for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'core:phase') {
+    const p = f.action.payload as PhaseContinuation;
+    if (!p || !['advance','ready'].includes(p.step) || p.phase !== m.turn.phase || p.turn !== m.turn.number ||
+        f.actor !== m.turn.side || f.cancelled || f.awaitingResponses || f.action.source || f.action.payment)
+      throw Error('Invalid phase continuation.');
+  }
+}
+function phaseEvent(m: Match, kind: 'phase-start' | 'phase-end'): Json {
+  return {kind, phase: m.turn.phase, side: m.turn.side, turn: m.turn.number,
+    sources: Object.values(m.cards).filter(c => c.zone === 'table').sort((a,b) => a.id.localeCompare(b.id)).map(c => referenceCard(m, c.id))} as unknown as Json;
+}
+function beginPhase(m: Match): void {
+  phaseContinuation(m, 'ready');
+  openWindow(m, 'response', m.turn.side, phaseEvent(m, 'phase-start'));
+}
+function resolvePhase(m: Match, r: Resolution): void {
+  const p = r.action.payload as PhaseContinuation;
+  if (p.step === 'ready') {openWindow(m, 'phase', m.turn.side); return;}
+  const next = phases[phases.indexOf(m.turn.phase) + 1];
+  if (next) {m.turn.phase = next; beginPhase(m);}
+  else {recirculate(m); openWindow(m, 'end', m.turn.side);}
+}
 function closeWindow(match: Match, window: Window, rules: Rules): void {
   match.stack.pop();
   if (window.timing === 'response') return;
@@ -221,11 +260,10 @@ function closeWindow(match: Match, window: Window, rules: Rules): void {
     const generation = rules.generation(match, match.turn.side);
     if (!Number.isSafeInteger(generation) || generation < 0) throw Error('Invalid Force generation.');
     match.turn.generation = generation; match.turn.activated = 0;
-    openWindow(match, 'phase', match.turn.side);
+    beginPhase(match);
   } else if (window.timing === 'phase') {
-    const next = phases[phases.indexOf(match.turn.phase) + 1];
-    if (next) {match.turn.phase = next; openWindow(match, 'phase', match.turn.side);}
-    else {recirculate(match); openWindow(match, 'end', match.turn.side);}
+    phaseContinuation(match, 'advance');
+    openWindow(match, 'response', match.turn.side, phaseEvent(match, 'phase-end'));
   } else {
     match.turn = {number: match.turn.number + 1, side: other(match.turn.side), phase: 'activate', generation: 0, activated: 0};
     openWindow(match, 'start', match.turn.side);
@@ -241,9 +279,9 @@ function settle(match: Match, rules: Rules, context: Context): void {
         parent?.kind === 'resolution' && parent.action.handler === 'core:canceled' && parent.cancelled) {
       match.stack.pop(); continue;
     }
-    // A draw without applicable cost text must not add an empty UI step.
-    // Recheck both seats and required actions after every cost response.
-    if (window?.kind === 'window' && (window.event as {kind?: string})?.kind === 'destiny-cost' &&
+    // Empty cost and phase-boundary windows need no UI step. Check both
+    // seats and mandatory triggers before advancing a durable continuation.
+    if (window?.kind === 'window' && ['destiny-cost', 'phase-start', 'phase-end'].includes((window.event as {kind?: string})?.kind ?? '') &&
       !required(match, window, rules).length && !sides.some(priority => available(match, {...window, priority}, rules).length || rules.canPass?.(match, {...window, priority}, priority) === false)) {
       match.stack.pop(); continue;
     }
@@ -259,6 +297,7 @@ function settle(match: Match, rules: Rules, context: Context): void {
     }
     const resolution = match.stack.pop() as Resolution;
     if (resolution.action.handler === 'core:canceled') continue;
+    if (resolution.action.handler === 'core:phase') {resolvePhase(match, resolution); continue;}
     if (resolution.action.handler === 'core:payment') payForceStep(match, rules, resolution);
     else if (resolution.action.handler === 'core:activate') {
       if (!resolution.cancelled) {moveTop(match, resolution.actor, 'reserve', 'force'); match.turn.activated++;}

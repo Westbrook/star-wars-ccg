@@ -1182,5 +1182,14 @@
     "uniqueness": "UNIQUE",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_043.java"
+  },
+  "5_110": {
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_110.java"
   }
 }

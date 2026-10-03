@@ -1,3 +1,4 @@
+import {deployed} from './deployment';
 import {ability} from './ability';
 import {cardDefinition, name} from './board';
 import {cancellationCharacters, type CancellationPayload} from './cancellation';
@@ -52,7 +53,7 @@ export function forceEffectResolve(m: Match, r: Resolution): void {
   const p = r.action.payload as Payload;
   if (r.action.handler === 'force-effect:deploy') {
     if (r.cancelled || !canEnterTable(m, p.card)) moveCard(m, p.card, 'lost');
-    else {moveCard(m, p.card, 'table'); openWindow(m, 'response', other(r.actor), {kind: 'deployed', card: p.card});}
+    else {moveCard(m, p.card, 'table'); deployed(m, p.card);}
     return;
   }
   const pending = target(m, p); if (r.cancelled || !pending) return;

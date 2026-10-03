@@ -1,3 +1,4 @@
+import {deployed} from './deployment';
 import {isSpecies} from './characteristics';
 import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
@@ -55,7 +56,7 @@ export function gaderffiiResolve(m: Match, r: Resolution): void {
     const card = m.cards[p.card], target = m.cards[p.target!];
     if (r.cancelled || !validAttachmentAttempt(m, p.attachment!) || card.zone !== (p.transfer ? 'table' : 'playing') || target.zone !== 'table' || target.owner !== side || !raider(m, target.id) || !target.location || p.react && target.location !== p.site || p.transfer && (card.zone !== 'table' || card.location !== target.location)) {if (card.zone === 'playing') moveCard(m, card.id, 'lost'); return;}
     if (card.zone === 'playing') moveCard(m, card.id, 'table'); card.attachedTo = target.id; card.location = target.location;
-    openWindow(m, 'response', other(side), {kind: p.transfer ? 'weapon-transferred' : 'deployed', card: card.id}); return;
+    if (p.transfer) openWindow(m, 'response', other(side), {kind: 'weapon-transferred', card: card.id}); else deployed(m, card.id); return;
   }
   const b = battle(m)!, shot = b.gaffiShots![p.index!];
   if (r.cancelled) {shot.outcome = 'canceled'; return;}

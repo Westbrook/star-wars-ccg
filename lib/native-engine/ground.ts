@@ -1,3 +1,4 @@
+import {deployed} from './deployment';
 import {isUnique, canEnterTable} from './persona';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
 import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, presence, sitePlacements} from './board';
@@ -174,7 +175,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     if (!canEnterTable(m, data.card!)) {moveCard(m, data.card!, 'lost'); return;}
     moveCard(m, data.card!, 'table'); m.cards[data.card!].location = data.site;
     cancelDrainAfterReact(m, side, data);
-    openWindow(m, 'response', other(side), {kind: 'deployed', card: data.card!});
+    deployed(m, data.card!);
   } else if (kind === 'ground:site') {
     const id = data.card!, placement = sitePlacements(m, id).find(p => p.id === data.placement);
     if (!placement) throw Error('The location placement requires revalidation.');
@@ -185,7 +186,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
       for (const card of Object.values(m.cards)) {if (card.location === old) card.location = id; if (card.coveredBy === old) card.coveredBy = id;}
       const current = record(m); current.drained = current.drained.map(site => site === old ? id : site);
     } else m.locations.splice(placement.index!, 0, id);
-    openWindow(m, 'response', other(side), {kind: 'deployed', card: id});
+    deployed(m, id);
   } else if (kind === 'ground:move') {
     if (!sameCard(m, data.cardRef!) || m.cards[data.card!].location !== data.from) return;
     moveWithAttachments(m, data.card!, data.site!); record(m).moved.push(data.card!);
