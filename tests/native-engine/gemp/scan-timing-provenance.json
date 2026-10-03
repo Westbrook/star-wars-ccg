@@ -1,0 +1,22 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T02:48:02.428351+00:00",
+  "harness": "NativeEngineScanTimingOracleTests.java",
+  "harnessSha256": "48c7b450c706e3fb17496e2ab1c07adefa36017ef2159884fec4f46bbae5317c",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineScanTimingOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 1,
+  "observations": 6,
+  "productionFilesVerified": 6820,
+  "scope": "Actual Scanning Crew six outcome cases rerun. Trooper case leaves acknowledgment pending for 11000 ms and asserts the same decision, unchanged hand, and source still playing before acknowledgment. Native follows the same untimed acknowledgment, with deterministic later-time, legacy-save, refresh and concurrent-receipt checks.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p10 Peeking At Cards: older printed X-second limits are obsolete; reasonable time to gather information.",
+    "Card1_266 and PeekAtOpponentsHandEffect wait for a player acknowledgment and then offer optional Rebel selection."
+  ],
+  "corrects": "scan-provenance.json retains historical evidence of the former native printed-timer interpretation. That interpretation was incorrect and is superseded by this checkpoint.",
+  "limits": "Not a claim that GEMP web-server session clocks or tournament time controls are disabled. Native match clocks and general text/targeting modifiers remain required; no full card/deck admission."
+}

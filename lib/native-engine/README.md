@@ -395,41 +395,41 @@ replacement/prevention cards and aboard/captured targeting still require work.
 No full card/deck is admitted by this checkpoint. Existing proof versions and GEMP
 routes remain intact; this adds engine behavior without new study UI.
 
-### Scanning Crew and timed private inspection
+### Scanning Crew and acknowledged inspection
 
 `scan.ts` implements Scanning Crew's paid ordinary action (also during weapons),
 inspection of the opponent's current hand, and optional selection of one Rebel
 Character to put on top of that player's Used Pile. Declining and hands without
-Rebels leave the hand unchanged. The source stays in play throughout the effect
+Rebels leave the hand unchanged. The source remains playing throughout the effect
 and finishes Used, or Lost if its play is canceled. An inspection prevention
 window precedes disclosure; a chosen Rebel is revealed before removal and checked
 again before being moved. Removal is neither character loss nor Force loss.
 
-The printed ten-second glance is a serialized deadline. `Context.now` is trusted
-server time, supplied outside the player command. `project(..., now)` immediately
-redacts an expired full-hand view even before a timer transaction has run.
-`advanceTime(..., now)` moves an expired inspection to optional Rebel selection
-(or finishes when no Rebel was found), incrementing the revision exactly once.
-The service must commit this using its command compare-and-swap path. Early
-acknowledgment is allowed; neither reads nor recovery start another ten seconds.
-Only the inspecting seat receives hand details and private choices. After the
-inspection, only eligible Rebels are offered, and after selection only the chosen
-card is disclosed for responses. Concession revokes inspection/selection views.
+The Advanced Rulebook p10, Peeking At Cards, explicitly supersedes printed time
+limits on older cards. Scanning Crew therefore waits for **Finish viewing**;
+there is no ten-second deadline, countdown or automatic transition. Elapsed server
+or browser time and refresh preserve the inspection. Old saved `expiresAt` fields
+are ignored. The usual revision/receipt protections apply to acknowledgment.
+The hand owner already sees their own hand; the inspecting seat receives the
+inspection and exclusive choices. After acknowledgment, only eligible Rebels
+remain in the inspection view, and after selection only the chosen card is
+disclosed for responses. Completion/concession revoke this temporary disclosure.
 
-Nineteen native tests cover both seats' projections and JSON restoration, deadline
-boundaries/idempotence, stale commands, payment, legal timing, second copies,
-selection and declining, no Rebels, cancellation/prevention, departing targets,
-later hand arrivals, wrong-seat/forged choices and corrupt state. Six fresh pinned
-GEMP outcomes match hand changes, inspected counts, cost and Used disposition.
-GEMP itself uses an untimed acknowledgment; native uses the printed ten seconds.
-Sources and exact scope are in `tests/native-engine/gemp/scan-provenance.json`.
+The former printed-timer interpretation was incorrect. Fresh pinned GEMP checks
+agree with acknowledgment and all six recorded outcomes; the harness explicitly
+leaves one inspection pending past eleven seconds. Native regressions cover
+elapsed time, legacy saves, refresh, private choices, source disposition,
+selection/declining, no Rebels, prevention and departures. SQLite service tests
+verify concurrent reads make no timer move and duplicate acknowledgments commit
+once. Generic service deadline tests now use a synthetic test-only expiry provider,
+so timer CAS remains exercised without inventing a time limit for a real card.
+Playwright verifies an open dialog survives elapsed time, reload recovers the same
+choice and explicit completion removes inspection. Evidence is in
+`tests/native-engine/gemp/scan-timing-provenance.json`.
 
-This remains engine implementation, without new Rules Lab studies. The native
-service's authenticated timer scheduling/CAS and browser countdown are still
-required along with full-match API and UI integration. General text modification,
-Rebel identity modifiers, hand-removal/inspection prevention cards, target immunity,
-replacement and individual Force-use response timing remain unfinished. Existing
-GEMP/proof paths are unchanged and full native deck admission remains closed.
+General text modification, Rebel identity modifiers, targeting/replacement and
+inspection/removal prevention cards remain unfinished. GEMP/proof paths are
+unchanged; full native deck admission remains closed.
 
 
 ### Tusken Scavengers
@@ -958,8 +958,8 @@ Twenty recorded runs cover 56,279 commands and end with normal victories;
 `tests/native-engine/audit/starter-match-results.json` records summaries, source
 fingerprints and final/transcript hashes. Every recorded run replayed from setup
 to an identical final state. `full-match.test.mjs` keeps six seeded 40/60 runs in
-the regular suite, checks saved-boundary recovery, replays a reached Scanning Crew
-deadline, and rejects corrupted transcripts/commands after completion.
+the regular suite, checks saved-boundary recovery, recovers a reached Scanning Crew
+inspection across elapsed time and acknowledgment, and rejects corrupted transcripts/commands after completion.
 
 This is integration and recovery evidence, not full-game GEMP parity or exhaustive
 card certification. The exploration policy is not the production strategic CPU.
@@ -1067,8 +1067,8 @@ Desktop uses a decision sidebar; tablets compact that layout; phones have
 Table/Hand/Actions tabs. Empty opportunities pass after two seconds (pause and
 ArrowRight supported). Polling runs after that interval so it cannot continually
 restart the timer. Dialogs, hidden tabs, errors and uncertain writes suspend
-local automation. Server deadlines still expire: the countdown uses trusted
-`serverTime`, and a private inspection/card dialog is redacted at its deadline.
+local automation. Scanning Crew inspection waits for acknowledgment under the
+current rules; dialogs remain bound to the current authorized card projection.
 Concession is a confirmed server command and final results freeze the controls.
 
 Run `npm run test:engine:client` with the normal local preview running at 5173
@@ -1078,7 +1078,7 @@ Run `npm run test:engine:client` with the normal local preview running at 5173
 execute the real handlers, native service and isolated SQLite adapter under
 test-only admission. They never seed shared/production storage. Tests cover
 lost-response recovery through refresh, receipts, CPU dispatch, two identities
-joining, concession, empty timers/keyboard, inspection expiry, production gate,
+joining, concession, empty timers/keyboard, untimed inspection recovery/acknowledgment, production gate,
 and screenshots at 1440, 834 and 390 pixels. This is client integration evidence,
 not exhaustive card conformance or an end-to-end production match certification.
 

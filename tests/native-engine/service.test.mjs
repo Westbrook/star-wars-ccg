@@ -90,12 +90,30 @@ for(const [size,mode,ownerSide] of [[40,'pvp','dark'],[60,'cpu','light']])test(`
  }
  const final=stored(f.db,v.id),expected={...run.state,revision:run.state.revision+offset};assert.deepEqual(final,expected);assert.equal(final.status,'finished');assert.equal(final.result.reason,'life-force');assert.equal((await f.fresh().read(v.id,'owner')).game.prompt,null);assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands WHERE match_id=?').get(v.id).n,run.transcript.length+offset);
 });
-test('expired decisions are persisted once, race safely and invalidate late commands',async t=>{
+// A synthetic expiry provider exercises service CAS without assigning invented
+// timing restrictions to a real card. Production Scanning Crew is untimed.
+const timedRules={...auditRules,expire:(m,{now})=>{
+ if(typeof m.data.testDeadline!=='number'||now<m.data.testDeadline)return false;
+ delete m.data.testDeadline;m.data.testExpired=true;return true;
+}};
+test('generic engine deadlines persist once and race safely',async t=>{
+ let snapshot;const run=runStarterMatch({seed:1,size:40,onStep:m=>{if(!snapshot&&m.stack.at(-1)?.handler==='scan:peek')snapshot=clone(m)}});assert.ok(snapshot);
+ const deadline=1_800_000_010_000;snapshot.data.testDeadline=deadline;
+ const f=fixture(t,{rules:()=>timedRules}),v=await f.service.create('owner',config(40,'dark','cpu',run.state.id));f.db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(snapshot),snapshot.revision,v.id);
+ f.setTime(deadline-1);assert.equal((await f.service.read(v.id,'owner')).revision,snapshot.revision);f.setTime(deadline);
+ const reads=await Promise.all(Array.from({length:5},()=>f.fresh().read(v.id,'owner')));assert.ok(reads.every(r=>r.revision===snapshot.revision+1));assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands').get().n,1);assert.equal(stored(f.db,v.id).data.testExpired,true);
+ await rejects(f.service.command(v.id,'owner',{commandId:randomUUID(),revision:snapshot.revision,choice:'scan:continue'}),409,'STALE_REVISION');f.setTime(deadline+50000);assert.equal((await f.service.read(v.id,'owner')).revision,snapshot.revision+1);
+});
+test('saved Scanning Crew inspection survives elapsed time and duplicate acknowledgments',async t=>{
  let snapshot;const run=runStarterMatch({seed:1,size:40,onStep:m=>{if(!snapshot&&m.stack.at(-1)?.handler==='scan:peek')snapshot=clone(m)}});assert.ok(snapshot);
  const f=fixture(t),v=await f.service.create('owner',config(40,'dark','cpu',run.state.id));f.db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(snapshot),snapshot.revision,v.id);
- const deadline=snapshot.stack.at(-1).payload.expiresAt;f.setTime(deadline-1);assert.equal((await f.service.read(v.id,'owner')).revision,snapshot.revision);f.setTime(deadline);
- const reads=await Promise.all(Array.from({length:5},()=>f.fresh().read(v.id,'owner')));assert.ok(reads.every(r=>r.revision===snapshot.revision+1));assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands').get().n,1);assert.notEqual(stored(f.db,v.id).stack.at(-1)?.handler,'scan:peek');
- await rejects(f.service.command(v.id,'owner',{commandId:randomUUID(),revision:snapshot.revision,choice:'scan:continue'}),409,'STALE_REVISION');f.setTime(deadline+50000);assert.equal((await f.service.read(v.id,'owner')).revision,snapshot.revision+1);
+ f.setTime(1_900_000_000_000);const reads=await Promise.all(Array.from({length:5},()=>f.fresh().read(v.id,'owner')));
+ assert.ok(reads.every(r=>r.revision===snapshot.revision&&r.game.rules.scan.stage==='peek'&&r.game.rules.scan.cards.length>0));
+ assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands').get().n,0);
+ const c={commandId:randomUUID(),revision:snapshot.revision,choice:'scan:continue'};
+ const replies=await Promise.all(Array.from({length:5},()=>f.fresh().command(v.id,'owner',c)));
+ assert.ok(replies.every(r=>r.acceptedRevision===snapshot.revision+1));assert.equal(stored(f.db,v.id).stack.at(-1).handler,'scan:select');
+ assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands').get().n,1);
 });
 test('HTTP conceals internal errors and production cannot be switched into test admission',async t=>{
  const f=fixture(t,{rules:()=>premiereRules}),h=matchHandlers(f.fresh),result=await h.create(request('',config()));assert.equal(result.status,422);assert.equal((await result.json()).code,'DECK_NOT_ADMITTED');
@@ -109,7 +127,7 @@ test('identical joins and cross-seat command-ID collisions retain a single autho
  assert.equal((await f.service.list('guest'))[0].side,'light');assert.equal((await f.service.list('owner'))[0].side,'dark');
 });
 test('late command itself settles the timer before checking its stale revision',async t=>{
- let snapshot;const run=runStarterMatch({seed:1,size:40,onStep:m=>{if(!snapshot&&m.stack.at(-1)?.handler==='scan:peek')snapshot=clone(m)}});const f=fixture(t),v=await f.service.create('owner',config(40,'dark','cpu',run.state.id));f.db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(snapshot),snapshot.revision,v.id);f.setTime(snapshot.stack.at(-1).payload.expiresAt);
+ let snapshot;const run=runStarterMatch({seed:1,size:40,onStep:m=>{if(!snapshot&&m.stack.at(-1)?.handler==='scan:peek')snapshot=clone(m)}});snapshot.data.testDeadline=1_800_000_010_000;const f=fixture(t,{rules:()=>timedRules}),v=await f.service.create('owner',config(40,'dark','cpu',run.state.id));f.db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(snapshot),snapshot.revision,v.id);f.setTime(snapshot.data.testDeadline);
  await rejects(f.service.command(v.id,'owner',{commandId:randomUUID(),revision:snapshot.revision,choice:'scan:continue'}),409,'STALE_REVISION');assert.equal(stored(f.db,v.id).revision,snapshot.revision+1);assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM native_commands WHERE actor=?').get('timer').n,1);
 });
 

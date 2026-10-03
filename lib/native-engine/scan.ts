@@ -1,9 +1,9 @@
 import {cardDefinition, name} from './board';
-import {openWindow, type Context} from './runtime';
+import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {other, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
-type Payload = {card: string; cards?: string[]; expiresAt?: number; target?: string};
+type Payload = {card: string; cards?: string[]; target?: string};
 const action = (step: string, p: Payload): Action => ({id: 'scan:' + step + ':' + p.card, label: 'Resolve Scanning Crew', handler: 'scan:' + step, source: p.card, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: Payload) => m.stack.push({kind: 'resolution', actor: m.cards[p.card].owner, cancelled: false, action: action(step, p)});
 const rebel = (m: Match, id: string) => m.cards[id]?.owner === 'light' && m.cards[id].zone === 'hand' && cardDefinition(m, id).type === 'Character' && cardDefinition(m, id).subType === 'Rebel';
@@ -15,7 +15,9 @@ export function scanActions(m: Match, w: Window, side: Side): Action[] {
   return m.players.dark.hand.filter(id => m.cards[id].blueprint === '1_266').map(card => ({...action('play', {card}), label: 'Scanning Crew · inspect opponent’s hand', payment: {dark: 1}}));
 }
 export function scanInitiate(m: Match, r: Resolution): void {moveCard(m, (r.action.payload as Payload).card, 'playing');}
-export function scanResolve(m: Match, r: Resolution, context: Context): void {
+// AR p10, Peeking At Cards: printed time limits are obsolete. Inspection
+// ends when acknowledged; legacy saved expiresAt fields have no rules effect.
+export function scanResolve(m: Match, r: Resolution): void {
   const p = r.action.payload as Payload, h = r.action.handler;
   if (r.cancelled) {if (h === 'scan:play') moveCard(m, p.card, 'lost'); return;}
   if (h === 'scan:play') {
@@ -23,7 +25,7 @@ export function scanResolve(m: Match, r: Resolution, context: Context): void {
     openWindow(m, 'response', other(r.actor), {kind: 'before-looking-at-hand', source: p.card, side: 'light'});
   } else if (h === 'scan:inspect') {
     if (m.players.light.hand.length) m.stack.push({kind: 'decision', side: r.actor, handler: 'scan:peek',
-      payload: {card: p.card, cards: [...m.players.light.hand], expiresAt: context.now + 10_000} as Json});
+      payload: {card: p.card, cards: [...m.players.light.hand]} as Json});
   } else if (h === 'scan:put') {
     if (rebel(m, p.target!)) {
       moveCard(m, p.target!, 'used');
@@ -47,18 +49,13 @@ export function scanChoose(m: Match, d: Decision, choice: string): void {
     openWindow(m, 'response', other(d.side), {kind: 'about-to-place-hand-card-used', card: target, source: p.card});
   }
 }
-export function scanExpire(m: Match, context: Context): boolean {
-  const d = m.stack.at(-1);
-  if (d?.kind !== 'decision' || d.handler !== 'scan:peek' || context.now < (d.payload as Payload).expiresAt!) return false;
-  m.stack.pop(); scanChoose(m, d, 'scan:continue'); return true;
-}
-export function scanView(m: Match, seat: Side, now: number): Json {
+export function scanView(m: Match, seat: Side): Json {
   if (m.status !== 'playing') return {scan: null};
   const d = m.stack.at(-1);
   if (d?.kind === 'decision' && d.handler === 'scan:peek' && d.side === seat) {
     const p = d.payload as Payload;
-    return {scan: {source: p.card, stage: 'peek', expiresAt: p.expiresAt!, expired: now >= p.expiresAt!,
-      cards: now < p.expiresAt! ? p.cards!.filter(id => m.cards[id].zone === 'hand').map(id => ({...m.cards[id]})) : []}};
+    return {scan: {source: p.card, stage: 'peek',
+      cards: p.cards!.filter(id => m.cards[id].zone === 'hand').map(id => ({...m.cards[id]}))}};
   }
   if (d?.kind === 'decision' && d.handler === 'scan:select' && d.side === seat) {
     const p = d.payload as Payload;
@@ -81,7 +78,6 @@ export function assertScan(m: Match): void {
       (f.kind === 'resolution' ? f.actor : (f as Decision).side) !== 'dark' ||
       !(f.kind === 'resolution' ? ['scan:play','scan:inspect','scan:put','scan:finish'] : ['scan:peek','scan:select']).includes(h)) throw Error('Invalid pending Scanning Crew.');
     if (f.kind === 'decision' && (!Array.isArray(p.cards) || !p.cards.length || new Set(p.cards).size !== p.cards.length || p.cards.some(id => m.cards[id]?.owner !== 'light'))) throw Error('Invalid Scanning Crew inspection.');
-    if (h === 'scan:peek' && (!Number.isSafeInteger(p.expiresAt) || p.expiresAt! < 10_000)) throw Error('Invalid inspection deadline.');
     if (h === 'scan:select' && p.cards!.some(id => cardDefinition(m, id).type !== 'Character' || cardDefinition(m, id).subType !== 'Rebel')) throw Error('Invalid Scanning Crew selection.');
     if (h === 'scan:put' && (m.cards[p.target!]?.owner !== 'light' || cardDefinition(m, p.target!).type !== 'Character' || cardDefinition(m, p.target!).subType !== 'Rebel')) throw Error('Invalid Scanning Crew target.');
   }

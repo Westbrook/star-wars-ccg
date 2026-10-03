@@ -1,0 +1,74 @@
+[
+  {
+    "handRemoved": 1,
+    "inspected": true,
+    "viewedCount": 5,
+    "selectionOffered": true,
+    "forceSpent": 1,
+    "interruptUsed": true,
+    "name": "trooper",
+    "trooperUsed": true,
+    "lukeUsed": false,
+    "selectedOnTop": true
+  },
+  {
+    "handRemoved": 1,
+    "inspected": true,
+    "viewedCount": 5,
+    "selectionOffered": true,
+    "forceSpent": 1,
+    "interruptUsed": true,
+    "name": "luke",
+    "trooperUsed": false,
+    "lukeUsed": true,
+    "selectedOnTop": true
+  },
+  {
+    "handRemoved": 0,
+    "inspected": true,
+    "viewedCount": 5,
+    "selectionOffered": true,
+    "forceSpent": 1,
+    "interruptUsed": true,
+    "name": "decline",
+    "trooperUsed": false,
+    "lukeUsed": false,
+    "selectedOnTop": false
+  },
+  {
+    "handRemoved": 0,
+    "inspected": true,
+    "viewedCount": 3,
+    "selectionOffered": false,
+    "forceSpent": 1,
+    "interruptUsed": true,
+    "name": "no-rebel",
+    "trooperUsed": false,
+    "lukeUsed": false,
+    "selectedOnTop": false
+  },
+  {
+    "handRemoved": 1,
+    "inspected": true,
+    "viewedCount": 5,
+    "selectionOffered": true,
+    "forceSpent": 1,
+    "interruptUsed": true,
+    "name": "battle",
+    "trooperUsed": true,
+    "lukeUsed": false,
+    "selectedOnTop": true
+  },
+  {
+    "handRemoved": 1,
+    "inspected": true,
+    "viewedCount": 5,
+    "selectionOffered": true,
+    "forceSpent": 1,
+    "interruptUsed": true,
+    "name": "light-turn",
+    "trooperUsed": true,
+    "lukeUsed": false,
+    "selectedOnTop": true
+  }
+]

@@ -16,12 +16,15 @@ for(const size of [40,60])for(const seed of [1,8,20])test(`shuffled ${size}-card
  assert.deepEqual(replayStarterMatch(run),run.state);
  assert.ok(checkpoints.length);assert.deepEqual(replayStarterMatch(run,checkpoints.at(-1)),run.state);
  if(size===40&&seed===1){
-  assert.ok(scanSnapshot,'full match must reach a timed Scanning Crew decision');
-  const deadline=scanSnapshot.stack.at(-1).payload.expiresAt,entry={time:deadline,entropy:123,revision:scanSnapshot.revision};
-  const timed={...run,transcript:[entry]},resumed=replayStarterMatch(timed,{snapshot:scanSnapshot});
-  assert.equal(resumed.revision,scanSnapshot.revision+1);assert.notEqual(resumed.stack.at(-1)?.handler,'scan:peek');
-  assert.deepEqual(resumed,runtime.advanceTime(clone(scanSnapshot),auditRules,deadline,()=>123));
-  assert.throws(()=>replayStarterMatch({...timed,transcript:[{...entry,revision:entry.revision-1}]},{snapshot:scanSnapshot}),/Stale replay timer/);
+  assert.ok(scanSnapshot,'full match must reach Scanning Crew inspection');
+  const later=1_900_000_000_000,entry={time:later,entropy:123,revision:scanSnapshot.revision};
+  const resumed=replayStarterMatch({...run,transcript:[entry]},{snapshot:scanSnapshot});
+  assert.deepEqual(resumed,scanSnapshot,'time alone never ends inspection');
+  const command={revision:scanSnapshot.revision,choice:'scan:continue'};
+  const acknowledged=replayStarterMatch({...run,transcript:[{time:later,entropy:123,side:'dark',command}]},{snapshot:scanSnapshot});
+  assert.deepEqual(acknowledged,runtime.applyCommand(clone(scanSnapshot),auditRules,'dark',command,()=>123,later));
+  assert.equal(acknowledged.revision,scanSnapshot.revision+1);assert.notEqual(acknowledged.stack.at(-1)?.handler,'scan:peek');
+  assert.throws(()=>replayStarterMatch({...run,transcript:[{...entry,revision:entry.revision-1}]},{snapshot:scanSnapshot}),/Stale replay timer/);
  }
 
  for(const seat of ['dark','light'])assert.equal(runtime.project(run.state,auditRules,seat).prompt,null);

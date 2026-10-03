@@ -288,7 +288,7 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
 function assertTime(now: number): void {if (!Number.isSafeInteger(now) || now < 0) throw Error('Invalid server time.');}
 
 /** Persist this returned revision through the same compare-and-swap transaction
- * as commands. Idle reads must never start/restart a viewing deadline. */
+ * as commands. Idle reads must never start/restart a rules deadline. */
 export function advanceTime(before: Match, rules: Rules, now = Date.now(), entropy: Entropy = secureEntropy): Match {
   assertTime(now); validate(before, rules);
   const match = structuredClone(before);

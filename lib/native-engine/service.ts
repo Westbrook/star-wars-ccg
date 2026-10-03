@@ -61,7 +61,7 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
   }
   async function settleTime(row: Row, time = now()): Promise<Row> {
     // A stale reader always reloads the winning state. It cannot overwrite a
-    // command or another timer; a read does not create a new inspection deadline.
+    // command or another timer; a read does not create a new rules deadline.
     for (let i = 0; i < 3 && row.state; i++) {
       const m = parse(row), next = advanceTime(m, rulesFor(row.rules_version), time, entropy);
       if (next.revision === m.revision) return row;

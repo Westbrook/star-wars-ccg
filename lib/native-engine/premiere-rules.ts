@@ -23,7 +23,7 @@ import {assertRevival, revivalActions, revivalInitiate, revivalResolve} from './
 import {accidentActions, accidentInitiate, accidentResolve, accidentChoices, accidentChoose, assertAccident} from './accident';
 import {assaultActions, assaultInitiate, assaultResolve, assertAssault} from './assault';
 import {scavengeActions, scavengeInitiate, scavengeResolve, scavengeChoices, scavengeChoose, scavengeView, assertScavenge} from './scavenge';
-import {scanActions, scanInitiate, scanResolve, scanChoices, scanChoose, scanExpire, scanView, assertScan} from './scan';
+import {scanActions, scanInitiate, scanResolve, scanChoices, scanChoose, scanView, assertScan} from './scan';
 import {stunActions, stunInitiate, stunResolve, assertStun} from './stun';
 import {assertDuel, duelActions, duelInitiate, duelResolve, duelView} from './duel';
 
@@ -72,7 +72,7 @@ export const premiereRules: Rules = {
     else if (r.action.handler.startsWith('doomed:')) doomedResolve(m, r);
     else if (r.action.handler.startsWith('worse:')) worseResolve(m, r);
     else if (r.action.handler.startsWith('scavenge:')) scavengeResolve(m, r);
-    else if (r.action.handler.startsWith('scan:')) scanResolve(m, r, context);
+    else if (r.action.handler.startsWith('scan:')) scanResolve(m, r);
     else if (r.action.handler.startsWith('stun:')) stunResolve(m, r);
     else if (r.action.handler.startsWith('accident:')) accidentResolve(m, r);
     else if (r.action.handler.startsWith('assault:')) assaultResolve(m, r);
@@ -119,8 +119,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   canPass: battleCanPass,
-  expire: scanExpire,
-  view: (m, seat, now) => ({...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat, now) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
+  view: (m, seat, now) => ({...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
     assertGround(match);
     assertEquipment(match);
