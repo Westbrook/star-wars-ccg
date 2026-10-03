@@ -1,0 +1,43 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T12:50:34.150742+00:00",
+  "harness": "NativeEngineSearchPolicyOracleTests.java",
+  "harnessSha256": "599dc10e625ddd29c342595b699d80bb0124ea5f04a65611e045d640c5f41988",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineSearchPolicyOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "junitTests": 2,
+  "observations": 12,
+  "matchingObservations": 12,
+  "unchangedProductionFiles": 6820,
+  "scope": "Nine isolated shared-modifier queries plus three outcomes from an actual failed Control Room docking-bay search. Native tests compare all 12 outcomes. No full-match conformance claim.",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p12 Taking Cards From A Deck/Pile: verified failed search follows same title/function and deck/pile for rest of turn",
+    "ChooseCardsFromPileEffect.java installs failed-search modifier",
+    "CantSearchCardPileModifier.java and querying/Piles.java bind searching player, owner, pile and function",
+    "Filters.sameTitle and CardTraits.cardTitlesMatch bind same-title copies",
+    "Card101_004.java actual docking bay search"
+  ],
+  "freshRegressionReruns": {
+    "NativeEngineRevivalOracleTests": {
+      "tests": 2,
+      "observations": 4,
+      "matchesExistingResults": true
+    },
+    "NativeEngineScavengeOracleTests": {
+      "tests": 1,
+      "observations": 9,
+      "matchesExistingResults": true,
+      "caveat": "Same chosen output, not legal-choice parity; retain documented optionality and placement-order differences. Failed-search recurrence is native-only."
+    }
+  },
+  "limits": [
+    "Fixed title metadata for implemented single-title cards; compound titles, flipped/dynamic titles, stacked searches, hand verification and external search prohibitions remain required.",
+    "Legacy recovery, malformed-state checks, and query privacy are native-only regressions.",
+    "Three existing searches integrated; this is shared policy infrastructure, not coverage of every card that searches.",
+    "Obsession one-failed-destiny-set Force amount remains unverified and guarded; entire engine and full native admission remain incomplete."
+  ]
+}

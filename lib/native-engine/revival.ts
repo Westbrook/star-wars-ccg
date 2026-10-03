@@ -32,7 +32,7 @@ export function revivalActions(m: Match, w: Window, side: Side): Action[] {
         a.id += ':' + target; a.label = 'Old Ben · revive ' + name(m, target); result.push(a);
       }
     }
-    if (m.cards[card].blueprint === '1_254' && canSearchLostCharacter(m, side) && lost.some(id => m.cards[id].owner !== side) && m.players[side].lost.length)
+    if (m.cards[card].blueprint === '1_254' && canSearchLostCharacter(m, side, m.cards[card].blueprint) && lost.some(id => m.cards[id].owner !== side) && m.players[side].lost.length)
       result.push(action('kintan', {card}, side));
   }
   return result;

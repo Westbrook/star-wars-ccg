@@ -1,4 +1,5 @@
 import {reinforcementTarget} from './characteristics';
+import {canSearch, recordFailedSearch, searchFunctions} from './search-policy';
 import {retrievalAmount, assertRetrievalModifiers} from './retrieval-policy';
 import {cardDefinition, name} from './board';
 import {moveCard} from './state';
@@ -14,7 +15,7 @@ export type Retrieval = {
   selection?: 'top-character' | 'reinforcements';
 };
 type CharacterSearches = Partial<Record<Side, number>>;
-export const canSearchLostCharacter = (m: Match, side: Side) => (m.data.failedCharacterSearches as CharacterSearches | undefined)?.[side] !== m.turn.number;
+export const canSearchLostCharacter = (m: Match, side: Side, blueprint = '1_254') => canSearch(m, {blueprint, side, function: searchFunctions.kintan, owner: side, pile: 'lost'});
 function queue(m: Match, step: string, p: Retrieval): void {
   m.stack.push({kind: 'resolution', actor: p.side, cancelled: false, action: {id: 'retrieve:' + step, label: 'Retrieve Force', handler: 'retrieval:' + step, payload: p as unknown as Json}});
 }
@@ -64,8 +65,7 @@ export function retrievalResolve(m: Match, r: Resolution): void {
       if (p.remaining && p.selection === 'top-character') {
         // An unsuccessful Kintan search disables this same-title search function
         // for the remainder of the turn, including other physical copies.
-        const failures = (m.data.failedCharacterSearches ??= {}) as CharacterSearches;
-        failures[p.side] = m.turn.number;
+        recordFailedSearch(m, {blueprint: m.cards[p.source].blueprint, side: p.side, function: searchFunctions.kintan, owner: p.side, pile: 'lost'});
       }
       openWindow(m, 'response', other(p.side), {kind: 'retrieval-complete', side: p.side, source: p.source, cards: p.retrieved}); return;
     }

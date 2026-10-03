@@ -24,6 +24,7 @@ function priority(m,side){if(prompt(m).side!==side)m=step(m,'pass');assert.equal
 function topDestiny(m,side,bp){const id=pull(m,side,bp,'hand');state.moveCard(m,id,'reserve');return id}
 
 
+const retrieval=load(new URL('../../lib/native-engine/retrieval.ts',import.meta.url));
 const revive=load(new URL('../../lib/native-engine/revival.ts',import.meta.url));
 function fixture({attachments=false,talz=false}={}){
  let m=fresh({light:['1_100','1_100','1_152','1_40','1_31'],dark:['1_284',...Array(10).fill('1_194'),'1_254','1_254','1_317','1_186']});
@@ -97,7 +98,7 @@ test('revival commands reject stale, opposing and forged targets without mutatio
 
 
 test('failed Kintan search disables other copies this turn and expires on the next turn',()=>{
- const f=fixture();let m=forfeit(f.m,f.luke);for(const id of [f.nearest,f.deep])state.moveCard(m,id,'hand');m=step(m,kintanAction(f));m=finishInterrupt(m,f.kintan);state.moveCard(m,f.deep,'lost');assert.equal(m.data.failedCharacterSearches.dark,m.turn.number);assert.ok(!revive.revivalActions(m,m.stack.at(-1),'dark').length);
+ const f=fixture();let m=forfeit(f.m,f.luke);for(const id of [f.nearest,f.deep])state.moveCard(m,id,'hand');m=step(m,kintanAction(f));m=finishInterrupt(m,f.kintan);state.moveCard(m,f.deep,'lost');assert.equal(retrieval.canSearchLostCharacter(m,'dark'),false);assert.ok(!revive.revivalActions(m,m.stack.at(-1),'dark').length);
  const w=clone(m.stack.at(-1));m=seek(m,x=>x.turn.number===2);assert.ok(revive.revivalActions(m,w,'dark').some(a=>a.id==='revival:kintan:'+f.kintan2));
 });
 
@@ -132,7 +133,7 @@ test('native revival and nearest-character retrieval match all four executed GEM
  }
  for(const found of [true,false]){
   const f=fixture();let m=forfeit(f.m,f.luke);if(!found)for(const id of [f.deep,f.nearest])state.moveCard(m,id,'hand');const before=m.players.dark.force.length;m=step(m,kintanAction(f));m=finishInterrupt(m,f.kintan);
-  assert.deepEqual({name:found?'kintan-character':'kintan-no-character',retrieved:found&&m.cards[f.nearest].zone==='hand'?1:0,searchAllowed:m.data.failedCharacterSearches?.dark!==m.turn.number,deepStillLost:m.cards[f.deep].zone==='lost',noncharacterLost:m.cards[f.noncharacter].zone==='lost',forceSpent:before-m.players.dark.force.length,interruptLost:m.cards[f.kintan].zone==='lost'},oracle.find(o=>o.name===(found?'kintan-character':'kintan-no-character')));
+  assert.deepEqual({name:found?'kintan-character':'kintan-no-character',retrieved:found&&m.cards[f.nearest].zone==='hand'?1:0,searchAllowed:retrieval.canSearchLostCharacter(m,'dark'),deepStillLost:m.cards[f.deep].zone==='lost',noncharacterLost:m.cards[f.noncharacter].zone==='lost',forceSpent:before-m.players.dark.force.length,interruptLost:m.cards[f.kintan].zone==='lost'},oracle.find(o=>o.name===(found?'kintan-character':'kintan-no-character')));
  }
 });
 

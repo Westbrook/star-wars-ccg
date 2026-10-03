@@ -103,24 +103,28 @@
     {
       "functionsReviewed": [
         "Ordinary location setup/conversion",
-        "Once-per-turn Reserve docking-bay deployment/search/shuffle and failed search",
-        "Rebel ability >2 drain bonus"
+        "Repeatable successful Reserve docking-bay deployment/search/shuffle and failed search",
+        "Rebel ability >2 drain bonus",
+        "Shared failed-search title/function/player/pile restriction with legacy-save recovery"
       ],
       "implementation": [
         "lib/native-engine/premiere-setup.ts",
         "lib/native-engine/travel.ts",
-        "lib/native-engine/board.ts"
+        "lib/native-engine/board.ts",
+        "lib/native-engine/search-policy.ts"
       ],
       "testFiles": [
         "tests/native-engine/setup.test.mjs",
         "tests/native-engine/travel.test.mjs",
-        "tests/native-engine/ground.test.mjs"
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/search-policy.test.mjs"
       ],
       "remaining": [
         "Full pile-search prevention/replacement and general site identities remain."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/travel-provenance.json"
+        "tests/native-engine/gemp/travel-provenance.json",
+        "tests/native-engine/gemp/search-policy-provenance.json"
       ],
       "gempId": "101_4",
       "name": "Death Star: Docking Control Room 327",
@@ -1015,20 +1019,24 @@
       "functionsReviewed": [
         "Paid response to enemy table character loss",
         "Top-character Lost search/retrieval to hand",
-        "Failed-search title lock"
+        "Failed-search title lock",
+        "Shared failed-search title/function/player/pile restriction with legacy-save recovery"
       ],
       "implementation": [
         "lib/native-engine/revival.ts",
-        "lib/native-engine/retrieval.ts"
+        "lib/native-engine/retrieval.ts",
+        "lib/native-engine/search-policy.ts"
       ],
       "testFiles": [
-        "tests/native-engine/revival.test.mjs"
+        "tests/native-engine/revival.test.mjs",
+        "tests/native-engine/search-policy.test.mjs"
       ],
       "remaining": [
-        "Full retrieval prevention/replacement and generic search registry remain."
+        "Full retrieval prevention/replacement, dynamic/compound search titles, stack/hand searches and external search prohibitions remain."
       ],
       "oracleEvidence": [
-        "tests/native-engine/gemp/revival-provenance.json"
+        "tests/native-engine/gemp/revival-provenance.json",
+        "tests/native-engine/gemp/search-policy-provenance.json"
       ],
       "gempId": "1_254",
       "name": "Kintan Strider",
@@ -1167,23 +1175,27 @@
         "Paid destiny compared with Raiders",
         "Optional opponent Used search",
         "Ordered equipment losses",
-        "Failed-search turn lock"
+        "Failed-search turn lock",
+        "Shared failed-search title/function/player/pile restriction with legacy-save recovery"
       ],
       "implementation": [
         "lib/native-engine/scavenge.ts",
         "lib/native-engine/destiny.ts",
-        "lib/native-engine/characteristics.ts"
+        "lib/native-engine/characteristics.ts",
+        "lib/native-engine/search-policy.ts"
       ],
       "testFiles": [
         "tests/native-engine/scavenge.test.mjs",
-        "tests/native-engine/characteristics.test.mjs"
+        "tests/native-engine/characteristics.test.mjs",
+        "tests/native-engine/search-policy.test.mjs"
       ],
       "remaining": [
         "All verified Tusken Raider species now count. Broader equipment identities, prevention/replacement and recorded GEMP optionality/order differences remain."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/scavenge-provenance.json",
-        "tests/native-engine/gemp/characteristics-provenance.json"
+        "tests/native-engine/gemp/characteristics-provenance.json",
+        "tests/native-engine/gemp/search-policy-provenance.json"
       ],
       "gempId": "1_275",
       "name": "Tusken Scavengers",

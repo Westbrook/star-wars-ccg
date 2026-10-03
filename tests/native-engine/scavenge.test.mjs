@@ -54,7 +54,7 @@ test('the turn player orders placements during Light turn, following AR p11',()=
  const f=fixture(1,{lightTurn:true});let m=step(offer(play(f)),'scavenge:search');m=seek(m,x=>x.stack.at(-1)?.handler==='scavenge:order');assert.equal(prompt(m).side,'light');assert.deepEqual(runtime.prompt(m,rules,'dark').choices,[]);m=step(m,'scavenge:lose:'+f.targets[1]);m=resolved(m,f.card);assert.deepEqual(m.players.light.lost,[f.targets[0],f.targets[1]]);
 });
 test('no targets found preserves order and prevents another copy searching the same pile that turn',()=>{
- const f=fixture(0,{gear:false});let m=step(offer(play(f)),'scavenge:search');m=reveal(m);assert.equal(m.data.scavengeFailedTurn,m.turn.number);assert.deepEqual(view(m,'light').rules.scavenge.cards.map(c=>c.id),m.players.light.used);m=resolved(m,f.card);m=priority(m,'dark');const gun=pull(m,'light','1_152','used');topDestiny(m,'dark','1_194');m=resolved(step(m,'scavenge:play:'+f.second),f.second);assert.equal(m.cards[gun].zone,'used');
+ const f=fixture(0,{gear:false});let m=step(offer(play(f)),'scavenge:search');m=reveal(m);assert.ok(m.data.failedSearches.some(f=>f.function==='tusken-scavengers:equipment'&&f.turn===m.turn.number));assert.deepEqual(view(m,'light').rules.scavenge.cards.map(c=>c.id),m.players.light.used);m=resolved(m,f.card);m=priority(m,'dark');const gun=pull(m,'light','1_152','used');topDestiny(m,'dark','1_194');m=resolved(step(m,'scavenge:play:'+f.second),f.second);assert.equal(m.cards[gun].zone,'used');
  // Failed-search restriction expires with the turn, not with a new copy.
  state.moveCard(m,f.card,'hand');m=seek(m,x=>x.turn.number===2&&x.stack.length===1&&x.turn.phase==='control');m=priority(m,'dark');state.moveCard(m,gun,'used');topDestiny(m,'dark','1_194');m=offer(step(m,'scavenge:play:'+f.card));assert.ok(ids(m).includes('scavenge:search'));
 });
@@ -66,7 +66,7 @@ test('canceling play or the destiny exposes no Used cards and refunds no paid Fo
  for(const destiny of [false,true]){const f=fixture(0);let m=play(f);if(destiny)m=seek(m,x=>event(x)?.kind==='destiny-drawn');m.stack.at(-2).cancelled=true;m=resolved(m,f.card);assert.equal(view(m,'dark').rules.scavenge,null);assert.deepEqual(m.players.light.used,f.m.players.light.used);assert.equal(m.players.dark.force.length,f.m.players.dark.force.length-1);}
 });
 test('preventing inspection does not mark a failed search or expose the pile',()=>{
- const f=fixture();let m=step(offer(play(f)),'scavenge:search');m.stack.at(-2).cancelled=true;m=resolved(m,f.card);assert.equal(m.data.scavengeFailedTurn,undefined);assert.equal(view(m,'dark').rules.scavenge,null);assert.deepEqual(m.players.light.used,f.m.players.light.used);
+ const f=fixture();let m=step(offer(play(f)),'scavenge:search');m.stack.at(-2).cancelled=true;m=resolved(m,f.card);assert.equal(m.data.failedSearches,undefined);assert.equal(view(m,'dark').rules.scavenge,null);assert.deepEqual(m.players.light.used,f.m.players.light.used);
 });
 test('preventing one equipment loss continues with the remaining found targets',()=>{
  const f=fixture();let m=step(offer(play(f)),'scavenge:search');m=seek(m,x=>x.stack.at(-1)?.handler==='scavenge:order');m=step(m,'scavenge:lose:'+f.targets[0]);m.stack.at(-2).cancelled=true;m=resolved(m,f.card);assert.equal(m.cards[f.targets[0]].zone,'used');assert.equal(m.cards[f.targets[1]].zone,'lost');

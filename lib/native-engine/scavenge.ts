@@ -1,4 +1,5 @@
 import {isSpecies} from './characteristics';
+import {canSearch, recordFailedSearch, searchFunctions, type Search} from './search-policy';
 import {cardDefinition, name} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
 import {openWindow} from './runtime';
@@ -11,7 +12,7 @@ const queue = (m: Match, step: string, p: Payload) => m.stack.push({kind: 'resol
 const raiders = (m: Match) => Object.values(m.cards).filter(c => c.zone === 'table' && isSpecies(m, c.id, 'TUSKEN_RAIDER')).length;
 const equipment = (m: Match, id: string) => ['Vehicle','Weapon','Device'].includes(cardDefinition(m, id).type);
 const eligible = (m: Match, id: string) => m.cards[id]?.owner === 'light' && m.cards[id].zone === 'used' && equipment(m, id);
-const canSearch = (m: Match) => m.data.scavengeFailedTurn !== m.turn.number;
+const search: Search = {blueprint: '1_275', side: 'dark', function: searchFunctions.scavenge, owner: 'light', pile: 'used'};
 export function scavengeActions(m: Match, w: Window, side: Side): Action[] {
   const event = w.event as {kind?: string} | undefined;
   if (side !== 'dark' || !raiders(m) || !m.players.light.used.length || w.timing !== 'phase' && !(w.timing === 'response' && event?.kind === 'battle-weapons')) return [];
@@ -31,14 +32,14 @@ export function scavengeResolve(m: Match, r: Resolution): void {
     drawDestiny(m, r.actor, p.card, 'scavenge', action('result', p));
   } else if (h === 'scavenge:result') {
     p.count = raiders(m);
-    if (p.draw!.value !== null && p.draw!.value < p.count && m.players.light.used.length && canSearch(m))
+    if (p.draw!.value !== null && p.draw!.value < p.count && m.players.light.used.length && canSearch(m, search))
       m.stack.push({kind: 'decision', side: r.actor, handler: 'scavenge:offer', payload: p as unknown as Json});
   } else if (h === 'scavenge:inspect') {
-    if (!m.players.light.used.length || !canSearch(m)) return;
+    if (!m.players.light.used.length || !canSearch(m, search)) return;
     const cards = [...m.players.light.used], remaining = cards.filter(id => eligible(m, id));
     // AR p12: a verified failed search prevents this same search function on
     // another copy this turn. The paid destiny action itself remains possible.
-    if (!remaining.length) m.data.scavengeFailedTurn = m.turn.number;
+    if (!remaining.length) recordFailedSearch(m, search);
     queue(m, 'next', {card: p.card, cards, remaining});
     openWindow(m, 'response', other(r.actor), {kind: 'pile-revealed', source: p.card, side: 'light', pile: 'used'});
   } else if (h === 'scavenge:next') {

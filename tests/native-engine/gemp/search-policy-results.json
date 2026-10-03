@@ -1,0 +1,50 @@
+[
+  {
+    "allowed": false,
+    "name": "same-source"
+  },
+  {
+    "allowed": false,
+    "name": "same-title-copy"
+  },
+  {
+    "allowed": true,
+    "name": "different-title"
+  },
+  {
+    "allowed": true,
+    "name": "different-player"
+  },
+  {
+    "allowed": true,
+    "name": "different-owner"
+  },
+  {
+    "allowed": true,
+    "name": "different-pile"
+  },
+  {
+    "allowed": true,
+    "name": "different-function"
+  },
+  {
+    "allowed": false,
+    "name": "source-moved"
+  },
+  {
+    "allowed": true,
+    "name": "next-turn"
+  },
+  {
+    "allowed": false,
+    "name": "room-failed"
+  },
+  {
+    "allowed": false,
+    "name": "room-refilled"
+  },
+  {
+    "allowed": true,
+    "name": "room-next-turn"
+  }
+]

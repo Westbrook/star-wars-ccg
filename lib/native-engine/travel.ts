@@ -1,4 +1,5 @@
 import {ability} from './ability';
+import {canSearch, recordFailedSearch, searchFunctions, type Search} from './search-policy';
 import {canPlayCard, recordCardPlay} from './persona';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {adjacent, atSite, cardDefinition, controls, moveWithAttachments, name, sitePlacements, system} from './board';
@@ -17,6 +18,7 @@ export const travelState = (m: Match): TravelState => {
   return s?.turn === m.turn.number ? s : {turn: m.turn.number, failedSearch: false, runPlayed: false, shuffles: s?.shuffles ?? 0};
 };
 const remember = (m: Match) => {const s = travelState(m); m.data.travel = s as unknown as Json; return s;};
+const baySearch: Search = {blueprint: '101_4', side: 'dark', function: searchFunctions.dockingBay, owner: 'dark', pile: 'reserve'};
 export function markRunPlayed(m: Match): void {remember(m).runPlayed = true;}
 const data = (f: Resolution | Decision) => ('action' in f ? f.action.payload : f.payload) as Payload;
 const action = (id: string, label: string, handler: string, p: Payload): Action => ({id, label, handler: 'travel:' + handler, payload: p as unknown as Json});
@@ -45,7 +47,7 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
       if (!transitEligible(m, side, from).length) continue;
       for (const to of bays(m).filter(id => id !== from && m.players[side].force.length >= transitCost(m, side, from, id))) result.push(action('transit:' + from + ':' + to, 'Docking-bay transit · ' + name(m, from) + ' → ' + name(m, to), 'party', {from, to, selected: []}));
     }
-    if (m.turn.phase === 'deploy' && side === 'dark' && m.players.dark.reserve.length && !travelState(m).failedSearch)
+    if (m.turn.phase === 'deploy' && side === 'dark' && m.players.dark.reserve.length && canSearch(m, baySearch))
       for (const room of m.locations.filter(id => m.cards[id].blueprint === '101_4' && controls(m, 'dark', id)))
         result.push(action('search:' + room, 'Search Reserve for a docking bay', 'search', {room}));
   }
@@ -147,7 +149,7 @@ export function travelChoose(m: Match, d: Decision, choice: string, context: Con
     parent.action = {...action('transit:' + p.from + ':' + p.to, 'Docking-bay transit', 'transit', p), payment};
     queueForcePayment(m, parent, payment);
   } else if (d.handler === 'travel:search') {
-    if (choice === 'not-found') {remember(m).failedSearch = true; decision(m, 'light', 'verify', p);}
+    if (choice === 'not-found') {recordFailedSearch(m, baySearch); decision(m, 'light', 'verify', p);}
     else decision(m, 'dark', 'place', {...p, card: choice.slice(5)});
   } else if (d.handler === 'travel:verify') {shuffle(m, context); openWindow(m, 'response', 'light', {kind: 'reserve-shuffled', side: 'dark'});}
   else if (d.handler === 'travel:place') {
@@ -191,7 +193,7 @@ export function assertTravel(m: Match): void {
     const p = data(d);
     if (d.handler === 'travel:party' && (d.side !== m.turn.side || m.turn.phase !== 'move' || !bays(m).includes(p.from!) || !bays(m).includes(p.to!) || p.from === p.to || !Array.isArray(p.selected) || new Set(p.selected).size !== p.selected.length || p.selected.some(id => !transitEligible(m, d.side, p.from!).includes(id)))) throw Error('Invalid transit party.');
     if (['travel:search', 'travel:verify', 'travel:place'].includes(d.handler) && (m.turn.side !== 'dark' || m.turn.phase !== 'deploy' || !p.room || !m.cards[p.room] || m.cards[p.room].blueprint !== '101_4')) throw Error('Invalid Reserve search.');
-    if (d.handler === 'travel:verify' && (!travelState(m).failedSearch || searchCandidates(m).length || d.side !== 'light')) throw Error('Invalid failed search verification.');
+    if (d.handler === 'travel:verify' && (canSearch(m, baySearch) || searchCandidates(m).length || d.side !== 'light')) throw Error('Invalid failed search verification.');
     if (d.handler === 'travel:place' && (!searchCandidates(m).includes(p.card!) || d.side !== 'dark')) throw Error('Invalid docking bay selection.');
     if (d.handler === 'travel:escape' && (d.side !== 'light' || !Array.isArray(p.remaining) || new Set(p.remaining).size !== p.remaining.length || p.remaining.some(id => !m.cards[id]) || !escapeOptions(m, p).length)) throw Error('Invalid move-away continuation.');
   }

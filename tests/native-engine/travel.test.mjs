@@ -54,6 +54,22 @@ test('a failed search allows verification without deck order and disables that f
  let m=fresh();const room=location(m,'dark','101_4');pull(m,'dark','1_194','table',room);for(const id of [...m.players.dark.reserve])if(travel.bayCosts[m.cards[id].blueprint])state.moveCard(m,id,'hand');m=phase(m);m=settle(step(m,'search:'+room));assert.deepEqual(ids(m),['not-found']);m=step(m,'not-found');assert.equal(prompt(m).side,'light');const ordered=[...m.players.dark.reserve].sort();for(const seat of ['light','dark'])assert.deepEqual(runtime.project(m,rules,seat).rules.searchCards.map(c=>c.id),ordered);m=settle(step(m,'verified'));assert.deepEqual({name:'search-failed',repeatAllowed:repeatable(m,room),verifiedByBoth:true},oracle.find(r=>r.name==='search-failed'));const card=m.players.dark.hand.find(id=>travel.bayCosts[m.cards[id].blueprint]);state.moveCard(m,card,'reserve');assert.equal(repeatable(m,room),false);m=seek(m,x=>x.turn.number===3&&x.turn.phase==='deploy'&&x.stack.length===1);assert.equal(repeatable(m,room),true);
 });
 
+test('failed docking-bay search matches fresh GEMP and resumes both new and legacy verification saves',()=>{
+ const reference=JSON.parse(fs.readFileSync(new URL('./gemp/search-policy-results.json',import.meta.url)));
+ for(const legacy of [false,true]){
+  let m=fresh();const room=location(m,'dark','101_4');pull(m,'dark','1_194','table',room);
+  for(const id of [...m.players.dark.reserve])if(travel.bayCosts[m.cards[id].blueprint])state.moveCard(m,id,'hand');
+  m=phase(m);m=settle(step(m,'search:'+room));m=step(m,'not-found');
+  if(legacy){delete m.data.failedSearches;m.data.travel={turn:m.turn.number,failedSearch:true,runPlayed:false,shuffles:0};}
+  m=clone(m);assert.equal(prompt(m).side,'light');m=settle(step(m,'verified'));
+  assert.equal(repeatable(m,room),reference.find(o=>o.name==='room-failed').allowed);
+  const card=m.players.dark.hand.find(id=>travel.bayCosts[m.cards[id].blueprint]);state.moveCard(m,card,'reserve');
+  assert.equal(repeatable(m,room),reference.find(o=>o.name==='room-refilled').allowed);
+  m=seek(m,x=>x.turn.number===3&&x.turn.phase==='deploy'&&x.stack.length===1);
+  assert.equal(repeatable(m,room),reference.find(o=>o.name==='room-next-turn').allowed);
+ }
+});
+
 test('search requires control, deploy timing and a nonempty Reserve, without leaking candidate existence',()=>{
  let m=fresh();const room=location(m,'dark','101_4'),dark=pull(m,'dark','1_194','table',room),light=pull(m,'light','1_28','table',room);m=phase(m);assert.ok(!ids(m).includes('search:'+room));state.moveCard(m,light,'lost');assert.ok(ids(m).includes('search:'+room));state.moveCard(m,dark,'lost');assert.ok(!ids(m).includes('search:'+room));
 });

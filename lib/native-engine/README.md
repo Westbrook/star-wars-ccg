@@ -339,8 +339,8 @@ a different selection or rearranging Lost. Characters lost as units of Force do
 not qualify as its trigger. An unsuccessful character search disables the same
 Kintan function, including other copies, until the next turn. Lost piles are public,
 so failed-search verification does not need GEMP's extra acknowledgment dialog.
-The current search restriction is specific to Kintan; a broader title/function
-search registry remains necessary when adding other such effects.
+These restrictions now use the shared title/function/player/pile policy in
+`search-policy.ts`; legacy per-card flags remain readable without query mutation.
 
 Seventeen tests in `tests/native-engine/revival.test.mjs` reconstruct JSON after
 every command and inspect both seat projections. They cover both card modes,
@@ -1775,3 +1775,33 @@ The fresh reference harness has three executed JUnit tests and ten observations:
 The starter inventory now records the exact intro-list identities and next full-match verification work. The one-failed-destiny-set Obsession guard, remaining reachable timing, and full-match GEMP comparisons remain required before introductory admission. Broader mines/prevention, vehicles/aboard targets and the entire catalog/product scope remain required. No standalone study or production admission gate was added or opened.
 
 Final validation: all 2,070 engine/proof tests pass, including 22 new focused tests; TypeScript and Sites runtime build pass. Two fresh 60-card matches (seeds 21/22) completed 48/34 turns and 3,627/3,017 commands with exact transcript replay. The saved audit includes source hashes. These integrated native runs use test-only admission and do not substitute for GEMP full-match certification.
+
+
+### Shared failed-search policy
+
+`search-policy.ts` records verified failures by searching player, source title,
+declared function, pile owner, pile and turn (AR p12). Kintan Strider, Docking
+Control Room 327 and Tusken Scavengers now use it. Source departure, another
+physical copy, a reshuffle or new eligible cards do not lift the restriction.
+Other functions, titles, players and piles stay independent; the next turn clears
+the restriction. Repeated records are idempotent and expired records are pruned
+on subsequent writes. Empty-pile legality and action timing stay with providers.
+
+Old per-card failed-search flags are interpreted on reads so an existing save,
+including a suspended Control Room verification, resumes correctly. New failures
+write the shared history. Prompt/projection do not migrate or expose that history.
+Malformed, duplicate and future-turn records are rejected before command mutation.
+
+Fresh GEMP evidence is in `gemp/search-policy-provenance.json`: 12 matching
+observations from two JUnit tests, including a real failed docking-bay search.
+The nine modifier queries isolate title/copy/function/player/pile/turn semantics;
+they are not nine additional implemented cards. Existing actual Kintan and
+Scavengers fixtures were also rerun (13 unchanged observations). Scavengers'
+previously documented optionality/order differences remain; its failure recurrence
+is verified natively against the official rule, not by that reference fixture.
+
+The complete native suite passes 2104 tests, including 34 new regressions.
+Compound or dynamic titles, stack/hand searches, external search prevention and
+broader provider cards remain required. Full-match production admission is still
+closed; the failed-destiny Obsession Force amount is still guarded. No new study
+was added.
