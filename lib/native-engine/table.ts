@@ -9,16 +9,16 @@ function tableGroup(m: Match, hosts: string[]): Set<string> {
   const ids = new Set(hosts);
   for (let changed = true; changed;) {
     changed = false;
-    for (const c of Object.values(m.cards)) if (c.attachedTo && ids.has(c.attachedTo) && !ids.has(c.id)) {ids.add(c.id); changed = true;}
+    for (const c of Object.values(m.cards)) if ((c.attachedTo || c.stackedOn) && ids.has((c.attachedTo || c.stackedOn)!) && !ids.has(c.id)) {ids.add(c.id); changed = true;}
   }
-  if ([...ids].some(id => m.cards[id]?.zone !== 'table' || m.locations.includes(id))) throw Error('Invalid table loss.');
+  if ([...ids].some(id => !['table','stacked'].includes(m.cards[id]?.zone) || m.locations.includes(id))) throw Error('Invalid table loss.');
   return ids;
 }
 function removeGroup(m: Match, ids: Set<string>, zone: 'leaving' | 'hand'): void {
   // Remove descendants before their host to satisfy the primitive invariant.
   const waiting = new Set(ids);
   while (waiting.size) {
-    const id = [...waiting].find(id => ![...waiting].some(child => m.cards[child].attachedTo === id));
+    const id = [...waiting].find(id => ![...waiting].some(child => m.cards[child].attachedTo === id || m.cards[child].stackedOn === id));
     if (!id) throw Error('Cyclic table loss.');
     moveCard(m, id, zone); waiting.delete(id);
   }

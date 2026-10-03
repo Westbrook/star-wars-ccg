@@ -1,0 +1,35 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T10:03:48.316268+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineBactaOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineBactaOracleTests.java",
+  "harnessSha256": "8f3b184d419c77f8a86b346b739eb8b981480fb7834b84885d70de8ddc988c4b",
+  "junitTests": 1,
+  "observations": 7,
+  "matchingObservations": 6,
+  "results": "bacta-results.json",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "officialRulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "scope": [
+    "Actual battle forfeiture followed by Bacta placement and next deploy-phase patient return. Seven cases: no/one/two FX-7 droids, decline, excluded droid, attached weapon, and asterisk-deploy Jawa. Compare offer, inactive state, stacked/Lost/hand destinations, damage credit, recovery cost and weapon loss.",
+    "AR pp17,27,104,113,138 establish just-lost removal, inactive patient uniqueness, current Bacta/FX errata and the asterisk deploy-cost exception."
+  ],
+  "limitations": [
+    "Fixtures arrange boards and cards. They do not certify complete decks or full matches. The native deployment/cancellation/host departure/save validation and browser checks are additional regressions, not fresh reference comparisons.",
+    "General global deploy-cost modifiers, full inactive/captured/aboard states, supporting/face-down stacks, Redemption, loss prevention and additional provider cards remain unfinished. Full native admission remains closed.",
+    "Browser verification uses real engine projections/commands with isolated API routes, not production full-match admission. External card artwork did not load in local screenshots; patient labels, responsive layout, inspection, recovery and refresh were verified."
+  ],
+  "officialExceptions": [
+    {
+      "observation": "asterisk",
+      "field": "cost",
+      "gemp": 1,
+      "native": 0,
+      "authority": "Official Advanced Rulebook p138, Bacta Tank: printed asterisk deploy cost treated as zero.",
+      "explanation": "Pinned Card1_012 defines deploy cost as 1 to implement its two-player deployment requirement. Bacta Tank uses that general query without applying the explicit asterisk exception."
+    }
+  ]
+}

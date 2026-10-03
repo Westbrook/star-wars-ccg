@@ -10,7 +10,7 @@ export function referenceCard(m: Match, id: string): CardReference {
 }
 export const sameCard = (m: Match, ref: CardReference): boolean => !!ref && m.cards[ref.id]?.zone === ref.zone && cardVersion(m, ref.id) === ref.version;
 export function assertCardReference(m: Match, ref: CardReference, id?: string): void {
-  if (!ref || !m.cards[ref.id] || id !== undefined && ref.id !== id || ![...piles, 'table', 'playing', 'leaving', 'buried', 'out'].includes(ref.zone) || !Number.isSafeInteger(ref.version) || ref.version < 0 || ref.version > cardVersion(m, ref.id)) throw Error('Invalid card instance reference.');
+  if (!ref || !m.cards[ref.id] || id !== undefined && ref.id !== id || ![...piles, 'table', 'playing', 'leaving', 'buried', 'stacked', 'out'].includes(ref.zone) || !Number.isSafeInteger(ref.version) || ref.version < 0 || ref.version > cardVersion(m, ref.id)) throw Error('Invalid card instance reference.');
 }
 export function assertCardVersions(m: Match): void {
   const versions = m.data.cardVersions;

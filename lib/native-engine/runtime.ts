@@ -62,6 +62,9 @@ export function createMatch(id: string, size: 40 | 60, decks: readonly Deck[], r
 }
 
 export function openWindow(match: Match, timing: Timing, priority: Side, event?: Json): void {
+  const e = event as {kind?: string; card?: string; cards?: string[]; cardRefs?: unknown} | undefined;
+  if (e && ['forfeited','character-lost','cards-lost'].includes(e.kind ?? '') && e.cardRefs === undefined)
+    event = {...e, cardRefs: (e.cards ?? (e.card ? [e.card] : [])).filter(id => match.cards[id]?.zone === 'lost').map(id => referenceCard(match,id))} as Json;
   match.stack.push({kind: 'window', serial: ++match.serial, timing, priority, passes: 0, completed: [], ...(event === undefined ? {} : {event})});
 }
 

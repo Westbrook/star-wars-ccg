@@ -1,3 +1,4 @@
+import {bactaActions, bactaInitiate, bactaResolve, assertBacta} from './bacta';
 import {assertStatModifiers} from './stat-modifiers';
 import {fxActions, fxInitiate, fxResolve, assertFX} from './fx-droids';
 import {forfeitureResolve, assertForfeitures} from './forfeiture';
@@ -59,12 +60,13 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
     if (r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
-    if (r.action.handler.startsWith('fx:')) fxInitiate(m,r);
+    if (r.action.handler.startsWith('bacta:')) bactaInitiate(m,r);
+    else if (r.action.handler.startsWith('fx:')) fxInitiate(m,r);
     else if (r.action.handler.startsWith('medic:')) medicInitiate(m,r);
     else if (r.action.handler.startsWith('saber:')) lightsaberInitiate(m,r);
     else if (r.action.handler.startsWith('trooper-assault:')) trooperAssaultInitiate(m,r);
@@ -98,6 +100,7 @@ export const premiereRules: Rules = {
   },
   resolve: (m, r, context) => {
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('bacta:')) bactaResolve(m,r);
     else if (r.action.handler.startsWith('forfeiture:')) forfeitureResolve(m,r);
     else if (r.action.handler.startsWith('fx:')) fxResolve(m,r);
     else if (r.action.handler.startsWith('medic:')) medicResolve(m,r);
@@ -194,7 +197,7 @@ export const premiereRules: Rules = {
     assertDuel(match);
     assertDuelModifiers(match);
     assertCombatModifiers(match);
-    assertStatModifiers(match); assertMedics(match); assertFX(match); assertForfeitures(match);
+    assertStatModifiers(match); assertMedics(match); assertFX(match); assertBacta(match); assertForfeitures(match);
     assertLightsaber(match); assertForfeitResets(match);
     assertTrooperAssault(match);
     assertDuelInterrupts(match);

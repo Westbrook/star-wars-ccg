@@ -1,0 +1,79 @@
+[
+  {
+    "inactive": true,
+    "gunLost": false,
+    "lost": false,
+    "stacked": true,
+    "offered": true,
+    "hand": true,
+    "paid": 6,
+    "cost": 3,
+    "name": "zero-fx"
+  },
+  {
+    "inactive": true,
+    "gunLost": false,
+    "lost": false,
+    "stacked": true,
+    "offered": true,
+    "hand": true,
+    "paid": 6,
+    "cost": 1,
+    "name": "one-fx"
+  },
+  {
+    "inactive": true,
+    "gunLost": false,
+    "lost": false,
+    "stacked": true,
+    "offered": true,
+    "hand": true,
+    "paid": 6,
+    "cost": 0,
+    "name": "two-fx"
+  },
+  {
+    "inactive": false,
+    "gunLost": false,
+    "lost": true,
+    "stacked": false,
+    "offered": true,
+    "hand": false,
+    "paid": 6,
+    "cost": -1,
+    "name": "skip"
+  },
+  {
+    "inactive": false,
+    "gunLost": false,
+    "lost": true,
+    "stacked": false,
+    "offered": false,
+    "hand": false,
+    "paid": 4,
+    "cost": -1,
+    "name": "droid"
+  },
+  {
+    "inactive": true,
+    "gunLost": true,
+    "lost": false,
+    "stacked": true,
+    "offered": true,
+    "hand": true,
+    "paid": 6,
+    "cost": 3,
+    "name": "attachments"
+  },
+  {
+    "inactive": true,
+    "gunLost": false,
+    "lost": false,
+    "stacked": true,
+    "offered": true,
+    "hand": true,
+    "paid": 1,
+    "cost": 1,
+    "name": "asterisk"
+  }
+]

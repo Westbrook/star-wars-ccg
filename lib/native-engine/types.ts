@@ -3,7 +3,7 @@ export const sides: readonly Side[] = ['dark', 'light'];
 export const other = (side: Side): Side => side === 'dark' ? 'light' : 'dark';
 export const piles = ['reserve', 'force', 'used', 'lost', 'hand', 'destiny'] as const;
 export type Pile = typeof piles[number];
-export type Zone = Pile | 'table' | 'playing' | 'leaving' | 'buried' | 'out';
+export type Zone = Pile | 'table' | 'playing' | 'leaving' | 'buried' | 'stacked' | 'out';
 export type Json = null | boolean | number | string | Json[] | {[key: string]: Json};
 export type Card = {
   id: string;
@@ -13,6 +13,8 @@ export type Card = {
   location?: string;
   attachedTo?: string;
   coveredBy?: string;
+  /** Inactive, face-up card on an Effect; distinct from an active attachment. */
+  stackedOn?: string;
 };
 export type Player = Record<Pile, string[]>;
 export type Phase = 'activate' | 'control' | 'deploy' | 'battle' | 'move' | 'draw';
