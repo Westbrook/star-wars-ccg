@@ -1546,3 +1546,39 @@ lifetime, voluntary forfeiture, shrinking attrition, hit/damage obligations and
 saved-state validation/recovery. Full cards, vehicles/aboard protection,
 exact-value immunity, general immunity modifiers, text cancellation, targeting
 immunity/redirection, and full native match certification remain in scope.
+
+### Immunity policy and Trooper Assault
+
+`combat-modifiers.ts` now handles exact-value immunity, changes to existing
+immunity, less-than caps and immunity that cannot be canceled. Changes do not
+create immunity where none exists. Less-than and exact grants retain the pinned
+GEMP query ordering; caps affect less-than immunity, including full immunity,
+and leave exact immunity alone. Cancellation protection blocks cancellation
+without granting immunity by itself. Duplicate additive functions remain
+noncumulative. Yoda's represented printed full immunity is now included.
+Battle protection evaluates exact immunity at the frozen damage boundary, and
+Focused Attack/Courage's implied-target check recognizes exact immunity too.
+
+Trooper Assault (`5_159`) is a Used Interrupt offered in the response to battle
+initiation at a site. It collects the owner's participating troopers when it
+resolves, then gives those original table instances +2 power and full immunity
+for the rest of the turn. Later arrivals do not join the resolved grant; later
+loss of the trooper characteristic does not remove it. Duplicate copies do not
+stack the power bonus. Existing immunity cancellation suppresses the immunity
+but leaves the power bonus intact. Sense cancels both results and sends the
+Interrupt to Lost; ordinary resolution sends it to Used, including when all
+eligible recipients have departed.
+
+Evidence is in `tests/native-engine/immunity.test.mjs` and
+`tests/native-engine/gemp/immunity-provenance.json`. Queries use production
+GEMP modifier classes; actual Trooper Assault plays cover normal resolution,
+Sense, duplicate copies, immunity cancellation and controlled changes to battle
+participants during responses. These controlled arrivals are mechanism checks,
+not assertions that a particular movement/deployment card is verified. A complete
+battle also checks that an unprotected character can pay losses while an immune
+trooper survives the remaining attrition.
+
+There are 116 explicit definitions. Full admission remains closed. This does not
+implement Tusken Breath Mask's Utinni Effect lifecycle, all source cards for these
+modifiers, general game-text cancellation, immunity transfer to passengers,
+vehicles, wider personas or the still-required full-engine/product scope.

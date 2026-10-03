@@ -1,5 +1,5 @@
 import {ability, addAbilityModifier} from './ability';
-import {addCombatModifier, attritionImmunity} from './combat-modifiers';
+import {addCombatModifier, hasAttritionImmunity} from './combat-modifiers';
 import {battle, members} from './battle';
 import {cardDefinition, name} from './board';
 import {hasPersona} from './persona';
@@ -12,7 +12,7 @@ import type {Action, Json, Match, Resolution, Side, Window} from './types';
 const cards = ['5_41','5_141'];
 type Payload = {card: string; target?: string; targetRef?: CardReference};
 function eligible(m: Match,card: string,target: string, requireImmunity = true): boolean {
-  const c=m.cards[target],b=battle(m);if(!b || b.stage!=='weapons' || cardDefinition(m,b.site).subType!=='Site' || !c || c.attachedTo || !members(m,c.owner).includes(target) || requireImmunity && attritionImmunity(m,target)<=0)return false;
+  const c=m.cards[target],b=battle(m);if(!b || b.stage!=='weapons' || cardDefinition(m,b.site).subType!=='Site' || !c || c.attachedTo || !members(m,c.owner).includes(target) || requireImmunity && !hasAttritionImmunity(m,target))return false;
   return m.cards[card].blueprint==='5_141' ? hasPersona(m,target,'VADER') : c.owner===m.cards[card].owner && ['LUKE','LEIA','ANAKIN','BEN_SOLO','MARA_SKYWALKER'].some(p=>hasPersona(m,target,p));
 }
 export function duelInterruptActions(m: Match, w: Window, side: Side): Action[] {

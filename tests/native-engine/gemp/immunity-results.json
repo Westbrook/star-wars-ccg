@@ -1,0 +1,171 @@
+[
+  {
+    "immune": true,
+    "otherPower": 4.0,
+    "power": 3.0,
+    "name": "assault-normal",
+    "sourceLost": false,
+    "sourceUsed": true
+  },
+  {
+    "immune": false,
+    "otherPower": 4.0,
+    "power": 3.0,
+    "name": "assault-cancel-immunity",
+    "sourceLost": false,
+    "sourceUsed": true
+  },
+  {
+    "immune": true,
+    "otherPower": 4.0,
+    "power": 3.0,
+    "name": "assault-second",
+    "sourceLost": false,
+    "sourceUsed": true
+  },
+  {
+    "immune": false,
+    "otherPower": 4.0,
+    "power": 1.0,
+    "name": "assault-sense",
+    "sourceLost": true,
+    "sourceUsed": false
+  },
+  {
+    "immune": false,
+    "otherPower": 4.0,
+    "power": 1.0,
+    "name": "assault-arrival",
+    "sourceLost": false,
+    "sourceUsed": true,
+    "secondPower": 3.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": false,
+    "name": "none-add",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": true,
+    "name": "less-add",
+    "lessThan": 5.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": true,
+    "name": "less-subtract",
+    "lessThan": 2.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": false,
+    "name": "less-zero",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 3.0,
+    "hasAny": true,
+    "name": "exact",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 5.0,
+    "hasAny": true,
+    "name": "exact-add",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": false,
+    "name": "exact-negative",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": true,
+    "name": "less-higher",
+    "lessThan": 5.0
+  },
+  {
+    "exact": 4.0,
+    "hasAny": true,
+    "name": "exact-higher",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 3.0,
+    "hasAny": true,
+    "name": "equal",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 6.0,
+    "hasAny": true,
+    "name": "both-change",
+    "lessThan": 5.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": true,
+    "name": "cap",
+    "lessThan": 2.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": false,
+    "name": "cap-zero",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 3.0,
+    "hasAny": true,
+    "name": "exact-cap",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 3.0,
+    "hasAny": true,
+    "name": "both-cap",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": true,
+    "name": "full-cap",
+    "lessThan": 2.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": false,
+    "name": "cancel",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": true,
+    "name": "uncancelable",
+    "lessThan": 3.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": false,
+    "name": "no-immunity-uncancelable",
+    "lessThan": 0.0
+  },
+  {
+    "exact": 0.0,
+    "hasAny": true,
+    "name": "yoda",
+    "lessThan": "all"
+  },
+  {
+    "vaderLost": true,
+    "initialAttrition": 7,
+    "name": "assault-complete-battle",
+    "sourceUsed": true,
+    "lukeOnTable": true,
+    "trooperOnTable": true
+  }
+]

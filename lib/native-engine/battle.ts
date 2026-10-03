@@ -1,4 +1,4 @@
-import {attritionImmunity} from './combat-modifiers';
+import {immuneToAttrition} from './combat-modifiers';
 import {deployed} from './deployment';
 import {locationAbility} from './location-ability';
 import {tradedPower, type AbilityTrade} from './battle-effects';
@@ -294,7 +294,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     windowThen(m, 'damage', 'battle-result', other(b.initiator));
   } else if (kind === 'battle:damage') {
     b.stage = 'damage';
-    b.attritionProtected = sides.flatMap(side=>members(m,side).filter(id=>attritionImmunity(m,id)>b.attrition[side]).map(id=>referenceCard(m,id)));
+    b.attritionProtected = sides.flatMap(side=>members(m,side).filter(id=>immuneToAttrition(m,id,b.attrition[side])).map(id=>referenceCard(m,id)));
     windowThen(m, 'end', 'battle-damage', b.initiator);
   }
   else if (kind === 'battle:end') beginEnd(m);

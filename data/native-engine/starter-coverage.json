@@ -2119,6 +2119,20 @@
         "tests/native-engine/gemp/battle-courage-provenance.json"
       ],
       "scope": "Focused Attack/Courage battle functions with current ability snapshot, power and destiny exclusion; ground immunity grants/cancellation, frozen protection at damage entry.22 matching reference observations; broader immunity/persona applicability and full admission remain."
+    },
+    "immunityPolicy": {
+      "implementation": [
+        "lib/native-engine/combat-modifiers.ts",
+        "lib/native-engine/trooper-assault.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/immunity.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/immunity-provenance.json"
+      ],
+      "scope": "Exact/change/cap/uncancelable immunity and actual Trooper Assault; resolved-group membership, cancellation/duplicate behavior and frozen immunity through complete battle.26 reference observations match;116 definitions. Broader applicability and full admission remain."
     }
   },
   "wholeMatchEvidence": {

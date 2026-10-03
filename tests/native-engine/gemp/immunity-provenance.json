@@ -1,0 +1,24 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T07:54:10.547681+00:00",
+  "harness": "NativeEngineImmunityOracleTests.java",
+  "harnessSha256": "938841db625bca18b1b632c17e73d3402b543dd5b4036a0e8138822ab55c03cd",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineImmunityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 3,
+  "observations": 26,
+  "matchingObservations": 26,
+  "productionFilesVerified": 6820,
+  "scope": "20 production immunity mechanism queries; actual Trooper Assault normal, duplicate, Sense-canceled and immunity-canceled plays plus controlled recipient departure/arrival during responses. One complete battle with initial attrition7, Vader forfeited, immune trooper/Luke surviving and source in Used. Light has Luke plus Rebel Trooper to supply battle destiny ability. Native complete-battle fixture injects totals0/7 at destiny completion; GEMP draws prepared physical0/7.",
+  "differences": [],
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR pp61-62 immunity cancellation overrides Trooper Assault protection while its power bonus applies; immunity freezes at damage entry.",
+    "GEMP Card5_159 collects present participating troopers at resolution, grants until end of turn and uses normal Used Interrupt cleanup.",
+    "GEMP Forfeit.java production query ordering for exact/less-than, changes, caps and uncancelable immunity."
+  ],
+  "limits": "Synthetic modifier grants verify production querying without certifying provider cards. Controlled arrivals explicitly update battle participation; no vehicle/react provider is claimed. All source cards for these modifiers, Utinni Effect lifecycle, exact/cap interactions beyond recorded cases, general text cancellation, passenger/vehicle applicability, targeting immunity and full engine admission remain."
+}

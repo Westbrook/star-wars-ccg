@@ -909,5 +909,22 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_041.java"
+  },
+  {
+    "gempId": "5_159",
+    "name": "Trooper Assault",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Dark/large/trooperassault.gif",
+    "text": "If a battle was just initiated at a site, each of your troopers present is power +2 and immune to attrition for remainder of turn.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_159.java"
   }
 ]
