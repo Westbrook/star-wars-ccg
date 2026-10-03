@@ -39,7 +39,6 @@ export function offEdgeResolve(m: Match,r: Resolution): void {
     const drawn=p.draw!.value,value=characterDestinyValue(m,p.target.id,p.printedValue!);
     if(drawn!==null&&drawn!==value){
       const difference=Math.abs(drawn-value);
-      if(!Number.isSafeInteger(difference))throw Error('Fractional Off The Edge results require fractional Force handling.');
       if(drawn>value)retrieve(m,r.actor,p.card,difference,null,'used',undefined,{contributors:[p.target.id]});
       else queueForceLoss(m,{side:r.actor,remaining:difference,source:p.card,site:m.cards[p.target.id].location??null,reductionUsed:false});
     } else if(m.cards[p.target.id].zone==='table'){

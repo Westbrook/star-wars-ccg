@@ -94,3 +94,20 @@ test('before-use responses complete before even the first payment card is moved'
  test('duplicate payment frames cannot charge the same action twice after reload',()=>{
  const r=rules(),m=step(fixture(r),r,'play'),bad=clone(m);bad.stack.splice(-1,0,clone(bad.stack.at(-2)));assert.throws(()=>prompt(bad,r),/payment continuation/);
 });
+
+for(const amount of [0.14159,0.49,0.5,1.49,1.5,2.6])test('fractional payment rounds at the whole-card cost boundary: '+amount,()=>{
+ const r=rules({light:amount}),f=fixture(r),before=[...f.players.light.force],m=finish(step(f,r,'play'),r),count=Math.round(amount);
+ assert.equal(m.data.result,true);assert.deepEqual(m.players.light.used,before.slice(0,count).reverse());
+ assert.equal(m.data.trace?.filter(e=>e.stage==='used').length??0,count);
+ assert.equal(m.data.trace?.filter(e=>e.stage==='before').length??0,count?1:0);
+ const row=JSON.parse(fs.readFileSync(new URL('./gemp/fractional-force-results.json',import.meta.url))).find(x=>x.kind==='use'&&x.amount===amount);assert.equal(row.spent,Math.ceil(amount));
+});
+test('fractional joint costs round independently, bind to raw parent cost, and charge opponent first',()=>{
+ const r=rules({light:1.49,dark:1.5});let m=step(fixture(r),r,'play');assert.equal(event(m).side,'dark');assert.equal(event(m).amount,2);
+ const bad=clone(m);bad.stack.find(f=>f.action?.handler==='play').action.payment.dark=2.6;assert.throws(()=>prompt(bad,r));
+ m=finish(m,r);assert.equal(m.players.light.used.length,1);assert.equal(m.players.dark.used.length,2);assert.deepEqual(m.data.trace.filter(e=>e.stage==='used').map(e=>e.side),['dark','dark','light']);
+});
+test('whole cost affordability is checked before initiation, including rounded-zero costs',()=>{
+ for(const [amount,allowed] of [[4.49,true],[4.5,false],[0.49,true]]){const r=rules({light:amount}),m=fixture(r);assert.equal(prompt(m,r).choices.some(c=>c.id==='play'),allowed);}
+ for(const amount of [NaN,Infinity,-0.1,Number.MAX_VALUE,'1']){const r=rules({light:amount}),m=fixture(r);assert.ok(!prompt(m,r).choices.some(c=>c.id==='play'));assert.throws(()=>step(m,r,'play'));}
+});

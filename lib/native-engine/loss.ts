@@ -1,4 +1,5 @@
 import {hasPersona} from './persona';
+import {validForceQuantity, wholeForce} from './force-quantity';
 import type {Match, Side} from './types';
 
 /** Preserve the whole obligation; never halve the shrinking unpaid remainder. */
@@ -21,11 +22,15 @@ export function lossTotal(m: Match, side: Side, ledger: LossLedger): number {
   // Battle multipliers are scheduled at initiation, before damage-segment
   // increases/reductions. We're Doomed is the explicit first-applied exception.
   total *= ledger.multiplier ?? 1;
-  return Math.max(0, total + (ledger.kind === 'drain' ? 0 : ledger.increase) - (ledger.irreducible ? 0 : ledger.reduction));
+  const amount = Math.max(0, total + (ledger.kind === 'drain' ? 0 : ledger.increase) - (ledger.irreducible ? 0 : ledger.reduction));
+  // Battle damage is also payable with forfeit values, which can be fractional.
+  // Do not round that numeric obligation as if it were already a pile movement.
+  return ledger.kind === 'battle' ? amount : wholeForce(amount);
 }
 export const lossRemaining = (m: Match, side: Side, ledger: LossLedger): number => Math.max(0, lossTotal(m, side, ledger) - ledger.paid);
 export function assertLedger(ledger: LossLedger): void {
   if (!ledger || !['drain','battle','effect'].includes(ledger.kind) || typeof ledger.irreducible !== 'boolean' ||
-    [ledger.base, ledger.paid, ledger.reduction, ledger.increase].some(n => !Number.isSafeInteger(n) || n < 0) ||
+    [ledger.base, ledger.paid, ledger.reduction, ledger.increase].some(n => !validForceQuantity(n)) ||
+    ledger.kind !== 'battle' && !Number.isSafeInteger(ledger.paid) ||
     ledger.multiplier !== undefined && (ledger.kind !== 'battle' || !Number.isSafeInteger(ledger.multiplier) || ledger.multiplier < 1)) throw Error('Invalid Force-loss ledger.');
 }

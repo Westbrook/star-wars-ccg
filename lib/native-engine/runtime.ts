@@ -1,3 +1,4 @@
+import {validForceQuantity, wholeForce} from './force-quantity';
 import {assertCardReference, referenceCard, type CardReference} from './identity';
 import {assertActivations, recordActivation} from './activation';
 import {assertState, initialState, lifeForce, moveTop, publicState, recirculate} from './state';
@@ -113,7 +114,7 @@ function affordable(match: Match, action: Action): boolean {
   const payment = action.payment ?? {};
   return Object.keys(payment).every(key => (sides as readonly string[]).includes(key)) && sides.every(side => {
     const amount = payment[side] ?? 0;
-    return Number.isSafeInteger(amount) && amount >= 0 && amount <= match.players[side].force.length;
+    return validForceQuantity(amount) && wholeForce(amount) <= match.players[side].force.length;
   });
 }
 
@@ -124,7 +125,7 @@ type ForcePayment = {
 /** Keep the parent suspended until every cost-result response has resolved. */
 export function queueForcePayment(m: Match, parent: Resolution, payment: Payment): void {
   if (!affordable(m, {...parent.action, payment})) throw Error('Insufficient Force or invalid payment.');
-  const amounts = {dark: payment.dark ?? 0, light: payment.light ?? 0};
+  const amounts = {dark: wholeForce(payment.dark ?? 0), light: wholeForce(payment.light ?? 0)};
   // Dual-pile deployment costs use the opponent’s pile first (GEMP PayDeployCostEffect).
   const order = [other(parent.actor), parent.actor].filter(side => amounts[side] > 0);
   if (!order.length) return;
@@ -143,7 +144,7 @@ function assertPayments(m: Match): void {
       !p.amounts || !p.remaining || !Array.isArray(p.order) || !p.order.length || p.order.length > 2 || new Set(p.order).size !== p.order.length ||
       p.order.some(side => !sides.includes(side)) || JSON.stringify(p.order) !== JSON.stringify([other(f.actor), f.actor].filter(side => p.amounts[side] > 0)) || !Number.isSafeInteger(p.position) || p.position < 0 || p.position >= p.order.length || typeof p.opened !== 'boolean' ||
       sides.some(side => !Number.isSafeInteger(p.amounts[side]) || p.amounts[side] < 0 || p.amounts[side] > m.deckSize ||
-        p.amounts[side] !== (parent.action.payment?.[side] ?? 0) || !Number.isSafeInteger(p.remaining[side]) || p.remaining[side] < 0 || p.remaining[side] > p.amounts[side] ||
+        p.amounts[side] !== wholeForce(parent.action.payment?.[side] ?? 0) || !Number.isSafeInteger(p.remaining[side]) || p.remaining[side] < 0 || p.remaining[side] > p.amounts[side] ||
         p.order.includes(side) !== (p.amounts[side] > 0) || p.order.indexOf(side) < p.position && p.remaining[side] !== 0 ||
         p.order.indexOf(side) > p.position && p.remaining[side] !== p.amounts[side] ||
         !p.opened && side === p.order[p.position] && p.remaining[side] !== p.amounts[side])) throw Error('Invalid Force payment continuation.');

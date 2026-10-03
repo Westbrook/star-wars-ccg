@@ -1,4 +1,5 @@
 import {mayContributeToRetrieval, assertRetrievalRestrictions} from './retrieval-contributors';
+import {validForceQuantity} from './force-quantity';
 import {reinforcementTarget} from './characteristics';
 import {canSearch, recordFailedSearch, searchFunctions} from './search-policy';
 import {retrievalAmount, assertRetrievalModifiers} from './retrieval-policy';
@@ -33,7 +34,8 @@ const eligible = (m: Match, p: Retrieval) => {
  * Ordinary retrieval preserves top-first selection, reversing that group onto
  * Used. Specific-card retrieval never rearranges the remaining Lost Pile. */
 export function retrieve(m: Match, side: Side, source: string, amount: number, blueprints: string[] | null = null, destination: 'used' | 'hand' = 'used', selection?: 'top-character' | 'reinforcements', options: RetrievalOptions = {}): void {
-  if (!Number.isSafeInteger(amount) || amount < 0 || !m.cards[source] || !sides.includes(side) || !['used','hand'].includes(destination) ||
+  if (!validForceQuantity(amount) || !m.cards[source] || !sides.includes(side) || !['used','hand'].includes(destination) ||
+    options.upTo && amount > 0 && amount < 1 ||
     [options.uncancelable, options.upTo, options.random, options.mayTakeIntoHand].some(v => v !== undefined && typeof v !== 'boolean') ||
     options.random && (blueprints !== null || selection !== undefined) ||
     options.contributors !== undefined && (!Array.isArray(options.contributors) || options.contributors.some(id=>typeof id!=='string'||!m.cards[id]))) throw Error('Invalid retrieval.');
@@ -106,7 +108,7 @@ export function retrievalResolve(m: Match, r: Resolution, context: Context): voi
 }
 export function retrievalChoices(m: Match, d: Decision) {
   const p = d.payload as unknown as Retrieval;
-  if (d.handler === 'retrieval:amount') return Array.from({length: p.initial}, (_, i) => ({id: 'retrieve-amount:' + (i + 1), label: 'Retrieve ' + (i + 1) + (i ? ' cards' : ' card')}));
+  if (d.handler === 'retrieval:amount') return Array.from({length: Math.floor(p.initial)}, (_, i) => ({id: 'retrieve-amount:' + (i + 1), label: 'Retrieve ' + (i + 1) + (i ? ' cards' : ' card')}));
   if (d.handler === 'retrieval:destination') return [{id: 'retrieve-to:used', label: 'Retrieve ' + name(m, p.card!) + ' to Used Pile'}, {id: 'retrieve-to:hand', label: 'Retrieve ' + name(m, p.card!) + ' into hand'}];
   if (d.handler !== 'retrieval:select') throw Error('Unknown retrieval decision.');
   return eligible(m, p).map(card => ({id: 'retrieve:' + card, label: 'Retrieve ' + name(m, card)}));
@@ -134,8 +136,8 @@ export function assertRetrieval(m: Match): void {
     const handler = f.kind === 'resolution' ? f.action.handler : f.kind === 'decision' ? f.handler : '';
     if (!handler.startsWith('retrieval:')) continue;
     const p = (f.kind === 'resolution' ? f.action.payload : f.kind === 'decision' ? f.payload : null) as unknown as Retrieval;
-    if (!p || typeof p.id !== 'string' || !/^retrieval-[1-9]\d*$/.test(p.id) || !Number.isSafeInteger(Number(p.id.slice(10))) || Number(p.id.slice(10)) > m.serial || ids.has(p.id) || !sides.includes(p.side) || !m.cards[p.source] || !Number.isSafeInteger(p.remaining) || p.remaining < 0 ||
-        !Array.isArray(p.retrieved) || !Number.isSafeInteger(p.initial) || p.initial <= 0 || typeof p.uncancelable !== 'boolean' ||
+    if (!p || typeof p.id !== 'string' || !/^retrieval-[1-9]\d*$/.test(p.id) || !Number.isSafeInteger(Number(p.id.slice(10))) || Number(p.id.slice(10)) > m.serial || ids.has(p.id) || !sides.includes(p.side) || !m.cards[p.source] || !validForceQuantity(p.remaining) ||
+        !Array.isArray(p.retrieved) || !validForceQuantity(p.initial) || p.initial <= 0 || typeof p.uncancelable !== 'boolean' ||
         p.amount !== null && (!Number.isSafeInteger(p.amount) || p.amount < 0 || p.remaining + p.retrieved.length !== p.amount) ||
         p.amount === null && (p.remaining !== p.initial || p.announced || p.retrieved.length > 0) ||
         !['used', 'hand'].includes(p.destination) || typeof p.announced !== 'boolean' || p.selection !== undefined && !['top-character', 'reinforcements'].includes(p.selection) ||
@@ -145,7 +147,7 @@ export function assertRetrieval(m: Match): void {
         [p.upTo,p.random,p.mayTakeIntoHand].some(v => v !== undefined && typeof v !== 'boolean') ||
         p.random && (p.blueprints !== null || p.selection !== undefined) ||
         p.chosen !== undefined && (!p.upTo || !Number.isSafeInteger(p.chosen) || p.chosen < 1 || p.chosen > p.initial) ||
-        p.upTo && p.amount !== null && p.chosen === undefined ||
+        p.upTo && (p.initial < 1 || p.amount !== null && p.chosen === undefined) ||
         p.placement !== undefined && (!p.mayTakeIntoHand || p.destination !== 'used' || !['used','hand'].includes(p.placement))) throw Error('Invalid pending retrieval.');
     ids.add(p.id);
     if (f.kind === 'decision' && f.side !== p.side) throw Error('Invalid retrieval choice.');

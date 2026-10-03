@@ -44,7 +44,7 @@ test('canceled Reinforcements keep payment and do not draw or retrieve',()=>{
 });
 
 test('ordinary retrieval uses top Lost first and reverses only the retrieved group on Used',()=>{
- let {m,card,lost}=reinforcements();retrieval.retrieve(m,'light',card,2);m=settle(m);assert.deepEqual(m.players.light.used.slice(0,2),[lost[1],lost[2]]);assert.deepEqual(m.players.light.lost,[lost[0]]);assert.throws(()=>retrieval.retrieve(m,'light',card,1.5),/Invalid retrieval/);
+ let {m,card,lost}=reinforcements();retrieval.retrieve(m,'light',card,2);m=settle(m);assert.deepEqual(m.players.light.used.slice(0,2),[lost[1],lost[2]]);assert.deepEqual(m.players.light.lost,[lost[0]]);assert.throws(()=>retrieval.retrieve(m,'light',card,NaN),/Invalid retrieval/);
 });
 
 test('retrieval rechecks a chosen card after about-to-retrieve responses',()=>{

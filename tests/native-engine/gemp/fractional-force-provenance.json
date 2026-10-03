@@ -1,0 +1,32 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T19:11:22.120545+00:00",
+  "harness": "NativeEngineFractionalForceOracleTests.java",
+  "harnessSha256": "73d83f301dbefb3341e76b30a9c2ae83e088ba61a14afef713a60afa1b101228",
+  "result": "fractional-force-results.json",
+  "resultSha256": "83afb989a472d56ba724489f5929f73a528dc0b04c2c1d25ac6d078cf4122e3c",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineFractionalForceOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; test harness only; pinned production sources unchanged",
+  "junitTests": 2,
+  "observations": 30,
+  "unchangedProductionFiles": 6820,
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp30,138\u2013139 (Rounding and Brainiac)",
+  "scope": "24 production primitive outcomes (ordinary retrieval, Force loss, UseForce and Secret Plans) and six actual Off The Edge outcomes with a controlled fractional target DestinyModifier. Native tests retain exact reference observations and separately assert nearest-whole official-rule outcomes, rather than labeling discrepancies as conformance.",
+  "adjudication": {
+    "rule": "Round indivisible card movements to nearest whole number after applicable modifiers; preserve raw destiny comparisons. Half values round up.",
+    "gemp": "All 30 executed reference cases round positive fractional movement obligations up.",
+    "native": "For the tested inputs, 14 match the whole-card outcome and 16 differ because the fractional part is below 0.5. The native engine follows AR p30 plus the explicit p139 Brainiac example.",
+    "timing": "Retrieval is rounded once after initiation responses/modifiers, before first-card selection and Secret Plans. Non-battle loss rounds the full modified obligation, then subtracts integer cards already paid. Payment converts each payer cost before affordability and serialized unit payment.",
+    "interpretation": "Applying the Brainiac indivisibility instruction to all fractional Force payments and retrieval forms is the general rounding interpretation, not an additional card-specific official ruling."
+  },
+  "limitations": [
+    "Fractional battle damage residuals payable through a mixture of forfeiture and Life Force need separate timing verification; battle and attrition numeric values are not globally rounded.",
+    "Compound-card counting, fractional activation quantities, broader prevention/replacement and any up-to range without a legal positive integer remain unfinished.",
+    "No new granting cards, complete catalog, full deck admission or vehicle/space behavior are certified. Full native admission remains closed."
+  ],
+  "relatedEvidence": [
+    "duel-modifiers-provenance.json (earlier fractional Obsession winner/zero Force adjudication)",
+    "payment-provenance.json (integer per-unit timing and opponent-first joint costs)"
+  ]
+}

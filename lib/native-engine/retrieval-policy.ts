@@ -1,4 +1,5 @@
 import {cardDefinition, name} from './board';
+import {validForceQuantity, wholeForce} from './force-quantity';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {sides, type Match, type Side} from './types';
 
@@ -9,7 +10,7 @@ export type RetrievalModifier = {
 };
 const kinds: Kind[] = ['add', 'reset', 'secret-plans-immunity'];
 function assertModifier(m: Match, p: RetrievalModifier): void {
-  if (!p || !sides.includes(p.side) || !kinds.includes(p.kind) || !Number.isSafeInteger(p.amount) ||
+  if (!p || !sides.includes(p.side) || !kinds.includes(p.kind) || typeof p.amount !== 'number' || !validForceQuantity(Math.abs(p.amount)) ||
       p.kind === 'reset' && p.amount < 0 || p.kind === 'secret-plans-immunity' && p.amount !== 1 ||
       typeof p.function !== 'string' || !p.function || !['turn', 'source'].includes(p.duration) ||
       !Number.isSafeInteger(p.turn) || p.turn < 1 || p.turn > m.turn.number || typeof p.cumulative !== 'boolean' ||
@@ -60,8 +61,7 @@ function modifiers(m: Match, side: Side, source: string): Pick<RetrievalModifier
 export function retrievalAmount(m: Match, side: Side, source: string, base: number): number {
   const mods = modifiers(m, side, source), resets = mods.filter(p => p.kind === 'reset').map(p => p.amount);
   const amount = Math.max(0, resets.length ? Math.min(...resets) : base + mods.filter(p => p.kind === 'add').reduce((n, p) => n + p.amount, 0));
-  if (!Number.isSafeInteger(amount)) throw Error('Unsupported retrieval amount.');
-  return amount;
+  return wholeForce(amount);
 }
 export function retrievalImmuneToSecretPlans(m: Match, side: Side, source: string): boolean {
   return modifiers(m, side, source).some(p => p.kind === 'secret-plans-immunity');

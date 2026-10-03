@@ -2263,9 +2263,9 @@ R2-D2's 2-or-5 printed target value is chosen after the draw (even a failed draw
 independently of any prior or later destiny draw. A shared current-character
 statistic query applies live additive/reset destiny modifiers; target labels and
 value choices show the current number. This table statistic is distinct from
-modifiers to a just-drawn destiny. Fractional differences remain explicitly
-guarded until shared fractional Force handling is implemented; they are never
-silently rounded to an invented outcome.
+modifiers to a just-drawn destiny. Fractional differences now use the shared
+whole-Force implementation documented below; their greater/less comparison
+retains the original value.
 
 The shared retrieval entry point now checks its source and explicit additional
 contributors before emitting initiation. Rule-owned instance restrictions can
@@ -2280,5 +2280,52 @@ result paths and interactions. `gemp/off-edge-provenance.json` records actual
 card plays, including R2, Secret Plans, Fenson, target value changes and retrieval
 restrictions. Direct target/modifier interventions are controlled fixtures;
 continuous granting-card selectors, retargeting, aboard/captured/inactive states,
-fractional Force, Weather Vane and broader CPU strategy remain required. Full
+remaining fractional battle/activation handling, Weather Vane and broader CPU strategy remain required. Full
 production admission stays closed; no standalone Lab study was added.
+
+
+### Fractional Force and indivisible card movements
+
+`force-quantity.ts` applies nearest-whole rounding only at a whole-card boundary.
+The authority is AR p30 (Rounding) and pp138–139 (Brainiac): destiny comparisons
+and attrition retain their values, but a Force effect cannot move part of a card.
+The explicit Obsession example retrieves and loses zero for a 0.14159 difference,
+without changing the winner or preventing character loss. Applying this rule to
+fractional use-Force payments and other retrieval forms is the general
+indivisibility interpretation, rather than an additional card-specific ruling.
+
+Ordinary/specific/random/hand retrieval accepts a finite fractional initial
+quantity. Applicable modifiers are combined before rounding once, after
+initiation responses and before first-card selection or Secret Plans. The frozen
+quantity, retrieved-card count and remaining count stay integers thereafter.
+Fractional modifiers and lowest-value resets are supported. Up-to choices remain
+whole integers no greater than the declared maximum; ranges with no positive
+integer remain guarded. Zero final retrieval produces no Secret Plans payment.
+
+Non-battle Force loss preserves the raw base and modifiers in its ledger, rounds
+the full modified obligation, then subtracts the cards already lost. Explicit
+We're Doomed rounding takes precedence. Force payments convert each player's
+cost independently before affordability and retain the existing opponent-first,
+one-card-at-a-time response sequence. Saved continuations bind the rounded cost
+to the parent's raw amount. Existing integer saves use the same representation.
+Off The Edge now compares unrounded destinies, then retrieves/loses the rounded
+Force amount. A sub-half difference does not become the equal-destiny branch.
+Battle damage and attrition remain numeric obligations; fractional forfeit ledger
+values are accepted without globally rounding those totals.
+
+`gemp/fractional-force-provenance.json` records 30 executed outcomes from two
+JUnit tests against unchanged pinned production sources: ordinary retrieval,
+Force loss, UseForce, Secret Plans, and real Off The Edge with controlled target
+modifiers. GEMP rounds all these positive fractional obligations up. Fourteen
+whole-card outcomes agree; sixteen explicitly differ under the official nearest-
+whole rule. Tests retain the reference observations separately and assert the
+native rules outcomes, so disagreement is not presented as GEMP conformance.
+Specific/random/hand forms, fractional modifier ordering, corrupt snapshots,
+rounded-zero endgame, affordability and joint costs have additional native tests.
+
+Mixed fractional battle-damage/forfeiture payment, fractional activation,
+compound-card counting, wider prevention/replacement and granting-card coverage
+remain required. This is shared engine work, with no new standalone Lab study.
+Full native admission stays closed; the complete catalog, vehicles/pilots/
+passengers/space, Objectives/setup, 40/60/custom/sealed, CPU/PvP, persistence,
+clocks/capacity and responsive gameplay remain in scope.
