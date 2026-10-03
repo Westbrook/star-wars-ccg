@@ -128,9 +128,9 @@ kernel test is not evidence that a card's printed behavior is implemented.
    reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
    pilots, passengers and broader catalog effects remain required for broader
    engine coverage; they are not implicitly admitted by these primitives.
-4. Bind native matches to durable service transactions, command receipts and
-   authenticated seats. The proof service has this machinery, but it is not yet
-   wired to this engine. Connect the native CPU dispatcher and shared match service to the client.
+4. Connect the implemented durable native service, assigned seats and computer
+   dispatcher to the full-match client. Add shared match delivery and saved
+   deadline handling in the responsive gameplay UI.
 5. Verify full-match GEMP/rule conformance, process recovery, concurrency,
    performance and phone/tablet/desktop gameplay before opening the game gate.
 
@@ -964,7 +964,7 @@ deadline, and rejects corrupted transcripts/commands after completion.
 This is integration and recovery evidence, not full-game GEMP parity or exhaustive
 card certification. The exploration policy is not the production strategic CPU.
 Remaining work still includes reachable cross-card conformance/adjudication,
-identity/modifier coverage, authenticated durable transactions, CPU/PvP service
+identity/modifier coverage, CPU/PvP client delivery, capacity validation
 and responsive full-match presentation. Existing GEMP paths and studies remain.
 
 ### Durable native match service
