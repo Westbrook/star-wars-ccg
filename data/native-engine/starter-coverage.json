@@ -10,7 +10,7 @@
     "Extend action-specific identity semantics to remaining effects/events, retrieval/search/inspection targets and compound casualties; persona/conversion aliases and target redirection remain. Original duel participants and pending travel movements now have saved references.",
     "Complete generic continuous modifier and prevention/replacement infrastructure; broader persona/uniqueness and characteristic providers. Ordinary explicit persona/title limits and initiated-play history are implemented components, not full admission.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
-    "Expand beyond the five executed complete GEMP/native 60-card match paths into remaining reachable cross-card branches. Native randomized 40/60 runs remain integration evidence; neither corpus proves exhaustive starter rules conformance.",
+    "Expand beyond the seven executed complete GEMP/native 60-card match paths into remaining reachable cross-card branches. Native randomized 40/60 runs remain integration evidence; neither corpus proves exhaustive starter rules conformance.",
     "Native durable API, assigned seats, receipt/CAS, CPU dispatch and responsive /matches client are implemented with component/full-match/browser tests. Stronger strategy, independent scheduling if needed, match clocks/capacity, broader deck workflows and production full-match certification remain required.",
     "Broader catalog, vehicles/pilots/passengers, Objectives/special setup, open 40/60 and sealed/deck customization requirements."
   ],
@@ -2206,7 +2206,7 @@
     "nextRequiredVerification": [
       "Resolve the one-failed-destiny-set Vader\u2019s Obsession guard reachable as Reserve Decks empty in an introductory match.",
       "Audit remaining pending loss/target/search and timing behavior across the exact two deck lists, distinguishing unreachable broader-catalog features from reachable starter interactions.",
-      "Extend complete-match comparison through optional card-text responses and automatic mine ordering; current five paths include movement, weapons, site conversions and attachment losses without certifying unchosen branches."
+      "Extend complete-match comparison into competing-mine required-action selection and remaining card-text branches; seven paths now include Barrier, It Could Be Worse and serial mine casualties without certifying unchosen branches."
     ],
     "retainedFullScope": [
       "Full card catalog and reachable timing",
@@ -2219,12 +2219,13 @@
     "completeMatchEvidence": {
       "provenance": [
         "tests/native-engine/gemp/complete-match-provenance.json",
-        "tests/native-engine/gemp/expanded-match-provenance.json"
+        "tests/native-engine/gemp/expanded-match-provenance.json",
+        "tests/native-engine/gemp/response-match-provenance.json"
       ],
-      "matches": 5,
-      "nativeCommands": 12527,
-      "comparedCheckpoints": 1270,
-      "scope": "Selected basic, weapon, movement, site-conversion and attachment-loss paths; full production admission remains closed."
+      "matches": 7,
+      "nativeCommands": 21790,
+      "comparedCheckpoints": 2252,
+      "scope": "Selected basic, weapon, movement, site-conversion, attachment-loss, Barrier, loss-reduction and mine-casualty paths; full production admission remains closed."
     }
   }
 }

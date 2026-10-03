@@ -27,7 +27,7 @@ export function shuffleEntropy(before,after){
 export function normalizedCheckpoint(s,cards){
  const groups=new Map();
  for(const id of s.locations){const system=premiereSites[cards[id].blueprint]?.system;assert.ok(system);if(!groups.has(system))groups.set(system,[]);groups.get(system).push(id);}
- return {...s,locations:[...groups.keys()].sort().flatMap(group=>groups.get(group)),players:Object.fromEntries(Object.entries(s.players).map(([side,p])=>[side,{...p,hand:[...p.hand].sort()}]))};
+ return {...s,...(s.phase==='between_turns'?{phase:'activate'}:{}),locations:[...groups.keys()].sort().flatMap(group=>groups.get(group)),players:Object.fromEntries(Object.entries(s.players).map(([side,p])=>[side,{...p,hand:[...p.hand].sort()}]))};
 }
 function snapshot(m,expected,version){
  const result={turn:m.turn.number,side:m.turn.side,phase:m.turn.phase,locations:[...m.locations],players:Object.fromEntries(['dark','light'].map(side=>[side,Object.fromEntries(['reserve','force','used','lost','hand'].map(p=>[p,[...m.players[side][p]]]))])),table:Object.values(m.cards).filter(c=>c.zone==='table'&&c.location).map(c=>({id:c.id,location:c.location,...(version>=3?{...(c.attachedTo?{attachedTo:c.attachedTo}:{}),hit:combat.battle(m)?.hits.includes(c.id)??false}:{}),...(version>=2&&board.cardDefinition(m,c.id).type==='Character'?{stats:{power:board.power(m,c.id,combat.battle(m)?.stage!=='complete'&&combat.battle(m)?.initiator!==c.owner&&combat.members(m,c.owner).includes(c.id)),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)}}:{})})).sort((a,b)=>a.id.localeCompare(b.id))};
@@ -39,12 +39,12 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
- if(!['activate','draw','deploy','equip','fire','site','move','battle','drain'].includes(kind))return;
+ if(!['activate','draw','deploy','equip','fire','site','move','battle','drain','barrier','reduce','explode'].includes(kind))return;
  const index=row.parameters.actionId?.indexOf(row.answer);assert.ok(index>=0,'Reference action answer missing');
  const label=row.parameters.actionText[index].toLowerCase();
  const valid=kind==='activate'?label==='activate force':kind==='draw'?label==='draw card into hand from force pile':
   kind==='move'?label==='move using landspeed':kind==='fire'?label.startsWith('fire '):['deploy','equip','site'].includes(kind)?label.startsWith('deploy')&&row.state.players[row.semantic.side].hand.includes(row.semantic.card):
-  kind==='battle'?label.startsWith('initiate battle'):label.startsWith('force drain');
+  kind==='battle'?label.startsWith('initiate battle'):kind==='barrier'?label.startsWith('prevent '):kind==='reduce'?label==='reduce force loss':kind==='explode'?label==="'explode'":label.startsWith('force drain');
  assert.ok(valid,'Reference semantic action does not match the chosen command: '+label);
 }
 
@@ -75,11 +75,12 @@ export function replayGempMatch(record){
   }else command(p.choices[0].id);
  }
  function seek(row,choices){
+  const phase=row.state.phase==='between_turns'?'activate':row.state.phase;
   for(let i=0;i<1000;i++){
    if(m.status==='finished')throw Error('Native match ended before reference action '+JSON.stringify(row.semantic));
    const p=prompt();
-   if(m.turn.number===row.state.turn&&m.turn.phase===row.state.phase&&p.side===row.semantic.side){const wanted=(typeof choices==='function'?choices():choices).find(id=>p.choices.some(c=>c.id===id));if(wanted)return wanted;}
-   if(m.turn.number>row.state.turn||m.turn.number===row.state.turn&&phases.indexOf(m.turn.phase)>phases.indexOf(row.state.phase))throw Error('Native passed reference action '+JSON.stringify({semantic:row.semantic,native:m.turn,prompt:p}));
+   if(m.turn.number===row.state.turn&&m.turn.phase===phase&&p.side===row.semantic.side){const wanted=(typeof choices==='function'?choices():choices).find(id=>p.choices.some(c=>c.id===id));if(wanted)return wanted;}
+   if(m.turn.number>row.state.turn||m.turn.number===row.state.turn&&phases.indexOf(m.turn.phase)>phases.indexOf(phase))throw Error('Native passed reference action '+JSON.stringify({semantic:row.semantic,native:m.turn,prompt:p}));
    const automatic=p.choices.find(c=>c.id==='pass')??p.choices.find(c=>c.id==='draw-destiny')??(p.mandatory&&p.choices.length===1?p.choices[0]:null);
    if(!automatic)throw Error('Unmapped native decision before '+JSON.stringify({semantic:row.semantic,frame:m.stack.at(-1),prompt:p}));
    command(automatic.id);
@@ -89,7 +90,7 @@ export function replayGempMatch(record){
  try{
   const rows=record.trace;
   for(let index=0;index<rows.length;index++){
-   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','activate-count'].includes(s.kind))continue;
+   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','reduce-amount','activate-count'].includes(s.kind))continue;
    assertReferenceAction(row);
    let choices=[];
    if(s.kind==='activate')choices=['core:activate'];
@@ -104,6 +105,9 @@ export function replayGempMatch(record){
    }
    if(s.kind==='battle')choices=['battle:'+s.card];
    if(s.kind==='drain')choices=['drain:'+s.card];
+   if(s.kind==='reduce'){const amount=followingTarget(rows,index,'reduce-amount').count;choices=['reduce:'+s.card+':'+amount,'battle-reduce:'+s.card+':'+amount];}
+   if(s.kind==='barrier')choices=['barrier:'+s.card+':'+s.target];
+   if(s.kind==='mine-victims')choices=['select:'+s.cards[0],'lose-mine:'+s.cards[0]];
    if(s.kind==='explode')choices=['explode:'+s.card];
    if(s.kind==='loss-order')choices=['place-lost:'+s.card];
    if(s.kind==='forfeit')choices=['forfeit:'+s.card];
@@ -112,10 +116,12 @@ export function replayGempMatch(record){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
-   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode'].includes(s.kind)){
+   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
    }
    command(choice);
+   if(s.kind==='mine-victims'&&choice.startsWith('lose-mine:'))assert.equal(s.cards.length,1,'Each sequential casualty requires a separate reference choice');
+   if(s.kind==='mine-victims'&&choice.startsWith('select:'))for(const card of s.cards.slice(1))command('select:'+card);
    if(s.kind==='activate'){
     const count=rows[index+1];assert.equal(count.semantic?.kind,'activate-count');
     for(let n=1;n<count.count;n++)command(seek(row,['core:activate']));

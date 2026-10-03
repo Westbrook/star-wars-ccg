@@ -59,12 +59,13 @@ test('Reserve depletion during paid peek finishes without leaking an inspection 
 
 for(const amount of [1,3])test('mine casualties have response windows, full dependent losses, correct priority and saved instances: '+amount,()=>{
  let m=fresh();const site=location(m,'light','1_124'),target=mine(m,'dark','1_322',site),one=pull(m,'light','1_28','table',site),two=pull(m,'light','1_28','table',site),gun=pull(m,'light','1_152','table',site);m.cards[gun].attachedTo=one;
- m=phase(m,'draw');top(m,'dark',amount===1?'1_194':'1_186');m=seek(m,x=>x.turn.number===3&&ids(x).includes('explode:'+target));m=step(m,'explode:'+target);m=seek(m,x=>x.stack.at(-1)?.handler==='equipment:mine-victims'||x.stack.at(-1)?.event?.kind==='about-to-lose');
- if(m.stack.at(-1).handler==='equipment:mine-victims')m=step(m,'select:'+one);
+ m=phase(m,'draw');top(m,'dark',amount===1?'1_194':'1_186');m=seek(m,x=>x.turn.number===3&&ids(x).includes('explode:'+target));m=step(m,'explode:'+target);m=seek(m,x=>['equipment:mine-victims','equipment:mine-order'].includes(x.stack.at(-1)?.handler)||x.stack.at(-1)?.event?.kind==='about-to-lose');
+ if(m.stack.at(-1).handler==='equipment:mine-victims'){m=step(m,'select:'+one);m=seek(m,x=>x.stack.at(-1)?.event?.kind==='about-to-lose');}
+ if(m.stack.at(-1).handler==='equipment:mine-order')m=step(m,'lose-mine:'+one);
  assert.equal(m.stack.at(-1).event.kind,'about-to-lose');assert.equal(prompt(m).side,'dark');assert.equal(m.cards[one].zone,'table');assert.equal(m.cards[gun].zone,'table');
  m=seek(clone(m),x=>x.stack.at(-1)?.handler==='table:lost-order');assert.equal(m.cards[one].zone,'leaving');assert.equal(m.cards[gun].zone,'leaving');
  m=seek(clone(m),x=>x.stack.at(-1)?.event?.kind==='cards-lost');const e=m.stack.at(-1).event;
- assert.equal(prompt(m).side,'dark');assert.equal(e.source,target);assert.deepEqual([...e.cards].sort(),[one,gun,...(amount===3?[two]:[])].sort());assert.equal(e.cardRefs.length,e.cards.length);for(const ref of e.cardRefs){assert.equal(ref.zone,'lost');assert.equal(m.cards[ref.id].zone,'lost');}
+ assert.equal(prompt(m).side,'dark');assert.equal(e.source,target);assert.deepEqual([...e.cards].sort(),[one,gun].sort());assert.equal(m.cards[two].zone,'table');assert.equal(e.cardRefs.length,e.cards.length);for(const ref of e.cardRefs){assert.equal(ref.zone,'lost');assert.equal(m.cards[ref.id].zone,'lost');}
  m=seek(clone(m),x=>x.cards[target].zone==='lost');assert.equal(m.cards[target].zone,'lost');assert.equal(m.cards[two].zone,amount===3?'lost':'table');
 });
 
@@ -106,4 +107,40 @@ test('revealed location, character and device duds never become active cards or 
  let m=fresh();const site=location(m,'light','1_130'),near=location(m,'dark','1_291'),droid=pull(m,'light','1_18','table',site),troop=pull(m,'dark','1_194','table',near),kintan=pull(m,'dark','1_254','hand');pull(m,'dark','1_194','lost');const duds=['1_124','1_28','1_35'].map(bp=>pull(m,'light',bp,'buried',site));force(m,'dark',4);m=phase(m,'move');m=step(m,'move:'+troop+':'+site);m=seek(m,x=>x.stack.at(-1)?.handler==='table:lost-order');
  assert.ok(duds.every(id=>m.cards[id].zone==='leaving'));assert.ok(!m.locations.includes(duds[0]));assert.equal(m.cards[droid].zone,'table');
  m=seek(clone(m),x=>x.stack.at(-1)?.event?.kind==='buried-cards-lost');assert.ok(duds.every(id=>m.cards[id].zone==='lost'));assert.deepEqual([...m.stack.at(-1).event.cards].sort(),[...duds].sort());assert.ok(!revivalActions(m,m.stack.at(-1),'dark').some(a=>a.source===kintan));
+});
+
+function multiMine(){
+ let m=fresh();const site=location(m,'light','1_124'),source=mine(m,'dark','1_322',site),victims=Array.from({length:3},()=>pull(m,'light','1_28','table',site));
+ m=phase(m,'draw');top(m,'dark','1_186');m=seek(m,x=>x.turn.number===3&&ids(x).includes('explode:'+source));m=step(m,'explode:'+source);m=seek(m,x=>x.stack.at(-1)?.handler==='equipment:mine-order');return {m,site,source,victims};
+}
+for(const change of ['depart','return','source-depart'])test('mine sequence resumes across responses with locked victims: '+change,()=>{
+ let {m,site,source,victims}=multiMine();const [first,second,third]=victims;
+ m=step(clone(m),'lose-mine:'+first);m=seek(m,x=>x.stack.at(-1)?.event?.kind==='cards-lost');
+ assert.deepEqual(m.stack.at(-1).event.cards,[first]);assert.equal(m.cards[second].zone,'table');assert.equal(m.cards[third].zone,'table');
+ const target=change==='source-depart'?source:second;state.moveCard(m,target,'hand');
+ if(change==='return'){state.moveCard(m,second,'table');m.cards[second].location=site;}
+ premiereRules.validate(clone(m));
+ m=seek(clone(m),x=>x.stack.length===1);
+ assert.equal(m.cards[third].zone,'lost');assert.equal(m.cards[second].zone,change==='return'?'table':change==='depart'?'hand':'lost');assert.equal(m.cards[source].zone,change==='source-depart'?'hand':'lost');
+});
+test('mine owner ordering survives JSON recovery and rejects stale, foreign and unselected commands',()=>{
+ const {m,source,victims}=multiMine(),before=clone(m),choice='lose-mine:'+victims[1];
+ assert.deepEqual(step(m,choice),step(clone(m),choice));
+ for(const command of [{revision:m.revision-1,choice},{revision:m.revision,choice:'lose-mine:'+source}])assert.throws(()=>runtime.applyCommand(clone(m),rules,'light',command));
+ assert.throws(()=>runtime.applyCommand(clone(m),rules,'dark',{revision:m.revision,choice}));assert.deepEqual(m,before);
+});
+for(const mode of ['source','owner','duplicate','missing-reference','wrong-zone','future-version','wrong-identity'])test('saved mine sequence rejects '+mode,()=>{
+ const {m,victims}=multiMine(),d=m.stack.at(-1),p=d.payload;
+ if(mode==='source')p.card=victims[0];if(mode==='owner')d.side='dark';if(mode==='duplicate'){p.cards[1]=p.cards[0];p.victims[1]=clone(p.victims[0]);}
+ if(mode==='missing-reference')delete p.victims;if(mode==='wrong-zone')p.victims[0].zone='hand';if(mode==='future-version')p.victims[0].version+=100;if(mode==='wrong-identity')p.victims[0].id=victims[1];
+ assert.throws(()=>premiereRules.validate(m),/mine|reference/);
+});
+
+test('Kintan resolves between mine casualties before the owner chooses the next loss',()=>{
+ let {m,source,victims}=multiMine();const kintan=pull(m,'dark','1_254','hand'),retrieve=pull(m,'dark','1_194','lost');force(m,'dark',2);
+ m=step(m,'lose-mine:'+victims[1]);m=seek(m,x=>x.stack.at(-1)?.event?.kind==='cards-lost');
+ assert.ok(ids(m).includes('revival:kintan:'+kintan));assert.equal(m.cards[victims[0]].zone,'table');assert.equal(m.cards[victims[2]].zone,'table');assert.equal(m.cards[source].zone,'table');
+ m=step(clone(m),'revival:kintan:'+kintan);m=seek(m,x=>x.stack.at(-1)?.handler==='equipment:mine-order');
+ assert.equal(m.cards[retrieve].zone,'hand');assert.equal(m.cards[kintan].zone,'lost');assert.deepEqual(new Set(ids(m)),new Set([victims[0],victims[2]].map(id=>'lose-mine:'+id)));
+ m=step(clone(m),'lose-mine:'+victims[2]);m=seek(m,x=>x.cards[source].zone==='lost');assert.ok(victims.every(id=>m.cards[id].zone==='lost'));
 });

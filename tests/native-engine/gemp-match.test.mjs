@@ -6,7 +6,7 @@ const {shuffled}=load(new URL('../../lib/native-engine/random.ts',import.meta.ur
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const loadMatch=name=>readGempMatch(new URL('./gemp/complete-matches/'+name+'.json.gz',import.meta.url));
 
-for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','ground-attachments'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
+for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','ground-attachments','ground-mines','ground-responses'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
  const reference=loadMatch(name),before=JSON.stringify(reference),result=replayGempMatch(reference);
  assert.equal(JSON.stringify(reference),before,'reference fixture must stay immutable');
  assert.equal(result.state.result.winner,reference.winner);
@@ -76,4 +76,16 @@ test('an absent target cannot be borrowed from a later action',()=>{
  const rows=[{semantic:{kind:'fire'}},{semantic:{kind:'pass'}},{semantic:{kind:'deploy'}},{semantic:{kind:'fire-target',card:'other'}}];
  assert.throws(()=>followingTarget(rows,0,'fire-target'),/Missing target/);
  assert.equal(followingTarget([rows[0],rows[1],rows[3]],0,'fire-target').semantic.card,'other');
+});
+
+
+test('response match exercises actual Barrier, damage reduction and serial mine casualties',()=>{
+ const r=loadMatch('ground-responses'),actions=r.trace.filter(x=>x.semantic),count=kind=>actions.filter(x=>x.semantic.kind===kind).length;
+ assert.equal(count('barrier'),4);assert.equal(count('reduce'),18);assert.equal(count('mine-victims'),3);
+ const mineRows=actions.filter(x=>x.semantic.kind==='mine-victims');assert.ok(mineRows.every(x=>x.state.turn===13&&x.state.phase==='between_turns'));
+ assert.deepEqual(mineRows.map(x=>x.state.table.filter(c=>!c.attachedTo&&c.id.startsWith('light-')&&c.location===x.state.table.find(c=>c.id===x.semantic.cards[0]).location).length),[4,3,2]);
+});
+for(const kind of ['barrier','reduce'])test('reference '+kind+' tag must match its chosen action',()=>{
+ const row=loadMatch('ground-responses').trace.find(x=>x.semantic?.kind===kind);assertReferenceAction(row);
+ row.parameters.actionText[row.parameters.actionId.indexOf(row.answer)]='Pass';assert.throws(()=>assertReferenceAction(row),/does not match/);
 });

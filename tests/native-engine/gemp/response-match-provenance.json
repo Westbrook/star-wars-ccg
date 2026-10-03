@@ -1,0 +1,100 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedOn": "2026-10-03",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineResponseMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "decks": "Exact introductory 60-card lists and identity hashes in complete-match-provenance.json",
+  "fixtures": [
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/ground-mines.json.gz",
+      "sha256": "62ac5365b064e78cb6df77325385d93f594cbeb896b4f922f6205a2857a4df69",
+      "jsonSha256": "80ac9857244c8b36cc0a99e90661da3e070504db8498ca747af18e1203142488",
+      "harness": "tests/native-engine/gemp/complete-matches/ground-mines-source.java.txt",
+      "harnessSha256": "f3fd82cf4c788dea1430359ccebb4019926570332ac65e691902b4da7cd0343d",
+      "winner": "light",
+      "turns": 34,
+      "referenceDecisions": 2387,
+      "nativeCommands": 2981,
+      "comparedCheckpoints": 326,
+      "actions": {
+        "untagged": 8,
+        "activate": 34,
+        "activate-count": 67,
+        "pass": 1877,
+        "deploy": 17,
+        "deploy-target": 24,
+        "equip": 7,
+        "site": 8,
+        "site-placement": 6,
+        "draw": 66,
+        "move": 79,
+        "move-target": 79,
+        "battle": 9,
+        "forfeit": 10,
+        "drain": 40,
+        "lose": 55,
+        "loss-order": 1
+      }
+    },
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/ground-responses.json.gz",
+      "sha256": "6d91d71bb581019c6f1b8eb8161cf4bc0a2d7a21ec77d3145e91b78833286aa0",
+      "jsonSha256": "5ec5edf41075ced65a699dd10acc0994683ea406e6c9ffb02fe471613faabebc",
+      "harness": "tests/native-engine/gemp/complete-matches/ground-responses-source.java.txt",
+      "harnessSha256": "dfc00a92d57dd4fa833886b9b31b7ca9556146ce0fafc2e01ac5b02211ddc0c8",
+      "winner": "dark",
+      "turns": 71,
+      "referenceDecisions": 5442,
+      "nativeCommands": 6282,
+      "comparedCheckpoints": 656,
+      "actions": {
+        "untagged": 9,
+        "activate": 71,
+        "activate-count": 141,
+        "pass": 4321,
+        "site": 10,
+        "site-placement": 8,
+        "deploy": 27,
+        "deploy-target": 36,
+        "battle": 12,
+        "forfeit": 13,
+        "move": 247,
+        "move-target": 247,
+        "draw": 107,
+        "drain": 74,
+        "lose": 52,
+        "equip": 9,
+        "fire": 6,
+        "fire-target": 6,
+        "loss-order": 3,
+        "barrier": 4,
+        "reduce": 18,
+        "reduce-amount": 18,
+        "mine-victims": 3
+      }
+    }
+  ],
+  "unchangedProductionFiles": 6820,
+  "reproducedFailure": "Before the fix, the 71-turn ground-responses match reached turn13 with native already removing all four mine victims together. GEMP instead offered the owner a choice of the next casualty, resolving that character and attached cards before the next choice. Native now matches every recorded checkpoint and the final winner.",
+  "comparison": "Snapshot v3 and ordered-pile comparisons as defined in expanded-match-provenance.json. Reference between_turns before a new turn is normalized to native Activate/start, preserving turn number and side. Mine targets and casualty-order decisions use actual reference selections; no state corrections.",
+  "rulesSections": [
+    "AR p18: actions resolve one at a time unless explicitly simultaneous.",
+    "AR p20: a leaving character and its attached cards are simultaneous.",
+    "AR p169: Timer Mine casualties are chosen by their owner."
+  ],
+  "harnessNotes": [
+    "Fresh GEMP shuffles; exact executed sources retained for both completed traces.",
+    "Response policy uses actual Barrier and It Could Be Worse actions and retains two Force during movement/drawing.",
+    "The first updated driver stopped at an unmapped multi-card mine target decision; that incomplete run is excluded.",
+    "Required-action source reflection is read-only. These two traces resolve mines automatically; neither exercises competing-mine required-action selection.",
+    "No reference production source or card state was changed."
+  ],
+  "limits": [
+    "Selected-path parity, not every legal choice or full deck certification.",
+    "Remaining attrition and every intermediate response window are not compared.",
+    "Native instance-return, source-departure, malformed snapshots and JSON recovery tests use controlled fixtures, not fresh GEMP traces.",
+    "The mine-targets-chosen response boundary is exposed; generic target redirection/prevention remains incomplete.",
+    "Full production admission remains closed. Broader catalog, vehicles/space, special setup and product requirements remain unfinished."
+  ]
+}

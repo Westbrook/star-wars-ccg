@@ -2,7 +2,7 @@ import {deployed} from './deployment';
 import {assertArmorEquipment, isArmorDevice, recordArmor} from './armor-equipment';
 import {hasCharacterArmor} from './stat-modifiers';
 import {hasPersona} from './persona';
-import {cardVersion, referenceCard} from './identity';
+import {assertCardReference, cardVersion, referenceCard, sameCard, type CardReference} from './identity';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {atSite, cardDefinition, isWarrior, name, system} from './board';
 import {weapons} from './battle';
@@ -14,7 +14,7 @@ import {moveCard} from './state';
 import {loseFromTable, loseBuriedCards, tableLossCards} from './table';
 import {other, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
 
-type Payload = {source?: string; attachment?: AttachmentAttempt; card?: string; target?: string; site?: string; mode?: 'warrior' | 'power'; react?: boolean; via?: string; draw?: Draw; cards?: string[]; selected?: string[]; count?: number; trippedBy?: Side};
+type Payload = {source?: string; attachment?: AttachmentAttempt; card?: string; target?: string; site?: string; mode?: 'warrior' | 'power'; react?: boolean; via?: string; draw?: Draw; cards?: string[]; selected?: string[]; count?: number; victims?: CardReference[]; trippedBy?: Side};
 export const isMine = (blueprint: string) => ['1_162', '1_322'].includes(blueprint);
 const mining = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side && ['1_18', '1_186'].includes(c.blueprint));
 const isTraining = (bp: string) => ['1_64', '1_221'].includes(bp);
@@ -117,13 +117,20 @@ function loss(m: Match, cards: string[], side: Side, source?: string): void {
   openWindow(m, 'response', other(side), {kind: 'about-to-lose', cards: targets, cardRefs: targets.map(id => referenceCard(m,id)), ...(live.length === 1 ? {card: live[0]} : {}), ...(source ? {source} : {})});
 }
 function discardMine(m: Match, id: string, side: Side): void {loss(m, [id], side);}
+function queueMineLosses(m: Match, cards: string[], side: Side, mine: string): void {
+  // The targets are chosen together, but each character and its dependents leave
+  // before the owner chooses the next casualty (ChooseCardsToLoseFromTableEffect).
+  const victims = cards.map(id => referenceCard(m, id));
+  then(m, 'mine-order', side, {card: mine, cards, victims});
+  openWindow(m, 'response', other(side), {kind: 'mine-targets-chosen', source: mine, cards, cardRefs: victims});
+}
 function resolveMineVictims(m: Match, r: Resolution): void {
   const p = data(r), mine = m.cards[p.card!];
   const victims = atSite(m, p.site ?? mine.location!).filter(c => c.owner !== mine.owner).map(c => c.id);
   const count = Math.min(victims.length, Math.max(0, Math.floor(p.draw?.value ?? 0)));
   then(m, 'discard-mine', mine.owner, {card: mine.id});
   if (!count) return;
-  if (count === victims.length) loss(m, victims, other(mine.owner), mine.id);
+  if (count === victims.length) queueMineLosses(m, victims, other(mine.owner), mine.id);
   else m.stack.push({kind: 'decision', side: other(mine.owner), handler: 'equipment:mine-victims', payload: {card: mine.id, cards: victims, selected: [], count} as Json});
 }
 export function equipmentResolve(m: Match, r: Resolution): void {
@@ -149,6 +156,11 @@ export function equipmentResolve(m: Match, r: Resolution): void {
     const mine = m.cards[p.card!]; if (mine.zone !== 'table') return;
     drawDestiny(m, mine.owner, mine.id, 'timer-mine', act('mine-victims:' + mine.id, 'Resolve Timer Mine', 'mine-victims', {card: mine.id, site: mine.location!}));
   } else if (kind === 'equipment:mine-victims') resolveMineVictims(m, r);
+  else if (kind === 'equipment:mine-order') {
+    const victims = p.victims!.filter(ref => sameCard(m, ref)), cards = victims.map(ref => ref.id);
+    if (cards.length === 1) loss(m, cards, side, p.card);
+    else if (cards.length > 1) m.stack.push({kind: 'decision', side, handler: 'equipment:mine-order', payload: {...p, cards, victims} as Json});
+  }
   else if (kind === 'equipment:discard-mine') discardMine(m, p.card!, side);
   else if (kind === 'equipment:lose') {
     const live = p.cards!.filter(id => m.cards[id]?.zone === 'table');
@@ -181,6 +193,7 @@ export function equipmentChoices(m: Match, d: Decision) {
   const p = data(d);
   if (d.handler === 'equipment:peek') return [{id: 'keep', label: 'Keep the order unchanged'}, ...(m.cards[p.card!].blueprint === '1_35' ? [{id: 'to-force', label: 'Put the viewed card on top of Force'}] : [])];
   if (d.handler === 'equipment:mine-victims') return p.cards!.filter(id => !p.selected!.includes(id)).map(id => ({id: 'select:' + id, label: 'Lose ' + name(m, id)}));
+  if (d.handler === 'equipment:mine-order') return p.cards!.map(id => ({id: 'lose-mine:' + id, label: 'Lose ' + name(m, id) + ' next'}));
   if (d.handler === 'equipment:trip-order') return p.cards!.map(id => ({id: 'explode:' + id, label: 'Resolve ' + name(m, id) + ' · ' + id}));
   throw Error('Unknown equipment decision.');
 }
@@ -193,7 +206,11 @@ export function equipmentChoose(m: Match, d: Decision, choice: string): void {
     }
   } else if (d.handler === 'equipment:mine-victims') {
     p.selected!.push(choice.slice(7));
-    if (p.selected!.length < p.count!) m.stack.push({...d, payload: p as Json}); else loss(m, p.selected!, d.side, p.card);
+    if (p.selected!.length < p.count!) m.stack.push({...d, payload: p as Json}); else queueMineLosses(m, p.selected!, d.side, p.card!);
+  } else if (d.handler === 'equipment:mine-order') {
+    const id = choice.slice(10), victims = p.victims!.filter(ref => ref.id !== id);
+    then(m, 'mine-order', d.side, {...p, cards: victims.map(ref => ref.id), victims});
+    loss(m, [id], d.side, p.card);
   } else if (d.handler === 'equipment:trip-order') {
     const id = choice.slice(8); then(m, 'trip-order', d.side, {...p, cards: p.cards!.filter(card => card !== id)});
     if (m.cards[id].owner === p.trippedBy) discardMine(m, id, m.cards[id].owner);
@@ -210,6 +227,14 @@ export function assertEquipment(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && ['equipment:lose','equipment:lost','equipment:duds-lost'].includes(f.action.handler)) {
     const p = data(f);
     if (!p || !Array.isArray(p.cards) || !p.cards.length || new Set(p.cards).size !== p.cards.length || p.cards.some(id => !m.cards[id] || m.locations.includes(id)) || p.source !== undefined && !m.cards[p.source]) throw Error('Invalid pending equipment loss.');
+  }
+  for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'equipment:mine-order' || f.kind === 'decision' && f.handler === 'equipment:mine-order') {
+    const p = data(f), side = f.kind === 'decision' ? f.side : f.actor, mine = m.cards[p.card!];
+    if (!mine || !isMine(mine.blueprint) || mine.owner === side || !Array.isArray(p.cards) || !Array.isArray(p.victims) || p.cards.length !== p.victims.length || new Set(p.cards).size !== p.cards.length || f.kind === 'decision' && p.cards.length < 2) throw Error('Invalid mine loss sequence.');
+    p.victims.forEach((ref, i) => {
+      assertCardReference(m, ref, p.cards![i]);
+      if (ref.zone !== 'table' || m.cards[ref.id].owner !== side || cardDefinition(m, ref.id).type !== 'Character' || f.kind === 'decision' && !sameCard(m, ref)) throw Error('Invalid mine casualty reference.');
+    });
   }
   const s = equipmentState(m), raw = m.data.equipment as {turn: number} | undefined;
   if (raw && (!Number.isSafeInteger(raw.turn) || raw.turn < 1 || raw.turn > m.turn.number)) throw Error('Invalid equipment turn.');
