@@ -1,31 +1,48 @@
+import type {publicValues} from './public-values';
+import type {Battle} from './battle';
 import {definition} from './board';
 import {premiereSites} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-1';
+export const computerPolicy = 'native-cpu-2';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
- * input is the same private projection a player receives. Printed statistics
- * are estimates; the engine alone supplies and validates every legal choice.
+ * input is the same private projection a player receives. Current public values
+ * are used when available, with printed values as fallback estimates; the engine alone supplies and validates every legal choice.
  * No hidden pile lookup, match stack, engine entropy or wall clock is available. */
 export function chooseComputerAction(view: View, side: Side): string | null {
   const p = view.prompt;
   if (view.status === 'finished' || !p || p.side !== side || !p.choices.length) return null;
   const own = view.players[side], opponent = other(side);
   const visible = [...view.table, ...own.hand, ...own.lost, ...own.destiny];
+  const rules = view.rules as {values?: ReturnType<typeof publicValues>; battle?: Battle | null} | undefined;
+  const battle = rules?.battle?.stage === 'damage' ? rules.battle : null;
   const cards = new Map(visible.map(c => [c.id, c]));
   const stat = (id: string, field: string) => {
     const c = cards.get(id);if (!c) return 0;
+    const current = rules?.values?.characters[id];
+    if (current && field in current) return current[field as keyof typeof current];
     const n = Number((definition(c.blueprint).stats as Record<string,string>)[field]);
     return Number.isFinite(n) ? n : 0;
   };
   const at = (site: string, seat: Side) => view.table.filter(c => c.zone === 'table' && c.owner === seat && c.location === site && !c.attachedTo && definition(c.blueprint).type === 'Character');
-  const strength = (site: string, seat: Side) => at(site,seat).reduce((n,c) => n + stat(c.id,'power'),0);
+  const strength = (site: string, seat: Side, defending = false) => rules?.values?.sites[site]?.[seat]?.[defending ? 'defendingPower' : 'power'] ?? at(site,seat).reduce((n,c) => n + stat(c.id,'power'),0);
   const icons = (site: string, seat: Side) => premiereSites[cards.get(site)?.blueprint ?? '']?.icons[seat] ?? 0;
   const value = (id: string) => stat(id,'power') * 2 + stat(id,'ability') - stat(id,'deploy');
-  const handLoss = (id: string) => 50 - value(id);
+  const handLoss = (id: string) => 12 - value(id);
+  const remainingDamage = battle?.damage[side] ?? 0, remainingAttrition = battle?.attrition[side] ?? 0;
+  const hits = battle?.hits.filter(id => cards.get(id)?.owner === side) ?? [];
+  const requiredAttrition = p.choices.some(c => c.id.startsWith('forfeit:') && !battle?.attritionProtected?.some(ref => ref.id === c.id.slice(8))) ? remainingAttrition : 0;
+  const hitCredit = hits.reduce((sum,id) => sum + stat(id,'forfeit'),0);
+  // Mandatory forfeits can clear both obligations. Do not spend an Interrupt
+  // reducing damage already covered by hit casualties or required attrition.
+  const avoidableDamage = Math.max(0, remainingDamage - Math.max(hitCredit,requiredAttrition));
+  const forfeitScore = (id: string) => hits.includes(id) ? 100 - value(id) :
+    8 + Math.min(stat(id,'forfeit'),Math.max(remainingDamage,remainingAttrition)) * 4 - value(id);
+  const amounts = p.choices.filter(c => c.id.startsWith('battle-reduce:')).map(c => Number(c.id.split(':')[2]));
+  const reduceAmount = Math.min(Math.ceil(avoidableDamage),Math.max(0,...amounts));
   const score = (c: typeof p.choices[number]): number => {
     const [kind,a,b] = c.id.split(':');
     if (c.id === 'concede') return -Infinity;
@@ -38,7 +55,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (kind === 'drain') return 100 + icons(a,opponent);
     if (kind === 'site') return 50;
     if (kind === 'deploy') return 35 + value(a) + (!at(b,side).length ? 12 : 0) + Math.min(10,strength(b,opponent));
-    if (kind === 'battle') return strength(a,side) >= strength(a,opponent) ? 40 : -10;
+    if (kind === 'battle') return strength(a,side) >= strength(a,opponent,true) ? 40 : -10;
     if (kind === 'move') {
       const from = cards.get(a)?.location;
       if (!from) return -10;
@@ -54,7 +71,13 @@ export function chooseComputerAction(view: View, side: Side): string | null {
       return old && stat(b,'power') > stat(old,'power') ? 5 : -10;
     }
     if (kind === 'fire') return 70 + stat(b,'power');
-    if (kind === 'forfeit' || kind === 'rescue') return 30 + stat(a,'forfeit') - value(a);
+    if (kind === 'rescue') return hits.includes(b) && value(b) > value(a) ? 115 + value(b) - value(a) : -5;
+    if (kind === 'forfeit') return forfeitScore(a);
+    if (kind === 'lose-mine') return 10 - value(a);
+    if (kind === 'battle-reduce') return Number(b) === reduceAmount && reduceAmount > 0 ? 80 + reduceAmount : -5;
+    if (kind === 'revival' && a === 'old-ben') return 55 + value(c.id.split(':')[3]);
+    if (kind === 'revival' && a === 'kintan') return own.lost.some(c => definition(c.blueprint).type === 'Character') ? 55 : -5;
+    if (kind === 'barrier') return 45 + value(b);
     if (kind === 'lose-hand' || kind === 'battle-lose-hand') return handLoss(a);
     if (kind === 'lose' || kind === 'battle-lose') return a === 'used' ? 10 : a === 'force' ? 9 : 8;
     if (kind === 'retrieve' || kind === 'take') return 20 + value(a);

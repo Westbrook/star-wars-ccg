@@ -1,3 +1,4 @@
+import {publicValues} from './public-values';
 import {gameTextAutomatic, gameTextResolve, assertGameText} from './game-text-actions';
 import {assertSearchPolicy} from './search-policy';
 import {characterDestinyActions, characterDestinyInitiate, characterDestinyResolve, assertCharacterDestiny} from './character-destiny';
@@ -185,7 +186,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   canPass: battleCanPass,
-  view: (m, seat, now) => ({...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
+  view: (m, seat, now) => ({values: publicValues(m),...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
     assertSearchPolicy(match);
     assertGameText(match);

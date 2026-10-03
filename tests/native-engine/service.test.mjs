@@ -141,7 +141,7 @@ test('authorized computer dispatch stops at the human prompt and returns only th
 });
 test('concurrent computer dispatch commits each revision once and cannot be poisoned by human command IDs',async t=>{
  const f=fixture(t),v=await f.service.create('owner',config(40,'dark'));
- await f.service.command(v.id,'owner',cmd(v,undefined,'native-cpu-1-1'));
+ await f.service.command(v.id,'owner',cmd(v,undefined,'native-cpu-2-1'));
  const results=await Promise.all(Array.from({length:8},()=>f.fresh().advanceComputer(v.id,'owner',{})));
  assert.ok(results.every(r=>r.side==='dark'));assert.equal(results.reduce((n,r)=>n+r.computer.steps,0),1);
  const rows=f.db.sqlite.prepare('SELECT id,result_version FROM native_commands ORDER BY result_version').all();assert.equal(rows.length,2);assert.ok(rows[0].id.includes(':command:'));assert.ok(rows[1].id.includes(':computer:'));assert.equal(rows[1].result_version,2);

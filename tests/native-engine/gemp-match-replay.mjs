@@ -8,6 +8,7 @@ import {load} from '../native-proof/load-engine.mjs';
 import {auditRules, starterDecks} from './match-runner.mjs';
 const runtime=load(new URL('../../lib/native-engine/runtime.ts',import.meta.url));
 const board=load(new URL('../../lib/native-engine/board.ts',import.meta.url));
+const publicValues=load(new URL('../../lib/native-engine/public-values.ts',import.meta.url)).publicValues;
 const ability=load(new URL('../../lib/native-engine/ability.ts',import.meta.url));
 const losses=load(new URL('../../lib/native-engine/loss.ts',import.meta.url));
 const combat=load(new URL('../../lib/native-engine/battle.ts',import.meta.url));
@@ -31,6 +32,8 @@ export function normalizedCheckpoint(s,cards){
  return {...s,...(s.phase==='between_turns'?{phase:'activate'}:{}),locations:[...groups.keys()].sort().flatMap(group=>groups.get(group)),players:Object.fromEntries(Object.entries(s.players).map(([side,p])=>[side,{...p,hand:[...p.hand].sort()}]))};
 }
 function snapshot(m,expected,version){
+ const values=publicValues(m);
+ for(const card of expected.table)if(card.stats){const actual=values.characters[card.id];assert.ok(actual,'Missing public character values');assert.deepEqual({power:actual.power,ability:actual.ability,forfeit:actual.forfeit},card.stats,'Public character values must match GEMP');}
  const result={turn:m.turn.number,side:m.turn.side,phase:m.turn.phase,locations:[...m.locations],players:Object.fromEntries(['dark','light'].map(side=>[side,Object.fromEntries(['reserve','force','used','lost','hand'].map(p=>[p,[...m.players[side][p]]]))])),table:Object.values(m.cards).filter(c=>c.zone==='table'&&(c.location||version>=4&&board.cardDefinition(m,c.id).type!=='Location')).map(c=>({id:c.id,...(c.location?{location:c.location}:{}),...(version>=3?{...(c.attachedTo?{attachedTo:c.attachedTo}:{}),hit:combat.battle(m)?.hits.includes(c.id)??false}:{}),...(version>=2&&board.cardDefinition(m,c.id).type==='Character'?{stats:{power:board.power(m,c.id,combat.battle(m)?.stage!=='complete'&&combat.battle(m)?.initiator!==c.owner&&combat.members(m,c.owner).includes(c.id)),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)}}:{})})).sort((a,b)=>a.id.localeCompare(b.id))};
  if(expected.battleLosses){const b=combat.battle(m);assert.ok(b);result.battleLosses=Object.fromEntries(['dark','light'].map(side=>[side,{damage:combat.battleDamage(m,side),totalDamage:b.damageLedger?losses.lossTotal(m,side,b.damageLedger[side]):b.initialDamage[side],totalAttrition:b.initialAttrition[side]}]));}
  return result;

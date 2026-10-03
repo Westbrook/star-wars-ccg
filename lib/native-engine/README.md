@@ -1923,3 +1923,26 @@ transfer, other recovery/response branches, complete legal-choice comparisons,
 remaining attrition and the broader native engine/product requirements remain
 unfinished. Full production admission stays closed. This validation-only batch
 does not require a website deployment.
+
+## Public values and computer policy 2
+
+`public-values.ts` derives active character power, defending power, ability and
+forfeit, plus site totals, from the shared rules selectors. Both seats receive
+the same `rules.values` record. It contains only public active character/site
+identities, without hand identities or hidden pile order. Character forfeiture
+uses the actual payable value, including bonuses from characters at adjacent
+sites who are not battle participants. The full-match replay checks projected
+current power, ability and forfeit against GEMP at every recorded checkpoint.
+
+`native-cpu-2` uses these current values and defensive bonuses instead of only
+printed estimates. It prioritizes hit losses, avoids using damage reduction on
+obligations covered by compulsory forfeits, chooses a useful legal reduction
+amount, values Talz rescue and low-value mine casualties, and can choose offered
+Old Ben, Kintan and Barrier actions. It still receives only its player projection,
+selects only engine-offered choices and produces deterministic decisions across
+JSON recovery. The service retains revision/CAS protection and a separate
+computer receipt namespace; the policy identifier changes for new receipts.
+
+This remains a bounded heuristic opponent, not an optimal strategy or additional
+rules implementation. Broader card tactics, resource planning and production
+full-match admission remain required. No new Rules Lab scenario is added.

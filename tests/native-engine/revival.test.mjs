@@ -140,3 +140,11 @@ test('native revival and nearest-character retrieval match all four executed GEM
 for(const boundary of ['initiation','about-to-remove-just-lost'])test('Old Ben cannot use an expired Lost Pile visit at '+boundary,()=>{
  const f=fixture();let m=respond(forfeit(f.m,f.luke),'light',benAction(f));if(boundary!=='initiation')m=seek(m,x=>x.stack.at(-1)?.event?.kind===boundary);state.moveCard(m,f.luke,'hand');state.moveCard(m,f.luke,'lost');m=finishInterrupt(m,f.ben);assert.equal(m.cards[f.luke].zone,'lost');assert.ok(!combat.members(m,'light').includes(f.luke));
 });
+
+for(const side of ['light','dark'])test('projected computer plays the legal recovery response to a real forfeiture: '+side,()=>{
+ const {chooseComputerAction}=load(new URL('../../lib/native-engine/computer.ts',import.meta.url));
+ const f=fixture();let m=priority(forfeit(f.m,f.luke),side);const view=runtime.project(m,rules,side),before=clone(view),choice=chooseComputerAction(view,side);
+ assert.ok(ids(m).includes(choice));assert.ok(choice.startsWith(side==='light'?'revival:old-ben:':'revival:kintan:'));assert.deepEqual(view,before);
+ const interrupt=choice.split(':')[2];m=step(m,choice);m=finishInterrupt(m,interrupt);
+ if(side==='light'){assert.equal(m.cards[f.luke].zone,'table');assert.equal(m.cards[f.luke].location,f.site);}else assert.equal(m.cards[f.nearest].zone,'hand');
+});
