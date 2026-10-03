@@ -1805,3 +1805,52 @@ Compound or dynamic titles, stack/hand searches, external search prevention and
 broader provider cards remain required. Full-match production admission is still
 closed; the failed-destiny Obsession Force amount is still guarded. No new study
 was added.
+
+## Complete introductory match comparison
+
+Two full 60-card GEMP games now replay through native commands with matching
+checkpoints and final outcomes. Ground A ends with Dark winning after 30 turns
+(1,558 native commands, 150 checkpoints); Ground B ends with Light winning after
+77 turns (2,513 commands, 207 checkpoints). Together they exercise nine battles
+and 47 Force drains. These are selected-path comparisons, not full-deck admission.
+
+`tests/native-engine/gemp/complete-match-provenance.json` records exact fixture,
+source and deck identities. The Java harness drives an unmodified pinned GEMP
+engine using the actual introductory lists, without helper cards, forced destiny
+packs or mid-game state changes. Native setup supplies a lawful shuffle that
+reproduces the recorded opening. Ordered piles, site adjacency, occupants, current
+character values, battle damage/initial attrition and the winner are compared.
+Hands and the layout order of separate systems are normalized; within-system
+site order and every pile order are preserved.
+
+Run the fixed regressions with:
+
+```sh
+node --test tests/native-engine/gemp-match.test.mjs
+node tests/native-engine/gemp-match-replay.mjs tests/native-engine/gemp/complete-matches/ground-b.json.gz
+```
+
+To generate a fresh reference, copy the Java harness into the pinned GEMP
+server's `src/test/java/com/gempukku/swccgo/rules/devices/` directory, mount the
+reference workspace at `/opt/gemp-swccg`, and copy `data/native-proof/manifest.json`
+to `/opt/gemp-swccg/match-manifest.json`. Run the Maven command recorded in
+provenance from the source root. Output is
+`/opt/gemp-swccg/complete-match-results.json`. Fresh GEMP runs use fresh random
+shuffles and may encounter a decision the current adapter does not yet handle;
+unmapped decisions fail rather than being silently skipped.
+
+Ground A's exact earlier harness is retained beside its fixture. Ground B uses
+the current harness, which distinguishes ordinary drawing from an Interrupt's
+"Draw destiny" action and restricts ordinary deployment to hand cards. Both
+fixtures validate their selected action labels during replay. Regression tests
+also reject incomplete games, altered deck lists, changed pile order and an
+incorrect final winner. All 6,820 reference production files were byte-verified
+unchanged. The complete 2,112-test native/proof suite and TypeScript check pass.
+
+The policy passes optional responses and does not choose card-text actions,
+equipment, movement or additional location deployment. It does not exhaustively
+compare offered legal actions or remaining attrition. Broader timing, failed
+Obsession adjudication, vehicles/space, special setup and the entire product
+scope remain required. Production `supports()` remains false; existing GEMP
+paths, studies and saved games are unchanged. This checkpoint changes validation
+and documentation only and does not require a website deployment.

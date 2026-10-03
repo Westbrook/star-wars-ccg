@@ -10,7 +10,7 @@
     "Extend action-specific identity semantics to remaining effects/events, retrieval/search/inspection targets and compound casualties; persona/conversion aliases and target redirection remain. Original duel participants and pending travel movements now have saved references.",
     "Complete generic continuous modifier and prevention/replacement infrastructure; broader persona/uniqueness and characteristic providers. Ordinary explicit persona/title limits and initiated-play history are implemented components, not full admission.",
     "Resolve explicit failed-duel and deeper Chances-chain guards before admitting any deck able to reach them.",
-    "Expand complete-match coverage into executed GEMP parity and remaining reachable cross-card branches. Twenty randomized full 40/60 native test matches now finish and replay exactly; these runs do not prove exhaustive starter rules conformance.",
+    "Expand beyond the two executed complete GEMP/native 60-card match paths into remaining reachable cross-card branches. Native randomized 40/60 runs remain integration evidence; neither corpus proves exhaustive starter rules conformance.",
     "Native durable API, assigned seats, receipt/CAS, CPU dispatch and responsive /matches client are implemented with component/full-match/browser tests. Stronger strategy, independent scheduling if needed, match clocks/capacity, broader deck workflows and production full-match certification remain required.",
     "Broader catalog, vehicles/pilots/passengers, Objectives/special setup, open 40/60 and sealed/deck customization requirements."
   ],
@@ -2206,7 +2206,7 @@
     "nextRequiredVerification": [
       "Resolve the one-failed-destiny-set Vader\u2019s Obsession guard reachable as Reserve Decks empty in an introductory match.",
       "Audit remaining pending loss/target/search and timing behavior across the exact two deck lists, distinguishing unreachable broader-catalog features from reachable starter interactions.",
-      "Execute GEMP complete-match comparisons; seeded native full-match victory/replay is integration evidence, not exhaustive rules certification."
+      "Expand complete GEMP/native comparisons into card-text responses, movement and weapon timing; two completed basic-action paths now match, without certifying unchosen branches."
     ],
     "retainedFullScope": [
       "Full card catalog and reachable timing",
@@ -2215,6 +2215,13 @@
       "Objectives and special setup",
       "CPU/PvP, durable saves/deep links, clocks and capacity",
       "Responsive gameplay UI and preserved GEMP/proof paths"
-    ]
+    ],
+    "completeMatchEvidence": {
+      "provenance": "tests/native-engine/gemp/complete-match-provenance.json",
+      "matches": 2,
+      "nativeCommands": 4071,
+      "comparedCheckpoints": 357,
+      "scope": "Selected paths only; full production admission remains closed."
+    }
   }
 }

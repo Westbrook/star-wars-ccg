@@ -1,0 +1,90 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedOn": "2026-10-03",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCompleteMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "inputManifest": "data/native-proof/manifest.json",
+  "inputManifestSha256": "77afdb7c87f19fde5177672aafdfe7515d5b39898d17b038e146eb3ea8098c93",
+  "decks": [
+    {
+      "id": "intro-light",
+      "side": "light",
+      "cards": 60,
+      "definitions": 33,
+      "orderedBlueprintsSha256": "49c5ec2c109f8edb1cfa7b9a471d5bb60301e78e1e60574565232cfe95541707"
+    },
+    {
+      "id": "intro-dark",
+      "side": "dark",
+      "cards": 60,
+      "definitions": 35,
+      "orderedBlueprintsSha256": "277059fa0f510581ec4c59ba2f392ed6da9522e581a761706fc61815ac0063ec"
+    }
+  ],
+  "unchangedProductionFiles": 6820,
+  "fixtures": [
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/ground-a.json.gz",
+      "sha256": "6f6de8b676b82fdcca1ae660bbcdc653d28bacaf2bbb7b92f3b97d0512524124",
+      "jsonSha256": "df4b06980f25cb4df6d48d6538d3a7bb53449332c62ba50f34d64028b7970a19",
+      "harness": "tests/native-engine/gemp/complete-matches/ground-a-source.java.txt",
+      "harnessSha256": "85529c0ffbdf4a472cb27cd862f8fcf8fefea97c106449713f5054f605ba0c7f",
+      "finished": true,
+      "winner": "dark",
+      "turns": 30,
+      "referenceDecisions": 1041,
+      "nativeCommands": 1558,
+      "comparedCheckpoints": 150,
+      "actions": {
+        "untagged": 426,
+        "activate": 30,
+        "activate-count": 60,
+        "pass": 391,
+        "deploy": 14,
+        "deploy-target": 14,
+        "draw": 36,
+        "drain": 12,
+        "lose": 44,
+        "battle": 6,
+        "forfeit": 8
+      }
+    },
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/ground-b.json.gz",
+      "sha256": "0b49c32fb9919eeac2bb4324f1b521901271191788aae6578ee299e515fba93b",
+      "jsonSha256": "0ffdf45b9b508243e4987ea8542923c90fbf3eb1693b93ba2816b7572e5f8265",
+      "harness": "tests/native-engine/gemp/NativeEngineCompleteMatchOracleTests.java",
+      "harnessSha256": "1dbfbd02f0f1911fbfc5c796c031994eab062504cedabd79df62d15b1ca8fbc8",
+      "finished": true,
+      "winner": "light",
+      "turns": 77,
+      "referenceDecisions": 1831,
+      "nativeCommands": 2513,
+      "comparedCheckpoints": 207,
+      "actions": {
+        "untagged": 566,
+        "activate": 46,
+        "activate-count": 90,
+        "pass": 953,
+        "deploy": 15,
+        "deploy-target": 15,
+        "battle": 3,
+        "forfeit": 8,
+        "draw": 59,
+        "drain": 35,
+        "lose": 41
+      }
+    }
+  ],
+  "scope": "Two completed selected-action paths with exact 60-card introductory lists; no helper cards, forced destiny packs, phase skipping or mid-game state edits. Not exhaustive legal-action or full-card conformance.",
+  "replay": "Reference runs use fresh GEMP random shuffles. Stored traces are fixed regression fixtures. Native setup uses recorded lawful Fisher-Yates choices giving the same opening hand and ordered Reserve; no later random or state correction.",
+  "comparison": "Compare before each substantive action and at final result: ordered Reserve/Force/Used/Lost, unordered hands, location order within each system, table occupants, current Character power/ability/forfeit, and damage/initial attrition during loss payment. Separate system groups are normalized for layout.",
+  "harnessVersions": "Ground A retains its exact executed earlier source. Ground B uses the current harness with exact ordinary-Draw label and hand-only deployment classification. Both traces validate selected raw action labels during native replay.",
+  "limits": [
+    "The policy passes optional responses, deploys characters from hand, activates, draws, drains and battles. It does not choose Interrupts, equipment, movement, additional location deployment or special setup.",
+    "Fixture success does not compare every offered legal action, remaining attrition, every timing boundary or every card effect.",
+    "Unknown GEMP decisions and native mismatches fail replay. A fresh randomized reference run can require additional decision adapters.",
+    "Failed-destiny Obsession adjudication, remaining reachable interactions and broader full-engine/product scope remain required. Production deck admission stays closed."
+  ]
+}
