@@ -1,0 +1,109 @@
+[
+  {
+    "available": false,
+    "name": "excluded-101_5"
+  },
+  {
+    "available": false,
+    "name": "excluded-1_168"
+  },
+  {
+    "values": {
+      "power": 3.0,
+      "immunity": 3.0,
+      "defense": 5.0,
+      "armor": 5.0
+    },
+    "name": "query-false-0"
+  },
+  {
+    "values": {
+      "power": 3.0,
+      "immunity": 3.0,
+      "defense": 5.0,
+      "armor": 5.0
+    },
+    "name": "query-false-2"
+  },
+  {
+    "values": {
+      "power": 3.0,
+      "immunity": 3.0,
+      "defense": 5.0,
+      "armor": 5.0
+    },
+    "name": "query-false--2"
+  },
+  {
+    "values": {
+      "power": 3.0,
+      "immunity": 3.0,
+      "defense": 5.0,
+      "armor": 5.0
+    },
+    "name": "query-true-0"
+  },
+  {
+    "values": {
+      "power": 3.0,
+      "immunity": 3.0,
+      "defense": 5.0,
+      "armor": 5.0
+    },
+    "name": "query-true-2"
+  },
+  {
+    "values": {
+      "power": 3.0,
+      "immunity": 3.0,
+      "defense": 5.0,
+      "armor": 5.0
+    },
+    "name": "query-true--2"
+  },
+  {
+    "values": {
+      "power": 3.0,
+      "immunity": 3.0,
+      "defense": 5.0,
+      "armor": 5.0
+    },
+    "name": "deployment",
+    "spent": 3
+  },
+  {
+    "spent": 3,
+    "name": "transfer",
+    "new": {
+      "power": 3.0,
+      "immunity": 3.0,
+      "defense": 5.0,
+      "armor": 5.0
+    },
+    "old": {
+      "power": 1.0,
+      "immunity": 0.0,
+      "defense": 1.0,
+      "armor": 0.0
+    }
+  },
+  {
+    "values": {
+      "power": 1.0,
+      "immunity": 0.0,
+      "defense": 1.0,
+      "armor": 0.0
+    },
+    "name": "departure"
+  },
+  {
+    "forfeit": 2.0,
+    "name": "hit-5",
+    "hit": false
+  },
+  {
+    "forfeit": 0.0,
+    "name": "hit-6",
+    "hit": true
+  }
+]

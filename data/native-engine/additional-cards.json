@@ -994,5 +994,22 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set14/light/Card14_009.java"
+  },
+  {
+    "gempId": "5_109",
+    "name": "Mandalorian Armor",
+    "side": "dark",
+    "type": "Device",
+    "subType": "Character",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Dark/large/mandalorianarmor.gif",
+    "text": "Use 3 Force to deploy on any Imperial or alien (except Vader or Boba Fett). Character is power +2, has armor = 5 and is immune to attrition < 3.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_109.java"
   }
 ]

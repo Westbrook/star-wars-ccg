@@ -1,4 +1,7 @@
 import {deployed} from './deployment';
+import {assertArmorEquipment, isArmorDevice, recordArmor} from './armor-equipment';
+import {hasCharacterArmor} from './stat-modifiers';
+import {hasPersona} from './persona';
 import {cardVersion} from './identity';
 import {attachmentAttempt, assertAttachmentAttempt, validAttachmentAttempt, type AttachmentAttempt} from './attachment';
 import {atSite, cardDefinition, isWarrior, name, system} from './board';
@@ -15,7 +18,7 @@ type Payload = {attachment?: AttachmentAttempt; card?: string; target?: string; 
 export const isMine = (blueprint: string) => ['1_162', '1_322'].includes(blueprint);
 const mining = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side && ['1_18', '1_186'].includes(c.blueprint));
 const isTraining = (bp: string) => ['1_64', '1_221'].includes(bp);
-const devices: Record<string, number> = {'1_201': 1, '1_207': 1, '1_40': 1, '1_35': 1};
+const devices: Record<string, number> = {'1_201': 1, '1_207': 1, '1_40': 1, '1_35': 1, '5_109': 3};
 const act = (id: string, label: string, handler: string, p: Payload = {}, payment?: Payment, source?: string): Action => ({id, label, handler: 'equipment:' + handler, payload: p as Json, ...(payment ? {payment} : {}), ...(source ? {source} : {})});
 const data = (r: Resolution | Decision) => ('action' in r ? r.action.payload : r.payload) as Payload;
 const event = (w: Window) => w.event as {kind?: string; card?: string; site?: string; cards?: string[]} | undefined;
@@ -29,6 +32,7 @@ function validHost(m: Match, blueprint: string, host: string, side: Side): boole
   if (blueprint === '1_35' || weapons[blueprint]) return isWarrior(m, host);
   if (blueprint === '1_40') return ['Rebel', 'Alien'].includes(def.subType);
   if (blueprint === '1_207') return ['Imperial', 'Alien'].includes(def.subType);
+  if (isArmorDevice(blueprint)) return ['Imperial', 'Alien'].includes(def.subType) && !hasPersona(m,host,'VADER') && !hasPersona(m,host,'BOBA_FETT');
   return isTraining(blueprint) && (isWarrior(m, host) || def.subType !== 'Droid');
 }
 function deployActions(m: Match, side: Side, reactSite?: string, via?: string): Action[] {
@@ -126,7 +130,9 @@ export function equipmentResolve(m: Match, r: Resolution): void {
   if (kind === 'equipment:attach') {
     const c = m.cards[p.card!], host = m.cards[p.target!], transfer = p.attachment!.transfer;
     if (!validAttachmentAttempt(m, p.attachment!) || !validHost(m, c.blueprint, host.id, side)) {if (c.zone === 'playing') moveCard(m, c.id, 'lost'); return;}
+    const hadArmor = isArmorDevice(c.blueprint) && hasCharacterArmor(m,host.id);
     if (!transfer) moveCard(m, c.id, 'table'); c.attachedTo = host.id; c.location = host.location;
+    if (isArmorDevice(c.blueprint)) recordArmor(m,c.id,host.id,hadArmor);
     if (p.mode) recordEquipment(m).training[c.id] = p.mode;
     if (transfer) openWindow(m, 'response', other(side), {kind: 'transferred', card: c.id}); else deployed(m, c.id);
   } else if (kind === 'equipment:macroscan') {moveCard(m, p.card!, 'table'); deployed(m, p.card!);}
@@ -183,6 +189,7 @@ export function equipmentView(m: Match, seat: Side): Json {
   return {peek: d?.kind === 'decision' && d.handler === 'equipment:peek' && d.side === seat ? data(d).cards!.map(id => ({...m.cards[id]})) : []};
 }
 export function assertEquipment(m: Match): void {
+  assertArmorEquipment(m);
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'equipment:attach') {const p = data(f); assertAttachmentAttempt(m, p.attachment!, p.card!, p.target!);}
   const s = equipmentState(m), raw = m.data.equipment as {turn: number} | undefined;
   if (raw && (!Number.isSafeInteger(raw.turn) || raw.turn < 1 || raw.turn > m.turn.number)) throw Error('Invalid equipment turn.');

@@ -1665,3 +1665,11 @@ armor, maneuver and forfeit grants; comprehensive doubled-card text/power is
 still unfinished. Vehicle piloting/unpiloted values, creatures/Dejarik,
 conditional text cancellation, broad provider cards and full native admission
 remain in scope. No new standalone Rules Lab scenario is introduced.
+
+### Attached armor and definition/reset context
+
+Mandalorian Armor (`5_109`) now deploys/transfers for 3 Force onto eligible own ground Imperials/aliens, excluding Vader and Boba Fett personas. It participates in existing deployment responses, Comlink reacts, cancellation, uniqueness, original-instance validation and attachment loss. Its continuous power +2, armor 5 and immunity to attrition < 3 feed actual weapon defense and battle damage queries. Production full-match admission remains closed.
+
+An attachment record binds source and bearer table instances and preserves whether armor **defined** a missing attribute or **reset** an existing one when deployment/transfer resolved. Transfers replace that record; removal ends its effects. AR p28 explicitly uses Mandalorian Armor as the example: newly defined armor can be modified, while pre-existing armor is reset to an unmodifiable value. Additive-only armor does not invent an attribute. A defined zero remains an existing attribute.
+
+`armor-equipment.test.mjs` includes 30 checks of deployment legality/cost, transfer/cancellation/react, saved identity and privacy, definition/reset ordering, actual lightsaber hits and immunity at damage entry. The four executed tests in `gemp/NativeEngineArmorOracleTests.java` produce 13 observations: 11 agree, while two show the pinned engine's unconditional `ResetArmorModifier` disregarding the official modifiable-definition example. `armor-provenance.json` records the official adjudication and unchanged 6,820 production-source files. The reference inputs arrange component boards; they do not certify a full deck or every native regression. Crossing-over, persona replacement, inactive/aboard/captured states, text cancellation and additional providers remain required engine scope. No new study was added.

@@ -1,0 +1,44 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T09:03:01.365749+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineArmorOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineArmorOracleTests.java",
+  "harnessSha256": "e66fea085c3a53591f52fbe019659d78a672810a463966afd2d927e96f64040b",
+  "junitTests": 4,
+  "observations": 13,
+  "matchingObservations": 11,
+  "officialRuleDifferences": 2,
+  "results": "armor-results.json",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "officialRulebook": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "scope": [
+    "Actual Mandalorian Armor deployment and transfer with Force measurements at deployment phase, source departure, both represented Vader exclusions, and two actual Obi-Wan lightsaber attacks.",
+    "Six modifier observations install production armor definitions/additions before or after actual card deployment; native independently executes the deployment and query."
+  ],
+  "differences": [
+    {
+      "cases": [
+        "query-false-2",
+        "query-false--2"
+      ],
+      "nativeArmor": [
+        7,
+        3
+      ],
+      "gempArmor": [
+        5,
+        5
+      ],
+      "adjudication": "AR p28 Resets - Examples explicitly says Mandalorian Armor defines modifiable armor on a previously unarmored character. Existing armor instead receives an unmodifiable reset. Pinned Card5_109 always supplies ResetArmorModifier. Native follows the explicit official example."
+    }
+  ],
+  "limitations": [
+    "Current ground Character context. Crossing-over, persona replacement, inactive/captured/aboard states, text cancellation and general providers remain incomplete.",
+    "Transfer into existing armor, original-instance checks, Comlink react/cancellation, damage threshold and saved-state validation have native regression tests; not all have individually executed GEMP cases.",
+    "Turn modifiers are controlled fixture providers; this is not full granting-card or deck admission.",
+    "Full native matches remain gated and the broader engine objective remains unfinished."
+  ]
+}

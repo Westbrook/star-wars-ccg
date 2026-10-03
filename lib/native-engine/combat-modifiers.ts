@@ -1,4 +1,5 @@
 import {armedWithLightsaber} from './weapon-state';
+import {attachedArmor} from './armor-equipment';
 import {cardDefinition} from './definitions';
 import {referenceCard, sameCard, assertCardReference, type CardReference} from './identity';
 import type {Json, Match} from './types';
@@ -52,7 +53,7 @@ export function attritionImmunityValues(m: Match,id: string): {lessThan:number;e
     const alone=!!c.location && !Object.values(m.cards).some(o=>o.id!==id && o.zone==='table' && o.owner===c.owner && o.location===c.location && !o.attachedTo && ['Character','Vehicle','Starship'].includes(cardDefinition(m,o.id).type));
     value=5+(alone?1:0)+(armedWithLightsaber(m,id)?1:0);
   }
-  const baseLess=['9_109','4_2'].includes(c.blueprint) || mods.some(p=>p.kind==='immunity-full') ? Infinity : Math.max(value,...mods.filter(p=>p.kind==='immunity-less-than').map(p=>p.amount));
+  const baseLess=['9_109','4_2'].includes(c.blueprint) || mods.some(p=>p.kind==='immunity-full') ? Infinity : Math.max(value,attachedArmor(m,id).length?3:0,...mods.filter(p=>p.kind==='immunity-less-than').map(p=>p.amount));
   const baseExact=Math.max(0,...mods.filter(p=>p.kind==='immunity-exact').map(p=>p.amount));
   const change=additive(mods.filter(p=>p.kind==='immunity-change'),m);
   const less=baseLess>0?baseLess+change:0,exact=baseExact>0?baseExact+change:0;

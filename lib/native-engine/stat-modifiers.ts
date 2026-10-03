@@ -1,4 +1,5 @@
 import {cardDefinition} from './definitions';
+import {attachedArmor} from './armor-equipment';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {sides, type Json, type Match, type Side} from './types';
 export type Statistic = 'defense' | 'armor' | 'maneuver' | 'forfeit';
@@ -33,6 +34,7 @@ export function assertStatModifiers(m:Match):void{
 }
 export function statModifiers(m:Match,id:string,stat:Statistic):StatModifier[]{
  const active=entries(m).filter(p=>p.target.id===id&&p.stat===stat&&sameCard(m,p.target)&&(p.duration==='turn'?p.turn===m.turn.number:sameCard(m,p.source)));
+ if(stat==='armor')for(const p of attachedArmor(m,id))active.push({...p,stat,kind:p.mode,amount:5,duration:'source',function:'attached-armor',cumulative:false,by:'both'});
  const grouped=new Map<string,StatModifier>(),result:StatModifier[]=[];
  for(const p of active){
   if(p.cumulative){result.push(p);continue;}
@@ -45,6 +47,11 @@ export const printedStat=(m:Match,id:string,stat:string):number|undefined=>{
  const value=(cardDefinition(m,id).stats as Record<string,string>)[stat];
  if(value===undefined)return undefined;if(!Number.isFinite(Number(value)))throw Error('Statistic needs a printed-value provider: '+stat);return Number(value);
 };
+/** A defined/reset zero is an existing attribute; an additive modifier alone
+ * cannot supply an attribute to a character that does not have it. */
+export function hasCharacterArmor(m:Match,id:string):boolean{
+ return printedStat(m,id,'armor')!==undefined || statModifiers(m,id,'armor').some(p=>p.kind==='define'||p.kind==='reset');
+}
 /** Armor and maneuver are not invented by additive modifiers. A definition can
  * provide a missing attribute; a reset wins over additions and competing resets. */
 export function characterAttribute(m:Match,id:string,stat:'armor'|'maneuver'):number{
