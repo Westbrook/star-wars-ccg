@@ -130,7 +130,7 @@ kernel test is not evidence that a card's printed behavior is implemented.
    engine coverage; they are not implicitly admitted by these primitives.
 4. Bind native matches to durable service transactions, command receipts and
    authenticated seats. The proof service has this machinery, but it is not yet
-   wired to this engine. Add native CPU decisions and shared match delivery.
+   wired to this engine. Connect the native CPU dispatcher and shared match service to the client.
 5. Verify full-match GEMP/rule conformance, process recovery, concurrency,
    performance and phone/tablet/desktop gameplay before opening the game gate.
 
@@ -1002,8 +1002,9 @@ engine deadlines on interaction; autonomous CPU scheduling and game clocks remai
 future required service work.
 
 The internal `readComputer`/`computerCommand` methods expose only the computer's
-seat to a future trusted scheduler. No HTTP operation can impersonate it. This
-checkpoint stores CPU matches but does not implement a strategic bot or its loop.
+seat to trusted server code. HTTP accepts an authorized advance request, never
+a client-selected computer move. The bounded policy and dispatcher are described
+below; independent background scheduling remains outstanding.
 Production still uses `premiereRules.supports() === false`, so creating full
 matches returns `DECK_NOT_ADMITTED` until the reachable rules gate is satisfied.
 Existing saved proof games, proof URLs and GEMP routes are unchanged.
