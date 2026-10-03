@@ -1,0 +1,187 @@
+[
+  {
+    "name": "deploy-1",
+    "total": 0.0,
+    "ordinaryPresent": 1.0,
+    "individual": 1.0,
+    "lightControls": true,
+    "presence": false,
+    "spent": 1,
+    "attached": true
+  },
+  {
+    "name": "deploy-2",
+    "total": 0.0,
+    "ordinaryPresent": 2.0,
+    "individual": 1.0,
+    "lightControls": true,
+    "presence": false,
+    "spent": 1,
+    "attached": true
+  },
+  {
+    "name": "deploy-3",
+    "total": 1.0,
+    "ordinaryPresent": 3.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "spent": 1,
+    "attached": true
+  },
+  {
+    "name": "deploy-4",
+    "total": 2.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "spent": 1,
+    "attached": true
+  },
+  {
+    "name": "molator-after-mind",
+    "total": 2.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "spent": 4,
+    "power": 8,
+    "draws": 0
+  },
+  {
+    "name": "moved",
+    "total": 2.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true
+  },
+  {
+    "name": "query-add",
+    "total": 6.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "battleAbility": 6.0,
+    "draws": 1
+  },
+  {
+    "name": "query-minimum-reset",
+    "total": 0.5,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": true,
+    "presence": false,
+    "battleAbility": 0.5,
+    "draws": 0
+  },
+  {
+    "name": "query-protect",
+    "total": 4.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "battleAbility": 4.0,
+    "draws": 1
+  },
+  {
+    "name": "query-protect-battle",
+    "total": 4.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "battleAbility": 1.0,
+    "draws": 0
+  },
+  {
+    "name": "query-protect-high-reset",
+    "total": 6.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "battleAbility": 6.0,
+    "draws": 1
+  },
+  {
+    "name": "query-protect-low-reset",
+    "total": 4.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "battleAbility": 4.0,
+    "draws": 1
+  },
+  {
+    "name": "query-reset",
+    "total": 1.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "battleAbility": 1.0,
+    "draws": 0
+  },
+  {
+    "name": "query-reset-battle",
+    "total": 2.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "battleAbility": 2.0,
+    "draws": 0
+  },
+  {
+    "name": "query-subtract",
+    "total": 2.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "battleAbility": 2.0,
+    "draws": 0
+  },
+  {
+    "name": "query-zero",
+    "total": 0.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": true,
+    "presence": false,
+    "battleAbility": 0.0,
+    "draws": 0
+  },
+  {
+    "name": "reduced",
+    "total": 7.0,
+    "ordinaryPresent": 9.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true
+  },
+  {
+    "name": "target-lowered",
+    "total": 2.0,
+    "ordinaryPresent": 4.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true,
+    "attached": true,
+    "hostAbility": 5.0
+  },
+  {
+    "name": "vader",
+    "total": 10.0,
+    "ordinaryPresent": 10.0,
+    "individual": 1.0,
+    "lightControls": false,
+    "presence": true
+  }
+]

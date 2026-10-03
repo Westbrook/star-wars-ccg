@@ -1,3 +1,4 @@
+import {locationAbility} from './location-ability';
 import {ability} from './ability';
 import {canPlayCard, isUnique} from './persona';
 import {cardDefinition} from './definitions';
@@ -17,7 +18,7 @@ export const name = (m: Match, id: string) => cardDefinition(m, id).name;
 export const system = (m: Match, site: string) => premiereSites[m.cards[site]?.blueprint]?.system;
 export const atSite = (m: Match, site: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.location === site && !c.attachedTo && cardDefinition(m, c.id).type === 'Character');
 export const adjacent = (m: Match, a: string, b: string) => m.locations.includes(a) && m.locations.includes(b) && system(m, a) === system(m, b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
-export const abilityAt = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0);
+export const abilityAt = (m: Match, side: Side, site: string) => locationAbility(m, side, site, atSite(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0));
 export const presence = (m: Match, side: Side, site: string) => abilityAt(m, side, site) >= 1;
 export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + premiereSites[m.cards[id].blueprint].icons[side], 0);
 

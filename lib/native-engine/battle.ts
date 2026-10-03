@@ -1,3 +1,4 @@
+import {locationAbility} from './location-ability';
 import {tradedPower, type AbilityTrade} from './battle-effects';
 import {ability} from './ability';
 import {battleDrawPolicy, assertBattleDrawModifiers, type BattleDrawModifier} from './battle-destiny';
@@ -121,7 +122,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
       }
     }
     if (m.turn.phase === 'battle' && (!b || b.stage === 'complete')) for (const site of m.locations) {
-      if (!battleHistory(m).sites.includes(name(m, site)) && sides.every(s => eligibleAt(m, s, site).reduce((n,c) => n + ability(m,c.id),0) >= 1))
+      if (!battleHistory(m).sites.includes(name(m, site)) && sides.every(s => locationAbility(m, s, site, eligibleAt(m, s, site).reduce((n,c) => n + ability(m,c.id),0)) >= 1))
         actions.push(act('battle:' + site, 'Battle at ' + name(m, site), 'begin', {site}, {[side]: 1}));
     }
   }
@@ -198,7 +199,7 @@ export function battleAutomatic(m: Match, w: Window): RequiredAction[] {
   // Only after the current action resolves: never abandon its costs, destiny or
   // pending choices. Presence loss during damage does not terminate the battle.
   if (!b || !['begin', 'weapons', 'power'].includes(b.stage) || m.stack.some(f => f.kind === 'resolution' && !['battle:begin', 'battle:power', 'battle:totals', 'battle:destiny-next', 'battle:destiny-select', 'battle:damage'].includes(f.action.handler))) return [];
-  if (sides.every(s => participatingAbility(m, s) >= 1)) return [];
+  if (sides.every(s => locationAbility(m, s, b.site, participatingAbility(m, s)) >= 1)) return [];
   return [{...act('battle-premature-end', 'End battle: presence removed', 'premature'), actor: b.initiator}];
 }
 export function battleResolve(m: Match, r: Resolution): void {

@@ -1,0 +1,26 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-03T06:29:33.404067+00:00",
+  "harness": "NativeEngineLocationAbilityOracleTests.java",
+  "harnessSha256": "bfb209b7d3692ccba2fc0c86ec243f5f508205e6bf4030a4170707913686dae2",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineLocationAbilityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "tests": 5,
+  "observations": 19,
+  "matchingObservations": 19,
+  "productionFilesVerified": 6820,
+  "scope": "Actual Affect Mind deployment onto Obi-Wan against 1/2/3/4 opposing ability; paid cost, attachment, individual vs total ability, ordinary ability present, presence and control. Actual deployment plus controlled Dark Jedi ability/movement checks. A controlled host ability change during deployment verifies selected target retention. Actual Molator action after Affect Mind uses unreduced ordinary present ability. Ten synthetic grants exercise production aggregate add/reset/reduction-prevention/battle-destiny ordering.",
+  "differences": [],
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "references": [
+    "AR p103 Affect Mind erratum: while present at a site. Pinned Card1_043 omits the explicit site wording; all actual reference boards here are ground sites.",
+    "AR p29: modifying or resetting a total does not modify individual cards; Affect Mind and Leia, Rebel Princess are examples.",
+    "AR pp43,54: presence and ending battle before damage.",
+    "GEMP LocationControl: total additions, battle-destiny-only additions, then lowest eligible reset; reduction prevention skips decreasing general modifiers/resets but not battle-only reductions.",
+    "GEMP getTotalAbilityPresentAtLocation intentionally sums individual ability without aggregate modifiers; Card1_225 uses that query to bound payment."
+  ],
+  "limits": "Current ground engine; no vehicles/aboard/captured/inactive or crossing-over behavior claimed. Host leave/return and movement while pending, source/turn lifetime, unique limits, corruption, early battle ending, Alter and multi-react drain coverage have native tests beyond these reference observations. Generic modifier providers are synthetic, not named card certification. Full admission remains closed; earlier targeting/return and other recorded GEMP differences remain unresolved."
+}

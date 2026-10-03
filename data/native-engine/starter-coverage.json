@@ -2059,6 +2059,22 @@
         "tests/native-engine/gemp/ability-provenance.json"
       ],
       "scope": "Current Character ability, fractional presence, reset/base-double/add, scoped permissions and battle-destiny separation; Scramble and K'lor'slug/Molator table Effects; Sense retains original numerical target. 19 GEMP records: 18 match, one explicit synthetic droid-reset difference resolved in favor of official unmodifiable-zero rule. 111 definitions include metadata-only Darth Vader; full card/deck admission closed."
+    },
+    "locationAbility": {
+      "implementation": [
+        "lib/native-engine/location-ability.ts",
+        "lib/native-engine/ability-effects.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/battle-effects.ts"
+      ],
+      "testFiles": [
+        "tests/native-engine/location-ability.test.mjs"
+      ],
+      "oracleEvidence": [
+        "tests/native-engine/gemp/location-ability-provenance.json"
+      ],
+      "scope": "Ground location total ability, reset/reduction prevention and battle-only modifier ordering. Actual Affect Mind deployment/attachment and continuous site restriction with Dark Jedi suppression; individual ability and ordinary present-ability costs stay separate. 19 matching GEMP records.112 definitions;32 focused native tests. Full card/deck admission remains closed."
     }
   },
   "wholeMatchEvidence": {

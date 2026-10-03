@@ -1398,3 +1398,45 @@ the pilot/persona exception check; his other text is not admitted. Dejarik and
 holosite behavior, dynamic icons, inactive/captured/aboard states, broader
 prevention/immunity, additional providers and full card/deck admission remain
 unfinished. No new standalone study or production admission bypass was added.
+
+### Location-wide ability and Affect Mind
+
+`location-ability.ts` applies modifiers to a location's total without changing any
+individual Character. Presence/control, battle initiation and premature ending
+use the appropriate contributing group and then the adjusted total. Battle
+destiny applies its separate adjustments before total resets. A reduction
+prevention skips general reductions and decreasing resets; it does not suppress
+battle-destiny-only reductions. Competing eligible resets choose the lowest
+value, and fractional values remain exact. Source/turn lifetimes and original
+location references survive JSON recovery.
+
+`ability-effects.ts` implements Affect Mind (1_43) deployment: choose an own Jedi,
+pay 1 Force, allow deployment responses, then attach to that original character.
+The chosen host can move or change numerical ability during responses; an
+original instance that leaves cannot be replaced by a new visit to table. The
+Effect follows its bearer, leaves with it, obeys unique/per-turn play limits and
+can be canceled by Alter. Its current erratum applies only while present at a
+site (AR p103), and a Dark Jedi present suppresses the reduction. Later loss of
+Jedi ability does not detach an already deployed Effect.
+
+Ordinary ability **present** for K'lor'slug/Molator costs remains the sum of
+individual ability, matching GEMP's distinct query. Thus four Stormtroopers under
+Affect Mind have total ability 2, but can still use 4 Force with Molator; this
+adds 4 power and leaves zero ability available for battle destiny. A general
+ability reset is applied after that battle-only subtraction. Sense and weapon
+defense still read the individual character, never the modified location total.
+
+Evidence: `tests/native-engine/location-ability.test.mjs` (32 focused tests) and
+`gemp/location-ability-provenance.json` (19 fresh matching observations; 6,820
+production reference files unchanged). Actual card comparisons cover deployment
+costs and attachment, opposing ability 1–4, Dark Jedi suppression, a host's
+numerical change during deployment, and Molator. General modifier grants are
+explicitly synthetic production-query checks. Additional native tests cover
+Alter, source/turn expiry, bearer movement/loss, saved corruption, presence loss,
+and successive Comlink reacts that cancel a drain only when presence is restored.
+
+There are now 112 explicit definitions. This does not admit complete decks or
+all Affect Mind interactions: vehicle/aboard/captured/inactive and crossing-over
+rules, other provider cards, broader prevention/replacement, full match
+conformance and the complete original product scope remain unfinished. Existing
+GEMP and Rules Lab paths remain intact; no new standalone study was added.

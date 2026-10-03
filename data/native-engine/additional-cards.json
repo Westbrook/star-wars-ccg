@@ -843,5 +843,20 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_168.java"
+  },
+  {
+    "gempId": "1_43",
+    "name": "Affect Mind",
+    "side": "light",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/affectmind.gif",
+    "text": "Use 1 Force to deploy on one of your Jedi. While present at a site, unless a Dark Jedi is also present, opponent's total ability at same location is reduced by 2.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_043.java"
   }
 ]

@@ -1,3 +1,5 @@
+import {abilityEffectActions, abilityEffectInitiate, abilityEffectResolve, assertAbilityEffects} from './ability-effects';
+import {assertLocationAbility} from './location-ability';
 import {battleEffectActions,battleEffectAutomatic,battleEffectInitiate,battleEffectResolve,assertBattleEffects} from './battle-effects';
 import {assertAbility} from './ability';
 import {forceEffectActions, forceEffectInitiate, forceEffectResolve, forceEffectChoices, forceEffectChoose, assertForceEffects} from './force-effects';
@@ -45,12 +47,13 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   automatic: (m, w) => [...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
     if (r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
-    if (r.action.handler.startsWith('battle-effect:')) battleEffectInitiate(m,r);
+    if (r.action.handler.startsWith('ability-effect:')) abilityEffectInitiate(m,r);
+    else if (r.action.handler.startsWith('battle-effect:')) battleEffectInitiate(m,r);
     else if (r.action.handler.startsWith('force-effect:')) forceEffectInitiate(m, r);
     else if (r.action.handler.startsWith('cancel:')) cancellationInitiate(m, r);
     else if (r.action.handler.startsWith('gambler:')) gamblersLuckInitiate(m, r);
@@ -77,6 +80,7 @@ export const premiereRules: Rules = {
   },
   resolve: (m, r, context) => {
     if (resolveCancelledReact(m, r)) { /* Shared cancellation owns react disposal and restrictions. */ }
+    else if (r.action.handler.startsWith('ability-effect:')) abilityEffectResolve(m,r);
     else if (r.action.handler.startsWith('battle-effect:')) battleEffectResolve(m,r);
     else if (r.action.handler.startsWith('force-effect:')) forceEffectResolve(m, r);
     else if (r.action.handler.startsWith('cancel:')) cancellationResolve(m, r);
@@ -142,6 +146,8 @@ export const premiereRules: Rules = {
   view: (m, seat, now) => ({...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
     assertAbility(match);
+    assertLocationAbility(match);
+    assertAbilityEffects(match);
     assertBattleEffects(match);
     assertForceEffects(match);
     assertSecretPlans(match);
