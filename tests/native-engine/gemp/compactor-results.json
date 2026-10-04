@@ -1,0 +1,35 @@
+[
+  {
+    "boringUsed": true,
+    "scompLost": true,
+    "kind": "boring"
+  },
+  {
+    "regularMove": false,
+    "ownBattle": false,
+    "used": true,
+    "weaponAttached": true,
+    "troopMoved": true,
+    "kind": "relocate",
+    "droidMoved": true,
+    "forcePaid": 0
+  },
+  {
+    "regularMove": false,
+    "ownBattle": true,
+    "used": true,
+    "weaponAttached": true,
+    "troopMoved": true,
+    "kind": "relocate",
+    "droidMoved": true,
+    "forcePaid": 0
+  },
+  {
+    "kind": "crush",
+    "locationRemains": true,
+    "interruptLost": true,
+    "attachmentsLost": true,
+    "actorChooses": true,
+    "enemyLost": true
+  }
+]

@@ -77,13 +77,15 @@ function equipmentBonus(m: Match, id: string, stat: 'power' | 'forfeit'): number
   return bonus;
 }
 
+export const deployWithoutPresence = (m:Match,side:Side,site:string):boolean => side==='light'&&m.cards[site]?.blueprint==='1_125'&&gameTextActive(m,site);
+
 export function deploymentPayment(m: Match, id: string, site: string, aboard = false, ignorePresence = false): Payment | null {
   if (cardDefinition(m, id).status === 'metadata-only') return null;
   const card = m.cards[id], def = cardDefinition(m, id);
   if (shieldDeployment(m,id,site)) return null;
   if (def.type !== 'Character' || !m.locations.includes(site) || !aboard && !isSite(m,site)) return null;
   const side = card.owner, blueprint = card.blueprint;
-  if (!ignorePresence && !forceIcons(m,site,side) && !presence(m, side, site)) return null;
+  if (!ignorePresence && !deployWithoutPresence(m,side,site) && !forceIcons(m,site,side) && !presence(m, side, site)) return null;
   const onTable = Object.values(m.cards).filter(c => c.zone === 'table');
   if (!canPlayCard(m, id)) return null;
   if (['101_2', '101_5'].includes(blueprint) && onTable.filter(c => c.owner === other(side) && cardDefinition(m, c.id).type === 'Character' && isUnique(m, c.id)).length >= 2) return null;
@@ -168,6 +170,7 @@ export function drainAmount(m: Match, side: Side, site: string): number {
   let value = forceIcons(m,site,other(side));
   if(sectorFamily(m,site)==='clouds'&&m.cards[site].owner!==side&&gameTextActive(m,site)&&controls(m,side,site))value++;
   const blueprint = m.cards[site].blueprint;
+  if(blueprint==='1_125'&&side==='light'&&gameTextActive(m,site)&&controls(m,side,site))value++;
   value+=hothDrainModifier(m,side,site)+otsdDrainModifier(m,side,site);
   if(sectorFamily(m,site)==='big-one'&&gameTextActive(m,site)&&controls(m,side,site)){
     if(m.cards[site].owner===side)value+=sectorsAt(m,sectorSystem(m,site)!,'asteroid').filter(id=>sectorFamily(m,id)==='field').length;

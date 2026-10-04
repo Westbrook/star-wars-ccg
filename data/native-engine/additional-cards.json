@@ -3445,5 +3445,68 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_250.java"
+  },
+  {
+    "gempId": "1_125",
+    "name": "Death Star: Trash Compactor",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/deathstartrashcompactor.gif",
+    "text": "Light: You may deploy here without presence. If you control, Force drain +1 here. Dark: (none).",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Interior",
+      "Mobile"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_125.java"
+  },
+  {
+    "gempId": "1_235",
+    "name": "Boring Conversation Anyway",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/boringconversationanyway.gif",
+    "text": "Cancel either: Report To Lord Vader, Scomp Link Access, Rebel Planners, Rebel Reinforcements, Gift of the Mentor, Panic, Don't Get Cocky, Skywalkers, Demotion, Combined Attack or Surprise Assault.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_235.java"
+  },
+  {
+    "gempId": "1_278",
+    "name": "We're All Gonna Be A Lot Thinner!",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/wereallgonnabealotthinner.gif",
+    "text": "Everything in Trash Compactor is crushed (lost).",
+    "stats": {
+      "destiny": "6"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_278.java"
+  },
+  {
+    "gempId": "1_89",
+    "name": "Into The Garbage Chute, Flyboy",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/intothegarbagechuteflyboy.gif",
+    "text": "If Trash Compactor is on table, cancel any battle just initiated at another Death Star site by moving (for free) all your characters involved to the Trash Compactor.",
+    "stats": {
+      "destiny": "6"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_089.java"
   }
 ]

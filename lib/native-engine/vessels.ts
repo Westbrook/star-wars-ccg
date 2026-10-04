@@ -1,3 +1,4 @@
+import {deployWithoutPresence} from './board';
 import {otsdDeployModifier} from './otsd-ships';
 import {forceIcons} from './location-icons';
 import {hothDeployModifier} from './hoth-text';
@@ -22,7 +23,7 @@ import {other,type Match,type Action,type Window,type Side,type Resolution,type 
 type Payload={card:string;target:CardReference;role?:AboardRole;source?:CardReference;from?:string;previous?:AboardRole;react?:true;grant?:CardReference;reactSite?:CardReference};
 const roles:AboardRole[]=['pilot','driver','passenger'];
 const label=(m:Match,id:string)=>cardDefinition(m,id).name;
-const hasDeployPresence=(m:Match,id:string,side:Side)=>!!forceIcons(m,id,side)||presence(m,side,id);
+const hasDeployPresence=(m:Match,id:string,side:Side)=>deployWithoutPresence(m,side,id)||!!forceIcons(m,id,side)||presence(m,side,id);
 export function vesselDeploysAt(m:Match,id:string,location:string,withPilot=false,ignorePresence=false):boolean{
  const r=vesselRule(m,id);if(!r||shieldDeployment(m,id,location)||!m.locations.includes(location)||!ignorePresence&&!hasDeployPresence(m,location,m.cards[id].owner))return false;
  const d=cardDefinition(m,location),exterior=d.subType==='Site'&&(d.icons as string[]).includes('Exterior');

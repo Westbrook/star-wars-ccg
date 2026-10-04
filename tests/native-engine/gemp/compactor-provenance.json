@@ -1,0 +1,17 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T22:58:08.799561+00:00",
+  "files": {
+    "NativeEngineCompactorOracleTests.java": "fe285557838610e1161883b7f39fffd5f36113991ab07b54c5b1dc7532199bab",
+    "compactor-results.json": "bf1c0a886c1366295974bfb2c439943d8f26b8d7a23e07fbb9c078f488cd933a"
+  },
+  "junitTests": 3,
+  "observations": 4,
+  "unchangedProductionFiles": 6820,
+  "scope": "Both battle initiators relocate troop and droid with weapon at zero Force and no regular move; actor-ordered crushing with attached weapon loss; Boring Conversation cancels Scomp without a Dark character.",
+  "limitations": [
+    "Carrier movement, refresh, physical-instance guards, CPU policy and location modifiers have native integration coverage, not executed GEMP comparisons.",
+    "Full card catalog, special setup/capture/timing and complete production admission remain unfinished."
+  ]
+}

@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-12';
+export const computerPolicy = 'native-cpu-13';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -166,6 +166,18 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (kind === 'fire') return 70 + stat(b,'power');
     if (kind === 'rescue') return hits.includes(b) && value(b) > value(a) ? 115 + value(b) - value(a) : -5;
     if(kind==='service')return a==='deploy'&&(rules?.values?.sites[c.id.split(':')[3]]?.[opponent]?.ability??0)>=1?-10:25;
+    if(kind==='crush')return cards.get(a)?.owner===opponent?60+value(a):10-value(a);
+    if(kind==='compactor'&&a==='play'){
+      if(cards.get(b)?.blueprint==='1_89'){
+        const site=rules?.battle?.site;
+        return site&&strength(site,opponent)>strength(site,side)?65:-10;
+      }
+      const site=view.table.find(c=>c.blueprint==='1_125'&&!c.coveredBy&&!c.blownAway)?.id;
+      if(!site)return -10;
+      const victims=view.table.filter(c=>c.location===site&&['Character','Creature','Vehicle','Starship','Weapon','Device'].includes(definition(c.blueprint).type));
+      const weight=(seat:Side)=>victims.filter(c=>c.owner===seat).reduce((n,c)=>n+Math.max(1,stat(c.id,'forfeit')+stat(c.id,'power')),0);
+      return weight(opponent)>weight(side)?45+weight(opponent)-weight(side):-10;
+    }
     if(kind==='scomp'){const mode=c.id.split(':')[3];return a==='finish'?30:mode==='drain'?(view.turn.side===side?-10:65):mode==='cancel'||mode==='table'?75:5;}
     if(kind==='orders'){
       if(a==='take')return 30+value(b);
