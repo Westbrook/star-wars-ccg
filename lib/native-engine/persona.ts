@@ -52,7 +52,7 @@ const playHandlers = new Set(['pair:deploy','vessel:deploy','vessel:aboard','tra
   'equipment:attach','equipment:macroscan','equipment:mine','gaffi:equip','saber:equip','travel:run','travel:escape']);
 const interruptProviders = ['noble:', 'off-edge:', 'edge:', 'stew:', 'gravel:', 'trooper-assault:', 'duel-interrupt:', 'cancel:','interrupt:','duel:','revival:','assault:','accident:','stun:','scan:','scavenge:','worse:','doomed:','stakes:','substitution:','gambler:'];
 export function actionPlayCard(m: Match, a: Action): string | undefined {
-  const p = a.payload as {card?: string} | null, id = p?.card;
+  const p = a.payload as {card?: string | {id:string}} | null, id = typeof p?.card === 'string' ? p.card : p?.card?.id;
   if (!id || m.cards[id]?.zone !== 'hand') return;
   if (playHandlers.has(a.handler) || cardDefinition(m, id).type === 'Interrupt' && interruptProviders.some(prefix => a.handler.startsWith(prefix))) return id;
 }

@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T04:54:38.168303+00:00",
+  "files": {
+    "NativeEngineCargoReactOracleTests.java": "8b1bf1b94a5ed7ced493f3265d905bbb73db52dc396e4075d401b3f1f087cb00",
+    "cargo-react-results.json": "eb85ef3a8db50bc30a195904d61ebcf0df543777f65bcef94a413fdb8875b376"
+  },
+  "junitTests": 1,
+  "observations": 7,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCargoReactOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp89\u201390,170\u2013171",
+  "scope": "Comlink reactions deploying TIE Scout, Black 3 and Ubrikkian into an Imperial-Class Star Destroyer during battle initiation. Sense cancellation of starship/vehicle and grant departure/return.",
+  "method": [
+    "Actual GEMP Comlink/Sense actions. Starting fleets, characters, Force and destiny are fixtures.",
+    "Seven complete result records compared with native command replays including JSON restoration and the weapons boundary.",
+    "Carried ships and vehicles participate in the carrier battle; being landed prevents their ordinary power contribution. This checkpoint preserves that distinction."
+  ],
+  "limitations": [
+    "Component coverage, not full engine or deck admission. No new standalone study.",
+    "Light CZ-3/Corvette cargo, capacity changes, distant/moved/returned carriers, physical/title locks, card play allowance and stale references have additional native-only coverage.",
+    "Cargo reaction movement, ship/vehicle-specific permission providers, nested crew participation and aboard movement Interrupts remain required; existing nested crew GEMP discrepancy is not resolved by this checkpoint."
+  ]
+}

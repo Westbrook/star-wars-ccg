@@ -1,0 +1,58 @@
+[
+  {
+    "mode": "scout",
+    "cost": 2,
+    "cargoAboard": true,
+    "cargoInHand": false,
+    "cargoBattles": true,
+    "carrierBattles": true
+  },
+  {
+    "mode": "vehicle",
+    "cost": 2,
+    "cargoAboard": true,
+    "cargoInHand": false,
+    "cargoBattles": true,
+    "carrierBattles": true
+  },
+  {
+    "mode": "unpiloted",
+    "cost": 1,
+    "cargoAboard": true,
+    "cargoInHand": false,
+    "cargoBattles": true,
+    "carrierBattles": true
+  },
+  {
+    "mode": "cancel-scout",
+    "cost": 2,
+    "cargoAboard": false,
+    "cargoInHand": true,
+    "cargoBattles": false,
+    "carrierBattles": true
+  },
+  {
+    "mode": "cancel-vehicle",
+    "cost": 2,
+    "cargoAboard": false,
+    "cargoInHand": true,
+    "cargoBattles": false,
+    "carrierBattles": true
+  },
+  {
+    "mode": "source-leave",
+    "cost": 2,
+    "cargoAboard": true,
+    "cargoInHand": false,
+    "cargoBattles": true,
+    "carrierBattles": true
+  },
+  {
+    "mode": "source-return",
+    "cost": 2,
+    "cargoAboard": true,
+    "cargoInHand": false,
+    "cargoBattles": true,
+    "carrierBattles": true
+  }
+]

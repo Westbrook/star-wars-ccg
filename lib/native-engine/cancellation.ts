@@ -2,7 +2,7 @@ import {ability, mayBeHighestAbility, mayApplySenseAbility} from './ability';
 import {cardDefinition, name} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
 import {topLevel} from './equipment';
-import {resolveCancelledReact} from './ground';
+import {resolveCancelledReact,reactCard} from './ground';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {openWindow, retireAction} from './runtime';
 import {moveCard} from './state';
@@ -47,7 +47,7 @@ export function cancellationActions(m: Match, w: Window, side: Side): Action[] {
     if (responding) {
       const target = responding.action.source, p = responding.action.payload as {react?: boolean; card?: string};
       const bound = {targetIndex: m.stack.length - 2, actionId: responding.action.id, windowSerial: w.serial};
-      if (p?.react && p.card && sense(bp)) offer({card, target: p.card, mode: 'react', ...bound});
+      if (p?.react && reactCard(responding.action) && sense(bp)) offer({card, target:reactCard(responding.action)!, mode: 'react', ...bound});
       if (target && m.cards[target]?.zone === 'playing') {
         const tbp = m.cards[target].blueprint, type = cardDefinition(m, target).type;
         if (sense(bp) && alter(tbp) || alter(bp) && sense(tbp)) offer({card, target, mode: 'counter', ...bound}, true);
@@ -128,7 +128,7 @@ export function assertCancellation(m: Match): void {
       const f = m.stack[p.targetIndex!], w = m.stack[p.targetIndex! + 1];
       if (!Number.isSafeInteger(p.targetIndex) || p.targetIndex! < 0 || p.targetIndex! >= index || f?.kind !== 'resolution' || f.action.id !== p.actionId ||
           w?.kind !== 'window' || w.timing !== 'response' || w.event !== undefined || w.serial !== p.windowSerial ||
-          f.action.handler !== 'core:canceled' && (p.mode === 'react' ? !(f.action.payload as {react?: boolean; card?: string})?.react || (f.action.payload as {card?: string}).card !== p.target : f.action.source !== p.target)) throw Error('Invalid pending cancellation target.');
+          f.action.handler !== 'core:canceled' && (p.mode === 'react' ? !(f.action.payload as {react?: boolean})?.react || reactCard(f.action) !== p.target : f.action.source !== p.target)) throw Error('Invalid pending cancellation target.');
       if (p.mode === 'react' && !sense(bp)) throw Error('Only Sense cancels reacts.');
     }
     if (r.action.handler === 'cancel:result' && (!p.draw || !validDraw(m, p.draw, r.actor) || typeof p.eligible !== 'boolean')) throw Error('Invalid cancellation destiny.');

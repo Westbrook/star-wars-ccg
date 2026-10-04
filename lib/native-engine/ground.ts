@@ -27,12 +27,13 @@ export const canDeployAsReact = (m: Match, id: string) => !usage(m).reacted.incl
 /** Canceled hand deployment returns its card, never refunds Force, and prevents
  * another non-unique copy of that title deploying as a react this turn (AR p170).
  * Movement keeps its original board position and only locks that physical card. */
+export function reactCard(action:Action):string|undefined {const p=action.payload as {card?:string|CardReference}|undefined;return typeof p?.card==='string'?p.card:p?.card?.id;}
 export function resolveCancelledReact(m: Match, r: Resolution): boolean {
   const p = payload(r.action);
   if (!r.cancelled || !p?.react) return false;
-  const deployment = ['pair:deploy','vessel:deploy','vessel:aboard','ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
+  const deployment = ['transport:deploy','pair:deploy','vessel:deploy','vessel:aboard','ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
   if (!deployment && !['ground:move','vehicle-react:move'].includes(r.action.handler)) throw Error('Unknown canceled react.');
-  const card = m.cards[p.card!];
+  const card = m.cards[reactCard(r.action)!];
   const returning = r.action.handler==='pair:deploy' ? [card,m.cards[p.pilot!.id]] : [card];
   for (const card of returning) {
   registerReact(m, card.id);
