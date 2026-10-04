@@ -1,0 +1,29 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T15:05:44.732289+00:00",
+  "files": {
+    "NativeEngineHeavyWeaponsOracleTests.java": "b1ee3a79dd3d6b92fdad4fb76ff2f37ecca24579ab97d23dfa7cee98dcb1d040",
+    "heavy-results.json": "06ff4308e5c5c26e5c78acc55cc2eada36f5ff1bbe1094b9ea9126b2403d6d93"
+  },
+  "junitTests": 3,
+  "observations": 9,
+  "exactAgreements": 9,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineHeavyWeaponsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp60/63/94\u201397; printed AT-AT Cannon and Golan Laser Battery",
+  "scope": "Normal cannon and artillery firing, adjacent battle targeting, powering and shared user weapon allowances.",
+  "method": [
+    "Six actual GEMP AT-AT Cannon shots: character, vehicle and landed starfighter at same and adjacent sites.",
+    "Two actual Golan shots: same-site generator power and adjacent-site power droid. One power-source location query observation.",
+    "Native comparisons match hit, two-Force cost, user participation, base defense and post-shot firing restrictions. Native-only checks cover creature attacks, artillery forfeiture, cancellation, removed/returned targets and corrupted continuations."
+  ],
+  "limitations": [
+    "Full engine remains unfinished and production deck admission is closed. No standalone study added. These component boards do not certify full matches.",
+    "Power-droid and Portable Fusion Generator cards provide metadata for powering fixtures; their other card text, deployment and effects remain required.",
+    "Other artillery, artillery remotes, movement permissions, other heavy weapons, targeting immunity/redirection, and general destruction providers remain required.",
+    "GEMP rows do not exercise creature shots, forfeiture, cancellations or source/target departure; these are native-only checks. Fixtures use controlled cancellation/state interventions rather than implemented cancellation cards.",
+    "Target-type modifiers are sampled before the total response window. Recomputing continuous modifiers if their source leaves during that later window remains required; pinned GEMP DrawDestinyEffect re-queries its final total after responses. These unchanged-source observations do not establish that interaction."
+  ]
+}

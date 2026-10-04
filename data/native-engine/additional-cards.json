@@ -98,7 +98,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler\u2019s Luck",
+    "name": "Gambler’s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -2910,5 +2910,98 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_115.java"
+  },
+  {
+    "gempId": "3_75",
+    "name": "Golan Laser Battery",
+    "side": "light",
+    "type": "Weapon",
+    "subType": "Artillery",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/golanlaserbattery.gif",
+    "text": "Deploy on any exterior planet site. Your warrior present may target a creature, character or vehicle at same or adjacent site using 2 Force. Draw destiny. Add 2 if targeting a creature or character. Target hit if total destiny > defense value.",
+    "stats": {
+      "destiny": "4",
+      "deploy": "3",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_075.java"
+  },
+  {
+    "gempId": "3_8",
+    "name": "EG-4 (Eegee-Four)",
+    "side": "light",
+    "type": "Character",
+    "subType": "Droid",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/eg4eegeefour.gif",
+    "text": "Adds 1 to power of each of your droids present, except power droids. * Destiny equals zero, but if drawn as a battle destiny where you have less power than opponent, your total power present is doubled (once per battle).",
+    "stats": {
+      "destiny": "0",
+      "deploy": "1",
+      "power": "0",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Hoth"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_008.java"
+  },
+  {
+    "gempId": "1_175",
+    "name": "EG-6 (Eegee-Six)",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Droid",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/eg6.gif",
+    "text": "Adds 1 to power of each of your droids present, except power droids. *Destiny equals zero, but if drawn as a battle destiny where you have less power than opponent, your total power present is doubled (once per battle).",
+    "stats": {
+      "destiny": "0",
+      "deploy": "1",
+      "power": "0",
+      "forfeit": "3"
+    },
+    "icons": [],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_175.java"
+  },
+  {
+    "gempId": "3_96",
+    "name": "Portable Fusion Generator",
+    "side": "dark",
+    "type": "Device",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/portablefusiongenerator.gif",
+    "text": "Deploy on any warrior. When that warrior fires a blaster rifle or artillery weapon, adds 1 to each of that weapon's destiny draws. Also, may add 1 to power of one droid present.",
+    "stats": {
+      "destiny": "3",
+      "deploy": "0"
+    },
+    "icons": [
+      "Hoth"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_096.java"
+  },
+  {
+    "gempId": "4_13",
+    "name": "Portable Fusion Generator",
+    "side": "light",
+    "type": "Device",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Light/large/portablefusiongenerator.gif",
+    "text": "Deploy on any warrior. When that warrior fires a blaster rifle or artillery weapon, adds 1 to each of that weapon's destiny draws. Also, may add 1 to power of one droid present.",
+    "stats": {
+      "destiny": "3",
+      "deploy": "0"
+    },
+    "icons": [
+      "Dagobah"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_013.java"
   }
 ]

@@ -7,8 +7,8 @@ export type WeaponUse = {turn: number; users: Record<string, string[]>; versions
 const useState = (m: Match): WeaponUse => {const s = m.data.weaponUse as WeaponUse | undefined; return s?.turn === m.turn.number ? s : {turn: m.turn.number, users: {}};};
 /** AR pp79/94: one different weapon each turn; extra printed warrior icons
  * allow that many different weapons, but not repeated use of the same one. */
-export function canUseWeapon(m: Match, id: string): boolean {
-  const weapon = m.cards[id], host = weapon?.attachedTo;
+export function canUseWeapon(m: Match, id: string, user?: string): boolean {
+  const weapon = m.cards[id], host = user ?? weapon?.attachedTo;
   if (!host || weapon.zone !== 'table' || m.cards[host]?.zone !== 'table') return false;
   const b = m.data.battle as {stage: string; knockedWeapons?: string[]} | undefined;
   if (b && b.stage !== 'complete' && b.knockedWeapons?.includes(id)) return false;
@@ -21,9 +21,9 @@ export function canUseWeapon(m: Match, id: string): boolean {
   const icons = def.icons.filter(icon => icon === 'Warrior').length;
   return icons > 1 ? used.length < icons && !repeated : !used.length || repeated;
 }
-export function useWeapon(m: Match, id: string): void {
-  if (!canUseWeapon(m, id)) throw Error('Weapon use is restricted for this card.');
-  const s = useState(m), host = m.cards[id].attachedTo!;
+export function useWeapon(m: Match, id: string, user?: string): void {
+  if (!canUseWeapon(m, id, user)) throw Error('Weapon use is restricted for this card.');
+  const s = useState(m), host = user ?? m.cards[id].attachedTo!;
   const ids = s.users[host] ??= [], versions = (s.versions ??= {})[host] ??= ids.map(() => 0);
   if (!ids.some((card, i) => card === id && versions[i] === cardVersion(m, id))) {ids.push(id); versions.push(cardVersion(m, id));}
   m.data.weaponUse = s as unknown as Json;

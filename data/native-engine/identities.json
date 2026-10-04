@@ -2359,5 +2359,60 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_115.java"
+  },
+  "3_75": {
+    "keywords": [
+      "LASER_CANNON"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_075.java"
+  },
+  "3_8": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "POWER"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_008.java"
+  },
+  "1_175": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "POWER"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_175.java"
+  },
+  "3_96": {
+    "keywords": [
+      "FUSION_GENERATOR"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_096.java"
+  },
+  "4_13": {
+    "keywords": [
+      "FUSION_GENERATOR"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_013.java"
   }
 }

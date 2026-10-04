@@ -1,3 +1,4 @@
+import {artillery} from './artillery';
 import {sectorAdmits,cloudStatModifier} from './sectors';
 import {capacityPending} from './capacity-loss';
 import {addedAstromechCapacity} from './navigation';
@@ -52,7 +53,7 @@ export const pilotAboard=(m:Match,id:string)=>permanentPilot(m,id)||occupants(m,
 export const operational=(m:Match,id:string)=>!!vesselRule(m,id)&&!landed(m,id)&&(pilotAboard(m,id)||occupants(m,id).some(c=>c.aboardRole==='driver'&&crewActive(m,c.id)));
 export const enclosedOccupant=(m:Match,id:string)=>!!m.cards[id]?.aboardRole&&!!vesselRule(m,m.cards[id].attachedTo!)?.enclosed;
 export const characterPresent=(m:Match,id:string)=>cardDefinition(m,id).type==='Character'&&!belowDecks(m,id)&&!enclosedOccupant(m,id)&&(!m.cards[id].attachedTo||!!m.cards[id].aboardRole);
-export const unitsAt=(m:Match,location:string):Card[]=>Object.values(m.cards).filter(c=>c.zone==='table'&&c.location===location&&!c.coveredBy&&(cardDefinition(m,c.id).type==='Character'&&!belowDecks(m,c.id)&&(!c.attachedTo||!!c.aboardRole)||isVessel(m,c.id)&&(!c.attachedTo||inCargo(m,c.id))));
+export const unitsAt=(m:Match,location:string):Card[]=>Object.values(m.cards).filter(c=>c.zone==='table'&&c.location===location&&!c.coveredBy&&(artillery(m,c.id)||cardDefinition(m,c.id).type==='Character'&&!belowDecks(m,c.id)&&(!c.attachedTo||!!c.aboardRole)||isVessel(m,c.id)&&(!c.attachedTo||inCargo(m,c.id))));
 export function canDrive(m:Match,id:string):boolean {
  const d=cardDefinition(m,id);return d.type==='Character'&&(d.subType!=='Droid'||['VEHICLE','BATTLE','PROTOCOL'].some(model=>isModel(m,id,model))||(d.icons as string[]).some(i=>i==='Pilot'||i==='Warrior'));
 }

@@ -1,0 +1,81 @@
+[
+  {
+    "case": "cannon-character-same",
+    "hit": true,
+    "forceSpent": 2,
+    "userParticipating": true,
+    "baseDefense": 1.0,
+    "repeatAvailable": false,
+    "otherWeaponUsable": false
+  },
+  {
+    "case": "cannon-character-adjacent",
+    "hit": true,
+    "forceSpent": 2,
+    "userParticipating": false,
+    "baseDefense": 1.0,
+    "repeatAvailable": false,
+    "otherWeaponUsable": false
+  },
+  {
+    "case": "cannon-vehicle-same",
+    "hit": true,
+    "forceSpent": 2,
+    "userParticipating": true,
+    "baseDefense": 0.0,
+    "repeatAvailable": false,
+    "otherWeaponUsable": false
+  },
+  {
+    "case": "cannon-vehicle-adjacent",
+    "hit": true,
+    "forceSpent": 2,
+    "userParticipating": false,
+    "baseDefense": 0.0,
+    "repeatAvailable": false,
+    "otherWeaponUsable": false
+  },
+  {
+    "case": "cannon-fighter-same",
+    "hit": true,
+    "forceSpent": 2,
+    "userParticipating": true,
+    "baseDefense": 0.0,
+    "repeatAvailable": false,
+    "otherWeaponUsable": false
+  },
+  {
+    "case": "cannon-fighter-adjacent",
+    "hit": true,
+    "forceSpent": 2,
+    "userParticipating": false,
+    "baseDefense": 0.0,
+    "repeatAvailable": false,
+    "otherWeaponUsable": false
+  },
+  {
+    "case": "golan-character-same",
+    "hit": true,
+    "forceSpent": 2,
+    "userParticipating": true,
+    "baseDefense": 1.0,
+    "repeatAvailable": false,
+    "otherWeaponUsable": false
+  },
+  {
+    "case": "golan-character-adjacent",
+    "hit": true,
+    "forceSpent": 2,
+    "userParticipating": false,
+    "baseDefense": 1.0,
+    "repeatAvailable": false,
+    "otherWeaponUsable": false
+  },
+  {
+    "case": "power",
+    "generator": true,
+    "adjacentGenerator": false,
+    "presentDroid": true,
+    "adjacentDroid": false
+  }
+]

@@ -1,3 +1,4 @@
+import {artillery} from './artillery';
 import {forceIcons} from './location-icons';
 import {hothDeployModifier,hothDrainModifier,hothGenerationModifier,hothWeaponModifier,hothForfeitModifier} from './hoth-text';
 import {hothRank,generatorAllowed,shieldDeployment,shielded} from './hoth';
@@ -101,6 +102,7 @@ function mosEisleyBonus(m: Match, id: string): number {
 }
 
 export function power(m: Match, id: string, defending = false, active: (id: string) => boolean = () => true): number {
+  if(artillery(m,id))return 0;
   if(isVessel(m,id))return vesselPower(m,id);
   const card = m.cards[id], site = card.location, blueprint = card.blueprint;
   let value = printed(m, id, 'power');
