@@ -1,3 +1,4 @@
+import {isVessel} from './occupancy';
 import {referenceCard} from './identity';
 import {recordTableLossOrigins} from './loss-origin';
 import {moveCard} from './state';
@@ -60,13 +61,19 @@ export function placeOutFromTable(m: Match, host: string): string[] {
   orderNext(m, lost);
   return lost;
 }
-/** Returning to hand is neither losing nor forfeiting. Every descendant goes
- * to its own owner's hand, without Lost ordering or forfeiture credit. */
+/** Returning a carrier to hand loses its occupants and attachments. Other
+ * returning hosts retain their established attachment destinations. */
 export function returnToHand(m: Match, hosts: string[]): string[] {
   const ids = tableGroup(m, hosts);
-  removeGroup(m, ids, 'hand');
+  const lost = new Set(hosts.filter(id=>isVessel(m,id)).flatMap(id=>[...tableGroup(m,[id])].filter(child=>child!==id)));
+  if(lost.size){
+    const refs=[...lost].map(id=>referenceCard(m,id));
+    removeGroup(m,ids,'leaving');for(const id of ids)if(!lost.has(id))moveCard(m,id,'hand');
+    recordTableLossOrigins(m,refs);orderNext(m,[...lost]);
+  }else removeGroup(m, ids, 'hand');
   return [...ids];
 }
+
 function orderNext(m: Match, remaining: string[], used: string[] = []): void {
   if (!remaining.length) {for (const id of used) moveCard(m,id,'used'); return;}
   const side = remaining.some(id => m.cards[id].owner === m.turn.side) ? m.turn.side : m.cards[remaining[0]].owner;

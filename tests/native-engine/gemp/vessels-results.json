@@ -1,0 +1,82 @@
+[
+  {
+    "mode": "scout-pilot",
+    "deploymentCost": 2,
+    "hostPower": 3,
+    "ability": 4.0,
+    "presence": true,
+    "pilot": true,
+    "passenger": false,
+    "freePassengers": 1
+  },
+  {
+    "mode": "scout-passenger",
+    "deploymentCost": 2,
+    "hostPower": 1,
+    "ability": 2.0,
+    "presence": true,
+    "pilot": false,
+    "passenger": true,
+    "freePassengers": 1
+  },
+  {
+    "mode": "scout-shared",
+    "deploymentCost": 2,
+    "hostPower": 3,
+    "ability": 5.0,
+    "presence": true,
+    "pilot": true,
+    "passenger": true,
+    "freePassengers": 0
+  },
+  {
+    "mode": "landed",
+    "deploymentCost": 2,
+    "hostPower": 0,
+    "ability": 4.0,
+    "presence": true,
+    "pilot": true,
+    "passenger": false,
+    "freePassengers": 1
+  },
+  {
+    "mode": "crawler-driver",
+    "deploymentCost": 3,
+    "hostPower": 3,
+    "ability": 1.0,
+    "presence": true,
+    "pilot": false,
+    "passenger": false,
+    "freePassengers": 7
+  },
+  {
+    "mode": "crawler-passenger",
+    "deploymentCost": 3,
+    "hostPower": 0,
+    "ability": 1.0,
+    "presence": true,
+    "pilot": false,
+    "passenger": true,
+    "freePassengers": 6
+  },
+  {
+    "mode": "unpiloted",
+    "deploymentCost": 3,
+    "hostPower": 0,
+    "ability": 0.0,
+    "presence": false,
+    "pilot": false,
+    "passenger": false,
+    "freePassengers": 7
+  },
+  {
+    "mode": "space-battle",
+    "darkPower": 4,
+    "lightPower": 9,
+    "darkDamage": 5,
+    "darkAttrition": 5,
+    "afterDamage": 2,
+    "afterAttrition": 2,
+    "crewLost": true
+  }
+]

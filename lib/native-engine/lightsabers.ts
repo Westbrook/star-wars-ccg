@@ -1,3 +1,4 @@
+import {characterPresent} from './occupancy';
 import {defenseValue} from './defense';
 import {deployed} from './deployment';
 import {ability} from './ability';
@@ -20,7 +21,7 @@ const queue = (m: Match, step: string, p: Payload, side: Side) => m.stack.push({
 export const lightsabers = ['1_155','1_157','1_324'];
 const validHost = (m: Match, weapon: string, host: string) => m.cards[weapon].blueprint==='1_155'?isWarrior(m,host):hasPersona(m,host,m.cards[weapon].blueprint==='1_157'?'OBIWAN':'VADER');
 const cost = (m: Match, weapon: string, host: string, deployment=false) => m.cards[weapon].blueprint==='1_155'?Math.max(0,(deployment?Math.ceil:Math.floor)(7-ability(m,host))):0;
-const validTarget = (m: Match, target: string, side: Side) => members(m,other(side)).includes(target);
+const validTarget = (m: Match, target: string, side: Side) => characterPresent(m,target)&&members(m,other(side)).includes(target);
 type Drain = {site: string; saberUsed?: string[]; saberBonus?: string[]};
 const pendingDrain = (m: Match) => [...m.stack].reverse().find(r=>r.kind==='resolution' && r.action.handler==='ground:drain') as Resolution | undefined;
 export function lightsaberDrainBonus(m: Match, p: Drain): number {return new Set((p.saberBonus??[]).map(id=>name(m,id))).size;}
@@ -47,7 +48,7 @@ export function lightsaberActions(m: Match, w: Window, side: Side): Action[] {
       const d=parent.action.payload as Drain;
       if(card.location===d.site && !m.cards[card.attachedTo].attachedTo && !d.saberUsed?.includes(card.id))actions.push(action('drain',{card:card.id,site:d.site}));
     }
-    if (w.timing !== 'response' || (w.event as {kind?: string})?.kind !== 'battle-weapons' || b?.stage !== 'weapons' || card.zone !== 'table' || !card.attachedTo || !validHost(m,card.id,card.attachedTo) || !members(m, side).includes(card.attachedTo) || b.fired.includes(card.id) || !canUseWeapon(m, card.id)) continue;
+    if (w.timing !== 'response' || (w.event as {kind?: string})?.kind !== 'battle-weapons' || b?.stage !== 'weapons' || card.zone !== 'table' || !card.attachedTo || !validHost(m,card.id,card.attachedTo) || !members(m, side).includes(card.attachedTo)||!characterPresent(m,card.attachedTo) || b.fired.includes(card.id) || !canUseWeapon(m, card.id)) continue;
     for (const target of members(m, other(side)).filter(id => validTarget(m, id, side))) {
       const a = action('fire', {card: card.id, target, site: b.site}); a.label += ' at ' + name(m, target); a.payment={[side]:cost(m,card.id,card.attachedTo)}; actions.push(a);
     }

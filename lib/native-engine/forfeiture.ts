@@ -36,7 +36,7 @@ export function assertForfeitures(m: Match): void {
     if(!p || !/^forfeiture-[1-9]\d*$/.test(p.id) || Number(p.id.slice(11))>m.serial || !['lost','used'].includes(p.destination) || !m.locations.includes(p.site) || ids.has(p.id) ||
        !['forfeiture:leave','forfeiture:result'].includes(f.action.handler))throw Error('Invalid pending forfeiture.');
     assertCardReference(m,p.target);
-    if(p.target.zone!=='table' || m.cards[p.target.id].owner!==f.actor || cardDefinition(m,p.target.id).type!=='Character')throw Error('Invalid forfeiture target.');
+    if(p.target.zone!=='table' || m.cards[p.target.id].owner!==f.actor || !['Character','Vehicle','Starship'].includes(cardDefinition(m,p.target.id).type))throw Error('Invalid forfeiture target.');
     ids.add(p.id);
   }
 }

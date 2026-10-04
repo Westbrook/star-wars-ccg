@@ -1,3 +1,4 @@
+import {isVessel,permanentAbility,enclosedOccupant,landed} from './occupancy';
 import {cardDefinition} from './definitions';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {hasPersona} from './persona';
@@ -38,6 +39,7 @@ function active(m: Match, id: string): AbilityModifier[] {
   return [...result, ...grouped.values()];
 }
 export function ability(m: Match, id: string): number {
+  if(isVessel(m,id))return permanentAbility(m,id);
   const def = cardDefinition(m, id);
   // AR p77: droids have no ability; comparison treats it as unmodifiable zero.
   // No printed ability attribute cannot acquire ability from
@@ -52,9 +54,11 @@ export function ability(m: Match, id: string): number {
 }
 export const mayBeHighestAbility = (m: Match, id: string) => !active(m, id).some(p => p.kind === 'highest-exclude');
 export const mayApplySenseAbility = (m: Match, id: string) => !active(m, id).some(p => p.kind === 'sense-prevent');
-export const pilotAtSite = (m: Match, id: string) => m.cards[id]?.zone === 'table' && !!m.cards[id].location && m.locations.includes(m.cards[id].location!) &&
+export const pilotAtSite = (m: Match, id: string) => m.cards[id]?.zone === 'table' && !!m.cards[id].location && m.locations.includes(m.cards[id].location!) && cardDefinition(m,m.cards[id].location!).subType==='Site' &&
   cardDefinition(m, id).type === 'Character' && (cardDefinition(m, id).icons as string[]).includes('Pilot');
 export function abilityForBattleDestiny(m: Match, id: string): number {
+  if(isVessel(m,id))return landed(m,id)?0:permanentAbility(m,id);
+  const aboard=m.cards[id];if(enclosedOccupant(m,id)&&(aboard.aboardRole==='passenger'||landed(m,aboard.attachedTo!)))return 0;
   if (cardDefinition(m, id).subType === 'Droid') return 0; // AR p77: unmodifiable zero.
   const mods = active(m, id), card = m.cards[id];
   const scramble = pilotAtSite(m, id) && !card.attachedTo && !hasPersona(m, id, 'VADER') && Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '4_37' && c.owner !== card.owner);

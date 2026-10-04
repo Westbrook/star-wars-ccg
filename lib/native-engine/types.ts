@@ -12,6 +12,7 @@ export type Card = {
   zone: Zone;
   location?: string;
   attachedTo?: string;
+  aboardRole?: import('./occupancy').AboardRole;
   coveredBy?: string;
   /** Inactive, face-up card on an Effect; distinct from an active attachment. */
   stackedOn?: string;

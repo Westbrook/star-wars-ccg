@@ -1,3 +1,5 @@
+import {gameTextActive} from './game-text';
+import {unitsAt,characterPresent,isVessel,vesselRule,vesselPower,operational} from './occupancy';
 import {sunsdownSpyFree} from './nighttime';
 import {larsPowerBonus, larsForfeitBonus} from './lars';
 import {selectedPrintedDestiny} from './destiny-values';
@@ -26,10 +28,10 @@ export function printed(m: Match, id: string, property: string): number {
 }
 export const name = (m: Match, id: string) => cardDefinition(m, id).name;
 export const system = (m: Match, site: string) => premiereLocations[m.cards[site]?.blueprint]?.system;
-export const atSite = (m: Match, site: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.location === site && !c.attachedTo && cardDefinition(m, c.id).type === 'Character');
+export const atSite = (m: Match, site: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.location === site && characterPresent(m,c.id));
 export const isSite = (m:Match,id:string) => !!m.cards[id] && cardDefinition(m,id).subType==='Site';
 export const adjacent = (m: Match, a: string, b: string) => isSite(m,a) && isSite(m,b) && m.locations.includes(a) && m.locations.includes(b) && system(m, a) === system(m, b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
-export const abilityAt = (m: Match, side: Side, site: string) => locationAbility(m, side, site, atSite(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0));
+export const abilityAt = (m: Match, side: Side, site: string) => locationAbility(m, side, site, unitsAt(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0));
 export const presence = (m: Match, side: Side, site: string) => abilityAt(m, side, site) >= 1;
 export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + premiereLocations[m.cards[id].blueprint].icons[side], 0);
 
@@ -58,10 +60,10 @@ function equipmentBonus(m: Match, id: string, stat: 'power' | 'forfeit'): number
   return bonus;
 }
 
-export function deploymentPayment(m: Match, id: string, site: string): Payment | null {
+export function deploymentPayment(m: Match, id: string, site: string, aboard = false): Payment | null {
   if (cardDefinition(m, id).status === 'metadata-only') return null;
   const card = m.cards[id], def = cardDefinition(m, id);
-  if (def.type !== 'Character' || !m.locations.includes(site) || !isSite(m,site)) return null;
+  if (def.type !== 'Character' || !m.locations.includes(site) || !aboard && !isSite(m,site)) return null;
   const side = card.owner, blueprint = card.blueprint;
   if (!premiereLocations[m.cards[site].blueprint].icons[side] && !presence(m, side, site)) return null;
   const onTable = Object.values(m.cards).filter(c => c.zone === 'table');
@@ -91,6 +93,7 @@ function mosEisleyBonus(m: Match, id: string): number {
 }
 
 export function power(m: Match, id: string, defending = false, active: (id: string) => boolean = () => true): number {
+  if(isVessel(m,id))return vesselPower(m,id);
   const card = m.cards[id], site = card.location, blueprint = card.blueprint;
   let value = printed(m, id, 'power');
   if (isGuard(blueprint) && defending) value += 4;
@@ -114,13 +117,17 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
   if (site && card.owner === 'light' && isWarrior(m, id) && active(id) && Object.values(m.cards).some(c => c.zone === 'table' && c.owner === 'light' && c.blueprint === '101_2' && c.location && active(c.id) && (c.location === site || adjacent(m, c.location, site)))) bonuses.push(1);
   if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') bonuses.push(1);
   if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') bonuses.push(-1);
+  if(site&&isJawa(card.blueprint)&&isSite(m,site)&&(cardDefinition(m,site).icons as string[]).includes('Exterior')&&unitsAt(m,site).some(c=>['1_150','1_309'].includes(c.blueprint)&&operational(m,c.id)&&gameTextActive(m,c.id)&&active(c.id)))bonuses.push(1);
   bonuses.push(equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active),larsForfeitBonus(m,id,active));
   return currentForfeit(m,id,printed(m,id,'forfeit'),bonuses);
 }
 
 export function totalPower(m: Match, side: Side, site: string, defending = false, active: (id: string) => boolean = () => true): number {
-  const members = atSite(m, site).filter(c => c.owner === side && active(c.id));
-  return members.reduce((sum, c) => sum + power(m, c.id, defending, active), 0) + protocolPowerBonus(m,side,site,active) +
+  const members = unitsAt(m, site).filter(c => c.owner === side && active(c.id));
+  const orbit=m.locations.find(id=>['1_127','1_289'].includes(m.cards[id].blueprint));
+  const b=m.data.battle as {site:string;stage:string}|undefined;
+  const orbitBonus=b&&b.stage!=='complete'&&b.site===site&&cardDefinition(m,site).subType==='Site'&&system(m,site)==='Tatooine'&&orbit&&gameTextActive(m,orbit)&&controls(m,side,orbit)?unitsAt(m,orbit).filter(c=>c.owner===side&&cardDefinition(m,c.id).type==='Starship').length:0;
+  return orbitBonus + members.reduce((sum, c) => sum + (cardDefinition(m,c.id).type==='Character'&&!characterPresent(m,c.id)?0:power(m, c.id, defending, active)), 0) + protocolPowerBonus(m,side,site,active) +
     (members.some(c => c.blueprint === '1_196') && members.filter(c => isSpecies(m, c.id, 'TUSKEN_RAIDER') && nonUnique(m, c.id)).length >= 4 ? 2 : 0);
 }
 

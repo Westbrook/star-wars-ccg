@@ -1,3 +1,4 @@
+import {unitsAt,characterPresent,occupants} from './occupancy';
 import {sunsdownAt} from './nighttime';
 import {battleMembers as members} from './participation';
 export {battleMembers as members} from './participation';
@@ -99,7 +100,7 @@ export function syncBattle(m: Match): void {
   syncBattleDamage(m);
   if (!['begin', 'weapons'].includes(b.stage)) return;
   const history = battleHistory(m);
-  for (const c of atSite(m, b.site)) if (!barred(m, c.id) && !history.participants.includes(c.id)) {
+  for (const c of unitsAt(m, b.site)) if (!barred(m, c.id) && !history.participants.includes(c.id)) {
     // leaveTable expires the old instance's turn history. Merely moving away
     // does not, so returning the same instance cannot bypass that restriction.
     if (!b.participants[c.owner].includes(c.id)) b.participants[c.owner].push(c.id);
@@ -108,7 +109,7 @@ export function syncBattle(m: Match): void {
   }
   m.data.battles = history as unknown as Json;
 }
-const eligibleAt = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side && !barred(m, c.id) && !battleHistory(m).participants.includes(c.id));
+const eligibleAt = (m: Match, side: Side, site: string) => unitsAt(m, site).filter(c => c.owner === side && !barred(m, c.id) && !battleHistory(m).participants.includes(c.id));
 export function battleDamage(m: Match, side: Side): number {
   const b = battle(m)!;
   return b.damageLedger && ['power','damage'].includes(b.stage) && !b.premature ? lossRemaining(m, side, b.damageLedger[side]) : b.damage[side];
@@ -158,8 +159,8 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
   if (event(w) === 'battle-weapons') {
     for (const weapon of Object.values(m.cards)) {
       const rule = weapons[weapon.blueprint], host = weapon.attachedTo;
-      if (!rule || weapon.owner !== side || weapon.zone !== 'table' || !host || !members(m, side).includes(host) || !warrior(m, host) || b.fired.includes(weapon.id) || !canUseWeapon(m, weapon.id)) continue;
-      for (const target of members(m, other(side))) actions.push(act('fire:' + weapon.id + ':' + target, 'Fire ' + name(m, weapon.id) + ' at ' + name(m, target), 'fire', {card: weapon.id, target}, {[side]: rule.fire}, weapon.id));
+      if (!rule || weapon.owner !== side || weapon.zone !== 'table' || !host || !members(m, side).includes(host) || !characterPresent(m,host) || !warrior(m, host) || b.fired.includes(weapon.id) || !canUseWeapon(m, weapon.id)) continue;
+      for (const target of members(m, other(side)).filter(id=>characterPresent(m,id))) actions.push(act('fire:' + weapon.id + ':' + target, 'Fire ' + name(m, weapon.id) + ' at ' + name(m, target), 'fire', {card: weapon.id, target}, {[side]: rule.fire}, weapon.id));
     }
   }
   if (event(w) === 'battle-destiny-complete' && sides.every(s => b.destiny[s] !== null && completedBattleDraws(b, s).length === 1)) {
@@ -167,7 +168,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
   }
   if (event(w) === 'battle-damage') {
     for (const id of members(m, side)) {
-      if (battleDamage(m, side) > 0 || b.attrition[side] > 0 || b.hits.includes(id)) actions.push(act('forfeit:' + id, 'Forfeit ' + name(m, id) + ' · ' + forfeit(m, id), 'forfeit', {card: id}));
+      if (battleDamage(m, side) > 0 || b.attrition[side] > 0 || b.hits.includes(id)) actions.push(act('forfeit:' + id, 'Forfeit ' + name(m, id) + ' · ' + forfeit(m, id) + (occupants(m,id).length?' · also loses '+occupants(m,id).length+' aboard':''), 'forfeit', {card: id}));
       if (m.cards[id].blueprint === '1_31') for (const target of members(m, side).filter(t => t !== id && b.hits.includes(t))) actions.push(act('rescue:' + id + ':' + target, 'Forfeit Talz · restore ' + name(m, target), 'rescue', {card: id, target}));
     }
     if (battleDamage(m, side) > 0) {

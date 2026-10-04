@@ -2589,9 +2589,47 @@ new-site nighttime, saved-state rejection, cancellation/redraw and setup layout.
 Playwright verifies attachment inspection, nighttime/system labels and recovery
 with the real match service at desktop, tablet and phone widths.
 
-This is component coverage, not full planet/space certification. Tatooine's
-starship-control power text, ship presence and battles, vehicles, pilots and
-passengers, other power-destiny granting/preventing cards and complete CPU card
-strategy remain unfinished. The CPU uses printed system icons where relevant;
+This is component coverage, not full planet/space certification. Vessel and
+Tatooine ship-control coverage is detailed in the following checkpoint; other
+power-destiny granting/preventing cards and complete CPU card strategy remain
+unfinished. The CPU uses printed system icons where relevant;
 its ground-adjacency estimate stays site-only. Full production match admission
 remains closed, and no standalone Rules Lab study has been added.
+
+### Vessel occupancy and first space combat
+
+Y-wing (`1_147`), TIE Scout (`1_305`) and both Sandcrawlers (`1_150`,
+`1_309`) now have explicit printed pilot/driver/passenger capacities. Actual
+Deploy actions pay Force, retain target-instance bindings through responses and
+emit deployment events. Crew may deploy directly aboard, change capacity during
+their Deploy/Move phases, and freely embark/disembark at sites during Move.
+Capacity choices and previous roles survive serialization and are validated.
+Permanent personnel do not consume additional capacity. Enclosed occupants
+supply presence/ordinary ability, but neither personal battle power nor a target
+for the currently implemented character weapons; only pilots/drivers supply
+battle-destiny ability. Landed ships retain permanent-pilot presence while their
+power and battle-destiny ability are zero. Drivers do not apply pilot bonuses.
+
+Space battles use the existing response, destiny, attrition, damage and ending
+pipeline. Carrier forfeiture credits only the carrier; its crew and attached
+cards leave simultaneously and are ordered into Lost. Returning a carrier to
+hand also loses occupants. Tatooine's ship-control modifier now adds ground
+battle power from controlled orbit. The UI groups crew under their vessel with
+role, operational/landed status, permanent ability and printed capacity. CPU
+preferences deploy pilots/drivers and avoid unlimited embark/disembark loops;
+route planning remains unfinished.
+
+`tests/native-engine/gemp/vessels-provenance.json` records eight matching
+observations from two executed GEMP tests, with all 6820 production files
+unchanged: actual ship/vehicle/crew deployments and a space battle through
+carrier forfeiture. Opposing ship/crew placement and destiny tops are controlled
+reference fixtures. Native comparisons deploy both sides and also check recovery,
+capacity rejection, stale targets, CPU choices and battle completion. Playwright
+uses the real service to reassign crew, resolve responses, refresh and inspect
+cards at 1440/834/390 widths.
+
+This remains component coverage. Landspeed, hyperspace, takeoff/landing,
+simultaneous pilot deployment, open transports, passengers' card-specific text,
+additional ships/vehicles, capture, broad response/prevention providers and the
+full native product scope remain required. Production admission stays closed.
+No new standalone study has been added.

@@ -62,7 +62,7 @@ export function moveCard(match: Match, id: string, zone: Zone, position: 'top' |
     const versions = (match.data.cardVersions ??= {}) as Record<string, number>; versions[id] = nextVersion;
   }
   card.zone = zone;
-  delete card.location; delete card.attachedTo; delete card.coveredBy; delete card.stackedOn;
+  delete card.aboardRole; delete card.location; delete card.attachedTo; delete card.coveredBy; delete card.stackedOn;
   if (isPile(zone)) {
     const pile = match.players[card.owner][zone];
     if (zone === 'reserve') reserveCardAdded(match,card.owner,position === 'top');

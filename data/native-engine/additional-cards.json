@@ -98,7 +98,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler\u2019s Luck",
+    "name": "Gambler’s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -413,7 +413,7 @@
       "Nav Computer",
       "Scomp Link"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_147.java"
   },
   {
@@ -1431,7 +1431,7 @@
       "landspeed": "2"
     },
     "icons": [],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_309.java"
   },
   {
@@ -1484,5 +1484,48 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_230.java"
+  },
+  {
+    "gempId": "1_305",
+    "name": "TIE Scout",
+    "side": "dark",
+    "type": "Starship",
+    "subType": "Starfighter: TIE/SR",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tiescout.gif",
+    "text": "May add 1 pilot and 1 passenger, or 2 passengers. Permanent pilot aboard provides ability of 1.",
+    "stats": {
+      "deploy": "2",
+      "power": "1",
+      "destiny": "4",
+      "forfeit": "3",
+      "maneuver": "1",
+      "hyperspeed": "5"
+    },
+    "icons": [
+      "Pilot",
+      "Nav Computer"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_305.java"
+  },
+  {
+    "gempId": "1_150",
+    "name": "Sandcrawler",
+    "side": "light",
+    "type": "Vehicle",
+    "subType": "Transport",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/sandcrawler.gif",
+    "text": "Deploys only to a Tatooine site. May add 1 driver and 7 passengers. May relocate only to planet sites. Adds 1 to forfeit of each Jawa at same exterior site.",
+    "stats": {
+      "deploy": "3",
+      "power": "3",
+      "destiny": "2",
+      "forfeit": "5",
+      "armor": "3",
+      "landspeed": "2"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_150.java"
   }
 ]

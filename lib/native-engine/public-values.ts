@@ -1,6 +1,7 @@
 import {locationAbility} from './location-ability';
 import {ability} from './ability';
-import {atSite, cardDefinition, forfeit, power, totalPower} from './board';
+import {cardDefinition, forfeit, power, totalPower} from './board';
+import {unitsAt} from './occupancy';
 import {battleMembers} from './participation';
 import type {Battle} from './battle';
 import {sides, type Match} from './types';
@@ -19,7 +20,7 @@ export function publicValues(m: Match) {
   const sites = Object.fromEntries(m.locations.map(site => [site, Object.fromEntries(sides.map(side => {
     const active = activeBattle?.site === site ? (id: string) => participants.has(id) : () => true;
     return [side, {power: totalPower(m, side, site, false, active), defendingPower: totalPower(m, side, site, true, active),
-      ability: locationAbility(m, side, site, atSite(m, site).filter(c => c.owner === side && active(c.id)).reduce((n,c) => n + ability(m,c.id),0))}];
+      ability: locationAbility(m,side,site,unitsAt(m,site).filter(c=>c.owner===side&&active(c.id)).reduce((n,c)=>n+ability(m,c.id),0))}];
   }))]));
   return {characters, sites};
 }

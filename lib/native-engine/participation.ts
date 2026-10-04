@@ -1,3 +1,4 @@
+import {characterPresent} from './occupancy';
 import {cardDefinition} from './definitions';
 import type {Battle} from './battle';
 import type {GroundState} from './ground';
@@ -16,7 +17,7 @@ export function battleMembers(m: Match, side: Side): string[] {
  * cannot supply continuous text or form a pair during that battle (AR p60). */
 export function groundPresent(m: Match, id: string): boolean {
   const c = m.cards[id];
-  if (!c || c.zone !== 'table' || c.attachedTo || c.coveredBy || !c.location || !m.locations.includes(c.location) || cardDefinition(m,id).type !== 'Character') return false;
+  if (!c || c.zone !== 'table' || !characterPresent(m,id) || c.coveredBy || !c.location || !m.locations.includes(c.location) || cardDefinition(m,id).type !== 'Character') return false;
   const b = m.data.battle as Battle | undefined;
   return !b || b.stage === 'complete' || b.site !== c.location || battleMembers(m,c.owner).includes(id);
 }

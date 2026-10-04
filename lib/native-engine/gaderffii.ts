@@ -1,3 +1,4 @@
+import {characterPresent} from './occupancy';
 import {deployed} from './deployment';
 import {isSpecies} from './characteristics';
 import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
@@ -16,7 +17,7 @@ const action = (step: string, p: Payload): Action => ({id: 'gaffi:' + step + ':'
 const queue = (m: Match, step: string, p: Payload, side: Side) => m.stack.push({kind: 'resolution', actor: side, action: action(step, p), cancelled: false});
 const raider = (m: Match, id: string) => isSpecies(m, id, 'TUSKEN_RAIDER');
 const targetWeapons = (m: Match, id: string) => attached(m, id).filter(c => cardDefinition(m, c.id).type === 'Weapon').map(c => c.id);
-const validTarget = (m: Match, target: string, side: Side) => members(m, other(side)).includes(target) && targetWeapons(m, target).length > 0;
+const validTarget = (m: Match, target: string, side: Side) => characterPresent(m,target)&&members(m, other(side)).includes(target) && targetWeapons(m, target).length > 0;
 export function gaderffiiActions(m: Match, w: Window, side: Side): Action[] {
   const actions: Action[] = [], b = battle(m), parent = m.stack.at(-2), reactSite = pendingReactSite(m, w, side);
   for (const card of Object.values(m.cards).filter(c => c.blueprint === '1_315' && c.owner === side)) {
@@ -35,7 +36,7 @@ export function gaderffiiActions(m: Match, w: Window, side: Side): Action[] {
         a.id += ':react' + (via ? ':via:' + via : ''); a.label += ' as a react on ' + name(m, target.id); a.payment = {[side]: 2}; actions.push(a);
       }
     }
-    if (w.timing !== 'response' || b?.stage !== 'begin' || parent?.kind !== 'resolution' || parent.action.handler !== 'battle:begin' || parent.awaitingResponses || parent.cancelled || card.zone !== 'table' || !card.attachedTo || !raider(m, card.attachedTo) || !members(m, side).includes(card.attachedTo) || b.fired.includes(card.id) || !canUseWeapon(m, card.id)) continue;
+    if (w.timing !== 'response' || b?.stage !== 'begin' || parent?.kind !== 'resolution' || parent.action.handler !== 'battle:begin' || parent.awaitingResponses || parent.cancelled || card.zone !== 'table' || !card.attachedTo || !raider(m, card.attachedTo) || !members(m, side).includes(card.attachedTo)||!characterPresent(m,card.attachedTo) || b.fired.includes(card.id) || !canUseWeapon(m, card.id)) continue;
     for (const target of members(m, other(side)).filter(id => validTarget(m, id, side))) {
       const a = action('fire', {card: card.id, target, site: b.site}); a.label += ' at ' + name(m, target); actions.push(a);
     }
