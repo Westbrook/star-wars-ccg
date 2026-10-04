@@ -129,8 +129,8 @@ printed behavior is implemented.
    reactions, destiny, loss/retrieval and victory across randomized full decks. Vehicles,
    pilots, passengers and broader catalog effects remain required for broader
    engine coverage; they are not implicitly admitted by these primitives.
-4. Extend the connected native service/client beyond its authored 60-card lobby
-   to custom 40/60-card decks and sealed play. Complete independent scheduling,
+4. Complete sealed pools and pack-backed deck construction; custom open 40/60-card
+   selection and private saved drafts are connected below. Complete independent scheduling,
    applicable game clocks and capacity validation.
 5. Verify full-match GEMP/rule conformance, process recovery, concurrency,
    performance and phone/tablet/desktop gameplay before opening the game gate.
@@ -3225,3 +3225,13 @@ Two more fixed custom 60-card games replay from ordinary setup to life-force vic
 The ion game includes two successful ionizations. These paths also include misses and failed weapon destiny draws, but neither a successful laser hit nor ion-driven weapon removal; those retain separate component coverage. Reference snapshots compare resulting table/pile state and ship statistics rather than weapon-total scalars directly. No runtime correction was needed for these selected paths. They strengthen whole-game integration evidence without certifying every reachable interaction; production admission remains closed and all outstanding full-engine/product requirements remain.
 
 Nine focused tests bind the evidence and reject altered ship statistics, targets and decks. Twelve Playwright 1.62.1/Chromium 1234 checks resume maneuver chains, ionization, Turbolaser firing and failed torpedo draws through the actual match service and SQLite D1 at 1440/834/390. Pending-action and resolved refresh preserve exact state; ionized and failed-draw summaries are asserted in the UI.
+
+### Private custom decks and native match selection
+
+The native lobby now selects saved open-play 40- or 60-card decks for either side, a separate computer deck, and matching decks when joining a private invitation. The account-owned library can create, copy or edit drafts with searchable card names/text, multiplicity controls and live deck counts. It uses the existing D1 `decks` table under a separate `native-deck:` namespace, preserving retired prototype records. No schema migration or production card admission changes are required.
+
+`/api/match-decks` uses the same trusted gateway identity, same-origin JSON and request-size checks as matches. Drafts may be incomplete or contain unverified cards; the server reports their readiness separately. Optimistic revision checks prevent lost updates, including simultaneous edits. Exact lost-response retries return the saved revision. The match service still validates a frozen card list before seating players; editing a saved deck cannot change a running match. An uncertain match creation is recovered with its original ID, cards and time control before a new table can start.
+
+Six service tests cover privacy, legacy-record preservation, concurrency, retries, forged inputs, current admission and both deck sizes for CPU/PvP. Portable browser checks edit/save/reload at 1440/834/390, create both sizes in both modes, recover interrupted creation, join with a custom guest deck and verify that the production gate stays closed. These UI games use the existing test-only admission override; they do not certify those decks for production.
+
+Sealed pools, the full printed catalog in native deck construction, and all outstanding rules/setup/capture/Objective, scheduling/capacity and full-match conformance requirements remain in scope. This is a connected product workflow, not a new Rules Lab study or permission to play unverified rules.
