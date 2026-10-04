@@ -1,0 +1,48 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedOn": "2026-10-04T20:25:42.533279+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeSealedProductOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "unchangedProductionFiles": 6820,
+  "files": {
+    "tests/native-engine/gemp/NativeSealedProductOracleTests.java": "d3011a1d0da03ace1352b50b4cca3ba43b37a431f9f04c262edb05f87bf714fa",
+    "tests/native-engine/gemp/sealed-products-results.json": "fd9d997a3fed34fa3a20bb2816b913f5aa298c8cfe4efe386c251e2bbe96cae1",
+    "data/native-engine/sealed-products.json": "855de3c62fca886e3a4f56d413889406aaff9bffb44496d7dcf69c8f98e30600",
+    "data/native-engine/sealed-cards.json": "f5ede88136ef09a6d4479c9d5786875dfc6af3d9641fe80c3e287cb46041296e"
+  },
+  "rules": "https://res.starwarsccg.org/wp/wp-content/uploads/Alternate-Formats-Guide.pdf",
+  "coverage": [
+    "OTSD premium list and nested product counts.",
+    "Sixteen exact weighted-sheet collations using GEMP\u2019s available-card subset and recorded bounded RNG choices: eight Premiere and eight A New Hope.",
+    "Two OTSD products allocated by side before any user-visible card contents, after both seats are assigned."
+  ],
+  "limits": [
+    "Injected RNG is test-only; production uses secure unbiased server entropy.",
+    "These observations verify product collation, not every card behavior or sealed gameplay.",
+    "Sealed match admission and its format-specific starting procedure remain closed. No tournament timing, draft, or JPOTSD rule claims.",
+    "This is paired OTSD pool construction only. Sealed match binding, special sealed starting rules, CPU sealed deck construction and tournament support remain required."
+  ],
+  "referenceExclusions": {
+    "1": [
+      "1_188",
+      "1_256",
+      "1_265",
+      "1_39",
+      "1_75"
+    ],
+    "2": [
+      "2_113",
+      "2_117",
+      "2_134",
+      "2_138",
+      "2_29",
+      "2_56"
+    ],
+    "106": []
+  },
+  "findings": [
+    "Pinned GEMP filters eleven printed cards with unavailable blueprints. The native physical product deliberately retains them, using all 504 printed Premiere/ANH/OTSD entries. Gameplay admission remains separate.",
+    "Native full-product results therefore intentionally differ from GEMP packs. Exact replay compares the shared collation algorithm on the same filtered sheets; full native inventory, side conservation and omitted-card inclusion have independent tests."
+  ]
+}

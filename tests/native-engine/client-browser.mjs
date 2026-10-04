@@ -57,6 +57,8 @@ const {nativeMatchService}=load(new URL('../../lib/native-engine/service.ts',imp
 const runtime=load(new URL('../../lib/native-engine/runtime.ts',import.meta.url));
 const pileState=load(new URL('../../lib/native-engine/state.ts',import.meta.url));
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
+const {nativeSealedService}=load(new URL('../../lib/native-sealed.ts',import.meta.url));
+const {nativeSealedHandlers}=load(new URL('../../lib/native-sealed-http.ts',import.meta.url));
 const {nativeDeckService}=load(new URL('../../lib/native-decks.ts',import.meta.url));
 const {nativeDeckHandlers}=load(new URL('../../lib/native-deck-http.ts',import.meta.url));
 const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
@@ -67,6 +69,7 @@ const browser=await chromium.launch({headless:true});const errors=[];
 const output=process.env.NATIVE_UI_OUTPUT||'/private/tmp/swccg-native-client-browser';fs.mkdirSync(output,{recursive:true});
 async function context(width,height,actor='owner'){
  const context=await browser.newContext({viewport:{width,height}});let interrupt=false;
+ await context.route('**/api/sealed-pools**',async route=>{const req=route.request(),id=new URL(req.url()).pathname.split('/')[3],body=req.postData(),h=nativeSealedHandlers(()=>nativeSealedService(db,{entropy:seeded(1)})),request=new Request(req.url(),{method:req.method(),headers:{'content-type':'application/json','oai-authenticated-user-id':actor,'oai-authenticated-user-email':actor+'@test.invalid'},...(body?{body}:{})});const r=id?await h.room(request,{params:Promise.resolve({id})}):await h.collection(request);await route.fulfill({status:r.status,contentType:'application/json',body:await r.text()})});
  await context.route('**/api/match-decks',async route=>{const req=route.request(),body=req.postData();const r=await nativeDeckHandlers(()=>nativeDeckService(db,browserRules))[req.method()==='POST'?'save':'list'](new Request(req.url(),{method:req.method(),headers:{'content-type':'application/json','oai-authenticated-user-id':actor,'oai-authenticated-user-email':actor+'@test.invalid'},...(body?{body}:{})}));await route.fulfill({status:r.status,contentType:'application/json',body:await r.text()})});
  await context.route('**/api/matches**',async route=>{
   const req=route.request(),url=new URL(req.url()),id=url.pathname.split('/')[3],body=req.postData();

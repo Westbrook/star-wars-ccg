@@ -11,6 +11,8 @@ import {auditRules,starterDecks,seeded} from './match-runner.mjs';
 const require=createRequire(import.meta.url),root=process.env.PLAYWRIGHT_PACKAGE||path.dirname(require.resolve('playwright/package.json'));
 assert.equal(JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version,'1.62.1');
 const {chromium}=await import(pathToFileURL(path.join(root,'index.mjs')));
+const {nativeSealedService}=load(new URL('../../lib/native-sealed.ts',import.meta.url));
+const {nativeSealedHandlers}=load(new URL('../../lib/native-sealed-http.ts',import.meta.url));
 const {nativeDeckService}=load(new URL('../../lib/native-decks.ts',import.meta.url)),{nativeDeckHandlers}=load(new URL('../../lib/native-deck-http.ts',import.meta.url));
 const {nativeMatchService}=load(new URL('../../lib/native-engine/service.ts',import.meta.url)),{matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
@@ -21,6 +23,7 @@ const seed=async(actor,size,side)=>nativeDeckService(db,auditRules).save(actor,{
 async function client(actor,width,rules=auditRules){
  const context=await browser.newContext({viewport:{width,height:width===390?844:1000}});let interrupt='';
  const handlers=matchHandlers(()=>nativeMatchService(db,{currentRules:rules.id,rules:()=>rules,entropy:seeded(1)})),decks=nativeDeckHandlers(()=>nativeDeckService(db,rules));
+ await context.route('**/api/sealed-pools**',async route=>{const req=route.request(),id=new URL(req.url()).pathname.split('/')[3],body=req.postData(),h=nativeSealedHandlers(()=>nativeSealedService(db,{entropy:seeded(1)})),request=new Request(req.url(),{method:req.method(),headers:{'content-type':'application/json','oai-authenticated-user-id':actor,'oai-authenticated-user-email':actor+'@test.invalid'},...(body?{body}:{})});const r=id?await h.room(request,{params:Promise.resolve({id})}):await h.collection(request);await route.fulfill({status:r.status,contentType:'application/json',body:await r.text()})});
  await context.route('**/api/match**',async route=>{
   const req=route.request(),url=new URL(req.url()),body=req.postData(),id=url.pathname.split('/')[3];
   const request=new Request(req.url(),{method:req.method(),headers:{'content-type':'application/json','oai-authenticated-user-id':actor,'oai-authenticated-user-email':actor+'@test.invalid'},...(body?{body}:{})});
