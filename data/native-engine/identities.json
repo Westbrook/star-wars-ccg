@@ -2414,5 +2414,19 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_013.java"
+  },
+  "3_69": {
+    "keywords": [
+      "ENCLOSED",
+      "SNOWSPEEDER"
+    ],
+    "species": [],
+    "models": [
+      "T_47"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_069.java"
   }
 }

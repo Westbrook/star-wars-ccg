@@ -3189,3 +3189,13 @@ source hashes; changed inputs require a new audit. Controlled inventories are no
 exhaustive state exploration or full-deck certification. The failed-Obsession Force
 amount, broader cards/rules, and the full native product scope remain outstanding.
 No production admission was opened and no standalone study was added.
+
+### Vehicle move-away and Snowspeeder
+
+Narrow Escape now dispatches eligible Vehicle targets through the shared landspeed journey. The original ability group remains bound to physical instances; the owner chooses movement order and destination, pays once for each mover, and receives the existing intermediate-arrival windows. Moving the vehicle first carries its occupants and equipment; those characters no longer make separate escape moves. A character may instead disembark and move first, paying separately. Range, terrain, prior movement, Barrier, cancellation and pending route identity remain enforced.
+
+Snowspeeder (`3_69`) has explicit component metadata, enclosed shared pilot/passenger capacity, permanent pilot ability and its Hoth-only movement react. Reaction boarding now offers pilot capacity when the actual vehicle permits it. This allows Han to board as pilot, enhance power, and arrive to contest a Force drain through the existing reaction machinery.
+
+`vehicle-escape-provenance.json` retains eight executed GEMP observations against unchanged production sources. Five agree: ordinary near/long journeys, Hoth reaction/pilot boarding, rejected Tatooine reaction and no-Force Escape. Three Escape observations reveal a pinned GEMP filter discrepancy: `Filters.hasAbility` excludes permanent pilots despite a valid Snowspeeder move-away action. Native follows AR p71's explicit permanent-pilot target example and vehicle-first carrying rule. The raw discrepancy is preserved, not reported as conformance. Native checks add route/target replacement, cancellation, Barrier, movement order and JSON recovery. Portable browser checks use the actual match service and SQLite D1 at phone, tablet and desktop widths.
+
+This adds engine behavior, not a standalone study or full deck certification. The exact starter travel reachability audit remains valid: these decks contain no Vehicle, and their character routing is unchanged. Failed-Obsession amount adjudication, wider card/setup/timing coverage and all full-game product requirements remain outstanding; production admission stays closed.

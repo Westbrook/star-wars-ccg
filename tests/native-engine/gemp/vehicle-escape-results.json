@@ -1,0 +1,100 @@
+[
+  {
+    "mode": "react-hoth",
+    "available": true,
+    "cost": 1,
+    "arrived": true,
+    "pilotAboard": true,
+    "power": 5,
+    "lostToDrain": 0
+  },
+  {
+    "mode": "react-tatooine",
+    "available": false,
+    "cost": 0,
+    "arrived": false,
+    "pilotAboard": false,
+    "power": 3,
+    "lostToDrain": 0
+  },
+  {
+    "mode": "escape-vehicle",
+    "filterHasAbility": false,
+    "abilityIncludingPilot": true,
+    "moveAwayAvailable": true,
+    "available": true,
+    "cost": 1,
+    "vehicleAt": "1_129",
+    "lukeAt": "1_129",
+    "aboard": true,
+    "gunCarried": true,
+    "vehicleRegularMove": false,
+    "lukeRegularMove": false,
+    "interruptDone": true
+  },
+  {
+    "mode": "escape-passenger",
+    "filterHasAbility": false,
+    "abilityIncludingPilot": true,
+    "moveAwayAvailable": true,
+    "available": true,
+    "cost": 2,
+    "vehicleAt": "1_129",
+    "lukeAt": "1_130",
+    "aboard": false,
+    "gunCarried": true,
+    "vehicleRegularMove": false,
+    "lukeRegularMove": true,
+    "interruptDone": true
+  },
+  {
+    "mode": "escape-long",
+    "filterHasAbility": false,
+    "abilityIncludingPilot": true,
+    "moveAwayAvailable": true,
+    "available": true,
+    "cost": 1,
+    "vehicleAt": "1_129",
+    "lukeAt": "1_129",
+    "aboard": true,
+    "gunCarried": true,
+    "vehicleRegularMove": false,
+    "lukeRegularMove": false,
+    "interruptDone": true
+  },
+  {
+    "mode": "escape-no-force",
+    "filterHasAbility": false,
+    "abilityIncludingPilot": true,
+    "moveAwayAvailable": false,
+    "available": true,
+    "cost": 0,
+    "vehicleAt": "1_129",
+    "lukeAt": "1_129",
+    "aboard": true,
+    "gunCarried": true,
+    "vehicleRegularMove": false,
+    "lukeRegularMove": false,
+    "interruptDone": true
+  },
+  {
+    "mode": "ordinary-near",
+    "cost": 1,
+    "vehicleAt": "1_130",
+    "lukeAt": "1_130",
+    "aboard": true,
+    "gunCarried": true,
+    "vehicleRegularMove": true,
+    "lukeRegularMove": false
+  },
+  {
+    "mode": "ordinary-long",
+    "cost": 1,
+    "vehicleAt": "1_132",
+    "lukeAt": "1_132",
+    "aboard": true,
+    "gunCarried": true,
+    "vehicleRegularMove": true,
+    "lukeRegularMove": false
+  }
+]

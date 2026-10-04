@@ -449,7 +449,7 @@
     "lib/native-engine/navigation.ts": "28909393a27733f41fefeda992b6db644733d1b197c6d29eaae9cb336cd385ea",
     "lib/native-engine/nighttime.ts": "2823417ddf5d8cd48366f6196f288dd2e85deeea4db5cfd289ca246cf61c3136",
     "lib/native-engine/noble-sacrifice.ts": "52dcdf41843a519867f8f43419dc721923212e6dadbba14fc13835c1bec7fbde",
-    "lib/native-engine/occupancy.ts": "e8858a68dba7549bc56fe8261faf210df2b95011436f139f44e0df4fc1e64018",
+    "lib/native-engine/occupancy.ts": "ba4c81722c7af5af943129eeadbd48e69b9b3a84b443506a770b705d884627de",
     "lib/native-engine/off-the-edge.ts": "3e3ba5a6c26fa8e9cbc762ca313bbdb058b0b4c3f1453bbdd27e1b89f9a52c43",
     "lib/native-engine/on-the-edge.ts": "9a64f6e06bcc642b0a70c18bd4e37b9c28d3992141749b69f616fb1d2c129a34",
     "lib/native-engine/participation.ts": "4cdccab18a835123acb7e2cad7f06b16b1af7276d00254c4566dc384a96cc108",
@@ -493,10 +493,10 @@
     "lib/native-engine/tallon-roll.ts": "1b9817342cd3d0825e229ed25a6bd47366e3886bd2c5a03a99279901477619e8",
     "lib/native-engine/telepathy.ts": "b28dd1038bf933e4f9fb23e950e7dc8e7144ebb6a1861a266d75d5a26e7b2373",
     "lib/native-engine/transport.ts": "a2274e5c1f069630d3c7e91d57837352ed1db760968d4a305ddc977bc8267628",
-    "lib/native-engine/travel.ts": "cfaa1366761ab37d3905b755736f91374ee4183271d1093ca4be0512abb7f400",
+    "lib/native-engine/travel.ts": "62e91c2e4941025adeab828c02c0cbc918f07f1922bbf683ccd1f318efa0cd3f",
     "lib/native-engine/trooper-assault.ts": "aefc2a2f34ba446b6c88c08064524855a5423a7e6ab1f5d6771893f98892daec",
     "lib/native-engine/types.ts": "7b7b7feec4f39a0d3919ccd79c694cd5540e5a59ebb79c2c473736426eda3866",
-    "lib/native-engine/vehicle-react.ts": "73c4674620e823a1798e1d499a97ff6fa779d3af8ddb25c82d410b28d5bbde01",
+    "lib/native-engine/vehicle-react.ts": "babbf440d8aa6ee4bafb54432c945dac908e4152e1840efed891736757081982",
     "lib/native-engine/vessel-travel.ts": "ecf2837085732f6accdd6e38773fefbd3d27d14ef6be3cf16010bab94fdbcaba",
     "lib/native-engine/vessels.ts": "10073bfd8569f2a351484db900d16bfd6d543781e015a9843b0409f6dccc67dd",
     "lib/native-engine/weapon-state.ts": "a60d085a2e3a11bedb978247863e16346d28df9562534e11e4e9ee717b5b3352",
@@ -515,5 +515,20 @@
     "Additional copies do not create a new timing permission. Any change to the exact decks, card text or reviewed source invalidates this audit and requires review.",
     "No classification change for the failed-Obsession Force amount. Full production admission stays closed and broader catalog/deck/rules/product requirements remain."
   ],
-  "sourceBinding": "All current native-engine TypeScript modules are bound, including registered providers outside the starter pair, so later additions to an existing provider cannot silently invalidate the timing audit."
+  "sourceBinding": "All current native-engine TypeScript modules are bound, including registered providers outside the starter pair, so later additions to an existing provider cannot silently invalidate the timing audit.",
+  "revalidations": [
+    {
+      "at": "2026-10-04T18:45:35.525024+00:00",
+      "files": [
+        "lib/native-engine/occupancy.ts",
+        "lib/native-engine/travel.ts",
+        "lib/native-engine/vehicle-react.ts"
+      ],
+      "reason": "Snowspeeder 3_69 and all Vehicle definitions are absent from both exact starter lists. New Escape routing applies only to Vehicle targets. Existing Character choices, payment and handlers are unchanged. Pilot reaction capacity only adds roles permitted by the actual carrier; no starter carrier exists. Thus no new pending movement response provider or return/late-arrival path is reachable in the exact pair.",
+      "evidence": [
+        "tests/native-engine/vehicle-escape.test.mjs",
+        "tests/native-engine/travel-response.test.mjs"
+      ]
+    }
+  ]
 }

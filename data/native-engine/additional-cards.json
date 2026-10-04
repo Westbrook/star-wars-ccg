@@ -98,7 +98,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler’s Luck",
+    "name": "Gambler\u2019s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -3003,5 +3003,28 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_013.java"
+  },
+  {
+    "gempId": "3_69",
+    "name": "Snowspeeder",
+    "side": "light",
+    "type": "Vehicle",
+    "subType": "Combat: T-47 Snowspeeder",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/snowspeeder.gif",
+    "text": "May add 1 pilot or passenger. Permanent pilot aboard provides ability of 1. May move as a 'react' to Hoth sites.",
+    "stats": {
+      "deploy": "2",
+      "power": "3",
+      "destiny": "1",
+      "forfeit": "4",
+      "maneuver": "4",
+      "landspeed": "4"
+    },
+    "icons": [
+      "Pilot",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_069.java"
   }
 ]

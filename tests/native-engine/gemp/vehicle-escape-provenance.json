@@ -1,0 +1,41 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T18:45:35.522484+00:00",
+  "files": {
+    "NativeEngineVehicleEscapeOracleTests.java": "b90f185f866c70cb0031bf41907ef7d48613bf7c8643f11d5bdd3ac2eca62b93",
+    "vehicle-escape-results.json": "8676b210411d2dd5cbe4f95254bd2eaec4687cd0ead36e0dfbf1df219b1458a8"
+  },
+  "junitTests": 3,
+  "observations": 8,
+  "matchingObservations": [
+    "react-hoth",
+    "react-tatooine",
+    "escape-no-force",
+    "ordinary-near",
+    "ordinary-long"
+  ],
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineVehicleEscapeOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp30,70\u201371,91\u201393",
+  "method": [
+    "Controlled starting boards; actual Interrupt, ordinary movement and react commands. No interventions after play.",
+    "Snowspeeder Hoth-only reaction, pilot boarding and resulting power, carried crew/equipment, normal landspeed payment and regular-move history are compared."
+  ],
+  "officialRuleCorrection": {
+    "observations": [
+      "escape-vehicle",
+      "escape-passenger",
+      "escape-long"
+    ],
+    "finding": "Pinned Narrow Escape uses Filters.hasAbility, which invokes hasAbility(...,false) and excludes permanent pilots. The harness records false for that filter, true when including the permanent pilot, and a non-null legal move-away action when Force is available. GEMP consequently moves Han instead of the Snowspeeder. Native includes the vehicle in the original ability group and moves it with the shared journey.",
+    "basis": "AR p71 Example 3 explicitly treats a permanent-pilot X-wing as a Narrow Escape target with ability; lack of landspeed prohibits that ship. Snowspeeder has landspeed. The same page specifies that moving a vehicle first carries targeted occupants away and prevents their separate move-away.",
+    "receiptPolicy": "Raw observations and executed source are retained exactly. These three rows are discrepancies, not parity claims."
+  },
+  "limitations": [
+    "Component coverage, not complete deck admission or exhaustive cross-card timing. Production admission remains closed.",
+    "Native cancellation, Barrier, physical-instance replacement and browser recovery checks supplement the reference; controlled mutations are not claims of playable response cards.",
+    "No new Rules Lab study. Full engine, wider catalog, setup and product requirements remain."
+  ]
+}

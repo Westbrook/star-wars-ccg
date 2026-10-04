@@ -1,7 +1,7 @@
 import {shieldMovement} from './hoth';
 import {unitsAt,isVessel,characterPresent,belowDecks} from './occupancy';
 import {movesFree} from './movement-costs';
-import {vehicleDestination} from './vessel-travel';
+import {vesselRoutes, vesselMovementAction, vehicleDestination} from './vessel-travel';
 import {ability} from './ability';
 import {canSearch, recordFailedSearch, searchFunctions, type Search} from './search-policy';
 import {canPlayCard, recordCardPlay} from './persona';
@@ -99,10 +99,11 @@ const escapeEligible = (m: Match, id: string, from: string, to: string) =>
 const originalRoute = (m: Match, p: Payload) =>
   (!p.fromRef || sameCard(m,p.fromRef)) && (!p.toRef || sameCard(m,p.toRef)) &&
   (!p.originRef || sameCard(m,p.originRef) && (m.cards[p.target!].attachedTo ?? m.cards[p.target!].location) === p.originRef.id);
-function escapeOptions(m: Match, p: Payload): {card: string; to: string}[] {
-  if (!m.players.light.force.length) return [];
+function escapeOptions(m: Match, p: Payload): {card: string; to: string; cost: number; route?: ReturnType<typeof vesselRoutes>[number]}[] {
   return (p.remaining ?? []).filter(id => sameCard(m, p.memberRefs?.[id]!) && m.cards[id]?.zone === 'table' && m.cards[id].location === p.from && canMove(m, id)).flatMap(card =>
-    m.locations.filter(to => escapeEligible(m,card,p.from!,to)).map(to => ({card, to})));
+    cardDefinition(m,card).type === 'Vehicle'
+      ? vesselRoutes(m,card).filter(route => route.method === 'landspeed' && route.cost <= m.players.light.force.length).map(route => ({card, to: route.path.at(-1)!, cost: route.cost, route}))
+      : m.players.light.force.length ? m.locations.filter(to => escapeEligible(m,card,p.from!,to)).map(to => ({card, to, cost: 1})) : []);
 }
 export function travelResolve(m: Match, r: Resolution, context: Context): void {
   const p = data(r), handler = r.action.handler;
@@ -153,7 +154,7 @@ export function travelChoices(m: Match, d: Decision): {id: string; label: string
   }
   if (d.handler === 'travel:verify') return [{id: 'verified', label: 'Finish verification and reshuffle'}];
   if (d.handler === 'travel:place') return sitePlacements(m, p.card!).map(option => ({id: 'place:' + option.id, label: option.label}));
-  if (d.handler === 'travel:escape') return escapeOptions(m, p).map(({card, to}) => ({id: 'away:' + card + ':' + to, label: (m.cards[card].attachedTo ? 'Disembark and move ' : 'Move ') + name(m, card) + ' to ' + name(m, to) + ' · 1 Force'}));
+  if (d.handler === 'travel:escape') return escapeOptions(m, p).map(({card, to, cost}) => ({id: 'away:' + card + ':' + to, label: (m.cards[card].attachedTo ? 'Disembark and move ' : 'Move ') + name(m, card) + ' to ' + name(m, to) + ' · ' + (cost ? cost + ' Force' : 'free')}));
   throw Error('Unknown travel decision.');
 }
 export function travelChoose(m: Match, d: Decision, choice: string, context: Context): void {
@@ -181,6 +182,12 @@ export function travelChoose(m: Match, d: Decision, choice: string, context: Con
     const selected = escapeOptions(m, p).find(({card, to}) => choice === 'away:' + card + ':' + to);
     if (!selected) throw Error('Invalid move-away choice.');
     then(m, d.side, 'escape-next', {...p, remaining: p.remaining!.filter(id => id !== selected.card)});
+    if (selected.route) {
+      // Use the shared journey so intermediate arrivals, carried occupants,
+      // payment and regular-move history have the same timing as ordinary travel.
+      const movement: Resolution = {kind:'resolution', actor:d.side, cancelled:false, awaitingResponses:true, action:vesselMovementAction(m,selected.card,selected.route)};
+      m.stack.push(movement); queueForcePayment(m,movement,movement.action.payment!); return;
+    }
     then(m, d.side, 'escape-move', {target: selected.card, targetRef: p.memberRefs![selected.card], from: p.from, to: selected.to, originRef: referenceCard(m,m.cards[selected.card].attachedTo ?? p.from!), fromRef: referenceCard(m,p.from!), toRef: referenceCard(m,selected.to)}, true);
     const parent = m.stack.at(-1) as Resolution; parent.action.payment = {[d.side]: 1};
     queueForcePayment(m, parent, parent.action.payment);
