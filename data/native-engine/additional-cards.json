@@ -1963,5 +1963,37 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_241.java"
+  },
+  {
+    "gempId": "1_270",
+    "name": "Tallon Roll",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tallonroll.gif",
+    "text": "Target two starfighters (your TIE/ln and any Rebel starfighter) present at same system or sector. Each player draws destiny. Opponent totals destiny and starship's power. You total destiny, TIE's power and TIE's maneuver. Lowest total loses starfighter.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_270.java"
+  },
+  {
+    "gempId": "2_47",
+    "name": "Corellian Slip",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/corellianslip.gif",
+    "text": "If opponent just initiated a Tallon Roll, add your maneuver + ability of one pilot on you targeted starfighter to your total. OR Decrease the maneuver of an opponent's starfighter by 1 for remainder of this turn.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "A New Hope"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_047.java"
   }
 ]

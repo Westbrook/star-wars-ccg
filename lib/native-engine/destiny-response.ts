@@ -1,3 +1,4 @@
+import type {TallonRoll} from './tallon-roll';
 import {sameCard, type CardReference} from './identity';
 import type {Battle} from './battle';
 import {redrawDestiny} from './destiny';
@@ -40,7 +41,12 @@ export function cancelPendingDestiny(m: Match,r: Resolution,redraw=false): boole
 export function destinyDefenseTargets(m:Match,w:Window):CardReference[]{
  const d=destinyInWindow(m,w);if(!d||d.value===null)return [];
  if(d.resolution.action.handler!=='destiny:finish')return [];
- const p=d.resolution.action.payload as {source?:string;category?:string;next?:{handler:string;payload:{index?:number;card?:string;target?:string}}};
+ const p=d.resolution.action.payload as {source?:string;category?:string;next?:{handler:string;payload:{index?:number;card?:string;target?:string;serial?:number}}};
+ if(p.category==='tallon-roll'&&p.next?.handler==='tallon:dark'){
+  const roll=m.data.tallonRoll as TallonRoll|undefined;
+  if(!roll||roll.serial!==p.next.payload.serial||roll.source!==p.source||roll.stage!=='dark-destiny')return [];
+  return (roll.slip?[roll.refs.dark,roll.refs.light]:[roll.refs.dark]).filter(ref=>sameCard(m,ref));
+ }
  if(p.category!=='weapon'||p.next?.handler!=='space-weapon:draw')return [];
  const next=p.next.payload,b=m.data.battle as Battle|undefined,shot=b?.starshipShots?.[next.index!];
  if(!shot||shot.outcome!=='pending'||shot.weapon!==p.source||shot.weapon!==next.card||shot.target!==next.target||!sameCard(m,shot.targetRef))return [];

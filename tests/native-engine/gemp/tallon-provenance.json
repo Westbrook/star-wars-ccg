@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T07:51:36.054305+00:00",
+  "files": {
+    "NativeEngineTallonRollOracleTests.java": "f960aeff71a67262d23b24b0cd0103f679a2338b073bdd4bdb494bcdfe7eef11",
+    "tallon-results.json": "f503ec4cea6bbee5980e5364e8922f5f716657fb04273cec810a78542717208b"
+  },
+  "junitTests": 1,
+  "observations": 16,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineTallonRollOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf; Tallon Roll errata and Implied Target Rule",
+  "scope": "Real Tallon Roll actions, sequential destiny, failed draws, ties, both winners, Corellian Slip modes, A Few Maneuvers/Dark Maneuvers just-drawn responses, unpiloted opponent and partial resolution after target departure. Includes a Tallon Roll during the battle weapons segment.",
+  "method": [
+    "Board, pilot seats, Force and Reserve order are controlled. Interrupt plays, destiny draws and ship losses execute in production GEMP. All sixteen complete rows compare native commands after serialization.",
+    "Target departure is a controlled move to hand during actual initiation/draw responses. Both destiny draws still occur. A departed permanently-piloted Y-wing retains printed power for this comparison; its remaining opponent can still lose. Native follows the observed partial-effect behavior.",
+    "The initiating draw targets TIE maneuver, plus defending maneuver under Corellian Slip. The defending draw does not grant either maneuver response."
+  ],
+  "limitations": [
+    "Component coverage; full native match admission stays closed. Sectors and larger model/card catalogs are not admitted by this checkpoint.",
+    "Saved-state corruption, nested Sense cancellation, repeated Slip copies, replacement-instance protection, crew/weapon ordering, pilot ability boundaries and browser recovery have additional native-only tests.",
+    "Tallon Roll calculation-total modifiers, other ship-targeting protections, complete ship statistic resets, further space/capture/Objectives/setup and full engine/product scope remain."
+  ]
+}
