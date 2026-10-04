@@ -1,0 +1,115 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "unchangedProductionFiles": 6820,
+  "recordedOn": "2026-10-04T19:48:48.435414+00:00",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineArmedSpaceMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "fixtures": [
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/armed-space-ion.json.gz",
+      "sha256": "9a0ee4eaab3c465a09837b438862a6196de53c8e524f96e8c8e96af08dbe292c",
+      "jsonSha256": "c2952bac89b6610d62bc69afb02816f01b41e6e41478f04663b07500c6f64d1b",
+      "harness": "tests/native-engine/gemp/complete-matches/armed-space-ion-source.java.txt",
+      "harnessSha256": "090acdcbe65874530be3acfa404bdf3220e11bf00c4952ddcb1a40b32ffa1aa9",
+      "deckManifest": "tests/native-engine/gemp/complete-matches/armed-space-decks.json",
+      "deckManifestSha256": "cb063e9509f0871a5da5b08f7c5c19d7138c527124e6d7c4e3ab1a49ec6593b9",
+      "snapshotVersion": 8,
+      "winner": "light",
+      "turns": 27,
+      "referenceDecisions": 1457,
+      "nativeCommands": 2207,
+      "comparedCheckpoints": 210,
+      "actions": {
+        "untagged": 12,
+        "activate": 27,
+        "activate-count": 54,
+        "pass": 1121,
+        "deploy": 33,
+        "deploy-target": 44,
+        "site": 8,
+        "site-placement": 3,
+        "draw": 65,
+        "equip": 11,
+        "macroscan": 1,
+        "crew-capacity": 4,
+        "barrier": 1,
+        "battle": 6,
+        "fire": 6,
+        "fire-target": 6,
+        "maneuver": 3,
+        "interrupt-target": 3,
+        "forfeit": 9,
+        "loss-order": 12,
+        "lose": 28
+      },
+      "firedBlueprints": {
+        "2_81": 4,
+        "1_323": 1,
+        "1_318": 1
+      }
+    },
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/armed-space-lasers.json.gz",
+      "sha256": "7383632430ef277c9cfd95580ecffda717bc636dc4659c46dd7fedd21ab28fce",
+      "jsonSha256": "64f0eab762acc4e1259ac3deffa4a0fd0019847f6bf2c1cf5cef699de62d7c60",
+      "harness": "tests/native-engine/gemp/complete-matches/armed-space-lasers-source.java.txt",
+      "harnessSha256": "8cfdfa124cdc03c67f0755341efa892e5b2c19704a2992be6571784953a872ee",
+      "deckManifest": "tests/native-engine/gemp/complete-matches/armed-space-decks.json",
+      "deckManifestSha256": "cb063e9509f0871a5da5b08f7c5c19d7138c527124e6d7c4e3ab1a49ec6593b9",
+      "snapshotVersion": 8,
+      "winner": "dark",
+      "turns": 29,
+      "referenceDecisions": 1468,
+      "nativeCommands": 2409,
+      "comparedCheckpoints": 240,
+      "actions": {
+        "untagged": 6,
+        "activate": 29,
+        "activate-count": 58,
+        "pass": 1104,
+        "draw": 87,
+        "site": 10,
+        "deploy": 30,
+        "deploy-target": 46,
+        "barrier": 3,
+        "site-placement": 5,
+        "equip": 16,
+        "crew-capacity": 2,
+        "macroscan": 1,
+        "battle": 3,
+        "fire": 6,
+        "fire-target": 6,
+        "dice": 1,
+        "interrupt-target": 1,
+        "forfeit": 6,
+        "lose": 43,
+        "loss-order": 5
+      },
+      "firedBlueprints": {
+        "1_153": 1,
+        "1_159": 2,
+        "1_318": 1,
+        "1_158": 1,
+        "1_323": 1
+      }
+    }
+  ],
+  "findings": [
+    "Both complete games replay exactly from ordinary setup through life-force victory, totaling 4616 native commands and 450 compared checkpoints.",
+    "Version 8 compares current ship armor, maneuver and hyperspeed in addition to power, ability, forfeit, crew roles, ordered piles, attachments, battle losses/destinies and final result.",
+    "Five printed ship weapons are exercised: SW-4 Ion Cannon, Ion Cannon, Quad Laser Cannon, Proton Torpedoes and Turbolaser Battery. Three just-drawn maneuver Interrupts use actual observed primary targets.",
+    "The ion game includes two successful ionizations and misses. The laser game includes misses and failed destiny draws. No production runtime change was necessary for these paths."
+  ],
+  "harnessNotes": [
+    "Ordinary random initial shuffle, exact custom 60-card lists, legal offered choices only; no in-game state changes or corrections.",
+    "Exploratory runs 1 and 2 did not fire ship weapons. Retained runs 3 and 4 prioritize legal weapon deployment and keep fleets at Tatooine long enough for battle; run 4 prioritizes laser weapons. Each exact executed harness is archived.",
+    "All 6820 production reference files compared byte-for-byte with the pinned source archive and remain unchanged."
+  ],
+  "limits": [
+    "Selected paths, not exhaustive card/deck/timing certification. Production admission remains closed.",
+    "Neither retained game records a successful laser hit or ion-driven weapon removal. Separate component tests cover those behaviors.",
+    "Reference snapshots compare consequences and current ship values, not the weapon destiny total/outcome scalar directly. Native shot histories provide browser assertions but are not independent reference observations.",
+    "Full engine and product scope, earlier documented GEMP discrepancies and failed-Obsession numerical Force difference remain outstanding."
+  ]
+}
