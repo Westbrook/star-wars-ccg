@@ -202,6 +202,15 @@ export function battleInitiate(m: Match, r: Resolution): void {
     // Talz's forfeiture is the cost; the restoration follows its loss responses.
     forfeitCard(m, p.card!, r.actor);
   }
+  if (kind === 'battle:reduce') {
+    // It Could Be Worse responds to this player's pending loss; it does not
+    // replace their damage-segment action. The UI combines that response and
+    // the loss choices in one window, so restore its underlying action turn.
+    // Nested payment/play/cancellation responses still alternate normally.
+    const window = m.stack.at(-2);
+    if (window?.kind !== 'window' || event(window) !== 'battle-damage') throw Error('Battle reduction has no pending loss opportunity.');
+    window.priority = r.actor;
+  }
   if (kind === 'battle:equip') p.attachment = attachmentAttempt(m, p.card!, p.target!);
 }
 

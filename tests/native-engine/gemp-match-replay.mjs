@@ -62,6 +62,18 @@ export function followingTarget(rows,index,kind){
  throw Error('Reference target missing: '+kind);
 }
 
+/** Lost Pile dialogs also include cards that cannot be selected. Validate the
+ * actual temporary-ID answer rather than assuming the first displayed card. */
+export function assertRecoverySelection(row,side,blueprint,kind='old-ben'){
+ assert.equal(row.semantic?.kind,'recovery-selection');assert.equal(row.semantic.side,side);
+ assert.equal(row.type,'ARBITRARY_CARDS');assert.equal(row.text,kind==='kintan'?'Choose card to retrieve':'Choose card from Lost Pile');
+ assert.deepEqual(row.parameters.min,['1']);assert.deepEqual(row.parameters.max,['1']);
+ const index=row.parameters.cardId.indexOf(row.answer);assert.ok(index>=0,'Recovery answer missing');
+ assert.equal(row.parameters.selectable[index],'true','Recovery card is not selectable');
+ assert.equal(row.parameters.selectable.filter(v=>v==='true').length,1,'Recovery target is ambiguous');
+ assert.equal(row.parameters.blueprintId[index],blueprint,'Recovery selected the wrong character');
+}
+
 /** An inspection acknowledgment and the optional Force-pile choice are separate
  * reference decisions. Derive movement from the actual answer, never the tag. */
 export function inspectionChoice(rows,index,canMove){
@@ -73,7 +85,7 @@ export function inspectionChoice(rows,index,canMove){
  assert.ok(['0','1'].includes(target.answer),'Invalid inspection answer');return target.answer==='0'?'to-force':'keep';
 }
 
-export function replayGempMatch(record){
+export function replayGempMatch(record,{onCheckpoint}={}){
  assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
  const decks=starterDecks(60);assert.deepEqual(Object.fromEntries(decks.map(d=>[d.side,d.cards])),record.decks);
@@ -105,7 +117,7 @@ export function replayGempMatch(record){
  try{
   const rows=record.trace;
   for(let index=0;index<rows.length;index++){
-   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count'].includes(s.kind))continue;
+   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement'].includes(s.kind))continue;
    assertReferenceAction(row);
    let choices=[];
    if(s.kind==='activate')choices=['core:activate'];
@@ -118,8 +130,30 @@ export function replayGempMatch(record){
     const deployed=rows.slice(index+1).find(r=>r.state.locations.includes(s.card))?.state??record.final;
     choices=()=>board.sitePlacements(m,s.card).filter(p=>{const locations=[...m.locations];if(p.replace)locations[locations.indexOf(p.replace)]=s.card;else locations.splice(p.index,0,s.card);return JSON.stringify(normalizedCheckpoint({...row.state,locations},m.cards).locations)===JSON.stringify(normalizedCheckpoint(deployed,m.cards).locations);}).map(p=>'site:'+s.card+':'+p.id);
    }
-   if(s.kind==='kintan')choices=['revival:kintan:'+s.card];
-   if(s.kind==='old-ben')choices=['revival:old-ben:'+s.card+':'+s.target];
+   if(s.kind==='kintan'){
+    const target=row.state.players[s.side].lost.find(id=>board.cardDefinition(m,id).type==='Character');
+    if(target)assertRecoverySelection(followingTarget(rows,index,'recovery-selection'),s.side,m.cards[target].blueprint,'kintan');
+    choices=['revival:kintan:'+s.card];
+   }
+   if(s.kind==='old-ben'){
+    const selection=followingTarget(rows,index,'recovery-selection');
+    assertRecoverySelection(selection,s.side,m.cards[s.target].blueprint);
+    assert.ok(row.state.players[s.side].lost.includes(s.target),'Old Ben target must be in Lost');
+    const forfeiture=rows.slice(0,index).findLast(r=>r.semantic?.kind==='forfeit'&&r.semantic.card===s.target);
+    assert.ok(forfeiture,'Old Ben requires the recorded forfeiture');
+    const site=forfeiture.state.table.find(c=>c.id===s.target)?.location;assert.ok(site);
+    const after=rows.slice(rows.indexOf(selection)+1),placement=after.find(r=>r.semantic&&r.semantic.kind!=='pass');
+    // GEMP shortcuts the single legal placement. If a dialog is emitted, its
+    // answer is still checked; in either case require the observed return.
+    if(placement?.semantic.kind==='recovery-placement'){
+     assert.equal(placement.semantic.side,s.side);assert.ok(placement.text.toLowerCase().includes('choose where to place'));
+     assert.equal(placement.parameters.cardId.length,1);assert.equal(placement.answer,placement.parameters.cardId[0]);
+     assert.equal(placement.semantic.card,site,'Old Ben must return to the original site');
+    }
+    const returned=after.find(r=>r.state.table.some(c=>c.id===s.target));assert.ok(returned,'Old Ben return was not observed');
+    assert.equal(returned.state.table.find(c=>c.id===s.target).location,site,'Old Ben must return to the original site');
+    choices=['revival:old-ben:'+s.card+':'+s.target];
+   }
    if(s.kind==='macroscan')choices=['macroscan:'+s.card];
    if(s.kind==='peek')choices=['peek:'+s.card];
    if(s.kind==='inspection'){
@@ -140,6 +174,9 @@ export function replayGempMatch(record){
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
    if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
+    // Browser fixtures may resume a verified checkpoint. Copies prevent the
+    // observer from changing either the reference or the continuing replay.
+    onCheckpoint?.({index,row:copy(row),match:copy(m)});
    }
    if(s.kind==='inspection'){
     assert.ok(row.text.toLowerCase().startsWith('top card')&&row.text.toLowerCase().includes('reserve'));

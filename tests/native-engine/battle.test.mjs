@@ -106,7 +106,22 @@ test('Talz rescue forfeits for both debts and restores the hit without losing it
 });
 
 test('battle damage reduction is noncumulative and does not remove attrition',()=>{
- let {m,site,dark}=basic();const a=pull(m,'light','1_90','hand'),b=pull(m,'light','1_90','hand');top(m,'dark','1_182');top(m,'light','1_28');m=start(m,site);m=seek(m,x=>stackEvent(x)==='battle-damage',drawPolicy);m=boundary(step(m,'forfeit:'+dark[0]),'battle-damage');m=boundary(step(m,'battle-reduce:'+a+':1'),'battle-damage');m=step(m,'pass');m=boundary(step(m,'battle-reduce:'+b+':1'),'battle-damage');assert.equal(battle(m).damage.light,1);assert.equal(battle(m).attrition.light,3);assert.equal(m.players.light.force.length,6);
+ let {m,site,dark}=basic();const a=pull(m,'light','1_90','hand'),b=pull(m,'light','1_90','hand');top(m,'dark','1_182');top(m,'light','1_28');m=start(m,site);m=seek(m,x=>stackEvent(x)==='battle-damage',drawPolicy);m=boundary(step(m,'forfeit:'+dark[0]),'battle-damage');m=boundary(step(m,'battle-reduce:'+a+':1'),'battle-damage');assert.equal(prompt(m).side,'light');m=boundary(step(m,'battle-reduce:'+b+':1'),'battle-damage');assert.equal(battle(m).damage.light,1);assert.equal(battle(m).attrition.light,3);assert.equal(m.players.light.force.length,6);
+});
+
+for(const cancel of [false,true])test('a battle-loss response retains the pending damage action even after cancellation: '+cancel,()=>{
+ let {m,site,dark,light}=basic();const card=pull(m,'light','1_90','hand'),worse=pull(m,'dark','1_252','hand');
+ m=phase(m,'battle','light');top(m,'dark','1_182');top(m,'light','1_28');
+ m=step(m,'battle:'+site);m=seek(m,x=>stackEvent(x)==='battle-damage',drawPolicy);
+ assert.equal(prompt(m).side,'light');assert.deepEqual(battle(m).attrition,{dark:1,light:3});
+ const forceBefore=m.players.light.force.length;m=step(m,'battle-reduce:'+card+':1');
+ assert.equal(m.players.light.force.length,forceBefore-1);
+ if(cancel){m=seek(m,x=>ids(x).includes('worse:cancel:'+worse+':0'));assert.equal(prompt(m).side,'dark');m=step(m,'worse:cancel:'+worse+':0');}
+ m=boundary(clone(m),'battle-damage');assert.equal(prompt(m).side,'light');
+ assert.equal(battle(m).damage.light,cancel?2:1);assert.equal(m.cards[card].zone,cancel?'lost':'used');
+ assert.ok(!ids(m).includes('pass'));assert.throws(()=>step(m,'forfeit:'+dark[0],'dark'),/Illegal/);
+ m=boundary(step(m,'forfeit:'+light[0]),'battle-damage');assert.equal(prompt(m).side,'dark');
+ assert.equal(battle(m).attrition.dark,1);m=boundary(step(m,'forfeit:'+dark[0]),'battle-damage');assert.equal(prompt(m).side,'light');
 });
 
 test('loss of presence before damage ends the battle and loses hit cards; during damage it does not',()=>{

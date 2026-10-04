@@ -1,0 +1,71 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedOn": "2026-10-04T16:59:50.302771+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineRecoveryMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "decks": "Exact introductory 60-card lists in complete-match-provenance.json",
+  "unchangedProductionFiles": 6820,
+  "tests": 1,
+  "fixtures": [
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/ground-recovery.json.gz",
+      "sha256": "626bf6c1052eb696837177a8763aba06378073308959c6ac56393d07aca42cb3",
+      "jsonSha256": "6a78f59580a24452d8a5f2b1732140c79bc22132cd9e15502e84b3b49887cb66",
+      "harness": "tests/native-engine/gemp/complete-matches/ground-recovery-source.java.txt",
+      "harnessSha256": "e40acb5874843c7b08020c96206ff99d40dfc16f91507acf764299ecad46b2ab",
+      "finished": true,
+      "winner": "dark",
+      "turns": 35,
+      "referenceDecisions": 1725,
+      "nativeCommands": 2439,
+      "comparedCheckpoints": 245,
+      "actions": {
+        "untagged": 11,
+        "site-placement": 8,
+        "activate": 24,
+        "activate-count": 48,
+        "pass": 1371,
+        "site": 11,
+        "draw": 80,
+        "deploy": 25,
+        "deploy-target": 35,
+        "equip": 10,
+        "battle": 6,
+        "fire": 3,
+        "fire-target": 3,
+        "reduce": 2,
+        "reduce-amount": 2,
+        "forfeit": 11,
+        "drain": 22,
+        "loss-order": 6,
+        "kintan": 1,
+        "recovery-selection": 2,
+        "old-ben": 1,
+        "lose": 42,
+        "macroscan": 1
+      }
+    }
+  ],
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf"
+  ],
+  "finding": "At turn 14, Light initiates with both sides owing attrition, plays It Could Be Worse and still takes the first loss action. The response does not replace the pending damage action. Native previously advanced to Dark after the reduction. The full game now matches without state correction.",
+  "referenceSources": [
+    "BattleDamageSegmentAction.ChooseCardToLoseOrForfeitEffect",
+    "Card1_090.getGameTextOptionalAfterActions",
+    "AR damage segment pp56\u201357; Old Ben p123"
+  ],
+  "harnessNotes": [
+    "Unmodified production engine, exact decks, GEMP random initial shuffle, no board/pile mutations after setup.",
+    "Client waits until turn 12 before battles/drains, limits the early Light garrison, avoids mines/inspections and preserves response Force. These are legal player choices, not rules changes.",
+    "Both Kintan and Old Ben respond to one actual forfeiture with attachments. Temporary selection IDs are validated against selectable entries and blueprint; exact subsequent piles/table identities are compared.",
+    "Five exploratory complete runs matched before reaching recoveries; not included as new canonical fixtures. Three interrupted client runs exposed unhandled selection dialogs and are not complete-match evidence."
+  ],
+  "limits": [
+    "One selected complete path, not all reachable choices or starter admission.",
+    "Remaining attrition and every intermediate response window are not compared.",
+    "Cancellation/over-reduction/refresh regressions are separate native checks, not additional executed GEMP match claims.",
+    "The failed Obsession Force amount and all broader full-engine/product obligations remain; production admission remains closed."
+  ]
+}

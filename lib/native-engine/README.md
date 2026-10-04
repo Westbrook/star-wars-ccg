@@ -3057,3 +3057,42 @@ completed loss at phone/tablet/desktop sizes. Evidence and limitations are in
 `tests/native-engine/gemp/assault-presence-provenance.json`. No new Rules Lab
 study was added. Full engine scope is retained and production admission remains
 closed.
+
+### Complete-match recovery and damage-action priority
+
+A twelfth complete introductory GEMP game now replays through 2,439 native
+commands and 245 exact checkpoints, ending with Dark's Life Force victory on
+turn 35. This path includes Kintan Strider retrieving the topmost character and
+Old Ben reviving the opponent's same just-forfeited character, after its
+attachments are lost. The revived character stays out of the current battle,
+and its already credited forfeiture remains paid. This is a complete selected
+path using the actual 60-card lists and a fresh reference shuffle; there are no
+helper cards, arranged mid-game piles or state corrections. The source and
+record hashes are in `gemp/recovery-match-provenance.json`.
+
+The game exposed a timing error in a later battle: playing It Could Be Worse
+advanced the native damage-action turn. It is a response to the pending loss,
+not the player's forfeiture/loss action. The combined damage UI now retains
+that player's action turn while payment, play and cancellation responses still
+alternate normally. After the player actually forfeits or loses Force, the next
+damage action belongs to the opponent. The saved parent window retains this
+priority through refresh. This agrees with the pinned GEMP
+`BattleDamageSegmentAction.ChooseCardToLoseOrForfeitEffect`, `Card1_090`, and the
+AR damage-segment sequence (pp56–57).
+
+The reference client validates actual selectable entries in Lost Pile dialogs;
+nonselectable cards may precede the legal character. Replay checks the selected
+temporary ID/blueprint, exact subsequent physical cards, and Old Ben's original
+site. Its optional checkpoint observer receives copies and cannot change the
+continuing replay. `recovery-match-fixture.mjs` resumes the verified turn-14
+checkpoint for service/browser checks, with no board or pile arrangement.
+Run `node tests/native-engine/recovery-match-browser.mjs` against the normal
+local UI for the real service/SQLiteD1 phone, tablet and desktop refresh test.
+
+This selected path does not establish every reachable action, remaining
+attrition comparison or every intermediate timing window. Native regressions
+add cancellation via It's Worse; that is not a second GEMP match observation.
+The failed-Obsession Force amount, further response interactions, general card
+coverage and all remaining full-engine/product requirements remain unfinished.
+Full production deck admission stays closed. No standalone Rules Lab study was
+added.

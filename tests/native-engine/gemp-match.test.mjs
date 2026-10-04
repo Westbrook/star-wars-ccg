@@ -1,12 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readGempMatch,replayGempMatch,shuffleEntropy,normalizedCheckpoint,assertReferenceAction,followingTarget,inspectionChoice} from './gemp-match-replay.mjs';
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+import {readGempMatch,replayGempMatch,shuffleEntropy,normalizedCheckpoint,assertReferenceAction,followingTarget,inspectionChoice,assertRecoverySelection} from './gemp-match-replay.mjs';
 import {load} from '../native-proof/load-engine.mjs';
 const {shuffled}=load(new URL('../../lib/native-engine/random.ts',import.meta.url));
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const loadMatch=name=>readGempMatch(new URL('./gemp/complete-matches/'+name+'.json.gz',import.meta.url));
 
-for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','ground-attachments','ground-mines','ground-responses','ground-devices','ground-inspections','ground-mine-pairs','ground-hand-retention'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
+for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','ground-attachments','ground-mines','ground-responses','ground-devices','ground-inspections','ground-mine-pairs','ground-hand-retention','ground-recovery'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
  const reference=loadMatch(name),before=JSON.stringify(reference),result=replayGempMatch(reference);
  assert.equal(JSON.stringify(reference),before,'reference fixture must stay immutable');
  assert.equal(result.state.result.winner,reference.winner);
@@ -17,6 +19,10 @@ for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','gro
  assert.ok(reference.trace.some(r=>r.semantic?.kind==='lose'));
  assert.ok(reference.trace.some(r=>r.semantic?.kind==='drain'));
  assert.equal(result.state.deckSize,60);
+ if(name==='ground-recovery'){
+  const receipt=JSON.parse(fs.readFileSync(new URL('./gemp/recovery-match-provenance.json',import.meta.url))).fixtures[0];
+  assert.equal(result.commands,receipt.nativeCommands);assert.equal(result.checkpoints,receipt.comparedCheckpoints);
+ }
  for(const deck of Object.values(reference.decks))for(const bp of deck)assert.equal(premiereRules.supports(bp),false,'a matching path must not admit a whole deck');
 });
 test('recorded setup permutation is replayed through the real shuffle, preserving the input',()=>{
@@ -120,4 +126,40 @@ test('battle total comparison includes reductions without discarding the obligat
 for(const kind of ['macroscan','peek','explode'])test('device reference '+kind+' tag must match its chosen action',()=>{
  const row=loadMatch('ground-devices').trace.find(x=>x.semantic?.kind===kind);assertReferenceAction(row);
  row.parameters.actionText[row.parameters.actionId.indexOf(row.answer)]='Pass';assert.throws(()=>assertReferenceAction(row),/does not match/);
+});
+
+test('complete recovery match exercises both responses to the same real forfeiture',()=>{
+ const record=loadMatch('ground-recovery'),rows=record.trace;
+ const k=rows.findIndex(r=>r.semantic?.kind==='kintan'),b=rows.findIndex(r=>r.semantic?.kind==='old-ben');
+ assert.ok(k>=0&&b>k);assert.ok(!rows.slice(k+1,b).some(r=>r.semantic?.kind==='forfeit'));
+ const ben=rows[b],target=ben.semantic.target,forfeit=rows.slice(0,b).findLast(r=>r.semantic?.kind==='forfeit');
+ assert.equal(forfeit.semantic.card,target);assert.ok(forfeit.state.table.some(c=>c.attachedTo===target));
+ const selected=followingTarget(rows,b,'recovery-selection');assertRecoverySelection(selected,'light',record.decks.light[Number(target.split('-')[1])-1]);
+ const nextForfeit=rows.slice(b+1).find(r=>r.semantic?.kind==='forfeit');
+ assert.ok(nextForfeit.state.table.some(c=>c.id===target));assert.ok(!nextForfeit.state.table.some(c=>c.attachedTo===target));
+ assert.equal(nextForfeit.state.battleLosses.light.damage,ben.state.battleLosses.light.damage,'Revival retains already paid forfeit credit');
+ assert.notEqual(nextForfeit.semantic.card,target,'Revived character does not rejoin this battle');
+});
+
+for(const kind of ['old-ben','kintan'])test('recovery selection validates the actual selectable temporary ID: '+kind,()=>{
+ const rows=loadMatch('ground-recovery').trace,index=rows.findIndex(r=>r.semantic?.kind===kind),row=followingTarget(rows,index,'recovery-selection');
+ const answer=row.parameters.cardId.indexOf(row.answer),blueprint=row.parameters.blueprintId[answer];assertRecoverySelection(row,row.semantic.side,blueprint,kind);
+ const changed=structuredClone(row);changed.parameters.selectable[answer]='false';assert.throws(()=>assertRecoverySelection(changed,row.semantic.side,blueprint,kind),/not selectable/);
+ changed.parameters.selectable[answer]='true';changed.answer='not-a-reference-card';assert.throws(()=>assertRecoverySelection(changed,row.semantic.side,blueprint,kind),/answer missing/);
+ assert.throws(()=>assertRecoverySelection(row,row.semantic.side,'unknown',kind),/wrong character/);
+ const action=rows[index];assertReferenceAction(action);action.parameters.actionText[action.parameters.actionId.indexOf(action.answer)]='Pass';assert.throws(()=>assertReferenceAction(action),/does not match/);
+});
+
+test('Old Ben cannot silently return to another site in the recorded game',()=>{
+ const record=loadMatch('ground-recovery'),rows=record.trace,index=rows.findIndex(r=>r.semantic?.kind==='old-ben'),target=rows[index].semantic.target;
+ const returned=rows.slice(index+1).find(r=>r.state.table.some(c=>c.id===target));const card=returned.state.table.find(c=>c.id===target);
+ card.location=returned.state.locations.find(id=>id!==card.location);assert.throws(()=>replayGempMatch(record),/original site/);
+});
+
+test('complete recovery evidence is bound to its exact executed source and recorded game',()=>{
+ const receipt=JSON.parse(fs.readFileSync(new URL('./gemp/recovery-match-provenance.json',import.meta.url))),f=receipt.fixtures[0],sha=p=>createHash('sha256').update(fs.readFileSync(new URL('../../'+p,import.meta.url))).digest('hex');
+ assert.equal(sha(f.fixture),f.sha256);assert.equal(sha(f.harness),f.harnessSha256);
+ assert.equal(sha('tests/native-engine/gemp/NativeEngineRecoveryMatchOracleTests.java'),f.harnessSha256);
+ const r=loadMatch('ground-recovery');assert.equal(r.trace.length,f.referenceDecisions);assert.equal(r.final.turn,f.turns);assert.equal(r.winner,f.winner);
+ assert.equal(receipt.unchangedProductionFiles,6820);assert.equal(f.actions['old-ben'],1);assert.equal(f.actions.kintan,1);
 });
