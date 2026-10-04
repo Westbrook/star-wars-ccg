@@ -1,0 +1,17 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T23:23:11.833182+00:00",
+  "files": {
+    "NativeEngineBattleInterruptOracleTests.java": "f943e69ee3b610c3c1e3b675265773dfe3a3bc2c7ba597399b5f62ba35aef14e",
+    "battle-interrupt-results.json": "0ea082d8fb3a1eb645f70ebfdba64f5ee9914ec11def77ce1340ca416c86205a"
+  },
+  "junitTests": 2,
+  "observations": 11,
+  "unchangedProductionFiles": 6820,
+  "scope": "Four printed battle destiny Interrupts, cost/destinations, target departure while pending, cancellation, alone/droid eligibility, Leia power and immunity.",
+  "limitations": [
+    "Native physical-draw, cap, CPU and refresh checks are not executed GEMP comparisons.",
+    "Full engine admission remains closed pending all reachable behavior."
+  ]
+}

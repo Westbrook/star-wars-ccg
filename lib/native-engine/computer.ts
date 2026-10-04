@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-13';
+export const computerPolicy = 'native-cpu-14';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -19,7 +19,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   if (view.status === 'finished' || !p || p.side !== side || !p.choices.length) return null;
   const own = view.players[side], opponent = other(side);
   const visible = [...view.table, ...own.hand, ...own.lost, ...own.destiny];
-  const rules = view.rules as {forceLossCredits?:Record<string,number>;values?: ReturnType<typeof publicValues>; vessels?:ReturnType<typeof occupancyView>['vessels']; battle?: Battle | null} | undefined;
+  const rules = view.rules as {battleDrawPolicy?:Record<Side,{count:number;limit:number|null}>;forceLossCredits?:Record<string,number>;values?: ReturnType<typeof publicValues>; vessels?:ReturnType<typeof occupancyView>['vessels']; battle?: Battle | null} | undefined;
   const battle = rules?.battle?.stage === 'damage' ? rules.battle : null;
   const cards = new Map(visible.map(c => [c.id, c]));
   const stat = (id: string, field: string) => {
@@ -177,6 +177,12 @@ export function chooseComputerAction(view: View, side: Side): string | null {
       const victims=view.table.filter(c=>c.location===site&&['Character','Creature','Vehicle','Starship','Weapon','Device'].includes(definition(c.blueprint).type));
       const weight=(seat:Side)=>victims.filter(c=>c.owner===seat).reduce((n,c)=>n+Math.max(1,stat(c.id,'forfeit')+stat(c.id,'power')),0);
       return weight(opponent)>weight(side)?45+weight(opponent)-weight(side):-10;
+    }
+    if(kind==='battle-add'){
+      const title=cards.get(a)?.blueprint?definition(cards.get(a)!.blueprint).name:'';
+      const prior=Math.max(0,...(rules?.battle?.drawModifiers??[]).filter(m=>m.side===side&&m.kind==='add'&&m.function==='battle-destiny'&&cards.get(m.source.id)?.blueprint&&definition(cards.get(m.source.id)!.blueprint).name===title).map(m=>m.amount));
+      const policy=rules?.battleDrawPolicy?.[side],gain=Number(b)-prior;
+      return gain>0&&(own.counts?.reserve===null||(own.counts?.reserve??0)>0)&&(!policy||policy.limit===null||policy.count<policy.limit)?45+gain*15:-5;
     }
     if(kind==='scomp'){const mode=c.id.split(':')[3];return a==='finish'?30:mode==='drain'?(view.turn.side===side?-10:65):mode==='cancel'||mode==='table'?75:5;}
     if(kind==='orders'){

@@ -3508,5 +3508,86 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_089.java"
+  },
+  {
+    "gempId": "1_17",
+    "name": "Leia Organa",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/leiaorgana.gif",
+    "text": "Adds 1 to power of each Rebel present with her at a Death Star site. 'Diplomatic' immunity to attrition < 2.",
+    "stats": {
+      "deploy": "3",
+      "power": "3",
+      "ability": "3",
+      "destiny": "1",
+      "forfeit": "6"
+    },
+    "icons": [
+      "Warrior"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_017.java"
+  },
+  {
+    "gempId": "1_102",
+    "name": "Out Of Nowhere",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/outofnowhere.gif",
+    "text": "If opponent just initiated a battle at a system or sector where you have a starship with maneuver > 3, use 1 Force to add one battle destiny.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_102.java"
+  },
+  {
+    "gempId": "1_110",
+    "name": "Skywalkers",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/skywalkers.gif",
+    "text": "If Luke and Leia are in a battle together, you may add two battle destiny OR Cancel Imperial Barrier or Wrong Turn or Retract The Bridge.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_110.java"
+  },
+  {
+    "gempId": "1_116",
+    "name": "The Force Is Strong With This One",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/theforceisstrongwiththisone.gif",
+    "text": "If Luke and an Imperial with ability > 2 are involved in the same battle, you may add one battle destiny (add two destiny if Imperial is Vader).",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_116.java"
+  },
+  {
+    "gempId": "1_119",
+    "name": "Warrior's Courage",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/warriorscourage.gif",
+    "text": "If your warrior is defending a battle alone at a site, add one battle destiny. OR If Leia is defending a battle alone at a site, add two battle destiny.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_119.java"
   }
 ]

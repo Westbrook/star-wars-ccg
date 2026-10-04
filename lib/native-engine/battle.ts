@@ -463,7 +463,7 @@ export function battleView(m: Match): Json {
   // Only public battle information; neither continuations nor hidden pile IDs.
   const projected=b?structuredClone(b):null;
   if(projected?.starshipShots)projected.starshipShots=projected.starshipShots.map(shot=>({...shot,...(shot.outcome==='pending'?pendingWeaponTotal(m,{weapon:shot.weaponRef,target:shot.targetRef}):{})}));
-  return {battle: b ? {...projected, damage: pair(battleDamage(m, 'dark'), battleDamage(m, 'light'))} as unknown as Json : null};
+  return {battleDrawPolicy: b && b.stage !== 'complete' ? {dark:battleDrawPolicy(m,'dark'),light:battleDrawPolicy(m,'light')} : null, battle: b ? {...projected, damage: pair(battleDamage(m, 'dark'), battleDamage(m, 'light'))} as unknown as Json : null};
 }
 export function assertBattle(m: Match): void {
   assertBattleDrawModifiers(m);

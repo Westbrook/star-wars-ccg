@@ -1,3 +1,4 @@
+import {leiaPowerBonus} from './leia';
 import {corulagStatBonus,otsdDrainModifier} from './otsd-locations';
 import {otsdAlienDiscount,otsdRecruitFree} from './otsd-characters';
 import {otsdWeaponDrawBonus} from './otsd-ships';
@@ -131,7 +132,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   const currentBattle = m.data.battle as {site: string; stage: string; runLuke?: boolean} | undefined;
   if (blueprint === '101_2' && currentBattle?.runLuke && currentBattle.stage !== 'complete' && site === currentBattle.site &&
       !Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '101_5' && c.location && (c.location === site || adjacent(m, c.location, site)))) value += 2;
-  value += corulagStatBonus(m,id) + supportPowerBonus(m,id,active) + equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id) + larsPowerBonus(m,id,active);
+  value += leiaPowerBonus(m,id,active) + corulagStatBonus(m,id) + supportPowerBonus(m,id,active) + equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id) + larsPowerBonus(m,id,active);
   if (attachedArmor(m,id).length) value += 2;
   if (blueprint === '9_24' && armedWithLightsaber(m,id)) value+=2;
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;

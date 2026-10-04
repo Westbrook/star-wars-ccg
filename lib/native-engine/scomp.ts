@@ -12,8 +12,9 @@ import {moveCard,shufflePile} from './state';
 import {loseFromTable} from './table';
 import {other,sides,type Action,type Decision,type Json,type Match,type Resolution,type Side,type Window} from './types';
 
-const supported=(bp:string)=>['1_108','1_250','1_235'].includes(bp);
-const names:Record<string,string[]>={'1_235':['Report To Lord Vader','Scomp Link Access','Rebel Planners','Rebel Reinforcements','Gift Of The Mentor','Gift of the Mentor','Panic',"Don't Get Cocky",'Skywalkers','Demotion','Combined Attack','Surprise Assault'],'1_108':["We're All Gonna Be A Lot Thinner!",'Boring Conversation Anyway'],'1_250':['Scomp Link Access','Into The Garbage Chute, Flyboy']};
+const supported=(bp:string)=>['1_108','1_250','1_235','1_110'].includes(bp);
+const unconditional=(bp:string)=>['1_235','1_110'].includes(bp);
+const names:Record<string,string[]>={'1_110':['Imperial Barrier','Wrong Turn','Retract The Bridge'],'1_235':['Report To Lord Vader','Scomp Link Access','Rebel Planners','Rebel Reinforcements','Gift Of The Mentor','Gift of the Mentor','Panic',"Don't Get Cocky",'Skywalkers','Demotion','Combined Attack','Surprise Assault'],'1_108':["We're All Gonna Be A Lot Thinner!",'Boring Conversation Anyway'],'1_250':['Scomp Link Access','Into The Garbage Chute, Flyboy']};
 type Payload={card:string;mode:'peek'|'drain'|'cancel'|'table';unit?:CardReference;pile?:Side;inspection?:ReservePeek;target?:CardReference;site?:CardReference;index?:number;actionId?:string;window?:number};
 const data=(f:Resolution|Decision)=>('action' in f?f.action.payload:f.payload) as unknown as Payload;
 const action=(step:string,p:Payload):Action=>({id:'scomp:'+step+':'+p.card+':'+p.mode+(p.unit?':'+p.unit.id:'')+(p.pile?':'+p.pile:'')+(p.target?':'+p.target.id:''),handler:'scomp:'+step,source:p.card,label:'Resolve Scomp-link Interrupt',payload:p as unknown as Json});
@@ -26,13 +27,13 @@ export function scompActions(m:Match,w:Window,side:Side):Action[]{
  for(const card of m.players[side].hand.filter(id=>supported(m.cards[id].blueprint))){
   const bp=m.cards[card].blueprint,offer=(p:Payload,label:string)=>result.push({...action('play',p),label:name(m,card)+' · '+label});
   if(response){const bound={index:m.stack.length-2,actionId:response.action.id,window:w.serial},site=(response.action.payload as {site?:string})?.site;
-   if(bp!=='1_235'&&response.action.handler==='ground:drain'&&site&&serviceActive(m,side)&&!cardPlayedThisTurn(m,side,bp)&&Object.values(m.cards).some(c=>c.owner===side&&c.zone==='table'&&c.location===site&&cardDefinition(m,c.id).subType==='Droid'&&crewActive(m,c.id)))offer({card,mode:'drain',site:referenceCard(m,site),...bound},'cancel Force drain at '+name(m,site));
+   if(!unconditional(bp)&&response.action.handler==='ground:drain'&&site&&serviceActive(m,side)&&!cardPlayedThisTurn(m,side,bp)&&Object.values(m.cards).some(c=>c.owner===side&&c.zone==='table'&&c.location===site&&cardDefinition(m,c.id).subType==='Droid'&&crewActive(m,c.id)))offer({card,mode:'drain',site:referenceCard(m,site),...bound},'cancel Force drain at '+name(m,site));
    const target=response.action.source;
-   if(target&&m.cards[target].zone==='playing'&&names[bp].includes(name(m,target))&&bp==='1_235')offer({card,mode:'cancel',target:referenceCard(m,target),...bound},'cancel '+name(m,target));
-   if(bp!=='1_235'&&target&&m.cards[target].zone==='playing'&&names[bp].includes(name(m,target)))for(const unit of units.filter(c=>c.location&&isSite(m,c.location)&&system(m,c.location)==='Death Star'))offer({card,mode:'cancel',...(side==='light'?{unit:referenceCard(m,unit.id)}:{}),target:referenceCard(m,target),...bound},'cancel '+name(m,target));
+   if(target&&m.cards[target].zone==='playing'&&names[bp].includes(name(m,target))&&unconditional(bp))offer({card,mode:'cancel',target:referenceCard(m,target),...bound},'cancel '+name(m,target));
+   if(!unconditional(bp)&&target&&m.cards[target].zone==='playing'&&names[bp].includes(name(m,target)))for(const unit of units.filter(c=>c.location&&isSite(m,c.location)&&system(m,c.location)==='Death Star'))offer({card,mode:'cancel',...(side==='light'?{unit:referenceCard(m,unit.id)}:{}),target:referenceCard(m,target),...bound},'cancel '+name(m,target));
   }
-  if(optionalActionWindow(w)&&bp==='1_235')for(const c of Object.values(m.cards))if(c.zone==='table'&&names[bp].includes(name(m,c.id)))offer({card,mode:'table',target:referenceCard(m,c.id)},'cancel '+name(m,c.id));
-  if(optionalActionWindow(w)&&bp!=='1_235'){
+  if(optionalActionWindow(w)&&unconditional(bp))for(const c of Object.values(m.cards))if(c.zone==='table'&&names[bp].includes(name(m,c.id)))offer({card,mode:'table',target:referenceCard(m,c.id)},'cancel '+name(m,c.id));
+  if(optionalActionWindow(w)&&!unconditional(bp)){
    // Cylinder spots a leader; Scomp Link Access explicitly targets its R-unit.
    for(const unit of side==='light'?units:units.slice(0,1))for(const pile of sides)if(m.players[pile].reserve.length)offer({card,mode:'peek',...(side==='light'?{unit:referenceCard(m,unit.id)}:{}),pile},'inspect '+pile+' Reserve Deck'+(side==='light'?' with '+name(m,unit.id):''));
    for(const unit of (side==='light'?units:units.filter(c=>c.location&&isSite(m,c.location)&&system(m,c.location)==='Death Star').slice(0,1)).filter(c=>c.location&&isSite(m,c.location)&&system(m,c.location)==='Death Star'))for(const c of Object.values(m.cards))if(c.zone==='table'&&names[bp].includes(name(m,c.id)))offer({card,mode:'table',...(side==='light'?{unit:referenceCard(m,unit.id)}:{}),target:referenceCard(m,c.id)},'cancel '+name(m,c.id));
@@ -54,7 +55,7 @@ export function scompResolve(m:Match,r:Resolution,context:Context){
   if(m.players[p.pile!].reserve.length)m.stack.push({kind:'decision',side:r.actor,handler:'scomp:peek',payload:{...p,inspection:peekReserve(m,p.pile!,m.players[p.pile!].reserve.length,true)} as unknown as Json});
  }else if(h==='scomp:shuffle'){shufflePile(m,p.pile!,'reserve',context.entropy);openWindow(m,'response',other(r.actor),{kind:'reserve-shuffled',side:p.pile!,source:p.card});}
  else if(h==='scomp:canceled')openWindow(m,'response',other(r.actor),{kind:'card-canceled',card:p.target!.id,source:p.card});
- else if(h==='scomp:finish')moveCard(m,p.card,'used');
+ else if(h==='scomp:finish')moveCard(m,p.card,m.cards[p.card].blueprint==='1_110'?'lost':'used');
  else throw Error('Unknown Scomp-link continuation.');
 }
 export const scompChoices=()=>[{id:'scomp:finish',label:'Finish viewing and reshuffle'}];
@@ -65,9 +66,9 @@ export function assertScomp(m:Match){
   const f=m.stack[index];if(f.kind==='window')continue;const h=f.kind==='decision'?f.handler:f.action.handler;if(!h.startsWith('scomp:'))continue;const p=data(f),actor=f.kind==='decision'?f.side:f.actor;
   if(!p||!supported(m.cards[p.card]?.blueprint)||m.cards[p.card].owner!==actor||m.cards[p.card].zone!=='playing'||!['peek','drain','cancel','table'].includes(p.mode)||!(f.kind==='decision'?['scomp:peek']:['scomp:play','scomp:inspect','scomp:shuffle','scomp:canceled','scomp:finish']).includes(h))throw Error('Invalid Scomp-link continuation.');
   if(f.kind==='resolution'&&(f.action.source!==p.card||f.action.id!==action(h.slice(6),p).id))throw Error('Invalid Scomp-link action.');
-  if(m.cards[p.card].blueprint==='1_235'&&(!['cancel','table'].includes(p.mode)||p.unit))throw Error('Invalid Boring Conversation mode.');
+  if(unconditional(m.cards[p.card].blueprint)&&(!['cancel','table'].includes(p.mode)||p.unit))throw Error('Invalid named cancellation mode.');
   if(p.unit){assertCardReference(m,p.unit);if(actor!=='light'||p.unit.zone!=='table'||m.cards[p.unit.id].owner!==actor||!(isModel(m,p.unit.id,'ASTROMECH')||isModel(m,p.unit.id,'VEHICLE')))throw Error('Invalid Scomp-link R-unit.');}
-  else if(actor==='light'&&p.mode!=='drain')throw Error('Missing Scomp-link R-unit.');
+  else if(actor==='light'&&!unconditional(m.cards[p.card].blueprint)&&p.mode!=='drain')throw Error('Missing Scomp-link R-unit.');
   if(p.mode==='peek'){if(!sides.includes(p.pile!))throw Error('Invalid inspected Reserve.');if(f.kind==='decision'){assertReservePeek(m,p.inspection!);if(p.inspection!.whole!==true||p.inspection!.side!==p.pile)throw Error('Invalid inspection owner.');}}
   else if(f.kind==='decision'||['scomp:inspect','scomp:shuffle'].includes(h))throw Error('Invalid Scomp-link mode.');
   if(['cancel','table'].includes(p.mode)){assertCardReference(m,p.target!);if(p.target!.zone!==(p.mode==='table'?'table':'playing')||!names[m.cards[p.card].blueprint].includes(name(m,p.target!.id)))throw Error('Invalid Scomp-link cancellation target.');}

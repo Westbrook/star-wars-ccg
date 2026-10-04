@@ -1,0 +1,98 @@
+[
+  {
+    "before": 1,
+    "lost": true,
+    "offered": true,
+    "used": false,
+    "forcePaid": 0,
+    "after": 3,
+    "mode": "sky"
+  },
+  {
+    "before": 1,
+    "lost": true,
+    "offered": true,
+    "used": false,
+    "forcePaid": 0,
+    "after": 2,
+    "mode": "sky-leia-leaves"
+  },
+  {
+    "before": 1,
+    "lost": true,
+    "offered": true,
+    "used": false,
+    "forcePaid": 0,
+    "after": 1,
+    "mode": "sky-canceled"
+  },
+  {
+    "before": 0,
+    "lost": true,
+    "offered": true,
+    "used": false,
+    "forcePaid": 0,
+    "after": 1,
+    "mode": "strong"
+  },
+  {
+    "before": 0,
+    "lost": true,
+    "offered": true,
+    "used": false,
+    "forcePaid": 0,
+    "after": 2,
+    "mode": "strong-vader"
+  },
+  {
+    "before": 0,
+    "lost": true,
+    "offered": true,
+    "used": false,
+    "forcePaid": 0,
+    "after": 1,
+    "mode": "warrior"
+  },
+  {
+    "before": 0,
+    "lost": true,
+    "offered": true,
+    "used": false,
+    "forcePaid": 0,
+    "after": 2,
+    "mode": "leia"
+  },
+  {
+    "before": 0,
+    "lost": false,
+    "offered": false,
+    "used": false,
+    "forcePaid": 0,
+    "after": 0,
+    "mode": "warrior-droid"
+  },
+  {
+    "before": 0,
+    "lost": false,
+    "offered": true,
+    "used": true,
+    "forcePaid": 1,
+    "after": 1,
+    "mode": "nowhere"
+  },
+  {
+    "before": 0,
+    "lost": false,
+    "offered": false,
+    "used": false,
+    "forcePaid": 0,
+    "after": 0,
+    "mode": "nowhere-own"
+  },
+  {
+    "immunity": 2.0,
+    "troopPower": 2.0,
+    "leiaPower": 3.0,
+    "mode": "leia-text"
+  }
+]
