@@ -31,7 +31,7 @@ export function reactCard(action:Action):string|undefined {const p=action.payloa
 export function resolveCancelledReact(m: Match, r: Resolution): boolean {
   const p = payload(r.action);
   if (!r.cancelled || !p?.react) return false;
-  const deployment = ['transport:deploy','pair:deploy','vessel:deploy','vessel:aboard','ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
+  const deployment = ['space-weapon:equip','transport:deploy','pair:deploy','vessel:deploy','vessel:aboard','ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
   if (!deployment && !['ground:move','vehicle-react:move'].includes(r.action.handler)) throw Error('Unknown canceled react.');
   const card = m.cards[reactCard(r.action)!];
   const returning = r.action.handler==='pair:deploy' ? [card,m.cards[p.pilot!.id]] : [card];

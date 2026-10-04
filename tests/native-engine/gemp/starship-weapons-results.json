@@ -1,0 +1,200 @@
+[
+  {
+    "blueprint": "1_158",
+    "capital": false,
+    "destiny": 1,
+    "deploymentCost": 1,
+    "firingCost": 1,
+    "hit": false,
+    "forfeit": 3.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": false
+  },
+  {
+    "blueprint": "1_158",
+    "capital": false,
+    "destiny": 3,
+    "deploymentCost": 1,
+    "firingCost": 1,
+    "hit": true,
+    "forfeit": 3.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": false
+  },
+  {
+    "blueprint": "1_158",
+    "capital": false,
+    "destiny": 5,
+    "deploymentCost": 1,
+    "firingCost": 1,
+    "hit": true,
+    "forfeit": 3.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": false
+  },
+  {
+    "blueprint": "1_158",
+    "capital": true,
+    "destiny": 1,
+    "deploymentCost": 1,
+    "firingCost": 1,
+    "hit": false,
+    "forfeit": 9.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": false
+  },
+  {
+    "blueprint": "1_158",
+    "capital": true,
+    "destiny": 3,
+    "deploymentCost": 1,
+    "firingCost": 1,
+    "hit": false,
+    "forfeit": 9.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": false
+  },
+  {
+    "blueprint": "1_158",
+    "capital": true,
+    "destiny": 5,
+    "deploymentCost": 1,
+    "firingCost": 1,
+    "hit": false,
+    "forfeit": 9.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": false
+  },
+  {
+    "blueprint": "1_159",
+    "capital": false,
+    "destiny": 1,
+    "deploymentCost": 2,
+    "firingCost": 1,
+    "hit": true,
+    "forfeit": 3.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_159",
+    "capital": false,
+    "destiny": 3,
+    "deploymentCost": 2,
+    "firingCost": 1,
+    "hit": true,
+    "forfeit": 3.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_159",
+    "capital": false,
+    "destiny": 5,
+    "deploymentCost": 2,
+    "firingCost": 1,
+    "hit": true,
+    "forfeit": 3.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_159",
+    "capital": true,
+    "destiny": 1,
+    "deploymentCost": 2,
+    "firingCost": 1,
+    "hit": false,
+    "forfeit": 9.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_159",
+    "capital": true,
+    "destiny": 3,
+    "deploymentCost": 2,
+    "firingCost": 1,
+    "hit": false,
+    "forfeit": 9.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_159",
+    "capital": true,
+    "destiny": 5,
+    "deploymentCost": 2,
+    "firingCost": 1,
+    "hit": false,
+    "forfeit": 9.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_323",
+    "capital": false,
+    "destiny": 1,
+    "deploymentCost": 3,
+    "firingCost": 2,
+    "hit": false,
+    "forfeit": 2.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_323",
+    "capital": false,
+    "destiny": 3,
+    "deploymentCost": 3,
+    "firingCost": 2,
+    "hit": false,
+    "forfeit": 2.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_323",
+    "capital": false,
+    "destiny": 5,
+    "deploymentCost": 3,
+    "firingCost": 2,
+    "hit": true,
+    "forfeit": 2.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_323",
+    "capital": true,
+    "destiny": 1,
+    "deploymentCost": 3,
+    "firingCost": 2,
+    "hit": false,
+    "forfeit": 8.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_323",
+    "capital": true,
+    "destiny": 3,
+    "deploymentCost": 3,
+    "firingCost": 2,
+    "hit": false,
+    "forfeit": 8.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  },
+  {
+    "blueprint": "1_323",
+    "capital": true,
+    "destiny": 5,
+    "deploymentCost": 3,
+    "firingCost": 2,
+    "hit": true,
+    "forfeit": 8.0,
+    "sameWeaponAvailable": false,
+    "secondWeaponAvailable": true
+  }
+]

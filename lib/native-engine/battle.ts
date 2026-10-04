@@ -5,6 +5,7 @@ export {battleMembers as members,battleProhibited} from './participation';
 import {defenseValue} from './defense';
 import {restoreWeaponForfeit} from './forfeit';
 import {beginForfeiture} from './forfeiture';
+import type {StarshipShot} from './starship-weapons';
 import type {LightsaberShot} from './lightsabers';
 import {immuneToAttrition} from './combat-modifiers';
 import {deployed} from './deployment';
@@ -52,7 +53,7 @@ export type Battle = {
   characterDestinyUses?: CardReference[];
   worseIncrease?: number; damageLedger?: Pair<LossLedger>;
   damageMultipliers?: {card: string; factor: number; side: Side | 'both'}[];
-  knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[]; saberShots?: LightsaberShot[];
+  knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[]; saberShots?: LightsaberShot[]; starshipShots?: StarshipShot[];
 };
 type History = {turn: number; sites: string[]; participants: string[]};
 type Payload = {flow?: DrawFlow; draws?: Draw[]; attachment?: AttachmentAttempt; site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};

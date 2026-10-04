@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T05:58:46.138891+00:00",
+  "files": {
+    "NativeEngineStarshipWeaponsOracleTests.java": "609b9bb02586023faa8464a7242746646eb653c1401bcc7d370332229f32bc14",
+    "starship-weapons-results.json": "823a22803d9f5b383dcc6e85d410fbf6fb654bbe3b246f4e6d1d016c7a9956ea"
+  },
+  "junitTests": 1,
+  "observations": 18,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineStarshipWeaponsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp90,94\u201395",
+  "scope": "Proton Torpedoes on Y-wing; Quad Laser Cannon on Corellian Corvette; Turbolaser Battery on Imperial-Class Star Destroyer. Capital and starfighter targets, deployment/firing Force costs, hits/misses/forfeit, once-per-battle attempts and additional weapons.",
+  "method": [
+    "Initial ship boards, Force and predetermined Reserve destiny are controlled fixtures; deployment and firing are real GEMP player actions.",
+    "18 entire observed outcome records compared with native command replays and JSON round-trip projections."
+  ],
+  "limitations": [
+    "No full-match admission or new standalone study.",
+    "Turbolaser Battery mobile-system mounting, Death Star motion/setup, unregistered hosts and cards targetable as starfighters remain required work.",
+    "Transfers, original-card invalidation, response cancellation, granted deployment reacts and browser refresh use additional native-only checks; no GEMP equivalence claim for those checks.",
+    "Squadron capacity foundation is present but no squadron card is admitted or conformance-verified by this checkpoint."
+  ]
+}

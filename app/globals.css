@@ -38,3 +38,5 @@
 @media(max-width:640px){.catalog-controls{padding:16px}.catalog-control-heading{align-items:flex-start;flex-direction:column}.catalog-sort{width:100%;gap:8px}.catalog-sort>span{white-space:nowrap}.catalog-sort .choice-select{flex:1;width:0}.catalog-sort .choice-select:last-child{flex:0 0 125px;width:125px}.catalog-results-bar{gap:14px}.catalog-field [data-slot=input-group] input{font-size:16px}.catalog-control-heading h3{font-size:18px}}
 
 .catalog-controls .choice-select,.catalog-sort .choice-select{font-size:14px;min-height:42px}.catalog-controls .text-button{font-size:14px}.catalog-filter-badge{font-size:12px}
+
+.native-space-shots article+article{border-top:1px solid var(--border);margin-top:12px;padding-top:12px}.native-space-shots strong{overflow-wrap:anywhere}.native-space-shots p{margin:6px 0}.native-space-shots small{color:#b9c7cc}

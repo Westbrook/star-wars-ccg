@@ -1712,5 +1712,42 @@
       "RED_1"
     ],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_144.java"
+  },
+  "1_158": {
+    "keywords": [
+      "PROTON_TORPEDOES",
+      "STARSHIP_WEAPON_THAT_DEPLOYS_ON_STARFIGHTERS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_158.java"
+  },
+  "1_159": {
+    "keywords": [
+      "LASER_CANNON",
+      "STARSHIP_WEAPON_THAT_DEPLOYS_ON_CAPITALS",
+      "STARSHIP_WEAPON_THAT_DEPLOYS_ON_STARFIGHTERS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_159.java"
+  },
+  "1_323": {
+    "keywords": [
+      "TURBOLASER_BATTERY",
+      "STARSHIP_WEAPON_THAT_DEPLOYS_ON_CAPITALS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_323.java"
   }
 }

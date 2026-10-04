@@ -1,3 +1,4 @@
+import {starshipWeaponActions,starshipWeaponInitiate,starshipWeaponResolve,assertStarshipWeapons} from './starship-weapons';
 import {characterReactActions,characterReactInitiate,characterReactResolve,characterReactChoices,characterReactChoose,characterReactView,assertCharacterReact} from './character-react';
 import {vehicleReactActions,vehicleReactInitiate,vehicleReactResolve,vehicleReactChoices,vehicleReactChoose,vehicleReactView,assertVehicleReact} from './vehicle-react';
 import {pilotDeployActions,pilotDeployInitiate,pilotDeployResolve,pilotDeployView,assertPilotDeploy} from './pilot-deploy';
@@ -89,10 +90,11 @@ export const premiereRules: Rules = {
   generation,
   interrupt: m=>scheduleInserts(m),
   automatic: (m, w) => [...angerAutomatic(m,w),...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...characterReactActions(m,w,side),...vehicleReactActions(m,w,side),...pilotDeployActions(m,w,side),...dockingActions(m,w,side),...transportActions(m,w,side),...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...starshipWeaponActions(m,w,side),...characterReactActions(m,w,side),...vehicleReactActions(m,w,side),...pilotDeployActions(m,w,side),...dockingActions(m,w,side),...transportActions(m,w,side),...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
+    if (r.action.handler.startsWith('space-weapon:')) {starshipWeaponInitiate(m,r);return;}
     if (r.action.handler.startsWith('anger:')) return;
     if (r.action.handler.startsWith('noble:')) {nobleInitiate(m,r);return;}
     if (r.action.handler.startsWith('telepathy:')) {telepathyInitiate(m,r);return;}
@@ -151,6 +153,7 @@ export const premiereRules: Rules = {
     } else groundInitiate(m, r);
   },
   resolve: (m, r, context) => {
+    if (r.action.handler.startsWith('space-weapon:')) {if(!resolveCancelledReact(m,r))starshipWeaponResolve(m,r);syncBattle(m);return;}
     if (r.action.handler.startsWith('anger:')) {angerResolve(m,r);return;}
     if (r.action.handler.startsWith('noble:')) {nobleResolve(m,r);syncBattle(m);syncForceLosses(m);return;}
     if (r.action.handler.startsWith('telepathy:')) {telepathyResolve(m,r);syncBattle(m);syncForceLosses(m);return;}
@@ -333,7 +336,7 @@ export const premiereRules: Rules = {
     assertDoomed(match);
     assertStakes(match);
     assertGaderffii(match);
-    assertWeaponUse(match);
+    assertWeaponUse(match);assertStarshipWeapons(match);
     assertBattle(match);
     assertLeaving(match);
     if (!citySitesTogether(match, match.locations)) throw Error('Mos Eisley sites must remain together.');

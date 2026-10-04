@@ -14,11 +14,14 @@ export function canUseWeapon(m: Match, id: string): boolean {
   const used = useState(m).users[host] ?? [];
   const versions = useState(m).versions?.[host];
   const repeated = used.some((card, i) => card === id && (versions?.[i] ?? 0) === cardVersion(m, id));
-  const icons = cardDefinition(m, host).icons.filter(icon => icon === 'Warrior').length;
+  const def = cardDefinition(m, host);
+  if (def.type === 'Starship' && def.subType.startsWith('Capital:')) return true;
+  if (def.type === 'Starship' && def.subType.startsWith('Squadron:')) return used.length < 3 || repeated;
+  const icons = def.icons.filter(icon => icon === 'Warrior').length;
   return icons > 1 ? used.length < icons && !repeated : !used.length || repeated;
 }
 export function useWeapon(m: Match, id: string): void {
-  if (!canUseWeapon(m, id)) throw Error('Weapon use is restricted for this character.');
+  if (!canUseWeapon(m, id)) throw Error('Weapon use is restricted for this card.');
   const s = useState(m), host = m.cards[id].attachedTo!;
   const ids = s.users[host] ??= [], versions = (s.versions ??= {})[host] ??= ids.map(() => 0);
   if (!ids.some((card, i) => card === id && versions[i] === cardVersion(m, id))) {ids.push(id); versions.push(cardVersion(m, id));}
@@ -31,7 +34,7 @@ export function assertWeaponUse(m: Match): void {
   if (s.versions && (typeof s.versions !== 'object' || Array.isArray(s.versions) || Object.keys(s.versions).some(host => !s.users[host]))) throw Error('Invalid weapon instance history.');
   for (const [host, weapons] of Object.entries(s.users)) {
     const versions = s.versions?.[host];
-    if (!m.cards[host] || cardDefinition(m, host).type !== 'Character' || !Array.isArray(weapons) || !weapons.length || weapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon') || versions && (!Array.isArray(versions) || versions.length !== weapons.length || versions.some((v, i) => !Number.isSafeInteger(v) || v < 0 || v > cardVersion(m, weapons[i]))) || new Set(weapons.map((id, i) => id + ':' + (versions?.[i] ?? 0))).size !== weapons.length) throw Error('Invalid weapon-use record.');
+    if (!m.cards[host] || !['Character','Vehicle','Starship'].includes(cardDefinition(m, host).type) || !Array.isArray(weapons) || !weapons.length || weapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon') || versions && (!Array.isArray(versions) || versions.length !== weapons.length || versions.some((v, i) => !Number.isSafeInteger(v) || v < 0 || v > cardVersion(m, weapons[i]))) || new Set(weapons.map((id, i) => id + ':' + (versions?.[i] ?? 0))).size !== weapons.length) throw Error('Invalid weapon-use record.');
   }
 }
 

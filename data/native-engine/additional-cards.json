@@ -1780,5 +1780,50 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_144.java"
+  },
+  {
+    "gempId": "1_158",
+    "name": "Proton Torpedoes",
+    "side": "light",
+    "type": "Weapon",
+    "subType": "Starship",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/protontorpedoes.gif",
+    "text": "Use 1 Force to deploy on your X-wing, Y-wing or B-wing. May target a starship using 1 Force. Draw destiny. Target hit if destiny > defense value.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_158.java"
+  },
+  {
+    "gempId": "1_159",
+    "name": "Quad Laser Cannon",
+    "side": "light",
+    "type": "Weapon",
+    "subType": "Starship",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/quadlasercannon.gif",
+    "text": "Use 2 Force to deploy on your Corellian Corvette or Falcon. May target a starship using 1 Force. Draw destiny. Add 1 if targeting a starfighter. Target hit if total destiny > defense value.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_159.java"
+  },
+  {
+    "gempId": "1_323",
+    "name": "Turbolaser Battery",
+    "side": "dark",
+    "type": "Weapon",
+    "subType": "Starship",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/turbolaserbattery.gif",
+    "text": "Use 3 Force to deploy on your Star Destroyer or any mobile system. May target a starship using 2 Force. Draw two destiny. Subtract 2 if targeting a capital starship. Otherwise, subtract 5. Target hit if total destiny > defense value.",
+    "stats": {
+      "destiny": "2"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_323.java"
   }
 ]
