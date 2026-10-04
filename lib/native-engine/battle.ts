@@ -1,7 +1,7 @@
 import {unitsAt,characterPresent,occupants} from './occupancy';
 import {sunsdownAt} from './nighttime';
-import {battleMembers as members} from './participation';
-export {battleMembers as members} from './participation';
+import {battleMembers as members,battleProhibited} from './participation';
+export {battleMembers as members,battleProhibited} from './participation';
 import {defenseValue} from './defense';
 import {restoreWeaponForfeit} from './forfeit';
 import {beginForfeiture} from './forfeiture';
@@ -19,7 +19,7 @@ import type {GaderffiiShot} from './gaderffii';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
 import {atSite, cardDefinition, forfeit, isWarrior, name, printed, totalPower, weaponDrawBonus} from './board';
 export {weaponDrawBonus} from './board';
-import {barred, reactionActions} from './ground';
+import {reactionActions} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
 import {moveCard} from './state';
 import {drawDestiny, validDraw, assertDrawFlow, type DrawFlow, completeDestinyDraw, completeDestinyTotal, type Draw, type Substitution} from './destiny';
@@ -95,12 +95,12 @@ export function syncBattle(m: Match): void {
   // can join before power, but never afterward (including Old Ben in damage).
   const departed = b.departed ??= [];
   for (const id of sides.flatMap(side => b.participants[side]))
-    if (!departed.includes(id) && (m.cards[id]?.zone !== 'table' || m.cards[id].location !== b.site || barred(m, id))) departed.push(id);
+    if (!departed.includes(id) && (m.cards[id]?.zone !== 'table' || m.cards[id].location !== b.site || battleProhibited(m, id))) departed.push(id);
   b.hits = b.hits.filter(id => !departed.includes(id));
   syncBattleDamage(m);
   if (!['begin', 'weapons'].includes(b.stage)) return;
   const history = battleHistory(m);
-  for (const c of unitsAt(m, b.site)) if (!barred(m, c.id) && !history.participants.includes(c.id)) {
+  for (const c of unitsAt(m, b.site)) if (!battleProhibited(m, c.id) && !history.participants.includes(c.id)) {
     // leaveTable expires the old instance's turn history. Merely moving away
     // does not, so returning the same instance cannot bypass that restriction.
     if (!b.participants[c.owner].includes(c.id)) b.participants[c.owner].push(c.id);
@@ -109,7 +109,7 @@ export function syncBattle(m: Match): void {
   }
   m.data.battles = history as unknown as Json;
 }
-const eligibleAt = (m: Match, side: Side, site: string) => unitsAt(m, site).filter(c => c.owner === side && !barred(m, c.id) && !battleHistory(m).participants.includes(c.id));
+const eligibleAt = (m: Match, side: Side, site: string) => unitsAt(m, site).filter(c => c.owner === side && !battleProhibited(m, c.id) && !battleHistory(m).participants.includes(c.id));
 export function battleDamage(m: Match, side: Side): number {
   const b = battle(m)!;
   return b.damageLedger && ['power','damage'].includes(b.stage) && !b.premature ? lossRemaining(m, side, b.damageLedger[side]) : b.damage[side];

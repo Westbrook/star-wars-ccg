@@ -17,6 +17,17 @@ export function deployed(m: Match, card: string): void {
   m.data.deployments = [...records(m).filter(d => d.turn === m.turn.number), entry] as unknown as Json;
   openWindow(m, 'response', other(entry.side), {kind: 'deployed', card});
 }
+/** Both cards are on table before one shared arrival opportunity. History uses
+ * separate monotonic IDs so existing deployment records remain unambiguous. */
+export function deployedTogether(m:Match,ship:string,pilot:string):void {
+ const ids=[ship,pilot];if(ship===pilot||ids.some(id=>m.cards[id]?.zone!=='table')||m.cards[pilot].attachedTo!==ship)throw Error('Invalid simultaneous deployment.');
+ for(const id of ids){
+  if(records(m).some(d=>d.card.id===id&&sameCard(m,d.card)))throw Error('Deployment already recorded.');
+  const entry:Deployment={card:referenceCard(m,id),side:m.cards[id].owner,turn:m.turn.number,phase:m.turn.phase,serial:++m.serial,ability:ability(m,id),observers:Object.values(m.cards).filter(c=>c.zone==='table').sort((a,b)=>a.id.localeCompare(b.id)).map(c=>referenceCard(m,c.id))};
+  m.data.deployments=[...records(m).filter(d=>d.turn===m.turn.number),entry] as unknown as Json;
+ }
+ openWindow(m,'response',other(m.cards[ship].owner),{kind:'deployed',card:pilot,cards:ids,simultaneous:true});
+}
 export function deployedAbilityDuringPhase(m: Match, observer: string, side: Side, phase: Phase): boolean {
   return records(m).some(d => d.turn === m.turn.number && d.phase === phase && d.side === side && d.ability > 0 &&
     d.observers.some(ref => ref.id === observer && sameCard(m, ref)));

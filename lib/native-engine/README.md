@@ -2738,3 +2738,41 @@ movement, an unpiloted partner, and CPU ending without a transfer loop.
 Sector docking, special docking-site permissions, non-capital docking-capability
 providers, generic cost/prevention modifiers and coordinated CPU cargo strategy
 remain. The remaining full engine/product scope and admission gate are unchanged.
+
+### Simultaneous ship and pilot deployment
+
+Gold 1 and Black 3 supply unpiloted starfighter component coverage. During Deploy,
+players can select a ship and a pilot from hand as one action, paying their
+combined deployment costs. Both remain in the pending action across recovery;
+they enter table together with the character occupying a pilot slot before any
+arrival response. Deployments produce two history records and a shared arrival
+opportunity. The match client identifies both cards and their destination.
+
+Unpiloted starfighters can deploy empty to docking bays or compatible cargo, but
+require a simultaneously deployed pilot to enter a system. Paired bay/cargo
+arrivals remain landed and have zero power. Gold 1 has shared pilot/passenger
+capacity; Black 3 has one pilot seat, no hyperdrive and TIE landing restrictions.
+Normal deployment restrictions, uniqueness and available Force apply to both
+cards. Source/destination instance checks reject invalid continuations; failed
+paired deployment retains both play allowances and orders both cards into Lost.
+
+Barrier can target a newly deployed starship as well as a character. Either
+member of a simultaneous ship/pilot pair offers the same effect on both valid
+targets. A barred ship also keeps its aboard crew out of battle, without assigning
+the crew an independent movement prohibition. CPU policy 11 prefers an offered
+operational paired deployment to a system over parking that pair in a bay/cargo.
+It remains a heuristic using only the player's projection.
+
+`pilot-deploy-provenance.json` records seven executed GEMP paths, one passing
+JUnit test and byte comparison of all 6,820 production source files with the
+pinned reference. Costs, landing/cargo relationships, pilot roles, power, paired
+arrival records and Barrier restrictions agree. Native-only tests cover stale
+bindings, failed action disposal, crew battle exclusion and CPU choice. Playwright
+exercises a real service deployment, pending refresh and crew inspection at
+1440/834/390 widths. Component fixtures explicitly bypass full-match admission.
+
+Still required: deploying a paired card from another pile, reactive/special-text
+pairings, wider matching-pilot bonuses and nonparticipating pilot contributions,
+open vehicles, sectors, broader capacity/cost/prevention providers and all
+remaining catalog, capture, Objectives/setup and product work. This checkpoint
+does not open production full-match admission or create another standalone study.

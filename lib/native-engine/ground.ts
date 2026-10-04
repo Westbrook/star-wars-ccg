@@ -11,7 +11,7 @@ import {other, sides, type Action, type Decision, type Json, type Match, type Pa
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 
 export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>; cancelledReactTitles?: string[]};
-type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number; targetRef?: CardReference; cardRef?: CardReference};
+type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number; targetRef?: CardReference; targets?: CardReference[]; cardRef?: CardReference};
 export type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean; worseIncrease?: number; ledger?: LossLedger};
 const payload = (action: Action) => action.payload as Payload;
 export function usage(m: Match): GroundState {
@@ -81,11 +81,11 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
     }
   }
   if (window.timing !== 'response') return actions;
-  const event = window.event as {kind?: string; card?: string} | undefined;
-  if (event?.kind === 'deployed' && event.card && m.cards[event.card].zone === 'table' && m.cards[event.card].owner !== side && cardDefinition(m, event.card).type === 'Character') {
-    for (const card of m.players[side].hand.filter(id => m.cards[id].blueprint === (side === 'light' ? '1_105' : '1_249')))
-      actions.push(action('barrier:' + card + ':' + event.card, 'Play ' + name(m, card), 'barrier', {card, target: event.card}, {[side]: 1}, card));
-  }
+  const event = window.event as {kind?: string; card?: string; cards?:string[];simultaneous?:boolean} | undefined;
+  const arrivals=event?.kind==='deployed'?(event.cards??(event.card?[event.card]:[])):[];
+  const barrierTargets=arrivals.filter(id=>m.cards[id]?.zone==='table'&&m.cards[id].owner!==side&&['Character','Starship'].includes(cardDefinition(m,id).type));
+  for(const target of barrierTargets)for(const card of m.players[side].hand.filter(id=>m.cards[id].blueprint===(side==='light'?'1_105':'1_249')))
+   actions.push(action('barrier:'+card+':'+target,'Play '+name(m,card)+(barrierTargets.length>1?' · '+name(m,target):''),'barrier',{card,target,...(event?.simultaneous&&barrierTargets.length>1?{targets:barrierTargets.map(id=>referenceCard(m,id))}:{})},{[side]:1},card));
   const parent = pending(m);
   if (parent?.action.handler === 'ground:drain' && !parent.cancelled && side !== parent.actor) {
     const site = payload(parent.action).site!;
@@ -194,7 +194,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     cancelDrainAfterReact(m, side, data);
     openWindow(m, 'response', other(side), {kind: 'moved', card: data.card!, from: data.from!, site: data.site!});
   } else if (kind === 'ground:barrier') {
-    if (sameCard(m, data.targetRef!) && m.cards[data.target!].zone === 'table') record(m).barriers[data.target!] = m.turn.number;
+    if (sameCard(m, data.targetRef!) && m.cards[data.target!].zone === 'table') for(const ref of data.targets??[data.targetRef!])if(sameCard(m,ref))record(m).barriers[ref.id]=m.turn.number;
     moveCard(m, data.card!, 'used');
   } else if (kind === 'ground:expire') {
     delete record(m).barriers[data.target!];
@@ -244,7 +244,7 @@ export function assertGround(m: Match): void {
   if (!stored.barriers || Object.entries(stored.barriers).some(([id, turn]) => !m.cards[id] || !Number.isSafeInteger(turn) || turn < 1 || turn > m.turn.number)) throw Error('Invalid Barrier duration.');
   }
   for (const frame of m.stack) {
-    if (frame.kind === 'resolution' && frame.action.handler === 'ground:barrier') {const p = payload(frame.action); assertCardReference(m, p.targetRef!, p.target!);}
+    if (frame.kind === 'resolution' && frame.action.handler === 'ground:barrier') {const p = payload(frame.action); assertCardReference(m, p.targetRef!, p.target!);if(p.targets){if(!Array.isArray(p.targets)||p.targets.length!==2||new Set(p.targets.map(r=>r.id)).size!==2||!p.targets.some(r=>r.id===p.target))throw Error('Invalid simultaneous Barrier targets.');for(const ref of p.targets){assertCardReference(m,ref);if(ref.zone!=='table'||m.cards[ref.id].owner===frame.actor||!['Character','Starship'].includes(cardDefinition(m,ref.id).type))throw Error('Invalid Barrier partner.');}}}
     if (frame.kind === 'resolution' && frame.action.handler === 'ground:move') {const p = payload(frame.action); assertCardReference(m, p.cardRef!, p.card!);}
     if (frame.kind === 'decision' && frame.handler === 'ground:force-loss' || frame.kind === 'resolution' && frame.action.handler === 'ground:force-loss') {
       const loss = (frame.kind === 'decision' ? frame.payload : frame.action.payload) as Loss;

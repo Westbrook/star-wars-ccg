@@ -41,12 +41,15 @@ function options(m:Match,side:Side,checkUsage=true):Payload[]{
  }
  return out;
 }
+export function cargoDeploysAt(m:Match,id:string,host:string,ignorePresence=false):boolean {
+ const ship=m.cards[host],r=vesselRule(m,id);if(!r||!ship||!carriers(m,m.cards[id].owner).some(h=>h.id===host))return false;
+ if(r.world&&(system(m,ship.location!)!==r.world||cardDefinition(m,ship.location!).subType!=='Site'))return false;
+ return !!(ignorePresence||premiereLocations[m.cards[ship.location!].blueprint]?.icons[m.cards[id].owner]||presence(m,m.cards[id].owner,ship.location!))&&roleAvailable(m,host,id,cargoRole(m,id));
+}
 function deployOptions(m:Match,side:Side):Payload[]{
  const out:Payload[]=[];
  for(const id of m.players[side].hand.filter(id=>vesselRule(m,id)&&canPlayCard(m,id)))for(const ship of carriers(m,side)){
-  const role=cargoRole(m,id),r=vesselRule(m,id)!;
-  if(r.world&&system(m,ship.location!)!==r.world||r.world&&cardDefinition(m,ship.location!).subType!=='Site')continue;
-  if((premiereLocations[m.cards[ship.location!].blueprint]?.icons[side]||presence(m,side,ship.location!))&&roleAvailable(m,ship.id,id,role))out.push(selected(m,id,ship.id,'deploy',role));
+  if(cargoDeploysAt(m,id,ship.id))out.push(selected(m,id,ship.id,'deploy',cargoRole(m,id)));
  }return out;
 }
 export function transportActions(m:Match,w:Window,side:Side):Action[]{

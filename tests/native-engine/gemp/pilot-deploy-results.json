@@ -1,0 +1,93 @@
+[
+  {
+    "mode": "light-system",
+    "cost": 4,
+    "pilotAboard": true,
+    "pilotSlot": true,
+    "power": 4,
+    "cargo": false,
+    "arrivalCount": 2,
+    "sharedArrival": true,
+    "barrierUsed": false,
+    "shipBarred": false,
+    "pilotBarred": false
+  },
+  {
+    "mode": "dark-system",
+    "cost": 5,
+    "pilotAboard": true,
+    "pilotSlot": true,
+    "power": 3,
+    "cargo": false,
+    "arrivalCount": 2,
+    "sharedArrival": true,
+    "barrierUsed": false,
+    "shipBarred": false,
+    "pilotBarred": false
+  },
+  {
+    "mode": "dark-bay",
+    "cost": 5,
+    "pilotAboard": true,
+    "pilotSlot": true,
+    "power": 0,
+    "cargo": false,
+    "arrivalCount": 2,
+    "sharedArrival": true,
+    "barrierUsed": false,
+    "shipBarred": false,
+    "pilotBarred": false
+  },
+  {
+    "mode": "dark-cargo",
+    "cost": 5,
+    "pilotAboard": true,
+    "pilotSlot": true,
+    "power": 0,
+    "cargo": true,
+    "arrivalCount": 2,
+    "sharedArrival": true,
+    "barrierUsed": false,
+    "shipBarred": false,
+    "pilotBarred": false
+  },
+  {
+    "mode": "empty-bay",
+    "cost": 1,
+    "pilotAboard": false,
+    "pilotSlot": false,
+    "power": 0,
+    "cargo": false,
+    "arrivalCount": 1,
+    "sharedArrival": false,
+    "barrierUsed": false,
+    "shipBarred": false,
+    "pilotBarred": false
+  },
+  {
+    "mode": "barrier-ship",
+    "cost": 5,
+    "pilotAboard": true,
+    "pilotSlot": true,
+    "power": 3,
+    "cargo": false,
+    "arrivalCount": 2,
+    "sharedArrival": true,
+    "barrierUsed": true,
+    "shipBarred": true,
+    "pilotBarred": true
+  },
+  {
+    "mode": "barrier-pilot",
+    "cost": 5,
+    "pilotAboard": true,
+    "pilotSlot": true,
+    "power": 3,
+    "cargo": false,
+    "arrivalCount": 2,
+    "sharedArrival": true,
+    "barrierUsed": true,
+    "shipBarred": true,
+    "pilotBarred": true
+  }
+]

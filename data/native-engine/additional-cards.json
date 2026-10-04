@@ -1611,5 +1611,47 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_302.java"
+  },
+  {
+    "gempId": "1_141",
+    "name": "Gold 1",
+    "side": "light",
+    "type": "Starship",
+    "subType": "Starfighter: Y-Wing",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/gold1.gif",
+    "text": "May add 2 pilots or passengers.",
+    "stats": {
+      "deploy": "1",
+      "power": "2",
+      "destiny": "3",
+      "forfeit": "3",
+      "maneuver": "3",
+      "hyperspeed": "4"
+    },
+    "icons": [
+      "Nav Computer",
+      "Scomp Link"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_141.java"
+  },
+  {
+    "gempId": "1_300",
+    "name": "Black 3",
+    "side": "dark",
+    "type": "Starship",
+    "subType": "Starfighter: TIE/LN",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/black3.gif",
+    "text": "May add 1 pilot.",
+    "stats": {
+      "deploy": "1",
+      "power": "1",
+      "destiny": "3",
+      "forfeit": "3",
+      "maneuver": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_300.java"
   }
 ]

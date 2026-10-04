@@ -33,7 +33,7 @@ export function vesselRoutes(m:Match,id:string):Route[]{
   if((d.icons as string[]).includes('Nav Computer')&&stat(m,id,'hyperspeed')>0)for(const to of m.locations){const target=premiereSystems[m.cards[to].blueprint];if(to!==from&&target&&Math.abs(origin.parsec-target.parsec)<=stat(m,id,'hyperspeed'))out.push({method:'hyperspace',path:[from,to],cost:1});}
   if(!capital(m,id))for(const to of m.locations.filter(to=>exterior(m,to)&&system(m,to)===origin.system)){
    const bay=bayCosts[m.cards[to].blueprint]!==undefined;
-   if(m.cards[id].blueprint==='1_305'&&!bay)continue;
+   if(['1_305','1_300'].includes(m.cards[id].blueprint)&&!bay)continue;
    out.push({method:'land',path:[from,to],cost:bay?0:1});
   }
  }else if(exterior(m,from)&&pilotAboard(m,id)){

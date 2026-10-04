@@ -1602,5 +1602,36 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_302.java"
+  },
+  "1_141": {
+    "keywords": [
+      "GOLD_SQUADRON"
+    ],
+    "species": [],
+    "models": [
+      "Y_WING"
+    ],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "GOLD_1"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_141.java"
+  },
+  "1_300": {
+    "keywords": [
+      "NO_HYPERDRIVE",
+      "BLACK_SQUADRON"
+    ],
+    "species": [],
+    "models": [
+      "TIE_LN"
+    ],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "BLACK_3"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_300.java"
   }
 }

@@ -2,11 +2,11 @@ import type {occupancyView} from './occupancy';
 import type {publicValues} from './public-values';
 import type {Battle} from './battle';
 import {definition} from './board';
-import {premiereLocations,premiereSites} from './premiere-setup';
+import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-10';
+export const computerPolicy = 'native-cpu-11';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -130,6 +130,12 @@ export function chooseComputerAction(view: View, side: Side): string | null {
       if(a==='land')return -5; // Landing needs a coordinated crew-delivery plan.
       const threat=strength(from,opponent)>strength(from,side);
       return strength(to,opponent)===0&&(threat||icons(to,opponent)>icons(from,opponent))?24+icons(to,opponent):-5;
+    }
+    if (kind === 'pair-deploy') {
+      const target=cards.get(c.id.split(':')[3]);
+      // Use only the offered pair and visible endpoint. Operational deployment
+      // to space is preferable to parking a crewed fighter in a bay or cargo.
+      return target&&!!premiereSystems[target.blueprint]?55+stat(a,'power')*2+stat(b,'ability'):-5;
     }
     if (kind === 'vessel') {
       const role=c.id.split(':')[4];

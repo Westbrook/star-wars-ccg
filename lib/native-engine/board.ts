@@ -60,12 +60,12 @@ function equipmentBonus(m: Match, id: string, stat: 'power' | 'forfeit'): number
   return bonus;
 }
 
-export function deploymentPayment(m: Match, id: string, site: string, aboard = false): Payment | null {
+export function deploymentPayment(m: Match, id: string, site: string, aboard = false, ignorePresence = false): Payment | null {
   if (cardDefinition(m, id).status === 'metadata-only') return null;
   const card = m.cards[id], def = cardDefinition(m, id);
   if (def.type !== 'Character' || !m.locations.includes(site) || !aboard && !isSite(m,site)) return null;
   const side = card.owner, blueprint = card.blueprint;
-  if (!premiereLocations[m.cards[site].blueprint].icons[side] && !presence(m, side, site)) return null;
+  if (!ignorePresence && !premiereLocations[m.cards[site].blueprint].icons[side] && !presence(m, side, site)) return null;
   const onTable = Object.values(m.cards).filter(c => c.zone === 'table');
   if (!canPlayCard(m, id)) return null;
   if (['101_2', '101_5'].includes(blueprint) && onTable.filter(c => c.owner === other(side) && cardDefinition(m, c.id).type === 'Character' && isUnique(m, c.id)).length >= 2) return null;

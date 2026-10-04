@@ -7,6 +7,8 @@ export type AboardRole='pilot'|'driver'|'passenger'|'vehicle'|'starship';
 type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string;vehicles?:number;starships?:number;tiesOnly?:boolean};
 /** Printed capacities; permanent personnel do not consume these additional slots. */
 export const vesselRules:Record<string,VesselRule>={
+ '1_141':{pilots:0,drivers:0,passengers:0,shared:2,permanent:0,enclosed:true},
+ '1_300':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '1_140':{pilots:3,drivers:0,passengers:4,shared:0,permanent:1,enclosed:true,vehicles:1},
  '1_302':{pilots:6,drivers:0,passengers:8,shared:0,permanent:1,enclosed:true,vehicles:2,starships:4,tiesOnly:true},
  '1_147':{pilots:0,drivers:0,passengers:0,shared:1,permanent:1,enclosed:true},
@@ -36,7 +38,7 @@ export function capacityFits(m:Match,host:string,crew:{id:string;role:AboardRole
   if(!['pilot','driver','passenger','vehicle','starship'].includes(c.role))return false;
   const d=cardDefinition(m,c.id);
   if(c.role==='vehicle'){if(d.type!=='Vehicle')return false;}
-  else if(c.role==='starship'){if(d.type!=='Starship'||!d.subType.startsWith('Starfighter:')||r.tiesOnly&&m.cards[c.id].blueprint!=='1_305')return false;}
+  else if(c.role==='starship'){if(d.type!=='Starship'||!d.subType.startsWith('Starfighter:')||r.tiesOnly&&!['1_305','1_300'].includes(m.cards[c.id].blueprint))return false;}
   else if(d.type!=='Character'||c.role==='pilot'&&!(d.icons as string[]).includes('Pilot')||c.role==='driver'&&!canDrive(m,c.id))return false;
   n[c.role]++;
  }

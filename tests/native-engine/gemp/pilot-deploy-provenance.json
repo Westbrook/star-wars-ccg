@@ -1,0 +1,27 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T02:29:19.268831+00:00",
+  "files": {
+    "NativeEnginePilotDeployOracleTests.java": "5211d04011e45b79c92958c9f170dda1e26c1c3aae6742c7c30d140c5543a607",
+    "NativeEngineVesselsOracleTests.java": "d978c61a3416028d940aaf7f39e05dfca376b3944a17fba40a63abbd58be39d3",
+    "pilot-deploy-results.json": "73d5c314ea980c5ee8b39506269ccfaa41d93bdec3e017812b14f608d53cad45"
+  },
+  "junitTests": 1,
+  "observations": 7,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEnginePilotDeployOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp48,89-90,177",
+  "scope": "Paired Gold 1/Han and Black 3/Tarkin deployment, bay/cargo landing, empty bay deployment and Barrier on either member. Costs, crew roles, power, arrival relationships and both movement/battle prohibitions.",
+  "method": [
+    "Actual GEMP deployment and Interrupt actions. Initial Force, starting locations and cards in hand are fixtures. Carrier uses actual deployment.",
+    "Native shared arrival event records two deployment histories; GEMP emits two linked PlayCardResults. Compare card arrivals and both cards being present, not raw response-window count.",
+    "Native replays use JSON restoration at every command. Tatooine Light face is the native endpoint; reference uses Dark face. No identical icon/card-text claim."
+  ],
+  "limitations": [
+    "Seven recorded paths agree. This is component coverage, not complete card or match admission.",
+    "Native-only checks cover stale sources/destinations, failed deployment disposal order, CPU selection, ordinary barred carrier crews and responsive service recovery.",
+    "Pairing from other piles, reactive deployments, special card-text pairings, wider matching-pilot text, generic cost/prevention and other ship/vehicle interactions remain required. Full production admission stays closed."
+  ]
+}

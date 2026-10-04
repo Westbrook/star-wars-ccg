@@ -15,10 +15,10 @@ type Payload={card:string;target:CardReference;role?:AboardRole;source?:CardRefe
 const roles:AboardRole[]=['pilot','driver','passenger'];
 const label=(m:Match,id:string)=>cardDefinition(m,id).name;
 const hasDeployPresence=(m:Match,id:string,side:Side)=>!!premiereLocations[m.cards[id]?.blueprint]?.icons[side]||presence(m,side,id);
-export function vesselDeploysAt(m:Match,id:string,location:string):boolean{
- const r=vesselRule(m,id);if(!r||!m.locations.includes(location)||!hasDeployPresence(m,location,m.cards[id].owner))return false;
+export function vesselDeploysAt(m:Match,id:string,location:string,withPilot=false,ignorePresence=false):boolean{
+ const r=vesselRule(m,id);if(!r||!m.locations.includes(location)||!ignorePresence&&!hasDeployPresence(m,location,m.cards[id].owner))return false;
  const d=cardDefinition(m,location),exterior=d.subType==='Site'&&(d.icons as string[]).includes('Exterior');
- return cardDefinition(m,id).type==='Starship'?d.subType==='System'||!capital(m,id)&&exterior&&bayCosts[m.cards[location].blueprint]!==undefined:exterior&&(!r.world||system(m,location)===r.world);
+ return cardDefinition(m,id).type==='Starship'?d.subType==='System'&&(r.permanent>0||withPilot)||!capital(m,id)&&exterior&&bayCosts[m.cards[location].blueprint]!==undefined:exterior&&(!r.world||system(m,location)===r.world);
 }
 const action=(step:string,p:Payload,label:string,payment?:Partial<Record<Side,number>>):Action=>({id:'vessel:'+step+':'+p.card+':'+p.target.id+(p.role?':'+p.role:''),handler:'vessel:'+step,source:p.card,payload:p as unknown as Json,label,...(payment?{payment}:{})});
 export function vesselActions(m:Match,w:Window,side:Side):Action[]{

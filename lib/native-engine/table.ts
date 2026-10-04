@@ -42,6 +42,11 @@ export function loseBuriedCards(m: Match, cards: string[]): void {
   for (const id of cards) moveCard(m,id,'leaving');
   orderNext(m,cards);
 }
+/** Failed simultaneous deployment never entered table, but Lost ordering is still chosen. */
+export function losePlayingCards(m:Match,cards:string[]):void {
+ if(new Set(cards).size!==cards.length||cards.some(id=>m.cards[id]?.zone!=='playing'))throw Error('Invalid failed deployment.');
+ for(const id of cards)moveCard(m,id,'leaving');orderNext(m,cards);
+}
 /** A forfeiture replacement changes only the host's destination. Descendants
  * still leave simultaneously and are ordered in Lost before the host enters Used. */
 export function forfeitToUsed(m: Match, host: string): void {
