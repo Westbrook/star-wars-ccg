@@ -2437,7 +2437,7 @@
     "models": [
       "Y_WING"
     ],
-    "nonUnique": false,
+    "nonUnique": true,
     "uniqueness": "RESTRICTED_3",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_004.java"
@@ -2450,7 +2450,7 @@
     "models": [
       "X_WING"
     ],
-    "nonUnique": false,
+    "nonUnique": true,
     "uniqueness": "RESTRICTED_3",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_007.java"
@@ -2477,7 +2477,7 @@
     "models": [
       "TIE_LN"
     ],
-    "nonUnique": false,
+    "nonUnique": true,
     "uniqueness": "RESTRICTED_3",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_010.java"
@@ -2502,7 +2502,7 @@
     "models": [
       "TIE_LN"
     ],
-    "nonUnique": false,
+    "nonUnique": true,
     "uniqueness": "RESTRICTED_3",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_015.java"
@@ -2605,5 +2605,23 @@
     "uniqueness": "UNIQUE",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_018.java"
+  },
+  "106_5": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_005.java"
+  },
+  "106_17": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_017.java"
   }
 }

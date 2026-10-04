@@ -3347,5 +3347,39 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_018.java"
+  },
+  {
+    "gempId": "106_5",
+    "name": "It's A Hit!",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used Or Lost",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Light/large/itsahit.gif",
+    "text": "USED: Cancel a Force drain at a site related to a system you control. LOST: Cancel Counter Assault, It's Worse, Elis Helrot, Tallon Roll, Limited Resources or Scanning Crew. OR Use 3 Force to search your Lost Pile and take one non-unique starfighter into hand.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_005.java"
+  },
+  {
+    "gempId": "106_17",
+    "name": "Tarkin's Orders",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used Or Lost",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Dark/large/tarkinsorders.gif",
+    "text": "USED: Cancel a Force drain at a site related to a system you control. LOST: Cancel Surprise Assault, It Could Be Worse, Nabrun Leids, Collision! or Hyper Escape. OR Lose 1 Force to search your Lost Pile and take one non-unique starfighter into hand.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_017.java"
   }
 ]

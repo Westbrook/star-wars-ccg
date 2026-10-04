@@ -1,3 +1,4 @@
+import identities from '../../data/native-engine/identities.json';
 import type {occupancyView} from './occupancy';
 import type {publicValues} from './public-values';
 import type {Battle} from './battle';
@@ -164,6 +165,14 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     }
     if (kind === 'fire') return 70 + stat(b,'power');
     if (kind === 'rescue') return hits.includes(b) && value(b) > value(a) ? 115 + value(b) - value(a) : -5;
+    if(kind==='orders'){
+      if(a==='take')return 30+value(b);
+      const mode=c.id.split(':')[3];
+      if(mode==='drain')return view.turn.side===side?-10:65;
+      if(mode==='cancel'||mode==='table')return 75;
+      if(mode==='search')return own.lost.some(c=>definition(c.blueprint).subType.startsWith('Starfighter:')&&(identities as Record<string,{nonUnique:boolean}>)[c.blueprint]?.nonUnique)&&own.lifeForce!==null&&own.lifeForce>1?25:-10;
+      return 10;
+    }
     if(kind==='alien-search')return a==='begin'?35:a==='take'?35+value(b):20;
     if(kind==='recruit')return 20+value(b);
     if (kind === 'forfeit') return forfeitScore(a);

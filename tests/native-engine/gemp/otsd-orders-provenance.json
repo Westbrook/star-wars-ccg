@@ -1,0 +1,34 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "rules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=75",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T22:10:23.396880+00:00",
+  "files": {
+    "NativeEngineOtsdOrdersOracleTests.java": "a8b81f025646fc510281272933cd91d6e1937902268e5fb0b60423576bab748c",
+    "otsd-orders-results.json": "ec8a975e3eaa3e84daefc22512fcfb8a7d7b18b458b10186aa69c6b923819640"
+  },
+  "junitTests": 2,
+  "observations": 4,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineOtsdOrdersOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "scope": "Actual Used-mode drain cancellation and Lost-mode starfighter recovery on both sides, including Tarkin Force-loss payment and a three-dot Black Squadron recovery target.",
+  "correction": "Restricted multi-dot and diamond cards are non-unique. Four OTSD squadron identity rows incorrectly excluded restricted ships; corrected while preserving restricted play limits.",
+  "nativeIntegration": {
+    "runner": "tests/native-engine/sealed-computer-match.mjs",
+    "runnerSha256": "390be6df094f65f6695bd09d5dbf61105b85246ccdf4c9575b5bb19afcf13e7b",
+    "poolSeed": 266,
+    "entropySeed": 73,
+    "iterations": 970,
+    "commands": 1951,
+    "winner": "dark",
+    "reason": "life-force",
+    "scope": "Actual service/SQLite with test-only component admission, not full-game GEMP conformance."
+  },
+  "browser": "Twelve real HTTP/SQLite service flows across1440/834/390: both players,Used drain andLost recovery,cost/choice refresh.",
+  "limitations": [
+    "Named Interrupt cancellation and stale-target behavior use native checks, not claimed as executed GEMP comparisons.",
+    "Droid service Effects and their support Interrupts still require implementation; broader full-engine scope remains unfinished.",
+    "Production admission remains closed."
+  ]
+}

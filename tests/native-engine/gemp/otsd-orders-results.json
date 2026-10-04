@@ -1,0 +1,32 @@
+[
+  {
+    "lifeLost": -1,
+    "interruptUsed": true,
+    "kind": "drain",
+    "dark": false
+  },
+  {
+    "lifeLost": -1,
+    "interruptUsed": true,
+    "kind": "drain",
+    "dark": true
+  },
+  {
+    "interruptLost": true,
+    "forceSpent": 3,
+    "dark": false,
+    "lifeLost": 0,
+    "target": "106_9",
+    "kind": "recover",
+    "inHand": true
+  },
+  {
+    "interruptLost": true,
+    "forceSpent": 1,
+    "dark": true,
+    "lifeLost": 1,
+    "target": "106_10",
+    "kind": "recover",
+    "inHand": true
+  }
+]
