@@ -1,0 +1,17 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T23:43:32.073317+00:00",
+  "files": {
+    "NativeEngineMentorOracleTests.java": "581acce16c4dd93803ce321c2e7ca73ae27edfffd72e7de99f1332f631283593",
+    "mentor-results.json": "bf6e555dafaf1f36421cc473299f50ed1c13f68f21c5aa793c13bfa13a2f78fe"
+  },
+  "junitTests": 4,
+  "observations": 9,
+  "unchangedProductionFiles": 6820,
+  "scope": "Gift/Cocky/Vader Eye destiny additions, total-power bonus, paid lightsaber search, selected TIE loss, TIE Fighter permanent pilot and capital discount.",
+  "limitations": [
+    "Native search privacy/verification,cancellation,physical-instance and responsive refresh tests are not executed GEMP comparisons.",
+    "Production admission remains closed;full engine scope unfinished."
+  ]
+}

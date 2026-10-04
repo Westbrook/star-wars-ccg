@@ -11,6 +11,7 @@ import type {Match} from './types';
  * baking a discount or bonus into the card's printed attributes. */
 export function otsdDeployModifier(m:Match,id:string,at:string):number {
  const bp=m.cards[id].blueprint;
+ if(bp==='1_304')return cardDefinition(m,at).subType==='System'&&Object.values(m.cards).some(c=>c.zone==='table'&&!c.coveredBy&&c.location===at&&crewActive(m,c.id)&&capital(m,c.id)&&cardDefinition(m,c.id).side==='dark'&&!cardDefinition(m,c.id).icons.some(icon=>['Independent','Republic','Trade Federation','Separatist','Clone Army','First Order','Resistance'].includes(icon)))?-1:0;
  if(bp==='106_15')return sectorKind(m,at)==='cloud'?-1:0;
  const rule:Record<string,[string,string]>={'106_4':['Yavin 4','DUTCH'],'106_7':['Yavin 4','RED_LEADER'],'106_10':['Death Star','VADER']};
  const r=rule[bp];if(!r)return 0;

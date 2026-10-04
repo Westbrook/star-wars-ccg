@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-14';
+export const computerPolicy = 'native-cpu-15';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -178,6 +178,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
       const weight=(seat:Side)=>victims.filter(c=>c.owner===seat).reduce((n,c)=>n+Math.max(1,stat(c.id,'forfeit')+stat(c.id,'power')),0);
       return weight(opponent)>weight(side)?45+weight(opponent)-weight(side):-10;
     }
+    if(kind==='mentor'){const mode=c.id.split(':')[3];return a==='play'?(mode==='tie'?(cards.get(c.id.split(':')[4])?.owner===opponent?90:-5):own.hand.some(c=>definition(c.blueprint).type==='Weapon'&&(identities as Record<string,{keywords:string[]}>)[c.blueprint]?.keywords.includes('LIGHTSABER'))?-5:30):a==='take'?50:a==='not-found'||a==='verified'?20:-5;}
     if(kind==='battle-add'){
       const title=cards.get(a)?.blueprint?definition(cards.get(a)!.blueprint).name:'';
       const prior=Math.max(0,...(rules?.battle?.drawModifiers??[]).filter(m=>m.side===side&&m.kind==='add'&&m.function==='battle-destiny'&&cards.get(m.source.id)?.blueprint&&definition(cards.get(m.source.id)!.blueprint).name===title).map(m=>m.amount));

@@ -1,3 +1,4 @@
+import {battlePowerBonus,assertBattlePower,type BattlePowerModifier} from './battle-power';
 import {forceLossCredit} from './droid-service';
 import {otsdClearsAttrition} from './otsd-characters';
 import type {DroidBoost} from './power-droid';
@@ -47,6 +48,7 @@ export type Battle = {
   destinyPlans?: Pair<DestinyPlan | null>;
   destinyScopes?: Partial<Pair<string>>;
   drawModifiers?: BattleDrawModifier[];
+  powerModifiers?: BattlePowerModifier[];
   abilityTrades?: AbilityTrade[];
   gamblersLuck?: {card: string; side: Side; amount: 1 | 2};
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
@@ -360,7 +362,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     else windowThen(m, 'power-actions', 'battle-destiny-complete', other(b.initiator));
   } else if (kind === 'battle:power-actions') windowThen(m, 'totals', 'battle-power', b.initiator);
   else if (kind === 'battle:totals') {
-    for (const s of sides) {const ids = members(m, s); b.power[s] = totalPower(m, s, b.site, s !== b.initiator, id => ids.includes(id)) + (b.destiny[s] ?? 0) + (b.powerDestinies?.[s]?.total ?? 0) + tradedPower(m,s); b.attrition[s] = b.destiny[other(s)] ?? 0;}
+    for (const s of sides) {const ids = members(m, s); b.power[s] = totalPower(m, s, b.site, s !== b.initiator, id => ids.includes(id)) + (b.destiny[s] ?? 0) + (b.powerDestinies?.[s]?.total ?? 0) + tradedPower(m,s) + battlePowerBonus(m,s); b.attrition[s] = b.destiny[other(s)] ?? 0;}
     for (const s of sides) b.damage[s] = Math.max(0, b.power[other(s)] - b.power[s]);
     b.damageLedger = pair(lossLedger(b.damage.dark, 'battle'), lossLedger(b.damage.light, 'battle'));
     for (const s of sides) b.damageLedger[s].multiplier = (b.damageMultipliers ?? []).filter(v => v.side === 'both' || v.side === s).reduce((n, v) => n * v.factor, 1);
@@ -467,6 +469,7 @@ export function battleView(m: Match): Json {
 }
 export function assertBattle(m: Match): void {
   assertBattleDrawModifiers(m);
+  assertBattlePower(m);
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:equip') {const p = data(f); assertAttachmentAttempt(m, p.attachment!, p.card!, p.target!);}
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish') {
     const p = data(f);

@@ -15,6 +15,7 @@ export type AboardRole='pilot'|'driver'|'passenger'|'vehicle'|'starship';
 type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string;vehicles?:number;starships?:number;astromechs?:number;tiesOnly?:boolean};
 /** Printed capacities; permanent personnel do not consume these additional slots. */
 export const vesselRules:Record<string,VesselRule>={
+ '1_304':{pilots:0,drivers:0,passengers:0,shared:0,permanent:1,enclosed:true},
  '106_4':{pilots:0,drivers:0,passengers:0,shared:1,permanent:2,enclosed:true},
  '106_7':{pilots:0,drivers:0,passengers:0,shared:0,permanent:2,enclosed:true},
  '106_9':{pilots:0,drivers:0,passengers:0,shared:0,permanent:1,enclosed:true},

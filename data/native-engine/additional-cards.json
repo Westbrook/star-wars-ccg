@@ -3589,5 +3589,50 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_119.java"
+  },
+  {
+    "gempId": "1_82",
+    "name": "Gift Of The Mentor",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/giftofthementor.gif",
+    "text": "If Luke and Obi-Wan or Yoda are in a battle together, you may add two battle destiny. OR Use 1 Force to search through your Reserve Deck and take any one lightsaber into your hand. Shuffle deck, cut and replace.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_082.java"
+  },
+  {
+    "gempId": "1_76",
+    "name": "Don't Get Cocky",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/dontgetcocky.gif",
+    "text": "If Luke and Han are in a battle together, you may add two battle destiny. OR If opponent just initiated a battle at a system or sector, choose one TIE/ln present to be lost.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_076.java"
+  },
+  {
+    "gempId": "1_277",
+    "name": "Vader's Eye",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/vaderseye.gif",
+    "text": "If Vader is defending a battle alone at a site, add 1 to power and add one battle destiny. OR If any other Imperial with ability > 2 is defending a battle alone at a site, add one battle destiny.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_277.java"
   }
 ]

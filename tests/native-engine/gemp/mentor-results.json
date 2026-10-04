@@ -1,0 +1,61 @@
+[
+  {
+    "forcePaid": 1,
+    "mode": "deploy-tie",
+    "ability": 1.0,
+    "capital": false
+  },
+  {
+    "forcePaid": 0,
+    "mode": "deploy-tie",
+    "ability": 1.0,
+    "capital": true
+  },
+  {
+    "forcePaid": 1,
+    "targetInHand": true,
+    "mode": "search",
+    "interruptLost": true
+  },
+  {
+    "interruptLost": true,
+    "targetLost": true,
+    "secondOnTable": true,
+    "mode": "tie"
+  },
+  {
+    "powerBonus": 0.0,
+    "lost": true,
+    "before": 1,
+    "mode": "gift",
+    "after": 3
+  },
+  {
+    "powerBonus": 0.0,
+    "lost": true,
+    "before": 1,
+    "mode": "gift-yoda",
+    "after": 3
+  },
+  {
+    "powerBonus": 0.0,
+    "lost": true,
+    "before": 1,
+    "mode": "cocky",
+    "after": 3
+  },
+  {
+    "powerBonus": 1.0,
+    "lost": true,
+    "before": 1,
+    "mode": "eye",
+    "after": 2
+  },
+  {
+    "powerBonus": 0.0,
+    "lost": true,
+    "before": 0,
+    "mode": "eye-imperial",
+    "after": 1
+  }
+]
