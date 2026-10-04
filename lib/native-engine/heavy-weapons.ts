@@ -1,3 +1,4 @@
+import {weaponTotalModifier} from './weapon-total';
 import {artillery,artilleryPowerSources} from './artillery';
 import {attachmentAttempt,assertAttachmentAttempt,validAttachmentAttempt,type AttachmentAttempt} from './attachment';
 import {battle,battleHistory,members} from './battle';
@@ -8,7 +9,7 @@ import {supportedCreature} from './creature-profile';
 import {cardDefinition} from './definitions';
 import {defenseValue} from './defense';
 import {deployed} from './deployment';
-import {drawDestiny,completeDestinyTotal,validDraw,type Draw} from './destiny';
+import {drawDestiny,completeDestinyTotal,pendingWeaponTotal,validDraw,type Draw} from './destiny';
 import {gameTextActive} from './game-text';
 import {assertCardReference,referenceCard,sameCard,type CardReference} from './identity';
 import {belowDecks,characterPresent,operational} from './occupancy';
@@ -19,7 +20,7 @@ import {canUseWeapon,useWeapon} from './weapon-state';
 import {other,sides,type Action,type Json,type Match,type Resolution,type Side,type Window} from './types';
 
 type Shot={weapon:CardReference;user:CardReference;target:CardReference;site:CardReference;side:Side;context:'battle'|'attack';turn:number;sequence:number;stage:'pending'|'drawing'|'result'|'complete';draw:Draw|null;modifier:number;total:number|null;defense:number|null;outcome:'pending'|'canceled'|'invalid'|'miss'|'hit'};
-type Payload={card:string;user?:string;target:string;index?:number;attachment?:AttachmentAttempt;draw?:Draw;total?:number|null};
+type Payload={card:string;user?:string;target:string;index?:number;attachment?:AttachmentAttempt;draw?:Draw;total?:number|null;continuousModifier?:number};
 const history=(m:Match)=>(m.data.heavyShots??[]) as unknown as Shot[];
 const supported=(m:Match,id:string)=>['3_158','3_75'].includes(m.cards[id]?.blueprint);
 const fighter=(m:Match,id:string)=>cardDefinition(m,id).type==='Starship'&&cardDefinition(m,id).subType.startsWith('Starfighter:');
@@ -80,14 +81,12 @@ export function heavyWeaponResolve(m:Match,r:Resolution):void{
  const s=history(m)[p.index!];if(r.cancelled){s.stage='complete';s.outcome='canceled';return;}
  if(h==='heavy:fire'){s.stage='drawing';drawDestiny(m,r.actor,p.card,'weapon',action('drawn',p),false,{weapon:p.card});return;}
  if(h==='heavy:drawn'){
-  s.draw=p.draw!;const type=cardDefinition(m,s.target.id).type;
-  // Target-type modifiers belong to the total, and expire with the weapon's text.
-  s.modifier=sameCard(m,s.weapon)&&gameTextActive(m,p.card)?m.cards[p.card].blueprint==='3_158'?(type==='Vehicle'?2:['Character','Creature'].includes(type)?1:0):['Character','Creature'].includes(type)?2:0:0;
-  completeDestinyTotal(m,r.actor,p.card,'weapon',[s.draw],action('result',p),s.modifier);return;
+  s.draw=p.draw!;s.modifier=weaponTotalModifier(m,{weapon:s.weapon,target:s.target});
+  completeDestinyTotal(m,r.actor,p.card,'weapon',[s.draw],action('result',p),0,false,{weapon:s.weapon,target:s.target});return;
  }
  const valid=()=>contextMatches(m,s)&&sameCard(m,s.target)&&m.cards[s.target.id].location===s.site.id&&targetAvailable(m,s.target.id,s.side,s.context);
  if(h==='heavy:result'){
-  s.stage='result';s.total=p.total!;s.defense=m.cards[p.card].blueprint==='3_158'&&fighter(m,s.target.id)?3:defenseValue(m,s.target.id);s.outcome=valid()?'miss':'invalid';queue(m,'finish',p,r.actor);
+  s.stage='result';s.total=p.total!;s.modifier=p.continuousModifier??s.modifier;s.defense=m.cards[p.card].blueprint==='3_158'&&fighter(m,s.target.id)?3:defenseValue(m,s.target.id);s.outcome=valid()?'miss':'invalid';queue(m,'finish',p,r.actor);
   if(valid()&&s.total!==null&&s.total>s.defense){queue(m,'hit',p,r.actor);openWindow(m,'response',other(r.actor),{kind:'about-to-hit',target:s.target.id,weapon:p.card});}
  }else if(h==='heavy:hit'){
   if(valid()){s.outcome='hit';if(s.context==='battle'){const b=battle(m)!;if(!b.hits.includes(s.target.id))b.hits.push(s.target.id);}else creatureAttack(m)!.hit=true;openWindow(m,'response',other(r.actor),{kind:'hit',target:s.target.id,weapon:p.card});}else s.outcome='invalid';
@@ -125,4 +124,4 @@ export function assertHeavyWeapons(m:Match):void{
  }
 
 }
-export function heavyWeaponView(m:Match){const c=current(m),ss=history(m);const latest=ss.at(-1);return {heavyShots:ss.filter(s=>s.turn===m.turn.number&&(c?s.context===c.context&&s.sequence===c.sequence:latest&&s.context===latest.context&&s.sequence===latest.sequence)).map(s=>({weapon:name(m,s.weapon.id),user:name(m,s.user.id),target:name(m,s.target.id),side:s.side,context:s.context,draw:s.draw?.value??null,modifier:s.modifier,total:s.total,defense:s.defense,outcome:s.outcome}))};}
+export function heavyWeaponView(m:Match){const c=current(m),ss=history(m);const latest=ss.at(-1);return {heavyShots:ss.filter(s=>s.turn===m.turn.number&&(c?s.context===c.context&&s.sequence===c.sequence:latest&&s.context===latest.context&&s.sequence===latest.sequence)).map(s=>({weapon:name(m,s.weapon.id),user:name(m,s.user.id),target:name(m,s.target.id),side:s.side,context:s.context,draw:s.draw?.value??null,modifier:s.modifier,total:s.total,defense:s.defense,outcome:s.outcome,...(s.stage==='drawing'?pendingWeaponTotal(m,{weapon:s.weapon,target:s.target}):{})}))};}

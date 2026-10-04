@@ -1,3 +1,4 @@
+import {assertWeaponTotal,assertWeaponTotalBinding,printedWeaponTotal,weaponTotalModifier,type WeaponTotal} from './weapon-total';
 import {alternateDestinies, choosePrintedDestiny, assertPrintedDestinies, selectedPrintedDestiny} from './destiny-values';
 import {mayBypassDestinyCost, beginDestinySequence, assertDestinyScope, assertDestinySequences, remainingDestinyDraws, countDestinyDraw, replaceDestinyDraw} from './destiny-limits';
 import {printed, weaponDrawBonus} from './board';
@@ -54,7 +55,10 @@ export function redrawDestiny(m: Match, r: Resolution): boolean {
 }
 const validModifier = (m: Match, modifier: Modifier) => typeof modifier === 'number' ? Number.isFinite(modifier) : !!modifier && typeof modifier.weapon === 'string' && !!m.cards[modifier.weapon];
 type PendingDraw = Context & {draw: Draw; includeTotal?: boolean; retain?: boolean; reference?: CardReference; redraw?: boolean; modifier?: Modifier};
-type PendingTotal = Context & {draws: Draw[]; total: number | null; single: boolean};
+type PendingTotal = Context & {draws: Draw[]; total: number | null; single: boolean; continuous?:{context:WeaponTotal;initial:number}};
+/** Keep the unrounded running total so a disappearing negative modifier can
+ * restore the original draw values, including after a total reached zero. */
+export const currentDestinyTotal=(m:Match,p:PendingTotal):number|null=>p.total===null?null:Math.max(0,p.total+(p.continuous?weaponTotalModifier(m,p.continuous.context)-p.continuous.initial:0));
 const queue = (m: Match, step: string, p: PendingStart | PendingDraw | PendingTotal) => m.stack.push({kind: 'resolution', actor: p.side, cancelled: false,
   action: {id: 'destiny-' + step + ':' + (m.serial + 1), label: 'Resolve destiny', handler: 'destiny:' + step, payload: p as unknown as Json}});
 const dispatch = (m: Match, p: Context, result: Record<string, Json>) => m.stack.push({kind: 'resolution', actor: p.side, cancelled: false,
@@ -69,12 +73,15 @@ export function completeDestinyDraw(m: Match, side: Side, source: string, catego
 }
 /** Total modifiers apply only after individual draws and their Used placement.
  * A successful zero supplies a total; all failed/canceled draws never do. */
-export function completeDestinyTotal(m: Match, side: Side, source: string, category: string, draws: Draw[], next: Action, modifier = 0, single = false): void {
+export function completeDestinyTotal(m: Match, side: Side, source: string, category: string, draws: Draw[], next: Action, modifier = 0, single = false, weaponTotal?:WeaponTotal): void {
   if (!Number.isFinite(modifier)) throw Error('Invalid destiny total modifier.');
-  const total = draws.some(d => d.value !== null) ? Math.max(0, draws.reduce((n, d) => n + (d.value ?? 0), 0) + modifier) : null;
-  const p: PendingTotal = {side, source, category, next, draws: structuredClone(draws), total, single};
+  if(weaponTotal){assertWeaponTotal(m,weaponTotal);if(category!=='weapon'||source!==weaponTotal.weapon.id)throw Error('Invalid continuous destiny category.');}
+  const continuous=weaponTotal?{context:structuredClone(weaponTotal),initial:weaponTotalModifier(m,weaponTotal)}:undefined;
+  const raw=draws.reduce((n,d)=>n+(d.value??0),0)+modifier+(continuous?.initial??0);
+  const total=draws.some(d=>d.value!==null)?continuous?raw:Math.max(0,raw):null;
+  const p: PendingTotal = {side, source, category, next, draws: structuredClone(draws), total, single,...(continuous?{continuous}:{})};
   queue(m, 'total-finish', p);
-  if (total !== null) openWindow(m, 'response', other(side), {kind: 'destiny-total', category, source, side, draws: p.draws as unknown as Json, total});
+  if (total !== null) openWindow(m, 'response', other(side), {kind: 'destiny-total', category, source, side, draws: p.draws as unknown as Json, total:currentDestinyTotal(m,p)});
 }
 /** General destiny. Multi-draw callers pass includeTotal=false, then complete
  * their combined total once, after all the individual draw continuations. */
@@ -134,8 +141,9 @@ export function resolveDestiny(m: Match, r: Resolution): void {
   }
   if (r.action.handler === 'destiny:total-finish') {
     const p = r.action.payload as unknown as PendingTotal;
-    const total = p.total === null ? null : Math.max(0, p.total);
+    const total = currentDestinyTotal(m,p);
     dispatch(m, p, {draws: p.draws as unknown as Json, total,
+      ...(p.continuous?{continuousModifier:weaponTotalModifier(m,p.continuous.context)}:{}),
       ...(p.single ? {draw: {...p.draws[0], value: total}} : {})});
     return;
   }
@@ -184,6 +192,10 @@ export function assertDestiny(m: Match): void {
     }
     const draws = h === 'destiny:total-finish' ? p.draws : [p.draw];
     if (!Array.isArray(draws) || draws.some(d => !validDraw(m, d, p.side, h === 'destiny:finish'))) throw Error('Invalid pending destiny.');
+    if(p.continuous!==undefined){
+      const c=p.continuous;assertWeaponTotal(m,c.context);assertWeaponTotalBinding(m,c.context,p.next);
+      if(h!=='destiny:total-finish'||p.category!=='weapon'||p.source!==c.context.weapon.id||m.cards[p.source].owner!==p.side||!Number.isFinite(c.initial)||![0,printedWeaponTotal(m,c.context)].includes(c.initial)||p.next.source!==p.source||(p.next.payload as {target?:string})?.target!==c.context.target.id)throw Error('Invalid continuous weapon total.');
+    }
     if (h === 'destiny:total-finish') {
       if (typeof p.single !== 'boolean' || p.single && draws.length !== 1 || p.total !== null && !Number.isFinite(p.total) ||
         (p.total === null) !== !draws.some(d => d.value !== null)) throw Error('Invalid destiny total.');
@@ -197,4 +209,14 @@ export function assertDrawFlow(m: Match, f: DrawFlow, draw: Draw): void {
     f.retain && (f.includeTotal || f.next.handler !== 'selection:drawn') || !!draw.card !== !!f.reference) throw Error('Invalid adapted destiny draw.');
   assertDestinyScope(m, f.scope, f.side, f.source, f.category);
   if (f.reference) {assertCardReference(m, f.reference, draw.card!); if (f.reference.zone !== 'destiny') throw Error('Invalid adapted destiny reference.');}
+}
+
+/** Public projection of a currently resolving weapon total, without exposing
+ * the saved action or any hidden pile contents. Final history stays frozen. */
+export function pendingWeaponTotal(m:Match,context:WeaponTotal):{total:number|null;modifier:number}|undefined{
+ for(const f of m.stack){
+  if(f.kind!=='resolution'||f.action.handler!=='destiny:total-finish')continue;
+  const p=f.action.payload as unknown as PendingTotal,c=p.continuous?.context;
+  if(c&&c.weapon.id===context.weapon.id&&c.weapon.version===context.weapon.version&&c.target.id===context.target.id&&c.target.version===context.target.version)return {total:currentDestinyTotal(m,p),modifier:weaponTotalModifier(m,c)};
+ }
 }

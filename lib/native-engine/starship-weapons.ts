@@ -1,3 +1,4 @@
+import {hasWeaponTotal,weaponTotalModifier} from './weapon-total';
 import {mobileSystem} from './mobile-systems';
 import {attachmentAttempt,assertAttachmentAttempt,validAttachmentAttempt,type AttachmentAttempt} from './attachment';
 import {battle,members} from './battle';
@@ -25,7 +26,7 @@ export const starshipWeapons:Record<string,{deploy:number;fire:number;draws:numb
  '1_158':{deploy:1,fire:1,draws:1},'1_159':{deploy:2,fire:1,draws:1},'1_323':{deploy:3,fire:2,draws:2},
 };
 export type StarshipShot={weapon:string;host:string;target:string;side:Side;weaponRef:CardReference;targetRef:CardReference;scope?:string;draws:Draw[];total:number|null;modifier:number;defense?:number;ionWeapons?:CardReference[];lostWeapons?:string[];outcome:'pending'|'canceled'|'invalid'|'miss'|'hit'|'ionized'};
-type Payload={card:string;target:string;site:string;transfer?:boolean;react?:boolean;via?:string;attachment?:AttachmentAttempt;index?:number;draw?:Draw;total?:number|null};
+type Payload={card:string;target:string;site:string;transfer?:boolean;react?:boolean;via?:string;attachment?:AttachmentAttempt;index?:number;draw?:Draw;total?:number|null;continuousModifier?:number};
 const action=(step:string,p:Payload):Action=>({id:'space-weapon:'+step+':'+p.card+':'+p.target,label:step,handler:'space-weapon:'+step,source:p.card,payload:p as unknown as Json});
 const queue=(m:Match,step:string,p:Payload,actor:Side)=>m.stack.push({kind:'resolution',actor,action:action(step,p),cancelled:false});
 const starship=(m:Match,id:string)=>!!m.cards[id]&&cardDefinition(m,id).type==='Starship';
@@ -94,12 +95,12 @@ export function starshipWeaponResolve(m:Match,r:Resolution):void{
   if(p.draw){shot.draws.push(p.draw);delete p.draw;}
   if(shot.draws.length<starshipWeapons[m.cards[shot.weapon].blueprint].draws)drawDestiny(m,side,shot.weapon,'weapon',action('draw',p),false,{weapon:shot.weapon},undefined,false,shot.scope);
   else{
-   const active=sameCard(m,shot.weaponRef)&&gameTextActive(m,shot.weapon),bp=m.cards[shot.weapon].blueprint;
-   shot.modifier=bp==='1_318'?2:active?(bp==='1_159'&&!capital(m,shot.target)?1:bp==='1_323'?(capital(m,shot.target)?-2:-5):0):0;
-   completeDestinyTotal(m,side,shot.weapon,'weapon',shot.draws,action('result',p),shot.modifier);
+   const context={weapon:shot.weaponRef,target:shot.targetRef},continuous=hasWeaponTotal(m,shot.weapon),fixed=m.cards[shot.weapon].blueprint==='1_318'?2:0;
+   shot.modifier=continuous?weaponTotalModifier(m,context):fixed;
+   completeDestinyTotal(m,side,shot.weapon,'weapon',shot.draws,action('result',p),0,false,continuous?context:undefined);
   }
  }else if(h==='space-weapon:result'){
-  shot.total=p.total!;shot.defense=defenseValue(m,shot.target);shot.outcome='miss';queue(m,'finish',p,side);
+  shot.total=p.total===null?null:p.total!+(m.cards[shot.weapon].blueprint==='1_318'?2:0);shot.modifier=p.continuousModifier??shot.modifier;shot.defense=defenseValue(m,shot.target);shot.outcome='miss';queue(m,'finish',p,side);
   if(!sameCard(m,shot.targetRef)||!validTarget(m,shot.target,side)){shot.outcome='invalid';return;}
   if(shot.total!==null&&shot.total>shot.defense){
    if(['1_318','2_81'].includes(m.cards[shot.weapon].blueprint)){

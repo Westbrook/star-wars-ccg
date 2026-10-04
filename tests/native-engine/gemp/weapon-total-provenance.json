@@ -1,0 +1,29 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T15:33:48.410614+00:00",
+  "files": {
+    "NativeEngineWeaponTotalsOracleTests.java": "72346121723982592c24053043b43dfc891c6414eaa0c2a03df01607287982dc",
+    "weapon-total-results.json": "98081abafed8295746abaaf6ac4960dd70eca875854a90b1d6ecbb7e69a88be1"
+  },
+  "junitTests": 3,
+  "observations": 20,
+  "exactAgreements": 20,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineWeaponTotalsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp16/94; printed AT-AT Cannon, Golan Laser Battery, Quad Laser Cannon, Turbolaser Battery and Ion Cannon",
+  "scope": "Continuous weapon totals through final responses and post-total Ion Cannon arithmetic.",
+  "method": [
+    "Twenty actual GEMP firing paths: five weapons with unchanged, departed, text-canceled and returned original weapon during DRAWING_DESTINY_COMPLETE responses.",
+    "Continuous modifiers are re-queried after responses; returning the same physical weapon restores its contribution. Another copy does not provide it.",
+    "Ion Cannon printed +2 applies after the destiny-total response window as firing-action arithmetic, even after its source leaves or loses text.",
+    "Native exact comparisons cover response-window and final totals plus hit/ionized outcome; native-only checks cover clamping, independent adjustments, malformed saved references and live projections."
+  ],
+  "limitations": [
+    "Full engine and card certification remain unfinished. Production full-match admission stays closed; no standalone study added.",
+    "Departure, return and text cancellation are controlled fixture interventions, not executed removal/return/cancellation card actions.",
+    "This registry covers four printed continuous weapon-total providers. General automatic-modifier aggregation, targeting changes, replacement/prevention and other weapon types remain required.",
+    "Browser fixtures use test-only deck admission with the real nativeMatchService and SQLiteD1; these do not certify production full matches."
+  ]
+}

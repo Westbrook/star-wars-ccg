@@ -1,0 +1,146 @@
+[
+  {
+    "mode": "stay",
+    "before": 6.0,
+    "weapon": "cannon",
+    "hit": true,
+    "after": 6.0
+  },
+  {
+    "mode": "leave",
+    "before": 6.0,
+    "weapon": "cannon",
+    "hit": true,
+    "after": 5.0
+  },
+  {
+    "mode": "cancel",
+    "before": 6.0,
+    "weapon": "cannon",
+    "hit": true,
+    "after": 5.0
+  },
+  {
+    "mode": "return",
+    "before": 6.0,
+    "weapon": "cannon",
+    "hit": true,
+    "after": 6.0
+  },
+  {
+    "mode": "stay",
+    "before": 4.0,
+    "weapon": "1_159",
+    "hit": true,
+    "after": 4.0
+  },
+  {
+    "mode": "leave",
+    "before": 4.0,
+    "weapon": "1_159",
+    "hit": true,
+    "after": 3.0
+  },
+  {
+    "mode": "cancel",
+    "before": 4.0,
+    "weapon": "1_159",
+    "hit": true,
+    "after": 3.0
+  },
+  {
+    "mode": "return",
+    "before": 4.0,
+    "weapon": "1_159",
+    "hit": true,
+    "after": 4.0
+  },
+  {
+    "mode": "stay",
+    "before": 1.0,
+    "weapon": "1_323",
+    "hit": false,
+    "after": 1.0
+  },
+  {
+    "mode": "leave",
+    "before": 1.0,
+    "weapon": "1_323",
+    "hit": true,
+    "after": 6.0
+  },
+  {
+    "mode": "cancel",
+    "before": 1.0,
+    "weapon": "1_323",
+    "hit": true,
+    "after": 6.0
+  },
+  {
+    "mode": "return",
+    "before": 1.0,
+    "weapon": "1_323",
+    "hit": false,
+    "after": 1.0
+  },
+  {
+    "mode": "stay",
+    "before": 3.0,
+    "weapon": "1_318",
+    "hit": false,
+    "after": 3.0,
+    "ionized": true
+  },
+  {
+    "mode": "leave",
+    "before": 3.0,
+    "weapon": "1_318",
+    "hit": false,
+    "after": 3.0,
+    "ionized": true
+  },
+  {
+    "mode": "cancel",
+    "before": 3.0,
+    "weapon": "1_318",
+    "hit": false,
+    "after": 3.0,
+    "ionized": true
+  },
+  {
+    "mode": "return",
+    "before": 3.0,
+    "weapon": "1_318",
+    "hit": false,
+    "after": 3.0,
+    "ionized": true
+  },
+  {
+    "mode": "stay",
+    "before": 7.0,
+    "weapon": "golan",
+    "hit": true,
+    "after": 7.0
+  },
+  {
+    "mode": "leave",
+    "before": 7.0,
+    "weapon": "golan",
+    "hit": true,
+    "after": 5.0
+  },
+  {
+    "mode": "cancel",
+    "before": 7.0,
+    "weapon": "golan",
+    "hit": true,
+    "after": 5.0
+  },
+  {
+    "mode": "return",
+    "before": 7.0,
+    "weapon": "golan",
+    "hit": true,
+    "after": 7.0
+  }
+]

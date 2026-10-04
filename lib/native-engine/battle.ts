@@ -23,7 +23,7 @@ export {weaponDrawBonus} from './board';
 import {reactionActions} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
 import {moveCard} from './state';
-import {drawDestiny, validDraw, assertDrawFlow, type DrawFlow, completeDestinyDraw, completeDestinyTotal, type Draw, type Substitution} from './destiny';
+import {drawDestiny, validDraw, assertDrawFlow, type DrawFlow, completeDestinyDraw, completeDestinyTotal, pendingWeaponTotal, type Draw, type Substitution} from './destiny';
 import {loseFromTable} from './table';
 import {canUseWeapon, useWeapon} from './weapon-state';
 import {other, sides, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
@@ -446,7 +446,9 @@ function continueDestinyPlan(m: Match, side: Side): void {
 export function battleView(m: Match): Json {
   const b = battle(m);
   // Only public battle information; neither continuations nor hidden pile IDs.
-  return {battle: b ? {...structuredClone(b), damage: pair(battleDamage(m, 'dark'), battleDamage(m, 'light'))} as unknown as Json : null};
+  const projected=b?structuredClone(b):null;
+  if(projected?.starshipShots)projected.starshipShots=projected.starshipShots.map(shot=>({...shot,...(shot.outcome==='pending'?pendingWeaponTotal(m,{weapon:shot.weaponRef,target:shot.targetRef}):{})}));
+  return {battle: b ? {...projected, damage: pair(battleDamage(m, 'dark'), battleDamage(m, 'light'))} as unknown as Json : null};
 }
 export function assertBattle(m: Match): void {
   assertBattleDrawModifiers(m);
