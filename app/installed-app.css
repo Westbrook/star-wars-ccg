@@ -1,0 +1,52 @@
+/* Full-bleed backgrounds with interactive content inside the device safe area.
+   Keep zoom enabled; installed games support portrait, landscape and iPad windows. */
+:root {
+  --app-safe-top: env(safe-area-inset-top, 0px);
+  --app-safe-right: env(safe-area-inset-right, 0px);
+  --app-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --app-safe-left: env(safe-area-inset-left, 0px);
+}
+html { background: #101214; }
+/* Keep insets off body: modal scroll-lock libraries reset body padding. */
+.app-viewport { min-height: 100dvh; padding: var(--app-safe-top) var(--app-safe-right) var(--app-safe-bottom) var(--app-safe-left); }
+.app-shell[data-slot=sidebar-wrapper], body .native-shell, body .proof-shell {
+  min-height: calc(100dvh - var(--app-safe-top) - var(--app-safe-bottom));
+}
+.side-nav[data-slot=sidebar] {
+  top: var(--app-safe-top);
+  left: var(--app-safe-left);
+  bottom: var(--app-safe-bottom);
+}
+.report-return { right: calc(14px + var(--app-safe-right)); bottom: calc(14px + var(--app-safe-bottom)); }
+[data-slot=dialog-content] {
+  max-height: calc(100dvh - var(--app-safe-top) - var(--app-safe-bottom) - 32px);
+  max-width: calc(100vw - var(--app-safe-left) - var(--app-safe-right) - 32px);
+  overflow-y: auto;
+}
+.topbar-actions { display: flex; align-items: center; gap: 24px; }
+.install-app-trigger { min-height: 44px; white-space: nowrap; }
+.install-app-dialog { width: 480px; background: #121a1b; color: #eeeae1; gap: 20px; }
+.install-app-heading { display: flex; align-items: center; gap: 16px; padding-right: 12px; }
+.install-app-heading img { flex: none; border-radius: 14px; }
+.install-app-heading [data-slot=dialog-title] { font-size: 23px; line-height: 1.2; margin-top: 8px; }
+.install-app-dialog [data-slot=dialog-description] { color: #b5bcb6; line-height: 1.65; }
+.install-app-dialog h3 { color: #e9c486; font-size: 14px; font-weight: 700; }
+.install-app-dialog ol { list-style: decimal; padding-left: 22px; margin: 12px 0 0; }
+.install-app-dialog li { padding-left: 4px; margin: 10px 0; line-height: 1.65; }
+.install-app-dialog li svg { display: inline; vertical-align: text-bottom; color: #e9c486; }
+.install-app-dialog details { border-top: 1px solid #ffffff1a; padding-top: 16px; }
+.install-app-dialog summary { cursor: pointer; min-height: 32px; color: #e9c486; }
+.install-app-dialog details p, .install-app-note { color: #a9b6ad; font-size: 13px; line-height: 1.65; }
+.install-app-dialog [role=status]:empty { display: none; }
+@media (display-mode: standalone), (display-mode: fullscreen) {
+  .install-app-trigger { display: none; }
+}
+@media (max-width: 640px) {
+  .side-nav[data-slot=sidebar] { top: auto; left: 0; right: 0; bottom: 0; padding-left: calc(9px + var(--app-safe-left)); padding-right: calc(9px + var(--app-safe-right)); }
+  .app-shell[data-slot=sidebar-wrapper] { padding-bottom: 74px; }
+  .topbar-actions { gap: 12px; }
+  .topbar-actions .pilot > span:last-child { display: none; }
+  .topbar-actions .install-app-trigger { font-size: 12px; }
+  .install-app-heading [data-slot=dialog-title] { font-size: 20px; }
+  .report-return { bottom: calc(78px + var(--app-safe-bottom)); }
+}

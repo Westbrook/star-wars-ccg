@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "Star Wars CCG · Holotable",
+  "short_name": "Holotable",
+  "description": "Your Star Wars CCG command center: explore the card archive, build decks, and return to your tables.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#101214",
+  "theme_color": "#101214",
+  "categories": ["games", "entertainment"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "/icons/app-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/app-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Card archive", "url": "/?view=cards", "description": "Explore the printed card archive." },
+    { "name": "My decks", "url": "/?view=decks", "description": "Return to your deck collection." },
+    { "name": "Rules Lab", "url": "/proof", "description": "Continue a saved rules scenario." }
+  ]
+}
