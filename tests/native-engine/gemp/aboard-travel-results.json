@@ -1,0 +1,102 @@
+[
+  {
+    "mode": "run-ground",
+    "available": true,
+    "cost": 0,
+    "lukeMoved": true,
+    "aboard": false,
+    "gunCarried": true,
+    "regularMove": true,
+    "interruptDone": true
+  },
+  {
+    "mode": "run-open",
+    "available": false,
+    "cost": 0,
+    "lukeMoved": false,
+    "aboard": true,
+    "gunCarried": true,
+    "regularMove": false,
+    "interruptDone": false
+  },
+  {
+    "mode": "run-closed",
+    "available": false,
+    "cost": 0,
+    "lukeMoved": false,
+    "aboard": true,
+    "gunCarried": true,
+    "regularMove": false,
+    "interruptDone": false
+  },
+  {
+    "mode": "escape-open",
+    "available": true,
+    "cost": 1,
+    "lukeMoved": true,
+    "aboard": false,
+    "gunCarried": true,
+    "regularMove": true,
+    "interruptDone": true
+  },
+  {
+    "mode": "escape-open-only",
+    "available": true,
+    "cost": 1,
+    "lukeMoved": true,
+    "aboard": false,
+    "gunCarried": true,
+    "regularMove": true,
+    "interruptDone": true
+  },
+  {
+    "mode": "escape-landed-only",
+    "available": false,
+    "cost": 0,
+    "lukeMoved": false,
+    "aboard": true,
+    "gunCarried": true,
+    "regularMove": false,
+    "interruptDone": false
+  },
+  {
+    "mode": "escape-closed-only",
+    "available": false,
+    "cost": 0,
+    "lukeMoved": false,
+    "aboard": true,
+    "gunCarried": true,
+    "regularMove": false,
+    "interruptDone": false
+  },
+  {
+    "mode": "escape-closed",
+    "available": true,
+    "cost": 1,
+    "lukeMoved": true,
+    "aboard": false,
+    "gunCarried": true,
+    "regularMove": true,
+    "interruptDone": true
+  },
+  {
+    "mode": "escape-landed",
+    "available": true,
+    "cost": 1,
+    "lukeMoved": true,
+    "aboard": false,
+    "gunCarried": true,
+    "regularMove": true,
+    "interruptDone": true
+  },
+  {
+    "mode": "escape-no-force",
+    "available": true,
+    "cost": 0,
+    "lukeMoved": false,
+    "aboard": true,
+    "gunCarried": true,
+    "regularMove": false,
+    "interruptDone": true
+  }
+]

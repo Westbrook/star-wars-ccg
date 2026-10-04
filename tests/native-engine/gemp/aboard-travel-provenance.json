@@ -1,0 +1,25 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T05:14:29.602432+00:00",
+  "files": {
+    "NativeEngineAboardTravelOracleTests.java": "a2880a750d43b95f544d14e15ec6ca70f2e6a6fe5d194c113aeed31b814fbb12",
+    "aboard-travel-results.json": "93dbe486fbbc883c596e2f5dbc513c2331794037d92e6dfd241d391feba09672"
+  },
+  "junitTests": 1,
+  "observations": 10,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineAboardTravelOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp70\u201371,128",
+  "scope": "Run Luke regular landspeed starts on ground; Narrow Escape requires a present Rebel and moves aboard characters off open/enclosed vehicles or landed starfighters. Per-character payment, weapon carry, regular-move history and zero-Force failure.",
+  "method": [
+    "Actual Interrupt plays and movement on fixture boards with attached passengers; ten complete records compared with native commands and JSON restoration.",
+    "Unchanged GEMP production files verified byte-for-byte against pinned archive."
+  ],
+  "limitations": [
+    "Component verification; full deck admission remains closed. No new standalone study.",
+    "Cancellation, Barrier, changed host/target identity, route validation and browser recovery have additional native-only checks.",
+    "No new generic vehicle/space move-away card permission or nested cargo disembark grant. Full catalog/timing/product scope remains."
+  ]
+}
