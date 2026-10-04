@@ -1,3 +1,5 @@
+import {capacityPending} from './capacity-loss';
+import {addedAstromechCapacity} from './navigation';
 import {vesselStatBonus,ionizedShip} from './stat-modifiers';
 import {cardDefinition} from './definitions';
 import {gameTextActive} from './game-text';
@@ -29,7 +31,7 @@ export const vesselRules:Record<string,VesselRule>={
  '1_150':{pilots:0,drivers:1,passengers:7,shared:0,permanent:0,enclosed:true,world:'Tatooine'},
  '1_309':{pilots:0,drivers:1,passengers:7,shared:0,permanent:0,enclosed:true,world:'Tatooine'},
 };
-export const vesselRule=(m:Match,id:string)=>vesselRules[m.cards[id]?.blueprint];
+export function vesselRule(m:Match,id:string){const r=vesselRules[m.cards[id]?.blueprint],extra=addedAstromechCapacity(m,id);return r&&extra?{...r,astromechs:(r.astromechs??0)+extra}:r;}
 export const isVessel=(m:Match,id:string)=>!!m.cards[id]&&['Starship','Vehicle'].includes(cardDefinition(m,id).type);
 export const occupants=(m:Match,host:string)=>Object.values(m.cards).filter(c=>c.zone==='table'&&c.attachedTo===host&&!!c.aboardRole);
 export const inCargo=(m:Match,id:string)=>['vehicle','starship'].includes(m.cards[id]?.aboardRole??'');
@@ -83,7 +85,7 @@ export function assertOccupancy(m:Match):void {
    if(!c.location||!m.locations.includes(c.location))throw Error('Vessel needs an active location.');
    if(c.attachedTo&&!inCargo(m,c.id))throw Error('Vessel needs cargo capacity.');
    belowDecks(m,c.id);if(capital(m,c.id)&&cardDefinition(m,c.location).subType!=='System')throw Error('Capital ship needs a system.');const d=cardDefinition(m,c.location);if(!inCargo(m,c.id)&&(cardDefinition(m,c.id).type==='Vehicle'?(d.subType!=='Site'||!(d.icons as string[]).includes('Exterior')):!(d.subType==='System'||d.subType==='Site'&&(d.icons as string[]).includes('Exterior'))))throw Error('Invalid vessel location.');
-   if(!capacityFits(m,c.id,occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!}))))throw Error('Vessel capacity exceeded.');
+   if(!capacityFits(m,c.id,occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!})))&&!capacityPending(m,c.id))throw Error('Vessel capacity exceeded.');
   }
  }
 }

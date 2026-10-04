@@ -47,14 +47,15 @@ export function losePlayingCards(m:Match,cards:string[]):void {
  if(new Set(cards).size!==cards.length||cards.some(id=>m.cards[id]?.zone!=='playing'))throw Error('Invalid failed deployment.');
  for(const id of cards)moveCard(m,id,'leaving');orderNext(m,cards);
 }
-/** A forfeiture replacement changes only the host's destination. Descendants
+/** Placement in Used changes only the host's destination. Descendants
  * still leave simultaneously and are ordered in Lost before the host enters Used. */
-export function forfeitToUsed(m: Match, host: string): void {
+export function placeInUsedFromTable(m: Match, host: string): void {
   const ids = tableGroup(m,[host]), references = [...ids].filter(id=>id!==host).map(id=>referenceCard(m,id));
   removeGroup(m,ids,'leaving');
   if (references.length) recordTableLossOrigins(m,references);
   orderNext(m,[...ids].filter(id => id !== host),[host]);
 }
+export const forfeitToUsed = placeInUsedFromTable;
 /** Out-of-play costs remove the host permanently. Its dependents are lost,
  * not sacrificed; their ordering must finish before the parent can respond. */
 export function placeOutFromTable(m: Match, host: string): string[] {

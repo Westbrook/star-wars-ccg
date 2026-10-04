@@ -1,3 +1,4 @@
+import {hasNavComputer} from './navigation';
 import {vesselStatBonus,vesselStatValue} from './stat-modifiers';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './definitions';
@@ -49,7 +50,7 @@ export function hasAstromechNavigation(m:Match,id:string):boolean {
 }
 export function hasNavigation(m:Match,id:string):boolean {
  if(cardDefinition(m,id).type!=='Starship')return false;
- return (cardDefinition(m,id).icons as string[]).includes('Nav Computer')||hasAstromechNavigation(m,id);
+ return hasNavComputer(m,id)||hasAstromechNavigation(m,id);
 }
 /** Different card titles combine; multiple copies of one noncumulative text do not. */
 export function aboardStarfighterBonus(m:Match,id:string):number {

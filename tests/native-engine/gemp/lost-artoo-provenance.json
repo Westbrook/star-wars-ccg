@@ -1,0 +1,36 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T10:08:06.223300+00:00",
+  "files": {
+    "NativeEngineLostArtooOracleTests.java": "876aba2067eabb0bdd5ee795b7815a5e38bddc3cb746bb0ac36ce9bcdc2e6c0c",
+    "lost-artoo-results.json": "94b19234d37ddf1ea540a66ea2da49d277955cab01d66b5fc2baa9bf4bacf20e"
+  },
+  "junitTests": 1,
+  "observations": 7,
+  "exactAgreements": 6,
+  "officialRuleDivergences": 1,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineLostArtooOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp89 (lost capacity), 118 (errata), 147 (restoration)",
+  "scope": "Actual Effect deployment targeting, Force cost, required destiny, success/failure/empty Reserve, astromech loss, continuous nav cancellation and capacity, actual Alter cancellation.",
+  "method": [
+    "Controlled ships, aboard droids, characters, Force and top destiny cards; real Effect deployment and Alter cancellation through the engine decisions.",
+    "Destiny is sampled at COMPLETE_DESTINY_DRAW. Fixtures assert deployment/Alter settlement and one Force deployment cost.",
+    "All seven rows replay through serialized native commands. Six agree exactly; capacity row preserves the recorded GEMP discrepancy. Native uses actual droid deployment before Alter."
+  ],
+  "divergences": [
+    {
+      "mode": "capacity",
+      "gemp": "After successful Alter, Red 6 has zero astromech capacity but its droid remains attached; no placement in Used occurs.",
+      "native": "Restored navigation removes the added slot; without ordinary passenger space the droid is placed on top of Used.",
+      "authority": "AR p89 Starships \u2014 capacity \u2014 lost capacity, and p147 I\u2019ve Lost Artoo ruling."
+    }
+  ],
+  "limitations": [
+    "Component verification only; production admission remains false. Full catalog, targeting/loss prevention, navigation grants, sectors and the remaining engine/product scope remain.",
+    "GEMP aboard placement in capacity rows is controlled; actual droid deployment, excess-droid selection, ordered attached-card loss, canceled draw and recovery receive additional native tests, not distinct oracle claims.",
+    "End outcomes do not claim complete equivalence of every intermediate GEMP response window. Permanent astromech variants are outside the currently implemented vessel set."
+  ]
+}

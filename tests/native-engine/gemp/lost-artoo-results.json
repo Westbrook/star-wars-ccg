@@ -1,0 +1,79 @@
+[
+  {
+    "mode": "nav",
+    "destiny": 5.0,
+    "cost": 1,
+    "effectLost": false,
+    "astroLost": false,
+    "astroUsed": false,
+    "astroAboard": false,
+    "navigation": false,
+    "astromechs": 1
+  },
+  {
+    "mode": "fail",
+    "destiny": 1.0,
+    "cost": 1,
+    "effectLost": true,
+    "astroLost": false,
+    "astroUsed": false,
+    "astroAboard": false,
+    "navigation": true,
+    "astromechs": 0
+  },
+  {
+    "mode": "empty",
+    "destiny": null,
+    "cost": 1,
+    "effectLost": true,
+    "astroLost": false,
+    "astroUsed": false,
+    "astroAboard": false,
+    "navigation": true,
+    "astromechs": 0
+  },
+  {
+    "mode": "astro",
+    "destiny": 5.0,
+    "cost": 1,
+    "effectLost": true,
+    "astroLost": true,
+    "astroUsed": false,
+    "astroAboard": false,
+    "navigation": true,
+    "astromechs": 1
+  },
+  {
+    "mode": "both",
+    "destiny": 5.0,
+    "cost": 1,
+    "effectLost": true,
+    "astroLost": true,
+    "astroUsed": false,
+    "astroAboard": false,
+    "navigation": true,
+    "astromechs": 0
+  },
+  {
+    "mode": "capacity",
+    "destiny": 5.0,
+    "cost": 1,
+    "effectLost": true,
+    "astroLost": false,
+    "astroUsed": false,
+    "astroAboard": true,
+    "navigation": true,
+    "astromechs": 0
+  },
+  {
+    "mode": "passenger",
+    "destiny": 5.0,
+    "cost": 1,
+    "effectLost": true,
+    "astroLost": false,
+    "astroUsed": false,
+    "astroAboard": true,
+    "navigation": true,
+    "astromechs": 0
+  }
+]

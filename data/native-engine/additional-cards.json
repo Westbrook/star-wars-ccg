@@ -2255,5 +2255,20 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_253.java"
+  },
+  {
+    "gempId": "1_218",
+    "name": "I've Lost Artoo!",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/ivelostartoo.gif",
+    "text": "Use 1 Force to deploy on a starship with a [Nav Computer] or astromech aboard. Target [Nav Computer] or astromech and draw destiny. If destiny > 1, astromech lost (lose Effect) or [Nav Computer] is canceled (may add 1 astromech); otherwise, Effect lost.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_218.java"
   }
 ]
