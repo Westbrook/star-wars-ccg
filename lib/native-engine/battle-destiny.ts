@@ -1,3 +1,4 @@
+import {matchingPilot} from './piloting';
 import {battleAbility} from './battle-effects';
 import {battle, members} from './battle';
 import {battleDestinyRequirement, cardDefinition, name} from './board';
@@ -51,6 +52,7 @@ export function battleDrawPolicy(m: Match, side: Side, baseLimit: number | null 
   mods.push(...groups.values());
   // Actual continuous ground text; the rest of Ardan's card remains gated.
   if (cardDefinition(m, b.site).subType === 'Site' && own.some(id => m.cards[id].blueprint === '4_103')) mods.push({kind: 'if-unable', amount: 1});
+  if(own.some(id=>matchingPilot(m,id)))mods.push({kind:'if-unable',amount:1});
   // Successfully played optional additions persist after the gambler leaves.
   if (b.gamblersLuck?.side === side) mods.push({kind: 'add', amount: b.gamblersLuck.amount});
   const ability = battleAbility(m, side), siteRequirement = battleDestinyRequirement(m, side, b.site);

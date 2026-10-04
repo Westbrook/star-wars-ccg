@@ -1,0 +1,27 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T02:50:40.946266+00:00",
+  "files": {
+    "NativeEngineCrewOracleTests.java": "a96d3e6897a68e168c7ecce4e67733aebe99853bcb3c60675fb99f1af21ccbb8",
+    "crew-results.json": "d097a4a9915f8677183ceccda989eb51f91d773267b5a867433c19bbd3256407"
+  },
+  "junitTests": 1,
+  "observations": 10,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCrewOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp60,90-93",
+  "scope": "Dutch and DS-61-3 power/maneuver, matching-ship fallback battle destiny, Dutch squadron forfeit, landed/passenger roles, excluded pilots and canceled text versus permanent pilot icons.",
+  "method": [
+    "Ships, opponents, Force and initial locations are controlled starting boards. Characters deploy through actual actions, including passenger/pilot capacity selection. Barrier and battle initiation use real actions.",
+    "Text cancellation uses a controlled production CancelsGameTextModifier, not a claim of a supported cancellation card. Native cancellation observations query equivalent trusted canceled-text state without processing an absent provider.",
+    "Capture initiation values and advance to the actual weapons-segment menu before capturing active-battle values. Before automatic exclusion completes, barred pilots still show their bonuses; afterward, those contributions stop.",
+    "Native starting ships use the same printed cards and Tatooine Light system face; reference uses Dark system face. No identical location text claim. Native commands restore JSON at each boundary."
+  ],
+  "limitations": [
+    "Ten recorded paths agree; no exhaustive modifier/timing or full card/deck admission claim.",
+    "Pilot departure, end-of-battle reactivation, excluded Dutch forfeit, unpiloted docking and responsive recovery have native checks beyond these reference rows.",
+    "Other matching-pilot abilities, general vessel statistic modifiers, inactive/captured states, open vehicles, sectors and remaining full engine/product scope are unfinished. Full production admission stays closed."
+  ]
+}

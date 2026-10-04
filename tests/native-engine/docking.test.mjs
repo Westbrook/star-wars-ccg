@@ -47,11 +47,11 @@ for(const expected of observations)test('Executed GEMP docking observation: '+ex
  if(mode==='return')m=transfer(m,f.pilot,f.carrier,'pilot');
  m=settled(step(m,'undock'));assert.deepEqual({mode,cost:before-m.players.dark.force.length,pilotOnSecond:m.cards[f.pilot].attachedTo===f.second,pilotSlot:m.cards[f.pilot].aboardRole==='pilot',cargoOnSecond:m.cards[f.crawler].attachedTo===f.second,fighterOnSecond:m.cards[f.scout].attachedTo===f.second,driverInCargo:m.cards[f.driver].attachedTo===f.crawler,firstPower:occ.vesselPower(m,f.carrier),secondPower:occ.vesselPower(m,f.second),firstMoved:ground.usage(m).moved.includes(f.carrier),secondMoved:ground.usage(m).moved.includes(f.second),pilotMoved:ground.usage(m).moved.includes(f.pilot),cargoMoved:ground.usage(m).moved.includes(f.crawler),fighterMoved:ground.usage(m).moved.includes(f.scout)},expected);
 });
-test('At least one docking ship needs a pilot; an unpiloted partner is allowed',()=>{
+test('Canceling ship text does not remove permanent pilot icons or prevent docking',()=>{
  const f=fixture(),ref=load(new URL('../../lib/native-engine/identity.ts',import.meta.url));let m=f.m;m.data.canceledGameText=[ref.referenceCard(m,f.carrier),ref.referenceCard(m,f.second)];
  // Controlled text cancellation tests the permission predicate; normal runtime restores
  // cancellation without an active producer before offering ordinary actions.
- const choices=()=>api.dockingActions(m,m.stack.at(-1),'dark').map(a=>a.id);assert.ok(choices().includes('dock:'+f.carrier+':'+f.second));m.cards[f.pilot].aboardRole='passenger';assert.equal(choices().includes('dock:'+f.carrier+':'+f.second),false);
+ const choices=()=>api.dockingActions(m,m.stack.at(-1),'dark').map(a=>a.id);assert.ok(choices().includes('dock:'+f.carrier+':'+f.second));m.cards[f.pilot].aboardRole='passenger';assert.equal(choices().includes('dock:'+f.carrier+':'+f.second),true);
 });
 test('Docking requires Force and does not offer landing-site or carried ships as partners',()=>{
  const f=fixture(),m=f.m;assert.equal(ids(m).some(id=>id.startsWith('dock:')&&id.includes(f.scout)),false);while(m.players.dark.force.length)state.moveCard(m,m.players.dark.force[0],'used');assert.equal(ids(m).some(id=>id.startsWith('dock:')),false);

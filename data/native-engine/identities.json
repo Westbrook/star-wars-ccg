@@ -1633,5 +1633,34 @@
       "BLACK_3"
     ],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_300.java"
+  },
+  "1_8": {
+    "keywords": [
+      "GOLD_SQUADRON",
+      "LEADER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "DUTCH"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_008.java"
+  },
+  "1_174": {
+    "keywords": [
+      "BLACK_SQUADRON"
+    ],
+    "species": [
+      "CORELLIAN"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "DS_61_3"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_174.java"
   }
 }

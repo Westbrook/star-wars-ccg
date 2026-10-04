@@ -1,7 +1,7 @@
 import {cardDefinition} from './definitions';
 import {adjacent,moveWithAttachments,name,system} from './board';
 import {barred,canMove,record} from './ground';
-import {vesselRule,occupants,operational,permanentAbility,capital} from './occupancy';
+import {vesselRule,occupants,operational,pilotAboard,capital} from './occupancy';
 import {premiereSystems} from './premiere-setup';
 import {bayCosts} from './travel';
 import {assertCardReference,referenceCard,sameCard,type CardReference} from './identity';
@@ -12,7 +12,6 @@ type Method='landspeed'|'hyperspace'|'land'|'takeoff';
 type Route={method:Method;path:string[];cost:number};
 type Payload={card:CardReference;path:CardReference[];method:Method;index:number;cost:number};
 const exterior=(m:Match,id:string)=>cardDefinition(m,id).subType==='Site'&&(cardDefinition(m,id).icons as string[]).includes('Exterior');
-const pilotAboard=(m:Match,id:string)=>permanentAbility(m,id)>0||occupants(m,id).some(c=>c.aboardRole==='pilot');
 const stat=(m:Match,id:string,key:string)=>Number((cardDefinition(m,id).stats as Record<string,string>)[key]??0);
 export function vehicleDestination(m:Match,id:string,to:string):boolean{
  if(!exterior(m,to))return false;

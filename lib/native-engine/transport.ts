@@ -1,5 +1,5 @@
 import {cardDefinition} from './definitions';
-import {capital,inCargo,occupants,roleAvailable,vesselRule,permanentAbility,type AboardRole} from './occupancy';
+import {capital,inCargo,occupants,roleAvailable,vesselRule,pilotAboard,type AboardRole} from './occupancy';
 import {moveWithAttachments,name,system,presence} from './board';
 import {premiereLocations} from './premiere-setup';
 import {vehicleDestination} from './vessel-travel';
@@ -15,7 +15,7 @@ type Payload={card:CardReference;origin:CardReference;target:CardReference;locat
 const characterRoles:AboardRole[]=['pilot','driver','passenger'];
 const cargoRole=(m:Match,id:string):AboardRole=>cardDefinition(m,id).type==='Vehicle'?'vehicle':'starship';
 const exterior=(m:Match,id:string)=>cardDefinition(m,id).subType==='Site'&&(cardDefinition(m,id).icons as string[]).includes('Exterior');
-const flightPilot=(m:Match,id:string)=>permanentAbility(m,id)>0||occupants(m,id).some(c=>c.aboardRole==='pilot');
+const flightPilot=pilotAboard;
 const carriers=(m:Match,side:Side)=>Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&!c.attachedTo&&capital(m,c.id)&&c.location&&cardDefinition(m,c.location).subType==='System');
 const key=(p:Payload)=>'transport:'+p.mode+':'+p.card.id+':'+p.target.id+(p.role?':'+p.role:'');
 function selected(m:Match,id:string,target:string,mode:Mode,role?:AboardRole):Payload{

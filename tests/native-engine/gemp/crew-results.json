@@ -1,0 +1,122 @@
+[
+  {
+    "mode": "light-match",
+    "beforePower": 4,
+    "beforeManeuver": 4,
+    "beforePiloted": true,
+    "hanForfeit": null,
+    "initiationPower": 4,
+    "battlePower": 4,
+    "battleManeuver": 4,
+    "battlePiloted": true,
+    "draws": 1
+  },
+  {
+    "mode": "dark-match",
+    "beforePower": 4,
+    "beforeManeuver": 4,
+    "beforePiloted": true,
+    "hanForfeit": null,
+    "initiationPower": 4,
+    "battlePower": 4,
+    "battleManeuver": 4,
+    "battlePiloted": true,
+    "draws": 1
+  },
+  {
+    "mode": "dark-nonmatch",
+    "beforePower": 4,
+    "beforeManeuver": 1,
+    "beforePiloted": true,
+    "hanForfeit": null,
+    "initiationPower": 4,
+    "battlePower": 4,
+    "battleManeuver": 1,
+    "battlePiloted": true,
+    "draws": 0
+  },
+  {
+    "mode": "gold-squadron",
+    "beforePower": 6,
+    "beforeManeuver": 4,
+    "beforePiloted": true,
+    "hanForfeit": 7,
+    "initiationPower": 6,
+    "battlePower": 6,
+    "battleManeuver": 4,
+    "battlePiloted": true,
+    "draws": 1
+  },
+  {
+    "mode": "light-passenger",
+    "beforePower": 4,
+    "beforeManeuver": 3,
+    "beforePiloted": true,
+    "hanForfeit": 7,
+    "initiationPower": 4,
+    "battlePower": 4,
+    "battleManeuver": 3,
+    "battlePiloted": true,
+    "draws": 0
+  },
+  {
+    "mode": "light-landed",
+    "beforePower": 0,
+    "beforeManeuver": 0,
+    "beforePiloted": false,
+    "hanForfeit": null,
+    "initiationPower": null,
+    "battlePower": null,
+    "battleManeuver": null,
+    "battlePiloted": null,
+    "draws": null
+  },
+  {
+    "mode": "barrier-permanent",
+    "beforePower": 4,
+    "beforeManeuver": 1,
+    "beforePiloted": true,
+    "hanForfeit": null,
+    "initiationPower": 4,
+    "battlePower": 1,
+    "battleManeuver": 1,
+    "battlePiloted": true,
+    "draws": 0
+  },
+  {
+    "mode": "barrier-unpiloted",
+    "beforePower": 4,
+    "beforeManeuver": 4,
+    "beforePiloted": true,
+    "hanForfeit": null,
+    "initiationPower": 4,
+    "battlePower": 0,
+    "battleManeuver": 0,
+    "battlePiloted": false,
+    "draws": 0
+  },
+  {
+    "mode": "pilot-text-canceled",
+    "beforePower": 1,
+    "beforeManeuver": 3,
+    "beforePiloted": true,
+    "hanForfeit": null,
+    "initiationPower": null,
+    "battlePower": null,
+    "battleManeuver": null,
+    "battlePiloted": null,
+    "draws": null
+  },
+  {
+    "mode": "ship-text-canceled",
+    "beforePower": 1,
+    "beforeManeuver": 1,
+    "beforePiloted": true,
+    "hanForfeit": null,
+    "initiationPower": null,
+    "battlePower": null,
+    "battleManeuver": null,
+    "battlePiloted": null,
+    "draws": null
+  }
+]

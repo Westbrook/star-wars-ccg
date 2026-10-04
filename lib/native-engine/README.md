@@ -2776,3 +2776,41 @@ pairings, wider matching-pilot bonuses and nonparticipating pilot contributions,
 open vehicles, sectors, broader capacity/cost/prevention providers and all
 remaining catalog, capture, Objectives/setup and product work. This checkpoint
 does not open production full-match admission or create another standalone study.
+
+### Pilot participation and matching ships
+
+Dutch and DS-61-3 now provide their printed piloting power bonuses, matching
+Gold 1/Black 3 maneuver bonus and fallback battle destiny. Fallback entitlement
+uses the existing draw policy and never adds a second destiny merely because
+ordinary ability already supplies one. Dutch also grants forfeit to other Gold
+Squadron pilots at his location, including a character whose squadron comes from
+piloting a Gold Squadron ship; this modifier does not require Dutch to pilot.
+
+Pilot seats and pilot functions are distinct. Excluded crew keep their capacity
+slots, but once battle begins they cannot operate a ship or supply piloting text.
+The last active pilot's exclusion makes an otherwise unpiloted ship power and
+maneuver zero. A permanent pilot still operates independently of an excluded
+additional pilot. During pending battle initiation, before automatic exclusion,
+the pilot's ordinary ship contributions remain; after battle ends they resume.
+Landed pilots function as passengers and cannot supply matching-ship bonuses.
+A permanent pilot icon persists when game text is canceled, even when its
+text-provided ability becomes zero. Docking and takeoff use that distinction.
+
+The vessel panel shows current power and maneuver, preserves permanent pilot
+identity with zero ability, and identifies crew not participating in the battle.
+These values are derived by the engine and survive service recovery. Native
+checks cover actual fallback draws, pilot departure, capacity preservation,
+reactivation, excluded Dutch, and an actually unpiloted docking partner.
+
+`crew-provenance.json` records ten executed GEMP paths and an unchanged 6,820-file
+production source comparison. Characters deploy, Barrier is played, and battles
+begin through real reference actions. Starting ships/locations/Force are fixture
+state. Two cancellation observations use a controlled production cancellation
+modifier. Values are sampled both during initiation and at the weapons menu;
+the earlier initiation snapshot must not be mistaken for settled exclusion.
+
+Remaining work includes other matching-pilot abilities, generic vessel stat
+modifiers, inactive/captured states beyond current battle exclusion, open
+vehicles, sectors and wider transport. Full catalog/timing, capture, Objectives,
+setup/deck formats, opponents/capacity and complete product delivery remain in
+scope. Production full-match admission is still closed.
