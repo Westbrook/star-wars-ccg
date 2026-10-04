@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T14:04:31.247494+00:00",
+  "files": {
+    "NativeEngineHothTextOracleTests.java": "cc0e6548a014733172c12326d661258d8bd9313f940cc008acc02cf0a278d5dc",
+    "hoth-text-results.json": "4d16e118b418391f6aec1570220419d703330e45358579ad8e2b37cec746a1a8"
+  },
+  "junitTests": 8,
+  "observations": 8,
+  "exactAgreements": 8,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineHothTextOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp67\u201372,95",
+  "scope": "Printed Hoth drains, generation, deployment, power, weapon destiny and forfeit; Ice Plains regular movement; North Ridge free AT-AT movement.",
+  "method": [
+    "Actual GEMP movement actions for character, creature and AT-AT from Ice Plains to Mountains, verifying no Force spent and regular move consumed. Actual selection excludes passengers; moving their carrier retains them aboard.",
+    "Location modifiers, weapon destiny contribution, deployment and shuttling costs are unmodified GEMP queries on authored boards, not complete battle/deployment/shuttle transcripts. Landed TIE eligibility is a GEMP movement query.",
+    "Native comparison tests reproduce all eight recorded observations. Additional native tests exercise actual deployment/shuttle payments, reverse movement, source cancellation, pending movement after relocation, blocked completion and tamper rejection."
+  ],
+  "limitations": [
+    "Component coverage only; full native starter admission remains disabled. No standalone study added.",
+    "No executed GEMP comparison of every interruption/cancellation/leave-play case. Pending movement handling follows the pinned MoveUsingLocationTextEffect source, with native refresh/relocation checks.",
+    "Blizzard 2 landspeed remains printed 1 in the current runtime. Future generalized landspeed modifiers must respect its cannot-increase restriction.",
+    "Main Power Generators artillery/blown-away behavior, virtual shield exceptions, related starship/vehicle sites and remaining full engine requirements stay unfinished."
+  ]
+}

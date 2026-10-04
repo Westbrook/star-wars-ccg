@@ -1,0 +1,55 @@
+[
+  {
+    "case": "modifiers",
+    "values": {
+      "lightPerimeterDrain": 2.0,
+      "echoDeploy": 1.0,
+      "mountainsLightDrain": 2.0,
+      "imperialDeploy": 0.0,
+      "walkerDeploy": 5.0,
+      "iceWithoutGenerator": 2.0,
+      "iceWithGenerator": 1.0,
+      "trenchGenerationBonus": 1.0,
+      "echoHothPower": 2,
+      "echoAwayPower": 1
+    }
+  },
+  {
+    "case": "move-trooper",
+    "regularMoveUsed": true,
+    "forceSpent": 0,
+    "destination": "104_4"
+  },
+  {
+    "shuttleCost": 0.0,
+    "cost": 0.0,
+    "case": "north-ridge"
+  },
+  {
+    "case": "move-wampa",
+    "regularMoveUsed": true,
+    "forceSpent": 0,
+    "destination": "104_4"
+  },
+  {
+    "carriedWithVehicle": true,
+    "case": "passenger",
+    "independentMove": false
+  },
+  {
+    "case": "weapon-forfeit",
+    "rebelForfeit": 1,
+    "darkWeaponBonus": 1.0,
+    "lightWeaponBonus": 1.0
+  },
+  {
+    "case": "move-walker",
+    "regularMoveUsed": true,
+    "forceSpent": 0,
+    "destination": "104_4"
+  },
+  {
+    "case": "landed-TIE",
+    "legal": false
+  }
+]

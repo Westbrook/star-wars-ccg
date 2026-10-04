@@ -1,3 +1,4 @@
+import {hothDeployModifier,hothDrainModifier,hothGenerationModifier,hothWeaponModifier,hothForfeitModifier} from './hoth-text';
 import {hothRank,generatorAllowed,shieldDeployment,shielded} from './hoth';
 import {bespinDeployModifier,cloudCityBattleBonus} from './bespin';
 import {sectorKind,sectorFamily,sectorsAt,sectorSystem,sectorRank,sectorPlacements,locationGroup,isCave,cavePlacements,caveOrder} from './sectors';
@@ -37,7 +38,7 @@ export const isSite = (m:Match,id:string) => !!m.cards[id] && cardDefinition(m,i
 export const adjacent = (m: Match, a: string, b: string) => !isCave(m,a) && !isCave(m,b) && isSite(m,a) && isSite(m,b) && m.locations.includes(a) && m.locations.includes(b) && system(m, a) === system(m, b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
 export const abilityAt = (m: Match, side: Side, site: string) => locationAbility(m, side, site, unitsAt(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0));
 export const presence = (m: Match, side: Side, site: string) => abilityAt(m, side, site) >= 1;
-export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + premiereLocations[m.cards[id].blueprint].icons[side], 0);
+export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + premiereLocations[m.cards[id].blueprint].icons[side]+hothGenerationModifier(m,side,id), 0);
 
 export function controls(m: Match, side: Side, site: string): boolean {
   if (!m.locations.includes(site) || !presence(m, side, site) || presence(m, other(side), site)) return false;
@@ -75,13 +76,14 @@ export function deploymentPayment(m: Match, id: string, site: string, aboard = f
   if (!canPlayCard(m, id)) return null;
   if (['101_2', '101_5'].includes(blueprint) && onTable.filter(c => c.owner === other(side) && cardDefinition(m, c.id).type === 'Character' && isUnique(m, c.id)).length >= 2) return null;
   if ((isJawa(blueprint) || blueprint === '1_196' || blueprint === '101_2') && system(m, site) !== 'Tatooine') return null;
+  if(blueprint==='3_6'&&system(m,site)!=='Hoth')return null;
   if (['1_170', '101_5'].includes(blueprint) && system(m, site) !== 'Death Star') return null;
   if (sunsdownSpyFree(m,id,site)) return {[side]:0};
   if (isJawa(blueprint)) {
     const ownCamp = m.cards[site].blueprint === (side === 'light' ? '1_131' : '1_292');
     return ownCamp ? {[side]: 1} : {dark: 1, light: 1};
   }
-  let cost = deployValue(m,id) - medicalDeployReduction(m,id) + bespinDeployModifier(m,id,site);
+  let cost = deployValue(m,id) - medicalDeployReduction(m,id) + bespinDeployModifier(m,id,site) + hothDeployModifier(m,id,site);
   if ((blueprint === '1_2' || hasPersona(m,id,'LUKE')) && m.cards[site].blueprint === '1_132') cost--;
   if (blueprint === '1_22' && cardDefinition(m,site).name === "Tatooine: Lars' Moisture Farm") cost = 0;
   if (['1_28', '1_194'].includes(blueprint)) {
@@ -101,6 +103,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   if(isVessel(m,id))return vesselPower(m,id);
   const card = m.cards[id], site = card.location, blueprint = card.blueprint;
   let value = printed(m, id, 'power');
+  if(blueprint==='3_6'&&site&&gameTextActive(m,id)&&isSite(m,site)&&system(m,site)!=='Hoth')value--;
   if (isGuard(blueprint) && defending) value += 4;
   if (blueprint === '1_170' && site && system(m, site) !== 'Death Star') value--;
   if (blueprint === '1_196' && site && atSite(m, site).filter(c => isSpecies(m, c.id, 'TUSKEN_RAIDER') && nonUnique(m, c.id) && active(c.id)).length >= 2) value++;
@@ -123,7 +126,7 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
   if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') bonuses.push(1);
   if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') bonuses.push(-1);
   if(site&&isJawa(card.blueprint)&&isSite(m,site)&&(cardDefinition(m,site).icons as string[]).includes('Exterior')&&unitsAt(m,site).some(c=>['1_150','1_309'].includes(c.blueprint)&&operational(m,c.id)&&gameTextActive(m,c.id)&&active(c.id)))bonuses.push(1);
-  bonuses.push(squadronForfeitBonus(m,id,active),equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active),larsForfeitBonus(m,id,active));
+  bonuses.push(hothForfeitModifier(m,id),squadronForfeitBonus(m,id,active),equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active),larsForfeitBonus(m,id,active));
   return currentForfeit(m,id,printed(m,id,'forfeit'),bonuses);
 }
 
@@ -143,7 +146,7 @@ export function drainAmount(m: Match, side: Side, site: string): number {
   let value = premiereLocations[m.cards[site].blueprint].icons[other(side)];
   if(sectorFamily(m,site)==='clouds'&&m.cards[site].owner!==side&&gameTextActive(m,site)&&controls(m,side,site))value++;
   const blueprint = m.cards[site].blueprint;
-  if(blueprint==='3_150'&&side==='light'&&gameTextActive(m,site)&&controls(m,side,site)&&m.locations.some(id=>name(m,id).startsWith('Hoth: Main Power Generators')))value--;
+  value+=hothDrainModifier(m,side,site);
   if(sectorFamily(m,site)==='big-one'&&gameTextActive(m,site)&&controls(m,side,site)){
     if(m.cards[site].owner===side)value+=sectorsAt(m,sectorSystem(m,site)!,'asteroid').filter(id=>sectorFamily(m,id)==='field').length;
     else if(blueprint==='4_82')value++;
@@ -195,5 +198,5 @@ export function sitePlacements(m: Match, id: string): {id: string; label: string
 /** Current location modifier, evaluated when the physical weapon destiny draws. */
 export function weaponDrawBonus(m: Match, id: string): number {
   const c = m.cards[id];
-  return c.owner === 'dark' && c.location && ['1_284', '1_132'].includes(m.cards[c.location].blueprint) ? 1 : 0;
+  return hothWeaponModifier(m,id)+(c.owner === 'dark' && c.location && ['1_284', '1_132'].includes(m.cards[c.location].blueprint) ? 1 : 0);
 }

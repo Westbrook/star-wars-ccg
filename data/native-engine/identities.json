@@ -2326,5 +2326,18 @@
     "uniqueness": "UNIQUE",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_143.java"
+  },
+  "3_155": {
+    "keywords": [
+      "ENCLOSED"
+    ],
+    "species": [],
+    "models": [
+      "AT_AT"
+    ],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_155.java"
   }
 }
