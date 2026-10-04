@@ -1,7 +1,7 @@
 import {cardDefinition} from './definitions';
 import {adjacent,moveWithAttachments,name,system} from './board';
 import {barred,canMove,record} from './ground';
-import {vesselRule,occupants,operational,permanentAbility} from './occupancy';
+import {vesselRule,occupants,operational,permanentAbility,capital} from './occupancy';
 import {premiereSystems} from './premiere-setup';
 import {bayCosts} from './travel';
 import {assertCardReference,referenceCard,sameCard,type CardReference} from './identity';
@@ -31,7 +31,7 @@ export function vesselRoutes(m:Match,id:string):Route[]{
  const origin=premiereSystems[m.cards[from].blueprint];
  if(origin&&operational(m,id)){
   if((d.icons as string[]).includes('Nav Computer')&&stat(m,id,'hyperspeed')>0)for(const to of m.locations){const target=premiereSystems[m.cards[to].blueprint];if(to!==from&&target&&Math.abs(origin.parsec-target.parsec)<=stat(m,id,'hyperspeed'))out.push({method:'hyperspace',path:[from,to],cost:1});}
-  for(const to of m.locations.filter(to=>exterior(m,to)&&system(m,to)===origin.system)){
+  if(!capital(m,id))for(const to of m.locations.filter(to=>exterior(m,to)&&system(m,to)===origin.system)){
    const bay=bayCosts[m.cards[to].blueprint]!==undefined;
    if(m.cards[id].blueprint==='1_305'&&!bay)continue;
    out.push({method:'land',path:[from,to],cost:bay?0:1});

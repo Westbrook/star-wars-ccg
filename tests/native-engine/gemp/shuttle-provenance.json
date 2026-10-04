@@ -1,0 +1,30 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T01:40:51.386315+00:00",
+  "files": {
+    "NativeEngineShuttleOracleTests.java": "0316d25112aaec0a049e32d8ddc66a6a0d570b9955d0b9b435cbf91a3bae93f6",
+    "NativeEngineVesselsOracleTests.java": "d978c61a3416028d940aaf7f39e05dfca376b3944a17fba40a63abbd58be39d3",
+    "shuttle-results.json": "ccf306ce02e8b09f1a6447e6ac1c952657e4a1bf9a48f0b3be7269443dfbcf4c"
+  },
+  "junitTests": 1,
+  "observations": 9,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineShuttleOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp68-70,89-92",
+  "scope": "Actual capital ship deployment, character/vehicle shuttling, cargo deployment/launch and bridge transfer. Costs, capacity roles, movement usage, power, system ability and battle membership.",
+  "method": [
+    "Starting locations, Force and opponent Corvette are controlled fixtures. Dark deployments and movement use actual legal actions.",
+    "Native replays use JSON recovery through response windows and a Light Tatooine system face for the same endpoint. No equivalence of its other text/Force icons is claimed.",
+    "Native Tarkin begins on a controlled surface fixture; GEMP deploys him normally."
+  ],
+  "discrepancies": [
+    "Pinned GEMP includes Labria inside a carried Sandcrawler in battle at the outer system, even at the weapons segment. Native follows AR p90 Passengers: characters inside cargo do not participate. Both include the carried vehicle itself. The replay records and explicitly asserts this disagreement; it is not claimed as conformance."
+  ],
+  "limitations": [
+    "Docking between ships, shuttle vehicles, sectors, broader cargo/crew card text, simultaneous pilots and movement prevention remain.",
+    "CPU strategy, capacity rejection, nested loss ordering and browser recovery are native checks, not observations from this reference harness.",
+    "Production full-match admission remains closed."
+  ]
+}

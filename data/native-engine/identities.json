@@ -1580,5 +1580,27 @@
     "uniqueness": "UNIQUE",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_296.java"
+  },
+  "1_140": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "CORELLIAN_CORVETTE"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_140.java"
+  },
+  "1_302": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "IMPERIAL_CLASS_STAR_DESTROYER"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_302.java"
   }
 }

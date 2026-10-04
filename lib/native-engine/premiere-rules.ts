@@ -1,3 +1,4 @@
+import {transportActions,transportInitiate,transportResolve,assertTransport} from './transport';
 import {vesselTravelActions,vesselTravelResolve,assertVesselTravel,vesselTravelView} from './vessel-travel';
 import {assertOccupancy,occupancyView} from './occupancy';
 import {vesselActions,vesselInitiate,vesselResolve,assertVessels} from './vessels';
@@ -84,7 +85,7 @@ export const premiereRules: Rules = {
   generation,
   interrupt: m=>scheduleInserts(m),
   automatic: (m, w) => [...angerAutomatic(m,w),...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...transportActions(m,w,side),...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
@@ -92,6 +93,7 @@ export const premiereRules: Rules = {
     if (r.action.handler.startsWith('noble:')) {nobleInitiate(m,r);return;}
     if (r.action.handler.startsWith('telepathy:')) {telepathyInitiate(m,r);return;}
     if (r.action.handler.startsWith('game-text:') || r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
+    if (r.action.handler.startsWith('transport:')) {transportInitiate(m,r);return;}
     if (r.action.handler.startsWith('voyage:')) return;
     if (r.action.handler.startsWith('vessel:')) {vesselInitiate(m,r);return;}
     if (r.action.handler.startsWith('sunsdown:')) {sunsdownInitiate(m,r);return;}
@@ -144,6 +146,7 @@ export const premiereRules: Rules = {
     if (r.action.handler.startsWith('anger:')) {angerResolve(m,r);return;}
     if (r.action.handler.startsWith('noble:')) {nobleResolve(m,r);syncBattle(m);syncForceLosses(m);return;}
     if (r.action.handler.startsWith('telepathy:')) {telepathyResolve(m,r);syncBattle(m);syncForceLosses(m);return;}
+    if (r.action.handler.startsWith('transport:')) {transportResolve(m,r);syncBattle(m);return;}
     if (r.action.handler.startsWith('voyage:')) {vesselTravelResolve(m,r);syncBattle(m);return;}
     if (r.action.handler.startsWith('vessel:')) {vesselResolve(m,r);syncBattle(m);return;}
     if (r.action.handler.startsWith('sunsdown:')) {sunsdownResolve(m,r);return;}
@@ -254,6 +257,7 @@ export const premiereRules: Rules = {
   validate: match => {
     assertOccupancy(match);assertVessels(match);
     assertVesselTravel(match);
+    assertTransport(match);
     assertSunsdown(match);
     assertLabria(match);
     assertNoble(match);

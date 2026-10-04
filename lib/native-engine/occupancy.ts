@@ -3,10 +3,12 @@ import {gameTextActive} from './game-text';
 import {isModel} from './characteristics';
 import type {Card,Match} from './types';
 
-export type AboardRole='pilot'|'driver'|'passenger';
-type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string};
+export type AboardRole='pilot'|'driver'|'passenger'|'vehicle'|'starship';
+type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string;vehicles?:number;starships?:number;tiesOnly?:boolean};
 /** Printed capacities; permanent personnel do not consume these additional slots. */
 export const vesselRules:Record<string,VesselRule>={
+ '1_140':{pilots:3,drivers:0,passengers:4,shared:0,permanent:1,enclosed:true,vehicles:1},
+ '1_302':{pilots:6,drivers:0,passengers:8,shared:0,permanent:1,enclosed:true,vehicles:2,starships:4,tiesOnly:true},
  '1_147':{pilots:0,drivers:0,passengers:0,shared:1,permanent:1,enclosed:true},
  '1_305':{pilots:0,drivers:0,passengers:1,shared:1,permanent:1,enclosed:true},
  '1_150':{pilots:0,drivers:1,passengers:7,shared:0,permanent:0,enclosed:true,world:'Tatooine'},
@@ -15,20 +17,30 @@ export const vesselRules:Record<string,VesselRule>={
 export const vesselRule=(m:Match,id:string)=>vesselRules[m.cards[id]?.blueprint];
 export const isVessel=(m:Match,id:string)=>!!m.cards[id]&&['Starship','Vehicle'].includes(cardDefinition(m,id).type);
 export const occupants=(m:Match,host:string)=>Object.values(m.cards).filter(c=>c.zone==='table'&&c.attachedTo===host&&!!c.aboardRole);
-export const landed=(m:Match,id:string)=>isVessel(m,id)&&!!m.cards[id].location&&cardDefinition(m,id).type==='Starship'&&cardDefinition(m,m.cards[id].location!).subType==='Site';
+export const inCargo=(m:Match,id:string)=>['vehicle','starship'].includes(m.cards[id]?.aboardRole??'');
+export const capital=(m:Match,id:string)=>!!m.cards[id]&&cardDefinition(m,id).type==='Starship'&&cardDefinition(m,id).subType.startsWith('Capital:');
+export function belowDecks(m:Match,id:string):boolean{const seen=new Set<string>();let c=m.cards[id],cargo=false;while(c){if(seen.has(c.id))throw Error('Cyclic occupancy.');seen.add(c.id);if(inCargo(m,c.id))cargo=true;c=m.cards[c.attachedTo!];}return cargo;}
+export const landed=(m:Match,id:string)=>isVessel(m,id)&&(inCargo(m,id)||!!m.cards[id].location&&cardDefinition(m,id).type==='Starship'&&cardDefinition(m,m.cards[id].location!).subType==='Site');
 export const permanentAbility=(m:Match,id:string)=>gameTextActive(m,id)?vesselRule(m,id)?.permanent??0:0;
 export const operational=(m:Match,id:string)=>!!vesselRule(m,id)&&!landed(m,id)&&(permanentAbility(m,id)>0||occupants(m,id).some(c=>c.aboardRole==='pilot'||c.aboardRole==='driver'));
 export const enclosedOccupant=(m:Match,id:string)=>!!m.cards[id]?.aboardRole&&!!vesselRule(m,m.cards[id].attachedTo!)?.enclosed;
 export const characterPresent=(m:Match,id:string)=>cardDefinition(m,id).type==='Character'&&!enclosedOccupant(m,id)&&(!m.cards[id].attachedTo||!!m.cards[id].aboardRole);
-export const unitsAt=(m:Match,location:string):Card[]=>Object.values(m.cards).filter(c=>c.zone==='table'&&c.location===location&&!c.coveredBy&&(cardDefinition(m,c.id).type==='Character'&&(!c.attachedTo||!!c.aboardRole)||isVessel(m,c.id)&&!c.attachedTo));
+export const unitsAt=(m:Match,location:string):Card[]=>Object.values(m.cards).filter(c=>c.zone==='table'&&c.location===location&&!c.coveredBy&&(cardDefinition(m,c.id).type==='Character'&&!belowDecks(m,c.id)&&(!c.attachedTo||!!c.aboardRole)||isVessel(m,c.id)&&(!c.attachedTo||inCargo(m,c.id))));
 export function canDrive(m:Match,id:string):boolean {
  const d=cardDefinition(m,id);return d.type==='Character'&&(d.subType!=='Droid'||['VEHICLE','BATTLE','PROTOCOL'].some(model=>isModel(m,id,model))||(d.icons as string[]).some(i=>i==='Pilot'||i==='Warrior'));
 }
 export function capacityFits(m:Match,host:string,crew:{id:string;role:AboardRole}[]):boolean {
  const r=vesselRule(m,host);if(!r)return false;
- const n={pilot:0,driver:0,passenger:0};
- for(const c of crew){if(!['pilot','driver','passenger'].includes(c.role)||cardDefinition(m,c.id).type!=='Character')return false;if(c.role==='pilot'&&!(cardDefinition(m,c.id).icons as string[]).includes('Pilot')||c.role==='driver'&&!canDrive(m,c.id))return false;n[c.role]++;}
- return n.driver<=r.drivers&&Math.max(0,n.pilot-r.pilots)+Math.max(0,n.passenger-r.passengers)<=r.shared;
+ const n={pilot:0,driver:0,passenger:0,vehicle:0,starship:0};
+ for(const c of crew){
+  if(!['pilot','driver','passenger','vehicle','starship'].includes(c.role))return false;
+  const d=cardDefinition(m,c.id);
+  if(c.role==='vehicle'){if(d.type!=='Vehicle')return false;}
+  else if(c.role==='starship'){if(d.type!=='Starship'||!d.subType.startsWith('Starfighter:')||r.tiesOnly&&m.cards[c.id].blueprint!=='1_305')return false;}
+  else if(d.type!=='Character'||c.role==='pilot'&&!(d.icons as string[]).includes('Pilot')||c.role==='driver'&&!canDrive(m,c.id))return false;
+  n[c.role]++;
+ }
+ return n.vehicle<=(r.vehicles??0)&&n.starship<=(r.starships??0)&&n.driver<=r.drivers&&Math.max(0,n.pilot-r.pilots)+Math.max(0,n.passenger-r.passengers)<=r.shared;
 }
 export function roleAvailable(m:Match,host:string,id:string,role:AboardRole):boolean {
  return capacityFits(m,host,[...occupants(m,host).filter(c=>c.id!==id).map(c=>({id:c.id,role:c.aboardRole!})),{id,role}]);
@@ -40,11 +52,12 @@ export function vesselPower(m:Match,id:string):number {
 }
 export function assertOccupancy(m:Match):void {
  for(const c of Object.values(m.cards)){
-  if(c.aboardRole!==undefined&&(!['pilot','driver','passenger'].includes(c.aboardRole)||c.zone!=='table'||!c.attachedTo||!vesselRule(m,c.attachedTo)||m.cards[c.attachedTo].owner!==c.owner||c.location!==m.cards[c.attachedTo].location||cardDefinition(m,c.id).type!=='Character'))throw Error('Invalid aboard capacity role.');
+  if(c.aboardRole!==undefined&&(!['pilot','driver','passenger','vehicle','starship'].includes(c.aboardRole)||c.zone!=='table'||!c.attachedTo||!vesselRule(m,c.attachedTo)||m.cards[c.attachedTo].zone!=='table'||m.cards[c.attachedTo].owner!==c.owner||c.location!==m.cards[c.attachedTo].location))throw Error('Invalid aboard capacity role.');
   if(c.zone==='table'&&cardDefinition(m,c.id).type==='Character'&&c.attachedTo&&isVessel(m,c.attachedTo)&&!c.aboardRole)throw Error('Aboard character needs a capacity role.');
   if(c.zone==='table'&&vesselRule(m,c.id)){
-   if(!c.location||!m.locations.includes(c.location)||c.attachedTo)throw Error('Vessel needs an active location.');
-   const d=cardDefinition(m,c.location);if(cardDefinition(m,c.id).type==='Vehicle'?(d.subType!=='Site'||!(d.icons as string[]).includes('Exterior')):!(d.subType==='System'||d.subType==='Site'&&(d.icons as string[]).includes('Exterior')))throw Error('Invalid vessel location.');
+   if(!c.location||!m.locations.includes(c.location))throw Error('Vessel needs an active location.');
+   if(c.attachedTo&&!inCargo(m,c.id))throw Error('Vessel needs cargo capacity.');
+   belowDecks(m,c.id);if(capital(m,c.id)&&cardDefinition(m,c.location).subType!=='System')throw Error('Capital ship needs a system.');const d=cardDefinition(m,c.location);if(!inCargo(m,c.id)&&(cardDefinition(m,c.id).type==='Vehicle'?(d.subType!=='Site'||!(d.icons as string[]).includes('Exterior')):!(d.subType==='System'||d.subType==='Site'&&(d.icons as string[]).includes('Exterior'))))throw Error('Invalid vessel location.');
    if(!capacityFits(m,c.id,occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!}))))throw Error('Vessel capacity exceeded.');
   }
  }

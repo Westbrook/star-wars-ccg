@@ -1,0 +1,92 @@
+[
+  {
+    "mode": "vehicle-up",
+    "cost": 1,
+    "systemAbility": 1.0,
+    "carrierPower": 8,
+    "cargo": true,
+    "vehiclePower": 0,
+    "crewInVehicle": true,
+    "vehicleMoved": true,
+    "crewMoved": false
+  },
+  {
+    "mode": "empty-up",
+    "cost": 1,
+    "systemAbility": 1.0,
+    "carrierPower": 8,
+    "cargo": true,
+    "vehiclePower": 0,
+    "crewInVehicle": false,
+    "vehicleMoved": true,
+    "crewMoved": false
+  },
+  {
+    "mode": "vehicle-down",
+    "cost": 1,
+    "systemAbility": 1.0,
+    "carrierPower": 8,
+    "cargo": false,
+    "vehiclePower": 3,
+    "crewInVehicle": true,
+    "vehicleMoved": true,
+    "crewMoved": false
+  },
+  {
+    "mode": "character-up",
+    "cost": 1,
+    "systemAbility": 4.0,
+    "carrierPower": 10,
+    "aboard": true,
+    "moved": true
+  },
+  {
+    "mode": "character-down",
+    "cost": 1,
+    "systemAbility": 1.0,
+    "carrierPower": 8,
+    "aboard": false,
+    "moved": true
+  },
+  {
+    "mode": "bridge",
+    "cost": 0,
+    "systemAbility": 2.0,
+    "carrierPower": 8,
+    "cargo": true,
+    "vehiclePower": 0,
+    "crewInVehicle": false,
+    "vehicleMoved": true,
+    "crewMoved": false
+  },
+  {
+    "mode": "cargo-battle",
+    "cost": 1,
+    "systemAbility": 1.0,
+    "carrierPower": 8,
+    "cargo": true,
+    "vehiclePower": 0,
+    "crewInVehicle": true,
+    "vehicleMoved": true,
+    "crewMoved": false,
+    "carrierBattles": true,
+    "cargoBattles": true,
+    "crewBattles": true
+  },
+  {
+    "mode": "tie-deploy",
+    "deploymentCost": 2,
+    "cost": 0,
+    "cargo": true,
+    "power": 0,
+    "moved": false
+  },
+  {
+    "mode": "tie-launch",
+    "deploymentCost": 2,
+    "cost": 0,
+    "cargo": false,
+    "power": 1,
+    "moved": false
+  }
+]

@@ -1,6 +1,6 @@
 import {bayCosts} from './travel';
 import {cardDefinition} from './definitions';
-import {vesselRule,roleAvailable,occupants,type AboardRole} from './occupancy';
+import {vesselRule,roleAvailable,occupants,capital,type AboardRole} from './occupancy';
 import {deploymentPayment,presence,system} from './board';
 import {premiereLocations} from './premiere-setup';
 import {deployed} from './deployment';
@@ -18,7 +18,7 @@ const hasDeployPresence=(m:Match,id:string,side:Side)=>!!premiereLocations[m.car
 export function vesselDeploysAt(m:Match,id:string,location:string):boolean{
  const r=vesselRule(m,id);if(!r||!m.locations.includes(location)||!hasDeployPresence(m,location,m.cards[id].owner))return false;
  const d=cardDefinition(m,location),exterior=d.subType==='Site'&&(d.icons as string[]).includes('Exterior');
- return cardDefinition(m,id).type==='Starship'?d.subType==='System'||exterior&&bayCosts[m.cards[location].blueprint]!==undefined:exterior&&(!r.world||system(m,location)===r.world);
+ return cardDefinition(m,id).type==='Starship'?d.subType==='System'||!capital(m,id)&&exterior&&bayCosts[m.cards[location].blueprint]!==undefined:exterior&&(!r.world||system(m,location)===r.world);
 }
 const action=(step:string,p:Payload,label:string,payment?:Partial<Record<Side,number>>):Action=>({id:'vessel:'+step+':'+p.card+':'+p.target.id+(p.role?':'+p.role:''),handler:'vessel:'+step,source:p.card,payload:p as unknown as Json,label,...(payment?{payment}:{})});
 export function vesselActions(m:Match,w:Window,side:Side):Action[]{
@@ -30,7 +30,7 @@ export function vesselActions(m:Match,w:Window,side:Side):Action[]{
   if(cardDefinition(m,id).type==='Character')for(const host of hosts){const pay=deploymentPayment(m,id,host.location!,true);if(!pay||Object.entries(pay).some(([s,n])=>m.players[s as Side].force.length<n!))continue;for(const role of roles.filter(role=>roleAvailable(m,host.id,id,role)))out.push(action('aboard',{card:id,target:referenceCard(m,host.id),role},'Deploy '+label(m,id)+' aboard '+label(m,host.id)+' as '+role,pay));}
  }
  for(const host of hosts){
-  for(const c of occupants(m,host.id).filter(c=>!barred(m,c.id))){
+  for(const c of occupants(m,host.id).filter(c=>cardDefinition(m,c.id).type==='Character'&&!barred(m,c.id))){
    for(const role of roles.filter(role=>role!==c.aboardRole&&roleAvailable(m,host.id,c.id,role)))out.push(action('role',{card:c.id,source:referenceCard(m,c.id),target:referenceCard(m,host.id),role,previous:c.aboardRole},'Assign '+label(m,c.id)+' as '+role+' aboard '+label(m,host.id)));
    if(m.turn.phase==='move'&&cardDefinition(m,host.location!).subType==='Site')out.push(action('exit',{card:c.id,source:referenceCard(m,c.id),target:referenceCard(m,host.id),from:host.location,previous:c.aboardRole},'Disembark '+label(m,c.id)+' at '+label(m,host.location!)));
   }

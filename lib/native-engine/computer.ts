@@ -1,3 +1,4 @@
+import type {occupancyView} from './occupancy';
 import type {publicValues} from './public-values';
 import type {Battle} from './battle';
 import {definition} from './board';
@@ -5,7 +6,7 @@ import {premiereLocations,premiereSites} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-8';
+export const computerPolicy = 'native-cpu-9';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -17,7 +18,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   if (view.status === 'finished' || !p || p.side !== side || !p.choices.length) return null;
   const own = view.players[side], opponent = other(side);
   const visible = [...view.table, ...own.hand, ...own.lost, ...own.destiny];
-  const rules = view.rules as {values?: ReturnType<typeof publicValues>; battle?: Battle | null} | undefined;
+  const rules = view.rules as {values?: ReturnType<typeof publicValues>; vessels?:ReturnType<typeof occupancyView>['vessels']; battle?: Battle | null} | undefined;
   const battle = rules?.battle?.stage === 'damage' ? rules.battle : null;
   const cards = new Map(visible.map(c => [c.id, c]));
   const stat = (id: string, field: string) => {
@@ -114,6 +115,12 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (c.id === 'skip-destiny') return -10;
     if (kind === 'drain') return 100 + icons(a,opponent);
     if (kind === 'site') return 50;
+    if (kind === 'transport') {
+      const target=c.id.split(':')[3],role=c.id.split(':')[4],host=rules?.vessels?.[target];
+      if(a==='disembark')return 24; // Launch a carried fighter; do not embark it again without a transport plan.
+      if((a==='bridge'||a==='shuttle')&&role==='pilot'&&host?.operational)return 28+stat(b,'ability');
+      return -5;
+    }
     if (kind === 'voyage') {
       const to=c.id.split(':')[3],from=cards.get(b)?.location;
       if(!from)return -5;

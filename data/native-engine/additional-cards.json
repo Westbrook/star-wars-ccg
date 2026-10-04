@@ -1563,5 +1563,53 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_296.java"
+  },
+  {
+    "gempId": "1_140",
+    "name": "Corellian Corvette",
+    "side": "light",
+    "type": "Starship",
+    "subType": "Capital: Corvette",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/corelliancorvette.gif",
+    "text": "May add 3 pilots, 4 passengers and 1 vehicle. Has ship-docking capability. Permanent pilot aboard provides ability of 1.",
+    "stats": {
+      "deploy": "4",
+      "power": "5",
+      "destiny": "1",
+      "forfeit": "8",
+      "armor": "4",
+      "hyperspeed": "3"
+    },
+    "icons": [
+      "Pilot",
+      "Nav Computer",
+      "Scomp Link"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_140.java"
+  },
+  {
+    "gempId": "1_302",
+    "name": "Imperial-Class Star Destroyer",
+    "side": "dark",
+    "type": "Starship",
+    "subType": "Capital: Imperial-Class Star Destroyer",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/imperialclassstardestroyer.gif",
+    "text": "May add 6 pilots, 8 passengers, 2 vehicles and 4 TIEs. Has ship-docking capability. Permanent pilot aboard provides ability of 1.",
+    "stats": {
+      "deploy": "8",
+      "power": "8",
+      "destiny": "1",
+      "forfeit": "9",
+      "armor": "6",
+      "hyperspeed": "3"
+    },
+    "icons": [
+      "Pilot",
+      "Nav Computer",
+      "Scomp Link"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_302.java"
   }
 ]

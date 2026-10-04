@@ -10,3 +10,5 @@
 .native-vessel{width:100%;border:1px solid #dab87c55;background:#0d181ddd;border-radius:10px;padding:12px;text-align:left}.native-vessel header{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}.native-vessel header strong{color:#e3c48e;font-size:12px;text-transform:uppercase;letter-spacing:1px}.native-vessel header span,.native-vessel>p{color:#b7c0b7;font-size:11px;line-height:1.6}.native-vessel>p{margin:12px 0}.native-crew{display:flex;flex-wrap:wrap;gap:10px}.native-crew>div{display:flex;flex-direction:column;gap:6px;max-width:100%}.native-crew>div>b{text-transform:uppercase;color:#dbc493;font-size:10px;letter-spacing:1px}.native-crew .native-card{width:85px!important}.native-crew .native-card img{max-height:112px}
 
 .native-journey{margin:0 0 20px}.native-journey strong{color:var(--native-gold,#edc77f)}.native-journey p{margin:8px 0;overflow-wrap:anywhere}.native-journey small{color:#a8b8b6}
+
+.native-crew>div:has(>.native-vessel){flex:1 0 100%;width:100%;min-width:0}.native-vessel .native-vessel{box-sizing:border-box;margin-top:8px}.native-site-side>div:has(>.native-vessel){width:100%;min-width:0}

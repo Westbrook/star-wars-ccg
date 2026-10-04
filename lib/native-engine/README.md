@@ -2671,3 +2671,40 @@ shuttling, open transports, simultaneous pilot deployment, astromech-dependent
 ships, general speed/cost/restriction modifiers, movement-react and cancellation
 providers, capture and remaining card/product coverage stay in scope. Full-match
 admission remains closed; no new Rules Lab study was added.
+
+### Capital ships, shuttling and nested cargo
+
+Corellian Corvette and Imperial-Class Star Destroyer now have printed pilot,
+passenger and cargo capacities. They deploy to systems and use hyperspace, with
+no site deployment or landing. Characters and vehicles shuttle between related
+exterior planet sites and their owner's capital ships for one Force and their
+regular move. A carried vehicle retains its crew and equipment, without spending
+those occupants' regular movement. Unpiloted vehicles may shuttle or use docking
+bay transit (correcting the previous transit pilot requirement).
+
+TIE Scout can deploy into the Star Destroyer's TIE capacity, embark from its
+system or launch there with a pilot. Embark/launch and character transfers between
+the outer bridge and an inner vessel are unlimited and free. Inner crew consume
+only inner capacity; moving them onto the bridge changes their system ability
+contribution. Cargo is landed and has no operational power. A carried vehicle may
+participate and forfeit, but its inner characters do not join the outer battle.
+Carrier loss recursively loses cargo, crew and equipment with saved Lost ordering.
+Pending actions bind original instances, roles and locations across responses.
+
+The responsive table nests cargo and its crew for inspection. Playwright tests
+execute shuttling through the real service, refresh pending responses and inspect
+nested crew at 1440/834/390. The CPU launches carried fighters without immediately
+embarking them again; coordinated cargo delivery strategy remains unfinished.
+
+`tests/native-engine/gemp/shuttle-provenance.json` records nine actual-action
+observations from one passing GEMP JUnit test, with 6820 production files unchanged.
+Native replay matches costs, movement use, cargo/crew relationships, operational
+power and ordinary system ability. **One explicit disagreement remains:** GEMP
+counts Labria inside a carried Sandcrawler as a participant at the weapons segment;
+native follows AR p90's passenger exception for characters inside cargo. The replay
+asserts this divergence separately rather than describing it as parity.
+
+Ship-to-ship docking transfers, shuttle vehicles, sectors, simultaneous pilots,
+other cargo capacities and aboard-card text, broader movement modifiers/prevention,
+capture and the rest of the full engine/product remain. Production full-match
+admission is still closed. No new standalone Rules Lab study was added.
