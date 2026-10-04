@@ -1,0 +1,27 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T08:16:33.261187+00:00",
+  "files": {
+    "NativeEngineIonOracleTests.java": "4ab4e592491a9549042e90b31d0d49cbb27ecfd6b14a3478b110c192fef814d6",
+    "ion-results.json": "a4c8a0e3b1499ae5f97e6045e0039abfd473e820405a855844286599a350d511"
+  },
+  "junitTests": 1,
+  "observations": 12,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineIonOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf (Weapons \u2014 Ion Weapons; unmodifiable values; Ion Cannon/SW-4 errata)",
+  "scope": "Ion Cannon on Imperial-Class Star Destroyer and SW-4 on Y-wing: starfighter/capital targets, destiny 1/3/5, real deployment and firing, weapon losses, unchanged crew/power/forfeit, no hit, current defense/hyperspeed, weapon-use limits.",
+  "method": [
+    "Initial locations, ships, pilots, mounted weapons, Force and top destiny are controlled fixtures. Deployment and weapon firing execute as real GEMP actions.",
+    "All twelve complete outcome records are compared with native command replays; native steps serialize and validate private/public projections.",
+    "GEMP Lost Pile membership includes its face-up top card. The initial fixture required explicit loss-selection responses; final run has no errors or failures."
+  ],
+  "limitations": [
+    "Production full-match admission remains false. No standalone study or complete deck certification.",
+    "Native tests additionally cover source/target/weapon departure, turn persistence, shared repair primitive, live maneuver response, ordered loss recovery, malformed saves, subsequent firing and movement. These extra branches are not separate executed GEMP comparisons in this fixture.",
+    "Repair card actions, Planet Defender Ion Cannon/artillery, targets treated as starfighters, permanent weapons, full targeting/loss prevention and broader catalog interactions remain required.",
+    "Shared repair API removes ion-origin resets only; it does not admit an unimplemented repair card. Unpiloted armor query retains the pinned GEMP unmodifiable value of 2."
+  ]
+}

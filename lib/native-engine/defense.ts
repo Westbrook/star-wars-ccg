@@ -1,6 +1,6 @@
 import {ability} from './ability';
-import {isVessel,operational} from './occupancy';
-import {vesselManeuver} from './piloting';
+import {isVessel} from './occupancy';
+import {vesselManeuver,vesselArmor} from './piloting';
 import {cardDefinition} from './definitions';
 import {characterAttribute, printedStat, statModifiers} from './stat-modifiers';
 import type {Match} from './types';
@@ -10,8 +10,7 @@ export function defenseValue(m:Match,id:string):number{
  const vessel=isVessel(m,id);
  if(!vessel&&cardDefinition(m,id).type!=='Character')throw Error('Defense requires its card-type rules.');
  // Unpiloted armor is 2; missing armor remains missing. Maneuver becomes 0.
- const armor=printedStat(m,id,'armor');
- const base=vessel?Math.max(armor===undefined?0:operational(m,id)?armor:2,vesselManeuver(m,id)??0,printedStat(m,id,'defense')??0):
+ const base=vessel?Math.max(vesselArmor(m,id)??0,vesselManeuver(m,id)??0,printedStat(m,id,'defense')??0):
   Math.max(ability(m,id),characterAttribute(m,id,'armor'),characterAttribute(m,id,'maneuver'),printedStat(m,id,'defense')??0);
  const mods=statModifiers(m,id,'defense');
  const protectedFrom=(source:string)=>mods.some(p=>p.kind==='prevent-reduce'&&(p.by==='both'||p.by===m.cards[source].owner));

@@ -1,8 +1,8 @@
-import {vesselStatBonus} from './stat-modifiers';
+import {vesselStatBonus,ionizedShip} from './stat-modifiers';
 import {cardDefinition} from './definitions';
 import {gameTextActive} from './game-text';
 import {battleMembers} from './participation';
-import {pilotPowerBonus,vesselManeuver,aboardStarfighterBonus,vesselHyperspeed,hasNavigation} from './piloting';
+import {pilotPowerBonus,vesselArmor,vesselManeuver,aboardStarfighterBonus,vesselHyperspeed,hasNavigation} from './piloting';
 import {isModel} from './characteristics';
 import type {Card,Match} from './types';
 
@@ -84,4 +84,4 @@ export function assertOccupancy(m:Match):void {
   }
  }
 }
-export function occupancyView(m:Match){return {vessels:Object.fromEntries(Object.values(m.cards).filter(c=>c.zone==='table'&&vesselRule(m,c.id)).map(c=>[c.id,{operational:operational(m,c.id),landed:landed(m,c.id),permanent:permanentAbility(m,c.id),permanentPilot:permanentPilot(m,c.id),power:vesselPower(m,c.id),maneuver:vesselManeuver(m,c.id),hyperspeed:vesselHyperspeed(m,c.id),navigation:hasNavigation(m,c.id),capacity:vesselRule(m,c.id),exposed:!vesselRule(m,c.id)?.enclosed&&!belowDecks(m,c.id),crew:occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!,active:crewActive(m,x.id)}))}]))};}
+export function occupancyView(m:Match){return {vessels:Object.fromEntries(Object.values(m.cards).filter(c=>c.zone==='table'&&vesselRule(m,c.id)).map(c=>[c.id,{ionized:ionizedShip(m,c.id),operational:operational(m,c.id),landed:landed(m,c.id),permanent:permanentAbility(m,c.id),permanentPilot:permanentPilot(m,c.id),power:vesselPower(m,c.id),armor:vesselArmor(m,c.id),maneuver:vesselManeuver(m,c.id),hyperspeed:vesselHyperspeed(m,c.id),navigation:hasNavigation(m,c.id),capacity:vesselRule(m,c.id),exposed:!vesselRule(m,c.id)?.enclosed&&!belowDecks(m,c.id),crew:occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!,active:crewActive(m,x.id)}))}]))};}

@@ -98,7 +98,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler\u2019s Luck",
+    "name": "Gambler’s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -1995,5 +1995,37 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_047.java"
+  },
+  {
+    "gempId": "1_318",
+    "name": "Ion Cannon",
+    "side": "dark",
+    "type": "Weapon",
+    "subType": "Starship",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/ioncannon.gif",
+    "text": "Use 2 Force to deploy on your Star Destroyer. May target a starship using 1 Force. Draw destiny. If destiny +2 > defense value, all starship weapons deployed on target are lost, armor or maneuver = 0 and hyperspeed = 0.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_318.java"
+  },
+  {
+    "gempId": "2_81",
+    "name": "SW-4 Ion Cannon",
+    "side": "light",
+    "type": "Weapon",
+    "subType": "Starship",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/sw4ioncannon.gif",
+    "text": "Use 1 Force to deploy on your Y-wing or B-wing. May target a starship using 1 Force. Draw destiny. If destiny > target's defense value, all starship weapons deployed on target are lost, armor or maneuver = 0 and hyperspeed = 0.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [
+      "A New Hope"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_081.java"
   }
 ]

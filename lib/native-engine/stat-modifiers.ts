@@ -5,9 +5,9 @@ import {sides, type Json, type Match, type Side} from './types';
 export type Statistic = 'destiny' | 'defense' | 'armor' | 'maneuver' | 'forfeit' | 'hyperspeed' | 'power';
 export type StatKind = 'add' | 'define' | 'reset' | 'base-double' | 'prevent-reduce' | 'prevent-increase' | 'minimum' | 'maximum' | 'increase-limit' | 'printed-cap' | 'base-cap';
 export type StatModifier = {source: CardReference; target: CardReference; stat: Statistic; kind: StatKind; amount: number;
- duration: 'turn' | 'source'; turn: number; function: string; cumulative: boolean; by: Side | 'both'};
+ duration: 'turn' | 'source' | 'target'; turn: number; function: string; cumulative: boolean; by: Side | 'both'};
 const allowed: Record<Statistic, StatKind[]> = {
- destiny:['add','reset'], hyperspeed:['add'], power:['add'],
+ destiny:['add','reset'], hyperspeed:['add','reset'], power:['add'],
  defense:['add','reset','prevent-reduce','minimum','maximum','base-cap'],
  armor:['add','define','reset','base-double'], maneuver:['add','define','reset','base-double'],
  forfeit:['add','define','reset','base-double','prevent-reduce','prevent-increase','increase-limit','printed-cap'],
@@ -16,27 +16,27 @@ const entries=(m:Match)=>(m.data.statModifiers??[]) as unknown as StatModifier[]
 function assertModifier(m:Match,p:StatModifier):void{
  if(!p || !allowed[p.stat]?.includes(p.kind) || !Number.isFinite(p.amount) || p.kind!=='add' && p.amount<0 ||
     ['base-double','prevent-reduce','prevent-increase','printed-cap','base-cap'].includes(p.kind) && p.amount!==1 ||
-    !['turn','source'].includes(p.duration) || !Number.isSafeInteger(p.turn) || p.turn<1 || p.turn>m.turn.number ||
+    !['turn','source','target'].includes(p.duration) || !Number.isSafeInteger(p.turn) || p.turn<1 || p.turn>m.turn.number ||
     !p.function || typeof p.function!=='string' || typeof p.cumulative!=='boolean' || ![...sides,'both'].includes(p.by) ||
     p.by!=='both' && (p.stat!=='defense' || p.kind!=='prevent-reduce'))throw Error('Invalid statistic modifier.');
  assertCardReference(m,p.source);assertCardReference(m,p.target);
  const type=cardDefinition(m,p.target.id).type;
- const validTarget=type==='Character'?!['power','hyperspeed'].includes(p.stat):['Starship','Vehicle'].includes(type)&&['maneuver','hyperspeed','power'].includes(p.stat)&&p.kind==='add';
+ const validTarget=type==='Character'?!['power','hyperspeed'].includes(p.stat):['Starship','Vehicle'].includes(type)&&(['maneuver','hyperspeed','power'].includes(p.stat)&&p.kind==='add'||['armor','maneuver','hyperspeed'].includes(p.stat)&&p.kind==='reset');
  if(p.target.zone!=='table' || !validTarget || p.duration==='source' && p.source.zone!=='table')throw Error('Invalid statistic source or target.');
 }
 /** Trusted rule effects only: public commands cannot supply values. */
 export function addStatModifier(m:Match,source:string,target:string,stat:Statistic,kind:StatKind,amount:number,
- options:{duration?:'turn'|'source';function?:string;cumulative?:boolean;by?:Side|'both'}={}):void{
+ options:{duration?:'turn'|'source'|'target';function?:string;cumulative?:boolean;by?:Side|'both'}={}):void{
  const p:StatModifier={source:referenceCard(m,source),target:referenceCard(m,target),stat,kind,amount,turn:m.turn.number,
   duration:options.duration??'turn',function:options.function??kind,cumulative:options.cumulative??false,by:options.by??'both'};
- assertModifier(m,p);m.data.statModifiers=[...entries(m).filter(p=>p.duration==='source'||p.turn===m.turn.number),p] as unknown as Json;
+ assertModifier(m,p);m.data.statModifiers=[...entries(m).filter(p=>p.duration!=='turn'||p.turn===m.turn.number),p] as unknown as Json;
 }
 export function assertStatModifiers(m:Match):void{
  if(m.data.statModifiers!==undefined&&!Array.isArray(m.data.statModifiers))throw Error('Invalid statistic modifiers.');
  entries(m).forEach(p=>assertModifier(m,p));
 }
 export function statModifiers(m:Match,id:string,stat:Statistic):StatModifier[]{
- const active=entries(m).filter(p=>p.target.id===id&&p.stat===stat&&sameCard(m,p.target)&&(p.duration==='turn'?p.turn===m.turn.number:sameCard(m,p.source)));
+ const active=entries(m).filter(p=>p.target.id===id&&p.stat===stat&&sameCard(m,p.target)&&(p.duration==='turn'?p.turn===m.turn.number:p.duration==='target'||sameCard(m,p.source)));
  if(stat==='armor')for(const p of attachedArmor(m,id))active.push({...p,stat,kind:p.mode,amount:5,duration:'source',function:'attached-armor',cumulative:false,by:'both'});
  const grouped=new Map<string,StatModifier>(),result:StatModifier[]=[];
  for(const p of active){
@@ -77,4 +77,22 @@ export function characterDestinyValue(m: Match,id: string,printedValue: number):
 }
 
 /** Shared physical-instance and noncumulative rules for ship/vehicle additions. */
-export const vesselStatBonus=(m:Match,id:string,stat:'maneuver'|'hyperspeed'|'power')=>statModifiers(m,id,stat).reduce((n,p)=>n+p.amount,0);
+export const vesselStatBonus=(m:Match,id:string,stat:'maneuver'|'hyperspeed'|'power')=>statModifiers(m,id,stat).filter(p=>p.kind==='add').reduce((n,p)=>n+p.amount,0);
+
+/** Resets override all current additions, including continuous crew bonuses. */
+export function vesselStatValue(m:Match,id:string,stat:'armor'|'maneuver'|'hyperspeed',value:number):number {
+ const resets=statModifiers(m,id,stat).filter(p=>p.kind==='reset');
+ return Math.max(0,resets.length?Math.min(...resets.map(p=>p.amount)):value);
+}
+/** Ion damage persists after its weapon leaves and across turns, but belongs
+ * only to this table instance. Missing printed attributes remain missing. */
+export function ionizeShip(m:Match,weapon:string,target:string):void {
+ if(cardDefinition(m,target).type!=='Starship'||!['1_318','2_81'].includes(m.cards[weapon]?.blueprint))throw Error('Invalid ion cannon effect.');
+ for(const stat of ['armor','maneuver','hyperspeed'] as const)if(printedStat(m,target,stat)!==undefined)
+  addStatModifier(m,weapon,target,stat,'reset',0,{duration:'target',function:'ion-cannon'});
+}
+export const ionizedShip=(m:Match,id:string)=>['armor','maneuver','hyperspeed'].some(stat=>statModifiers(m,id,stat as Statistic).some(p=>p.function==='ion-cannon'&&p.kind==='reset'));
+/** Trusted repair effect; unrelated resets and ordinary modifiers survive. */
+export function restoreIonDamage(m:Match,target:string):void {
+ m.data.statModifiers=entries(m).filter(p=>!(p.target.id===target&&sameCard(m,p.target)&&p.function==='ion-cannon'&&['armor','maneuver','hyperspeed'].includes(p.stat))) as unknown as Json;
+}

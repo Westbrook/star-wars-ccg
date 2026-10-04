@@ -1846,5 +1846,29 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_047.java"
+  },
+  "1_318": {
+    "keywords": [
+      "ION_CANNON",
+      "STARSHIP_WEAPON_THAT_DEPLOYS_ON_CAPITALS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_318.java"
+  },
+  "2_81": {
+    "keywords": [
+      "ION_CANNON",
+      "STARSHIP_WEAPON_THAT_DEPLOYS_ON_STARFIGHTERS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_081.java"
   }
 }
