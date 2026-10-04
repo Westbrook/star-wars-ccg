@@ -426,7 +426,7 @@
     "lib/native-engine/hoth-setup.ts": "f9ed74e5da14a2870dffc647335ad689f5bdfd64b0fe971b923904d03a927a41",
     "lib/native-engine/hoth-text.ts": "ce096f0713c331ab40024bf387e9dde9d86550414a2c508f3e76544356fef38d",
     "lib/native-engine/hoth.ts": "e085a964c7959bf32359d0dd32d04762bf69637581f73317be421de2e83bff5e",
-    "lib/native-engine/http.ts": "0e0554bfdc8eed7fd1d6970498691e0ce2c02456698b6bf542ef2ece9794a029",
+    "lib/native-engine/http.ts": "56f8836af8d9475e00b50e4fd83b210e556b311127558ba8a089941757655a58",
     "lib/native-engine/hyper-escape.ts": "e0e1f3d813bd1462df7c1c0873afbed8a4eb8d7201990f6264e1a5820b22ae80",
     "lib/native-engine/identity.ts": "14cfcc1e2826a409723644a6aa70f74d23ae66cdaa9868efb9c314ac822c973f",
     "lib/native-engine/insert-effects.ts": "55a34c44f5b9c7d94bf5b767daec6d4fa0ab134ef5f7abd0a273671ecf2bdd55",
@@ -480,7 +480,7 @@
     "lib/native-engine/sector-effects.ts": "7890cc73e58e089f19e2ce01082c9e99dfc561612e0457ff1d5a91f0ddaeac9b",
     "lib/native-engine/sectors.ts": "aff7c1008a116c0720ed4ea8c132de873d937104f7e175fcc72ae6502385cca8",
     "lib/native-engine/server.ts": "97640a61463f9cf16f51ea1fe3e0ff5d0ddb9adc4da20eb7eb1acdba756687ec",
-    "lib/native-engine/service.ts": "eb4ff41ce9f34f040067304f158560d632c24f45654ca502e73c5d28476f89da",
+    "lib/native-engine/service.ts": "2d29c327a05a97673938e9fe4c9c50bde8fbab137db5896b3e798996e2b26f5d",
     "lib/native-engine/setup.ts": "837397a33735d8dc878c7fee42f596621e5a53c248e0f3230337b3ee7aab8b74",
     "lib/native-engine/space-slug.ts": "acbe32b85da9dc1809c62321b007fb3ec14514c1ae1fcb3692574c5751c6ba07",
     "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
@@ -542,6 +542,19 @@
         "tests/native-engine/location-orientation.test.mjs",
         "tests/native-engine/utility-belt-space.test.mjs",
         "tests/native-engine/gemp/space-match-provenance.json",
+        "tests/native-engine/travel-response.test.mjs"
+      ]
+    },
+    {
+      "at": "2026-10-04T20:49:41.846182+00:00",
+      "files": [
+        "lib/native-engine/service.ts",
+        "lib/native-engine/http.ts"
+      ],
+      "reason": "Sealed binding adds server inventory/participant checks before creating or joining a match and metadata to private projections. HTTP translates bounded pool errors. No runtime action, response, movement, trigger or card provider changes; exact starter pending-movement reachability remains unchanged.",
+      "evidence": [
+        "tests/native-engine/sealed-match.test.mjs",
+        "tests/native-engine/service.test.mjs",
         "tests/native-engine/travel-response.test.mjs"
       ]
     }

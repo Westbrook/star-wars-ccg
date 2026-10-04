@@ -50,7 +50,7 @@ try{
   if(copies===chosen){await c.page.getByLabel('Find cards',{exact:true}).fill(bp);assert.equal(await c.page.getByRole('button',{name:'Add '+sealedCatalog.get(bp).name,exact:true}).isDisabled(),true);}
   await c.page.getByRole('button',{name:'Save deck',exact:true}).click();await c.page.getByText('Deck saved to your account.',{exact:true}).waitFor();
   const deck=(await nativeDeckService(db,auditRules).list(actor)).decks.find(d=>d.name==='Sealed fleet '+width);assert.equal(deck.poolId,pool.id);assert.deepEqual(deck.cards,pool.cards.slice(0,40));assert.equal(deck.eligible,false);
-  await c.page.reload();await c.page.getByLabel('Match format',{exact:true}).selectOption('40');await c.page.getByLabel('Your deck',{exact:true}).selectOption(deck.id);assert.equal(await c.page.getByRole('button',{name:'Start match',exact:true}).isDisabled(),true);
+  await c.page.reload();await c.page.getByLabel('Match format',{exact:true}).selectOption('otsd');await c.page.getByLabel('Your deck',{exact:true}).selectOption(deck.id);assert.equal(await c.page.getByRole('button',{name:'Start match',exact:true}).isDisabled(),true);
   await c.page.getByRole('button',{name:'Edit selected deck',exact:true}).click();assert.equal(await c.page.getByLabel('Deck size',{exact:true}).isDisabled(),true);
   await c.page.screenshot({path:path.join(output,'sealed-editor-'+width+'.png'),fullPage:true});await g.page.reload();await g.page.getByRole('button',{name:'Build from this pool',exact:true}).waitFor();
   assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.equal(await g.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);

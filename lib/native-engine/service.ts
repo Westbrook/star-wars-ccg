@@ -1,3 +1,4 @@
+import {nativeSealedService} from '../native-sealed';
 import {assertClock, createClock, expiredClock, moveClock, projectClock, validClockMinutes, type MatchClock} from './match-clock';
 import starterManifest from '../../data/native-proof/manifest.json';
 import {chooseComputerAction, computerPolicy} from './computer';
@@ -26,6 +27,14 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
   async function find(id: string): Promise<Row | null> {if (!validId(id)) fail('Invalid match link.');return db.prepare('SELECT * FROM native_matches WHERE id = ?').bind(id).first<Row>();}
   const rowFor = async (id: string) => await find(id) ?? fail('This private match was not found.', 404, 'NOT_FOUND');
   function seat(row: Row, actor: string): Side {user(actor);if (row.owner === actor) return row.owner_side;if (row.mode === 'pvp' && row.guest === actor) return other(row.owner_side);return fail('This private match was not found.', 404, 'NOT_FOUND');}
+  // Legacy open games store an array. Sealed games freeze their pool binding
+  // beside the owner's cards in the same immutable creation snapshot.
+  function ownerSnapshot(row: Row): {cards:string[];poolId?:string} {
+    const value=JSON.parse(row.owner_deck);
+    if(Array.isArray(value))return {cards:value};
+    if(value?.schema!==1||value.format!=='otsd'||!validId(value.poolId)||!Array.isArray(value.cards)||row.mode!=='pvp'||row.deck_size!==40)throw Error('Invalid sealed match binding.');
+    return {cards:value.cards,poolId:value.poolId};
+  }
   function parse(row: Row): Match {
     if (!row.state) throw Error('Match has not started.');
     const m = JSON.parse(row.state) as Match;
@@ -49,7 +58,7 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
   function response(row: Row, side: Side, actor?: string) {
     const time = now(), m = row.state ? parse(row) : null, c = savedClock(row,m ?? undefined);
     return {clock: c ? projectClock(c,time) : null, id: row.id, mode: row.mode, side, rules: row.rules_version, deckSize: row.deck_size, revision: row.version,
-      serverTime: time, waitingForOpponent: !row.state, created: row.created, updated: row.updated,
+      format: ownerSnapshot(row).poolId ? 'otsd' as const : 'open' as const, ...(ownerSnapshot(row).poolId ? {poolId:ownerSnapshot(row).poolId} : {}), serverTime: time, waitingForOpponent: !row.state, created: row.created, updated: row.updated,
       ...(actor === row.owner && !row.guest && row.mode === 'pvp' ? {inviteToken: row.invite_token} : {}),
       game: m ? project(m, rulesFor(row.rules_version), side, time) : null};
   }
@@ -88,19 +97,22 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
   }
   async function read(id: string, actor: string) {let row = await rowFor(id);const side = seat(row, actor);row = await settleTime(row);return response(row, side, actor);}
   async function create(actor: string, body: Body) {
-    user(actor);keys(body, ['id','mode','side','deckSize','deck','computerDeck','clockMinutes']);
+    user(actor);keys(body, ['id','mode','side','deckSize','deck','computerDeck','clockMinutes','poolId']);
     const {id, mode, side, deckSize} = body;
     if (!validId(id) || mode !== 'pvp' && mode !== 'cpu' || side !== 'dark' && side !== 'light' || deckSize !== 40 && deckSize !== 60) fail('Choose a valid match, format, mode and side.');
     if (mode === 'pvp' && body.computerDeck !== undefined) fail('The other player supplies their own deck.');
+    if(body.poolId!==undefined&&(!validId(body.poolId)||mode!=='pvp'||deckSize!==40))fail('Choose a paired 40-card OTSD table.',422,'SEALED_FORMAT');
     const minutes = body.clockMinutes ?? null;
     if (minutes !== null && (!validClockMinutes(minutes) || mode !== 'pvp')) fail('Choose an untimed match or a 15, 30, 45 or 60 minute clock for private opponents.');
-    const hash = await digest({...(minutes !== null ? {clockMinutes:minutes} : {}),actor,mode,side,deckSize,deck:body.deck,computerDeck:body.computerDeck ?? null,rules:options.currentRules});
+    const hash = await digest({...(minutes !== null ? {clockMinutes:minutes} : {}),actor,mode,side,deckSize,...(body.poolId?{poolId:body.poolId}:{}),deck:body.deck,computerDeck:body.computerDeck ?? null,rules:options.currentRules});
     const existing = await find(id as string);
     if (existing) {if (existing.owner !== actor || existing.creation_hash !== hash) fail('That match ID was already used.', 409, 'MATCH_ID_REUSED');return read(existing.id, actor);}
     const rules = rulesFor(options.currentRules), ownerDeck = deck(body.deck, side as Side, deckSize as number, rules);
+    if(body.poolId)await nativeSealedService(db).checkDeck(body.poolId as string,actor,side,deckSize,ownerDeck.cards);
+    const snapshot=body.poolId?{schema:1,format:'otsd',poolId:body.poolId,cards:ownerDeck.cards}:ownerDeck.cards;
     const state = mode === 'cpu' ? createMatch(id as string, deckSize as 40 | 60, [ownerDeck,deck(body.computerDeck,other(side as Side),deckSize as number,rules)],rules) : null;
     const time = now(), c = minutes === null ? null : createClock(minutes as number,time), invite = mode === 'pvp' ? uuid() + uuid() : null;
-    await db.prepare('INSERT INTO native_matches (id,owner,guest,owner_side,mode,rules_version,deck_size,owner_deck,invite_token,creation_hash,state,clock,version,created,updated) VALUES (?,?,NULL,?,?,?,?,?,?,?,?,?,0,?,?) ON CONFLICT(id) DO NOTHING').bind(id,actor,side,mode,rules.id,deckSize,JSON.stringify(ownerDeck.cards),invite,hash,state ? JSON.stringify(state) : null,c ? JSON.stringify(c) : null,time,time).run();
+    await db.prepare('INSERT INTO native_matches (id,owner,guest,owner_side,mode,rules_version,deck_size,owner_deck,invite_token,creation_hash,state,clock,version,created,updated) VALUES (?,?,NULL,?,?,?,?,?,?,?,?,?,0,?,?) ON CONFLICT(id) DO NOTHING').bind(id,actor,side,mode,rules.id,deckSize,JSON.stringify(snapshot),invite,hash,state ? JSON.stringify(state) : null,c ? JSON.stringify(c) : null,time,time).run();
     const row = await rowFor(id as string);if (row.owner !== actor || row.creation_hash !== hash) fail('That match ID was already used.', 409, 'MATCH_ID_REUSED');
     return response(row, side as Side, actor);
   }
@@ -116,7 +128,13 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     if (receipt) {sameReceipt(receipt,principal,hash);row = await settleTime(await rowFor(id));return {...response(row,seat(row,actor),actor),duplicate:true,acceptedRevision:receipt.result_version};}
     if (row.guest || row.state) fail('Both seats are already occupied.', 409, 'SEAT_OCCUPIED');
     const side = other(row.owner_side), rules = rulesFor(row.rules_version);
-    const guestDeck = deck(body.deck, side, row.deck_size, rules), ownerDeck = deck(JSON.parse(row.owner_deck),row.owner_side,row.deck_size,rules);
+    const snapshot=ownerSnapshot(row);
+    const guestDeck = deck(body.deck, side, row.deck_size, rules), ownerDeck = deck(snapshot.cards,row.owner_side,row.deck_size,rules);
+    if(snapshot.poolId){
+      const sealed=nativeSealedService(db);
+      await sealed.checkDeck(snapshot.poolId,actor,side,row.deck_size,guestDeck.cards);
+      await sealed.checkDeck(snapshot.poolId,row.owner,row.owner_side,row.deck_size,ownerDeck.cards);
+    }
     const state = createMatch(id,row.deck_size,[ownerDeck,guestDeck],rules);state.revision = row.version + 1;
     const won = await commit(row,state,principal,key,hash,actor);row = await rowFor(id);
     if (!won) {const accepted = await prior(key);if (!accepted) fail('Another player joined first.',409,'SEAT_OCCUPIED');sameReceipt(accepted,principal,hash);}

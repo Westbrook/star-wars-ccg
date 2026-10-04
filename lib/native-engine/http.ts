@@ -1,3 +1,4 @@
+import {SealedError} from '../native-sealed';
 import {MatchServiceError, type nativeMatchService} from './service';
 type Service = ReturnType<typeof nativeMatchService>;
 type Context = {params: Promise<{id: string}>};
@@ -20,7 +21,7 @@ export async function matchInput(request: Request): Promise<Record<string, unkno
 }
 const json = (value: unknown, status = 200) => Response.json(value,{status,headers:{'Cache-Control':'private, no-store','Vary':'Cookie, Authorization','X-Content-Type-Options':'nosniff'}});
 function failure(e: unknown) {
-  if (e instanceof MatchServiceError) return json({error:e.message,code:e.code},e.status);
+  if (e instanceof MatchServiceError || e instanceof SealedError) return json({error:e.message,code:e.code},e.status);
   // Do not leak private card identifiers or saved state from rules/SQL errors.
   console.error('Native match request could not complete.');
   return json({error:'The match could not be advanced or loaded. No move was assumed successful.',code:'MATCH_UNAVAILABLE'},503);
