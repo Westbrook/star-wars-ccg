@@ -1,3 +1,5 @@
+import {serviceView,serviceBlueprint,serviceActions,serviceAutomatic,serviceInitiate,serviceResolve,assertService} from './droid-service';
+import {scompActions,scompInitiate,scompResolve,scompChoices,scompChoose,scompView,assertScomp} from './scomp';
 import {ordersActions,ordersInitiate,ordersResolve,ordersChoices,ordersChoose,assertOrders} from './otsd-orders';
 import {alienSearchActions,alienSearchInitiate,alienSearchResolve,alienSearchChoices,alienSearchChoose,alienSearchView,assertAlienSearch} from './alien-search';
 import {otsdRecruitActions,otsdRecruitInitiate,otsdRecruitResolve,assertOtsdRecruits} from './otsd-characters';
@@ -118,13 +120,15 @@ export const premiereRules: Rules = {
   setupComplete: match => match.setup?.stage === 'complete',
   generation,
   interrupt: m=>expireFusionLinks(m)||rememberSelectiveWampas(m)||scheduleCapacityLoss(m)||scheduleCaveChange(m)||scheduleAttackEnd(m)||scheduleEncounterEnd(m)||scheduleInserts(m),
-  automatic: (m, w) => [...powerDroidAutomatic(m,w),...encounterAutomatic(m,w),...creatureAutomatic(m,w),...asteroidAutomatic(m,w),...lostArtooAutomatic(m,w),...ionRepairAutomatic(m,w),...angerAutomatic(m,w),...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...ordersActions(m,w,side),...alienSearchActions(m,w,side),...otsdRecruitActions(m,w,side),...fusionActions(m,w,side),...heavyWeaponActions(m,w,side),...generatorActions(m,w,side),...hothMoveActions(m,w,side),...creatureWeaponActions(m,w,side),...groundCreatureActions(m,w,side),...creatureActions(m,w,side),...slugActions(m,w,side),...asteroidActions(m,w,side),...sectorActions(m,w,side),...lostArtooActions(m,w,side),...fighterTroubleActions(m,w,side),...wedgeActions(m,w,side),...hyperEscapeActions(m,w,side),...tallonActions(m,w,side),...maneuverActions(m,w,side),...mobileActions(m,w,side),...starshipWeaponActions(m,w,side),...characterReactActions(m,w,side),...vehicleReactActions(m,w,side),...pilotDeployActions(m,w,side),...dockingActions(m,w,side),...transportActions(m,w,side),...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  automatic: (m, w) => [...serviceAutomatic(m,w),...powerDroidAutomatic(m,w),...encounterAutomatic(m,w),...creatureAutomatic(m,w),...asteroidAutomatic(m,w),...lostArtooAutomatic(m,w),...ionRepairAutomatic(m,w),...angerAutomatic(m,w),...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
+  actions: (m, w, side) => [...serviceActions(m,w,side),...scompActions(m,w,side),...ordersActions(m,w,side),...alienSearchActions(m,w,side),...otsdRecruitActions(m,w,side),...fusionActions(m,w,side),...heavyWeaponActions(m,w,side),...generatorActions(m,w,side),...hothMoveActions(m,w,side),...creatureWeaponActions(m,w,side),...groundCreatureActions(m,w,side),...creatureActions(m,w,side),...slugActions(m,w,side),...asteroidActions(m,w,side),...sectorActions(m,w,side),...lostArtooActions(m,w,side),...fighterTroubleActions(m,w,side),...wedgeActions(m,w,side),...hyperEscapeActions(m,w,side),...tallonActions(m,w,side),...maneuverActions(m,w,side),...mobileActions(m,w,side),...starshipWeaponActions(m,w,side),...characterReactActions(m,w,side),...vehicleReactActions(m,w,side),...pilotDeployActions(m,w,side),...dockingActions(m,w,side),...transportActions(m,w,side),...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r, context) => {
     if(r.action.handler.startsWith('alien-search:')){alienSearchInitiate(m,r);return;}
     if(r.action.handler.startsWith('recruit:')){otsdRecruitInitiate(m,r);return;}
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
+    if(r.action.handler.startsWith('service:')){serviceInitiate(m,r);return;}
+    if(r.action.handler.startsWith('scomp:')){scompInitiate(m,r);return;}
     if(r.action.handler.startsWith('orders:')){ordersInitiate(m,r);return;}
     if(r.action.handler.startsWith('heavy:')){heavyWeaponInitiate(m,r);return;}
     if(r.action.handler.startsWith('generator:')){generatorInitiate(m,r);return;}
@@ -205,6 +209,8 @@ export const premiereRules: Rules = {
     } else {groundInitiate(m, r);beginHothDeployment(m,r);}
   },
   resolve: (m, r, context) => {
+    if(r.action.handler.startsWith('service:')){serviceResolve(m,r);return;}
+    if(r.action.handler.startsWith('scomp:')){scompResolve(m,r,context);return;}
     if(r.action.handler.startsWith('orders:')){ordersResolve(m,r);return;}
     if(r.action.handler.startsWith('alien-search:')){alienSearchResolve(m,r,context);return;}
     if(r.action.handler.startsWith('recruit:')){otsdRecruitResolve(m,r);return;}
@@ -295,6 +301,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if(d.handler.startsWith('scomp:'))return scompChoices();
     if(d.handler.startsWith('orders:'))return ordersChoices(m,d);
     if(d.handler.startsWith('alien-search:'))return alienSearchChoices(m,d);
     if(d.handler.startsWith('hoth:'))return hothChoices(m,d);
@@ -329,6 +336,7 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
+    if(d.handler.startsWith('scomp:')){scompChoose(m,d,c);return;}
     if(d.handler.startsWith('orders:')){ordersChoose(m,d,c);return;}
     if(d.handler.startsWith('alien-search:')){alienSearchChoose(m,d,c);return;}
     if(d.handler.startsWith('hoth:')){hothChoose(m,d,c);return;}
@@ -365,9 +373,9 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   canPass: battleCanPass,
-  view: (m, seat, now) => ({...alienSearchView(m,seat),...heavyWeaponView(m),...fusionView(m),...artilleryView(m),...generatorView(m),...destructionView(m),...hothView(m),values: publicValues(m),...encounterView(m),...attackView(m),...slugView(m),...sectorsView(m),...asteroidView(m),...lostArtooView(m),...fighterTroubleView(m),...wedgeView(m,seat),...hyperEscapeView(m),...tallonView(m) as Record<string,Json>,...mobileView(m),...characterReactView(m),...vehicleReactView(m),...pilotDeployView(m),...dockingView(m),...vesselTravelView(m),...occupancyView(m),...nighttimeView(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
+  view: (m, seat, now) => ({...serviceView(m,seat),...alienSearchView(m,seat),...heavyWeaponView(m),...fusionView(m),...artilleryView(m),...generatorView(m),...destructionView(m),...hothView(m),values: publicValues(m),...encounterView(m),...attackView(m),...slugView(m),...sectorsView(m),...asteroidView(m),...lostArtooView(m),...fighterTroubleView(m),...wedgeView(m,seat),...hyperEscapeView(m),...tallonView(m) as Record<string,Json>,...mobileView(m),...characterReactView(m),...vehicleReactView(m),...pilotDeployView(m),...dockingView(m),...vesselTravelView(m),...occupancyView(m),...nighttimeView(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>,...scompView(m,seat), ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
-    assertOrders(match);assertAlienSearch(match);assertOtsdRecruits(match);
+    assertService(match);assertScomp(match);assertOrders(match);assertAlienSearch(match);assertOtsdRecruits(match);
     assertPowerDroids(match);assertFusion(match);assertHeavyWeapons(match);assertGeneratorShots(match);assertBlownAway(match);assertHothMovement(match);assertHothDeployment(match);assertCreatureEncounters(match);assertCreatureWeapons(match);assertGroundCreatures(match);assertCreatureAttack(match);assertSpaceSlugs(match);assertSectors(match);assertSectorEffects(match);assertAsteroids(match);assertMobileSystems(match);assertOccupancy(match);assertVessels(match);
     assertVesselTravel(match);
     assertPilotDeploy(match);
@@ -450,7 +458,7 @@ export const premiereRules: Rules = {
       if (card.zone === 'table' && def.type === 'Character' && (!card.location || !card.aboardRole && !isSite(match,card.location))) throw Error('A ground character needs its site.');
       if (card.coveredBy && (def.type !== 'Location' || !match.locations.includes(card.coveredBy) || name(match, card.id) !== name(match, card.coveredBy))) throw Error('Invalid supporting location.');
       if (card.zone === 'table' && def.type === 'Location' && !card.coveredBy && !match.locations.includes(card.id)) throw Error('Missing active location.');
-      if (card.attachedTo && card.location !== (artillery(match,card.id)&&match.locations.includes(card.attachedTo)?card.attachedTo:match.cards[card.attachedTo].location)) throw Error('Attachment separated from its host.');
+      if (card.attachedTo && card.location !== ((artillery(match,card.id)||serviceBlueprint(card.blueprint))&&match.locations.includes(card.attachedTo)?card.attachedTo:match.cards[card.attachedTo].location)) throw Error('Attachment separated from its host.');
     }
   },
 };

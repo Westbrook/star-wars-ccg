@@ -1,0 +1,17 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T22:29:06.606586+00:00",
+  "files": {
+    "NativeEngineDroidServiceOracleTests.java": "f1d35337f41da2df00b81af073cf7da397d7fd6a8b475c78ce51f417ba9e660c",
+    "droid-service-results.json": "3af0402f90d00aa004ce4e5478bddfe522871356e5b18eb702c14b8602f42887"
+  },
+  "junitTests": 1,
+  "observations": 4,
+  "unchangedProductionFiles": 6820,
+  "scope": "Both sides: one hand droid satisfies an entire drain, and the granted support Interrupt cancels a drain without a Scomp link.",
+  "limitations": [
+    "Other pile origins, battle damage, inspection, named cancellation and refresh are native checks, not executed GEMP comparisons.",
+    "Production admission remains closed; entire engine objective remains unfinished."
+  ]
+}

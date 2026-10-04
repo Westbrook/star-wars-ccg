@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-11';
+export const computerPolicy = 'native-cpu-12';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -19,7 +19,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   if (view.status === 'finished' || !p || p.side !== side || !p.choices.length) return null;
   const own = view.players[side], opponent = other(side);
   const visible = [...view.table, ...own.hand, ...own.lost, ...own.destiny];
-  const rules = view.rules as {values?: ReturnType<typeof publicValues>; vessels?:ReturnType<typeof occupancyView>['vessels']; battle?: Battle | null} | undefined;
+  const rules = view.rules as {forceLossCredits?:Record<string,number>;values?: ReturnType<typeof publicValues>; vessels?:ReturnType<typeof occupancyView>['vessels']; battle?: Battle | null} | undefined;
   const battle = rules?.battle?.stage === 'damage' ? rules.battle : null;
   const cards = new Map(visible.map(c => [c.id, c]));
   const stat = (id: string, field: string) => {
@@ -165,6 +165,8 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     }
     if (kind === 'fire') return 70 + stat(b,'power');
     if (kind === 'rescue') return hits.includes(b) && value(b) > value(a) ? 115 + value(b) - value(a) : -5;
+    if(kind==='service')return a==='deploy'&&(rules?.values?.sites[c.id.split(':')[3]]?.[opponent]?.ability??0)>=1?-10:25;
+    if(kind==='scomp'){const mode=c.id.split(':')[3];return a==='finish'?30:mode==='drain'?(view.turn.side===side?-10:65):mode==='cancel'||mode==='table'?75:5;}
     if(kind==='orders'){
       if(a==='take')return 30+value(b);
       const mode=c.id.split(':')[3];
@@ -181,7 +183,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (kind === 'revival' && a === 'old-ben') return 55 + value(c.id.split(':')[3]);
     if (kind === 'revival' && a === 'kintan') return own.lost.some(c => definition(c.blueprint).type === 'Character') ? 55 : -5;
     if (kind === 'barrier') return 45 + value(b);
-    if (kind === 'lose-hand' || kind === 'battle-lose-hand') return handLoss(a);
+    if (kind === 'lose-hand' || kind === 'battle-lose-hand') return handLoss(a)+((rules?.forceLossCredits?.[a]??1)-1)*8;
     if (kind === 'lose' || kind === 'battle-lose') return a === 'used' ? 10 : a === 'force' ? 9 : 8;
     if (kind === 'retrieve' || kind === 'take') return 20 + value(a);
     if (kind === 'choke' || kind === 'accident-lose' || c.id.startsWith('scavenge:lose:')) return 10 - value(kind === 'scavenge' ? b : a);

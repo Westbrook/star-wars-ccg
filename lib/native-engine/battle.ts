@@ -1,3 +1,4 @@
+import {forceLossCredit} from './droid-service';
 import {otsdClearsAttrition} from './otsd-characters';
 import type {DroidBoost} from './power-droid';
 import {unitsAt,characterPresent,occupants,belowDecks} from './occupancy';
@@ -178,7 +179,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
     }
     if (battleDamage(m, side) > 0) {
       for (const pile of ['reserve', 'force', 'used'] as const) if (m.players[side][pile].length) actions.push(act('battle-lose:' + pile, 'Lose one Force from ' + pile, 'lose', {from: pile}));
-      for (const card of m.players[side].hand) actions.push(act('battle-lose-hand:' + card, 'Lose ' + name(m, card) + ' from hand', 'lose', {card}));
+      for (const card of m.players[side].hand) actions.push(act('battle-lose-hand:' + card, 'Lose ' + name(m, card) + ' from hand' + (forceLossCredit(m,card)!==1?' · satisfies up to '+forceLossCredit(m,card)+' battle damage':''), 'lose', {card}));
       for (const card of m.players[side].hand.filter(id => m.cards[id].blueprint === '1_90')) for (let amount = 1; amount <= m.players[side].force.length; amount++)
         actions.push(act('battle-reduce:' + card + ':' + amount, 'It Could Be Worse · use ' + amount + ' Force', 'reduce', {card, amount}, {[side]: amount}, card));
     }
@@ -434,7 +435,8 @@ export function battleResolve(m: Match, r: Resolution): void {
   } else if (kind === 'battle:rescue') {b.hits = b.hits.filter(id => id !== p.target); restoreWeaponForfeit(m,p.target!);}
   else if (kind === 'battle:lose') {
     const id = p.card ?? m.players[side][p.from as 'reserve' | 'force' | 'used'][0];
-    moveCard(m, id, 'lost'); if (b.damageLedger) b.damageLedger[side].paid++; else b.damage[side] = Math.max(0, b.damage[side] - 1); syncBattleDamage(m);
+    const credit = forceLossCredit(m,id);
+    moveCard(m, id, 'lost'); if (b.damageLedger) b.damageLedger[side].paid += credit; else b.damage[side] = Math.max(0, b.damage[side] - credit); syncBattleDamage(m);
     openWindow(m, 'response', other(side), {kind: 'force-lost', card: id, side, source: 'battle'});
   } else throw Error('Unknown battle effect: ' + kind);
 }

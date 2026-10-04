@@ -1,3 +1,4 @@
+import {forceLossCredit} from './droid-service';
 import {corulagAllowsGuardMove} from './otsd-locations';
 import {generator,generatorAllowed,shieldDeployment} from './hoth';
 import {creatureBlocksLandspeed} from './ground-creatures';
@@ -228,7 +229,7 @@ export function groundDecisions(m: Match, decision: Decision): {id: string; labe
   const side = decision.side, player = m.players[side];
   return [
     ...(['reserve', 'force', 'used', 'destiny'] as const).filter(pile => player[pile].length).map(pile => ({id: 'lose:' + pile, label: 'Lose the top card of ' + pile})),
-    ...player.hand.map(id => ({id: 'lose-hand:' + id, label: 'Lose ' + name(m, id) + ' from hand'})),
+    ...player.hand.map(id => ({id: 'lose-hand:' + id, label: 'Lose ' + name(m, id) + ' from hand' + (forceLossCredit(m,id)!==1?' · satisfies up to '+forceLossCredit(m,id)+' Force loss':'')})),
   ];
 }
 
@@ -236,7 +237,8 @@ export function groundChoose(m: Match, decision: Decision, choice: string): void
   if (decision.handler !== 'ground:force-loss') throw Error('Unknown ground decision.');
   const loss = {...decision.payload as Loss}, side = decision.side;
   const id = choice.startsWith('lose-hand:') ? choice.slice(10) : m.players[side][choice.slice(5) as 'reserve' | 'force' | 'used' | 'destiny'][0];
-  moveCard(m, id, 'lost'); if (loss.ledger) loss.ledger.paid++; else loss.remaining--;
+  const credit = Math.min(remainingForceLoss(m,loss),forceLossCredit(m,id));
+  moveCard(m, id, 'lost'); if (loss.ledger) loss.ledger.paid += credit; else loss.remaining -= credit;
   queueForceLoss(m, loss);
   openWindow(m, 'response', m.turn.side, {kind: 'force-lost', card: id, side, source: loss.source});
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "kind": "droid-loss",
+    "droidLost": true,
+    "cardsLost": 1,
+    "dark": false
+  },
+  {
+    "kind": "drain-cancel",
+    "interruptUsed": true,
+    "cardsLost": 0,
+    "dark": false
+  },
+  {
+    "kind": "droid-loss",
+    "droidLost": true,
+    "cardsLost": 1,
+    "dark": true
+  },
+  {
+    "kind": "drain-cancel",
+    "interruptUsed": true,
+    "cardsLost": 0,
+    "dark": true
+  }
+]

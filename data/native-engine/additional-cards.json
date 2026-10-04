@@ -3381,5 +3381,69 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_017.java"
+  },
+  {
+    "gempId": "106_3",
+    "name": "Faithful Service",
+    "side": "light",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Light/large/faithfulservice.gif",
+    "text": "Deploy on an opponent's location. Whenever you lose a droid from hand or Life Force, it satisfies Force loss up to its forfeit value. Once per turn, you may play Scomp Link Access to cancel a Force drain where you have a droid. Effect canceled if opponent controls this location.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_003.java"
+  },
+  {
+    "gempId": "106_14",
+    "name": "Forced Servitude",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Dark/large/forcedservitude.gif",
+    "text": "Deploy on an opponent's location. Whenever you lose a droid from hand or Life Force, it satisfies Force loss up to its forfeit value. Once per turn, you may play Imperial Code Cylinder to cancel a Force drain where you have a droid. Effect canceled if opponent controls this location.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_014.java"
+  },
+  {
+    "gempId": "1_108",
+    "name": "Scomp Link Access",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/scomplinkaccess.gif",
+    "text": "If one of your 'R' unit droids is at any Scomp link, you may: glance at the cards in any Reserve Deck for 20 seconds. Shuffle, cut and replace. OR If also at a Death Star site, cancel We're All Gonna Be A Lot Thinner or Boring Conversation Anyway.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_108.java"
+  },
+  {
+    "gempId": "1_250",
+    "name": "Imperial Code Cylinder",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/imperialcodecylinder.gif",
+    "text": "If any Imperial leader is present with a Scomp link, you may: Glance at the cards in any Reserve Deck for 20 seconds. Shuffle, cut and replace. OR If also at a Death Star site, cancel Scomp Link Access or Into The Garbage Chute, Flyboy.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_250.java"
   }
 ]
