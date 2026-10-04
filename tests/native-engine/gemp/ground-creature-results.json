@@ -1,0 +1,34 @@
+[
+  {
+    "hunt": false,
+    "fire": false,
+    "creatureLost": false,
+    "targetLost": false,
+    "hitDuring": false,
+    "firingCost": 0
+  },
+  {
+    "hunt": false,
+    "fire": true,
+    "creatureLost": true,
+    "targetLost": false,
+    "hitDuring": true,
+    "firingCost": 2
+  },
+  {
+    "hunt": true,
+    "fire": false,
+    "creatureLost": false,
+    "targetLost": true,
+    "hitDuring": false,
+    "firingCost": 0
+  },
+  {
+    "hunt": true,
+    "fire": true,
+    "creatureLost": true,
+    "targetLost": true,
+    "hitDuring": true,
+    "firingCost": 2
+  }
+]

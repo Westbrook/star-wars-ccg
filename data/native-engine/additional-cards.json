@@ -2536,5 +2536,47 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_112.java"
+  },
+  {
+    "gempId": "6_48",
+    "name": "Worrt",
+    "side": "light",
+    "type": "Creature",
+    "subType": "Guard",
+    "image": "https://res.starwarsccg.org/cards/JabbasPalace-Light/large/worrt.gif",
+    "text": "Habitat: planet sites (except Hoth). Does not attack your characters. When at a Tatooine site, prevents opponent's characters present from using their landspeed.",
+    "stats": {
+      "deploy": "2",
+      "power": "3",
+      "destiny": "4",
+      "forfeit": "0",
+      "ferocity": "3"
+    },
+    "icons": [
+      "Jabba's Palace"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set6/light/Card6_048.java"
+  },
+  {
+    "gempId": "6_138",
+    "name": "Bubo",
+    "side": "dark",
+    "type": "Creature",
+    "subType": "Guard",
+    "image": "https://res.starwarsccg.org/cards/JabbasPalace-Dark/large/bubo.gif",
+    "text": "Habitat: planet sites (except Hoth). Does not attack your characters. When at a Jabba's palace site, prevents opponent's characters from using their landspeed.",
+    "stats": {
+      "deploy": "3",
+      "power": "4",
+      "destiny": "4",
+      "forfeit": "0",
+      "ferocity": "4"
+    },
+    "icons": [
+      "Jabba's Palace"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set6/dark/Card6_138.java"
   }
 ]

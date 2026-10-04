@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T12:23:22.405810+00:00",
+  "files": {
+    "NativeEngineGroundCreatureOracleTests.java": "e852fc97d72a1088f5b7d755c8f52ce1f979e3ffb93539ca70fc5bf7c03042dc",
+    "ground-creature-results.json": "c2c9c4a95af9a0b8988f5a511641b47db5a36c7c10c45207593d270c20f23d11"
+  },
+  "junitTests": 1,
+  "observations": 4,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineGroundCreatureOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp62\u201364,76,79\u201380",
+  "scope": "Ground Worrt hunt/assault, with and without an eligible Blaster Rifle; hit creature still resolves attack outcome before loss.",
+  "method": [
+    "Real Worrt deployment asserts cost 2 and defense 4. Actual hunt/assault and firing commands execute. Trooper and weapon are placed as isolated fixtures; no claim of weapon deployment conformance from these rows.",
+    "Four raw result rows compare final creature/victim destinations, observed hit during the attack and firing payment. Internal event trace is retained in execution log, not claimed as complete timing parity."
+  ],
+  "limitations": [
+    "Component coverage only; full-match admission remains false. Worrt/Bubo movement/habitats, fixed defense, target exclusions, text cancellation and additional blaster branches have native tests; these four fresh GEMP rows cover Worrt only.",
+    "Creature-versus-creature/species, variable ground ferocity, long-range and other weapon families, captured/missing/inactive participation, broader modifier/text interactions, habitat loss and remaining Slug departure destinations are still required.",
+    "All broader full engine/card/setup/deck/CPU/PvP/clocks/capacity/responsive scope remains active. No new standalone study."
+  ],
+  "exactAgreements": 4
+}

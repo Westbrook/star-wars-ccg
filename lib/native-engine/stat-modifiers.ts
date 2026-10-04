@@ -21,7 +21,7 @@ function assertModifier(m:Match,p:StatModifier):void{
     p.by!=='both' && (p.stat!=='defense' || p.kind!=='prevent-reduce'))throw Error('Invalid statistic modifier.');
  assertCardReference(m,p.source);assertCardReference(m,p.target);
  const type=cardDefinition(m,p.target.id).type;
- const validTarget=type==='Character'?!['power','hyperspeed'].includes(p.stat):['Starship','Vehicle'].includes(type)&&(['maneuver','hyperspeed','power'].includes(p.stat)&&p.kind==='add'||['armor','maneuver','hyperspeed'].includes(p.stat)&&p.kind==='reset');
+ const validTarget=type==='Creature'?p.stat==='defense':type==='Character'?!['power','hyperspeed'].includes(p.stat):['Starship','Vehicle'].includes(type)&&(['maneuver','hyperspeed','power'].includes(p.stat)&&p.kind==='add'||['armor','maneuver','hyperspeed'].includes(p.stat)&&p.kind==='reset');
  if(p.target.zone!=='table' || !validTarget || p.duration==='source' && p.source.zone!=='table')throw Error('Invalid statistic source or target.');
 }
 /** Trusted rule effects only: public commands cannot supply values. */

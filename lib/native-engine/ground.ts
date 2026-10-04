@@ -1,3 +1,4 @@
+import {creatureBlocksLandspeed} from './ground-creatures';
 import {registerSector,registerCave,convertSectorRelationships} from './sectors';
 import {gameTextActive} from './game-text';
 import {crewActive} from './occupancy';
@@ -62,6 +63,8 @@ const canPay = (m: Match, payment: Payment) => sides.every(side => (payment[side
 const pending = (m: Match) => m.stack.at(-2)?.kind === 'resolution' ? m.stack.at(-2) as Resolution : null;
 export const canMove = (m: Match, id: string) => !isGuard(m.cards[id].blueprint) && !barred(m, id) && !usage(m).moved.includes(id);
 
+export const canLandspeed=(m:Match,id:string)=>canMove(m,id)&&!creatureBlocksLandspeed(m,id);
+
 export function groundActions(m: Match, window: Window, side: Side): Action[] {
   const actions: Action[] = [];
   if (window.timing === 'phase' && side === m.turn.side) {
@@ -82,7 +85,7 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
     }
     if (m.turn.phase === 'move' && m.players[side].force.length) {
       for (const site of m.locations) for (const card of atSite(m, site)) {
-        if (card.owner !== side || card.attachedTo || !canMove(m, card.id)) continue;
+        if (card.owner !== side || card.attachedTo || !canLandspeed(m, card.id)) continue;
         for (const to of m.locations.filter(to => adjacent(m, site, to))) actions.push(action('move:' + card.id + ':' + to, 'Move ' + name(m, card.id) + ' to ' + name(m, to), 'move', {card: card.id, from: site, site: to}, {[side]: 1}));
       }
     }
@@ -193,7 +196,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     if(placement.sector)registerSector(m,id,placement.sector);if(placement.cave)registerCave(m,id,placement.cave);
     deployed(m, id);
   } else if (kind === 'ground:move') {
-    if (!sameCard(m, data.cardRef!) || m.cards[data.card!].attachedTo || m.cards[data.card!].location !== data.from) return;
+    if (!sameCard(m, data.cardRef!) || m.cards[data.card!].attachedTo || m.cards[data.card!].location !== data.from || !canLandspeed(m,data.card!)) return;
     moveWithAttachments(m, data.card!, data.site!); record(m).moved.push(data.card!);
     cancelDrainAfterReact(m, side, data);
     openWindow(m, 'response', other(side), {kind: 'moved', card: data.card!, from: data.from!, site: data.site!});

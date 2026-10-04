@@ -7,7 +7,7 @@ import {canPlayCard, recordCardPlay} from './persona';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {adjacent, atSite, cardDefinition, controls, moveWithAttachments, name, sitePlacements, system} from './board';
 import {battle, battleHistory, members} from './battle';
-import {canMove, groundResolve, record} from './ground';
+import {canMove, canLandspeed, groundResolve, record} from './ground';
 import {openWindow, queueForcePayment, type Context} from './runtime';
 import {moveCard, shufflePile} from './state';
 import {other, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
@@ -42,7 +42,7 @@ const battleInitiation = (m: Match, w: Window) => {
   const parent = m.stack.at(-2);
   return w.timing === 'response' && parent?.kind === 'resolution' && parent.action.handler === 'battle:begin' && !parent.cancelled && !parent.awaitingResponses && battle(m)?.stage === 'begin';
 };
-const runEligible = (m: Match, id: string, to: string) => m.cards[id]?.zone === 'table' && m.cards[id].blueprint === '101_2' && !m.cards[id].attachedTo && !!m.cards[id].location && adjacent(m, m.cards[id].location!, to) && canMove(m, id) && !battleHistory(m).participants.includes(id);
+const runEligible = (m: Match, id: string, to: string) => m.cards[id]?.zone === 'table' && m.cards[id].blueprint === '101_2' && !m.cards[id].attachedTo && !!m.cards[id].location && adjacent(m, m.cards[id].location!, to) && canLandspeed(m, id) && !battleHistory(m).participants.includes(id);
 export function travelActions(m: Match, w: Window, side: Side): Action[] {
   const result: Action[] = [];
   if (w.timing === 'phase' && side === m.turn.side) {
@@ -86,7 +86,7 @@ function shuffle(m: Match, context: Context): void {shufflePile(m, 'dark', 'rese
 // Landed starships have ability but cannot use landspeed; nested cargo crew cannot exit directly.
 const escapeEligible = (m: Match, id: string, from: string, to: string) =>
   m.cards[id]?.zone === 'table' && cardDefinition(m,id).type === 'Character' && !belowDecks(m,id) &&
-  m.cards[id].location === from && canMove(m,id) && adjacent(m,from,to);
+  m.cards[id].location === from && canLandspeed(m,id) && adjacent(m,from,to);
 const originalRoute = (m: Match, p: Payload) =>
   (!p.fromRef || sameCard(m,p.fromRef)) && (!p.toRef || sameCard(m,p.toRef)) &&
   (!p.originRef || sameCard(m,p.originRef) && (m.cards[p.target!].attachedTo ?? m.cards[p.target!].location) === p.originRef.id);

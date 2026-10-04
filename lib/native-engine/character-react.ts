@@ -1,6 +1,6 @@
 import {adjacent,cardDefinition,moveWithAttachments,name} from './board';
 import {gameTextActive} from './game-text';
-import {barred,canMove,usage,record,registerReact,pendingReactSite,cancelDrainAfterReact} from './ground';
+import {barred,canLandspeed,usage,record,registerReact,pendingReactSite,cancelDrainAfterReact} from './ground';
 import {belowDecks,crewActive,roleAvailable,vesselRule,type AboardRole} from './occupancy';
 import {battleHistory} from './battle';
 import {referenceCard,sameCard,assertCardReference,type CardReference} from './identity';
@@ -17,12 +17,12 @@ const hosts=(m:Match,side:Side,site:string)=>Object.values(m.cards).filter(c=>c.
 const boarding=(m:Match,p:Payload,side:Side)=>live(m,p,p.site)&&!m.cards[p.card].attachedTo?hosts(m,side,p.site).flatMap(c=>roles.filter(role=>roleAvailable(m,c.id,p.card,role)).map(role=>({id:'board:'+c.id+':'+role,label:'Embark '+name(m,p.card)+' on '+name(m,c.id)+' as '+role,host:c.id,role}))):[];
 function push(m:Match,side:Side,p:Payload,step:string,respondable=false){m.stack.push({kind:'resolution',actor:side,cancelled:false,...(respondable?{awaitingResponses:true}:{}),action:action(step,p)});}
 function depart(m:Match,side:Side,p:Payload){
- if(!live(m,p,p.from)||m.cards[p.card].attachedTo||!canMove(m,p.card)||!adjacent(m,p.from,p.site))return;
+ if(!live(m,p,p.from)||m.cards[p.card].attachedTo||!canLandspeed(m,p.card)||!adjacent(m,p.from,p.site))return;
  push(m,side,{...p,react:true},'move',true);
 }
 export function characterReactActions(m:Match,w:Window,side:Side):Action[]{
  const site=pendingReactSite(m,w,side);if(!site||!m.players[side].force.length)return [];
- return Object.values(m.cards).filter(c=>c.owner===side&&c.blueprint==='1_30'&&gameTextActive(m,c.id)&&crewActive(m,c.id)&&!belowDecks(m,c.id)&&(!c.attachedTo||!!c.aboardRole)&&c.location&&adjacent(m,c.location,site)&&canMove(m,c.id)&&!usage(m).reacted.includes(c.id)&&!battleHistory(m).participants.includes(c.id)).map(c=>{
+ return Object.values(m.cards).filter(c=>c.owner===side&&c.blueprint==='1_30'&&gameTextActive(m,c.id)&&crewActive(m,c.id)&&!belowDecks(m,c.id)&&(!c.attachedTo||!!c.aboardRole)&&c.location&&adjacent(m,c.location,site)&&canLandspeed(m,c.id)&&!usage(m).reacted.includes(c.id)&&!battleHistory(m).participants.includes(c.id)).map(c=>{
   const p:Payload={characterReact:true,card:c.id,cardRef:referenceCard(m,c.id),from:c.location!,site,fromRef:referenceCard(m,c.location!),siteRef:referenceCard(m,site),...(c.attachedTo?{origin:referenceCard(m,c.attachedTo),previous:c.aboardRole}:{})};
   return {...action('begin',p),label:'React with '+name(m,c.id),payment:{[side]:1},unrespondable:true};
  });
@@ -42,7 +42,7 @@ export function characterReactResolve(m:Match,r:Resolution){
  }
  if(h==='character-react:depart'){depart(m,r.actor,p);return;}
  if(h==='ground:move'){
-  if(!live(m,p,p.from)||m.cards[p.card].attachedTo||!canMove(m,p.card)||!adjacent(m,p.from,p.site))return;
+  if(!live(m,p,p.from)||m.cards[p.card].attachedTo||!canLandspeed(m,p.card)||!adjacent(m,p.from,p.site))return;
   moveWithAttachments(m,p.card,p.site);record(m).moved.push(p.card);push(m,r.actor,p,'arrival');cancelDrainAfterReact(m,r.actor,{react:true,card:p.card,site:p.site});
   openWindow(m,'response',other(r.actor),{kind:'moved',card:p.card,from:p.from,site:p.site});return;
  }
