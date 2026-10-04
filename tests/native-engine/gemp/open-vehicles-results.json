@@ -1,0 +1,132 @@
+[
+  {
+    "mode": "open-fire",
+    "defense": 5.0,
+    "power": 6.0,
+    "draws": 1,
+    "canFire": true,
+    "enemyHit": true,
+    "riderTarget": true,
+    "riderHit": true
+  },
+  {
+    "mode": "closed-fire",
+    "defense": 4.0,
+    "power": 0.0,
+    "draws": 0,
+    "canFire": false,
+    "enemyCanFire": true,
+    "riderTarget": false,
+    "vehicleTarget": true,
+    "vehicleHit": true
+  },
+  {
+    "mode": "open-miss",
+    "defense": 5.0,
+    "power": 6.0,
+    "draws": 1,
+    "canFire": true,
+    "enemyCanFire": true,
+    "riderTarget": true,
+    "vehicleTarget": true,
+    "vehicleHit": false
+  },
+  {
+    "mode": "forfeit-carrier",
+    "defense": 5.0,
+    "power": 6.0,
+    "draws": 1,
+    "canFire": true,
+    "damage": 5,
+    "attrition": 6,
+    "afterDamage": 1,
+    "afterAttrition": 2,
+    "hostLost": true,
+    "riderLost": true,
+    "driverLost": true
+  },
+  {
+    "mode": "forfeit-passenger",
+    "defense": 5.0,
+    "power": 6.0,
+    "draws": 1,
+    "canFire": true,
+    "damage": 5,
+    "attrition": 6,
+    "afterDamage": 0,
+    "afterAttrition": 1,
+    "hostLost": false,
+    "riderLost": true,
+    "driverLost": false
+  },
+  {
+    "mode": "open-luke",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 0
+  },
+  {
+    "mode": "open-beru",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 1
+  },
+  {
+    "mode": "closed-luke",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 0
+  },
+  {
+    "mode": "closed-beru",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 0
+  },
+  {
+    "mode": "closed-owen",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 0
+  },
+  {
+    "mode": "host-canceled",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 1
+  },
+  {
+    "mode": "rider-canceled",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 0
+  },
+  {
+    "mode": "free-transit",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 0
+  },
+  {
+    "mode": "mixed-transit",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 1
+  },
+  {
+    "mode": "unpiloted-transit",
+    "hostMoved": true,
+    "crewMoved": false,
+    "aboard": true,
+    "cost": 1
+  }
+]

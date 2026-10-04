@@ -75,7 +75,7 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
     }
     if (m.turn.phase === 'move' && m.players[side].force.length) {
       for (const site of m.locations) for (const card of atSite(m, site)) {
-        if (card.owner !== side || !canMove(m, card.id)) continue;
+        if (card.owner !== side || card.attachedTo || !canMove(m, card.id)) continue;
         for (const to of m.locations.filter(to => adjacent(m, site, to))) actions.push(action('move:' + card.id + ':' + to, 'Move ' + name(m, card.id) + ' to ' + name(m, to), 'move', {card: card.id, from: site, site: to}, {[side]: 1}));
       }
     }
@@ -108,7 +108,7 @@ export function reactionActions(m: Match, site: string, side: Side, eligible: (i
   const actions: Action[] = [];
       const used = usage(m).reacted;
       for (const from of m.locations.filter(from => adjacent(m, from, site))) for (const card of atSite(m, from)) {
-        if (card.owner === side && card.blueprint === '1_30' && !used.includes(card.id) && eligible(card.id) && canMove(m, card.id))
+        if (card.owner === side && !card.attachedTo && card.blueprint === '1_30' && !used.includes(card.id) && eligible(card.id) && canMove(m, card.id))
           actions.push(action('react-move:' + card.id + ':' + site, 'React with ' + name(m, card.id), 'move', {card: card.id, from, site, react: true}, {[side]: 1}));
       }
       const sources = reactionSources(m, site, side);
@@ -189,7 +189,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     } else m.locations.splice(placement.index!, 0, id);
     deployed(m, id);
   } else if (kind === 'ground:move') {
-    if (!sameCard(m, data.cardRef!) || m.cards[data.card!].location !== data.from) return;
+    if (!sameCard(m, data.cardRef!) || m.cards[data.card!].attachedTo || m.cards[data.card!].location !== data.from) return;
     moveWithAttachments(m, data.card!, data.site!); record(m).moved.push(data.card!);
     cancelDrainAfterReact(m, side, data);
     openWindow(m, 'response', other(side), {kind: 'moved', card: data.card!, from: data.from!, site: data.site!});

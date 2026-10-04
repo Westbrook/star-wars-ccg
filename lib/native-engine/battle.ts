@@ -1,4 +1,4 @@
-import {unitsAt,characterPresent,occupants} from './occupancy';
+import {unitsAt,characterPresent,occupants,belowDecks} from './occupancy';
 import {sunsdownAt} from './nighttime';
 import {battleMembers as members,battleProhibited} from './participation';
 export {battleMembers as members,battleProhibited} from './participation';
@@ -160,7 +160,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
     for (const weapon of Object.values(m.cards)) {
       const rule = weapons[weapon.blueprint], host = weapon.attachedTo;
       if (!rule || weapon.owner !== side || weapon.zone !== 'table' || !host || !members(m, side).includes(host) || !characterPresent(m,host) || !warrior(m, host) || b.fired.includes(weapon.id) || !canUseWeapon(m, weapon.id)) continue;
-      for (const target of members(m, other(side)).filter(id=>characterPresent(m,id))) actions.push(act('fire:' + weapon.id + ':' + target, 'Fire ' + name(m, weapon.id) + ' at ' + name(m, target), 'fire', {card: weapon.id, target}, {[side]: rule.fire}, weapon.id));
+      for (const target of members(m, other(side)).filter(id=>characterPresent(m,id)||cardDefinition(m,id).type==='Vehicle'&&!belowDecks(m,id))) actions.push(act('fire:' + weapon.id + ':' + target, 'Fire ' + name(m, weapon.id) + ' at ' + name(m, target), 'fire', {card: weapon.id, target}, {[side]: rule.fire}, weapon.id));
     }
   }
   if (event(w) === 'battle-destiny-complete' && sides.every(s => b.destiny[s] !== null && completedBattleDraws(b, s).length === 1)) {

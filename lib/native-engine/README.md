@@ -2814,3 +2814,57 @@ modifiers, inactive/captured states beyond current battle exclusion, open
 vehicles, sectors and wider transport. Full catalog/timing, capture, Objectives,
 setup/deck formats, opponents/capacity and complete product delivery remain in
 scope. Production full-match admission is still closed.
+
+### Open vehicles, exposed crew and movement costs
+
+Luke's X-34 (`1_149`), the SoroSuub V-35 (`1_151`) and Ubrikkian
+9000 Z001 (`1_310`) now have explicit printed capacity records. Only the X-34
+is open: the other two have GEMP's Enclosed characteristic. Open occupants
+contribute personal power and battle-destiny ability, can fire character weapons,
+and can be targeted by those weapons. An open vehicle inside another vessel's
+cargo hold does not expose its crew at the outer location. The match screen
+shows this distinction alongside the crew roles and current vehicle values.
+
+Ordinary character landspeed movement requires disembarking first. Vehicle
+travel carries attached crew and weapons without consuming the crew's regular
+move. Loss of the driver at an intermediate site stops further landspeed
+travel. The passengers can still provide presence; open passengers retain their
+personal power. Unpiloted vehicles retain the official docking-transit exception.
+
+The X-34 moves free with Luke aboard. The V-35 moves free with Luke, Premiere
+Owen or Beru aboard. Their text applies to landspeed and docking-bay transit;
+a mixed party pays the highest applicable cost, and a wholly free party can
+start transit with zero Force. This movement text is suspended when unpiloted,
+and canceled vehicle text removes the discount without changing crew identity.
+
+The four existing Blaster/Blaster Rifle definitions can now target exposed
+vehicles as their printed text permits. Defense uses current maneuver or printed
+armor; unpiloted maneuver is zero and existing armor becomes two. Missing armor
+is not invented. A destiny equal to defense misses. Forfeiting a vehicle loses
+its attached crew, but their forfeit values do not also pay battle obligations.
+Forfeiting a passenger leaves the vehicle and other occupants in place.
+
+Evidence: `tests/native-engine/gemp/open-vehicles-provenance.json`, the Java
+harness and its recorded results. Two JUnit tests execute fifteen observations
+against pinned, unmodified GEMP production code: thirteen complete native action
+replays agree, while the two controlled cancellation cases compare projected
+costs from equivalent trusted canceled-text state only. They do not establish a
+native cancellation-card provider. Native replay restores JSON at each command.
+The reference uses actual vehicle/crew deployment, movement, battle, firing and
+forfeiture with controlled locations, opposing units, attached weapons and
+destiny cards. The 6,820 production reference files remain byte-identical to the
+pinned source archive.
+
+Native-only checks additionally cover Ubrikkian deployment/capacity, crew inside
+cargo, loss of a driver en route, zero-Force party selection and stale movement
+boundaries. Playwright uses the real native service to initiate a battle, fire
+an open passenger's blaster, refresh while the shot is pending, and inspect
+crew at 1440/834/390 widths.
+
+**Still required:** moving/deploying vehicles as reacts, optional crew boarding
+and disembarking around a react, cancellation and turn history; broader aboard
+interactions with movement cards (including Run Luke and move-away effects);
+general vessel stat modifiers, creature/combat/shuttle vehicles, sectors,
+capture and the remaining catalog/timing/product scope. These cards are component
+coverage only. Full native admission stays closed. No new standalone study was
+created; this work extends the full engine and match UI.

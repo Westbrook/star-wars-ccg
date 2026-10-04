@@ -1,0 +1,27 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T03:23:56.356408+00:00",
+  "files": {
+    "NativeEngineOpenVehicleOracleTests.java": "9b375cfe3c79d4b1c1e07e0a24c83146d063cdfcb87f0a12619ecb1ca4cafc09",
+    "NativeEngineCrewOracleTests.java": "a96d3e6897a68e168c7ecce4e67733aebe99853bcb3c60675fb99f1af21ccbb8",
+    "open-vehicles-results.json": "b3ab12c954e508dc43e8fffbb60afe3cd76e9d038bd062e0d9ddf6b6e3d7172c"
+  },
+  "junitTests": 2,
+  "observations": 15,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineOpenVehicleOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp68,70,76,91-93",
+  "scope": "Open/enclosed occupant presence, power, battle-destiny ability and character weapon firing/targeting; vehicle defense and equal-defense miss; separate passenger/carrier forfeiture; printed free movement and mixed-party docking transit.",
+  "method": [
+    "Vehicles and crew deploy through actual GEMP actions. Locations, Force, opposing combatants, attached weapons and top destiny cards are controlled fixtures. Movement, battle, firing and forfeiting use production actions.",
+    "Thirteen native action replays compare complete recorded results, restoring JSON at every command. Two canceled-text reference movements compare the native projected cost from equivalent trusted canceled-text state only; they do not claim a native cancellation provider or persisted cancellation action.",
+    "Native uses the same printed starting site and characters. Lost-card ordering is chosen explicitly when the reference requests it. Printed open/enclosed characteristics come from the pinned source, including enclosed V-35 and Ubrikkian."
+  ],
+  "limitations": [
+    "This is component coverage, not full card or deck admission. Native supports() remains false.",
+    "Vehicle reactions, optional embarking/disembarking around a react, cancellation and react history remain required next work. No new standalone Rules Lab study.",
+    "Ubrikkian deployment/capacity, cargo-contained open crew, driver departure, and responsive recovery have native checks beyond these reference observations. General vessel stat modifiers, broader aboard movement-card interactions, capture/sectors and the full catalog/product scope remain unfinished."
+  ]
+}

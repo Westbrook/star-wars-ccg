@@ -1,4 +1,5 @@
 import {unitsAt,isVessel} from './occupancy';
+import {movesFree} from './movement-costs';
 import {vehicleDestination} from './vessel-travel';
 import {ability} from './ability';
 import {canSearch, recordFailedSearch, searchFunctions, type Search} from './search-policy';
@@ -30,8 +31,9 @@ function then(m: Match, side: Side, handler: string, p: Payload, respondable = f
 export const transitEligible = (m: Match, side: Side, from: string, to?: string) => unitsAt(m, from).filter(c => c.owner === side && !c.attachedTo && canMove(m,c.id) && (!isVessel(m,c.id)||cardDefinition(m,c.id).type==='Vehicle'&&(!to||vehicleDestination(m,c.id,to)))).map(c=>c.id);
 const bays = (m: Match) => m.locations.filter(id => bayCosts[m.cards[id].blueprint]);
 /** The whole party pays once. Explicitly free movement cannot be increased (AR pp66,70). */
-export function transitCost(m: Match, side: Side, from: string, to: string): number {
+export function transitCost(m: Match, side: Side, from: string, to: string, party?:string[]): number {
   if (from === to || !bays(m).includes(from) || !bays(m).includes(to)) throw Error('Invalid docking-bay route.');
+  if (party?.length && party.every(id=>movesFree(m,id))) return 0;
   if (side === 'dark' && m.cards[from].blueprint === '1_285') return 0;
   return bayCosts[m.cards[from].blueprint][side] + (side === 'dark' && m.cards[to].blueprint === '3_59' ? 4 : 0);
 }
@@ -46,7 +48,7 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
   if (w.timing === 'phase' && side === m.turn.side) {
     if (m.turn.phase === 'move') for (const from of bays(m)) {
       if (!transitEligible(m, side, from).length) continue;
-      for (const to of bays(m).filter(id => id !== from && transitEligible(m,side,from,id).length && m.players[side].force.length >= transitCost(m, side, from, id))) result.push(action('transit:' + from + ':' + to, 'Docking-bay transit · ' + name(m, from) + ' → ' + name(m, to), 'party', {from, to, selected: []}));
+      for (const to of bays(m).filter(id => id !== from && transitEligible(m,side,from,id).some(card=>m.players[side].force.length >= transitCost(m, side, from, id,[card])))) result.push(action('transit:' + from + ':' + to, 'Docking-bay transit · ' + name(m, from) + ' → ' + name(m, to), 'party', {from, to, selected: []}));
     }
     if (m.turn.phase === 'deploy' && side === 'dark' && m.players.dark.reserve.length && canSearch(m, baySearch))
       for (const room of m.locations.filter(id => m.cards[id].blueprint === '101_4' && controls(m, 'dark', id)))
@@ -124,7 +126,7 @@ export function travelChoices(m: Match, d: Decision): {id: string; label: string
   const p = data(d);
   if (d.handler === 'travel:party') return [
     ...transitEligible(m, d.side, p.from!, p.to!).map(id => ({id: 'toggle:' + id, label: (p.selected!.includes(id) ? 'Remove ' : 'Add ') + name(m, id)})),
-    ...(p.selected!.length ? [{id: 'confirm', label: 'Move party · ' + transitCost(m, d.side, p.from!, p.to!) + ' Force total'}] : []),
+    ...(p.selected!.length && transitCost(m,d.side,p.from!,p.to!,p.selected)<=m.players[d.side].force.length ? [{id: 'confirm', label: 'Move party · ' + transitCost(m, d.side, p.from!, p.to!,p.selected) + ' Force total'}] : []),
     {id: 'cancel', label: 'Cancel transit'},
   ];
   if (d.handler === 'travel:search') {
@@ -146,7 +148,7 @@ export function travelChoose(m: Match, d: Decision, choice: string, context: Con
     }
     if (choice.startsWith('toggle:')) {const id = choice.slice(7); p.selected = p.selected!.includes(id) ? p.selected!.filter(c => c !== id) : [...p.selected!, id]; decision(m, d.side, 'party', p); return;}
     p.memberRefs = Object.fromEntries(p.selected!.map(id => [id, referenceCard(m, id)]));
-    const payment = {[d.side]: transitCost(m, d.side, p.from!, p.to!)};
+    const payment = {[d.side]: transitCost(m, d.side, p.from!, p.to!,p.selected)};
     parent.action = {...action('transit:' + p.from + ':' + p.to, 'Docking-bay transit', 'transit', p), payment};
     queueForcePayment(m, parent, payment);
   } else if (d.handler === 'travel:search') {

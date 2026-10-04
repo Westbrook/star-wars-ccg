@@ -1697,5 +1697,65 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_174.java"
+  },
+  {
+    "gempId": "1_149",
+    "name": "Luke's X-34 Landspeeder",
+    "side": "light",
+    "type": "Vehicle",
+    "subType": "Transport",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/lukesx34landspeeder.gif",
+    "text": "May add 1 driver and 2 passengers. Moves free if Luke aboard. May move as a 'react.'",
+    "stats": {
+      "deploy": "2",
+      "power": "1",
+      "destiny": "3",
+      "forfeit": "4",
+      "maneuver": "5",
+      "landspeed": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_149.java"
+  },
+  {
+    "gempId": "1_151",
+    "name": "SoroSuub V-35 Landspeeder",
+    "side": "light",
+    "type": "Vehicle",
+    "subType": "Transport",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/sorosuubv35landspeeder.gif",
+    "text": "May add 1 driver and 3 passengers. Moves free if Owen Lars, Beru Lars or Luke aboard. May move as a 'react'.",
+    "stats": {
+      "deploy": "2",
+      "power": "0",
+      "destiny": "4",
+      "forfeit": "3",
+      "maneuver": "4",
+      "landspeed": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_151.java"
+  },
+  {
+    "gempId": "1_310",
+    "name": "Ubrikkian 9000 Z001",
+    "side": "dark",
+    "type": "Vehicle",
+    "subType": "Transport",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/ubrikkian9000z001.gif",
+    "text": "May add 1 driver and 2 passengers. May move as a 'react.'",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "destiny": "2",
+      "forfeit": "4",
+      "maneuver": "6",
+      "landspeed": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_310.java"
   }
 ]

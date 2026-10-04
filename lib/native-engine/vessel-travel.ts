@@ -1,4 +1,5 @@
 import {cardDefinition} from './definitions';
+import {movesFree} from './movement-costs';
 import {adjacent,moveWithAttachments,name,system} from './board';
 import {barred,canMove,record} from './ground';
 import {vesselRule,occupants,operational,pilotAboard,capital} from './occupancy';
@@ -24,7 +25,7 @@ export function vesselRoutes(m:Match,id:string):Route[]{
  if(d.type==='Vehicle'){
   if(!operational(m,id))return [];
   for(const direction of [-1,1]){const path=[from];let previous=from;
-   for(let n=1;n<=stat(m,id,'landspeed');n++){const to=m.locations[m.locations.indexOf(from)+direction*n];if(!to||!adjacent(m,previous,to)||!vehicleDestination(m,id,to))break;path.push(to);out.push({method:'landspeed',path:[...path],cost:1});previous=to;}
+   for(let n=1;n<=stat(m,id,'landspeed');n++){const to=m.locations[m.locations.indexOf(from)+direction*n];if(!to||!adjacent(m,previous,to)||!vehicleDestination(m,id,to))break;path.push(to);out.push({method:'landspeed',path:[...path],cost:movesFree(m,id)?0:1});previous=to;}
   }return out;
  }
  const origin=premiereSystems[m.cards[from].blueprint];

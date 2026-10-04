@@ -9,6 +9,9 @@ export type AboardRole='pilot'|'driver'|'passenger'|'vehicle'|'starship';
 type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string;vehicles?:number;starships?:number;tiesOnly?:boolean};
 /** Printed capacities; permanent personnel do not consume these additional slots. */
 export const vesselRules:Record<string,VesselRule>={
+ '1_149':{pilots:0,drivers:1,passengers:2,shared:0,permanent:0,enclosed:false},
+ '1_151':{pilots:0,drivers:1,passengers:3,shared:0,permanent:0,enclosed:true},
+ '1_310':{pilots:0,drivers:1,passengers:2,shared:0,permanent:0,enclosed:true},
  '1_141':{pilots:0,drivers:0,passengers:0,shared:2,permanent:0,enclosed:true},
  '1_300':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '1_140':{pilots:3,drivers:0,passengers:4,shared:0,permanent:1,enclosed:true,vehicles:1},
@@ -36,7 +39,7 @@ export const permanentPilot=(m:Match,id:string)=>!!vesselRule(m,id)&&(cardDefini
 export const pilotAboard=(m:Match,id:string)=>permanentPilot(m,id)||occupants(m,id).some(c=>c.aboardRole==='pilot'&&crewActive(m,c.id));
 export const operational=(m:Match,id:string)=>!!vesselRule(m,id)&&!landed(m,id)&&(pilotAboard(m,id)||occupants(m,id).some(c=>c.aboardRole==='driver'&&crewActive(m,c.id)));
 export const enclosedOccupant=(m:Match,id:string)=>!!m.cards[id]?.aboardRole&&!!vesselRule(m,m.cards[id].attachedTo!)?.enclosed;
-export const characterPresent=(m:Match,id:string)=>cardDefinition(m,id).type==='Character'&&!enclosedOccupant(m,id)&&(!m.cards[id].attachedTo||!!m.cards[id].aboardRole);
+export const characterPresent=(m:Match,id:string)=>cardDefinition(m,id).type==='Character'&&!belowDecks(m,id)&&!enclosedOccupant(m,id)&&(!m.cards[id].attachedTo||!!m.cards[id].aboardRole);
 export const unitsAt=(m:Match,location:string):Card[]=>Object.values(m.cards).filter(c=>c.zone==='table'&&c.location===location&&!c.coveredBy&&(cardDefinition(m,c.id).type==='Character'&&!belowDecks(m,c.id)&&(!c.attachedTo||!!c.aboardRole)||isVessel(m,c.id)&&(!c.attachedTo||inCargo(m,c.id))));
 export function canDrive(m:Match,id:string):boolean {
  const d=cardDefinition(m,id);return d.type==='Character'&&(d.subType!=='Droid'||['VEHICLE','BATTLE','PROTOCOL'].some(model=>isModel(m,id,model))||(d.icons as string[]).some(i=>i==='Pilot'||i==='Warrior'));
@@ -73,4 +76,4 @@ export function assertOccupancy(m:Match):void {
   }
  }
 }
-export function occupancyView(m:Match){return {vessels:Object.fromEntries(Object.values(m.cards).filter(c=>c.zone==='table'&&vesselRule(m,c.id)).map(c=>[c.id,{operational:operational(m,c.id),landed:landed(m,c.id),permanent:permanentAbility(m,c.id),permanentPilot:permanentPilot(m,c.id),power:vesselPower(m,c.id),maneuver:vesselManeuver(m,c.id),capacity:vesselRule(m,c.id),crew:occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!,active:crewActive(m,x.id)}))}]))};}
+export function occupancyView(m:Match){return {vessels:Object.fromEntries(Object.values(m.cards).filter(c=>c.zone==='table'&&vesselRule(m,c.id)).map(c=>[c.id,{operational:operational(m,c.id),landed:landed(m,c.id),permanent:permanentAbility(m,c.id),permanentPilot:permanentPilot(m,c.id),power:vesselPower(m,c.id),maneuver:vesselManeuver(m,c.id),capacity:vesselRule(m,c.id),exposed:!vesselRule(m,c.id)?.enclosed&&!belowDecks(m,c.id),crew:occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!,active:crewActive(m,x.id)}))}]))};}

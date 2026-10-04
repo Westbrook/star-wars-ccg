@@ -1662,5 +1662,40 @@
       "DS_61_3"
     ],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_174.java"
+  },
+  "1_149": {
+    "keywords": [
+      "LANDSPEEDER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_149.java"
+  },
+  "1_151": {
+    "keywords": [
+      "ENCLOSED",
+      "LANDSPEEDER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_151.java"
+  },
+  "1_310": {
+    "keywords": [
+      "ENCLOSED",
+      "LANDSPEEDER"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_310.java"
   }
 }
