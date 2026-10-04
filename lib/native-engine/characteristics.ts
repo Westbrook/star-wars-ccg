@@ -6,7 +6,7 @@ import type {Match} from './types';
 // Explicit identity metadata, reviewed against the pinned source constructors.
 // Never infer characteristics from a substring in lore: context matters (AR D).
 const registry: Record<string, {keywords: string[]; species: string[]; models: string[]; nonUnique: boolean}> = identities;
-export const characteristics = ['SPY', 'THIEF', 'BOUNTY_HUNTER', 'SMUGGLER', 'GAMBLER', 'SCOUT', 'TROOPER', 'STORMTROOPER',
+export const characteristics = ['LEADER','RECRUIT','CADET','SPY', 'THIEF', 'BOUNTY_HUNTER', 'SMUGGLER', 'GAMBLER', 'SCOUT', 'TROOPER', 'STORMTROOPER',
   'BIKER_SCOUT', 'DEATH_TROOPER', 'SANDTROOPER', 'SNOWTROOPER', 'ECHO_BASE_TROOPER', 'CLOUD_CITY_TROOPER', 'DEATH_STAR_TROOPER',
   'IMPERIAL_TROOPER_GUARD', 'CLONE_TROOPER', 'GUARD', 'BODYGUARD', 'CORUSCANT_GUARD', 'MAGNAGUARD', 'ROYAL_GUARD'] as const;
 export type Characteristic = typeof characteristics[number];

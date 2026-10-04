@@ -3183,5 +3183,169 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_313.java"
+  },
+  {
+    "gempId": "106_1",
+    "name": "Arleil Schous",
+    "side": "light",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Light/large/arleilschous.gif",
+    "text": "When deployed, you may take one non-unique alien into hand from Reserve Deck; reshuffle. Adds 2 to power of anything he pilots. Your aliens deploy -1 to same or adjacent Tatooine site.",
+    "stats": {
+      "deploy": "4",
+      "power": "1",
+      "ability": "3",
+      "destiny": "2",
+      "forfeit": "5"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior",
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_001.java"
+  },
+  {
+    "gempId": "106_2",
+    "name": "Corulag",
+    "side": "light",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Light/large/corulag.gif",
+    "text": "Light: If you control, all non-unique Rebels are power and forfeit +1 and Rebel guards may move. Dark: If you control, Force drain -1 here.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "4"
+    },
+    "icons": [
+      "Planet",
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_002.java"
+  },
+  {
+    "gempId": "106_6",
+    "name": "Rebel Trooper Recruit",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Light/large/rebeltrooperrecruit.gif",
+    "text": "Deploys free to same site as a Rebel leader. When forfeited at same site as a Rebel 'veteran' (a leader or non-recruit trooper), also satisfies all remaining attrition against you. Once per turn, may target a non-unique Rebel warrior present; target is power +1 for remainder of turn.",
+    "stats": {
+      "deploy": "1",
+      "power": "1",
+      "ability": "1",
+      "destiny": "3",
+      "forfeit": "1"
+    },
+    "icons": [
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_006.java"
+  },
+  {
+    "gempId": "106_8",
+    "name": "Tatooine: Jundland Wastes",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Light/large/tatooinejundlandwastes.gif",
+    "text": "Light: If you control, Force drain +1 here (+2 if a Vaporator present). Dark: If you control with a Tusken Raider present, Force drain +1 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_008.java"
+  },
+  {
+    "gempId": "106_11",
+    "name": "Chall Bekan",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Alien",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Dark/large/challbekan.gif",
+    "text": "When deployed, you may take one non-unique alien into hand from Reserve Deck; reshuffle. Adds 2 to power of anything he pilots. Your aliens deploy -1 to same or adjacent Tatooine site.",
+    "stats": {
+      "deploy": "4",
+      "power": "2",
+      "ability": "3",
+      "destiny": "2",
+      "forfeit": "4"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior",
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_011.java"
+  },
+  {
+    "gempId": "106_12",
+    "name": "Corulag",
+    "side": "dark",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Dark/large/corulag.gif",
+    "text": "Dark: If you control, all non-unique Imperials are power and forfeit +1 and Imperial trooper guards may move. Light: If you control, Force drain -1 here.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "4"
+    },
+    "icons": [
+      "Planet",
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_012.java"
+  },
+  {
+    "gempId": "106_16",
+    "name": "Stormtrooper Cadet",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Dark/large/stormtroopercadet.gif",
+    "text": "Deploys free to same site as an Imperial leader. Once per turn, may target a non-unique Imperial warrior present; target is power +1 for remainder of turn. When forfeited at same site as an Imperial leader or (non-cadet trooper), also satisfies all remaining attrition against you.",
+    "stats": {
+      "deploy": "1",
+      "power": "1",
+      "ability": "1",
+      "destiny": "3",
+      "forfeit": "1"
+    },
+    "icons": [
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_016.java"
+  },
+  {
+    "gempId": "106_18",
+    "name": "Tatooine: Tusken Canyon",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/OfficialTournamentSealedDeck-Dark/large/tatooinetuskencanyon.gif",
+    "text": "Dark: If you control, Force drain +1 here (+2 if a Gaderffi Stick is present). Light:",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_018.java"
   }
 ]

@@ -1,3 +1,5 @@
+import {alienSearchActions,alienSearchInitiate,alienSearchResolve,alienSearchChoices,alienSearchChoose,alienSearchView,assertAlienSearch} from './alien-search';
+import {otsdRecruitActions,otsdRecruitInitiate,otsdRecruitResolve,assertOtsdRecruits} from './otsd-characters';
 import {powerDroidAutomatic,powerDroidInitiate,powerDroidResolve,assertPowerDroids} from './power-droid';
 import {fusionActions,fusionInitiate,fusionResolve,fusionView,expireFusionLinks,assertFusion} from './power-support';
 import {heavyWeaponActions,heavyWeaponInitiate,heavyWeaponResolve,assertHeavyWeapons,heavyWeaponView} from './heavy-weapons';
@@ -116,8 +118,10 @@ export const premiereRules: Rules = {
   generation,
   interrupt: m=>expireFusionLinks(m)||rememberSelectiveWampas(m)||scheduleCapacityLoss(m)||scheduleCaveChange(m)||scheduleAttackEnd(m)||scheduleEncounterEnd(m)||scheduleInserts(m),
   automatic: (m, w) => [...powerDroidAutomatic(m,w),...encounterAutomatic(m,w),...creatureAutomatic(m,w),...asteroidAutomatic(m,w),...lostArtooAutomatic(m,w),...ionRepairAutomatic(m,w),...angerAutomatic(m,w),...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...fusionActions(m,w,side),...heavyWeaponActions(m,w,side),...generatorActions(m,w,side),...hothMoveActions(m,w,side),...creatureWeaponActions(m,w,side),...groundCreatureActions(m,w,side),...creatureActions(m,w,side),...slugActions(m,w,side),...asteroidActions(m,w,side),...sectorActions(m,w,side),...lostArtooActions(m,w,side),...fighterTroubleActions(m,w,side),...wedgeActions(m,w,side),...hyperEscapeActions(m,w,side),...tallonActions(m,w,side),...maneuverActions(m,w,side),...mobileActions(m,w,side),...starshipWeaponActions(m,w,side),...characterReactActions(m,w,side),...vehicleReactActions(m,w,side),...pilotDeployActions(m,w,side),...dockingActions(m,w,side),...transportActions(m,w,side),...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...alienSearchActions(m,w,side),...otsdRecruitActions(m,w,side),...fusionActions(m,w,side),...heavyWeaponActions(m,w,side),...generatorActions(m,w,side),...hothMoveActions(m,w,side),...creatureWeaponActions(m,w,side),...groundCreatureActions(m,w,side),...creatureActions(m,w,side),...slugActions(m,w,side),...asteroidActions(m,w,side),...sectorActions(m,w,side),...lostArtooActions(m,w,side),...fighterTroubleActions(m,w,side),...wedgeActions(m,w,side),...hyperEscapeActions(m,w,side),...tallonActions(m,w,side),...maneuverActions(m,w,side),...mobileActions(m,w,side),...starshipWeaponActions(m,w,side),...characterReactActions(m,w,side),...vehicleReactActions(m,w,side),...pilotDeployActions(m,w,side),...dockingActions(m,w,side),...transportActions(m,w,side),...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r, context) => {
+    if(r.action.handler.startsWith('alien-search:')){alienSearchInitiate(m,r);return;}
+    if(r.action.handler.startsWith('recruit:')){otsdRecruitInitiate(m,r);return;}
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
     if(r.action.handler.startsWith('heavy:')){heavyWeaponInitiate(m,r);return;}
@@ -199,6 +203,8 @@ export const premiereRules: Rules = {
     } else {groundInitiate(m, r);beginHothDeployment(m,r);}
   },
   resolve: (m, r, context) => {
+    if(r.action.handler.startsWith('alien-search:')){alienSearchResolve(m,r,context);return;}
+    if(r.action.handler.startsWith('recruit:')){otsdRecruitResolve(m,r);return;}
     if(r.action.handler.startsWith('asteroid:')){asteroidResolve(m,r);syncBattle(m);return;}
     if(r.action.handler.startsWith('heavy:')){heavyWeaponResolve(m,r);syncBattle(m);return;}
     if(r.action.handler.startsWith('generator:')){generatorResolve(m,r);return;}
@@ -286,6 +292,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if(d.handler.startsWith('alien-search:'))return alienSearchChoices(m,d);
     if(d.handler.startsWith('hoth:'))return hothChoices(m,d);
     if(d.handler.startsWith('creature:'))return creatureChoices(m,d);
     if(d.handler.startsWith('character-react:'))return characterReactChoices(m,d);
@@ -318,6 +325,7 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
+    if(d.handler.startsWith('alien-search:')){alienSearchChoose(m,d,c);return;}
     if(d.handler.startsWith('hoth:')){hothChoose(m,d,c);return;}
     if(d.handler.startsWith('creature:')){creatureChoose(m,d,c);return;}
     if(d.handler==='capacity:used'){capacityChoose(m,d,c);syncBattle(m);return;}
@@ -352,8 +360,9 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   canPass: battleCanPass,
-  view: (m, seat, now) => ({...heavyWeaponView(m),...fusionView(m),...artilleryView(m),...generatorView(m),...destructionView(m),...hothView(m),values: publicValues(m),...encounterView(m),...attackView(m),...slugView(m),...sectorsView(m),...asteroidView(m),...lostArtooView(m),...fighterTroubleView(m),...wedgeView(m,seat),...hyperEscapeView(m),...tallonView(m) as Record<string,Json>,...mobileView(m),...characterReactView(m),...vehicleReactView(m),...pilotDeployView(m),...dockingView(m),...vesselTravelView(m),...occupancyView(m),...nighttimeView(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
+  view: (m, seat, now) => ({...alienSearchView(m,seat),...heavyWeaponView(m),...fusionView(m),...artilleryView(m),...generatorView(m),...destructionView(m),...hothView(m),values: publicValues(m),...encounterView(m),...attackView(m),...slugView(m),...sectorsView(m),...asteroidView(m),...lostArtooView(m),...fighterTroubleView(m),...wedgeView(m,seat),...hyperEscapeView(m),...tallonView(m) as Record<string,Json>,...mobileView(m),...characterReactView(m),...vehicleReactView(m),...pilotDeployView(m),...dockingView(m),...vesselTravelView(m),...occupancyView(m),...nighttimeView(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
+    assertAlienSearch(match);assertOtsdRecruits(match);
     assertPowerDroids(match);assertFusion(match);assertHeavyWeapons(match);assertGeneratorShots(match);assertBlownAway(match);assertHothMovement(match);assertHothDeployment(match);assertCreatureEncounters(match);assertCreatureWeapons(match);assertGroundCreatures(match);assertCreatureAttack(match);assertSpaceSlugs(match);assertSectors(match);assertSectorEffects(match);assertAsteroids(match);assertMobileSystems(match);assertOccupancy(match);assertVessels(match);
     assertVesselTravel(match);
     assertPilotDeploy(match);

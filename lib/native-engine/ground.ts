@@ -1,3 +1,4 @@
+import {corulagAllowsGuardMove} from './otsd-locations';
 import {generator,generatorAllowed,shieldDeployment} from './hoth';
 import {creatureBlocksLandspeed} from './ground-creatures';
 import {registerSector,registerCave,convertSectorRelationships} from './sectors';
@@ -62,7 +63,7 @@ const action = (id: string, label: string, handler: string, data: Payload, payme
   ({id, label, handler: 'ground:' + handler, payload: data as Json, ...(payment ? {payment} : {}), ...(source ? {source} : {})});
 const canPay = (m: Match, payment: Payment) => sides.every(side => (payment[side] ?? 0) <= m.players[side].force.length);
 const pending = (m: Match) => m.stack.at(-2)?.kind === 'resolution' ? m.stack.at(-2) as Resolution : null;
-export const canMove = (m: Match, id: string) => !isGuard(m.cards[id].blueprint) && !barred(m, id) && !usage(m).moved.includes(id);
+export const canMove = (m: Match, id: string) => (!isGuard(m.cards[id].blueprint)||corulagAllowsGuardMove(m,id)) && !barred(m, id) && !usage(m).moved.includes(id);
 
 export const canLandspeed=(m:Match,id:string)=>canMove(m,id)&&!creatureBlocksLandspeed(m,id);
 

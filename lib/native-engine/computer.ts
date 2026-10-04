@@ -164,6 +164,8 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     }
     if (kind === 'fire') return 70 + stat(b,'power');
     if (kind === 'rescue') return hits.includes(b) && value(b) > value(a) ? 115 + value(b) - value(a) : -5;
+    if(kind==='alien-search')return a==='begin'?35:a==='take'?35+value(b):20;
+    if(kind==='recruit')return 20+value(b);
     if (kind === 'forfeit') return forfeitScore(a);
     if (kind === 'lose-mine') return 10 - value(a);
     if (kind === 'battle-reduce') return Number(b) === reduceAmount && reduceAmount > 0 ? 80 + reduceAmount : -5;

@@ -1,0 +1,46 @@
+[
+  {
+    "target": "1_31",
+    "kind": "search",
+    "inHand": true,
+    "dark": false
+  },
+  {
+    "target": "1_196",
+    "kind": "search",
+    "inHand": true,
+    "dark": true
+  },
+  {
+    "powerBonus": 1,
+    "leader": false,
+    "clearsAttrition": true,
+    "kind": "recruit",
+    "cost": 1,
+    "dark": false
+  },
+  {
+    "powerBonus": 1,
+    "leader": true,
+    "clearsAttrition": true,
+    "kind": "recruit",
+    "cost": 0,
+    "dark": false
+  },
+  {
+    "powerBonus": 1,
+    "leader": false,
+    "clearsAttrition": true,
+    "kind": "recruit",
+    "cost": 1,
+    "dark": true
+  },
+  {
+    "powerBonus": 1,
+    "leader": true,
+    "clearsAttrition": true,
+    "kind": "recruit",
+    "cost": 0,
+    "dark": true
+  }
+]

@@ -15,6 +15,6 @@ for(;loops<6000&&v.game.status!=='finished';loops++){
  const saved=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);for(const c of Object.values(saved.cards))if(c.zone==='table'&&c.blueprint.startsWith('106_'))deployedPremium.add(c.blueprint);
  if(loops%500===0)console.log('Commands saved:',v.revision);
 }
-assert.equal(v.game.status,'finished');assert.equal(v.game.result.reason,'life-force');assert.equal(v.poolId,pool.id);assert.equal(v.revision,2736);assert.equal(loops,1370);assert.equal(v.game.result.winner,'light');assert.equal(db.sqlite.prepare('SELECT count(*) n FROM native_commands WHERE match_id=?').get(v.id).n,v.revision);
-assert.ok(deployedPremium.size>0,'New OTSD ships must participate in the complete game');
+assert.equal(v.game.status,'finished');assert.equal(v.game.result.reason,'life-force');assert.equal(v.poolId,pool.id);assert.equal(v.revision,2006);assert.equal(loops,996);assert.equal(v.game.result.winner,'light');assert.equal(db.sqlite.prepare('SELECT count(*) n FROM native_commands WHERE match_id=?').get(v.id).n,v.revision);
+assert.deepEqual([...deployedPremium].sort(),['106_11','106_12','106_13','106_16','106_6','106_7','106_8','106_9']);
 console.log(JSON.stringify({loops,revision:v.revision,status:v.game.status,result:v.game.result,deployedPremium:[...deployedPremium].sort()}));db.close();

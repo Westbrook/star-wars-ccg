@@ -1,3 +1,5 @@
+import {corulagStatBonus,otsdDrainModifier} from './otsd-locations';
+import {otsdAlienDiscount,otsdRecruitFree} from './otsd-characters';
 import {otsdWeaponDrawBonus} from './otsd-ships';
 import {supportPowerBonus,fusionWeaponBonus} from './power-support';
 import {artillery} from './artillery';
@@ -88,12 +90,15 @@ export function deploymentPayment(m: Match, id: string, site: string, aboard = f
   if ((isJawa(blueprint) || blueprint === '1_196' || blueprint === '101_2') && system(m, site) !== 'Tatooine') return null;
   if(blueprint==='3_6'&&system(m,site)!=='Hoth')return null;
   if (['1_170', '101_5'].includes(blueprint) && system(m, site) !== 'Death Star') return null;
-  if (sunsdownSpyFree(m,id,site)) return {[side]:0};
+  if (sunsdownSpyFree(m,id,site)||otsdRecruitFree(m,id,site)) return {[side]:0};
   if (isJawa(blueprint)) {
     const ownCamp = m.cards[site].blueprint === (side === 'light' ? '1_131' : '1_292');
-    return ownCamp ? {[side]: 1} : {dark: 1, light: 1};
+    // Jawa Camp resets the cost to 1; ordinary alien discounts apply to
+    // both players' payment elsewhere (one modified deploy cost).
+    const cost=Math.max(0,1+otsdAlienDiscount(m,id,site));
+    return ownCamp ? {[side]: 1} : {dark: cost, light: cost};
   }
-  let cost = deployValue(m,id) - medicalDeployReduction(m,id) + bespinDeployModifier(m,id,site) + hothDeployModifier(m,id,site);
+  let cost = deployValue(m,id) - medicalDeployReduction(m,id) + bespinDeployModifier(m,id,site) + hothDeployModifier(m,id,site) + otsdAlienDiscount(m,id,site);
   if ((blueprint === '1_2' || hasPersona(m,id,'LUKE')) && m.cards[site].blueprint === '1_132') cost--;
   if (blueprint === '1_22' && cardDefinition(m,site).name === "Tatooine: Lars' Moisture Farm") cost = 0;
   if (['1_28', '1_194'].includes(blueprint)) {
@@ -124,7 +129,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   const currentBattle = m.data.battle as {site: string; stage: string; runLuke?: boolean} | undefined;
   if (blueprint === '101_2' && currentBattle?.runLuke && currentBattle.stage !== 'complete' && site === currentBattle.site &&
       !Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '101_5' && c.location && (c.location === site || adjacent(m, c.location, site)))) value += 2;
-  value += supportPowerBonus(m,id,active) + equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id) + larsPowerBonus(m,id,active);
+  value += corulagStatBonus(m,id) + supportPowerBonus(m,id,active) + equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id) + larsPowerBonus(m,id,active);
   if (attachedArmor(m,id).length) value += 2;
   if (blueprint === '9_24' && armedWithLightsaber(m,id)) value+=2;
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
@@ -137,7 +142,7 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
   if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') bonuses.push(1);
   if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') bonuses.push(-1);
   if(site&&isJawa(card.blueprint)&&isSite(m,site)&&(cardDefinition(m,site).icons as string[]).includes('Exterior')&&unitsAt(m,site).some(c=>['1_150','1_309'].includes(c.blueprint)&&operational(m,c.id)&&gameTextActive(m,c.id)&&active(c.id)))bonuses.push(1);
-  bonuses.push(hothForfeitModifier(m,id),squadronForfeitBonus(m,id,active),equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active),larsForfeitBonus(m,id,active));
+  bonuses.push(corulagStatBonus(m,id),hothForfeitModifier(m,id),squadronForfeitBonus(m,id,active),equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active),larsForfeitBonus(m,id,active));
   return currentForfeit(m,id,printed(m,id,'forfeit'),bonuses);
 }
 
@@ -163,7 +168,7 @@ export function drainAmount(m: Match, side: Side, site: string): number {
   let value = forceIcons(m,site,other(side));
   if(sectorFamily(m,site)==='clouds'&&m.cards[site].owner!==side&&gameTextActive(m,site)&&controls(m,side,site))value++;
   const blueprint = m.cards[site].blueprint;
-  value+=hothDrainModifier(m,side,site);
+  value+=hothDrainModifier(m,side,site)+otsdDrainModifier(m,side,site);
   if(sectorFamily(m,site)==='big-one'&&gameTextActive(m,site)&&controls(m,side,site)){
     if(m.cards[site].owner===side)value+=sectorsAt(m,sectorSystem(m,site)!,'asteroid').filter(id=>sectorFamily(m,id)==='field').length;
     else if(blueprint==='4_82')value++;

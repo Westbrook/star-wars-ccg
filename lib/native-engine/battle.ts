@@ -1,3 +1,4 @@
+import {otsdClearsAttrition} from './otsd-characters';
 import type {DroidBoost} from './power-droid';
 import {unitsAt,characterPresent,occupants,belowDecks} from './occupancy';
 import {sunsdownAt} from './nighttime';
@@ -172,7 +173,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
   }
   if (event(w) === 'battle-damage') {
     for (const id of members(m, side)) {
-      if (battleDamage(m, side) > 0 || b.attrition[side] > 0 || b.hits.includes(id)) actions.push(act('forfeit:' + id, 'Forfeit ' + name(m, id) + ' · ' + forfeit(m, id) + (occupants(m,id).length?' · also loses '+occupants(m,id).length+' aboard':''), 'forfeit', {card: id}));
+      if (battleDamage(m, side) > 0 || b.attrition[side] > 0 || b.hits.includes(id)) actions.push(act('forfeit:' + id, 'Forfeit ' + name(m, id) + ' · ' + forfeit(m, id) + (otsdClearsAttrition(m,id)?' · clears remaining attrition':'') + (occupants(m,id).length?' · also loses '+occupants(m,id).length+' aboard':''), 'forfeit', {card: id}));
       if (m.cards[id].blueprint === '1_31') for (const target of members(m, side).filter(t => t !== id && b.hits.includes(t))) actions.push(act('rescue:' + id + ':' + target, 'Forfeit Talz · restore ' + name(m, target), 'rescue', {card: id, target}));
     }
     if (battleDamage(m, side) > 0) {
@@ -216,7 +217,7 @@ export function battleInitiate(m: Match, r: Resolution): void {
 
 function forfeitCard(m: Match, id: string, side: Side): void {
   const b = battle(m)!, value = forfeit(m, id);
-  if (b.damageLedger) b.damageLedger[side].paid += value; else b.damage[side] = Math.max(0, b.damage[side] - value); syncBattleDamage(m); b.attrition[side] = Math.max(0, b.attrition[side] - value);
+  if (b.damageLedger) b.damageLedger[side].paid += value; else b.damage[side] = Math.max(0, b.damage[side] - value); syncBattleDamage(m); b.attrition[side] = otsdClearsAttrition(m,id)?0:Math.max(0, b.attrition[side] - value);
   beginForfeiture(m,id,side,b.site);
 }
 

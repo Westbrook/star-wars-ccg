@@ -1,0 +1,41 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T21:49:56.959362+00:00",
+  "files": {
+    "NativeEngineOtsdSupportOracleTests.java": "79a113b59a23585607030ae89e2133b0bd64aa13bd1b1717dd9e78c5a0991fa8",
+    "otsd-support-results.json": "75c29e48f8da413c4ed379823a0658c6d6fa4a04793790c7a96d585d457e25a9"
+  },
+  "junitTests": 2,
+  "observations": 6,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineOtsdSupportOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "scope": "Actual Arleil/Chall deployments and Reserve-to-hand searches, four Recruit/Cadet deployments, optional power boosts and resulting attrition query. Native tests replay each observation.",
+  "limitations": [
+    "Location modifiers, suppression, stale identities and forfeiture payment splitting have native regression checks, not executed GEMP comparisons.",
+    "Production admission stays closed; four OTSD premium Effects/Interrupts and broader card behaviors remain unfinished."
+  ],
+  "nativeIntegration": {
+    "runner": "tests/native-engine/sealed-computer-match.mjs",
+    "runnerSha256": "0652ae2f52268dff65dde6dea99e851e8d9353325acf35f702bd3a052a48fa07",
+    "poolSeed": 266,
+    "entropySeed": 73,
+    "iterations": 996,
+    "commands": 2006,
+    "winner": "light",
+    "reason": "life-force",
+    "deployedPremium": [
+      "106_11",
+      "106_12",
+      "106_13",
+      "106_16",
+      "106_6",
+      "106_7",
+      "106_8",
+      "106_9"
+    ],
+    "scope": "Actual native service and SQLite D1, reconstructed service each iteration, test-only component admission; not full-game GEMP conformance."
+  },
+  "browser": "Six two-seat search flows at1440/834/390 via real HTTP handlers and SQLite D1. Private owner search, opponent exclusion, selected public reveal, hand delivery, pending/final refresh."
+}

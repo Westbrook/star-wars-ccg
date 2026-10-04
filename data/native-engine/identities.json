@@ -2517,5 +2517,93 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_313.java"
+  },
+  "106_1": {
+    "keywords": [
+      "LEADER"
+    ],
+    "species": [
+      "DEFEL"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_001.java"
+  },
+  "106_2": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_002.java"
+  },
+  "106_6": {
+    "keywords": [
+      "TROOPER",
+      "RECRUIT"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_006.java"
+  },
+  "106_8": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_008.java"
+  },
+  "106_11": {
+    "keywords": [
+      "LEADER"
+    ],
+    "species": [
+      "MORSEERIAN"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_011.java"
+  },
+  "106_12": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_012.java"
+  },
+  "106_16": {
+    "keywords": [
+      "STORMTROOPER",
+      "CADET"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_016.java"
+  },
+  "106_18": {
+    "keywords": [
+      "CANYON"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_018.java"
   }
 }
