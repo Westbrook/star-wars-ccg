@@ -2875,5 +2875,40 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_155.java"
+  },
+  {
+    "gempId": "3_158",
+    "name": "AT-AT Cannon",
+    "side": "dark",
+    "type": "Weapon",
+    "subType": "Vehicle",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/atatcannon.gif",
+    "text": "Use 2 Force to deploy on your AT-AT. May target a starfighter (use 3 as defense value), character, creature or vehicle at same or adjacent site using 2 Force. Draw destiny. Add 1 if targeting a character or creature, 2 if a vehicle. Target hit if total destiny > defense value.",
+    "stats": {
+      "destiny": "3",
+      "deploy": "2"
+    },
+    "icons": [
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_158.java"
+  },
+  {
+    "gempId": "3_115",
+    "name": "Target The Main Generator",
+    "side": "dark",
+    "type": "Epic Event",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/targetthemaingenerator.gif",
+    "text": "During your control phase, fire your AT-AT Cannon (if within range of the Main Power Generators) as follows: Prepare To Target The Main Generator: Draw destiny. Maximum Firepower!: If (destiny + X + Y) > 8, Main Power Generators site is blown away and this card is lost. Otherwise, this card is used. X = ability of one of your AT-AT's pilots. Y = total Hoth sites you control.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_115.java"
   }
 ]

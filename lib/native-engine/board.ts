@@ -1,3 +1,4 @@
+import {forceIcons} from './location-icons';
 import {hothDeployModifier,hothDrainModifier,hothGenerationModifier,hothWeaponModifier,hothForfeitModifier} from './hoth-text';
 import {hothRank,generatorAllowed,shieldDeployment,shielded} from './hoth';
 import {bespinDeployModifier,cloudCityBattleBonus} from './bespin';
@@ -38,7 +39,7 @@ export const isSite = (m:Match,id:string) => !!m.cards[id] && cardDefinition(m,i
 export const adjacent = (m: Match, a: string, b: string) => !isCave(m,a) && !isCave(m,b) && isSite(m,a) && isSite(m,b) && m.locations.includes(a) && m.locations.includes(b) && system(m, a) === system(m, b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
 export const abilityAt = (m: Match, side: Side, site: string) => locationAbility(m, side, site, unitsAt(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0));
 export const presence = (m: Match, side: Side, site: string) => abilityAt(m, side, site) >= 1;
-export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + premiereLocations[m.cards[id].blueprint].icons[side]+hothGenerationModifier(m,side,id), 0);
+export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + forceIcons(m,id,side)+hothGenerationModifier(m,side,id), 0);
 
 export function controls(m: Match, side: Side, site: string): boolean {
   if (!m.locations.includes(site) || !presence(m, side, site) || presence(m, other(side), site)) return false;
@@ -71,7 +72,7 @@ export function deploymentPayment(m: Match, id: string, site: string, aboard = f
   if (shieldDeployment(m,id,site)) return null;
   if (def.type !== 'Character' || !m.locations.includes(site) || !aboard && !isSite(m,site)) return null;
   const side = card.owner, blueprint = card.blueprint;
-  if (!ignorePresence && !premiereLocations[m.cards[site].blueprint].icons[side] && !presence(m, side, site)) return null;
+  if (!ignorePresence && !forceIcons(m,site,side) && !presence(m, side, site)) return null;
   const onTable = Object.values(m.cards).filter(c => c.zone === 'table');
   if (!canPlayCard(m, id)) return null;
   if (['101_2', '101_5'].includes(blueprint) && onTable.filter(c => c.owner === other(side) && cardDefinition(m, c.id).type === 'Character' && isUnique(m, c.id)).length >= 2) return null;
@@ -143,7 +144,7 @@ export const battleDestinyRequirement = (m: Match, side: Side, site: string) =>
   side === 'dark' && m.cards[site].blueprint === '1_130' || side === 'light' && m.cards[site].blueprint === '1_293' ? 6 : 4;
 
 export function drainAmount(m: Match, side: Side, site: string): number {
-  let value = premiereLocations[m.cards[site].blueprint].icons[other(side)];
+  let value = forceIcons(m,site,other(side));
   if(sectorFamily(m,site)==='clouds'&&m.cards[site].owner!==side&&gameTextActive(m,site)&&controls(m,side,site))value++;
   const blueprint = m.cards[site].blueprint;
   value+=hothDrainModifier(m,side,site);
@@ -186,6 +187,7 @@ export function sitePlacements(m: Match, id: string): {id: string; label: string
   if(isCave(m,id))return cavePlacements(m,id);
   if(sectorKind(m,id))return sectorPlacements(m,id);
   const duplicate = m.locations.find(at => name(m, at) === name(m, id));
+  if(duplicate&&m.cards[duplicate].blownAway)return [];
   if (duplicate) return m.cards[duplicate].owner === m.cards[id].owner ? [] : [{id: 'over:' + duplicate, label: 'Convert ' + name(m, duplicate), replace: duplicate}];
   const group = m.locations.filter(at => locationGroup(m, at) === locationGroup(m, id));
   if (!group.length) return [{id: 'at:' + m.locations.length, label: 'Start the ' + system(m, id) + ' group', index: m.locations.length}];

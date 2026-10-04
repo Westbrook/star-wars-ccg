@@ -1,0 +1,38 @@
+[
+  {
+    "case": "success",
+    "blownAway": true,
+    "eventZone": "lost",
+    "lightCardsLost": 10,
+    "forceSpent": 0,
+    "shieldActive": false,
+    "cardsBeforeForce": true,
+    "lossBeforeFlip": true
+  },
+  {
+    "case": "failure",
+    "blownAway": false,
+    "eventZone": "used",
+    "lightCardsLost": 0,
+    "forceSpent": 0,
+    "shieldActive": true
+  },
+  {
+    "case": "exact-eight",
+    "blownAway": false,
+    "eventZone": "used",
+    "lightCardsLost": 0,
+    "forceSpent": 0,
+    "shieldActive": true
+  },
+  {
+    "case": "chosen-pilot",
+    "blownAway": true,
+    "eventZone": "lost",
+    "lightCardsLost": 10,
+    "forceSpent": 0,
+    "shieldActive": false,
+    "cardsBeforeForce": true,
+    "lossBeforeFlip": true
+  }
+]

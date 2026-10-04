@@ -30,7 +30,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   };
   const at = (site: string, seat: Side) => view.table.filter(c => c.zone === 'table' && c.owner === seat && c.location === site && !c.attachedTo && definition(c.blueprint).type === 'Character');
   const strength = (site: string, seat: Side, defending = false) => rules?.values?.sites[site]?.[seat]?.[defending ? 'defendingPower' : 'power'] ?? at(site,seat).reduce((n,c) => n + stat(c.id,'power'),0);
-  const icons = (site: string, seat: Side) => premiereLocations[cards.get(site)?.blueprint ?? '']?.icons[seat] ?? 0;
+  const icons = (site: string, seat: Side) => cards.get(site)?.blownAway?0:premiereLocations[cards.get(site)?.blueprint ?? '']?.icons[seat] ?? 0;
   const value = (id: string) => stat(id,'power') * 2 + stat(id,'ability') - stat(id,'deploy');
   const wantsCard = own.hand.length < 9 && (own.lifeForce === null || own.lifeForce > 1);
   const ownStations = view.table.filter(c => c.zone === 'table' && !c.coveredBy && c.owner === side && c.blueprint === '1_37');

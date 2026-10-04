@@ -6,7 +6,7 @@ import {openWindow, type RequiredAction} from './runtime';
 import {other, type Json, type Match, type Resolution, type Window} from './types';
 type Payload={target:CardReference;source?:CardReference;cancel:boolean};
 export function gameTextAutomatic(m:Match,w:Window):RequiredAction[]{
-  return Object.values(m.cards).filter(c=>c.zone==='table'&&!c.coveredBy).flatMap(c=>{
+  return Object.values(m.cards).filter(c=>c.zone==='table'&&!c.coveredBy&&!c.blownAway).flatMap(c=>{
     if(suppressedGameText(m,c.id))return [];
     const sources=textCancelers(m,c.id),active=gameTextActive(m,c.id),cancel=active&&sources.length>0;
     if(!cancel&&(active||sources.length))return [];

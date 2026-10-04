@@ -105,3 +105,14 @@ export function assertLeaving(m: Match): void {
     if (p.used !== undefined && (!Array.isArray(p.used) || p.used.length !== 1)) throw Error('Invalid pending forfeiture destination.');
   }
 }
+
+/** Site destruction loses active cards, attachments, stacked cards and buried
+ * cards together. Removing all first preserves simultaneous-loss ordering. */
+export function siteLossCards(m:Match,site:string,except:string):string[]{
+ const roots=Object.values(m.cards).filter(c=>['table','stacked'].includes(c.zone)&&c.id!==except&&!m.locations.includes(c.id)&&(c.location===site||c.attachedTo===site||c.stackedOn===site)).map(c=>c.id);
+ return [...new Set([...tableLossCards(m,roots),...Object.values(m.cards).filter(c=>c.zone==='buried'&&c.location===site&&c.id!==except).map(c=>c.id)])];
+}
+export function loseSiteCards(m:Match,ids:string[]):void{
+ if(new Set(ids).size!==ids.length||ids.some(id=>!['table','stacked','buried'].includes(m.cards[id]?.zone)||m.locations.includes(id)))throw Error('Invalid site casualties.');
+ const refs=ids.filter(id=>m.cards[id].zone!=='buried').map(id=>referenceCard(m,id));removeGroup(m,new Set(ids),'leaving');recordTableLossOrigins(m,refs);orderNext(m,ids);
+}

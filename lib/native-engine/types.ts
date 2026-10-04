@@ -14,6 +14,7 @@ export type Card = {
   attachedTo?: string;
   aboardRole?: import('./occupancy').AboardRole;
   coveredBy?: string;
+  blownAway?: true;
   /** Inactive, face-up card on an Effect; distinct from an active attachment. */
   stackedOn?: string;
 };

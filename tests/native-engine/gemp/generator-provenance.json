@@ -1,0 +1,29 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T14:33:25.601565+00:00",
+  "files": {
+    "NativeEngineGeneratorOracleTests.java": "f62709f2c56f42ef7aed7a4656092b8665eeb44cb1d77a1c85563b8e040de12d",
+    "generator-results.json": "bfcb7ca541b17473f13530d3ae34f0c1865e86cb4419cf3cd4eb1022f8781450"
+  },
+  "junitTests": 4,
+  "observations": 4,
+  "exactAgreements": 4,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineGeneratorOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf Appendix C pp157\u2013159; printed Target The Main Generator and AT-AT Cannon",
+  "scope": "Target The Main Generator with deployed AT-AT Cannon, explicit pilot selection, site destruction and the Main Power Generators eight-Force loss.",
+  "method": [
+    "Four actual GEMP Epic Event actions on authored component boards: total 10 success, total 6 failure, total 8 failure, selected Tarkin total 9 success.",
+    "The GEMP driver chooses casualty Lost order and loses all eight Force from Reserve. Observations verify casualties precede Force loss, the site remains face up during that loss, Epic Event disposition, shield removal and zero firing Force cost.",
+    "Native tests reproduce all four observations exactly with JSON recovery boundaries. Additional native-only checks cover deployment, cancellation, repeat firing, buried/aboard casualties and malformed saves."
+  ],
+  "limitations": [
+    "Full native starter admission remains disabled; no standalone study added. This is component evidence, not complete card or match certification.",
+    "Normal AT-AT Cannon battle/creature/long-range firing, Main Power Generators artillery powering, systems blown away and general destruction providers remain required.",
+    "General destiny-category modifiers and X-modifying cards are not exhausted. Native cancellation fixtures manipulate the pending action/draw; they do not claim an executed cancellation-card path.",
+    "Broader location text/icon/name interactions after generic site destruction need verification before new destruction providers are admitted. This reachable target is Main Power Generators.",
+    "Pilot/weapon departures and targeting immunity/redirection outside the executed unchanged-board paths remain required conformance work."
+  ]
+}

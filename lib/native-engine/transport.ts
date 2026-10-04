@@ -1,3 +1,4 @@
+import {forceIcons} from './location-icons';
 import {movesFree} from './movement-costs';
 import {hothDeployModifier} from './hoth-text';
 import {shieldDeployment,shieldMovement} from './hoth';
@@ -50,7 +51,7 @@ function options(m:Match,side:Side,checkUsage=true):Payload[]{
 export function cargoDeploysAt(m:Match,id:string,host:string,ignorePresence=false):boolean {
  const ship=m.cards[host],r=vesselRule(m,id);if(!r||!ship||shieldDeployment(m,id,ship.location!)||!carriers(m,m.cards[id].owner).some(h=>h.id===host))return false;
  if(r.world&&(system(m,ship.location!)!==r.world||cardDefinition(m,ship.location!).subType!=='Site'))return false;
- return !!(ignorePresence||premiereLocations[m.cards[ship.location!].blueprint]?.icons[m.cards[id].owner]||presence(m,m.cards[id].owner,ship.location!))&&roleAvailable(m,host,id,cargoRole(m,id));
+ return !!(ignorePresence||forceIcons(m,ship.location!,m.cards[id].owner)||presence(m,m.cards[id].owner,ship.location!))&&roleAvailable(m,host,id,cargoRole(m,id));
 }
 function deployOptions(m:Match,side:Side,site?:string,grant?:string):Payload[]{
  const out:Payload[]=[];

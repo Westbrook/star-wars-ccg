@@ -3,7 +3,7 @@ import {gameTextActive} from './game-text';
 import type {Match,Side} from './types';
 /** Printed location identities. Card text coverage and deck admission are separate. */
 export const hothMarkers:Record<string,number>={'3_61':1,'3_63':2,'3_56':3,'3_144':3,'3_62':4,'3_149':4,'3_148':5,'104_4':6,'3_150':7};
-export const generator=(m:Match,id:string)=>m.cards[id]?.blueprint==='3_61';
+export const generator=(m:Match,id:string)=>m.cards[id]?.blueprint==='3_61'&&!m.cards[id]?.blownAway;
 export const hothMarker=(m:Match,id:string)=>hothMarkers[m.cards[id]?.blueprint];
 export const outerHothMarker=(m:Match,id:string)=>[4,5,6].includes(hothMarker(m,id));
 export const hothSite=(m:Match,id:string)=>!!m.cards[id]&&cardDefinition(m,id).subType==='Site'&&cardDefinition(m,id).name.startsWith('Hoth:');
