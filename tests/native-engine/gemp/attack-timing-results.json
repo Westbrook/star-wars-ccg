@@ -1,0 +1,70 @@
+[
+  {
+    "mode": "events",
+    "deployment": [
+      "cave",
+      "deployed"
+    ],
+    "attack": [
+      "target",
+      "initiated",
+      "weapons"
+    ]
+  },
+  {
+    "mode": "target",
+    "ended": false,
+    "draws": 0,
+    "used": 0,
+    "shipHand": true,
+    "error": "NullPointerException: Cannot invoke \"com.gempukku.swccgo.game.PhysicalCard.getPermanentCardId()\" because \"card\" is null"
+  },
+  {
+    "mode": "initiated",
+    "ended": true,
+    "draws": 0,
+    "used": 0,
+    "shipHand": true,
+    "error": null
+  },
+  {
+    "mode": "weapons",
+    "ended": true,
+    "draws": 0,
+    "used": 0,
+    "shipHand": true,
+    "error": null
+  },
+  {
+    "mode": "before-draw",
+    "ended": true,
+    "draws": 2,
+    "used": 2,
+    "shipHand": true,
+    "error": null
+  },
+  {
+    "mode": "drawn",
+    "ended": true,
+    "draws": 2,
+    "used": 2,
+    "shipHand": true,
+    "error": null
+  },
+  {
+    "mode": "draw-complete",
+    "ended": true,
+    "draws": 2,
+    "used": 2,
+    "shipHand": true,
+    "error": null
+  },
+  {
+    "mode": "total",
+    "ended": true,
+    "draws": 2,
+    "used": 2,
+    "shipHand": true,
+    "error": null
+  }
+]

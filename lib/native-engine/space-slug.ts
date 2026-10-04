@@ -47,8 +47,34 @@ export function slugResolve(m:Match,r:Resolution):void{
  const s=slugState(m,p.card);if(r.cancelled||!s||!sameCard(m,p.source!))return;s.closed=p.closed!;
  openWindow(m,'response',other(r.actor),{kind:s.closed?'slug-mouth-closed':'slug-mouth-opened',card:p.card});
 }
+type CaveForm={cave:CardReference;belly:boolean;serial:number};
+const caveForms=(m:Match)=>(m.data.caveForms??[]) as unknown as CaveForm[];
+const caveChanges=(m:Match)=>(m.data.caveChanges??[]) as unknown as CaveForm[];
+/** Cave form is derived from the table; this record makes its required change
+ * response durable and prevents a refresh or nested response replaying it. */
+export function scheduleCaveChange(m:Match):boolean{
+ if(m.stack.some(f=>f.kind==='decision'&&f.handler==='table:lost-order'))return false;
+ for(const cave of m.locations.filter(id=>isCave(m,id))){
+  const form=caveForms(m).find(f=>f.cave.id===cave&&sameCard(m,f.cave)),belly=!!bellySlug(m,cave);
+  if((form?.belly??false)===belly)continue;
+  const record={cave:referenceCard(m,cave),belly,serial:m.serial+1};
+  m.data.caveForms=[...caveForms(m).filter(f=>f.cave.id!==cave),record] as unknown as Json;
+  m.data.caveChanges=[...caveChanges(m),record] as unknown as Json;
+  openWindow(m,'response',m.turn.side,{kind:'cave-form-changed',card:cave,cardRef:record.cave,belly});return true;
+ }
+ return false;
+}
 export function slugView(m:Match){return {spaceSlugs:Object.fromEntries(states(m).filter(s=>sameCard(m,s.card)).map(s=>[s.card.id,{closed:s.closed,used:s.used===m.turn.number}])),bellies:Object.fromEntries(m.locations.filter(id=>bellySlug(m,id)).map(id=>[id,{slug:bellySlug(m,id)!,closed:!caveMouthOpen(m,id)}]))};}
 export function assertSpaceSlugs(m:Match):void{
+ const changes=caveChanges(m);if(!Array.isArray(changes))throw Error('Invalid cave change history.');let prior=0;
+ for(const c of changes){assertCardReference(m,c.cave);if(c.cave.zone!=='table'||!isCave(m,c.cave.id)||typeof c.belly!=='boolean'||!Number.isSafeInteger(c.serial)||c.serial<=prior||c.serial>m.serial)throw Error('Invalid cave change history.');prior=c.serial;}
+ const forms=caveForms(m);if(!Array.isArray(forms)||new Set(forms.map(f=>f.cave?.id)).size!==forms.length||forms.length!==new Set(changes.map(c=>c.cave.id)).size)throw Error('Invalid cave forms.');
+ for(const f of forms){assertCardReference(m,f.cave);if(f.cave.zone!=='table'||!isCave(m,f.cave.id)||typeof f.belly!=='boolean'||!Number.isSafeInteger(f.serial)||f.serial<1||f.serial>m.serial)throw Error('Invalid cave form record.');const latest=changes.findLast(c=>c.cave.id===f.cave.id);if(!latest||latest.serial!==f.serial||latest.belly!==f.belly||latest.cave.id!==f.cave.id||latest.cave.version!==f.cave.version||latest.cave.zone!==f.cave.zone)throw Error('Invalid cave form history binding.');}
+ for(const w of m.stack)if(w.kind==='window'&&(w.event as {kind?:string})?.kind==='cave-form-changed'){
+  const e=w.event as unknown as {card:string;cardRef:CardReference;belly:boolean};assertCardReference(m,e.cardRef);
+  const record=changes.find(c=>c.serial===w.serial);
+  if(!record||record.cave.id!==e.card||record.cave.version!==e.cardRef.version||record.belly!==e.belly||e.cardRef.id!==e.card||e.cardRef.zone!=='table'||!isCave(m,e.card)||typeof e.belly!=='boolean')throw Error('Invalid cave change response.');
+ }
  const ss=states(m);if(!Array.isArray(ss)||new Set(ss.map(s=>s.card?.id)).size!==ss.length)throw Error('Invalid Space Slug state.');
  for(const s of ss){assertCardReference(m,s.card);if(!isSpaceSlug(m,s.card.id)||s.card.zone!=='table'||typeof s.closed!=='boolean'||s.used!==undefined&&(!Number.isSafeInteger(s.used)||s.used<1||s.used>m.turn.number))throw Error('Invalid Space Slug mouth.');}
  for(const c of Object.values(m.cards).filter(c=>c.zone==='table'&&isSpaceSlug(m,c.id))){if(!c.location||sectorFamily(m,c.location)!=='big-one'||c.attachedTo||!slugState(m,c.id)||Object.values(m.cards).filter(x=>x.zone==='table'&&x.location===c.location&&isSpaceSlug(m,x.id)).length!==1)throw Error('Space Slug requires its unique Big One habitat.');}

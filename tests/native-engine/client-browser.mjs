@@ -1,3 +1,4 @@
+import {inspectionFixture as attackInspectionFixture} from './attack-timing-fixture.mjs';
 import {fixture as slugFixture} from './space-slug-fixture.mjs';
 import {pull as slugPull} from './vessels-fixture.mjs';
 import {caveFixture} from './named-sectors-fixture.mjs';
@@ -68,6 +69,15 @@ async function context(width,height,actor='owner'){
 const decks=starterDecks(60),config=(id,mode='cpu',side='dark')=>({id,mode,side,deckSize:60,deck:decks.find(d=>d.side===side).cards,...(mode==='cpu'?{computerDeck:decks.find(d=>d.side!==side).cards}:{})});
 try{
 
+ // Ending an attack preserves a paid nested inspection, including refresh and both seats.
+ for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
+  const v=await fresh().create('owner',config(randomUUID(),'pvp','light'));await fresh().join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:decks.find(d=>d.side==='dark').cards});
+  const f=attackInspectionFixture();let m=f.m;m.id=v.id;m.setup={stage:'complete',selected:{light:f.site,dark:f.remote},committed:{light:true,dark:true},revealed:true,rejected:[],priority:'light',covered:null};db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);const paid=m.players.dark.force.length;
+  const c=await context(width,height,'guest');await c.page.goto(origin+'/matches/'+v.id+'?progress-report');if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();await c.page.getByRole('button',{name:'Finish viewing',exact:true}).waitFor();await c.page.reload();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();await c.page.getByRole('button',{name:'Finish viewing',exact:true}).click();
+  for(let n=0;n<100;n++){m=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);if(m.data.creatureAttack?.stage==='complete')break;const p=runtime.prompt(m,browserRules,'light'),own=runtime.prompt(m,browserRules,p.side);await fresh().command(v.id,p.side==='light'?'owner':'guest',{commandId:randomUUID(),revision:m.revision,choice:own.choices.find(c=>c.id==='pass')?.id??own.choices[0].id});}
+  assert.equal(m.data.creatureAttack.outcome,'ended');assert.equal(m.cards[f.scan].zone,'used');assert.equal(m.players.dark.force.length,paid);await c.page.reload();const panel=c.page.getByRole('region',{name:'Creature attack',exact:true});await panel.waitFor();if(width<640)await c.page.getByRole('button',{name:'Table',exact:false}).click();await panel.scrollIntoViewIfNeeded();assert.match(await panel.textContent(),/complete/);assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await c.page.screenshot({path:path.join(output,`attack-ended-${width}.png`),fullPage:false});await c.context.close();
+ }
+ console.log('Paid inspection and early attack end recovered at 1440/834/390.');
  // A creature attack persists independently of battles through real service commands and refresh.
  for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
   const v=await fresh().create('owner',config(randomUUID(),'pvp','light'));await fresh().join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:decks.find(d=>d.side==='dark').cards});

@@ -1,3 +1,4 @@
+import {moveCard} from './state';
 import {ability} from './ability';
 import {cardDefinition} from './definitions';
 import {moveWithAttachments} from './board';
@@ -14,7 +15,7 @@ import {bellySlug,isSpaceSlug} from './space-slug';
 import {loseFromTable,tableLossCards} from './table';
 import {other,sides,type Action,type Decision,type Json,type Match,type Resolution,type Side,type Window} from './types';
 
-export type CreatureAttack={serial:number;turn:number;site:CardReference;slug:CardReference;ships:CardReference[];initiator:Side;shipSide:Side;mode:'hunt'|'assault';stage:'begin'|'weapons'|'power'|'damage'|'complete';ferocityDraws:Draw[];ferocity?:number|null;powerDraw?:Draw;powerDestiny?:number|null;totals?:{creature:number;ships:number};defeated?:boolean;outcome?:'survived'|'eaten'|'relocated'|'slug-lost'|'ended';scope?:string};
+export type CreatureAttack={serial:number;turn:number;site:CardReference;slug:CardReference;ships:CardReference[];initiator:Side;shipSide:Side;mode:'hunt'|'assault';stage:'begin'|'weapons'|'power'|'damage'|'complete';ferocityDraws:Draw[];ferocity?:number|null;powerDraw?:Draw;powerDestiny?:number|null;totals?:{creature:number;ships:number};defeated?:boolean;outcome?:'survived'|'eaten'|'relocated'|'slug-lost'|'ended';scope?:string;interrupted?:true};
 type Payload={slug:CardReference;site:CardReference;mode:'hunt'|'assault';side:Side;serial?:number;draw?:Draw;total?:number|null};
 type Use={source:CardReference;turn:number;side:Side;mode:'hunt'|'assault'};
 export const creatureAttack=(m:Match)=>m.data.creatureAttack as CreatureAttack|undefined;
@@ -50,6 +51,13 @@ export function creatureInitiate(m:Match,r:Resolution,context:Context):void{
  p.serial=++m.serial;r.action.id=action('begin',p).id;
  m.data.creatureAttack={serial:p.serial,turn:m.turn.number,site:p.site,slug:p.slug,ships:selected.map(c=>referenceCard(m,c.id)),initiator:r.actor,shipSide:p.side,mode:p.mode,stage:'begin',ferocityDraws:[]} as unknown as Json;
  m.data.creatureAttackUses=[...uses(m).filter(u=>u.turn===m.turn.number),{source:p.mode==='hunt'?p.slug:p.site,turn:m.turn.number,side:r.actor,mode:p.mode}] as unknown as Json;
+ // Target selection is part of initiation, before the attack-initiated response.
+ // This explicit flow replaces the kernel's anonymous action response.
+ delete r.awaitingResponses;
+ if(p.mode==='hunt'){
+  queue(m,'initiated',p,r.actor);
+  openWindow(m,'response',m.turn.side,{kind:'attack-target-selected',serial:p.serial,card:selected[0].id,site:p.site.id});
+ }else openWindow(m,'response',other(r.actor),{kind:'attack-initiated',serial:p.serial,site:p.site.id});
 }
 function shipAbility(m:Match,a:CreatureAttack):number{return liveShips(m,a).reduce((sum,s)=>sum+permanentAbility(m,s.id)+occupants(m,s.id).filter(c=>c.aboardRole==='pilot').reduce((n,c)=>n+ability(m,c.id),0),0);}
 function drawFerocity(m:Match,a:CreatureAttack,p:Payload){
@@ -65,6 +73,7 @@ export function creatureResolve(m:Match,r:Resolution):void{
  const p=r.action.payload as unknown as Payload,a=creatureAttack(m);if(!a||a.serial!==p.serial)throw Error('Missing creature attack.');
  const h=r.action.handler.slice(9);
  if(r.cancelled){if(h==='begin'){a.stage='complete';a.outcome='ended';}return;}
+ if(h==='initiated'){if(live(m,a))openWindow(m,'response',other(a.initiator),{kind:'attack-initiated',site:a.site.id,serial:a.serial});return;}
  if(h==='finish'){a.stage='complete';openWindow(m,'response',other(a.initiator),{kind:'attack-ended',site:a.site.id,serial:a.serial});return;}
  if(h==='begin'){queue(m,'finish',p,a.initiator);if(!live(m,a)){a.outcome='ended';return;}a.stage='weapons';queue(m,'power',p,a.initiator);openWindow(m,'response',a.initiator,{kind:'attack-weapons',site:a.site.id,serial:a.serial});return;}
  if(!live(m,a)&&!['lose','lost'].includes(h)){a.outcome='ended';return;}
@@ -91,6 +100,39 @@ export function creatureResolve(m:Match,r:Resolution):void{
  if(h==='lost'){openWindow(m,'response',other(a.initiator),{kind:a.mode==='hunt'?'card-eaten':'creature-lost',card:a.mode==='hunt'?a.ships[0].id:a.slug.id,site:a.site.id,cause:'creature-attack'});return;}
  throw Error('Unknown creature attack continuation.');
 }
+/** End at the next attack-owned boundary. Nested card actions retain their
+ * costs, choices and result responses. Only this attack's suspended frames and
+ * physical destiny cards are retired; outer phase/required-action state stays. */
+export function scheduleAttackEnd(m:Match):boolean{
+ const a=active(m);
+ if(!a||['eaten','slug-lost','relocated'].includes(a.outcome??''))return false;
+ if(!a.interrupted&&live(m,a))return false;
+ // Once a side has departed, returning during the nested action cannot revive the attack.
+ a.interrupted=true;
+ const owns=(act:Action|undefined)=>act?.handler.startsWith('creature:')&&(act.payload as unknown as Payload)?.serial===a.serial;
+ const base=m.stack.findIndex(f=>f.kind==='resolution'&&owns(f.action));if(base<0)return false;
+ const frames=m.stack.slice(base);
+ const flowOf=(f:typeof m.stack[number])=>{
+  if(f.kind==='window')return undefined;
+  const h=f.kind==='resolution'?f.action.handler:f.handler,p=(f.kind==='resolution'?f.action.payload:f.payload) as unknown as {start?:unknown;next?:Action;draw?:Draw;card?:CardReference};
+  const flow=(h==='destiny:value'?p.start:p) as {next?:Action;draw?:Draw;card?:CardReference};
+  return h.startsWith('destiny:')&&owns(flow?.next)?{flow,card:h==='destiny:value'?p.card?.id:flow.draw?.card}:undefined;
+ };
+ // Neither pending loss order nor a nested Interrupt may be abandoned.
+ if(frames.some(f=>f.kind==='resolution'?!owns(f.action)&&!flowOf(f):f.kind==='decision'?!((f.handler.startsWith('creature:')&&(f.payload as unknown as Payload)?.serial===a.serial)||flowOf(f)):false))return false;
+ const top=frames.at(-1)!;
+ if(top.kind==='window'){
+  const e=top.event as {kind?:string;serial?:number;category?:string}|undefined,parent=frames.at(-2);
+  const attack=e?.kind?.startsWith('attack-')&&e.serial===a.serial;
+  const draw=e&&['ferocity','attack'].includes(e.category??'')&&parent&&flowOf(parent);
+  const anonymous=!e&&parent?.kind==='resolution'&&owns(parent.action);
+  if(!attack&&!draw&&!anonymous)return false;
+ }
+ if(frames.some(f=>f.kind==='resolution'&&f.action.handler==='creature:begin'&&f.cancelled))return false;
+ for(const f of frames){const pending=flowOf(f);if(pending?.card&&m.cards[pending.card]?.zone==='destiny')moveCard(m,pending.card,'used');}
+ m.stack.splice(base);a.stage='complete';a.outcome='ended';
+ openWindow(m,'response',other(a.initiator),{kind:'attack-ended',site:a.site.id,serial:a.serial,premature:true});return true;
+}
 export function creatureChoices(m:Match,d:Decision){
  if(d.handler==='creature:destiny')return [{id:'attack-draw',label:'Draw attack destiny'},{id:'attack-skip',label:'Skip attack destiny'}];
  if(d.handler==='creature:outcome')return [{id:'eat',label:'Space Slug eats the defeated ship'},{id:'belly',label:'Relocate the defeated ship into the belly'}];
@@ -114,12 +156,12 @@ export function assertCreatureAttack(m:Match):void{
  if(a){
   assertCardReference(m,a.slug);assertCardReference(m,a.site);
   if(!Array.isArray(a.ships))throw Error('Invalid attack ships.');a.ships.forEach(ref=>assertCardReference(m,ref));
-  if(!isSpaceSlug(m,a.slug.id)||a.slug.zone!=='table'||a.site.zone!=='table'||sectorFamily(m,a.site.id)!=='big-one'||!Number.isSafeInteger(a.serial)||a.serial<1||a.serial>m.serial||!Number.isSafeInteger(a.turn)||a.turn<1||a.turn>m.turn.number||!sides.includes(a.initiator)||!sides.includes(a.shipSide)||!['hunt','assault'].includes(a.mode)||!['begin','weapons','power','damage','complete'].includes(a.stage)||!a.ships.length||new Set(a.ships.map(s=>s.id)).size!==a.ships.length||a.ships.some(s=>s.zone!=='table'||cardDefinition(m,s.id).type!=='Starship'||m.cards[s.id].owner!==a.shipSide)||a.mode==='hunt'&&(a.ships.length!==1||a.initiator!==m.cards[a.slug.id].owner)||a.mode==='assault'&&a.initiator!==a.shipSide||!Array.isArray(a.ferocityDraws)||a.ferocityDraws.length>2||a.ferocityDraws.some(d=>!validDraw(m,d,m.cards[a.slug.id].owner))||a.powerDraw!==undefined&&!validDraw(m,a.powerDraw,a.shipSide)||a.defeated!==undefined&&typeof a.defeated!=='boolean'||a.outcome!==undefined&&!['survived','eaten','relocated','slug-lost','ended'].includes(a.outcome))throw Error('Invalid creature attack.');
+  if(!isSpaceSlug(m,a.slug.id)||a.slug.zone!=='table'||a.site.zone!=='table'||sectorFamily(m,a.site.id)!=='big-one'||!Number.isSafeInteger(a.serial)||a.serial<1||a.serial>m.serial||!Number.isSafeInteger(a.turn)||a.turn<1||a.turn>m.turn.number||!sides.includes(a.initiator)||!sides.includes(a.shipSide)||!['hunt','assault'].includes(a.mode)||!['begin','weapons','power','damage','complete'].includes(a.stage)||!a.ships.length||new Set(a.ships.map(s=>s.id)).size!==a.ships.length||a.ships.some(s=>s.zone!=='table'||cardDefinition(m,s.id).type!=='Starship'||m.cards[s.id].owner!==a.shipSide)||a.mode==='hunt'&&(a.ships.length!==1||a.initiator!==m.cards[a.slug.id].owner)||a.mode==='assault'&&a.initiator!==a.shipSide||!Array.isArray(a.ferocityDraws)||a.ferocityDraws.length>2||a.ferocityDraws.some(d=>!validDraw(m,d,m.cards[a.slug.id].owner))||a.powerDraw!==undefined&&!validDraw(m,a.powerDraw,a.shipSide)||a.defeated!==undefined&&typeof a.defeated!=='boolean'||a.interrupted!==undefined&&a.interrupted!==true||a.outcome!==undefined&&!['survived','eaten','relocated','slug-lost','ended'].includes(a.outcome))throw Error('Invalid creature attack.');
   if(a.totals!==undefined&&(!a.totals||!Number.isFinite(a.totals.creature)||!Number.isFinite(a.totals.ships)))throw Error('Invalid attack totals.');
   for(const n of [a.ferocity,a.powerDestiny,a.totals?.creature,a.totals?.ships])if(n!==undefined&&n!==null&&(!Number.isFinite(n)||n<0))throw Error('Invalid attack total.');
   if(a.scope!==undefined)assertDestinyScope(m,a.scope,m.cards[a.slug.id].owner,a.slug.id,'ferocity');
  }
- const steps=['begin','finish','power','ferocity-start','ferocity-drawn','ferocity-total','power-total','compare','defeated','lose','lost'];
+ const steps=['begin','initiated','finish','power','ferocity-start','ferocity-drawn','ferocity-total','power-total','compare','defeated','lose','lost'];
  function binding(p:Payload){
   if(!a||a.stage==='complete'||!p||p.serial!==a.serial||p.slug?.id!==a.slug.id||p.slug.version!==a.slug.version||p.slug.zone!=='table'||p.site?.id!==a.site.id||p.site.version!==a.site.version||p.site.zone!=='table'||p.mode!==a.mode||p.side!==a.shipSide||a.turn!==m.turn.number||m.turn.phase!=='battle')throw Error('Invalid attack continuation binding.');
  }

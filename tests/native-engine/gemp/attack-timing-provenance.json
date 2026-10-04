@@ -1,0 +1,53 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T11:59:48.683951+00:00",
+  "files": {
+    "NativeEngineAttackTimingOracleTests.java": "d4207d82643017a476c07c102a7307f16237a6ba3e1c4cd79aee36070fa3c5ca",
+    "NativeEngineSpaceSlugOracleTests.java": "33c341763b37614968313f96405485a4366e84e2152c3387184aba43efdd6c60",
+    "attack-timing-results.json": "197a48e81d36eb7fa12839ff5155e2f374d3ae23bc0018cc9a469496de0366bb"
+  },
+  "junitTests": 2,
+  "observations": 8,
+  "exactAgreements": 4,
+  "explicitDiscrepancies": 4,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineAttackTimingOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp62\u201364,163\u2013164",
+  "scope": "Cave/attack response ordering and departure termination through the creature attack destiny sequence.",
+  "method": [
+    "GEMP fixture reuses the prior real slug deployment fixture. Actual attack commands produce all timing windows. Native uses real commands on component-only boards.",
+    "The timing fixture deliberately returns the target ship to hand at seven boundaries to isolate termination. It does not claim that a specific removal card can act at all seven boundaries.",
+    "Event trace maps GEMP CHANGED_ASTEROID_CAVE_OR_SPACE_SLUG_BELLY/PLAY/ATTACK_TARGET_SELECTED/ATTACK_INITIATED/weapon segment to cave/deployed/target/initiated/weapons. Native maps its corresponding public event names to the same vocabulary. Recorded observation rows are otherwise compared unchanged.",
+    "Native follows the immediate-end rule while preserving already initiated nested card actions, payments, pending choices and physical destiny cleanup. A departure remains latched even if a ship returns before the nested action finishes."
+  ],
+  "discrepancies": [
+    {
+      "mode": "target",
+      "gemp": "Throws NullPointerException referring to getPermanentCardId after the target departs during target-selected responses. The fixture catches only this observed type/message at this boundary.",
+      "native": "Ends cleanly without drawing."
+    },
+    {
+      "mode": "before-draw",
+      "gemp": "Continues both ferocity draws, placing two cards in Used.",
+      "native": "Ends before either draw."
+    },
+    {
+      "mode": "drawn",
+      "gemp": "Continues the second ferocity draw, placing two cards in Used.",
+      "native": "Places the already drawn card in Used and ends without a second draw."
+    },
+    {
+      "mode": "draw-complete",
+      "gemp": "Continues the second ferocity draw, placing two cards in Used.",
+      "native": "Places the already drawn card in Used and ends without a second draw."
+    }
+  ],
+  "limitations": [
+    "Production full-match admission remains false. This completes the tested attack timing paths, not every creature/card behavior or the full engine.",
+    "Nested paid Scanning Crew inspection, Interrupt disposal, Lost ordering, return-during-interruption and corrupted state histories have native integration tests; these have no additional fresh GEMP parity claim.",
+    "Creature weapon targeting/species/creature-versus-creature, inactive/text-cancellation/participation interactions, other slug leave-play destinations, planet-only creature habitat loss and all broader engine/product scope remain required.",
+    "The earlier pinned GEMP cave-restoration loop remains documented in space-slug-provenance.json; its source was not modified."
+  ]
+}
