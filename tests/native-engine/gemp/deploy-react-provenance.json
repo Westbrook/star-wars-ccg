@@ -1,0 +1,27 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T04:13:23.401436+00:00",
+  "files": {
+    "NativeEngineDeployReactOracleTests.java": "f1258ebd4ed88e81e37de35e7eac228bc309f77ea45d2e669a454b101ce4c2de",
+    "deploy-react-results.json": "23a6479465b8a76fc3ea1fa0a82132dd0e92fce3562f4a3f2a7c340637c7b8e6"
+  },
+  "junitTests": 2,
+  "observations": 7,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDeployReactOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp170-171",
+  "scope": "Separate vehicle and aboard-driver deployment reacts granted by CZ-3 and Comlink; costs, presence, cancellation of either deployment and loss/return of a permission source.",
+  "method": [
+    "Seven complete outcome objects compare native command replays against actual GEMP deployment and Sense actions. Initial grants, locations, opposing presence, available Force and Sense destiny are controlled fixtures.",
+    "Six Light CZ-3 runs and one Dark Comlink sequence. CZ-3 leave/return during responses are controlled interventions, not claims of an implemented removal card.",
+    "Vehicle and driver are separate actions: vehicle arrival alone does not cancel the drain, crew presence does. Canceling the driver leaves the already deployed vehicle in play and all spent Force in Used."
+  ],
+  "limitations": [
+    "Component coverage only; full deck/card admission remains closed.",
+    "The pinned GEMP UI offered an optional simultaneous driver prompt even for the transport vehicle at a site. The harness explicitly declines it and verifies separate deployments only. No assertion that selecting Yes completes legally. Native follows the AR p171 example prohibiting simultaneous pairing where an unpiloted vessel may deploy to that location. Required simultaneous pilot deployment reacts remain to implement and compare.",
+    "Additional native-only checks cover battle entry, Barrier, capacity, physical/title locks, missing grants, target movement/return, source text cancellation and saved bindings. Source-cancellation queries use controlled modifiers, not an unimplemented cancellation provider.",
+    "Generic registered starships reuse this single-deployment/aboard mechanism, but these seven observations use vehicles. Cargo react deployment, required simultaneous pilots, other react grants and full catalog/timing remain unfinished."
+  ]
+}

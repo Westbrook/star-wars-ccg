@@ -1,3 +1,5 @@
+import {gameTextActive} from './game-text';
+import {crewActive} from './occupancy';
 import {barred} from './participation';
 export {barred} from './participation';
 import {lightsaberDrainBonus} from './lightsabers';
@@ -28,7 +30,7 @@ export const canDeployAsReact = (m: Match, id: string) => !usage(m).reacted.incl
 export function resolveCancelledReact(m: Match, r: Resolution): boolean {
   const p = payload(r.action);
   if (!r.cancelled || !p?.react) return false;
-  const deployment = ['ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
+  const deployment = ['vessel:deploy','vessel:aboard','ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
   if (!deployment && !['ground:move','vehicle-react:move'].includes(r.action.handler)) throw Error('Unknown canceled react.');
   const card = m.cards[p.card!];
   registerReact(m, card.id);
@@ -40,12 +42,12 @@ export function resolveCancelledReact(m: Match, r: Resolution): boolean {
   return true;
 }
 export function reactionSources(m: Match, site: string, side: Side): string[] {
-  return Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && c.location && (c.location === site || adjacent(m, c.location, site)) &&
+  return Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && gameTextActive(m,c.id) && crewActive(m,c.blueprint==='1_6'?c.id:c.attachedTo??c.id) && c.location && (c.location === site || adjacent(m, c.location, site)) &&
     (c.blueprint === '1_6' || c.blueprint === '1_201' && !!c.attachedTo)).map(c => c.id);
 }
 export function pendingReactSite(m: Match, w: Window, side: Side): string | null {
   const p = pending(m);
-  if (w.timing !== 'response' || !p || p.awaitingResponses || p.cancelled || p.actor === side) return null;
+  if (m.turn.side===side || w.timing !== 'response' || !p || p.awaitingResponses || p.cancelled || p.actor === side) return null;
   if (p.action.handler === 'ground:drain') {const site = payload(p.action).site!; return controls(m, p.actor, site) ? site : null;}
   return p.action.handler === 'battle:begin' ? payload(p.action).site! : null;
 }

@@ -1,0 +1,72 @@
+[
+  {
+    "drainStopped": true,
+    "cost": 3,
+    "vehicleInHand": false,
+    "mode": "comlink",
+    "crewInHand": false,
+    "vehicleAtSite": true,
+    "crewAboard": true,
+    "drainStoppedAfterVehicle": false
+  },
+  {
+    "mode": "vehicle",
+    "cost": 2,
+    "vehicleAtSite": true,
+    "vehicleInHand": false,
+    "crewAboard": false,
+    "crewInHand": true,
+    "drainStoppedAfterVehicle": false,
+    "drainStopped": false
+  },
+  {
+    "mode": "crew",
+    "cost": 5,
+    "vehicleAtSite": true,
+    "vehicleInHand": false,
+    "crewAboard": true,
+    "crewInHand": false,
+    "drainStoppedAfterVehicle": false,
+    "drainStopped": true
+  },
+  {
+    "mode": "cancel-vehicle",
+    "cost": 2,
+    "vehicleAtSite": false,
+    "vehicleInHand": true,
+    "crewAboard": false,
+    "crewInHand": true,
+    "drainStoppedAfterVehicle": false,
+    "drainStopped": false
+  },
+  {
+    "mode": "cancel-crew",
+    "cost": 5,
+    "vehicleAtSite": true,
+    "vehicleInHand": false,
+    "crewAboard": false,
+    "crewInHand": true,
+    "drainStoppedAfterVehicle": false,
+    "drainStopped": false
+  },
+  {
+    "mode": "source-leave",
+    "cost": 2,
+    "vehicleAtSite": true,
+    "vehicleInHand": false,
+    "crewAboard": false,
+    "crewInHand": true,
+    "drainStoppedAfterVehicle": false,
+    "drainStopped": false
+  },
+  {
+    "mode": "source-return",
+    "cost": 2,
+    "vehicleAtSite": true,
+    "vehicleInHand": false,
+    "crewAboard": false,
+    "crewInHand": true,
+    "drainStoppedAfterVehicle": false,
+    "drainStopped": false
+  }
+]
