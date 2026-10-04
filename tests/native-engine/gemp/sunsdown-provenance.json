@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T00:10:58.597595+00:00",
+  "files": {
+    "NativeEngineSunsdownOracleTests.java": "9688ac36e6996bc6f535a33892896e134002215e07dff91832e5a070838d96db",
+    "sunsdown-results.json": "551e8e3d98fe33dd6b96f6e1cc562c1ef7babc2baa75dfabf1ae62bfad8fbb76"
+  },
+  "junitTests": 1,
+  "observations": 6,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineSunsdownOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; production source bytes compared against pinned archive",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp54,84,86",
+  "scope": "Actual planet/Sunsdown/spy deployment, system conversion, dynamic nighttime and ground power destiny ordering/totals/attrition.",
+  "method": [
+    "Starting ground characters and Reserve tops are controlled fixture placements; actual location, Sunsdown, spy and battle actions execute in unchanged GEMP.",
+    "Departure and empty Reserve are controlled fixture interventions.",
+    "Native comparisons replay each observation with actual native actions and JSON recovery."
+  ],
+  "limitations": [
+    "Tatooine starship-control text, space battles, vehicles, pilots/passengers and other power-destiny granting/preventing cards remain unfinished.",
+    "System/site starting layout and browser refresh are native checks, not part of this executed GEMP harness.",
+    "Production full-match admission remains closed."
+  ]
+}

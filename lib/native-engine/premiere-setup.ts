@@ -11,18 +11,29 @@ export const premiereSites: Record<string, {system: string; icons: Record<Side, 
   ['3_60', 'Hoth', 0, 1], ['3_59', 'Hoth', 0, 1], ['3_147', 'Hoth', 1, 1],
 ].map(([id, system, dark, light]) => [id, {system, icons: {dark, light}}])) as Record<string, {system: string; icons: Record<Side, number>}>;
 
+export const premiereSystems: Record<string,{system:string;icons:Record<Side,number>;parsec:number}> = {
+  '1_127':{system:'Tatooine',icons:{dark:1,light:2},parsec:7},
+  '1_289':{system:'Tatooine',icons:{dark:2,light:1},parsec:7},
+};
+export const premiereLocations:Record<string,{system:string;icons:Record<Side,number>}>={...premiereSites,...premiereSystems};
+
 const definitions = new Map(manifest.cards.map(card => [card.gempId, card]));
 export const premiereSetup: LocationSetupRules = {
   // These authored decks have no Objectives, Starting Effects/Interrupts or
   // other starting actions. Unknown cards cannot enter this setup path.
   ordinarySetup: match => Object.values(match.cards).every(card => definitions.has(card.blueprint)),
   location: (match, id) => {
-    const blueprint = match.cards[id]?.blueprint, site = premiereSites[blueprint];
+    const blueprint = match.cards[id]?.blueprint, site = premiereLocations[blueprint];
     return site ? {identity: definition(blueprint).name, group: site.system, icons: site.icons, convertible: true} : null;
   },
   name: (match, id) => definition(match.cards[id].blueprint).name,
   placements: (match, ids) => {
-    const same = premiereSites[match.cards[ids[0]].blueprint].system === premiereSites[match.cards[ids[1]].blueprint].system;
+    const same = premiereLocations[match.cards[ids[0]].blueprint].system === premiereLocations[match.cards[ids[1]].blueprint].system;
+    const hasSystem=ids.some(id=>premiereSystems[match.cards[id].blueprint]);
+    if(hasSystem)return {side:'light',choices: same ? [
+      {id:'left',label:'Place Light’s location left of Dark’s',order:[ids[1],ids[0]]},
+      {id:'right',label:'Place Light’s location right of Dark’s',order:[...ids]},
+    ] : [{id:'separate',label:'Place locations in separate systems',order:[...ids]}]};
     return same ? {side: 'light', choices: [
       {id: 'left', label: 'Place Light’s site left of Dark’s', order: [ids[1], ids[0]]},
       {id: 'right', label: 'Place Light’s site right of Dark’s', order: [...ids]},

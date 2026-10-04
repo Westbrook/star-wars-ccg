@@ -1,3 +1,4 @@
+import {sunsdownSpyFree} from './nighttime';
 import {larsPowerBonus, larsForfeitBonus} from './lars';
 import {selectedPrintedDestiny} from './destiny-values';
 import {protocolPowerBonus, protocolForfeitBonus} from './protocol-droid';
@@ -12,7 +13,7 @@ import {canPlayCard, isUnique, hasPersona} from './persona';
 import {cardDefinition} from './definitions';
 export {cardDefinition, definition} from './definitions';
 import {hasCharacteristic, isSpecies, nonUnique} from './characteristics';
-import {premiereSites} from './premiere-setup';
+import {premiereLocations} from './premiere-setup';
 import {other, type Match, type Payment, type Side} from './types';
 import {equipmentState, nighttimeSites} from './equipment-state';
 
@@ -24,12 +25,13 @@ export function printed(m: Match, id: string, property: string): number {
   return Number(value);
 }
 export const name = (m: Match, id: string) => cardDefinition(m, id).name;
-export const system = (m: Match, site: string) => premiereSites[m.cards[site]?.blueprint]?.system;
+export const system = (m: Match, site: string) => premiereLocations[m.cards[site]?.blueprint]?.system;
 export const atSite = (m: Match, site: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.location === site && !c.attachedTo && cardDefinition(m, c.id).type === 'Character');
-export const adjacent = (m: Match, a: string, b: string) => m.locations.includes(a) && m.locations.includes(b) && system(m, a) === system(m, b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
+export const isSite = (m:Match,id:string) => !!m.cards[id] && cardDefinition(m,id).subType==='Site';
+export const adjacent = (m: Match, a: string, b: string) => isSite(m,a) && isSite(m,b) && m.locations.includes(a) && m.locations.includes(b) && system(m, a) === system(m, b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
 export const abilityAt = (m: Match, side: Side, site: string) => locationAbility(m, side, site, atSite(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0));
 export const presence = (m: Match, side: Side, site: string) => abilityAt(m, side, site) >= 1;
-export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + premiereSites[m.cards[id].blueprint].icons[side], 0);
+export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + premiereLocations[m.cards[id].blueprint].icons[side], 0);
 
 export function controls(m: Match, side: Side, site: string): boolean {
   if (!m.locations.includes(site) || !presence(m, side, site) || presence(m, other(side), site)) return false;
@@ -59,14 +61,15 @@ function equipmentBonus(m: Match, id: string, stat: 'power' | 'forfeit'): number
 export function deploymentPayment(m: Match, id: string, site: string): Payment | null {
   if (cardDefinition(m, id).status === 'metadata-only') return null;
   const card = m.cards[id], def = cardDefinition(m, id);
-  if (def.type !== 'Character' || !m.locations.includes(site)) return null;
+  if (def.type !== 'Character' || !m.locations.includes(site) || !isSite(m,site)) return null;
   const side = card.owner, blueprint = card.blueprint;
-  if (!premiereSites[m.cards[site].blueprint].icons[side] && !presence(m, side, site)) return null;
+  if (!premiereLocations[m.cards[site].blueprint].icons[side] && !presence(m, side, site)) return null;
   const onTable = Object.values(m.cards).filter(c => c.zone === 'table');
   if (!canPlayCard(m, id)) return null;
   if (['101_2', '101_5'].includes(blueprint) && onTable.filter(c => c.owner === other(side) && cardDefinition(m, c.id).type === 'Character' && isUnique(m, c.id)).length >= 2) return null;
   if ((isJawa(blueprint) || blueprint === '1_196' || blueprint === '101_2') && system(m, site) !== 'Tatooine') return null;
   if (['1_170', '101_5'].includes(blueprint) && system(m, site) !== 'Death Star') return null;
+  if (sunsdownSpyFree(m,id,site)) return {[side]:0};
   if (isJawa(blueprint)) {
     const ownCamp = m.cards[site].blueprint === (side === 'light' ? '1_131' : '1_292');
     return ownCamp ? {[side]: 1} : {dark: 1, light: 1};
@@ -125,7 +128,7 @@ export const battleDestinyRequirement = (m: Match, side: Side, site: string) =>
   side === 'dark' && m.cards[site].blueprint === '1_130' || side === 'light' && m.cards[site].blueprint === '1_293' ? 6 : 4;
 
 export function drainAmount(m: Match, side: Side, site: string): number {
-  let value = premiereSites[m.cards[site].blueprint].icons[other(side)];
+  let value = premiereLocations[m.cards[site].blueprint].icons[other(side)];
   const blueprint = m.cards[site].blueprint;
   if (side === 'dark' && blueprint === '3_60' && controls(m,side,site) && atSite(m,site).some(c=>c.owner===side && cardDefinition(m,c.id).subType==='Imperial')) value++;
   if (side === 'light' && blueprint === '1_284' || side === 'dark' && blueprint === '1_293') value++;
@@ -143,7 +146,8 @@ export function moveWithAttachments(m: Match, id: string, site: string): void {
   for (const movingId of moving) m.cards[movingId].location = site;
 }
 
-const siteRank = (m: Match, id: string) => {
+export const locationRank = (m: Match, id: string) => {
+  if(cardDefinition(m,id).subType==='System')return 3;
   const icons = cardDefinition(m, id).icons as string[];
   return icons.includes('Interior') && icons.includes('Exterior') ? 1 : icons.includes('Interior') ? 0 : 2;
 };
@@ -155,14 +159,14 @@ export function citySitesTogether(m: Match, order: string[]): boolean {
   return city.every((i, n) => !n || i === city[n - 1] + 1);
 }
 export function sitePlacements(m: Match, id: string): {id: string; label: string; replace?: string; index?: number}[] {
-  if (!premiereSites[m.cards[id].blueprint]) return [];
+  if (!premiereLocations[m.cards[id].blueprint]) return [];
   const duplicate = m.locations.find(at => name(m, at) === name(m, id));
   if (duplicate) return m.cards[duplicate].owner === m.cards[id].owner ? [] : [{id: 'over:' + duplicate, label: 'Convert ' + name(m, duplicate), replace: duplicate}];
   const group = m.locations.filter(at => system(m, at) === system(m, id));
   if (!group.length) return [{id: 'at:' + m.locations.length, label: 'Start the ' + system(m, id) + ' group', index: m.locations.length}];
   const first = m.locations.indexOf(group[0]);
   return Array.from({length: group.length + 1}, (_, i) => i).filter(i => {
-    const order = [...group]; order.splice(i, 0, id); const ranks = order.map(at => siteRank(m, at));
+    const order = [...group]; order.splice(i, 0, id); const ranks = order.map(at => locationRank(m, at));
     return citySitesTogether(m, order) && (ranks.every((v, n) => !n || v >= ranks[n - 1]) || ranks.every((v, n) => !n || v <= ranks[n - 1]));
   }).map(i => ({id: 'at:' + (first + i), label: i === group.length ? 'Place after ' + name(m, group.at(-1)!) : 'Place before ' + name(m, group[i]), index: first + i}));
 }

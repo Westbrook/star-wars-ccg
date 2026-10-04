@@ -1433,5 +1433,56 @@
     "icons": [],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_309.java"
+  },
+  {
+    "gempId": "1_127",
+    "name": "Tatooine",
+    "side": "light",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/tatooine.gif",
+    "text": "Light: If you control, for each of your starships here, your total power is +1 in battles at Tatooine sites. Dark: If you control, for each of your starships here, your total power is +1 in battles at Tatooine sites.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "7"
+    },
+    "icons": [
+      "Planet"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_127.java"
+  },
+  {
+    "gempId": "1_289",
+    "name": "Tatooine",
+    "side": "dark",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/tatooine.gif",
+    "text": "Dark: If you control, for each of your starships here, your total power is +1 in battles at Tatooine sites. Light: If you control, for each of your starships here, your total power is +1 in battles at Tatooine sites.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "7"
+    },
+    "icons": [
+      "Planet"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_289.java"
+  },
+  {
+    "gempId": "1_230",
+    "name": "Sunsdown",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/sunsdown.gif",
+    "text": "Deploy on any planet system to cause 'nighttime conditions' at related sites. During battles there, both sides add one destiny to power only. Spies deploy free to sites under 'nighttime conditions.'",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_230.java"
   }
 ]

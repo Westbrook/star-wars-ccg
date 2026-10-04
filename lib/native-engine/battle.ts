@@ -1,3 +1,4 @@
+import {sunsdownAt} from './nighttime';
 import {battleMembers as members} from './participation';
 export {battleMembers as members} from './participation';
 import {defenseValue} from './defense';
@@ -32,6 +33,7 @@ export type Battle = {
   site: string; initiator: Side; stage: 'begin' | 'weapons' | 'power' | 'damage' | 'end' | 'complete';
   participants: Pair<string[]>; hits: string[]; fired: string[]; users: Record<string, string>; shots: Shot[];
   destiny: Pair<number | null>; destinyCards: Pair<string | null>; power: Pair<number>;
+  powerDestinies?: Partial<Pair<{count:number;remaining:number;draws:Draw[];total:number|null;scope:string}>>;
   destinyDraws?: Pair<Draw | null>;
   /** Final selected draws, before total modifiers. Physical attempts, canceled
    * draws and discarded selection candidates must not count for Takeel. */
@@ -222,7 +224,7 @@ export function battleAutomatic(m: Match, w: Window): RequiredAction[] {
   if (m.stack.some(f => f.kind === 'resolution' && f.action.handler === 'battle:begin' && f.cancelled)) return [];
   // Only after the current action resolves: never abandon its costs, destiny or
   // pending choices. Presence loss during damage does not terminate the battle.
-  if (!b || !['begin', 'weapons', 'power'].includes(b.stage) || m.stack.some(f => f.kind === 'resolution' && !['battle:begin', 'battle:power', 'battle:totals', 'battle:destiny-next', 'battle:destiny-select', 'battle:damage'].includes(f.action.handler))) return [];
+  if (!b || !['begin', 'weapons', 'power'].includes(b.stage) || m.stack.some(f => f.kind === 'resolution' && !['battle:begin', 'battle:power', 'battle:totals', 'battle:destiny-next', 'battle:destiny-select', 'battle:damage', 'battle:power-destiny-next', 'battle:power-destiny-select'].includes(f.action.handler))) return [];
   if (sides.every(s => locationAbility(m, s, b.site, participatingAbility(m, s)) >= 1)) return [];
   return [{...act('battle-premature-end', 'End battle: presence removed', 'premature'), actor: b.initiator}];
 }
@@ -302,7 +304,23 @@ export function battleResolve(m: Match, r: Resolution): void {
     if (base < 0) throw Error('Missing battle continuation.'); m.stack.splice(base); beginEnd(m, true); return;
   }
   if (kind === 'battle:begin') {b.stage = 'weapons'; windowThen(m, 'power', 'battle-weapons', b.initiator);}
-  else if (kind === 'battle:power') {b.stage = 'power'; windowThen(m, 'destiny-select', 'battle-destiny-before', b.initiator, {side: b.initiator});}
+  else if (kind === 'battle:power') {b.stage = 'power'; continuation(m,'power-destiny-select',{side:b.initiator});}
+  else if(kind==='battle:power-destiny-select'){
+    const side=p.side!,count=sunsdownAt(m,b.site)?1:0;
+    if(!count){continuation(m,'power-destiny-next',{side});return;}
+    const scope=beginDestinySequence(m,side,b.site,'power');
+    (b.powerDestinies??={})[side]={count,remaining:count-1,draws:[],total:null,scope};
+    drawDestiny(m,side,b.site,'power',act('power-destiny-drawn','Resolve power destiny','power-destiny-drawn',{side}),false,0,undefined,false,scope);
+  }else if(kind==='battle:power-destiny-drawn'){
+    const plan=b.powerDestinies![p.side!]!;plan.draws.push(p.draw!);
+    completeDestinyTotal(m,p.side!,b.site,'power',plan.draws,act('power-destiny-result','Complete power destiny','power-destiny-result',{side:p.side}));
+  }else if(kind==='battle:power-destiny-result'){
+    b.powerDestinies![p.side!]!.total=p.total!;
+    windowThen(m,'power-destiny-next','power-destiny-player-complete',other(p.side!),{side:p.side});
+  }else if(kind==='battle:power-destiny-next'){
+    if(p.side===b.initiator)continuation(m,'power-destiny-select',{side:other(p.side)});
+    else windowThen(m,'destiny-select','battle-destiny-before',b.initiator,{side:b.initiator});
+  }
   else if (kind === 'battle:destiny-select') {
     const policy = battleDrawPolicy(m, p.side!);
     const extra = b.gamblersLuck && b.gamblersLuck.side === p.side ? b.gamblersLuck.amount : 0;
@@ -326,7 +344,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     else windowThen(m, 'power-actions', 'battle-destiny-complete', other(b.initiator));
   } else if (kind === 'battle:power-actions') windowThen(m, 'totals', 'battle-power', b.initiator);
   else if (kind === 'battle:totals') {
-    for (const s of sides) {const ids = members(m, s); b.power[s] = totalPower(m, s, b.site, s !== b.initiator, id => ids.includes(id)) + (b.destiny[s] ?? 0) + tradedPower(m,s); b.attrition[s] = b.destiny[other(s)] ?? 0;}
+    for (const s of sides) {const ids = members(m, s); b.power[s] = totalPower(m, s, b.site, s !== b.initiator, id => ids.includes(id)) + (b.destiny[s] ?? 0) + (b.powerDestinies?.[s]?.total ?? 0) + tradedPower(m,s); b.attrition[s] = b.destiny[other(s)] ?? 0;}
     for (const s of sides) b.damage[s] = Math.max(0, b.power[other(s)] - b.power[s]);
     b.damageLedger = pair(lossLedger(b.damage.dark, 'battle'), lossLedger(b.damage.light, 'battle'));
     for (const s of sides) b.damageLedger[s].multiplier = (b.damageMultipliers ?? []).filter(v => v.side === 'both' || v.side === s).reduce((n, v) => n * v.factor, 1);
@@ -459,6 +477,7 @@ export function assertBattle(m: Match): void {
     if (!Array.isArray(b.attritionProtected) || new Set(b.attritionProtected.map(r=>r.id)).size !== b.attritionProtected.length) throw Error('Invalid frozen attrition immunity.');
     for (const ref of b.attritionProtected) {assertCardReference(m,ref);if(ref.zone!=='table' || !b.participants[m.cards[ref.id].owner].includes(ref.id))throw Error('Invalid frozen attrition immunity.');}
   }
+  if (b.powerDestinies !== undefined && (!b.powerDestinies || typeof b.powerDestinies !== 'object' || Array.isArray(b.powerDestinies) || Object.entries(b.powerDestinies).some(([side, plan]) => !sides.includes(side as Side) || !plan))) throw Error('Invalid power destiny plans.');
   if (b.destinyScopes) {
     if (Object.keys(b.destinyScopes).some(side => !sides.includes(side as Side))) throw Error('Invalid battle destiny scopes.');
     for (const side of sides) assertDestinyScope(m, b.destinyScopes[side], side, b.site, 'battle');
@@ -486,6 +505,11 @@ export function assertBattle(m: Match): void {
     const drawing = m.stack.some(f => f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish' && data(f).side === side);
     if (b.destiny[side] !== null && (!Number.isFinite(b.destiny[side]) || b.destiny[side]! < 0 && !drawing)) throw Error('Invalid battle destiny.');
     if (b.destinyCards[side] !== null && m.cards[b.destinyCards[side]!]?.owner !== side) throw Error('Invalid destiny owner.');
+    const powerPlan=b.powerDestinies?.[side];
+    if(powerPlan){
+      if(typeof powerPlan.scope!=='string'||powerPlan.count!==1||powerPlan.remaining!==0||!Array.isArray(powerPlan.draws)||powerPlan.draws.length>1||powerPlan.draws.some(d=>!validDraw(m,d,side))||powerPlan.total!==null&&(!Number.isFinite(powerPlan.total)||powerPlan.total<0||powerPlan.draws.length!==1))throw Error('Invalid power destiny plan.');
+      assertDestinyScope(m,powerPlan.scope,side,b.site,'power');
+    }
     if (b.destinyDraws?.[side] && !validDraw(m, b.destinyDraws[side]!, side, true)) throw Error('Invalid battle destiny record.');
   }
   for (const shot of b.shots) if (!weapons[m.cards[shot.weapon]?.blueprint] || !m.cards[shot.target] || !sides.includes(shot.side) ||

@@ -1,3 +1,5 @@
+import {nighttimeView,sunsdownActions,sunsdownInitiate,sunsdownResolve,assertSunsdown} from './nighttime';
+import {locationRank,isSite} from './board';
 import {labriaActions,labriaInitiate,labriaResolve,labriaChoices,labriaChoose,labriaView,assertLabria} from './labria';
 import {nobleActions, nobleInitiate, nobleResolve, nobleChoices, nobleChoose, assertNoble} from './noble-sacrifice';
 import {angerAutomatic,angerResolve,angerView,assertAnger} from './anger';
@@ -79,7 +81,7 @@ export const premiereRules: Rules = {
   generation,
   interrupt: m=>scheduleInserts(m),
   automatic: (m, w) => [...angerAutomatic(m,w),...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
@@ -87,6 +89,7 @@ export const premiereRules: Rules = {
     if (r.action.handler.startsWith('noble:')) {nobleInitiate(m,r);return;}
     if (r.action.handler.startsWith('telepathy:')) {telepathyInitiate(m,r);return;}
     if (r.action.handler.startsWith('game-text:') || r.action.handler.startsWith('character:') || r.action.handler.startsWith('plans:')) return;
+    if (r.action.handler.startsWith('sunsdown:')) {sunsdownInitiate(m,r);return;}
     if (r.action.handler.startsWith('labria:')) labriaInitiate(m,r);
     if (r.action.handler.startsWith('dark-path:')) darkPathInitiate(m,r);
     else if (r.action.handler.startsWith('insert:')) insertInitiate(m,r);
@@ -136,6 +139,7 @@ export const premiereRules: Rules = {
     if (r.action.handler.startsWith('anger:')) {angerResolve(m,r);return;}
     if (r.action.handler.startsWith('noble:')) {nobleResolve(m,r);syncBattle(m);syncForceLosses(m);return;}
     if (r.action.handler.startsWith('telepathy:')) {telepathyResolve(m,r);syncBattle(m);syncForceLosses(m);return;}
+    if (r.action.handler.startsWith('sunsdown:')) {sunsdownResolve(m,r);return;}
     if (r.action.handler.startsWith('labria:')) {labriaResolve(m,r);return;}
     if (r.action.handler.startsWith('dark-path:')) {darkPathResolve(m,r);return;}
     if (r.action.handler.startsWith('insert:')) {insertResolve(m,r,context);syncBattle(m);syncForceLosses(m);return;}
@@ -239,8 +243,9 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   canPass: battleCanPass,
-  view: (m, seat, now) => ({values: publicValues(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
+  view: (m, seat, now) => ({values: publicValues(m),...nighttimeView(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
+    assertSunsdown(match);
     assertLabria(match);
     assertNoble(match);
     assertAnger(match);
@@ -303,16 +308,13 @@ export const premiereRules: Rules = {
       if (!group) throw Error('Location needs its rule metadata.');
       const indices = match.locations.map((id, i) => system(match, id) === group ? i : -1).filter(i => i >= 0);
       if (indices.some((i, n) => n > 0 && i !== indices[n - 1] + 1)) throw Error('A system must form one contiguous location group.');
-      const ranks = indices.map(i => {
-        const icons = cardDefinition(match, match.locations[i]).icons as string[];
-        return icons.includes('Interior') && icons.includes('Exterior') ? 1 : icons.includes('Interior') ? 0 : 2;
-      });
+      const ranks = indices.map(i => locationRank(match,match.locations[i]));
       if (!ranks.every((rank, n) => !n || rank >= ranks[n - 1]) && !ranks.every((rank, n) => !n || rank <= ranks[n - 1])) throw Error('Invalid interior/exterior site arrangement.');
     }
     for (const card of Object.values(match.cards)) {
       const def = cardDefinition(match, card.id);
       if (card.location && !match.locations.includes(card.location)) throw Error('Character or attachment refers to an inactive location.');
-      if (card.zone === 'table' && def.type === 'Character' && !card.location) throw Error('A ground character needs its site.');
+      if (card.zone === 'table' && def.type === 'Character' && (!card.location || !isSite(match,card.location))) throw Error('A ground character needs its site.');
       if (card.coveredBy && (def.type !== 'Location' || !match.locations.includes(card.coveredBy) || name(match, card.id) !== name(match, card.coveredBy))) throw Error('Invalid supporting location.');
       if (card.zone === 'table' && def.type === 'Location' && !card.coveredBy && !match.locations.includes(card.id)) throw Error('Missing active location.');
       if (card.attachedTo && card.location !== match.cards[card.attachedTo].location) throw Error('Attachment separated from its host.');

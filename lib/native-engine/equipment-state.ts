@@ -24,6 +24,4 @@ export function useDevice(m: Match, id: string): void {
   const s = recordEquipment(m), host = m.cards[id].attachedTo!;
   s.devices[host] = id; (s.deviceVersions ??= {})[host] = cardVersion(m, id);
 }
-/** Condition producers will add/remove affected site IDs when their rules enter
- * the catalog. No existing starter creates nighttime conditions. */
-export const nighttimeSites = (m: Match): string[] => (m.data.nighttimeSites as string[] | undefined) ?? [];
+export {nighttimeSites} from './nighttime';

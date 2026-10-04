@@ -1,0 +1,76 @@
+[
+  {
+    "mode": "normal",
+    "deploymentCost": 0,
+    "nighttime": true,
+    "warriorPower": 3,
+    "darkPower": 2,
+    "lightPower": 15,
+    "events": [
+      "DESTINY_TO_TOTAL_POWER:Dark Side Player",
+      "DESTINY_TO_TOTAL_POWER:Light Side Player",
+      "BATTLE_DESTINY:Light Side Player"
+    ],
+    "darkAttrition": 5,
+    "lightAttrition": 0
+  },
+  {
+    "mode": "duplicate",
+    "deploymentCost": 0,
+    "nighttime": true,
+    "warriorPower": 3,
+    "darkPower": 2,
+    "lightPower": 15,
+    "events": [
+      "DESTINY_TO_TOTAL_POWER:Dark Side Player",
+      "DESTINY_TO_TOTAL_POWER:Light Side Player",
+      "BATTLE_DESTINY:Light Side Player"
+    ],
+    "darkAttrition": 5,
+    "lightAttrition": 0
+  },
+  {
+    "mode": "depart",
+    "deploymentCost": 0,
+    "nighttime": true,
+    "warriorPower": 3,
+    "afterNighttime": false,
+    "afterWarriorPower": 1,
+    "darkPower": 1,
+    "lightPower": 8,
+    "events": [
+      "BATTLE_DESTINY:Light Side Player"
+    ],
+    "darkAttrition": 5,
+    "lightAttrition": 0
+  },
+  {
+    "mode": "spy",
+    "deploymentCost": 0,
+    "nighttime": true,
+    "warriorPower": 3,
+    "spyCost": 0
+  },
+  {
+    "mode": "conversion",
+    "deploymentCost": 0,
+    "nighttime": true,
+    "warriorPower": 3,
+    "convertedAttachment": true,
+    "afterNighttime": true
+  },
+  {
+    "mode": "empty",
+    "deploymentCost": 0,
+    "nighttime": true,
+    "warriorPower": 3,
+    "darkPower": 1,
+    "lightPower": 15,
+    "events": [
+      "DESTINY_TO_TOTAL_POWER:Light Side Player",
+      "BATTLE_DESTINY:Light Side Player"
+    ],
+    "darkAttrition": 5,
+    "lightAttrition": 0
+  }
+]

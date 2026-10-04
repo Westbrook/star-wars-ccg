@@ -57,7 +57,7 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
         for (const luke of Object.values(m.cards).filter(c => c.owner === side && runEligible(m, c.id, b.site)))
           result.push(action('run-luke:' + card + ':' + luke.id, 'Run Luke, Run! · move Luke to battle for free', 'run', {card, target: luke.id, from: luke.location, to: b.site}));
       // Move-away initiation needs a related destination, not affordable movement.
-      if (m.cards[card].blueprint === '1_98' && b.initiator !== side && m.locations.some(id => id !== b.site && system(m, id) === system(m, b.site))) {
+      if (m.cards[card].blueprint === '1_98' && b.initiator !== side && m.locations.some(id => id !== b.site && cardDefinition(m,id).subType==='Site' && system(m, id) === system(m, b.site))) {
         const rebels = members(m, side).filter(id => cardDefinition(m, id).subType === 'Rebel' && ability(m, id) > 2);
         for (const target of rebels) result.push(action('escape:' + card + (rebels.length > 1 ? ':' + target : ''),
           'Narrow Escape · target ' + name(m, target) + ' and attempt to move your cards with ability away', 'escape',

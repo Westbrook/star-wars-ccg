@@ -9,7 +9,6 @@ import {moveCard, moveTop} from './state';
 import {openWindow, type RequiredAction} from './runtime';
 import {other, sides, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
-import {nighttimeSites} from './equipment-state';
 
 export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>; cancelledReactTitles?: string[]};
 type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number; targetRef?: CardReference; cardRef?: CardReference};
@@ -184,8 +183,8 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     moveCard(m, id, 'table');
     if (placement.replace) {
       const old = placement.replace;
-      if (m.data.nighttimeSites) m.data.nighttimeSites = nighttimeSites(m).map(site => site === old ? id : site); m.cards[old].coveredBy = id; m.locations[m.locations.indexOf(old)] = id;
-      for (const card of Object.values(m.cards)) {if (card.location === old) card.location = id; if (card.coveredBy === old) card.coveredBy = id;}
+      if (m.data.nighttimeSites) m.data.nighttimeSites = (m.data.nighttimeSites as string[]).map(site => site === old ? id : site); m.cards[old].coveredBy = id; m.locations[m.locations.indexOf(old)] = id;
+      for (const card of Object.values(m.cards)) {if (card.location === old) card.location = id; if(card.attachedTo===old)card.attachedTo=id; if (card.coveredBy === old) card.coveredBy = id;}
       const current = record(m); current.drained = current.drained.map(site => site === old ? id : site);
     } else m.locations.splice(placement.index!, 0, id);
     deployed(m, id);

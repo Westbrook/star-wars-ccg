@@ -7,6 +7,7 @@ import {pathToFileURL} from 'node:url';
 import {randomUUID} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {load} from '../native-proof/load-engine.mjs';
+import {fixture as sunsFixture,deployed as sunsDeployed,battleStart as sunsBattle} from './sunsdown-fixture.mjs';
 import {fixture as labriaFixture} from './labria-fixture.mjs';
 import {fixture as nobleFixture} from './noble-fixture.mjs';
 import {SqliteD1} from './sqlite-d1.mjs';
@@ -20,7 +21,7 @@ const pileState=load(new URL('../../lib/native-engine/state.ts',import.meta.url)
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const {matchHandlers}=load(new URL('../../lib/native-engine/http.ts',import.meta.url));
 const db=new SqliteD1(),origin=process.env.NATIVE_UI_ORIGIN||'http://localhost:5173';
-const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86','1_184'].includes(bp),starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86','1_184'].includes(c.blueprint))}};
+const browserRules={...auditRules,supports:bp=>auditRules.supports(bp)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86','1_184','1_127','1_289','1_230','1_224'].includes(bp),starting:{...auditRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>auditRules.supports(c.blueprint)||['1_42','4_133','4_16','5_149','1_109','1_267','1_99','8_114','13_86','1_184','1_127','1_289','1_230','1_224'].includes(c.blueprint))}};
 let time=1_800_000_000_000;const fresh=()=>nativeMatchService(db,{currentRules:browserRules.id,rules:()=>browserRules,now:()=>time,entropy:seeded(1)}),handlers=matchHandlers(fresh);
 const browser=await chromium.launch({headless:true});const errors=[];
 const output=process.env.NATIVE_UI_OUTPUT||'/private/tmp/swccg-native-client-browser';fs.mkdirSync(output,{recursive:true});
@@ -269,6 +270,27 @@ try{
   const saved=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);assert.equal(saved.players.dark.force[0],f.top);assert.equal(saved.turn.activated,m.turn.activated);
   await c.context.close();await op.context.close();
  }
+ // Actual nighttime deployment and power-destiny recovery through both service seats.
+ for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
+  const v=await fresh().create('owner',config(randomUUID(),'pvp','dark'));
+  await fresh().join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:decks.find(d=>d.side==='light').cards});
+  const f=sunsFixture();let m=sunsDeployed(f);m.id=v.id;
+  m.setup={stage:'complete',selected:{light:f.site,dark:f.remote},committed:{light:true,dark:true},revealed:true,rejected:[],priority:'dark',covered:null};
+  db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+  const c=await context(width,height);await c.page.goto(origin+'/matches/'+v.id+'?progress-report');
+  if(width<640)await c.page.getByRole('button',{name:'Table',exact:true}).click();
+  await c.page.getByText('PLANET SYSTEM · Parsec 7',{exact:true}).waitFor();await c.page.getByText('NIGHTTIME',{exact:true}).waitFor();
+  assert.equal(await c.page.locator('.native-site').getByRole('button',{name:'Inspect Sunsdown',exact:true}).count(),1);
+  await c.page.locator('.native-site').getByRole('button',{name:'Inspect Sunsdown',exact:true}).click();await c.page.getByRole('dialog').waitFor();await c.page.keyboard.press('Escape');await c.page.getByRole('dialog').waitFor({state:'hidden'});
+  m=sunsBattle(f,m);db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+  const advance=async predicate=>{for(let n=0;n<180;n++){const saved=JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state);if(predicate(saved))return saved;const p=runtime.prompt(saved,browserRules,'dark'),actor=p.side==='dark'?'owner':'guest',own=runtime.prompt(saved,browserRules,p.side);await fresh().command(v.id,actor,{commandId:randomUUID(),revision:saved.revision,choice:own.choices.some(x=>x.id==='draw-destiny')?'draw-destiny':own.choices.some(x=>x.id==='pass')?'pass':own.choices[0].id});}throw Error('Sunsdown boundary missing')};
+  m=await advance(x=>x.stack.at(-1)?.event?.kind==='about-to-draw-destiny'&&x.stack.at(-1).event.category==='power');
+  const before=m.revision;await c.page.reload();assert.equal((await fresh().read(v.id,'owner')).revision,before);
+  m=await advance(x=>x.data.battle?.stage==='damage');await c.page.reload();
+  for(const s of ['Dark','Light']){const losses=c.page.getByLabel(s+' side battle losses');await losses.waitFor();assert.match(await losses.textContent(),/Power destiny/);assert.match(await losses.textContent(),/Battle destiny/);}
+  assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  await c.page.screenshot({path:path.join(output,`sunsdown-power-${width}.png`),fullPage:true});await c.context.close();
+ }
  // A failed creation response survives refresh without creating another match.
  const start=await context(1440,1000,'new-owner');await start.page.goto(origin+'/matches');await start.page.getByRole('button',{name:'Start match'}).waitFor();await start.page.getByLabel('Your opponent').selectOption('pvp');await start.page.getByLabel('Match clock',{exact:true}).selectOption('30');start.interrupt('create');await start.page.getByRole('button',{name:'Start match'}).click();await start.page.getByRole('alert').waitFor();const owned=await fresh().list('new-owner');assert.equal(owned.length,1);await start.page.reload();await start.page.getByRole('button',{name:'Start match'}).click();await start.page.waitForURL('**/matches/'+owned[0].id);assert.equal((await fresh().list('new-owner')).length,1);await start.context.close();
  const bad=await context(834,1112,'other-guest');await bad.page.goto(origin+'/matches/'+wait.id+'#'+new URLSearchParams({invite:'invalid',side:'light',size:'60'}));await bad.page.getByRole('button',{name:'Join match',exact:true}).click();await bad.page.getByRole('alert').filter({hasText:'This invitation cannot seat you'}).waitFor();await bad.context.close();
@@ -292,5 +314,5 @@ try{
  await x.page.locator('.native-inspection').waitFor({state:'hidden'});await x.context.close();time=1_800_000_000_000;
  // The production registry advertises closed starter admission, without a bypass.
  const gate=await context(1440,1000);await gate.context.unroute('**/api/matches**');await gate.context.route('**/api/matches',async route=>{const h=matchHandlers(()=>nativeMatchService(db,{currentRules:premiereRules.id,rules:()=>premiereRules}));const r=await h.list(new Request(route.request().url(),{headers:{'oai-authenticated-user-id':'owner','oai-authenticated-user-email':'owner@test.invalid'}}));await route.fulfill({status:r.status,contentType:'application/json',body:await r.text()})});await gate.page.goto(origin+'/matches');await gate.page.getByText('Starter admission is not open yet.',{exact:false}).waitFor();assert.equal(await gate.page.getByRole('button',{name:'Start match'}).isDisabled(),true);await gate.context.close();
- assert.deepEqual(errors,[]);console.log('Browser passed: Labria public reveal/acknowledgment/return with both-seat refresh at three sizes; Noble Sacrifice cost/retrieval recovery and public out-of-play inspection at three sizes; real service recovery, receipt retry after refresh, concession/cancel, CPU dispatch, guest invitation, timed invitation acknowledgment, durable clocks/timeout across refresh, private views, card inspection timed/keyboard empty passes, untimed inspection recovery/acknowledgment, admission gate and responsive 1440/834/390 layouts.');
+ assert.deepEqual(errors,[]);console.log('Browser passed: Sunsdown planet/nighttime display, attachment inspection and power-destiny recovery at three sizes; Labria public reveal/acknowledgment/return with both-seat refresh at three sizes; Noble Sacrifice cost/retrieval recovery and public out-of-play inspection at three sizes; real service recovery, receipt retry after refresh, concession/cancel, CPU dispatch, guest invitation, timed invitation acknowledgment, durable clocks/timeout across refresh, private views, card inspection timed/keyboard empty passes, untimed inspection recovery/acknowledgment, admission gate and responsive 1440/834/390 layouts.');
 }finally{await browser.close();db.close()}

@@ -2553,3 +2553,45 @@ it nor TIE Fighter gains vehicle/space gameplay admission. Captured/aboard Labri
 other public-reveal providers, broader prevention/replacement and the full engine
 remain required work. Production full-match admission stays closed; no new
 standalone Rules Lab scenario is introduced.
+
+### Planet locations, Sunsdown and power destiny
+
+The location model now distinguishes Tatooine's planet-system versions (`1_127`
+and `1_289`) from ground sites. Systems supply their printed Force icons, deploy
+at the exterior end of the related group, convert opposing versions, and may be
+ordinary starting-location candidates in explicitly admitted component tests.
+They do not create ground adjacency or accept character deployment. Conversion
+moves location-attached cards to the active version; the UI displays the parsec,
+icons and attached Effects together.
+
+Sunsdown (`1_230`) deploys on an active planet through the normal Effect response
+pipeline, including Alter. Its live text derives nighttime at related sites,
+including sites deployed later, and supplies free spy deployment at nighttime
+sites. Source departure or text cancellation removes these modifiers immediately;
+no derived condition is saved as a permanent flag. Duplicate copies do not stack.
+The existing Talz power and Macroscan peek rules now consume this actual producer.
+
+During a related ground battle, the initiator counts and draws the mandatory
+power destiny first; the opponent counts after that sequence finishes. These
+use the shared cost, before-draw, reveal, cancellation/redraw, completion, Used
+placement and total-response pipeline. Battle destiny follows. Separate saved
+power-destiny records contribute only to total power, never attrition or Takeel's
+battle-destiny exchange. Empty Reserve and canceled draws contribute no value.
+Both players' public loss panels distinguish power destiny from battle destiny
+through battle completion, including recovery from a saved draw window.
+
+`tests/native-engine/gemp/sunsdown-provenance.json` records six executed GEMP
+observations with all 6820 production files unchanged: actual deployment and
+battle, duplicate Effects, source departure, free spy deployment, conversion,
+and empty Reserve. Native comparisons check destiny ordering, power and attrition
+against those recorded results. Additional native tests cover actual Alter,
+new-site nighttime, saved-state rejection, cancellation/redraw and setup layout.
+Playwright verifies attachment inspection, nighttime/system labels and recovery
+with the real match service at desktop, tablet and phone widths.
+
+This is component coverage, not full planet/space certification. Tatooine's
+starship-control power text, ship presence and battles, vehicles, pilots and
+passengers, other power-destiny granting/preventing cards and complete CPU card
+strategy remain unfinished. The CPU uses printed system icons where relevant;
+its ground-adjacency estimate stays site-only. Full production match admission
+remains closed, and no standalone Rules Lab study has been added.
