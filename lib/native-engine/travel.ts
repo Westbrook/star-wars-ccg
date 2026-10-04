@@ -1,3 +1,5 @@
+import {unitsAt,operational,isVessel} from './occupancy';
+import {vehicleDestination} from './vessel-travel';
 import {ability} from './ability';
 import {canSearch, recordFailedSearch, searchFunctions, type Search} from './search-policy';
 import {canPlayCard, recordCardPlay} from './persona';
@@ -25,7 +27,7 @@ function decision(m: Match, side: Side, handler: string, p: Payload): void {m.st
 function then(m: Match, side: Side, handler: string, p: Payload, respondable = false): void {
   m.stack.push({kind: 'resolution', actor: side, cancelled: false, ...(respondable ? {awaitingResponses: true} : {}), action: action('travel-step:' + handler, handler, handler, p)});
 }
-export const transitEligible = (m: Match, side: Side, from: string) => atSite(m, from).filter(c => c.owner === side && canMove(m, c.id)).map(c => c.id);
+export const transitEligible = (m: Match, side: Side, from: string, to?: string) => unitsAt(m, from).filter(c => c.owner === side && !c.attachedTo && canMove(m,c.id) && (!isVessel(m,c.id)||cardDefinition(m,c.id).type==='Vehicle'&&operational(m,c.id)&&(!to||vehicleDestination(m,c.id,to)))).map(c=>c.id);
 const bays = (m: Match) => m.locations.filter(id => bayCosts[m.cards[id].blueprint]);
 /** The whole party pays once. Explicitly free movement cannot be increased (AR pp66,70). */
 export function transitCost(m: Match, side: Side, from: string, to: string): number {
@@ -44,7 +46,7 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
   if (w.timing === 'phase' && side === m.turn.side) {
     if (m.turn.phase === 'move') for (const from of bays(m)) {
       if (!transitEligible(m, side, from).length) continue;
-      for (const to of bays(m).filter(id => id !== from && m.players[side].force.length >= transitCost(m, side, from, id))) result.push(action('transit:' + from + ':' + to, 'Docking-bay transit · ' + name(m, from) + ' → ' + name(m, to), 'party', {from, to, selected: []}));
+      for (const to of bays(m).filter(id => id !== from && transitEligible(m,side,from,id).length && m.players[side].force.length >= transitCost(m, side, from, id))) result.push(action('transit:' + from + ':' + to, 'Docking-bay transit · ' + name(m, from) + ' → ' + name(m, to), 'party', {from, to, selected: []}));
     }
     if (m.turn.phase === 'deploy' && side === 'dark' && m.players.dark.reserve.length && canSearch(m, baySearch))
       for (const room of m.locations.filter(id => m.cards[id].blueprint === '101_4' && controls(m, 'dark', id)))
@@ -87,7 +89,7 @@ export function travelResolve(m: Match, r: Resolution, context: Context): void {
   const p = data(r), handler = r.action.handler;
   if (r.cancelled) {if (p.card && m.cards[p.card].zone === 'playing') moveCard(m, p.card, 'lost'); return;}
   if (handler === 'travel:transit') {
-    const moved = p.selected!.filter(id => sameCard(m, p.memberRefs?.[id]!) && transitEligible(m, r.actor, p.from!).includes(id));
+    const moved = p.selected!.filter(id => sameCard(m, p.memberRefs?.[id]!) && transitEligible(m, r.actor, p.from!, p.to!).includes(id));
     for (const id of moved) {moveWithAttachments(m, id, p.to!); record(m).moved.push(id);}
     if (moved.length) openWindow(m, 'response', other(r.actor), {kind: 'moved', cards: moved, from: p.from!, site: p.to!});
   } else if (handler === 'travel:search') {
@@ -121,7 +123,7 @@ export function travelResolve(m: Match, r: Resolution, context: Context): void {
 export function travelChoices(m: Match, d: Decision): {id: string; label: string}[] {
   const p = data(d);
   if (d.handler === 'travel:party') return [
-    ...transitEligible(m, d.side, p.from!).map(id => ({id: 'toggle:' + id, label: (p.selected!.includes(id) ? 'Remove ' : 'Add ') + name(m, id)})),
+    ...transitEligible(m, d.side, p.from!, p.to!).map(id => ({id: 'toggle:' + id, label: (p.selected!.includes(id) ? 'Remove ' : 'Add ') + name(m, id)})),
     ...(p.selected!.length ? [{id: 'confirm', label: 'Move party · ' + transitCost(m, d.side, p.from!, p.to!) + ' Force total'}] : []),
     {id: 'cancel', label: 'Cancel transit'},
   ];
@@ -190,7 +192,7 @@ export function assertTravel(m: Match): void {
   }
   for (const d of m.stack) if (d.kind === 'decision' && d.handler.startsWith('travel:')) {
     const p = data(d);
-    if (d.handler === 'travel:party' && (d.side !== m.turn.side || m.turn.phase !== 'move' || !bays(m).includes(p.from!) || !bays(m).includes(p.to!) || p.from === p.to || !Array.isArray(p.selected) || new Set(p.selected).size !== p.selected.length || p.selected.some(id => !transitEligible(m, d.side, p.from!).includes(id)))) throw Error('Invalid transit party.');
+    if (d.handler === 'travel:party' && (d.side !== m.turn.side || m.turn.phase !== 'move' || !bays(m).includes(p.from!) || !bays(m).includes(p.to!) || p.from === p.to || !Array.isArray(p.selected) || new Set(p.selected).size !== p.selected.length || p.selected.some(id => !transitEligible(m, d.side, p.from!, p.to!).includes(id)))) throw Error('Invalid transit party.');
     if (['travel:search', 'travel:verify', 'travel:place'].includes(d.handler) && (m.turn.side !== 'dark' || m.turn.phase !== 'deploy' || !p.room || !m.cards[p.room] || m.cards[p.room].blueprint !== '101_4')) throw Error('Invalid Reserve search.');
     if (d.handler === 'travel:verify' && (canSearch(m, baySearch) || searchCandidates(m).length || d.side !== 'light')) throw Error('Invalid failed search verification.');
     if (d.handler === 'travel:place' && (!searchCandidates(m).includes(p.card!) || d.side !== 'dark')) throw Error('Invalid docking bay selection.');

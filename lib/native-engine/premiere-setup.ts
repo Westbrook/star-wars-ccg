@@ -12,6 +12,8 @@ export const premiereSites: Record<string, {system: string; icons: Record<Side, 
 ].map(([id, system, dark, light]) => [id, {system, icons: {dark, light}}])) as Record<string, {system: string; icons: Record<Side, number>}>;
 
 export const premiereSystems: Record<string,{system:string;icons:Record<Side,number>;parsec:number}> = {
+  '1_135':{system:'Yavin 4',icons:{dark:1,light:2},parsec:4},
+  '1_296':{system:'Yavin 4',icons:{dark:2,light:1},parsec:4},
   '1_127':{system:'Tatooine',icons:{dark:1,light:2},parsec:7},
   '1_289':{system:'Tatooine',icons:{dark:2,light:1},parsec:7},
 };

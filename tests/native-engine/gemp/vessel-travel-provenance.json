@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T01:13:48.471564+00:00",
+  "files": {
+    "NativeEngineVesselTravelOracleTests.java": "a67868e0962ab25073c37ea396160cea3ed7986959cd2704da433b8149ec105c",
+    "NativeEngineVesselsOracleTests.java": "d978c61a3416028d940aaf7f39e05dfca376b3944a17fba40a63abbd58be39d3",
+    "vessel-travel-results.json": "63ead40246195c1f1c28d9c3aaeddd43bc75a12b1a60b2a54893a561898dc1e4"
+  },
+  "junitTests": 2,
+  "observations": 10,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineVesselTravelOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp66\u201369",
+  "scope": "Actual landspeed, hyperspace, landing and takeoff actions: costs, intermediate movement results, carrier/crew usage and operational power. Starfighter deployment excludes ordinary exterior sites even though landing there is allowed.",
+  "method": [
+    "Locations, Force and Light Y-wing/Han are controlled fixtures. Dark vessel and crew deployment uses the prior actual-deployment helper.",
+    "All eight movement observations use actual GEMP legal actions; production sources unchanged.",
+    "Native comparison identifies the Tatooine endpoint by canonical title: native uses Light 1_127, GEMP uses Dark 1_289. No equivalence of their different Force icons or unrelated text is claimed.",
+    "Native comparisons pass through response windows with JSON recovery; intermediate landspeed results match GEMP initial/completed flags."
+  ],
+  "limitations": [
+    "Sector/mobile-system movement, shuttling, broader astromech/modifier/prevention providers and full card coverage remain.",
+    "Docking transit vehicle integration, CPU heuristics and browser recovery are native checks outside this reference harness.",
+    "Production full-match admission remains closed."
+  ]
+}

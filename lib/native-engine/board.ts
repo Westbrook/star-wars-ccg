@@ -124,9 +124,9 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
 
 export function totalPower(m: Match, side: Side, site: string, defending = false, active: (id: string) => boolean = () => true): number {
   const members = unitsAt(m, site).filter(c => c.owner === side && active(c.id));
-  const orbit=m.locations.find(id=>['1_127','1_289'].includes(m.cards[id].blueprint));
+  const orbit=m.locations.find(id=>['1_127','1_289','1_135','1_296'].includes(m.cards[id].blueprint)&&system(m,id)===system(m,site));
   const b=m.data.battle as {site:string;stage:string}|undefined;
-  const orbitBonus=b&&b.stage!=='complete'&&b.site===site&&cardDefinition(m,site).subType==='Site'&&system(m,site)==='Tatooine'&&orbit&&gameTextActive(m,orbit)&&controls(m,side,orbit)?unitsAt(m,orbit).filter(c=>c.owner===side&&cardDefinition(m,c.id).type==='Starship').length:0;
+  const orbitBonus=b&&b.stage!=='complete'&&b.site===site&&cardDefinition(m,site).subType==='Site'&&orbit&&gameTextActive(m,orbit)&&controls(m,side,orbit)?unitsAt(m,orbit).filter(c=>c.owner===side&&cardDefinition(m,c.id).type==='Starship').length:0;
   return orbitBonus + members.reduce((sum, c) => sum + (cardDefinition(m,c.id).type==='Character'&&!characterPresent(m,c.id)?0:power(m, c.id, defending, active)), 0) + protocolPowerBonus(m,side,site,active) +
     (members.some(c => c.blueprint === '1_196') && members.filter(c => isSpecies(m, c.id, 'TUSKEN_RAIDER') && nonUnique(m, c.id)).length >= 4 ? 2 : 0);
 }

@@ -2633,3 +2633,41 @@ simultaneous pilot deployment, open transports, passengers' card-specific text,
 additional ships/vehicles, capture, broad response/prevention providers and the
 full native product scope remain required. Production admission stays closed.
 No new standalone study has been added.
+
+### Regular vessel travel
+
+Sandcrawlers now traverse up to their printed landspeed through adjacent exterior
+planet sites for one Force. Each intermediate arrival emits a movement response
+with initial/completed flags; the saved route resumes after those responses and
+stops if the driver or permission disappears. The one-regular-move limit belongs
+to the carrier, not its occupants. Existing docking-bay party transit also accepts
+driven vehicles with legal destination sites and transports their crew.
+
+Y-wing and TIE Scout now use hyperspace between registered systems within printed
+range, requiring their nav computer and pilot. Starfighter landing/takeoff uses
+related exterior sites; docking bays are free, other sites cost one Force, and
+TIE landing requires a docking bay. These actions share regular-move history,
+payment and response handling. Pending routes bind the vessel and locations to
+their original table instances. Yavin 4's two printed faces now supply system
+metadata and the same controlled-orbit ground-power provider as Tatooine; orbital
+support selects the related system when several planets coexist.
+
+A public journey panel shows source, destination, current location and completed
+legs. Real-service Playwright checks initiate a two-site journey, refresh during
+the intermediate response, finish the route and preserve crew at 1440/834/390.
+The CPU can take off and select safer or more valuable destinations without
+cycling equally valuable routes; coordinated landing/crew delivery remains.
+
+`tests/native-engine/gemp/vessel-travel-provenance.json` records ten executed
+GEMP observations (two JUnit tests, 6820 unchanged production files). Native replay
+matches costs, intermediate arrival flags, carried crew, movement usage and power
+for hyperspace, free bay landing/takeoff, paid exterior landing/takeoff, one/two
+landspeed steps, an unpiloted transport, and both starfighters' deployment
+destinations (docking bays and systems, excluding ordinary exterior sites). The receipt documents controlled
+fixtures and opposite printed Tatooine faces used for the same route endpoint.
+
+This does not finish movement or the full engine. Sector/mobile-system movement,
+shuttling, open transports, simultaneous pilot deployment, astromech-dependent
+ships, general speed/cost/restriction modifiers, movement-react and cancellation
+providers, capture and remaining card/product coverage stay in scope. Full-match
+admission remains closed; no new Rules Lab study was added.

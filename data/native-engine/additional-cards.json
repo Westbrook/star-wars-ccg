@@ -1527,5 +1527,41 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_150.java"
+  },
+  {
+    "gempId": "1_135",
+    "name": "Yavin 4",
+    "side": "light",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/yavin4.gif",
+    "text": "Light: If you control, for each of your starships here, your total power is +1 in battles at Yavin 4 sites. Dark: If you control, for each of your starships here, your total power is +1 in battles at Yavin 4 sites.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "4"
+    },
+    "icons": [
+      "Planet"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_135.java"
+  },
+  {
+    "gempId": "1_296",
+    "name": "Yavin 4",
+    "side": "dark",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/yavin4.gif",
+    "text": "Dark: If you control, for each of your starships here, your total power is +1 in battles at Yavin 4 sites. Light: If you control, for each of your starships here, your total power is +1 in battles at Yavin 4 sites.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "4"
+    },
+    "icons": [
+      "Planet"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_296.java"
   }
 ]

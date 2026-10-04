@@ -1,0 +1,93 @@
+[
+  {
+    "mode": "scout-deploy-sites",
+    "bay": true,
+    "planet": true,
+    "exterior": false
+  },
+  {
+    "mode": "ywing-deploy-sites",
+    "bay": true,
+    "planet": true,
+    "exterior": false
+  },
+  {
+    "mode": "hyperspace",
+    "cost": 1,
+    "destination": "1_135",
+    "crewAboard": true,
+    "hostMoved": true,
+    "crewMoved": false,
+    "power": 3,
+    "steps": []
+  },
+  {
+    "mode": "land-bay",
+    "cost": 0,
+    "destination": "1_129",
+    "crewAboard": true,
+    "hostMoved": true,
+    "crewMoved": false,
+    "power": 0,
+    "steps": []
+  },
+  {
+    "mode": "takeoff-bay",
+    "cost": 0,
+    "destination": "1_289",
+    "crewAboard": true,
+    "hostMoved": true,
+    "crewMoved": false,
+    "power": 3,
+    "steps": []
+  },
+  {
+    "mode": "landspeed-one",
+    "cost": 1,
+    "destination": "1_130",
+    "crewAboard": true,
+    "hostMoved": true,
+    "crewMoved": false,
+    "power": 3,
+    "steps": [
+      "1_130:true:true"
+    ]
+  },
+  {
+    "mode": "landspeed-two",
+    "cost": 1,
+    "destination": "1_131",
+    "crewAboard": true,
+    "hostMoved": true,
+    "crewMoved": false,
+    "power": 3,
+    "steps": [
+      "1_130:true:false",
+      "1_131:false:true"
+    ]
+  },
+  {
+    "mode": "unpiloted",
+    "moveAvailable": false
+  },
+  {
+    "mode": "ywing-land",
+    "cost": 1,
+    "destination": "1_130",
+    "crewAboard": true,
+    "hostMoved": true,
+    "crewMoved": false,
+    "power": 0,
+    "steps": []
+  },
+  {
+    "mode": "ywing-takeoff",
+    "cost": 1,
+    "destination": "1_289",
+    "crewAboard": true,
+    "hostMoved": true,
+    "crewMoved": false,
+    "power": 4,
+    "steps": []
+  }
+]

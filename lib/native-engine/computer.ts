@@ -5,7 +5,7 @@ import {premiereLocations,premiereSites} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-7';
+export const computerPolicy = 'native-cpu-8';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -114,6 +114,14 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (c.id === 'skip-destiny') return -10;
     if (kind === 'drain') return 100 + icons(a,opponent);
     if (kind === 'site') return 50;
+    if (kind === 'voyage') {
+      const to=c.id.split(':')[3],from=cards.get(b)?.location;
+      if(!from)return -5;
+      if(a==='takeoff')return 25;
+      if(a==='land')return -5; // Landing needs a coordinated crew-delivery plan.
+      const threat=strength(from,opponent)>strength(from,side);
+      return strength(to,opponent)===0&&(threat||icons(to,opponent)>icons(from,opponent))?24+icons(to,opponent):-5;
+    }
     if (kind === 'vessel') {
       const role=c.id.split(':')[4];
       if(a==='deploy')return 30+stat(b,'power')*2;
