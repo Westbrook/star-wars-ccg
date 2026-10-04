@@ -2183,5 +2183,42 @@
     "uniqueness": "UNIQUE",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set6/dark/Card6_138.java"
+  },
+  "3_93": {
+    "keywords": [
+      "WAMPA"
+    ],
+    "species": [],
+    "models": [
+      "SNOW"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_093.java"
+  },
+  "7_212": {
+    "keywords": [
+      "WAMPA"
+    ],
+    "species": [],
+    "models": [
+      "SNOW"
+    ],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set7/dark/Card7_212.java"
+  },
+  "3_150": {
+    "keywords": [
+      "MARKER_7"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_150.java"
   }
 }

@@ -1,0 +1,39 @@
+[
+  {
+    "ferocity": 7.0,
+    "victimLost": true,
+    "atCave": false,
+    "case": "eat"
+  },
+  {
+    "ferocity": 7.0,
+    "victimLost": false,
+    "atCave": true,
+    "case": "relocate"
+  },
+  {
+    "case": "tie",
+    "ferocity": [
+      7.0,
+      7.0
+    ],
+    "lost": 2,
+    "weaponSegment": false,
+    "deploymentCost": 0
+  },
+  {
+    "case": "unequal",
+    "ferocity": [
+      7.0,
+      8.0
+    ],
+    "lost": 1,
+    "weaponSegment": false,
+    "deploymentCost": 0
+  },
+  {
+    "deploymentCost": 0,
+    "case": "one-arm-left",
+    "survivors": 3
+  }
+]

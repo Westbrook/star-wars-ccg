@@ -1,0 +1,4 @@
+import {fixture as groundFixture,pull,location,step,seek,priority,load} from './ground-creature-fixture.mjs';
+const {sitePlacements}=load(new URL('../../lib/native-engine/board.ts',import.meta.url));
+export function fixture(extra=[]){const f=groundFixture('dark',{dark:[...extra,'1_293','1_284','3_93','3_93','7_212','3_150','3_147','1_249','1_249','1_262'],light:['6_48','1_19']});const cave=pull(f.m,'dark','3_150','hand'),bay=location(f.m,'dark','3_147');f.m=step(f.m,'site:'+cave+':'+sitePlacements(f.m,cave)[0].id);f.m=priority(seek(f.m,x=>x.stack.length===1),'dark');return {...f,cave,bay};}
+export function wampaFixture(){const f=fixture();f.wampa=pull(f.m,'dark','3_93','hand');f.m=step(f.m,'ground-creature:deploy:'+f.wampa+':'+f.cave);f.m=priority(seek(f.m,x=>x.stack.length===1),'dark');return f;}

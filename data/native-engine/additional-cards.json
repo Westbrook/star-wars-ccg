@@ -2578,5 +2578,66 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set6/dark/Card6_138.java"
+  },
+  {
+    "gempId": "3_93",
+    "name": "Wampa",
+    "side": "dark",
+    "type": "Creature",
+    "subType": "Snow",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/wampa.gif",
+    "text": "* Ferocity = 3 + destiny. Habitat: Hoth sites. Deploy only to Wampa Cave or unoccupied marker site. Defeated characters are eaten or relocated to Wampa Cave (opponent of victim chooses).",
+    "stats": {
+      "deploy": "4",
+      "power": "*",
+      "destiny": "3",
+      "forfeit": "0",
+      "ferocity": "3 + destiny"
+    },
+    "icons": [
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_093.java"
+  },
+  {
+    "gempId": "7_212",
+    "name": "One-Arm",
+    "side": "dark",
+    "type": "Creature",
+    "subType": "Snow",
+    "image": "https://res.starwarsccg.org/cards/SpecialEdition-Dark/large/onearm.gif",
+    "text": "Habitat: Hoth sites. Deploys only to Wampa Cave. For remainder of game, all wampas are selective creatures.",
+    "stats": {
+      "deploy": "6",
+      "power": "3",
+      "destiny": "3",
+      "forfeit": "0",
+      "ferocity": "3"
+    },
+    "icons": [
+      "Special Edition"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set7/dark/Card7_212.java"
+  },
+  {
+    "gempId": "3_150",
+    "name": "Hoth: Wampa Cave (7th Marker)",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/hothwampacave.gif",
+    "text": "Dark: Your Wampas deploy free here. Light: If you control, and Main Power Generators on table, Force drain -1 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Interior",
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_150.java"
   }
 ]

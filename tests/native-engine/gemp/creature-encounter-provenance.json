@@ -1,0 +1,29 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T12:55:45.768432+00:00",
+  "files": {
+    "NativeEngineCreatureEncounterOracleTests.java": "344c64579e323553c856ac9ea25fe2656ad47dd35c4408c72df262336b7ff2dc",
+    "creature-encounter-results.json": "a53372bdffdbb00a74004993a158e06ebb2b3962afdd0b7c227b633f82c62fdd"
+  },
+  "junitTests": 3,
+  "observations": 5,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCreatureEncounterOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp62\u201364,76,79\u201380",
+  "scope": "Automatic same-owner Wampa encounters with ties/unequal ferocity; persistent One-Arm selectivity; defeated-character eat/relocate outcomes.",
+  "method": [
+    "Real creature deployment, actual attacks, destiny draws and required choices. Creature/victim movement for hunting is controlled fixture setup; no movement conformance claim.",
+    "Randomly chosen first/second Wampas are interchangeable. Compare sorted ferocity totals and survivor counts, not physical victim identity or RNG distribution.",
+    "Destiny cards are isolated from Force before activation so deployment payment is measured independently. Native tests compare each recorded result."
+  ],
+  "limitations": [
+    "Component coverage only. Full-match admission remains false; no new standalone study.",
+    "GEMP selects a random creature then an eligible opponent; native selects an eligible pair uniformly. No random-distribution parity claim. Species identity is explicit for supported creatures; parasites and broader creature families remain required.",
+    "Cave free deployment is exercised; full Hoth marker placement, Main Power Generators interactions and broader Hoth/card behavior remain unfinished.",
+    "Fresh GEMP rows do not prove full response timing, text-cancellation, habitat loss, inactive/captured participation, long-range or every creature weapon. Additional recovery and cancellation tests are native-only.",
+    "All broader engine/card/setup/deck/CPU/PvP/clocks/capacity/responsive scope remains active."
+  ],
+  "exactAgreements": 5
+}

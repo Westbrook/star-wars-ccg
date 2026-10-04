@@ -141,6 +141,7 @@ export function drainAmount(m: Match, side: Side, site: string): number {
   let value = premiereLocations[m.cards[site].blueprint].icons[other(side)];
   if(sectorFamily(m,site)==='clouds'&&m.cards[site].owner!==side&&gameTextActive(m,site)&&controls(m,side,site))value++;
   const blueprint = m.cards[site].blueprint;
+  if(blueprint==='3_150'&&side==='light'&&gameTextActive(m,site)&&controls(m,side,site)&&m.locations.some(id=>name(m,id).startsWith('Hoth: Main Power Generators')))value--;
   if(sectorFamily(m,site)==='big-one'&&gameTextActive(m,site)&&controls(m,side,site)){
     if(m.cards[site].owner===side)value+=sectorsAt(m,sectorSystem(m,site)!,'asteroid').filter(id=>sectorFamily(m,id)==='field').length;
     else if(blueprint==='4_82')value++;

@@ -1,4 +1,4 @@
-import {adjacent,moveWithAttachments,name,system} from './board';
+import {adjacent,moveWithAttachments,name,system,presence} from './board';
 import {cardDefinition} from './definitions';
 import {creatureProfile} from './creature-profile';
 import {deployValue} from './deploy-costs';
@@ -15,8 +15,15 @@ import {other,type Action,type Json,type Match,type Resolution,type Side,type Wi
 export const groundCreature=(m:Match,id:string)=>creatureProfile(m,id)?.ground===true;
 export function creatureHabitat(m:Match,id:string,site:string):boolean {
  if(!groundCreature(m,id)||!m.locations.includes(site))return false;
- const d=cardDefinition(m,site);return d.subType==='Site'&&(d.icons as string[]).includes('Planet')&&system(m,site)!=='Hoth';
+ const d=cardDefinition(m,site);return d.subType==='Site'&&(d.icons as string[]).includes('Planet')&&(creatureProfile(m,id).species==='wampa'?system(m,site)==='Hoth':system(m,site)!=='Hoth');
 }
+export function creatureDeploySite(m:Match,id:string,site:string):boolean {
+ if(!creatureHabitat(m,id,site))return false;
+ if(m.cards[id].blueprint==='7_212')return m.cards[site].blueprint==='3_150';
+ if(m.cards[id].blueprint==='3_93')return m.cards[site].blueprint==='3_150'||/Marker\)/.test(name(m,site))&&!presence(m,'light',site)&&!presence(m,'dark',site);
+ return true;
+}
+export const creatureDeployCost=(m:Match,id:string,site:string)=>creatureProfile(m,id).species==='wampa'&&m.cards[id].owner==='dark'&&m.cards[site].blueprint==='3_150'&&gameTextActive(m,site)?0:deployValue(m,id);
 /** Worrt/Bubo restrict landspeed only: transit, transport and relocation retain
  * their own rules. An aboard character who is not present is unaffected. */
 export function creatureBlocksLandspeed(m:Match,id:string):boolean {
@@ -29,7 +36,7 @@ const action=(step:string,p:Payload):Action=>({id:'ground-creature:'+step+':'+p.
 export function groundCreatureActions(m:Match,w:Window,side:Side):Action[]{
  if(w.timing!=='phase'||side!==m.turn.side)return [];
  const out:Action[]=[];
- if(m.turn.phase==='deploy')for(const card of m.players[side].hand.filter(id=>groundCreature(m,id)&&canPlayCard(m,id)))for(const site of m.locations.filter(id=>creatureHabitat(m,card,id))){const cost=deployValue(m,card);out.push({...action('deploy',{card:referenceCard(m,card),site:referenceCard(m,site)}),label:'Deploy '+name(m,card)+' at '+name(m,site)+' · '+cost+' Force',payment:{[side]:cost}});}
+ if(m.turn.phase==='deploy')for(const card of m.players[side].hand.filter(id=>groundCreature(m,id)&&canPlayCard(m,id)))for(const site of m.locations.filter(id=>creatureDeploySite(m,card,id))){const cost=creatureDeployCost(m,card,site);out.push({...action('deploy',{card:referenceCard(m,card),site:referenceCard(m,site)}),label:'Deploy '+name(m,card)+' at '+name(m,site)+' · '+cost+' Force',payment:{[side]:cost}});}
  if(m.turn.phase==='move')for(const c of Object.values(m.cards).filter(c=>c.zone==='table'&&c.owner===side&&groundCreature(m,c.id)&&c.location&&!c.attachedTo&&!barred(m,c.id)&&!usage(m).moved.includes(c.id)))for(const site of m.locations.filter(id=>creatureHabitat(m,c.id,id)&&adjacent(m,c.location!,id)))out.push({...action('move',{card:referenceCard(m,c.id),site:referenceCard(m,site),from:referenceCard(m,c.location!)}),label:'Move '+name(m,c.id)+' to '+name(m,site),payment:{[side]:1}});
  return out;
 }
@@ -37,7 +44,7 @@ export function groundCreatureInitiate(m:Match,r:Resolution):void{const p=r.acti
 export function groundCreatureResolve(m:Match,r:Resolution):void {
  const p=r.action.payload as unknown as Payload;
  if(r.action.handler==='ground-creature:deploy'){
-  if(r.cancelled||!sameCard(m,p.site)||!creatureHabitat(m,p.card.id,p.site.id)){moveCard(m,p.card.id,'lost');return;}
+  if(r.cancelled||!sameCard(m,p.site)||!creatureDeploySite(m,p.card.id,p.site.id)){moveCard(m,p.card.id,'lost');return;}
   moveCard(m,p.card.id,'table');m.cards[p.card.id].location=p.site.id;deployed(m,p.card.id);return;
  }
  if(r.action.handler!=='ground-creature:move')throw Error('Unknown ground creature action.');
