@@ -112,11 +112,6 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
 /** Shared by Force-drain and battle initiation responses. */
 export function reactionActions(m: Match, site: string, side: Side, eligible: (id: string) => boolean = () => true): Action[] {
   const actions: Action[] = [];
-      const used = usage(m).reacted;
-      for (const from of m.locations.filter(from => adjacent(m, from, site))) for (const card of atSite(m, from)) {
-        if (card.owner === side && !card.attachedTo && card.blueprint === '1_30' && !used.includes(card.id) && eligible(card.id) && canMove(m, card.id))
-          actions.push(action('react-move:' + card.id + ':' + site, 'React with ' + name(m, card.id), 'move', {card: card.id, from, site, react: true}, {[side]: 1}));
-      }
       const sources = reactionSources(m, site, side);
       // Retain the selected Comlink as the source of its granted react permission.
       const options = [...(sources.some(id => m.cards[id].blueprint === '1_6') ? [undefined] : []), ...sources.filter(id => m.cards[id].blueprint === '1_201')];

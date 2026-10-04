@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T05:33:16.366263+00:00",
+  "files": {
+    "NativeEngineCharacterReactOracleTests.java": "654d03e40013270d2befbf5f306f60742219883c230ce01d9f23adbf285a6803",
+    "character-react-results.json": "d37f8866181d8a67c5f3b6e43446060ca3b239202224b6323a1a0eabf03f015c"
+  },
+  "junitTests": 1,
+  "observations": 9,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCharacterReactOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp170\u2013171",
+  "scope": "Printed Shistavanen Wolfman movement reacts from ground, open/enclosed vehicles and landed Y-wing; Sense cancellation/success, arrival boarding, Force drain and battle initiation.",
+  "method": [
+    "Actual react, disembark, embark and Sense actions; initial boards, occupants, Force and destiny are fixtures.",
+    "Nine complete outcome records compared with native command replays that round-trip JSON after every action.",
+    "GEMP requires pre-departure disembark once an aboard character commits its react; native offers that required step. Arrival embark remains optional."
+  ],
+  "limitations": [
+    "Component verification only; full production admission remains closed. No new standalone study.",
+    "Original host/character identity, capacity changes, invalid snapshots and native browser recovery have additional native-only checks.",
+    "Broader printed reaction grants, cargo vessel movement reactions and full engine/product scope remain. Existing GEMP differences recorded in prior checkpoints remain."
+  ]
+}

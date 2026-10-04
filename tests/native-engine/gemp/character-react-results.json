@@ -1,0 +1,84 @@
+[
+  {
+    "mode": "ground",
+    "cost": 1,
+    "leftCarrier": true,
+    "atDestination": true,
+    "boarded": false,
+    "gunCarried": true,
+    "regularMove": true
+  },
+  {
+    "mode": "open",
+    "cost": 1,
+    "leftCarrier": true,
+    "atDestination": true,
+    "boarded": false,
+    "gunCarried": true,
+    "regularMove": true
+  },
+  {
+    "mode": "closed",
+    "cost": 1,
+    "leftCarrier": true,
+    "atDestination": true,
+    "boarded": false,
+    "gunCarried": true,
+    "regularMove": true
+  },
+  {
+    "mode": "landed",
+    "cost": 1,
+    "leftCarrier": true,
+    "atDestination": true,
+    "boarded": false,
+    "gunCarried": true,
+    "regularMove": true
+  },
+  {
+    "mode": "cancel",
+    "cost": 1,
+    "leftCarrier": true,
+    "atDestination": false,
+    "boarded": false,
+    "gunCarried": true,
+    "regularMove": false,
+    "locked": true
+  },
+  {
+    "mode": "sense-fails",
+    "cost": 1,
+    "leftCarrier": true,
+    "atDestination": true,
+    "boarded": false,
+    "gunCarried": true,
+    "regularMove": true
+  },
+  {
+    "mode": "embark",
+    "cost": 1,
+    "leftCarrier": true,
+    "atDestination": true,
+    "boarded": true,
+    "gunCarried": true,
+    "regularMove": true
+  },
+  {
+    "mode": "ground-embark",
+    "cost": 1,
+    "leftCarrier": true,
+    "atDestination": true,
+    "boarded": true,
+    "gunCarried": true,
+    "regularMove": true
+  },
+  {
+    "mode": "battle",
+    "cost": 1,
+    "leftCarrier": true,
+    "atDestination": true,
+    "boarded": false,
+    "gunCarried": true,
+    "regularMove": true
+  }
+]
