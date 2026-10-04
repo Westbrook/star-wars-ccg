@@ -2708,3 +2708,33 @@ Ship-to-ship docking transfers, shuttle vehicles, sectors, simultaneous pilots,
 other cargo capacities and aboard-card text, broader movement modifiers/prevention,
 capture and the rest of the full engine/product remain. Production full-match
 admission is still closed. No new standalone Rules Lab study was added.
+
+### Ship-to-ship docking
+
+Two own registered starships at the same system can dock during Move for one
+Force when at least one is piloted and one has docking capability (all capital
+ships do by rule). Docking is unlimited and neither ship spends its regular move.
+The paid session allows any number of direct crew and cargo transfers in either
+direction, including none, then undocking. Crew may change pilot/passenger slots
+to free capacity; choices recheck printed capacity after each operation. Inner
+cargo crew stay with their carrier and cannot transfer directly to the other ship.
+
+Transfers preserve nested attachments and expose their own response results,
+without treating transferred cards as moving. Ship movement prohibitions prevent
+initial docking; a carried character's movement prohibition does not prevent its
+transfer. Pending sessions bind both ships and their system to original instances;
+departure closes the session instead of following a returned replacement. Recovery
+validates session identity and transfer counts. The table identifies both ship
+instances and shows the completed transfer count until undocking. Playwright
+executes multiple transfers with refresh at 1440/834/390 through the real service.
+
+Six executed GEMP paths in `tests/native-engine/gemp/docking-provenance.json`
+match native cost, crew role, cargo relationships, pilot power bonuses and regular
+movement history: no transfer, crew, vehicle, fighter, multiple transfers, and a
+crew round trip. One JUnit test passes against 6820 unchanged production files.
+Native tests additionally cover capacity, stale references, ship loss, restricted
+movement, an unpiloted partner, and CPU ending without a transfer loop.
+
+Sector docking, special docking-site permissions, non-capital docking-capability
+providers, generic cost/prevention modifiers and coordinated CPU cargo strategy
+remain. The remaining full engine/product scope and admission gate are unchanged.

@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T01:57:21.494418+00:00",
+  "files": {
+    "NativeEngineDockingOracleTests.java": "04f8adc48c376a7c49c05b15e714914f723251bc4a280b0cf7ca6b5af1191e29",
+    "NativeEngineShuttleOracleTests.java": "0316d25112aaec0a049e32d8ddc66a6a0d570b9955d0b9b435cbf91a3bae93f6",
+    "NativeEngineVesselsOracleTests.java": "d978c61a3416028d940aaf7f39e05dfca376b3944a17fba40a63abbd58be39d3",
+    "docking-results.json": "a0c0727f81e46827d44a20e38b7ac8ea12033f1b965aac145b88fd63090bbd1d"
+  },
+  "junitTests": 1,
+  "observations": 6,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDockingOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf p69 Moving Between Docked Starships",
+  "scope": "Actual ship docking, optional zero transfers, crew/passenger transfer, nested vehicle cargo transfer, fighter transfer, multiple transfers and round trip. One shared Force cost, power and regular movement history.",
+  "method": [
+    "Starting locations and Force are fixtures. Both Star Destroyers, Tarkin, TIE and Sandcrawler/Labria deploy through actual GEMP actions; vehicle shuttles into cargo before docking.",
+    "Native replays restore JSON through response windows. They use the Light Tatooine system face for the same endpoint, not an assertion of identical Force icons or other text.",
+    "Pre-docking shuttle consumes the vehicle regular move, unchanged by later docking. Neither ship, Tarkin nor fighter spends its regular move."
+  ],
+  "limitations": [
+    "Recorded outcomes agree in these six paths; no exhaustive timing or broader card-text conformance is claimed.",
+    "Recovery, invalid references, blocked ships, unpiloted partners and capacity rejections have native checks outside the reference harness.",
+    "Sector docking, special docking-site permissions and cost/prevention providers remain. Production full-match admission stays closed."
+  ]
+}

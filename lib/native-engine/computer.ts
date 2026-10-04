@@ -6,7 +6,7 @@ import {premiereLocations,premiereSites} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-9';
+export const computerPolicy = 'native-cpu-10';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -115,6 +115,8 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (c.id === 'skip-destiny') return -10;
     if (kind === 'drain') return 100 + icons(a,opponent);
     if (kind === 'site') return 50;
+    if(c.id==='undock')return 10;
+    if(kind==='dock')return -5; // Needs coordinated crew/cargo route planning.
     if (kind === 'transport') {
       const target=c.id.split(':')[3],role=c.id.split(':')[4],host=rules?.vessels?.[target];
       if(a==='disembark')return 24; // Launch a carried fighter; do not embark it again without a transport plan.
