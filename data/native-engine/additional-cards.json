@@ -1757,5 +1757,28 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_310.java"
+  },
+  {
+    "gempId": "1_144",
+    "name": "Red 1",
+    "side": "light",
+    "type": "Starship",
+    "subType": "Starfighter: X-Wing",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/red1.gif",
+    "text": "May add 1 pilot. Must have pilot aboard to use power, maneuver or hyperspeed.",
+    "stats": {
+      "deploy": "2",
+      "power": "3",
+      "destiny": "2",
+      "forfeit": "5",
+      "maneuver": "4",
+      "hyperspeed": "5"
+    },
+    "icons": [
+      "Nav Computer",
+      "Scomp Link"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_144.java"
   }
 ]

@@ -1,0 +1,68 @@
+[
+  {
+    "mode": "arrive",
+    "cost": 5,
+    "shipAtSystem": true,
+    "shipInHand": false,
+    "pilotAboard": true,
+    "pilotInHand": false,
+    "drainStopped": true,
+    "shipBarred": false,
+    "pilotBarred": false
+  },
+  {
+    "mode": "cancel",
+    "cost": 5,
+    "shipAtSystem": false,
+    "shipInHand": true,
+    "pilotAboard": false,
+    "pilotInHand": true,
+    "drainStopped": false,
+    "shipBarred": false,
+    "pilotBarred": false
+  },
+  {
+    "mode": "barrier-ship",
+    "cost": 5,
+    "shipAtSystem": true,
+    "shipInHand": false,
+    "pilotAboard": true,
+    "pilotInHand": false,
+    "drainStopped": true,
+    "shipBarred": true,
+    "pilotBarred": true
+  },
+  {
+    "mode": "barrier-pilot",
+    "cost": 5,
+    "shipAtSystem": true,
+    "shipInHand": false,
+    "pilotAboard": true,
+    "pilotInHand": false,
+    "drainStopped": true,
+    "shipBarred": true,
+    "pilotBarred": true
+  },
+  {
+    "mode": "source-leave",
+    "cost": 5,
+    "shipAtSystem": true,
+    "shipInHand": false,
+    "pilotAboard": true,
+    "pilotInHand": false,
+    "drainStopped": true,
+    "shipBarred": false,
+    "pilotBarred": false
+  },
+  {
+    "mode": "source-return",
+    "cost": 5,
+    "shipAtSystem": true,
+    "shipInHand": false,
+    "pilotAboard": true,
+    "pilotInHand": false,
+    "drainStopped": true,
+    "shipBarred": false,
+    "pilotBarred": false
+  }
+]

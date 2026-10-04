@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T04:34:34.994357+00:00",
+  "files": {
+    "NativeEnginePilotReactOracleTests.java": "7455b45158d8a36c47dd9731bfeeb2b4c3e2ba0b0785ffe5f083fa39984997a9",
+    "pilot-react-results.json": "554591827f328d5658d3abadc8aa19eaaebbfc9e7ff2489cba50545cb66eee2a"
+  },
+  "junitTests": 1,
+  "observations": 6,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEnginePilotReactOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp48,170\u2013171",
+  "scope": "Required Red 1/Han Solo paired deployment react at Tatooine, Sense cancellation, Barrier on either simultaneous arrival, source departure and return.",
+  "method": [
+    "Actual GEMP CZ-3 reaction, Sense and Barrier actions. Starting unpiloted Gold 1 with CZ-3 aboard, opposing TIE Scout, Force and destiny are fixtures.",
+    "Native compares all six complete result records and restores JSON at every command. Both fixtures use the same Tatooine Light system.",
+    "Red 1 capacity, stats and identity come from pinned Card1_144.java."
+  ],
+  "limitations": [
+    "Component coverage, not full match admission. Broader grants, cargo reacts, vehicle/sector simultaneous pilots, special card-text pairing, generic cost/prevention and full product scope remain.",
+    "Physical and non-unique title history uses the shared native cancellation mechanism; these six GEMP records do not inspect subsequent turn-history options.",
+    "Stale destination/permission references and insufficient combined Force have additional native-only checks."
+  ]
+}

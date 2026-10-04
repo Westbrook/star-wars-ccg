@@ -13,7 +13,7 @@ import {other, sides, type Action, type Decision, type Json, type Match, type Pa
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 
 export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>; cancelledReactTitles?: string[]};
-type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number; targetRef?: CardReference; targets?: CardReference[]; cardRef?: CardReference};
+type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number; targetRef?: CardReference; targets?: CardReference[]; cardRef?: CardReference; pilot?: CardReference};
 export type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean; worseIncrease?: number; ledger?: LossLedger};
 const payload = (action: Action) => action.payload as Payload;
 export function usage(m: Match): GroundState {
@@ -30,13 +30,16 @@ export const canDeployAsReact = (m: Match, id: string) => !usage(m).reacted.incl
 export function resolveCancelledReact(m: Match, r: Resolution): boolean {
   const p = payload(r.action);
   if (!r.cancelled || !p?.react) return false;
-  const deployment = ['vessel:deploy','vessel:aboard','ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
+  const deployment = ['pair:deploy','vessel:deploy','vessel:aboard','ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
   if (!deployment && !['ground:move','vehicle-react:move'].includes(r.action.handler)) throw Error('Unknown canceled react.');
   const card = m.cards[p.card!];
+  const returning = r.action.handler==='pair:deploy' ? [card,m.cards[p.pilot!.id]] : [card];
+  for (const card of returning) {
   registerReact(m, card.id);
   if (deployment) {
     if (!isUnique(m, card.id)) {const titles = record(m).cancelledReactTitles ??= []; if (!titles.includes(name(m, card.id))) titles.push(name(m, card.id));}
     if (card.zone === 'playing') moveCard(m, card.id, 'hand');
+  }
   }
   openWindow(m, 'response', other(r.actor), {kind: 'react-cancelled', card: card.id, deployment});
   return true;
