@@ -2861,10 +2861,18 @@ boundaries. Playwright uses the real native service to initiate a battle, fire
 an open passenger's blaster, refresh while the shot is pending, and inspect
 crew at 1440/834/390 widths.
 
-**Still required:** moving/deploying vehicles as reacts, optional crew boarding
+**Remaining at the open-vehicle checkpoint (movement reactions are extended below):** moving/deploying vehicles as reacts, optional crew boarding
 and disembarking around a react, cancellation and turn history; broader aboard
 interactions with movement cards (including Run Luke and move-away effects);
 general vessel stat modifiers, creature/combat/shuttle vehicles, sectors,
 capture and the remaining catalog/timing/product scope. These cards are component
 coverage only. Full native admission stays closed. No new standalone study was
 created; this work extends the full engine and match UI.
+
+### Vehicle movement reactions
+
+`vehicle-react.ts` executes printed landspeed reactions for Luke's X-34, SoroSuub V-35 and Ubrikkian 9000. It answers the opponent's battle/drain initiation, pays movement cost before optional crew embarkation, then offers the regular movement's cancellation window. Intermediate sites carry all attachments; eligible crew may disembark only after final arrival. Crew choices, movement references and per-turn restrictions survive serialized recovery. Successful Sense preserves completed boarding and spent Force, leaves the vehicle at origin, and closes the remaining movement/crew sequence. Cards merely carried aboard do not spend their own regular move or react allowance.
+
+`vehicle-react.test.mjs` covers costs, both players, multi-crew capacities, ordinary movement after the turn changes, battle entry, interrupted journeys, persistent drain cancellation and original-card identity. Seven complete recorded GEMP outcomes in `vehicle-react-results.json` match native command replays. `vehicle-react-provenance.json` records the pinned reference, exact harness/helper hashes, unchanged production sources and verification limits. The browser harness exercises boarding and disembarking across refresh on desktop, tablet and phone using the durable native match service.
+
+This remains component coverage. Full production admission stays closed. Broader reaction grants, vessel deployment reactions, cargo movements around reactions, aboard movement Interrupts and the remaining full-engine scope still require implementation and verification; no new standalone study was added.

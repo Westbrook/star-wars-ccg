@@ -29,7 +29,7 @@ export function resolveCancelledReact(m: Match, r: Resolution): boolean {
   const p = payload(r.action);
   if (!r.cancelled || !p?.react) return false;
   const deployment = ['ground:deploy', 'battle:equip', 'equipment:attach', 'equipment:mine', 'gaffi:equip','saber:equip'].includes(r.action.handler);
-  if (!deployment && r.action.handler !== 'ground:move') throw Error('Unknown canceled react.');
+  if (!deployment && !['ground:move','vehicle-react:move'].includes(r.action.handler)) throw Error('Unknown canceled react.');
   const card = m.cards[p.card!];
   registerReact(m, card.id);
   if (deployment) {
@@ -155,7 +155,7 @@ export function queueForceLoss(m: Match, loss: Loss): void {
 
 /** AR p170: bringing presence cancels the drain, rather than suspending it
  * while control is contested. Arrival responses may remove the reacting card. */
-function cancelDrainAfterReact(m: Match, side: Side, data: Payload): void {
+export function cancelDrainAfterReact(m: Match, side: Side, data: Payload): void {
   if (!data.react || !presence(m, side, data.site!)) return;
   const drain = [...m.stack].reverse().find(f => f.kind === 'resolution' && f.action.handler === 'ground:drain' && f.actor !== side && payload(f.action).site === data.site);
   if (drain?.kind !== 'resolution' || drain.cancelled) return;

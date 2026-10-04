@@ -1,0 +1,67 @@
+[
+  {
+    "mode": "ride",
+    "cost": 0,
+    "aboard": true,
+    "hostMoved": true,
+    "lukeMoved": false,
+    "arrived": true,
+    "lostToDrain": 0
+  },
+  {
+    "mode": "board",
+    "cost": 1,
+    "aboard": true,
+    "hostMoved": true,
+    "lukeMoved": false,
+    "arrived": true,
+    "lostToDrain": 0
+  },
+  {
+    "mode": "disembark",
+    "cost": 0,
+    "aboard": false,
+    "hostMoved": true,
+    "lukeMoved": false,
+    "arrived": true,
+    "lostToDrain": 0
+  },
+  {
+    "mode": "board-exit",
+    "cost": 1,
+    "aboard": false,
+    "hostMoved": true,
+    "lukeMoved": false,
+    "arrived": true,
+    "lostToDrain": 0
+  },
+  {
+    "mode": "cancel",
+    "cost": 1,
+    "aboard": true,
+    "hostMoved": false,
+    "lukeMoved": false,
+    "arrived": false,
+    "hostLocked": true,
+    "boarderLocked": true,
+    "driverLocked": false
+  },
+  {
+    "mode": "sense-fails",
+    "cost": 1,
+    "aboard": true,
+    "hostMoved": true,
+    "lukeMoved": false,
+    "arrived": true,
+    "lostToDrain": 0
+  },
+  {
+    "mode": "closed",
+    "cost": 0,
+    "aboard": true,
+    "hostMoved": true,
+    "lukeMoved": false,
+    "arrived": true,
+    "lostToDrain": 0
+  }
+]
