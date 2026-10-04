@@ -1,0 +1,74 @@
+[
+  {
+    "side": "light",
+    "kind": "fusion",
+    "base": 0,
+    "on": 1,
+    "off": 0
+  },
+  {
+    "side": "dark",
+    "kind": "fusion",
+    "base": 0,
+    "on": 1,
+    "off": 0
+  },
+  {
+    "side": "light",
+    "two": 1,
+    "canceled": 0,
+    "one": 1,
+    "base": 0,
+    "self": 0,
+    "kind": "droid"
+  },
+  {
+    "side": "dark",
+    "two": 1,
+    "canceled": 0,
+    "one": 1,
+    "base": 0,
+    "self": 0,
+    "kind": "droid"
+  },
+  {
+    "after": 6,
+    "side": "light",
+    "kind": "drawn",
+    "behind": false,
+    "before": 3
+  },
+  {
+    "after": 6,
+    "side": "light",
+    "kind": "drawn",
+    "behind": true,
+    "before": 3
+  },
+  {
+    "after": 7,
+    "side": "dark",
+    "kind": "drawn",
+    "behind": false,
+    "before": 7
+  },
+  {
+    "after": 14,
+    "side": "dark",
+    "kind": "drawn",
+    "behind": true,
+    "before": 7
+  },
+  {
+    "side": "light",
+    "hit": true,
+    "kind": "rifle",
+    "total": 6.0
+  },
+  {
+    "side": "dark",
+    "hit": true,
+    "kind": "rifle",
+    "total": 6.0
+  }
+]

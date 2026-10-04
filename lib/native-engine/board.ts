@@ -1,3 +1,4 @@
+import {supportPowerBonus,fusionWeaponBonus} from './power-support';
 import {artillery} from './artillery';
 import {forceIcons} from './location-icons';
 import {hothDeployModifier,hothDrainModifier,hothGenerationModifier,hothWeaponModifier,hothForfeitModifier} from './hoth-text';
@@ -116,7 +117,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   const currentBattle = m.data.battle as {site: string; stage: string; runLuke?: boolean} | undefined;
   if (blueprint === '101_2' && currentBattle?.runLuke && currentBattle.stage !== 'complete' && site === currentBattle.site &&
       !Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '101_5' && c.location && (c.location === site || adjacent(m, c.location, site)))) value += 2;
-  value += equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id) + larsPowerBonus(m,id,active);
+  value += supportPowerBonus(m,id,active) + equipmentBonus(m, id, 'power') + mosEisleyBonus(m, id) + combatPowerBonus(m,id) + larsPowerBonus(m,id,active);
   if (attachedArmor(m,id).length) value += 2;
   if (blueprint === '9_24' && armedWithLightsaber(m,id)) value+=2;
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
@@ -133,12 +134,18 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
   return currentForfeit(m,id,printed(m,id,'forfeit'),bonuses);
 }
 
+/** Power of cards actually present, excluding total-power and destiny additions. */
+export function presentPower(m:Match,side:Side,site:string,defending=false,active:(id:string)=>boolean=()=>true):number{
+ return unitsAt(m,site).filter(c=>c.owner===side&&active(c.id)).reduce((sum,c)=>sum+(cardDefinition(m,c.id).type==='Character'&&!characterPresent(m,c.id)?0:power(m,c.id,defending,active)),0);
+}
+
 export function totalPower(m: Match, side: Side, site: string, defending = false, active: (id: string) => boolean = () => true): number {
   const members = unitsAt(m, site).filter(c => c.owner === side && active(c.id));
   const orbit=m.locations.find(id=>['1_127','1_289','1_135','1_296','3_55','3_143'].includes(m.cards[id].blueprint)&&system(m,id)===system(m,site));
-  const b=m.data.battle as {site:string;stage:string}|undefined;
+  const b=m.data.battle as {site:string;stage:string;powerDroidBoosts?:{side:Side;amount:number}[]}|undefined;
   const orbitBonus=b&&b.stage!=='complete'&&b.site===site&&cardDefinition(m,site).subType==='Site'&&orbit&&gameTextActive(m,orbit)&&controls(m,side,orbit)&&!(side==='dark'&&shielded(m,site))?unitsAt(m,orbit).filter(c=>c.owner===side&&!c.attachedTo&&cardDefinition(m,c.id).type==='Starship').length:0;
-  return orbitBonus + cloudCityBattleBonus(m,side,site) + members.reduce((sum, c) => sum + (cardDefinition(m,c.id).type==='Character'&&!characterPresent(m,c.id)?0:power(m, c.id, defending, active)), 0) + protocolPowerBonus(m,side,site,active) +
+  const droidBonus=b&&b.stage!=='complete'&&b.site===site?(b.powerDroidBoosts??[]).filter(p=>p.side===side).reduce((n,p)=>n+p.amount,0):0;
+  return droidBonus + orbitBonus + cloudCityBattleBonus(m,side,site) + members.reduce((sum, c) => sum + (cardDefinition(m,c.id).type==='Character'&&!characterPresent(m,c.id)?0:power(m, c.id, defending, active)), 0) + protocolPowerBonus(m,side,site,active) +
     (members.some(c => c.blueprint === '1_196') && members.filter(c => isSpecies(m, c.id, 'TUSKEN_RAIDER') && nonUnique(m, c.id)).length >= 4 ? 2 : 0);
 }
 
@@ -202,5 +209,5 @@ export function sitePlacements(m: Match, id: string): {id: string; label: string
 /** Current location modifier, evaluated when the physical weapon destiny draws. */
 export function weaponDrawBonus(m: Match, id: string): number {
   const c = m.cards[id];
-  return hothWeaponModifier(m,id)+(c.owner === 'dark' && c.location && ['1_284', '1_132'].includes(m.cards[c.location].blueprint) ? 1 : 0);
+  return fusionWeaponBonus(m,id)+hothWeaponModifier(m,id)+(c.owner === 'dark' && c.location && ['1_284', '1_132'].includes(m.cards[c.location].blueprint) ? 1 : 0);
 }

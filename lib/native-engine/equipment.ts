@@ -1,3 +1,4 @@
+import {fusionGenerator} from './power-support';
 import {optionalActionWindow} from './action-timing';
 import {peekReserve, assertReservePeek, returnReservePeek, reservePeekView, type ReservePeek} from './reserve-peek';
 import {deployed} from './deployment';
@@ -20,7 +21,7 @@ type Payload = {inspection?: ReservePeek; source?: string; attachment?: Attachme
 export const isMine = (blueprint: string) => ['1_162', '1_322'].includes(blueprint);
 const mining = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side && ['1_18', '1_186'].includes(c.blueprint));
 const isTraining = (bp: string) => ['1_64', '1_221'].includes(bp);
-const devices: Record<string, number> = {'1_201': 1, '1_207': 1, '1_40': 1, '1_35': 1, '5_109': 3};
+const devices: Record<string, number> = {'1_201': 1, '1_207': 1, '1_40': 1, '1_35': 1, '5_109': 3, '3_96':0, '4_13':0};
 const act = (id: string, label: string, handler: string, p: Payload = {}, payment?: Payment, source?: string): Action => ({id, label, handler: 'equipment:' + handler, payload: p as Json, ...(payment ? {payment} : {}), ...(source ? {source} : {})});
 const data = (r: Resolution | Decision) => ('action' in r ? r.action.payload : r.payload) as Payload;
 const event = (w: Window) => w.event as {kind?: string; card?: string; site?: string; cards?: string[]} | undefined;
@@ -31,7 +32,7 @@ function validHost(m: Match, blueprint: string, host: string, side: Side): boole
   const c = m.cards[host], def = cardDefinition(m, host);
   if (c.zone !== 'table' || c.owner !== side || def.type !== 'Character' || !c.location) return false;
   if (blueprint === '1_201') return true;
-  if (blueprint === '1_35' || weapons[blueprint]) return isWarrior(m, host);
+  if (blueprint === '1_35' || fusionGenerator(blueprint) || weapons[blueprint]) return isWarrior(m, host);
   if (blueprint === '1_40') return ['Rebel', 'Alien'].includes(def.subType);
   if (blueprint === '1_207') return ['Imperial', 'Alien'].includes(def.subType);
   if (isArmorDevice(blueprint)) return ['Imperial', 'Alien'].includes(def.subType) && !hasPersona(m,host,'VADER') && !hasPersona(m,host,'BOBA_FETT');
@@ -44,7 +45,7 @@ function deployActions(m: Match, side: Side, reactSite?: string, via?: string): 
     if (reacting && (!canDeployAsReact(m, id) || !['Device', 'Weapon'].includes(def.type))) continue;
     const suffix = reacting ? ':react' + (via ? ':via:' + via : '') : '';
     const extra = reacting ? {react: true, ...(via ? {via} : {})} : {};
-    if (devices[bp] || isTraining(bp) || reacting && weapons[bp]) {
+    if (devices[bp] !== undefined || isTraining(bp) || reacting && weapons[bp]) {
       for (const host of Object.values(m.cards).filter(h => validHost(m, bp, h.id, side) && (!reactSite || h.location === reactSite))) {
         const mode = isTraining(bp) ? isWarrior(m, host.id) ? 'power' : 'warrior' : undefined;
         const a = act('attach:' + id + ':' + host.id + suffix, 'Deploy ' + name(m, id) + ' on ' + name(m, host.id), 'attach', {card: id, target: host.id, ...(mode ? {mode} : {}), ...extra}, {[side]: devices[bp] ?? weapons[bp]?.deploy ?? 0}, id);
@@ -61,7 +62,7 @@ export function equipmentActions(m: Match, w: Window, side: Side): Action[] {
   const result: Action[] = [];
   if (w.timing === 'phase' && m.turn.side === side && m.turn.phase === 'deploy') {
     result.push(...deployActions(m, side));
-    for (const c of Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && devices[c.blueprint] && c.attachedTo))
+    for (const c of Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && devices[c.blueprint] !== undefined && c.attachedTo))
       for (const host of Object.values(m.cards).filter(h => h.id !== c.attachedTo && h.location === c.location && validHost(m, c.blueprint, h.id, side)))
         result.push(act('device-transfer:' + c.id + ':' + host.id, 'Transfer ' + name(m, c.id) + ' to ' + name(m, host.id), 'attach', {card: c.id, target: host.id}, {[side]: devices[c.blueprint]}, c.id));
     for (const site of m.locations.filter(site => burySite(m, side, site))) for (const card of m.players[side].hand)
@@ -244,7 +245,7 @@ export function assertEquipment(m: Match): void {
   const s = equipmentState(m), raw = m.data.equipment as {turn: number} | undefined;
   if (raw && (!Number.isSafeInteger(raw.turn) || raw.turn < 1 || raw.turn > m.turn.number)) throw Error('Invalid equipment turn.');
   if (s.deviceVersions && (typeof s.deviceVersions !== 'object' || Array.isArray(s.deviceVersions) || Object.entries(s.deviceVersions).some(([host, v]) => !s.devices[host] || !Number.isSafeInteger(v) || v < 0 || v > cardVersion(m, s.devices[host])))) throw Error('Invalid device instance history.');
-  for (const [host, device] of Object.entries(s.devices)) if (!m.cards[host] || !m.cards[device] || !devices[m.cards[device].blueprint]) throw Error('Invalid device usage.');
+  for (const [host, device] of Object.entries(s.devices)) if (!m.cards[host] || !m.cards[device] || devices[m.cards[device].blueprint] === undefined) throw Error('Invalid device usage.');
   for (const [id, mode] of Object.entries(s.training)) if (!m.cards[id] || !isTraining(m.cards[id].blueprint) || !['warrior', 'power'].includes(mode)) throw Error('Invalid training mode.');
   for (const c of Object.values(m.cards)) {
     if (c.zone === 'buried' && (!c.location || !m.locations.includes(c.location) || c.attachedTo)) throw Error('Invalid buried card.');

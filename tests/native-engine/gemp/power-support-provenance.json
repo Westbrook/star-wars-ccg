@@ -1,0 +1,32 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T16:03:41.552661+00:00",
+  "files": {
+    "NativeEnginePowerSupportOracleTests.java": "602ac05e5802cd04f30478efc6c134a47b8ec70d8b09a125182953fd009282f8",
+    "power-support-results.json": "32de6bf44a8544aedaa1f4969eff2461ecf4b0ef66781db7aea7581094d1fdc8"
+  },
+  "junitTests": 4,
+  "observations": 10,
+  "exactAgreements": 10,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEnginePowerSupportOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp30/80/142/150; printed EG-4, EG-6 and Portable Fusion Generator",
+  "scope": "Power-droid bonuses and battle-destiny triggers; Fusion Generator enhancement actions and weapon draw bonuses.",
+  "method": [
+    "Two droid stat boards compare ordinary, repeated-copy and canceled-text power modifiers. Cancellation is a controlled production modifier fixture.",
+    "Both Fusion Generator mirrors execute real enhancement-on and enhancement-off actions on present droids.",
+    "Both mirrors enhance actual blaster-rifle firing draws from 5 to 6; printed rifle comparison arithmetic remains separate.",
+    "Four actual battle-destiny paths compare power before/after drawing a power droid, including a higher-power side with no trigger.",
+    "Native-only cases cover ordinary deployment cost, artillery firing-user choice, original-instance departure/return, device-use limits, source cancellation, cross-turn persistence, malformed saves and canceling destiny after its required trigger."
+  ],
+  "limitations": [
+    "Full engine and card certification remain unfinished. Production full-match admission stays closed; no standalone study added.",
+    "Reference boards and draw order are controlled fixtures. Ten observed outcomes do not exhaust every card interaction or mandatory trigger timing.",
+    "Repeated power-droid draws, draw selection/substitution, simultaneous required triggers and wider power-total modifier interactions still require executed conformance.",
+    "Fusion artillery bonus, deployment, transfer, departure and device-use limit branches currently have native-only checks; the GEMP comparisons here exercise rifles and enhancement on/off.",
+    "Undercover/captured/inactive exceptions, broader device permission/prevention and strategic CPU decisions for these cards remain required full-engine scope.",
+    "Browser uses test-only admission with the real nativeMatchService and SQLiteD1. These component boards do not certify full production matches."
+  ]
+}

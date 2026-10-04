@@ -1,3 +1,4 @@
+import type {DroidBoost} from './power-droid';
 import {unitsAt,characterPresent,occupants,belowDecks} from './occupancy';
 import {sunsdownAt} from './nighttime';
 import {battleMembers as members,battleProhibited} from './participation';
@@ -51,6 +52,8 @@ export type Battle = {
   departed?: string[];
   attritionProtected?: CardReference[];
   characterDestinyUses?: CardReference[];
+  powerDroidUses?: string[];
+  powerDroidBoosts?: DroidBoost[];
   worseIncrease?: number; damageLedger?: Pair<LossLedger>;
   damageMultipliers?: {card: string; factor: number; side: Side | 'both'}[];
   knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[]; saberShots?: LightsaberShot[]; starshipShots?: StarshipShot[];

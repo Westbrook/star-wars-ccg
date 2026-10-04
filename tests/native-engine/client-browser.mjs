@@ -1,3 +1,4 @@
+import {fixture as powerFixture,attach as powerAttach,drawing as powerDrawing} from './power-support-fixture.mjs';
 import {initiated as spaceWeaponInitiated} from './starship-weapons-fixture.mjs';
 import {fixture as heavyFixture,ready as heavyReady,destiny as heavyDestiny,fire as heavyFire,seek as heavySeek} from './heavy-fixture.mjs';
 import {fixture as generatorFixture,ready as generatorReady} from './generator-fixture.mjs';
@@ -75,8 +76,26 @@ async function context(width,height,actor='owner'){
 const decks=starterDecks(60),config=(id,mode='cpu',side='dark')=>({id,mode,side,deckSize:60,deck:decks.find(d=>d.side===side).cards,...(mode==='cpu'?{computerDeck:decks.find(d=>d.side!==side).cards}:{})});
 try{
 
+ if(!process.env.NATIVE_UI_SCOPE||process.env.NATIVE_UI_SCOPE==='power'){
+ for(const mode of ['fusion','destiny'])for(const side of ['light','dark'])for(const [width,height] of [[1440,1000],[834,1112],[390,844]]){
+  const f=mode==='fusion'?powerAttach(powerFixture(side)):powerDrawing(side),opponent=side==='light'?'dark':'light';let m=f.m;
+  const v=await fresh().create('owner',config(randomUUID(),'pvp',side));await fresh().join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:decks.find(d=>d.side===opponent).cards});m.id=v.id;m.setup={stage:'complete',selected:{light:f.site,dark:f.remote},committed:{light:true,dark:true},revealed:true,rejected:[],priority:'dark',covered:null};
+  db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+  const read=()=>JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state),command=async id=>{m=read();const p=runtime.prompt(m,browserRules,side);await fresh().command(v.id,p.side===side?'owner':'guest',{commandId:randomUUID(),revision:m.revision,choice:id});};
+  const {context:ctx,page}=await context(width,height);await page.goto(origin+'/matches/'+v.id+'?progress-report');await page.getByText('THE LIVING TABLE',{exact:true}).waitFor();
+  if(width<640)await page.getByRole('button',{name:'Actions',exact:false}).click();
+  await page.getByRole('button',{name:mode==='fusion'?/Fusion Generator · add 1 power/:/double power present/}).click();
+  if(mode==='destiny')for(let i=0;i<35&&!read().data.battle.powerDroidBoosts?.length;i++)await command('pass');
+  await page.reload();const panel=page.getByRole('region',{name:mode==='fusion'?'Fusion enhancements':'Power droid destiny'});await panel.waitFor();assert.match(await panel.innerText(),mode==='fusion'?/\+1 power/:/power from the power droid destiny/);
+  await panel.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(output,'power-'+mode+'-'+side+'-'+width+'.png')});
+  if(mode==='fusion'){m=read();if(runtime.prompt(m,browserRules,side).side!==side)await command('pass');await command('fusion:'+f.fusion+':off');await page.reload();assert.equal(await page.getByRole('region',{name:'Fusion enhancements'}).count(),0);}
+  await ctx.close();
+ }
+ console.log('Power droid required destiny, fusion choices, enhancement/off and persisted refresh verified at 1440/834/390 for both sides.');
+ }
 
- if(!['generator','heavy'].includes(process.env.NATIVE_UI_SCOPE)){
+
+ if(!['generator','heavy','power'].includes(process.env.NATIVE_UI_SCOPE)){
  // Controlled source-text changes during total responses use persisted native states.
  for(const family of ['cannon','golan','1_159','1_323'])for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
   const heavy=['cannon','golan'].includes(family),f=heavy?heavyDestiny(heavyReady(heavyFixture({artillery:family==='golan'}))):spaceWeaponFixture(family),side=f.side,opponent=side==='light'?'dark':'light';
@@ -90,7 +109,7 @@ try{
  console.log('Continuous weapon total changes persist and render at 1440/834/390 for cannon, artillery, Quad Lasers and Turbolasers.');
  }
 
- if(!['generator','totals'].includes(process.env.NATIVE_UI_SCOPE)){
+ if(!['generator','totals','power'].includes(process.env.NATIVE_UI_SCOPE)){
  // Both heavy weapon families recover through the real service at each responsive size.
  for(const artillery of [false,true])for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
   const side=artillery?'light':'dark',opponent=side==='light'?'dark':'light';
@@ -106,7 +125,7 @@ try{
  }
  console.log('Heavy cannon/artillery, pending draw/total, hit, powering and forfeiture recovery verified at 1440/834/390.');
  }
- if(!['heavy','totals'].includes(process.env.NATIVE_UI_SCOPE)){
+ if(!['heavy','totals','power'].includes(process.env.NATIVE_UI_SCOPE)){
  // Generator destruction persists casualties, eight Force losses and the final blank site.
  for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
   const v=await fresh().create('owner',config(randomUUID(),'pvp','dark'));await fresh().join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:decks.find(d=>d.side==='light').cards});
@@ -118,7 +137,7 @@ try{
  }
  console.log('Generator attack, casualties, Force loss, blank site, inspection and refresh verified at 1440/834/390.');
  }
- if(!['generator','heavy','totals'].includes(process.env.NATIVE_UI_SCOPE)){
+ if(!['generator','heavy','totals','power'].includes(process.env.NATIVE_UI_SCOPE)){
 
  // Printed Hoth free movement executes through the persisted service and survives refresh.
  for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){

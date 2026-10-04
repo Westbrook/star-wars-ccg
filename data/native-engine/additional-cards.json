@@ -2947,7 +2947,7 @@
     "icons": [
       "Hoth"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_008.java"
   },
   {
@@ -2965,7 +2965,7 @@
       "forfeit": "3"
     },
     "icons": [],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_175.java"
   },
   {
@@ -2983,7 +2983,7 @@
     "icons": [
       "Hoth"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_096.java"
   },
   {
@@ -3001,7 +3001,7 @@
     "icons": [
       "Dagobah"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_013.java"
   }
 ]
