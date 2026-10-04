@@ -1,0 +1,519 @@
+{
+  "schema": 1,
+  "auditedAt": "2026-10-04T18:18:18.218237+00:00",
+  "baseCommit": "0a011cc37185cea0f52c1d31b28520cc9d2d45fb",
+  "purpose": "Source-bound reachability analysis for the exact intro pair, not full-deck certification.",
+  "classification": "outside-current-pair",
+  "branches": [
+    "run-return",
+    "escape-return",
+    "escape-arrival"
+  ],
+  "conclusion": "The controlled original-target return and late-arrival interventions are not produced by the reviewed exact starter pair while their relevant movement is pending. Keep native identity protections and the broader-deck discrepancies; do not count controlled mutations as starter match paths.",
+  "rules": [
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=14",
+      "scope": "A response must connect to the current action; general actions cannot intervene."
+    },
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=71",
+      "scope": "Choose move-away cards during initiation; resolve their separate movements afterward. Arrival triggers occur after the respective move."
+    }
+  ],
+  "deckFingerprints": {
+    "intro-light": "49c5ec2c109f8edb1cfa7b9a471d5bb60301e78e1e60574565232cfe95541707",
+    "intro-dark": "277059fa0f510581ec4c59ba2f392ed6da9522e581a761706fc61815ac0063ec"
+  },
+  "cardFingerprints": {
+    "101_1": "ff692befac2f7122c9e88a347501712790c208f1d8a42823728addd351705983",
+    "101_2": "cec6ea4705e73967514d100c0ba14f0e1eadc17212a17e069d3f331f93f4e940",
+    "101_3": "af96a09340464594d6a1d911ca4fcc4096f4aee050f96ed3836b5665f33efb70",
+    "101_4": "61414c0035e37a2f8532e4ccbe525500ee55abdb07c38062e49584bbc3fca402",
+    "101_5": "80b3d190fb8a729c0bf9b1c4328c964f16fcb0094ef909f5d013dac60b195f24",
+    "101_6": "2f581ff39dbee8f292dac7320baf8f13ac1b18d8b70325f4144faff63d39b044",
+    "1_100": "ae9b9f596f08869f51d5d9d17d5b5e34b9d9ab2f18b9cc1bc8311f94a8f24b7e",
+    "1_105": "cba5f9e2523634f7633e47cefce5bcccb1597197e164022b72d7f62e8d0e3067",
+    "1_106": "88b31961e39261174733d906eb66363672026489cd9efd1eaa88266e7b4019f1",
+    "1_113": "74afe705d0c746eb698a4e9c8e40dd4fb508ec777b20ea8c2b1cb380b6ee9baf",
+    "1_115": "414356536517ddc7789a4dbec727aa1863d07c318b368b259e55fa2d13bee3cc",
+    "1_12": "4668918e243a18a3a54e232133c875b12b433f66b7ac44b6b8e4667fe90e690c",
+    "1_120": "5acfa9bdb74625a3a8710c448620f2e62e84e623a6be444d4e9f3ec2fa1f401c",
+    "1_124": "4efd655cb6d578df7feae5a09f8358fd680298e8d16bba885eb18f9013945a94",
+    "1_129": "6e8457ddfd15b4208a545bb0dd0a0aa889a4d21969adecc3fd8446746a536f90",
+    "1_130": "9dbddd9da13ce34f481bf9be2935a4063166b1b153d53ff83aa01b80614de0a1",
+    "1_131": "4a3b6968a55f844b47d1bd5a3dbf13b20a7b8351c79dde4657d7d205661aa4c1",
+    "1_132": "42c4334071078b5c3e84af08283a671ac7601e2dca0d16e7506c2ca8a0fad918",
+    "1_152": "8b3b06339ebe430e148ccace2f07ff0708d1769446ecf68dec5cd28f1a66c42c",
+    "1_153": "4022b6e6cae79e0da7232b4333959fe1dd0a68e95c648ce996c1f9660d91c720",
+    "1_162": "f44e1622b9f3f6014380893e300b8abd93be8189761157f57c807843cd7fd625",
+    "1_170": "ed08e9828c30da22d3a24df80138a6f8329ec69088f1f7d687808bb3cc935215",
+    "1_18": "de44d5a3932a31ce1f18a29f43abf7fd1a44ec05c527a4f1b9271e973a48724b",
+    "1_181": "40bda9c6e78d4ba199bce19e3a6cb06fe4987a2e38028007efe4a9912cd07945",
+    "1_182": "a2bdce23a837654e54d7f1c46c906bb57f57abec263bfc900ef3f3605c6927c1",
+    "1_186": "506d189234c6830d31fab4757b736e8bdc86b4cdae6a3852b73e86b45072d07b",
+    "1_194": "b50c091be3475b1451e0240e96ef20c693fe2421ab1e9aa4193b83dc620a8bba",
+    "1_196": "5ae3f591bb601757e84cec265027e9f6649dc1debb84e20efbbbde27f483fb64",
+    "1_201": "694fe4e3cd8a697e650574b0487fe0d2c3a44738c8be73a802f9c8ea3527bd8c",
+    "1_207": "a9ec79d933cbdd57bbb534464c6f9c186dc722b9f0124d5b341e080a943c561c",
+    "1_221": "2fd8dbcc8b5f9b1953fc57679dc7a60d3941b2f493d780334dd743c049d40876",
+    "1_224": "a5c55989fb77d4d349e198281592d94de66498e2ae3b1bd0513da385027cd965",
+    "1_237": "a96dff629802a9bf3167991cf0ca82702a12899777356a64956737f24a72889e",
+    "1_238": "e6b4a5548d8fce3a9169f5b93e3b59032e474adb6152b291e3aa0583b4d8fcbc",
+    "1_249": "19c1b7a30a417697e2ba6374a8a60072c92706fd1973a718e6f32132d19e1e2c",
+    "1_251": "706b64cc56760a27e27a28be4c03adea5a068b8a42745ce65b369ad6b488a6cc",
+    "1_252": "7e8bdb1902a8f8eb7183eb363f1754f9b2ce3b153a6c2d3bc6af5de658a205ac",
+    "1_254": "305382bfefaec0fb3272524f959e5f54a2dd7a424b804f6b78cdbbccaea1456b",
+    "1_26": "c3da78fcb459ec73467bcd8badc255a7fb753af612f8e39ab74d10100249fe95",
+    "1_262": "e188a3df5d2ef1efa55097b86af1a70c8755392c1950c98a5a9d31f8d2a7b65e",
+    "1_266": "6687e417d56781b25154671d9d1f3a1ad83fe8710f4799f30aead5912d4844e8",
+    "1_268": "097e3971b4b56035ba3ebca0af5b3b09fa7972d42489b015e6ffcdd5d00fe139",
+    "1_269": "f8e48ae0bee8c85a64927d34037d0041ede48a965e0d207e22b9b886f98ef76e",
+    "1_275": "9138e208983482788fc6c50d41cffb54a27593837843faf5ab4a30e993fe2ffd",
+    "1_279": "dd385753dea96179a7c48b20fe3e26145edea82595b85a03822df984981c1eda",
+    "1_28": "e78685b02b6a499438c0216b5ef1d5d54199380ae358ea8d2043ba1d1fd46af2",
+    "1_284": "475af5a26b9f79e8e4a3804cbcdb3a9486bfdb31fe4e18bcee5499ba55440bba",
+    "1_285": "cca691ce9a526d63fc71485644a02509b47d706cfafa50a68090b51a4d844e9e",
+    "1_291": "2d05358fd219ded0f0b73320653fafec916110381ef4f757a1003d4146dc9b13",
+    "1_292": "ae7b79db2a08350801b85c4428f4edabcd91ac736fd9a51e7251af60c9538874",
+    "1_293": "98aeb0965aa27e685ce508a8a06edb77ae3750654890ff69d77e08c6b415d206",
+    "1_295": "4f3a95d1d9164da698394536d1c59c322c70f1534363768750872fa5792a3d81",
+    "1_30": "d18f833e8ca1ecf0d2556ad8192c31283dcab97d5123f66b9c651e8d437c43da",
+    "1_31": "e661abf6b209010d9052aa6fe740ef629694632b77c87681e20c5fe62442db05",
+    "1_312": "57e759879233fbfcc511a97fc69aa027fe8b1b8e4b9dfbfe92adcab4cfb7c670",
+    "1_315": "17d978b1019e4c1a794ac219665f86f681f9398e373d79259d5468e331ad1ce9",
+    "1_317": "31f264420b2ef10bebd3e275fe697d39e93ad14395e46283e1cb6d16df228ea8",
+    "1_322": "8762c5af36a307eb981730815029aa6c1fba513f36933b04e9aa451970fc5e3b",
+    "1_35": "18ff97623c88110a887d7ab2db520dfb45bb9a95291a5caa96523bd45026d638",
+    "1_40": "6446bed857251b3d9a21e41a9b0d4a99743a14caedf18b34cbe0512ff13eb4a3",
+    "1_6": "edfb680f1b6150ce8cf5e73a691a7b3d09e304ef373670dd4e673f6a0fa69be8",
+    "1_64": "5217693846d0b985698ac3fe733cc5b540d261e611809f1cd8cef80151d88908",
+    "1_77": "85460584dba03ce6590123e2ff138dafa9ceef61af245e15b187a83e4cb7a028",
+    "1_80": "b9e179c614b29505b645f3e8bf480ec40bda172d100d9c62d0140aa4e8d216f1",
+    "1_84": "9fccaa947219ac367c8ba5b21ca29113346ec444435cf8221292a834f587e644",
+    "1_90": "c67fe391693ddf3e340d26bd296444e3b62c6ea543654ca1dab11f505f9a2509",
+    "1_91": "38b078ddc9c7d890a2df2b9bdecbaf70c4eb04cc673b3743a6094e4f9412bf6f",
+    "1_98": "3e431c5a65db6b99a6cd8ce159351cfea60cf1be07c2dfb941d0f4d5275aad22"
+  },
+  "groups": [
+    {
+      "id": "battle-initiation",
+      "cards": [
+        "101_3",
+        "1_237",
+        "1_279",
+        "1_315",
+        "1_77",
+        "1_80",
+        "1_91",
+        "1_98"
+      ],
+      "reason": "These effects respond to battle initiation. While an Interrupt or its nested movement resolves, that older battle response is not the immediate action. Chances boosters require the opposite Chances card, absent from this pending chain. Gaderffii only disables weapons. A new reaction after the Interrupt finishes cannot alter its already resolved target group.",
+      "implementation": [
+        "travel.ts",
+        "stakes.ts",
+        "accident.ts",
+        "gaderffii.ts"
+      ]
+    },
+    {
+      "id": "deployment-reactions",
+      "cards": [
+        "1_201",
+        "1_30",
+        "1_6"
+      ],
+      "reason": "CZ-3/Comlink deploy and Wolfman moves only in response to an opponent battle or drain initiation. No current starter grants deployment or movement in response to playing these Interrupts, using their Force, or their landspeed movement.",
+      "implementation": [
+        "ground.ts",
+        "character-react.ts",
+        "equipment.ts"
+      ]
+    },
+    {
+      "id": "general-actions",
+      "cards": [
+        "1_106",
+        "1_115",
+        "1_224",
+        "1_251",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_275",
+        "1_35"
+      ],
+      "reason": "Top-level actions cannot interrupt an unrelated action. This includes Set For Stun (the pair's return-to-hand effect), ordinary retrieval to Life Force, pile shuffles, hand/Reserve inspection and scavenging. At-any-time text does not grant an unrelated response.",
+      "implementation": [
+        "action-timing.ts",
+        "stun.ts",
+        "interrupts.ts",
+        "scan.ts",
+        "scavenge.ts",
+        "equipment.ts"
+      ]
+    },
+    {
+      "id": "control-only",
+      "cards": [
+        "1_120"
+      ],
+      "reason": "We're Doomed plays during the opponent's control phase. These movement Interrupts occur during battle initiation, outside that timing.",
+      "implementation": [
+        "doomed.ts"
+      ]
+    },
+    {
+      "id": "force-drain-response",
+      "cards": [
+        "1_113",
+        "1_238"
+      ],
+      "reason": "Assault responds to a Force drain, not battle or landspeed movement. No drain can be initiated inside the pending movement chain.",
+      "implementation": [
+        "assault.ts"
+      ]
+    },
+    {
+      "id": "deployed-response",
+      "cards": [
+        "1_105",
+        "1_249"
+      ],
+      "reason": "Barriers require an opponent card just deployed. These movements are not deployments; the pair supplies no deployment response to pending travel.",
+      "implementation": [
+        "ground.ts"
+      ]
+    },
+    {
+      "id": "battle-destiny-response",
+      "cards": [
+        "1_269",
+        "1_84"
+      ],
+      "reason": "Han's Dice and Takeel require battle destiny. Movement Interrupts draw none; any arrival mine destiny is weapon destiny, not battle destiny.",
+      "implementation": [
+        "interrupts.ts"
+      ]
+    },
+    {
+      "id": "force-loss-response",
+      "cards": [
+        "1_252",
+        "1_90"
+      ],
+      "reason": "Using Force to pay movement is not losing Force. These cards alter a pending Force-loss amount or respond to battle Force loss; they cannot relocate or deploy a character.",
+      "implementation": [
+        "ground.ts",
+        "worse.ts"
+      ]
+    },
+    {
+      "id": "lost-character-response",
+      "cards": [
+        "1_100",
+        "1_254"
+      ],
+      "reason": "Old Ben requires an actual forfeiture; arrival mines lose cards without forfeiting them. Kintan may respond to an arrival mine casualty but retrieves only to hand. No pending-travel deployment window follows, so it cannot return an original target or create a late table arrival.",
+      "implementation": [
+        "revival.ts",
+        "retrieval.ts"
+      ]
+    },
+    {
+      "id": "duel",
+      "cards": [
+        "101_6"
+      ],
+      "reason": "Obsession requires Vader to move during the Dark move phase. Run Luke and Escape are battle-initiation responses. Neither their movement nor payment can start this duel.",
+      "implementation": [
+        "duel.ts"
+      ]
+    },
+    {
+      "id": "vader-choke",
+      "cards": [
+        "101_5"
+      ],
+      "reason": "Choke is a losing-battle result action, after initiation/movement has finished. It cannot remove a pending movement target.",
+      "implementation": [
+        "character-triggers.ts"
+      ]
+    },
+    {
+      "id": "talz-forfeit",
+      "cards": [
+        "1_31"
+      ],
+      "reason": "Talz substitutes for a hit character during battle forfeiture. The pair cannot fire weapons or begin forfeiture during a pending movement Interrupt.",
+      "implementation": [
+        "battle.ts"
+      ]
+    },
+    {
+      "id": "mining-droids",
+      "cards": [
+        "1_18",
+        "1_186"
+      ],
+      "reason": "Ordinary defusing is a top-level action on the owner's turn. A special defuse response may occur after an arrival reveals mines; it removes mines, not characters.",
+      "implementation": [
+        "equipment.ts"
+      ]
+    },
+    {
+      "id": "timer-mines",
+      "cards": [
+        "1_162",
+        "1_322"
+      ],
+      "reason": "Normal explosions occur at the beginning of the owner's turn. Buried mines can trigger only after an arrival has completed. Their casualties are at the arrival site; remaining Escape targets are still at the origin. Loss does not grant Old Ben, and Kintan only retrieves to hand. No later card re-enters the unresolved original target group.",
+      "implementation": [
+        "equipment.ts",
+        "table.ts",
+        "revival.ts",
+        "travel.ts"
+      ]
+    },
+    {
+      "id": "ordinary-character",
+      "cards": [
+        "101_2",
+        "1_12",
+        "1_170",
+        "1_181",
+        "1_182",
+        "1_194",
+        "1_196",
+        "1_26",
+        "1_28"
+      ],
+      "reason": "Remaining characters provide deployment restrictions, continuous attributes or immobility. Ordinary deployment/movement needs its phase or a react grant, unavailable within pending travel.",
+      "implementation": [
+        "ground.ts"
+      ]
+    },
+    {
+      "id": "ordinary-location",
+      "cards": [
+        "101_1",
+        "101_4",
+        "1_124",
+        "1_129",
+        "1_130",
+        "1_131",
+        "1_132",
+        "1_284",
+        "1_285",
+        "1_291",
+        "1_292",
+        "1_293",
+        "1_295"
+      ],
+      "reason": "Location deployment/conversion and Docking Control Room search require the deploy phase. Remaining text is continuous; no departure/return or arrival response is granted.",
+      "implementation": [
+        "ground.ts",
+        "travel.ts"
+      ]
+    },
+    {
+      "id": "ordinary-weapon",
+      "cards": [
+        "1_152",
+        "1_153",
+        "1_312",
+        "1_317"
+      ],
+      "reason": "Remaining weapons fire in the battle weapons segment (or attack), not during battle-initiation movement. They cannot force a character loss here.",
+      "implementation": [
+        "battle.ts"
+      ]
+    },
+    {
+      "id": "ordinary-device",
+      "cards": [
+        "1_207",
+        "1_40"
+      ],
+      "reason": "Remaining utility belts modify attributes continuously; they grant no movement, removal or return response.",
+      "implementation": [
+        "equipment.ts"
+      ]
+    },
+    {
+      "id": "ordinary-effect",
+      "cards": [
+        "1_221",
+        "1_64"
+      ],
+      "reason": "The remaining Effects grant Warrior/power modifiers when deployed. They cannot deploy or change zones inside pending movement.",
+      "implementation": [
+        "equipment.ts"
+      ]
+    }
+  ],
+  "sourceFingerprints": {
+    "lib/native-engine/ability-effects.ts": "fbf6f6ec442dd002ec7a94e6b9fdedff827a5a180ca71fcc33dbd47853fbc7df",
+    "lib/native-engine/ability.ts": "1ccb58339ed0dc1c3f3e9e7d603807635d139a87561339eb8c8a782add0cf9fd",
+    "lib/native-engine/accident.ts": "2c6912733df1c013ba94fe4494195e3d079049b3f9de421df029f8899ac84bf4",
+    "lib/native-engine/action-timing.ts": "b8ee41c769cc09fc96614995508c7ca7ef8a6a5bae7033ed9a096639628cbe12",
+    "lib/native-engine/activation.ts": "1a9775a0c4a2eea4ceda52f33492307ec2b304bf58fc00c1389d37366f0ce8f7",
+    "lib/native-engine/anger.ts": "6111d2b5c3bd36cc544d660bea93eca15e39e7301054a65468991cec47787f16",
+    "lib/native-engine/armor-equipment.ts": "d3190df210e188fa118816e998eb77674edca693c1b5d099924401ab2e660b32",
+    "lib/native-engine/artillery.ts": "9338a6a6b2c82bb75efb0361bf696bca20a6d4b545bc170f2bcafc8555d990e1",
+    "lib/native-engine/assault.ts": "7580373a09fa9eccd8ef196e0153f8ba78e3dfda2005f4e6b46b4d450f547a64",
+    "lib/native-engine/asteroids.ts": "6599f4add6860b6e7736b57ebb88fdad4fc43c5394dbcc854c3f20748274e89d",
+    "lib/native-engine/astromech.ts": "d4e1bee8455c9c105cb0ba789dfd10f4167904e94cd1314c77b86218baa14cec",
+    "lib/native-engine/attachment.ts": "46f2ef593ab3ab42a639015b35f6309208c0a5e6e34bc472d3c680680d44f46a",
+    "lib/native-engine/bacta.ts": "14eba52b8f7eef0fdb561d8eda29971b680dfb4ebb396a7866162f772139590b",
+    "lib/native-engine/battle-destiny.ts": "c8f619087eb69cd6170a88ca3d7b2eb90ca2cc8fd45cfd24e94f6721e7bba63d",
+    "lib/native-engine/battle-effects.ts": "74bdd0fda6ed087bc4d6517d8a145c7564e0ab314f9080615bf124785889bb20",
+    "lib/native-engine/battle.ts": "4d2d450cf518b78218ffd27662c4382de0f4b839ff13df2c26ddb03b8cd92eb9",
+    "lib/native-engine/beru-stew.ts": "1f93fbc1229ae26330a54f38118484f11e4cd233babdb90979d2f1f5603d153b",
+    "lib/native-engine/bespin.ts": "0b2f838ab0a2e4d5f296212eb4a88dac29b605de3e3b689963c9273f1eeb0b2d",
+    "lib/native-engine/blown-away.ts": "ce9205ee25e580472f2ca045a55a190eedaa04933ffae30d517abda820ae0d67",
+    "lib/native-engine/board.ts": "db281b2c0afd19323454e5ccee3ca0dd9bff3c2d44c7f5f1e0f6496b0bc5130e",
+    "lib/native-engine/cancellation.ts": "f7ba7398d56e551fa068e7a4d0cb787e7a2c1b50a2f236b72fe0af581d1000e6",
+    "lib/native-engine/capacity-loss.ts": "a5db66dbb2af8a5953374c2bd45abbc31bbeb1fed6dfcb4054a0daa27f48260c",
+    "lib/native-engine/card-immunity.ts": "7491270e61e33d2324b8c458864a696e6663a8dcce33f31ea2a1465ad1f7b198",
+    "lib/native-engine/character-destiny.ts": "9b8ce41c435a1350fe2d74aa718c4d822e403d27e0fd902bfafcd72107ee7a52",
+    "lib/native-engine/character-react.ts": "494d44e5da51aff13c9ce375dd258d2dfbbf54b8eead9a505ba570c7f34109ec",
+    "lib/native-engine/character-triggers.ts": "84a733cbebbd5b1b6da3dae25e04660b6fb2f6d8870c8227a95a0885d8d67203",
+    "lib/native-engine/characteristics.ts": "eb7ed5383cfbade3a048b145812c8b9ee9418014b59599e17046bb7a098b049b",
+    "lib/native-engine/client.ts": "0619a4d641a8b58a2a169704bd16df1ade9216dda516ea323ba3d1210157a9d7",
+    "lib/native-engine/combat-modifiers.ts": "992124f577a41b63e09a16e9a74ca3d66cb92ca5d662fb9cf6e9acbfa080ea45",
+    "lib/native-engine/computer.ts": "e170533445ec74e91d01d468b9e626d31ad3ebde113d3e30eabfff3830c177df",
+    "lib/native-engine/creature-attack.ts": "0ee1b88cb1b2038c9186ccb64fc43a06eb214ac17f0b58cfbd964eaf70b272ed",
+    "lib/native-engine/creature-encounters.ts": "26e00b6cda587de49df933057b06f76710e0c8b4d8b1043eb15b4b0fc5610883",
+    "lib/native-engine/creature-profile.ts": "50988eda23382e12b8581ea3752278705275ce42b6fbfce8ba29dc3167604508",
+    "lib/native-engine/creature-weapons.ts": "a3126184a2365bcd7bfad136da57e9b67ad14cec3ab890c5889eb507da1ac019",
+    "lib/native-engine/dark-path.ts": "4cea7efc44cc0637b9c41c1c03613bec1565ae3f9594a9cbfc2c825d9d8e229b",
+    "lib/native-engine/declared-activation.ts": "e0d46feb88b259777db2547d540b9236d6e2243a80b3c14df55a4b0cce29f2bf",
+    "lib/native-engine/defense.ts": "d85adcd5c3f617e663cc993741656169f6dfd636ce0ff02660a26dd188bd10b1",
+    "lib/native-engine/definitions.ts": "ecfec7747cd2f48238e949f8205443c56ff33e518b86d47016bdbf59ad6f594b",
+    "lib/native-engine/deploy-costs.ts": "743adc649fd003b8e8c5bbbca58fc9608ccb98eb38c7a785dfe9babdc7992ebb",
+    "lib/native-engine/deploy-effects.ts": "8e52d799ff1be425011fb4cc475da7892189863ad85de9aa6e4828643b24dd80",
+    "lib/native-engine/deployment.ts": "93363727f97ac49f26d37782d380d027c33cb437f39d5df00b942944825b9487",
+    "lib/native-engine/destiny-limits.ts": "3397fdd436216fb3f5d14b9763720420d0fbe003287b1c0c94d3f7c511f822f7",
+    "lib/native-engine/destiny-response.ts": "28d68c1a9b830ce6a4091b44e6a196a4b90ec1218c15531819e2c317a7346707",
+    "lib/native-engine/destiny-selection.ts": "c95c6077d360f35895a215ffb25bbcb324b97642bc94c444f593dca2058aa2b5",
+    "lib/native-engine/destiny-values.ts": "48de3915fb94276660df13d2d4d20b73348ec941e41c4fe75980590753f82934",
+    "lib/native-engine/destiny.ts": "94731cbbef2b6cfb889da616328fd32bb3a0b9a85d4343533c0da57fcf1809fb",
+    "lib/native-engine/docking.ts": "096b0321b4b4f31c713c2e92f5867653531ae69127a88acbdc613b8857d37810",
+    "lib/native-engine/doomed.ts": "4dd11f02ffa16a1b0426c10b29d2d680d3b24eb7745d121f7ba58c57b3f47d46",
+    "lib/native-engine/duel-interrupts.ts": "ee402de62708325fb839c67c1ffb224a5c5551847a442fff45856826d97b2b9d",
+    "lib/native-engine/duel-modifiers.ts": "9eca9b21f9e436e8fc176ba334ef8136d5caebf554835fe13e671ba405cc330e",
+    "lib/native-engine/duel.ts": "b06794f8876f9da4143f5ec26d2c9bdc88828fa37562a50c621cf3fbc4918285",
+    "lib/native-engine/equipment-state.ts": "594144f2c08cbb26d6380b77b24d00e8e5bb8b58f3fbcb277f7067ac89e0ec77",
+    "lib/native-engine/equipment.ts": "f85e3c7703b53a64927d87548afdaabb9e052e9b6a2a5bd6767d615da1d502fd",
+    "lib/native-engine/farm-devices.ts": "375f750a21c3d499885085bba3a9fe0ba2142d6d6c5ad5b58a1f18bb546fd9d3",
+    "lib/native-engine/fighter-trouble.ts": "75b4e9cda58825cb7d2aab83c2f87737469177ac4293c630d5249abbf6ac7f93",
+    "lib/native-engine/force-effects.ts": "cfdd80d4922bcd5ea39334522e51403b0579c90dcddd9193bd8173205cfb2c6e",
+    "lib/native-engine/force-quantity.ts": "eb3b6b57c3b3df7da4cae1c3ccb285afdd883d71fa6830d1cf6dea89819e62a8",
+    "lib/native-engine/forfeit.ts": "6cc95b98c951b727ad3b901e6e67221e7520dd1470ef6715d23820f759719fd5",
+    "lib/native-engine/forfeiture.ts": "88a8f6820f3f1917db2bd9dd2e2d1df278dcc1ddcaaa8f2aa09587544566fa90",
+    "lib/native-engine/fx-droids.ts": "b9a89a440464a0ebeb6fa20c269cf05040a69967797d411e71789247f7cd3184",
+    "lib/native-engine/gaderffii.ts": "a03742104025ac1117041d0174b4a6166577482837333862bf1df49dcbe33c7e",
+    "lib/native-engine/gamblers-luck.ts": "34a38fa5631f21456947ae4fd84c40f194e17b33cff2f597ecff75f0c9ed38c9",
+    "lib/native-engine/game-text-actions.ts": "d72232321aa30c61c7df339b9c432f99a6a34932406cf80a0955de5c8b97b5cc",
+    "lib/native-engine/game-text.ts": "175bfdd5a2e33fe363c149da08271f02b186ba0babe61c6d3cb26d3a35d0f0b8",
+    "lib/native-engine/generator-shot.ts": "4fce5859099e11fea6f6a25c3677beed242f942ea61df7a01cfb25f98b0500b1",
+    "lib/native-engine/gravel-storm.ts": "cb05a8a0dc7fe866dc85a2fe64d97ab4785c9a1f86a10e28409d44bb7cc6219f",
+    "lib/native-engine/ground-creatures.ts": "f32bd84d81f1bfac57f52b6f5037cb334b36fa52f115b3bf7f69779ead7bf083",
+    "lib/native-engine/ground.ts": "499ffa2f44e5bce9d906d33617e0cf47ea02d50b03c5d6d7b74db057f5d046d9",
+    "lib/native-engine/heavy-weapons.ts": "0f124ca97df09cd379dabbe0572c7a5afeee6f182fc3320b5b3d5bdc5a1fd7ce",
+    "lib/native-engine/hoth-deployment.ts": "e021e85e0f500ab8c3a42d47fb674dcd9254170f2ca63dec5b5cea24996314c5",
+    "lib/native-engine/hoth-movement.ts": "7e750a7c638f651e5ad4795ac83330165ce5c4eb85c5099c3e59d5f6712b8238",
+    "lib/native-engine/hoth-setup.ts": "f9ed74e5da14a2870dffc647335ad689f5bdfd64b0fe971b923904d03a927a41",
+    "lib/native-engine/hoth-text.ts": "ce096f0713c331ab40024bf387e9dde9d86550414a2c508f3e76544356fef38d",
+    "lib/native-engine/hoth.ts": "e085a964c7959bf32359d0dd32d04762bf69637581f73317be421de2e83bff5e",
+    "lib/native-engine/http.ts": "0e0554bfdc8eed7fd1d6970498691e0ce2c02456698b6bf542ef2ece9794a029",
+    "lib/native-engine/hyper-escape.ts": "e0e1f3d813bd1462df7c1c0873afbed8a4eb8d7201990f6264e1a5820b22ae80",
+    "lib/native-engine/identity.ts": "14cfcc1e2826a409723644a6aa70f74d23ae66cdaa9868efb9c314ac822c973f",
+    "lib/native-engine/insert-effects.ts": "55a34c44f5b9c7d94bf5b767daec6d4fa0ab134ef5f7abd0a273671ecf2bdd55",
+    "lib/native-engine/interrupts.ts": "3ddc0086f5f6cc6047ceae24b7e906cc35e8a539eb0838c86fef72a2a3b5c987",
+    "lib/native-engine/ion-repair.ts": "c02970402a797732995fb8f7532755938102dc75d9396a1f0e6ace34b1d565fe",
+    "lib/native-engine/labria.ts": "7f2143cef242dacbeecf3b350c4f227cb28b5bc5c123820727ed9cec28aa1c4e",
+    "lib/native-engine/lars.ts": "592394eec94474421ee84b0672615e79ff362c68bab88a8beb06043ce1a86aac",
+    "lib/native-engine/lifecycle.ts": "002ac8d749a44b163d2d72ea69dccf60f6738fb99fefecc53f5ee6a30707e462",
+    "lib/native-engine/lightsabers.ts": "50bb7845171ce6a33783426a27612c91140585b5262b6b027814927f903eb0d8",
+    "lib/native-engine/location-ability.ts": "161e5da5c1da4d5b61714f303102198879a4be578deeef989491361e26ece418",
+    "lib/native-engine/location-icons.ts": "5ff4c4cc9467fa549118b7438f7dc08f352a54bd76da53b90ec09aa034316d3b",
+    "lib/native-engine/loss-origin.ts": "86ae0d59a63c33c1dd7db1fc7ffed0d2781a0b43b1725980c40e34dd56a57b65",
+    "lib/native-engine/loss.ts": "b969e0f7d6df21aaf20d238cde542840609a0bad21bfae3327e8dbdfd7a98e5e",
+    "lib/native-engine/lost-artoo.ts": "ccf2dfbcce2c5d130fa3a30673b120ecda69484839b6a75c0cb82a3d4fcbe5b0",
+    "lib/native-engine/maneuvers.ts": "100fe2b00fa8113eaf5931ce686ea80db4de34b1a54eb8b5f7037801508b3b46",
+    "lib/native-engine/match-clock.ts": "b41cfff6afa869edd45012023c62de31d7f1931b529ada69de932e66b8d57f77",
+    "lib/native-engine/medics.ts": "fd16d33a1d2b700567c54e534dad75beefa094cef70327820313b49619e4499b",
+    "lib/native-engine/mobile-systems.ts": "a8e7b97d3988f958d26a5579a1c5417e60f2ac1f1e83b87baf38a26010895329",
+    "lib/native-engine/movement-costs.ts": "fbd961f32451fd7ef414e5bbf17c0fe5be08891b352ec6e20259475c63d19aa8",
+    "lib/native-engine/navigation.ts": "28909393a27733f41fefeda992b6db644733d1b197c6d29eaae9cb336cd385ea",
+    "lib/native-engine/nighttime.ts": "2823417ddf5d8cd48366f6196f288dd2e85deeea4db5cfd289ca246cf61c3136",
+    "lib/native-engine/noble-sacrifice.ts": "52dcdf41843a519867f8f43419dc721923212e6dadbba14fc13835c1bec7fbde",
+    "lib/native-engine/occupancy.ts": "e8858a68dba7549bc56fe8261faf210df2b95011436f139f44e0df4fc1e64018",
+    "lib/native-engine/off-the-edge.ts": "3e3ba5a6c26fa8e9cbc762ca313bbdb058b0b4c3f1453bbdd27e1b89f9a52c43",
+    "lib/native-engine/on-the-edge.ts": "9a64f6e06bcc642b0a70c18bd4e37b9c28d3992141749b69f616fb1d2c129a34",
+    "lib/native-engine/participation.ts": "4cdccab18a835123acb7e2cad7f06b16b1af7276d00254c4566dc384a96cc108",
+    "lib/native-engine/persona.ts": "530766a490a562193211e8707b174dd5184d16f9e8bef573acbb5db0583dae3c",
+    "lib/native-engine/phase-effects.ts": "5f5bc6a8b407d9b2533e21d204ba9506d018052b42784a076352facb8b15b2f2",
+    "lib/native-engine/pile-reveal.ts": "d39574ec0ba75588037d2146ffd27655d9311b2c60e1e56a932756ec387ab191",
+    "lib/native-engine/pilot-deploy.ts": "53895a50cbe1f8cf78eb89495f370acea3f4a2cd4b134975ed66aee392ace302",
+    "lib/native-engine/piloting.ts": "1892b1a87166fcef518116f7d146da29c99dc04b2c7845cc03767842459d7217",
+    "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
+    "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
+    "lib/native-engine/premiere-rules.ts": "3d55bd85bde1224848211f7689d01cebb39fd17ddab23aeaf6011cc35d2ee025",
+    "lib/native-engine/premiere-setup.ts": "b95ebee0c056ddbfc09f47ca22e71441f669b1a1d15c93a4f26ff9a463e7c7cc",
+    "lib/native-engine/protocol-droid.ts": "b4057bd27173cd88ea96d58b1584322365ac7f3194f401e3199c108864e6a1e6",
+    "lib/native-engine/public-values.ts": "a4d187766cad6467e6bcd071d7ed07b766b624bede25823734374d7e3c96d307",
+    "lib/native-engine/random.ts": "807bcd0c4e0d94cbb1e569b939c4b709ef1a4bf62c056b2a1dc97ecd9741a1e4",
+    "lib/native-engine/reserve-inserts.ts": "8c4b493f2f26ee1f75473c1c74a0aabaa2606519e88c0fa9a3eaf7655e73b637",
+    "lib/native-engine/reserve-peek.ts": "d4336afbfc03f1f04f3caf30ff8ba30b66615aaa2871d1125d58c7203c7788c3",
+    "lib/native-engine/retrieval-contributors.ts": "5626fc5ebe17a5e2e62132aa5b8b90db8deec6a41f617d41fd990a012d52df57",
+    "lib/native-engine/retrieval-policy.ts": "cfecea30ecd20413e629b7d4524b90b7ddc26993e1bdb3b7bef6495ecdf5d53c",
+    "lib/native-engine/retrieval.ts": "44568cda2c2aa978dffc06d538f12efe4743069885cc0723cd706e71cb79a14d",
+    "lib/native-engine/revival.ts": "7aae114d50011172b1ed8314b7c5c28f9c5e0d965eea80948176188781552811",
+    "lib/native-engine/runtime.ts": "7c72978163b2d92219ba59fa5837c464e201db36a7d3f0de6f4fcaa6208dcc11",
+    "lib/native-engine/scan.ts": "7e8a3b8a7d671468817e410cd1a65d7e851fe2bee2383bb173b043f6a75c5aa3",
+    "lib/native-engine/scavenge.ts": "d909f5ac6360d8f1286207d3f5d8fce60e0d55651c2bbd04d72acb77719f9402",
+    "lib/native-engine/search-policy.ts": "73aa9e11097a52a0b35852af03abc01e51d4dce206da74ffdd6cb2eaaaff790e",
+    "lib/native-engine/secret-plans.ts": "7e4cda2955b66d977679b1a2e9a51f4efb6b5b38c17a652f1f66bc23efd816a2",
+    "lib/native-engine/sector-definitions.ts": "8ea09f52a3d20bb53e0b38027a8496c7f555144bd4f79d6984210d4e5212c5ec",
+    "lib/native-engine/sector-effects.ts": "7890cc73e58e089f19e2ce01082c9e99dfc561612e0457ff1d5a91f0ddaeac9b",
+    "lib/native-engine/sectors.ts": "a7d2619ec35c4e79636563eb08619b8b630fdc3699543bdba43c3476784fce6a",
+    "lib/native-engine/server.ts": "97640a61463f9cf16f51ea1fe3e0ff5d0ddb9adc4da20eb7eb1acdba756687ec",
+    "lib/native-engine/service.ts": "eb4ff41ce9f34f040067304f158560d632c24f45654ca502e73c5d28476f89da",
+    "lib/native-engine/setup.ts": "837397a33735d8dc878c7fee42f596621e5a53c248e0f3230337b3ee7aab8b74",
+    "lib/native-engine/space-slug.ts": "acbe32b85da9dc1809c62321b007fb3ec14514c1ae1fcb3692574c5751c6ba07",
+    "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
+    "lib/native-engine/starship-weapons.ts": "6de04f93a5ede7fbf342d81a8d0b9cdfe4feaa1a417af198ef1cd79bf34e8bf0",
+    "lib/native-engine/stat-modifiers.ts": "4ba087331dbe58da7a5db1e252fea5e44007f28822afa535d1f648756ec363d5",
+    "lib/native-engine/state.ts": "1d853ee58ddd1ca3022eeeb9d9a182472f41d04c2ad445f04eb999d216ca10a3",
+    "lib/native-engine/stun.ts": "faee987db78ed8b4a54fb077d1672ccec50453418291ce841f8f24ec7a7bd566",
+    "lib/native-engine/substitution.ts": "c36d0de2d1f94057139bc9693938b9773fed93f79856d9f48d42d649f17e5aec",
+    "lib/native-engine/table.ts": "f17b42b347b2b12b9c6d8f0945872d4591a5b01d53c480ff944793c820eb3010",
+    "lib/native-engine/tallon-roll.ts": "1b9817342cd3d0825e229ed25a6bd47366e3886bd2c5a03a99279901477619e8",
+    "lib/native-engine/telepathy.ts": "b28dd1038bf933e4f9fb23e950e7dc8e7144ebb6a1861a266d75d5a26e7b2373",
+    "lib/native-engine/transport.ts": "a2274e5c1f069630d3c7e91d57837352ed1db760968d4a305ddc977bc8267628",
+    "lib/native-engine/travel.ts": "cfaa1366761ab37d3905b755736f91374ee4183271d1093ca4be0512abb7f400",
+    "lib/native-engine/trooper-assault.ts": "aefc2a2f34ba446b6c88c08064524855a5423a7e6ab1f5d6771893f98892daec",
+    "lib/native-engine/types.ts": "7b7b7feec4f39a0d3919ccd79c694cd5540e5a59ebb79c2c473736426eda3866",
+    "lib/native-engine/vehicle-react.ts": "73c4674620e823a1798e1d499a97ff6fa779d3af8ddb25c82d410b28d5bbde01",
+    "lib/native-engine/vessel-travel.ts": "ecf2837085732f6accdd6e38773fefbd3d27d14ef6be3cf16010bab94fdbcaba",
+    "lib/native-engine/vessels.ts": "10073bfd8569f2a351484db900d16bfd6d543781e015a9843b0409f6dccc67dd",
+    "lib/native-engine/weapon-state.ts": "a60d085a2e3a11bedb978247863e16346d28df9562534e11e4e9ee717b5b3352",
+    "lib/native-engine/weapon-total.ts": "4b5f4ee7153192e1f67d4659faad3bc4b76f5cd48bd874e493f2cb75f51c46d2",
+    "lib/native-engine/wedge-search.ts": "17a54db6048a3f45c7bbe2332e841d43969a4ca57f3e88fd970c2ade5d11f0e2",
+    "lib/native-engine/worse.ts": "cdd54acc301b458a8594a3aac483d6d9039b0ef7306d03a359c5346857612953"
+  },
+  "evidence": [
+    "tests/native-engine/gemp/travel-response-provenance.json",
+    "tests/native-engine/travel-response.test.mjs",
+    "tests/native-engine/gemp/travel-match-provenance.json"
+  ],
+  "limits": [
+    "No exhaustive state exploration is claimed. The argument is a complete review of this pair's printed action/trigger capabilities, corroborated by three controlled reference inventories and native combined mine/retrieval integration.",
+    "The GEMP inventory uses one copy of every starter Interrupt plus controlled supporting cards, Force and filler decks. It is not the exact authored deck game trace.",
+    "Additional copies do not create a new timing permission. Any change to the exact decks, card text or reviewed source invalidates this audit and requires review.",
+    "No classification change for the failed-Obsession Force amount. Full production admission stays closed and broader catalog/deck/rules/product requirements remain."
+  ],
+  "sourceBinding": "All current native-engine TypeScript modules are bound, including registered providers outside the starter pair, so later additions to an existing provider cannot silently invalidate the timing audit."
+}

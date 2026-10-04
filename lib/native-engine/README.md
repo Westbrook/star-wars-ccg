@@ -3155,6 +3155,37 @@ use the UI buttons; the recorded intervening commands complete normally. Pending
 and resolved refreshes retain the exact saved state at phone/tablet/desktop sizes.
 
 This is additional complete-path evidence, not a resolution of the controlled
-departure/return/late-arrival discrepancies. Their starter reachability and the
-failed-Obsession Force amount still require evidence. No admission gate or broader
+departure/return/late-arrival discrepancies. The subsequent starter timing audit below addresses reachability; the
+failed-Obsession Force amount still requires evidence. No admission gate or broader
 engine requirement was removed, and no standalone Rules Lab study was added.
+
+
+## Starter movement response reachability
+
+`data/native-engine/starter-travel-reachability.json` reviews the printed timing
+capabilities of all 68 definitions in the exact intro pair. No card in that pair
+can make an original target leave and return to the table before its pending move,
+or deploy a later arrival into a pending Narrow Escape group. The earlier
+controlled mutations remain useful robustness tests and broader-deck discrepancies;
+they are now classified outside this exact pair, not silently resolved for all cards.
+
+The executed GEMP inventory has every starter Interrupt in hand and funded CZ-3,
+Comlink, Wolfman and accident prerequisites. Before playing the Interrupt, responses
+are nonempty. During three completed movement chains (Run Luke on either side's turn), all twenty-six response decisions
+are empty. Native matches their twenty-two movement/Interrupt stages and acting sides;
+four empty GEMP payment decisions are safely elided by the existing native cost
+handler. The reference production sources remain unchanged.
+
+Arrival mines are a distinct exception: a completed move may trigger a loss while
+Escape still has other characters to move. A combined native test resolves a real
+mine draw/loss, Kintan retrieval to hand, and the next Escape move, with JSON
+restoration checks throughout. Old Ben cannot respond to a mine casualty because
+it is not a forfeiture. Neither side can use the older battle-initiation react
+window while these nested actions resolve. The mine case is native integration
+evidence, not an additional GEMP comparison.
+
+Tests bind this analysis to exact deck lists, every card definition, and reviewed
+source hashes; changed inputs require a new audit. Controlled inventories are not
+exhaustive state exploration or full-deck certification. The failed-Obsession Force
+amount, broader cards/rules, and the full native product scope remain outstanding.
+No production admission was opened and no standalone study was added.

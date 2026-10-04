@@ -24,3 +24,27 @@ test('recorded native match evidence accounts for both sizes without claiming GE
  for(const r of records.runs){assert.ok([40,60].includes(r.size));assert.ok(r.seed>=101&&r.seed<=120);assert.equal(r.result.reason,'life-force');assert.match(r.transcriptSha256,/^[a-f0-9]{64}$/);assert.match(r.finalStateSha256,/^[a-f0-9]{64}$/);}
  assert.equal(audit.nativeIntegration.handlers['duel:obsession']??0,0,'No duel coverage claimed from these runs');
 });
+test('movement reachability audit covers every exact starter card and expires when reviewed inputs change',()=>{
+ const analysis=read('data/native-engine/starter-travel-reachability.json');
+ const hash=value=>createHash('sha256').update(value).digest('hex');
+ const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
+ assert.equal(analysis.classification,'outside-current-pair');
+ const cards=analysis.groups.flatMap(g=>g.cards);assert.equal(new Set(cards).size,cards.length);
+ assert.deepEqual([...cards].sort(),manifest.cards.map(c=>c.gempId).sort());
+ for(const c of manifest.cards)assert.equal(hash(JSON.stringify(canonical(c))),analysis.cardFingerprints[c.gempId],c.gempId+' printed definition changed: review reachability');
+ for(const d of manifest.decks)assert.equal(hash(JSON.stringify(d.main)),analysis.deckFingerprints[d.id],d.id+' changed: review reachability');
+ assert.deepEqual(Object.keys(analysis.sourceFingerprints).sort(),fs.readdirSync(new URL('../../lib/native-engine',import.meta.url)).filter(f=>f.endsWith('.ts')).map(f=>'lib/native-engine/'+f).sort(),'New engine providers require reachability review');
+ for(const [p,sha]of Object.entries(analysis.sourceFingerprints))assert.equal(hash(fs.readFileSync(new URL('../../'+p,import.meta.url))),sha,p+' changed: review reachability');
+ for(const g of analysis.groups){assert.ok(g.reason);assert.ok(g.implementation.length);for(const f of g.implementation)assert.ok(analysis.sourceFingerprints['lib/native-engine/'+f]);}
+ for(const p of analysis.evidence)assert.ok(fs.existsSync(new URL('../../'+p,import.meta.url)));
+ const branch=audit.branches.find(b=>b.id==='returning-travel-target');assert.equal(branch.classification,analysis.classification);
+ assert.ok(branch.evidence.includes('data/native-engine/starter-travel-reachability.json'));assert.equal(premiereRules.supports('1_98'),false);
+});
+test('movement response receipt retains actual reference source and all twenty-six decisions',()=>{
+ const p=read('tests/native-engine/gemp/travel-response-provenance.json'),rows=read('tests/native-engine/gemp/travel-response-results.json');
+ for(const [f,sha]of Object.entries(p.files))assert.equal(createHash('sha256').update(fs.readFileSync(new URL('./gemp/'+f,import.meta.url))).digest('hex'),sha);
+ assert.deepEqual(rows.map(r=>r.mode),['run','run-light','escape']);assert.equal(rows.flatMap(r=>r.windows).length,p.responseWindows);
+ for(const row of rows){assert.ok(row.before.length);assert.equal(row.lukeMoved,true);for(const w of row.windows)assert.deepEqual(w.actions,[]);}
+ const source=fs.readFileSync(new URL('./gemp/NativeEngineTravelResponseOracleTests.java',import.meta.url),'utf8');
+ for(const c of manifest.cards.filter(c=>c.type==='Interrupt'))assert.ok(source.includes('"'+c.gempId+'"'),c.gempId+' must be available in reference inventory');
+});

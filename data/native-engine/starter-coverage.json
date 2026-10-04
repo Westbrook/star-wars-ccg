@@ -84,15 +84,17 @@
       ],
       "testFiles": [
         "tests/native-engine/travel.test.mjs",
-        "tests/native-engine/duel.test.mjs"
+        "tests/native-engine/duel.test.mjs",
+        "tests/native-engine/travel-response.test.mjs"
       ],
       "remaining": [
-        "Adjudicate original-target return discrepancy with pinned GEMP before full admission."
+        "The exact starter-pair timing audit excludes the controlled target-return path. Broader decks still require adjudication of that discrepancy; see starter-travel-reachability.json."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/travel-provenance.json",
         "tests/native-engine/gemp/duel-provenance.json",
-        "tests/native-engine/gemp/travel-identity-provenance.json"
+        "tests/native-engine/gemp/travel-identity-provenance.json",
+        "tests/native-engine/gemp/travel-response-provenance.json"
       ],
       "gempId": "101_3",
       "name": "Run Luke, Run!",
@@ -1878,15 +1880,17 @@
       "testFiles": [
         "tests/native-engine/travel.test.mjs",
         "tests/native-engine/aboard-travel.test.mjs",
-        "tests/native-engine/narrow-escape-browser.mjs"
+        "tests/native-engine/narrow-escape-browser.mjs",
+        "tests/native-engine/travel-response.test.mjs"
       ],
       "remaining": [
-        "Aboard participants, vehicle exits and saved travel now have component coverage. General movement providers and target redirection remain; original-instance return discrepancies still require adjudication before affected branches are certified."
+        "Aboard participants, vehicle exits and saved travel now have component coverage. General movement providers and target redirection remain; the exact starter-pair audit excludes controlled original-instance return/late-arrival paths, while affected broader-deck branches still require adjudication."
       ],
       "oracleEvidence": [
         "tests/native-engine/gemp/travel-provenance.json",
         "tests/native-engine/gemp/travel-identity-provenance.json",
-        "tests/native-engine/gemp/aboard-travel-provenance.json"
+        "tests/native-engine/gemp/aboard-travel-provenance.json",
+        "tests/native-engine/gemp/travel-response-provenance.json"
       ],
       "gempId": "1_98",
       "name": "Narrow Escape",

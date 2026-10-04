@@ -1,0 +1,23 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T18:22:59.608533+00:00",
+  "files": {
+    "NativeEngineTravelResponseOracleTests.java": "6ef6b9cd8ded2167cf89ccbd243265e20de8e9c11cdf1d9d13694cf0a43762f7",
+    "travel-response-results.json": "c551d45b6f4975e3218b53d688a47cb644030e01c28a767c34e3f9ccac4bde5e"
+  },
+  "junitTests": 1,
+  "cases": 3,
+  "responseWindows": 26,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineTravelResponseOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "scope": "Actual Run Luke during either side's battle and Narrow Escape with every starter Interrupt in hand and funded deployment/movement/accident providers on controlled boards. Six, six and fourteen pending response windows expose no optional actions. Nonempty battle-initiation baseline confirms grants were available before playing the Interrupt.",
+  "limitations": [
+    "Controlled starting boards and filler decks; not a legal complete starter match or proof of all board configurations.",
+    "The exact starter text/timing audit supplies the general reachability argument; this reference probe corroborates it but does not independently exhaust all states.",
+    "No table or zone mutation after playing either Interrupt. Mine-triggered arrival responses are separately tested in native, not in this reference run.",
+    "Full card/deck admission remains closed; broader decks and disputed return-target behavior remain required.",
+    "GEMP exposes four empty one-Force payment responses during Escape. Native queries available/required actions and safely elides those empty windows; the other twenty-two response stages and acting sides compare exactly."
+  ]
+}

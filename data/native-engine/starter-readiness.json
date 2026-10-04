@@ -137,14 +137,17 @@
         "101_3",
         "1_98"
       ],
-      "classification": "reachability-unproven",
-      "reason": "Controlled return/late-arrival observations disagree with pinned GEMP. These fixtures do not establish an actual starter-card path; audit the permitted response providers before calling it reachable or unreachable.",
+      "classification": "outside-current-pair",
+      "reason": "The exact 68-definition starter timing audit finds no legal provider for the controlled return/late-arrival interventions while movement is pending. All three reference response inventories are empty despite full starter Interrupt hands and available pre-Interrupt reacts. Arrival mine loss permits Kintan to hand, not a return to table. Broader custom decks and the original discrepancies remain required.",
       "implementation": [
         "lib/native-engine/travel.ts"
       ],
       "evidence": [
         "tests/native-engine/gemp/travel-identity-provenance.json",
-        "tests/native-engine/gemp/aboard-travel-provenance.json"
+        "tests/native-engine/gemp/aboard-travel-provenance.json",
+        "data/native-engine/starter-travel-reachability.json",
+        "tests/native-engine/gemp/travel-response-provenance.json",
+        "tests/native-engine/travel-response.test.mjs"
       ]
     },
     {
