@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {cardDefinition, name} from './board';
 import {openWindow} from './runtime';
 import {moveCard} from './state';
@@ -11,7 +12,7 @@ const candidates = (m: Match, p: Payload) => p.cards!.filter(id => rebel(m, id))
 
 export function scanActions(m: Match, w: Window, side: Side): Action[] {
   const event = w.event as {kind?: string} | undefined;
-  if (side !== 'dark' || !m.players.light.hand.length || w.timing !== 'phase' && !(w.timing === 'response' && event?.kind === 'battle-weapons')) return [];
+  if (side !== 'dark' || !m.players.light.hand.length || !optionalActionWindow(w)) return [];
   return m.players.dark.hand.filter(id => m.cards[id].blueprint === '1_266').map(card => ({...action('play', {card}), label: 'Scanning Crew · inspect opponent’s hand', payment: {dark: 1}}));
 }
 export function scanInitiate(m: Match, r: Resolution): void {moveCard(m, (r.action.payload as Payload).card, 'playing');}

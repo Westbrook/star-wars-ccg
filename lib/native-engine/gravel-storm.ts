@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {ability} from './ability';
 import {cardDefinition, name} from './board';
 import {immuneToCardTitle} from './card-immunity';
@@ -18,7 +19,7 @@ function targetable(m:Match,id:string,side:Side):boolean {
   return c.owner!==side && groundPresent(m,id) && sites.has(cardDefinition(m,c.location!).name) && !immuneToCardTitle(m,id,'Gravel Storm');
 }
 export function gravelActions(m:Match,w:Window,side:Side):Action[] {
-  if (w.timing!=='phase' && !(w.timing==='response' && (w.event as {kind?:string})?.kind==='battle-weapons')) return [];
+  if (!optionalActionWindow(w)) return [];
   return m.players[side].hand.filter(id=>m.cards[id].blueprint==='1_247').flatMap(card=>Object.keys(m.cards).filter(id=>targetable(m,id,side)).map(id=>({
     ...action('play',{card,target:referenceCard(m,id)}),label:'Gravel Storm · target '+name(m,id)})));
 }

@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {insertsIn} from './reserve-inserts';
 import {name} from './board';
 import {activateForce} from './runtime';
@@ -10,7 +11,7 @@ const action = (step: string, p: Payload): Action => ({id:'stew:'+step+':'+p.car
 const queue = (m: Match, step: string, p: Payload) => m.stack.push({kind:'resolution',actor:m.cards[p.card].owner,cancelled:false,action:action(step,p)});
 const bonus = (m: Match) => Object.values(m.cards).filter(c => c.zone === 'table' && !c.coveredBy && ['1_2','1_22','1_37'].includes(c.blueprint)).length;
 export function stewActions(m: Match,w: Window,side: Side): Action[] {
-  if (w.timing !== 'phase' && !(w.timing === 'response' && (w.event as {kind?:string})?.kind === 'battle-weapons')) return [];
+  if (!optionalActionWindow(w)) return [];
   // AR p138 explicitly makes activation a result, not an initiation condition.
   // Empty Reserve decks do not prohibit playing this Interrupt.
   return m.players[side].hand.filter(id => m.cards[id].blueprint === '1_72').map(card => ({...action('play',{card}),label:'Play '+name(m,card)+' · each player activates 2 Force'}));

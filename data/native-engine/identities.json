@@ -2139,5 +2139,27 @@
     "uniqueness": "DIAMOND_1",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_157.java"
+  },
+  "4_6": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "SPACE"
+    ],
+    "nonUnique": true,
+    "uniqueness": "DIAMOND_1",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_006.java"
+  },
+  "4_112": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "SPACE"
+    ],
+    "nonUnique": true,
+    "uniqueness": "DIAMOND_1",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_112.java"
   }
 }

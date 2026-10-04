@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {ability} from './ability';
 import {cardDefinition, name} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
@@ -14,7 +15,7 @@ const queue = (m: Match, step: string, p: Payload) => m.stack.push({kind: 'resol
 const eligible = (m: Match, target: string, side: Side) => m.cards[target]?.zone === 'table' && m.cards[target].owner !== side && cardDefinition(m, target).type === 'Character';
 export function stunActions(m: Match, w: Window, side: Side): Action[] {
   const event = w.event as {kind?: string} | undefined;
-  if (w.timing !== 'phase' && !(w.timing === 'response' && event?.kind === 'battle-weapons')) return [];
+  if (!optionalActionWindow(w)) return [];
   return m.players[side].hand.filter(id => m.cards[id].blueprint === '1_268').flatMap(card =>
     Object.keys(m.cards).filter(id => eligible(m, id, side)).map(target => ({...action('play', {card, target}),
       label: 'Set For Stun · ' + name(m, target), payment: {[side]: 2}})));

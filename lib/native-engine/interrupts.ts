@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {cancelPendingDestiny, destinyInWindow} from './destiny-response';
 import {ability} from './ability';
 import {cardDefinition, name} from './board';
@@ -17,7 +18,7 @@ export function interruptActions(m: Match, w: Window, side: Side): Action[] {
   const actions: Action[] = [], e = w.event as {kind?: string; side?: Side; card?: string} | undefined;
   // AR: ordinary top-level actions also have a place in the weapons segment,
   // but not in arbitrary responses or the power/damage segments.
-  const topLevel = w.timing === 'phase' || w.timing === 'response' && e?.kind === 'battle-weapons';
+  const topLevel = optionalActionWindow(w);
   const count = (s: Side) => Object.values(m.cards).filter(c => c.owner === s && c.zone === 'table' && ['Character', 'Starship'].includes(cardDefinition(m, c.id).type)).length;
   for (const card of m.players[side].hand) {
     const bp = m.cards[card].blueprint;

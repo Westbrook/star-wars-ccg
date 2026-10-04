@@ -1,3 +1,4 @@
+import {bellyLossCards} from './space-slug';
 import {isVessel} from './occupancy';
 import {referenceCard} from './identity';
 import {recordTableLossOrigins} from './loss-origin';
@@ -27,9 +28,9 @@ function removeGroup(m: Match, ids: Set<string>, zone: 'leaving' | 'hand'): void
   }
 }
 /** Snapshot the complete affected group for response targeting before removal. */
-export const tableLossCards = (m: Match, hosts: string[]): string[] => [...tableGroup(m,hosts)];
+export const tableLossCards = (m: Match, hosts: string[]): string[] => [...tableGroup(m,[...hosts,...bellyLossCards(m,hosts)])];
 export function loseFromTable(m: Match, hosts: string[]): string[] {
-  const ids = tableGroup(m, hosts), references = [...ids].map(id=>referenceCard(m,id));
+  const ids = tableGroup(m, [...hosts,...bellyLossCards(m,hosts)]), references = [...ids].map(id=>referenceCard(m,id));
   removeGroup(m, ids, 'leaving');
   recordTableLossOrigins(m,references);
   orderNext(m, [...ids]);

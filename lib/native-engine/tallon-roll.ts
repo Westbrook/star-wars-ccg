@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {ability} from './ability';
 import {cardDefinition} from './definitions';
 import {isModel} from './characteristics';
@@ -17,7 +18,7 @@ export type TallonRoll={serial:number;source:string;site:string;ships:Record<Sid
 export const tallonRoll=(m:Match)=>m.data.tallonRoll as TallonRoll|undefined;
 const starfighter=(m:Match,id:string)=>cardDefinition(m,id).type==='Starship'&&cardDefinition(m,id).subType.startsWith('Starfighter:');
 const rebel=(m:Match,id:string)=>m.cards[id].owner==='light'&&starfighter(m,id)&&!(cardDefinition(m,id).icons as string[]).some(i=>['Independent','Republic','Trade Federation','Separatist','Clone Army','First Order','Resistance'].includes(i));
-const topLevel=(w:Window)=>w.timing==='phase'||w.timing==='response'&&(w.event as {kind?:string})?.kind==='battle-weapons';
+const topLevel=(w:Window)=>optionalActionWindow(w);
 const action=(step:string,p:Payload):Action=>({id:'tallon:'+step+':'+p.card+(p.dark?':'+p.dark+':'+p.light:p.target?':'+p.target:''),label:step,handler:'tallon:'+step,source:p.card,payload:p as unknown as Json});
 const queue=(m:Match,step:string,p:Payload,actor:Side='dark')=>m.stack.push({kind:'resolution',actor,cancelled:false,action:action(step,p)});
 const losingSide=(d:TallonRoll):Side|null=>d.destiny.dark===null?(d.destiny.light===null?null:'dark'):d.destiny.light===null?'light':d.totals!.dark===d.totals!.light?null:d.totals!.dark<d.totals!.light?'dark':'light';

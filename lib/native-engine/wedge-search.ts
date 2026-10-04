@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {gameTextActive} from './game-text';
 import {assertCardReference,referenceCard,sameCard,type CardReference} from './identity';
 import {crewActive} from './occupancy';
@@ -13,7 +14,7 @@ const slips=(m:Match)=>m.players.light.reserve.filter(id=>m.cards[id].blueprint=
 const action=(step:string,p:Payload):Action=>({id:'wedge:'+step+':'+p.source.id,handler:'wedge:'+step,source:p.source.id,label:'Wedge · search for Corellian Slip',payload:p as unknown as Json});
 const queue=(m:Match,step:string,p:Payload)=>m.stack.push({kind:'resolution',actor:'light',cancelled:false,action:action(step,p)});
 export function wedgeActions(m:Match,w:Window,side:Side):Action[]{
- if(side!=='light'||!m.players.light.force.length||!m.players.light.reserve.length||!canSearch(m,search)||w.timing!=='phase'&&!(w.timing==='response'&&(w.event as {kind?:string})?.kind==='battle-weapons'))return [];
+ if(side!=='light'||!m.players.light.force.length||!m.players.light.reserve.length||!canSearch(m,search)||!optionalActionWindow(w))return [];
  return Object.values(m.cards).filter(c=>c.zone==='table'&&c.owner===side&&c.blueprint==='2_23'&&crewActive(m,c.id)&&gameTextActive(m,c.id)).map(c=>({...action('begin',{source:referenceCard(m,c.id)}),label:'Wedge · find Corellian Slip · 1 Force',payment:{light:1}}));
 }
 export function wedgeResolve(m:Match,r:Resolution,context:Context):void {

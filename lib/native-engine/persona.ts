@@ -10,7 +10,7 @@ export const isUnique = (m: Match, id: string) => identity(m.cards[id].blueprint
 export const hasPersona = (m: Match, id: string, persona: string) => !!m.cards[id] && identity(m.cards[id].blueprint).personas.includes(persona);
 const limit = (bp: string): number => {
   const u = identity(bp).uniqueness;
-  if (u.startsWith('DIAMOND') && !sectorDefinitions[bp] && !caveDefinitions[bp]) throw Error('Diamond uniqueness requires system-scoped implementation.');
+  if (u.startsWith('DIAMOND') && !sectorDefinitions[bp] && !caveDefinitions[bp] && !['4_6','4_112'].includes(bp)) throw Error('Diamond uniqueness requires system-scoped implementation.');
   return u === 'UNIQUE' ? 1 : u.startsWith('RESTRICTED_') ? Number(u.slice(11)) : Infinity;
 };
 const title = (bp: string) => (identity(bp).uniqueness === 'UNRESTRICTED' ? 'none:' : 'dot:') + definition(bp).name.replace(/\s*\(V\)$/, '');
@@ -49,7 +49,7 @@ export function recordCardPlay(m: Match, id: string): void {
   const h = history(m); h.cards.push({card: id, blueprint: m.cards[id].blueprint, side: m.cards[id].owner});
   m.data.cardPlays = h as unknown as import('./types').Json;
 }
-const playHandlers = new Set(['lost-artoo:deploy','space-weapon:equip','pair:deploy','vessel:deploy','vessel:aboard','transport:deploy','sunsdown:deploy', 'telepathy:play', 'dark-path:deploy', 'insert:deploy', 'farm:deploy', 'deploy-effect:deploy', 'bacta:deploy', 'phase-effect:deploy', 'ability-effect:deploy', 'battle-effect:deploy','force-effect:deploy','ground:deploy','ground:site','ground:barrier','ground:reduce','battle:equip','battle:takeel','battle:reduce',
+const playHandlers = new Set(['slug:deploy','lost-artoo:deploy','space-weapon:equip','pair:deploy','vessel:deploy','vessel:aboard','transport:deploy','sunsdown:deploy', 'telepathy:play', 'dark-path:deploy', 'insert:deploy', 'farm:deploy', 'deploy-effect:deploy', 'bacta:deploy', 'phase-effect:deploy', 'ability-effect:deploy', 'battle-effect:deploy','force-effect:deploy','ground:deploy','ground:site','ground:barrier','ground:reduce','battle:equip','battle:takeel','battle:reduce',
   'equipment:attach','equipment:macroscan','equipment:mine','gaffi:equip','saber:equip','travel:run','travel:escape']);
 const interruptProviders = ['fighter-trouble:', 'hyper-escape:', 'tallon:', 'maneuver:', 'noble:', 'off-edge:', 'edge:', 'stew:', 'gravel:', 'trooper-assault:', 'duel-interrupt:', 'cancel:','interrupt:','duel:','revival:','assault:','accident:','stun:','scan:','scavenge:','worse:','doomed:','stakes:','substitution:','gambler:'];
 export function actionPlayCard(m: Match, a: Action): string | undefined {

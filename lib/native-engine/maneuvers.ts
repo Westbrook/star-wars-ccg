@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {cardDefinition} from './definitions';
 import {destinyDefenseTargets} from './destiny-response';
 import {assertCardReference,referenceCard,sameCard,type CardReference} from './identity';
@@ -15,7 +16,7 @@ function eligible(m:Match,id:string,card:string):boolean{
  return d.type==='Starship'&&d.subType.startsWith('Starfighter:')&&(d.stats as Record<string,string>).maneuver!==undefined&&operational(m,id)&&(m.cards[card].blueprint==='1_241'||hyperdrive(m,id));
 }
 export function maneuverActions(m:Match,w:Window,side:Side):Action[]{
- const top=w.timing==='phase'||w.timing==='response'&&(w.event as {kind?:string})?.kind==='battle-weapons';
+ const top=optionalActionWindow(w);
  const targets=top?Object.keys(m.cards):destinyDefenseTargets(m,w).map(r=>r.id);
  return m.players[side].hand.filter(id=>cards.includes(m.cards[id].blueprint)).flatMap(card=>targets.filter(target=>eligible(m,target,card)).map(target=>({
   id:'maneuver:'+card+':'+target,label:cardDefinition(m,card).name+' · '+cardDefinition(m,target).name,source:card,handler:'maneuver:play',payload:{card,target},

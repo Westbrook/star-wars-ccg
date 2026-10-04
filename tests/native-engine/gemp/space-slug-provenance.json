@@ -1,0 +1,38 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T11:43:50.473084+00:00",
+  "files": {
+    "NativeEngineSpaceSlugOracleTests.java": "33c341763b37614968313f96405485a4366e84e2152c3387184aba43efdd6c60",
+    "space-slug-results.json": "6b1554c8c5d8f1207b4dbaa7d5c43adf35a899346c36cb8659893d319337a8d0"
+  },
+  "junitTests": 3,
+  "observations": 6,
+  "exactAgreements": 5,
+  "explicitDiscrepancies": 1,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineSpaceSlugOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp62\u201364,79\u201380,128,163\u2013164",
+  "scope": "Space Slug deployment, mouth, mandatory/optional hunts, ship-initiated attack destiny, defeated-ship disposition and cave restoration.",
+  "method": [
+    "Actual Space Slug deployment and mouth/attack commands in GEMP; controlled Big One/cave/ship positions and ordered Reserve draws. Native fixtures issue real deployment and attack commands with component-only admission.",
+    "Full recorded rows are compared; no oracle outcomes are normalized. Native cave restoration explicitly differs from the recorded pinned-engine loop.",
+    "GEMP deck helper prepends each argument; assault fixture supplies reverse arguments so attack destiny 6 precedes two zero ferocity draws. Turns advance to the current Battle phase without an unintended earlier hunt."
+  ],
+  "discrepancies": [
+    {
+      "mode": "assault-cave",
+      "gemp": "After the slug is lost, the cave remains marked as a belly and the engine throws its 5000-actions-without-decision loop guard. Fixture catches only that exact exception after checking the connected-cave branch; production reference source is unchanged.",
+      "native": "The slug is lost, the cave reverts and the attack completes. Native follows Cave Rules on AR p164.",
+      "source": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/timing/rules/CaveRule.java: the change action receives true even when the slug is absent."
+    }
+  ],
+  "limitations": [
+    "Production supports remains false. This is integrated component coverage, not complete Space Slug/card/catalog admission or a new Rules Lab study.",
+    "Remaining attack work includes generic creature species/creature-versus-creature, weapon targeting of creatures, general participation/inactive/text-cancellation interactions, target-selected and explicit cave-change response events, and immediate end during nested actions/destiny.",
+    "Cave belly contents are lost when the slug is lost. Other leave-play destinations need a separate official-rules/GEMP reconciliation. Planet-only creature habitat loss is pending other creature support.",
+    "Landing/takeoff mouth restrictions, Dark-owned slug, repeat limits, loss ordering, general optional actions and saved-state corruption have native tests, beyond the six fresh GEMP observations.",
+    "All previously recorded engine/product scope remains required, including complete card/timing/setup/capture/Objectives, transport/navigation/space variants, deck workflows, full CPU/PvP certification, clocks and capacity."
+  ]
+}

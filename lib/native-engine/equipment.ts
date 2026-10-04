@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {peekReserve, assertReservePeek, returnReservePeek, reservePeekView, type ReservePeek} from './reserve-peek';
 import {deployed} from './deployment';
 import {assertArmorEquipment, isArmorDevice, recordArmor} from './armor-equipment';
@@ -24,7 +25,7 @@ const act = (id: string, label: string, handler: string, p: Payload = {}, paymen
 const data = (r: Resolution | Decision) => ('action' in r ? r.action.payload : r.payload) as Payload;
 const event = (w: Window) => w.event as {kind?: string; card?: string; site?: string; cards?: string[]} | undefined;
 function then(m: Match, handler: string, side: Side, p: Payload = {}): void {m.stack.push({kind: 'resolution', actor: side, action: act('equipment-step:' + handler, handler, handler, p), cancelled: false});}
-export const topLevel = (w: Window) => w.timing === 'phase' || w.timing === 'response' && event(w)?.kind === 'battle-weapons';
+export const topLevel = (w: Window) => optionalActionWindow(w);
 const burySite = (m: Match, side: Side, site: string) => system(m, site) === 'Tatooine' && (cardDefinition(m, site).icons as string[]).includes('Exterior') && mining(m, side, site).length > 0;
 function validHost(m: Match, blueprint: string, host: string, side: Side): boolean {
   const c = m.cards[host], def = cardDefinition(m, host);

@@ -1,0 +1,36 @@
+[
+  {
+    "loop": false,
+    "slugLost": true,
+    "mode": "assault",
+    "shipLost": false,
+    "belly": false
+  },
+  {
+    "loop": true,
+    "slugLost": true,
+    "mode": "assault-cave",
+    "shipLost": false,
+    "belly": true
+  },
+  {
+    "shipLost": true,
+    "mode": "eat",
+    "inBelly": false
+  },
+  {
+    "shipLost": false,
+    "mode": "relocate",
+    "inBelly": true
+  },
+  {
+    "shipLost": false,
+    "mode": "closed-relocate",
+    "inBelly": true
+  },
+  {
+    "belly": true,
+    "mode": "mouth",
+    "closed": true
+  }
+]

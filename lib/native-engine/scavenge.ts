@@ -1,3 +1,4 @@
+import {optionalActionWindow} from './action-timing';
 import {isSpecies} from './characteristics';
 import {canSearch, recordFailedSearch, searchFunctions, type Search} from './search-policy';
 import {cardDefinition, name} from './board';
@@ -15,7 +16,7 @@ const eligible = (m: Match, id: string) => m.cards[id]?.owner === 'light' && m.c
 const search: Search = {blueprint: '1_275', side: 'dark', function: searchFunctions.scavenge, owner: 'light', pile: 'used'};
 export function scavengeActions(m: Match, w: Window, side: Side): Action[] {
   const event = w.event as {kind?: string} | undefined;
-  if (side !== 'dark' || !raiders(m) || !m.players.light.used.length || w.timing !== 'phase' && !(w.timing === 'response' && event?.kind === 'battle-weapons')) return [];
+  if (side !== 'dark' || !raiders(m) || !m.players.light.used.length || !optionalActionWindow(w)) return [];
   return m.players.dark.hand.filter(id => m.cards[id].blueprint === '1_275').map(card => ({...action('play', {card}), label: 'Play Tusken Scavengers', payment: {dark: 1}}));
 }
 export function scavengeInitiate(m: Match, r: Resolution): void {moveCard(m, (r.action.payload as Payload).card, 'playing');}
