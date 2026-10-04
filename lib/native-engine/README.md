@@ -3096,3 +3096,36 @@ The failed-Obsession Force amount, further response interactions, general card
 coverage and all remaining full-engine/product requirements remain unfinished.
 Full production deck admission stays closed. No standalone Rules Lab study was
 added.
+
+### Complete-match returns, redraws and destiny switching
+
+Three further complete GEMP games cover Set For Stun, Han's Dice and Takeel
+through 6,094 native commands and 646 exact checkpoints. The games finish on
+turns 28, 26 and 19 with Light victories. They include Luke returning to hand,
+failed Stun leaving five attachments intact, the same physical Dice card played
+twice, and Dice followed by Takeel switching unequal battle destiny totals.
+Targets come from the selected reference Action's actual primary target, with
+explicit selection IDs checked when GEMP opens a dialog. No later board state
+is used to guess a target. Each exact executed harness is archived beside its
+record; hashes and limits are in
+`tests/native-engine/gemp/battle-response-match-provenance.json`.
+
+Version 5 checkpoints also compare remaining attrition and finalized destiny
+totals, physical cards and individual values during the damage segment. A
+zero-valued draw remains distinct from having no draw. Takeel swaps the totals;
+the drawn cards retain their original owners. Tampering regressions cover these
+fields, source action labels, target identities and absent observations.
+
+`battle-response-match-fixture.mjs` extracts consecutive real checkpoints only
+after the entire recorded game replays successfully. Run
+`node tests/native-engine/battle-response-match-browser.mjs` against the local
+UI to play the Interrupt buttons and refresh pending/resolved states through
+the real native match service and SQLiteD1 at phone, tablet and desktop widths.
+The intervening commands are the recorded legal sequence; no state corrections
+are supplied after resuming the checkpoint.
+
+These selected paths extend verification of existing native behavior; they do
+not certify every timing window or starter interaction. Successful Stun with
+attachments is not reached here. The older version 4 path lacks the new destiny
+and remaining-attrition fields. Full production admission stays closed, and the
+failed-Obsession question and broader full-engine scope remain outstanding.

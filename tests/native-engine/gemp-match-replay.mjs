@@ -33,9 +33,17 @@ export function normalizedCheckpoint(s,cards){
 }
 function snapshot(m,expected,version){
  const values=publicValues(m);
+ if(version>=5&&expected.battleLosses)assert.ok(expected.battleDestinies,'Version 5 damage checkpoints require completed destiny evidence');
  for(const card of expected.table)if(card.stats){const actual=values.characters[card.id];assert.ok(actual,'Missing public character values');assert.deepEqual({power:actual.power,ability:actual.ability,forfeit:actual.forfeit},card.stats,'Public character values must match GEMP');}
  const result={turn:m.turn.number,side:m.turn.side,phase:m.turn.phase,locations:[...m.locations],players:Object.fromEntries(['dark','light'].map(side=>[side,Object.fromEntries(['reserve','force','used','lost','hand'].map(p=>[p,[...m.players[side][p]]]))])),table:Object.values(m.cards).filter(c=>c.zone==='table'&&(c.location||version>=4&&board.cardDefinition(m,c.id).type!=='Location')).map(c=>({id:c.id,...(c.location?{location:c.location}:{}),...(version>=3?{...(c.attachedTo?{attachedTo:c.attachedTo}:{}),hit:combat.battle(m)?.hits.includes(c.id)??false}:{}),...(version>=2&&board.cardDefinition(m,c.id).type==='Character'?{stats:{power:board.power(m,c.id,combat.battle(m)?.stage!=='complete'&&combat.battle(m)?.initiator!==c.owner&&combat.members(m,c.owner).includes(c.id)),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)}}:{})})).sort((a,b)=>a.id.localeCompare(b.id))};
- if(expected.battleLosses){const b=combat.battle(m);assert.ok(b);result.battleLosses=Object.fromEntries(['dark','light'].map(side=>[side,{damage:combat.battleDamage(m,side),totalDamage:b.damageLedger?losses.lossTotal(m,side,b.damageLedger[side]):b.initialDamage[side],totalAttrition:b.initialAttrition[side]}]));}
+ if(expected.battleLosses){const b=combat.battle(m);assert.ok(b);result.battleLosses=Object.fromEntries(['dark','light'].map(side=>[side,{damage:combat.battleDamage(m,side),totalDamage:b.damageLedger?losses.lossTotal(m,side,b.damageLedger[side]):b.initialDamage[side],totalAttrition:b.initialAttrition[side],...(version>=5?{attrition:b.attrition[side]}:{})}]));}
+ if(expected.battleDestinies){
+  const b=combat.battle(m);assert.ok(b);
+  result.battleDestinies=Object.fromEntries(['dark','light'].map(side=>{
+   const draws=(b.destinyResults?.[side]?.draws??[]).filter(d=>d.value!==null);
+   return [side,{total:b.destiny[side]??0,cards:draws.map(d=>d.card),values:draws.map(d=>d.value)}];
+  }));
+ }
  return result;
 }
 
@@ -43,11 +51,12 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
- if(!['activate','draw','deploy','equip','fire','site','move','battle','drain','barrier','reduce','explode','macroscan','peek','kintan','old-ben'].includes(kind))return;
+ if(!['activate','draw','deploy','equip','fire','site','move','battle','drain','barrier','reduce','explode','macroscan','peek','kintan','old-ben','stun','dice','takeel'].includes(kind))return;
  const index=row.parameters.actionId?.indexOf(row.answer);assert.ok(index>=0,'Reference action answer missing');
  const label=row.parameters.actionText[index].toLowerCase();
  const valid=kind==='activate'?label==='activate force':kind==='draw'?label==='draw card into hand from force pile':
   kind==='move'?label==='move using landspeed':kind==='fire'?label.startsWith('fire '):['deploy','equip','site','macroscan'].includes(kind)?label.startsWith('deploy')&&row.state.players[row.semantic.side].hand.includes(row.semantic.card):
+  kind==='stun'?label==='return character to hand':kind==='dice'?label==='cancel and re-draw battle destiny':kind==='takeel'?label==='switch battle destiny numbers':
   kind==='kintan'?label==='regenerate top-most character':kind==='old-ben'?label.startsWith('revive '):kind==='peek'?label.startsWith('peek at top'):kind==='battle'?label.startsWith('initiate battle'):kind==='barrier'?label.startsWith('prevent '):kind==='reduce'?label==='reduce force loss':kind==='explode'?label==="'explode'":label.startsWith('force drain');
  assert.ok(valid,'Reference semantic action does not match the chosen command: '+label);
 }
@@ -74,6 +83,23 @@ export function assertRecoverySelection(row,side,blueprint,kind='old-ben'){
  assert.equal(row.parameters.blueprintId[index],blueprint,'Recovery selected the wrong character');
 }
 
+/** Targets are read from the selected GEMP Action after actual targeting. This
+ * also covers its single-target shortcut, without guessing from a later turn. */
+export function assertInterruptTarget(rows,index,cards){
+ const row=rows[index],s=row.semantic,o=row.targetObservation;
+ assert.ok(o&&Number.isSafeInteger(o.afterDecision)&&o.afterDecision>=index&&o.afterDecision<rows.length,'Missing actual target observation');
+ assert.equal(o.card,s.target);assert.equal(o.blueprint,cards[s.target]?.blueprint,'Target blueprint differs');
+ assert.ok(row.state.table.some(c=>c.id===s.target),'Target must be on table at initiation');
+ if(o.afterDecision!==index){
+  const selected=followingTarget(rows,index,'interrupt-target');assert.equal(rows.indexOf(selected),o.afterDecision);
+  assert.equal(selected.semantic.side,s.side);assert.equal(selected.semantic.card,s.target);
+  assert.equal(selected.answer,o.referenceCardId,'Chosen target differs from the observed primary target');
+  const i=selected.parameters.cardId.indexOf(selected.answer);assert.ok(i>=0,'Reference target answer missing');
+  if(selected.parameters.selectable)assert.equal(selected.parameters.selectable[i],'true');
+ }
+ return s.target;
+}
+
 /** An inspection acknowledgment and the optional Force-pile choice are separate
  * reference decisions. Derive movement from the actual answer, never the tag. */
 export function inspectionChoice(rows,index,canMove){
@@ -86,7 +112,7 @@ export function inspectionChoice(rows,index,canMove){
 }
 
 export function replayGempMatch(record,{onCheckpoint}={}){
- assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
+ assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
  const decks=starterDecks(60);assert.deepEqual(Object.fromEntries(decks.map(d=>[d.side,d.cards])),record.decks);
  let m=runtime.createMatch('gemp-complete-match',60,decks,auditRules),commands=0,checkpoints=0;
@@ -117,7 +143,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
  try{
   const rows=record.trace;
   for(let index=0;index<rows.length;index++){
-   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement'].includes(s.kind))continue;
+   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target'].includes(s.kind))continue;
    assertReferenceAction(row);
    let choices=[];
    if(s.kind==='activate')choices=['core:activate'];
@@ -135,6 +161,11 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     if(target)assertRecoverySelection(followingTarget(rows,index,'recovery-selection'),s.side,m.cards[target].blueprint,'kintan');
     choices=['revival:kintan:'+s.card];
    }
+   if(s.kind==='stun'||s.kind==='dice'){
+    const target=assertInterruptTarget(rows,index,m.cards);
+    choices=[(s.kind==='stun'?'stun:play:':'dice:')+s.card+':'+target];
+   }
+   if(s.kind==='takeel')choices=['takeel:'+s.card];
    if(s.kind==='old-ben'){
     const selection=followingTarget(rows,index,'recovery-selection');
     assertRecoverySelection(selection,s.side,m.cards[s.target].blueprint);
@@ -172,7 +203,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
-   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben'].includes(s.kind)){
+   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
     // observer from changing either the reference or the continuing replay.
