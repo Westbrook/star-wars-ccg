@@ -12,14 +12,26 @@
   "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineAboardTravelOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
   "environment": "maven:3.9.6-eclipse-temurin-21",
   "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp70\u201371,128",
-  "scope": "Run Luke regular landspeed starts on ground; Narrow Escape requires a present Rebel and moves aboard characters off open/enclosed vehicles or landed starfighters. Per-character payment, weapon carry, regular-move history and zero-Force failure.",
+  "scope": "Run Luke regular landspeed starts on ground; Narrow Escape requires a present Rebel and landspeed on all targeted cards with ability. Open/enclosed passenger exits and payment are compared; escape-landed is now an explicit official-rule discrepancy.",
   "method": [
-    "Actual Interrupt plays and movement on fixture boards with attached passengers; ten complete records compared with native commands and JSON restoration.",
+    "Actual Interrupt plays and movement on fixture boards with attached passengers; nine observations match native commands and JSON restoration. The tenth, escape-landed, is preserved as a discrepancy and corrected by the explicit official example.",
     "Unchanged GEMP production files verified byte-for-byte against pinned archive."
   ],
   "limitations": [
     "Component verification; full deck admission remains closed. No new standalone study.",
     "Cancellation, Barrier, changed host/target identity, route validation and browser recovery have additional native-only checks.",
     "No new generic vehicle/space move-away card permission or nested cargo disembark grant. Full catalog/timing/product scope remains."
-  ]
+  ],
+  "officialRuleCorrection": {
+    "rule": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=71",
+    "section": "Movement - move away, Example 3",
+    "appliesToObservation": "escape-landed",
+    "finding": "Pinned GEMP permits this play. Official rules forbid initiating Narrow Escape when a targeted card has ability but no landspeed, including a landed X-wing with a permanent pilot. Native now follows that rule.",
+    "receiptPolicy": "The original executed Java source, observations and hashes above are unchanged; this observation is disagreement evidence, not native conformance.",
+    "nativeTests": [
+      "tests/native-engine/aboard-travel.test.mjs",
+      "tests/native-engine/narrow-escape-browser.mjs"
+    ],
+    "limits": "Text suppression and response-time restoration are controlled component fixtures, not a claim of a legal starter-card path. Vehicles with ability need further movement-provider coverage."
+  }
 }

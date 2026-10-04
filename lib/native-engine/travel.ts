@@ -63,10 +63,18 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
           result.push(action('run-luke:' + card + ':' + luke.id, 'Run Luke, Run! · move Luke to battle for free', 'run', {card, target: luke.id, from: luke.location, to: b.site}));
       // Move-away initiation needs a related destination, not affordable movement.
       if (m.cards[card].blueprint === '1_98' && b.initiator !== side && m.locations.some(id => id !== b.site && cardDefinition(m,id).subType==='Site' && system(m, id) === system(m, b.site))) {
+        const remaining = members(m, side).filter(id => ability(m, id) > 0);
+        // AR p71, move-away example 3: every target must HAVE landspeed.
+        // A landed ship's permanent ability prevents playing this Interrupt;
+        // movement restrictions, range and affordability are checked later.
+        if (remaining.some(id => {
+          const def = cardDefinition(m, id);
+          return def.type !== 'Character' && !(def.type === 'Vehicle' && (def.stats as Record<string, string>).landspeed !== undefined);
+        })) continue;
         const rebels = members(m, side).filter(id => characterPresent(m, id) && cardDefinition(m, id).subType === 'Rebel' && ability(m, id) > 2);
         for (const target of rebels) result.push(action('escape:' + card + (rebels.length > 1 ? ':' + target : ''),
           'Narrow Escape · target ' + name(m, target) + ' and attempt to move your cards with ability away', 'escape',
-          {card, target, from: b.site, remaining: members(m, side).filter(id => ability(m, id) > 0)}));
+          {card, target, from: b.site, remaining}));
       }
     }
   }

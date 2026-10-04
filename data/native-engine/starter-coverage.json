@@ -1867,7 +1867,8 @@
       "functionsReviewed": [
         "Opponent battle-initiation Rebel ability >2 condition",
         "Individually paid regular escape moves",
-        "Owner ordering, separate destinations, partial failure and battle sync"
+        "Owner ordering, separate destinations, partial failure and battle sync",
+        "All targets must have landspeed at initiation (AR p71 example 3); landed permanent-pilot ship rejects play"
       ],
       "implementation": [
         "lib/native-engine/travel.ts",
@@ -1875,7 +1876,9 @@
         "lib/native-engine/identity.ts"
       ],
       "testFiles": [
-        "tests/native-engine/travel.test.mjs"
+        "tests/native-engine/travel.test.mjs",
+        "tests/native-engine/aboard-travel.test.mjs",
+        "tests/native-engine/narrow-escape-browser.mjs"
       ],
       "remaining": [
         "Aboard participants, vehicle exits and saved travel now have component coverage. General movement providers and target redirection remain; original-instance return discrepancies still require adjudication before affected branches are certified."
