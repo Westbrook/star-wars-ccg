@@ -3027,3 +3027,33 @@ EG-4 (`3_8`) and EG-6 (`1_175`) deploy through ordinary character rules for one 
 Both Portable Fusion Generator mirrors (`3_96`, `4_13`) deploy free on a friendly warrior and use ordinary device transfer. The selected firing warrior's generator adds one to each blaster-rifle or artillery destiny draw; powering artillery from another carrier does not grant that firing bonus. The optional, unrespondable enhancement targets one present droid, including an opposing droid. The bearer uses its one-device allowance for these actions; continuous draw bonuses do not spend that allowance. Turn off the enhancement before choosing another droid. It survives turn changes, suspends during text cancellation, and ends when the original source, carrier or target leaves its valid relationship. Departing and returning cannot restore an expired link. The match screen identifies the selected target and refresh restores both enhancement and pending mandatory destiny actions.
 
 `gemp/power-support-provenance.json` records ten exact GEMP/native comparisons from four executed methods: both sides' ordinary/repeated/canceled droid power, actual enhancement on/off, enhanced rifle draws, and four battle-destiny power outcomes. All 6,820 reference production files remain unchanged. Additional native checks cover deployment, artillery firing-user identity, device-use restrictions, source/target departure, canceled destiny and malformed saves. Those branches are not separate executed GEMP claims. Repeated droid draws, draw selection/substitution, simultaneous triggers, broader device permissions, inactive/capture/undercover exceptions and strategic CPU choices remain required. Full deck admission stays closed and no standalone Rules Lab study was added.
+
+### Starter readiness reconciliation and Assault presence
+
+`data/native-engine/starter-readiness.json` binds the admission audit to the
+exact 68-definition starter pair, retains explicit rules disputes, and separates
+absent wider-catalog providers from unverified starter interactions. Forty new
+native-only legal-command matches (seeds 101–120 at both 40 and 60 cards) ended
+through Life Force exhaustion after 119,205 commands. Their compact receipts are
+in `tests/native-engine/audit/starter-readiness-results.json`. These paths never
+played Obsession and do not certify exhaustive timing or GEMP parity. The
+one-sided failed-duel Force amount remains a real starter blocker; target-return
+reachability still needs review. The nested Chances chain requires more physical
+copies than the current pair contains, but remains required for custom decks.
+
+The audit found a concrete vessel integration gap: Assault still counted only
+characters. `assault.ts` now counts present physical characters, vehicles and
+starships. A landed/unpiloted vessel contributes a draw even if it contributes
+no power. Enclosed crew and nested cargo do not add draws; exposed occupants of
+an open vehicle do. Power/count remain frozen at resolution entry under the
+Counter Assault ruling (AR pp140–141), shared by Surprise Assault.
+
+Eleven executed GEMP paths compare actual drain cancellation, destiny draws,
+power, Force losses and Interrupt cleanup across both sides and these occupancy
+cases. Native tests additionally cover response-time crew changes, subsequent
+departure and serialization. The Playwright service/SQLiteD1 fixture plays both
+Assault mirrors through the actual UI and reloads at pending destiny, result and
+completed loss at phone/tablet/desktop sizes. Evidence and limitations are in
+`tests/native-engine/gemp/assault-presence-provenance.json`. No new Rules Lab
+study was added. Full engine scope is retained and production admission remains
+closed.

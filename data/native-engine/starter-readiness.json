@@ -1,0 +1,333 @@
+{
+  "schema": 1,
+  "auditedAt": "2026-10-04T16:26:32.787105+00:00",
+  "baseCommit": "2d63d68ff062d0aa7cb68ced79225dd13a21db08",
+  "productionAdmission": "closed",
+  "purpose": "Current-pair reachability and evidence inventory. This does not certify cards, admit decks, or remove any full-engine requirements.",
+  "definitionCount": 68,
+  "decks": [
+    {
+      "id": "intro-light",
+      "side": "light",
+      "count": 60,
+      "copies": {
+        "101_1": 2,
+        "101_2": 3,
+        "101_3": 3,
+        "1_100": 1,
+        "1_105": 1,
+        "1_106": 1,
+        "1_113": 2,
+        "1_115": 1,
+        "1_12": 2,
+        "1_120": 1,
+        "1_124": 1,
+        "1_129": 2,
+        "1_130": 1,
+        "1_131": 2,
+        "1_132": 1,
+        "1_152": 2,
+        "1_153": 1,
+        "1_162": 3,
+        "1_18": 2,
+        "1_26": 2,
+        "1_28": 7,
+        "1_30": 3,
+        "1_31": 3,
+        "1_35": 1,
+        "1_40": 2,
+        "1_6": 1,
+        "1_64": 1,
+        "1_77": 1,
+        "1_80": 2,
+        "1_84": 1,
+        "1_90": 2,
+        "1_91": 1,
+        "1_98": 1
+      },
+      "sha256": "49c5ec2c109f8edb1cfa7b9a471d5bb60301e78e1e60574565232cfe95541707"
+    },
+    {
+      "id": "intro-dark",
+      "side": "dark",
+      "count": 60,
+      "copies": {
+        "101_4": 2,
+        "101_5": 3,
+        "101_6": 3,
+        "1_170": 2,
+        "1_181": 2,
+        "1_182": 2,
+        "1_186": 2,
+        "1_194": 7,
+        "1_196": 5,
+        "1_201": 1,
+        "1_207": 2,
+        "1_221": 1,
+        "1_224": 1,
+        "1_237": 1,
+        "1_238": 2,
+        "1_249": 1,
+        "1_251": 1,
+        "1_252": 1,
+        "1_254": 1,
+        "1_262": 1,
+        "1_266": 1,
+        "1_268": 1,
+        "1_269": 1,
+        "1_275": 1,
+        "1_279": 1,
+        "1_284": 1,
+        "1_285": 2,
+        "1_291": 1,
+        "1_292": 1,
+        "1_293": 1,
+        "1_295": 1,
+        "1_312": 1,
+        "1_315": 1,
+        "1_317": 2,
+        "1_322": 3
+      },
+      "sha256": "277059fa0f510581ec4c59ba2f392ed6da9522e581a761706fc61815ac0063ec"
+    }
+  ],
+  "printedTypes": [
+    "Character",
+    "Device",
+    "Effect",
+    "Interrupt",
+    "Location",
+    "Weapon"
+  ],
+  "branches": [
+    {
+      "id": "obsession-failed-total",
+      "cards": [
+        "101_6"
+      ],
+      "classification": "starter-blocker",
+      "reason": "Empty or entirely canceled destiny sets can occur without exhausting all Life Force. The winner follows the failed-draw rule, but Force difference remains unverified. No approximate fallback is allowed.",
+      "implementation": [
+        "lib/native-engine/duel.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/duel.test.mjs",
+        "tests/native-engine/gemp/duel-provenance.json"
+      ]
+    },
+    {
+      "id": "nested-chances",
+      "cards": [
+        "1_77",
+        "1_279"
+      ],
+      "classification": "outside-current-pair",
+      "reason": "A boost of a booster needs at least two physical copies from one side simultaneously on the pending stack. Each current starter has one. Retrieving a resolved copy cannot retrieve one still playing. Open/custom decks still need the disputed recursive result implemented.",
+      "implementation": [
+        "lib/native-engine/stakes.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/stakes.test.mjs",
+        "tests/native-engine/gemp/stakes-provenance.json"
+      ]
+    },
+    {
+      "id": "returning-travel-target",
+      "cards": [
+        "101_3",
+        "1_98"
+      ],
+      "classification": "reachability-unproven",
+      "reason": "Controlled return/late-arrival observations disagree with pinned GEMP. These fixtures do not establish an actual starter-card path; audit the permitted response providers before calling it reachable or unreachable.",
+      "implementation": [
+        "lib/native-engine/travel.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/gemp/travel-identity-provenance.json",
+        "tests/native-engine/gemp/aboard-travel-provenance.json"
+      ]
+    },
+    {
+      "id": "compound-card-interactions",
+      "cards": [
+        "101_1",
+        "101_2",
+        "101_3",
+        "101_4",
+        "101_5",
+        "101_6",
+        "1_100",
+        "1_105",
+        "1_106",
+        "1_113",
+        "1_115",
+        "1_12",
+        "1_120",
+        "1_124",
+        "1_129",
+        "1_130",
+        "1_131",
+        "1_132",
+        "1_152",
+        "1_153",
+        "1_162",
+        "1_170",
+        "1_18",
+        "1_181",
+        "1_182",
+        "1_186",
+        "1_194",
+        "1_196",
+        "1_201",
+        "1_207",
+        "1_221",
+        "1_224",
+        "1_237",
+        "1_238",
+        "1_249",
+        "1_251",
+        "1_252",
+        "1_254",
+        "1_26",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_269",
+        "1_275",
+        "1_279",
+        "1_28",
+        "1_284",
+        "1_285",
+        "1_291",
+        "1_292",
+        "1_293",
+        "1_295",
+        "1_30",
+        "1_31",
+        "1_312",
+        "1_315",
+        "1_317",
+        "1_322",
+        "1_35",
+        "1_40",
+        "1_6",
+        "1_64",
+        "1_77",
+        "1_80",
+        "1_84",
+        "1_90",
+        "1_91",
+        "1_98"
+      ],
+      "classification": "verification-required",
+      "reason": "Per-card tests and selected complete matches are not exhaustive proof of all reachable timing and cross-card interactions. Retain admission gate until coverage is established.",
+      "implementation": [
+        "lib/native-engine/premiere-rules.ts"
+      ],
+      "evidence": [
+        "tests/native-engine/gemp/complete-match-provenance.json",
+        "tests/native-engine/gemp/expanded-match-provenance.json",
+        "tests/native-engine/gemp/response-match-provenance.json",
+        "tests/native-engine/gemp/device-match-provenance.json"
+      ]
+    }
+  ],
+  "broaderCatalog": {
+    "absentPrintedTypes": [
+      "Vehicle",
+      "Starship",
+      "Creature",
+      "Objective"
+    ],
+    "absentProviders": [
+      "1_109",
+      "1_267",
+      "1_36",
+      "1_210",
+      "1_230",
+      "3_8",
+      "1_175",
+      "3_96",
+      "4_13"
+    ],
+    "reason": "These physical definitions are absent from the current fixed starter pair. Their unfinished behavior remains required for custom decks and the full engine; absence here is not card certification.",
+    "retainedScope": [
+      "Full card catalog and reachable timing",
+      "Open 40/60 custom decks and sealed",
+      "Vehicles, pilots, passengers and space",
+      "Objectives and special setup",
+      "CPU/PvP, durable saves/deep links, clocks and capacity",
+      "Responsive gameplay UI and preserved GEMP/proof paths"
+    ]
+  },
+  "nativeIntegration": {
+    "engineBaseCommit": "2d63d68ff062d0aa7cb68ced79225dd13a21db08",
+    "runs": 40,
+    "commands": 119205,
+    "sizes": [
+      40,
+      60
+    ],
+    "seedRange": [
+      101,
+      120
+    ],
+    "normalLifeForceVictories": 40,
+    "handlers": {
+      "select": 80,
+      "reveal": 40,
+      "decline": 2,
+      "accept": 4,
+      "place": 40,
+      "begin": 40,
+      "pass": 98443,
+      "core:activate": 7629,
+      "scan:play": 20,
+      "scan:peek": 20,
+      "ground:deploy": 514,
+      "ground:site": 160,
+      "interrupt:reinforce": 28,
+      "ground:drain": 1806,
+      "ground:force-loss": 1687,
+      "ground:move": 2255,
+      "equipment:attach": 817,
+      "core:draw": 1549,
+      "battle:begin": 331,
+      "battle:forfeit": 247,
+      "battle:equip": 221,
+      "interrupt:shuffle": 70,
+      "equipment:macroscan": 16,
+      "equipment:peek": 1892,
+      "equipment:bury": 120,
+      "equipment:trip": 48,
+      "scan:select": 6,
+      "assault:play": 25,
+      "travel:party": 370,
+      "table:lost-order": 115,
+      "stakes:play": 12,
+      "travel:search": 170,
+      "travel:verify": 78,
+      "travel:escape": 1,
+      "battle:destiny": 16,
+      "battle:lose": 214,
+      "stun:play": 15,
+      "equipment:mine": 14,
+      "equipment:explode": 6,
+      "doomed:play": 3,
+      "battle:fire": 10,
+      "travel:run": 3,
+      "gaffi:equip": 23,
+      "worse:battle": 3,
+      "equipment:defuse": 8,
+      "stakes:feeling": 2,
+      "travel:place": 7,
+      "equipment:mine-order": 4,
+      "retrieval:select": 15,
+      "equipment:trip-order": 4,
+      "revival:kintan": 1,
+      "ground:reduce": 1
+    },
+    "records": "tests/native-engine/audit/starter-readiness-results.json",
+    "limits": "Native-only seeded legal-command runs, with JSON round trips and prior-state immutability checks. They do not compare GEMP, exhaust legal choices, or exercise the Obsession guard. Full transcripts are local; seed, hashes and result summaries are retained for reproduction."
+  }
+}

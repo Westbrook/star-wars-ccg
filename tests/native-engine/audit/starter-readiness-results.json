@@ -1,0 +1,568 @@
+{
+  "schema": 1,
+  "executedAt": "2026-10-04T16:26:32.787105+00:00",
+  "engineBaseCommit": "2d63d68ff062d0aa7cb68ced79225dd13a21db08",
+  "admission": "test-only",
+  "runs": [
+    {
+      "schema": 1,
+      "seed": 101,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 35,
+      "commands": 2746,
+      "transcriptSha256": "4d5b77222b81aab3e2a920b2ca17f9d76fc83bda29e4a8f14e20276fd2c30026",
+      "finalStateSha256": "1a579bd3e01821502ec9114fe6af857d5021fc0573e5d508244724f93b43665a"
+    },
+    {
+      "schema": 1,
+      "seed": 102,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 33,
+      "commands": 2526,
+      "transcriptSha256": "f59883e4d465c36a883226d36968989aabdeae9ec2df8c95e50ce2e03e8167fa",
+      "finalStateSha256": "f9059cf9ef0b10b198940549b7dfaf7c920d0ba7077d5711791dc649b4b5017a"
+    },
+    {
+      "schema": 1,
+      "seed": 103,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 34,
+      "commands": 2972,
+      "transcriptSha256": "51ec9066fd52aaff056f84da66303a031995a4fff63ab9fb345874789cabf935",
+      "finalStateSha256": "08c43312a46afe407f540e4a670f042ed3e52986ac6e3d901b6c6647bcbecd25"
+    },
+    {
+      "schema": 1,
+      "seed": 104,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 72,
+      "commands": 3346,
+      "transcriptSha256": "0304dd2645fec9acadb1a69db06795d2a2efcccd72c97fd432b9664c723b9cca",
+      "finalStateSha256": "e11954aba36e4a0d81b447cea7996f7724955830ee3691b01454a06369e1dc93"
+    },
+    {
+      "schema": 1,
+      "seed": 105,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 25,
+      "commands": 1865,
+      "transcriptSha256": "7482d958a630956ff2ccb12ff6fb89e382f2af7ceabfd7631edc3a96d32b30dc",
+      "finalStateSha256": "ecba1567a95eb2f5ab140a9eef4d35455c315471e8a17b39cd9c164aa76b00e6"
+    },
+    {
+      "schema": 1,
+      "seed": 106,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 47,
+      "commands": 2459,
+      "transcriptSha256": "b337100370fe50fec0a62374f7ac1f6ccf844d5eb6e9cf6db34fdfe4e021da53",
+      "finalStateSha256": "374158d51b5bf6c92ac3bd0756dc50e5514cb54c9620b5a40f16c5773df648d9"
+    },
+    {
+      "schema": 1,
+      "seed": 107,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 38,
+      "commands": 2445,
+      "transcriptSha256": "c992cb1dafdf84034ae57a9fca2bd28df0939fc2089094845019c0c79ec9296f",
+      "finalStateSha256": "97f9ceb0035629cd087816c05780d246d6930a09797740ca07005892d16b6bf9"
+    },
+    {
+      "schema": 1,
+      "seed": 108,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 29,
+      "commands": 2045,
+      "transcriptSha256": "8bfe5b92ec768d4e85f4c65c02dd023405e33c76c21aa049943631130435feb8",
+      "finalStateSha256": "a6026b2947aa96df4516b0581e656185e91fd5f0cc5dc56d6f3618d04e06c53d"
+    },
+    {
+      "schema": 1,
+      "seed": 109,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 23,
+      "commands": 1591,
+      "transcriptSha256": "35f0b3015ded06cc58cc69cc1cbf9aebd6745c759810221740224f301f453f98",
+      "finalStateSha256": "991c1ee22ffda53510b85e38721f5de097d5c566cd9c7e849a8d880911be80d3"
+    },
+    {
+      "schema": 1,
+      "seed": 110,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 29,
+      "commands": 2313,
+      "transcriptSha256": "020e3ca0038a446f39315513c792aec73592644aa0ff9c1d9935786b78727f6e",
+      "finalStateSha256": "7a8d4746bdefcc40ad1d568abb19d04274240a9cbaf5777b7edd92ca6cb8409b"
+    },
+    {
+      "schema": 1,
+      "seed": 111,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 30,
+      "commands": 2124,
+      "transcriptSha256": "e3af6c90b8076dc489c2739d5bf4ed83dbb66a29c44f3eb840fd445d05229975",
+      "finalStateSha256": "3c5045c672ae70e86b009eb9c5235b109bc9adac26587c7278d917dc6ec3b867"
+    },
+    {
+      "schema": 1,
+      "seed": 112,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 29,
+      "commands": 2509,
+      "transcriptSha256": "f3367f519e65ed3cd2bc5c155310dc7afaedf8c3c292bc3ad495c2fddd835fa0",
+      "finalStateSha256": "d6c181533c6d765a64a434c30d75ee390aac2675c6367c2eed0e0689d8e1d38d"
+    },
+    {
+      "schema": 1,
+      "seed": 113,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 24,
+      "commands": 1704,
+      "transcriptSha256": "01e2ae525d2c79c373d0e14c86f46ab6b67ba75f606e0aa0c1177a0669c0c432",
+      "finalStateSha256": "c320f2669322a45f2e638112841fc5424acca75e37ec37b457285384d1cc44f8"
+    },
+    {
+      "schema": 1,
+      "seed": 114,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 19,
+      "commands": 1382,
+      "transcriptSha256": "7aaf21bc4d771497dfc9c62691694c541aeb74554bf6cbd50cf2b8c1f04ef5e7",
+      "finalStateSha256": "98ef6f0a82bcfcef1838431c327bfa45e7d6025f0c0ab6442cde9fd3874cb14f"
+    },
+    {
+      "schema": 1,
+      "seed": 115,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 29,
+      "commands": 1886,
+      "transcriptSha256": "113679087184282ee3696fbd4bd163331932dd019644bcbe487792df935f5685",
+      "finalStateSha256": "f1438af1a1093fd261b9c1ac5457143e5863f399a20a5de30efa2f42c7e0aa2a"
+    },
+    {
+      "schema": 1,
+      "seed": 116,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 22,
+      "commands": 1595,
+      "transcriptSha256": "1507085b5ab562ea54efb80578c76b47d010ddddf073ba37d73d1062369bfeab",
+      "finalStateSha256": "8f0023b4dfba96a1b0b22c276200037ce6941fc56e8f7c072b00f3d8b03a33e8"
+    },
+    {
+      "schema": 1,
+      "seed": 117,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 27,
+      "commands": 2336,
+      "transcriptSha256": "983c5e773730a4f623a317b3c3dc2c8c6e471a200d753ceb3ca62c97cb7b6837",
+      "finalStateSha256": "9ce4deb6c2a2e0f7502aa130f9bf6d981398a417e27bd1c1d6c4441059e3a4ef"
+    },
+    {
+      "schema": 1,
+      "seed": 118,
+      "size": 40,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 22,
+      "commands": 2068,
+      "transcriptSha256": "0a1e0fdc1c35b72ad5965ba295ad00929bef2ffcf365d3c3af4cbec07645ed48",
+      "finalStateSha256": "cf246410e1c62a95747250b9595050200f2790af6492ec1aaff832d5a88fb7ca"
+    },
+    {
+      "schema": 1,
+      "seed": 119,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 23,
+      "commands": 1451,
+      "transcriptSha256": "9a125c461edd4d2ef2ab5a1f0044ed031079c524da1e5bc1756a2180312fe6ee",
+      "finalStateSha256": "4cc90ec75c2373df00bea3b2996184c03dd730235c853f7e550868600e2572a8"
+    },
+    {
+      "schema": 1,
+      "seed": 120,
+      "size": 40,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 35,
+      "commands": 2570,
+      "transcriptSha256": "066f8e232855d2cb3bed13b44e41ac5199634eb03743232ca5ad0ea285d9a51e",
+      "finalStateSha256": "e796d2f0285e99cd6ed8540c3e40cdb0b32d0fbe4770cbc73988eba7b1f80ad3"
+    },
+    {
+      "schema": 1,
+      "seed": 101,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 50,
+      "commands": 4005,
+      "transcriptSha256": "b284d340066c5206433428848558448747cfa85e097b95ee0c34d49802d8e1c9",
+      "finalStateSha256": "90c6f46c13bf450e4b1b4cf0e7815c36c062d4169bfd57b850ac3ff566257370"
+    },
+    {
+      "schema": 1,
+      "seed": 102,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 54,
+      "commands": 3380,
+      "transcriptSha256": "9377d2ea5490d5a168152cab3d17b17bc8eba9203f6c90ab69afdc862b7d419f",
+      "finalStateSha256": "cc16d98b125492af4851812a22d74a0b2253eafeeede7dd0e1bdcc12e3b2a29d"
+    },
+    {
+      "schema": 1,
+      "seed": 103,
+      "size": 60,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 63,
+      "commands": 4778,
+      "transcriptSha256": "81ffcc5e77e8e40ec80f4f14d59d0160915a7fb9aaaa61fb1a2c355efb8d803c",
+      "finalStateSha256": "bf388b6beabd169b1f167f29ba91cb94d7444b3979a68d0a18e1f53c6aa96914"
+    },
+    {
+      "schema": 1,
+      "seed": 104,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 50,
+      "commands": 3226,
+      "transcriptSha256": "02c59dac0e4bed8fc85226c4597c03d89687458d0e5d80fcb2bb76ffa862064c",
+      "finalStateSha256": "3ef654bc62907ba612a3e5a66235d59b5f2ffb7b1ec04f8ff3874a976ae24bec"
+    },
+    {
+      "schema": 1,
+      "seed": 105,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 32,
+      "commands": 2581,
+      "transcriptSha256": "fd1c40c374f57bda03afd2787588d7e86857f8b57f36290376742dcde74902c7",
+      "finalStateSha256": "a6e24d19ce3ddc6acd8391f29c00b7ed6f3dbd8b3b9c1e07a9a3b6fa201e9579"
+    },
+    {
+      "schema": 1,
+      "seed": 106,
+      "size": 60,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 57,
+      "commands": 2923,
+      "transcriptSha256": "6d297111a0dbae4f6bdf4706d26e524165879f14b2e2e42dfc0e56ff077c0435",
+      "finalStateSha256": "81e315c08531ed481e8d4a4446bd03359d0b52c414970a33e8fc6dcabeaed571"
+    },
+    {
+      "schema": 1,
+      "seed": 107,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 52,
+      "commands": 4112,
+      "transcriptSha256": "7d8ba2f2fb4a45e080e4abbf4267da28715996a974aab423df3c196ee6ac80af",
+      "finalStateSha256": "2cb3eab741b9faecc40ab6e4547da7081bb0ce7d48a0fd3ba3ecc9b680406564"
+    },
+    {
+      "schema": 1,
+      "seed": 108,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 42,
+      "commands": 2652,
+      "transcriptSha256": "7c6419b4a43a0c03f80b65be9af55811358aa7d041b8369f3cd90ef6b6733ec0",
+      "finalStateSha256": "3ce69155f4c6b9f56ee3136f5f03ed5d2b3a4f0faf9aad098e1c99342f73c8bb"
+    },
+    {
+      "schema": 1,
+      "seed": 109,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 58,
+      "commands": 4737,
+      "transcriptSha256": "415e789947760dff98a0029367c43a440c8481e0987d3ffa8a0e347ec6e9e1d5",
+      "finalStateSha256": "567cbc4462873d8be823cec0aa5b3e3b3231676fbdb70f9918dcdbcc3903b305"
+    },
+    {
+      "schema": 1,
+      "seed": 110,
+      "size": 60,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 85,
+      "commands": 4936,
+      "transcriptSha256": "b03e8d283d183423213fe390d178c7db2d16e0acd28f646366461d5758e580a2",
+      "finalStateSha256": "e672cbd04682c276c4c0b4f1277701cc6ab14ba6f429beee678cd1f261f5a92c"
+    },
+    {
+      "schema": 1,
+      "seed": 111,
+      "size": 60,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 39,
+      "commands": 3291,
+      "transcriptSha256": "8baa348d05b1bbc64c341e4d5cd4b5d5a7b165efa6924e6105ec1df959838d4a",
+      "finalStateSha256": "1c7a95578dfefc3bec8a01cd5735bdde9264a516b3eecbe9eabdb139f436b5ec"
+    },
+    {
+      "schema": 1,
+      "seed": 112,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 78,
+      "commands": 4186,
+      "transcriptSha256": "f9eea8015f4ae9dba8616134b1412b4793a1b3f93884d199cf22199d6694af83",
+      "finalStateSha256": "3df91ce1ab9b6a0949001a9067398986549ff41fbbfe3211a88ab9fe3d57850e"
+    },
+    {
+      "schema": 1,
+      "seed": 113,
+      "size": 60,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 76,
+      "commands": 6247,
+      "transcriptSha256": "8f3e36ba85eaa871a3e4c4172be13a672b481aeadfe9f170f60c1b1ebabe0855",
+      "finalStateSha256": "5dcf99d9c3be5e323b8787c225b8eaac12de917cd6912e540a51bb7ba5ff9f4a"
+    },
+    {
+      "schema": 1,
+      "seed": 114,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 36,
+      "commands": 2901,
+      "transcriptSha256": "01d1a8d73961921f81bae7ca4ee566b7beb8d91ba1c0e1570c8cfcd1d96253e6",
+      "finalStateSha256": "8cdf431e5ff083df41c3e44d5bc37567868805fa071abe4ae8d0c0e127f875b7"
+    },
+    {
+      "schema": 1,
+      "seed": 115,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 40,
+      "commands": 2628,
+      "transcriptSha256": "8ae7d3df490157fab071cc82a6fe4153650eb62d16316d357422be8e1b0c69e7",
+      "finalStateSha256": "fbb2b2748ec368a1260b58212a8112dad98d090e8f4aeb2a887bcf1fd0b669e6"
+    },
+    {
+      "schema": 1,
+      "seed": 116,
+      "size": 60,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 65,
+      "commands": 4254,
+      "transcriptSha256": "0103de43b11cd38f4f249345de544082f4a450cf3399b6a901222fd7b716188e",
+      "finalStateSha256": "112f00d57ff6da184c59be27c6527ef55bba1c61e2c75ed980e70c9ffaa91a26"
+    },
+    {
+      "schema": 1,
+      "seed": 117,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 34,
+      "commands": 3023,
+      "transcriptSha256": "14a3309bfb82f864f9cc8db815c33580481c13ece41d6d4f28877a63dbd0afe3",
+      "finalStateSha256": "3ba0e03f0f8865dee54f2a0a2947875b7715e73075462a0cd40bba03fb90adf5"
+    },
+    {
+      "schema": 1,
+      "seed": 118,
+      "size": 60,
+      "result": {
+        "winner": "dark",
+        "loser": "light",
+        "reason": "life-force"
+      },
+      "turns": 33,
+      "commands": 2971,
+      "transcriptSha256": "8ab4ebf353c6ac81e43ef336345ba867a1813381111dbf3b4a5e1202ac6beec8",
+      "finalStateSha256": "5aa04461b44d2f1ee27a680be6fcc521c9ecc9f3eacedcc62d5fde8a13b67fc5"
+    },
+    {
+      "schema": 1,
+      "seed": 119,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 60,
+      "commands": 4356,
+      "transcriptSha256": "027faaebcc5075f1f7eaf939bbccf4e6eb0d31d90be27dfcf37da5a39651e99f",
+      "finalStateSha256": "2af401e5b959ef538a18c55331f3a53dde19faea2e70f563cb4f9f1b70b663fa"
+    },
+    {
+      "schema": 1,
+      "seed": 120,
+      "size": 60,
+      "result": {
+        "winner": "light",
+        "loser": "dark",
+        "reason": "life-force"
+      },
+      "turns": 44,
+      "commands": 4085,
+      "transcriptSha256": "3c26fd755238bbc009cf60cc44627b5eef551daf0ceb87460f2ef6b93e85ec99",
+      "finalStateSha256": "99108a65d4ab8b2c6716005d042bee399a50f8346d6b849dd438e35f6c7c5be9"
+    }
+  ]
+}

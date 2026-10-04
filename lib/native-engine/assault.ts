@@ -1,5 +1,6 @@
 import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
-import {atSite, name, totalPower} from './board';
+import {name, totalPower} from './board';
+import {characterPresent, isVessel, unitsAt} from './occupancy';
 import {completeDestinyTotal, drawDestiny, validDraw, type Draw} from './destiny';
 import {queueForceLoss} from './ground';
 import {openWindow} from './runtime';
@@ -29,9 +30,11 @@ export function assaultResolve(m: Match, r: Resolution): void {
     if (drain?.kind !== 'resolution') throw Error('Missing Assault drain.');
     // AR Appendix B, Counter Assault (also Surprise Assault): freeze both
     // values when resolution starts, before any destiny or cancellation responses.
-    // Current board helpers cover ground characters; aboard-unit and space
-    // presence still need implementation before full card admission.
-    p.count = atSite(m, p.site).filter(c => c.owner !== side).length;
+    // Count physical cards present, independently of power contribution: an
+    // unpiloted/landed vessel still counts. Enclosed crew and cargo do not;
+    // exposed occupants of open vehicles do (AR pp140–141).
+    p.count = unitsAt(m, p.site).filter(c => c.owner !== side &&
+      (characterPresent(m, c.id) || isVessel(m, c.id) && !c.attachedTo)).length;
     p.power = totalPower(m, other(side), p.site);
     p.draws = []; p.scope = beginDestinySequence(m, side, p.card, 'assault');
     queue(m, 'finish', {card: p.card, site: p.site, drain: p.drain});

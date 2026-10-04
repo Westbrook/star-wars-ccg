@@ -1,0 +1,140 @@
+[
+  {
+    "owner": "light",
+    "mode": "space",
+    "power": 7.0,
+    "draws": [
+      3.0
+    ],
+    "total": 3.0,
+    "darkForceLost": 4,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "owner": "light",
+    "mode": "enclosed",
+    "power": 0.0,
+    "draws": [
+      3.0
+    ],
+    "total": 3.0,
+    "darkForceLost": 0,
+    "lightForceLost": 3,
+    "interruptLost": true
+  },
+  {
+    "owner": "light",
+    "mode": "unpiloted",
+    "power": 1.0,
+    "draws": [
+      3.0,
+      3.0
+    ],
+    "total": 6.0,
+    "darkForceLost": 0,
+    "lightForceLost": 5,
+    "interruptLost": true
+  },
+  {
+    "owner": "light",
+    "mode": "landed",
+    "power": 1.0,
+    "draws": [
+      3.0,
+      3.0
+    ],
+    "total": 6.0,
+    "darkForceLost": 0,
+    "lightForceLost": 5,
+    "interruptLost": true
+  },
+  {
+    "owner": "light",
+    "mode": "cargo",
+    "power": 5.0,
+    "draws": [
+      3.0
+    ],
+    "total": 3.0,
+    "darkForceLost": 2,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "owner": "light",
+    "mode": "open",
+    "power": 5.0,
+    "draws": [
+      3.0,
+      3.0,
+      3.0
+    ],
+    "total": 9.0,
+    "darkForceLost": 0,
+    "lightForceLost": 4,
+    "interruptLost": true
+  },
+  {
+    "owner": "dark",
+    "mode": "space",
+    "power": 10.0,
+    "draws": [
+      3.0
+    ],
+    "total": 3.0,
+    "darkForceLost": 0,
+    "lightForceLost": 7,
+    "interruptLost": true
+  },
+  {
+    "owner": "dark",
+    "mode": "enclosed",
+    "power": 2.0,
+    "draws": [
+      3.0
+    ],
+    "total": 3.0,
+    "darkForceLost": 1,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "owner": "dark",
+    "mode": "unpiloted",
+    "power": 1.0,
+    "draws": [
+      3.0,
+      3.0
+    ],
+    "total": 6.0,
+    "darkForceLost": 5,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "owner": "dark",
+    "mode": "landed",
+    "power": 1.0,
+    "draws": [
+      3.0,
+      3.0
+    ],
+    "total": 6.0,
+    "darkForceLost": 5,
+    "lightForceLost": 0,
+    "interruptLost": true
+  },
+  {
+    "owner": "dark",
+    "mode": "cargo",
+    "power": 8.0,
+    "draws": [
+      3.0
+    ],
+    "total": 3.0,
+    "darkForceLost": 0,
+    "lightForceLost": 5,
+    "interruptLost": true
+  }
+]

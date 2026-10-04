@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T16:27:32.249583+00:00",
+  "files": {
+    "NativeEngineAssaultPresenceOracleTests.java": "d041a89e9365ba7b189d6f3fded19151cb4044045ed64be568b49c2464b5af81",
+    "assault-presence-results.json": "c4f24a6ef0921bdbabba5e0c8a865d0afe777323303e81e39269b7ce1b19a811"
+  },
+  "junitTests": 1,
+  "observations": 11,
+  "exactAgreements": 11,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineAssaultPresenceOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp140\u2013141; Surprise Assault and Counter Assault",
+  "scope": "Actual drain cancellation, serial destiny draws, total comparison, Force loss and Interrupt cleanup across eleven occupancy boards.",
+  "method": [
+    "Controlled starting boards place each side in space, enclosed vehicles, unpiloted vehicles, landed starfighters and nested vehicle cargo; Light also exercises an open vehicle. Crew use explicit pilot/passenger slots; cargo uses a vehicle capacity slot.",
+    "Both mirrors count present physical vessels even when they contribute no power. Enclosed crew and nested cargo do not add draws; exposed occupants of open vehicles do.",
+    "Native-only checks freeze power/count through departures after resolution starts and resample changes made while play responses are pending. Saved states round-trip at every command; browser exercises real UI/service/SQLiteD1 recovery."
+  ],
+  "limitations": [
+    "Component conformance only. Controlled starting boards and prepared destiny order are not complete match certification. Production admission stays closed.",
+    "Departure and response-time crew changes are native-only controlled interventions; no removal/return card action is claimed.",
+    "General inactive/captured cards, targeting prevention, additional power/destiny providers and full cross-card coverage remain required.",
+    "Broader scope and disputed starter rules are retained in starter-readiness.json; this fix does not resolve the failed-duel Force amount."
+  ]
+}

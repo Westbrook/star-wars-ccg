@@ -1,3 +1,4 @@
+import {fixture as assaultPresenceFixture} from './assault-presence-fixture.mjs';
 import {fixture as powerFixture,attach as powerAttach,drawing as powerDrawing} from './power-support-fixture.mjs';
 import {initiated as spaceWeaponInitiated} from './starship-weapons-fixture.mjs';
 import {fixture as heavyFixture,ready as heavyReady,destiny as heavyDestiny,fire as heavyFire,seek as heavySeek} from './heavy-fixture.mjs';
@@ -76,6 +77,20 @@ async function context(width,height,actor='owner'){
 const decks=starterDecks(60),config=(id,mode='cpu',side='dark')=>({id,mode,side,deckSize:60,deck:decks.find(d=>d.side===side).cards,...(mode==='cpu'?{computerDeck:decks.find(d=>d.side!==side).cards}:{})});
 try{
 
+ if(!process.env.NATIVE_UI_SCOPE||process.env.NATIVE_UI_SCOPE==='assault'){
+ for(const owner of ['light','dark'])for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
+  const f=assaultPresenceFixture(owner,owner==='light'?'open':'space'),side=f.side;let m=f.m;
+  const v=await fresh().create('owner',config(randomUUID(),'pvp',side));await fresh().join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:decks.find(d=>d.side===owner).cards});m.id=v.id;m.setup={stage:'complete',selected:{light:m.locations[0],dark:m.locations[1]},committed:{light:true,dark:true},revealed:true,rejected:[],priority:'dark',covered:null};
+  db.sqlite.prepare('UPDATE native_matches SET state=?,version=? WHERE id=?').run(JSON.stringify(m),m.revision,v.id);
+  const read=()=>JSON.parse(db.sqlite.prepare('SELECT state FROM native_matches WHERE id=?').get(v.id).state),advance=async done=>{for(let i=0;i<180;i++){m=read();if(done(m))return;const p=runtime.prompt(m,browserRules,side),own=runtime.prompt(m,browserRules,p.side);await fresh().command(v.id,p.side===side?'owner':'guest',{commandId:randomUUID(),revision:m.revision,choice:own.choices.find(c=>c.id==='pass')?.id??own.choices[0].id});}throw Error('Missing Assault boundary');};
+  const c=await context(width,height);await c.page.goto(origin+'/matches/'+v.id+'?progress-report');if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();
+  await c.page.getByRole('button',{name:/Assault · cancel Force drain/}).click();await advance(x=>x.stack.at(-1)?.event?.kind==='destiny-drawn');await c.page.reload();await c.page.getByText('THE LIVING TABLE',{exact:true}).waitFor();assert.equal(read().cards[f.card].zone,'playing');
+  await advance(x=>x.stack.at(-1)?.event?.kind==='assault-result');const result=read().stack.at(-1).event;assert.equal(result.count,owner==='light'?3:1);assert.equal(result.destiny,owner==='light'?9:3);await c.page.reload();await c.page.getByText('THE LIVING TABLE',{exact:true}).waitFor();assert.deepEqual(read().stack.at(-1).event,result);assert.equal(await c.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  await advance(x=>x.cards[f.card].zone==='lost'&&x.stack.length===1);await c.page.reload();await c.page.getByText('THE LIVING TABLE',{exact:true}).waitFor();assert.equal(read().cards[f.card].zone,'lost');await c.context.close();
+ }
+ console.log('Assault open-vehicle/space counts, actual UI play, saved draw/result and loss recovery verified at 1440/834/390.');
+ }
+
  if(!process.env.NATIVE_UI_SCOPE||process.env.NATIVE_UI_SCOPE==='power'){
  for(const mode of ['fusion','destiny'])for(const side of ['light','dark'])for(const [width,height] of [[1440,1000],[834,1112],[390,844]]){
   const f=mode==='fusion'?powerAttach(powerFixture(side)):powerDrawing(side),opponent=side==='light'?'dark':'light';let m=f.m;
@@ -95,7 +110,7 @@ try{
  }
 
 
- if(!['generator','heavy','power'].includes(process.env.NATIVE_UI_SCOPE)){
+ if(!['generator','heavy','power','assault'].includes(process.env.NATIVE_UI_SCOPE)){
  // Controlled source-text changes during total responses use persisted native states.
  for(const family of ['cannon','golan','1_159','1_323'])for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
   const heavy=['cannon','golan'].includes(family),f=heavy?heavyDestiny(heavyReady(heavyFixture({artillery:family==='golan'}))):spaceWeaponFixture(family),side=f.side,opponent=side==='light'?'dark':'light';
@@ -109,7 +124,7 @@ try{
  console.log('Continuous weapon total changes persist and render at 1440/834/390 for cannon, artillery, Quad Lasers and Turbolasers.');
  }
 
- if(!['generator','totals','power'].includes(process.env.NATIVE_UI_SCOPE)){
+ if(!['generator','totals','power','assault'].includes(process.env.NATIVE_UI_SCOPE)){
  // Both heavy weapon families recover through the real service at each responsive size.
  for(const artillery of [false,true])for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
   const side=artillery?'light':'dark',opponent=side==='light'?'dark':'light';
@@ -125,7 +140,7 @@ try{
  }
  console.log('Heavy cannon/artillery, pending draw/total, hit, powering and forfeiture recovery verified at 1440/834/390.');
  }
- if(!['heavy','totals','power'].includes(process.env.NATIVE_UI_SCOPE)){
+ if(!['heavy','totals','power','assault'].includes(process.env.NATIVE_UI_SCOPE)){
  // Generator destruction persists casualties, eight Force losses and the final blank site.
  for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
   const v=await fresh().create('owner',config(randomUUID(),'pvp','dark'));await fresh().join(v.id,'guest',{commandId:randomUUID(),inviteToken:v.inviteToken,deck:decks.find(d=>d.side==='light').cards});
@@ -137,7 +152,7 @@ try{
  }
  console.log('Generator attack, casualties, Force loss, blank site, inspection and refresh verified at 1440/834/390.');
  }
- if(!['generator','heavy','totals','power'].includes(process.env.NATIVE_UI_SCOPE)){
+ if(!['generator','heavy','totals','power','assault'].includes(process.env.NATIVE_UI_SCOPE)){
 
  // Printed Hoth free movement executes through the persisted service and survives refresh.
  for(const [width,height]of [[1440,1000],[834,1112],[390,844]]){
