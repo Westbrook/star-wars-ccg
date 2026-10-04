@@ -1,3 +1,4 @@
+import {crewActive} from './occupancy';
 import {destinyInWindow, destinyResponseHandlers} from './destiny-response';
 import {gameTextActive} from './game-text';
 import {cardDefinition} from './definitions';
@@ -18,8 +19,8 @@ function eligible(m: Match, w: Window, side: Side): Payload['branch'] | undefine
 }
 export function astromechActions(m: Match, w: Window, side: Side): Action[] {
   const branch = eligible(m,w,side); if (!branch) return [];
-  return Object.values(m.cards).filter(c=>c.owner===side && c.blueprint==='2_14' && groundPresent(m,c.id) && gameTextActive(m,c.id) &&
-    (cardDefinition(m,c.location!).icons as string[]|undefined)?.includes('Scomp Link') && !w.completed.includes(key(c.id))).map(c=>({
+  return Object.values(m.cards).filter(c=>c.owner===side && c.blueprint==='2_14' && crewActive(m,c.id) && gameTextActive(m,c.id) &&
+    (groundPresent(m,c.id)&&(cardDefinition(m,c.location!).icons as string[]|undefined)?.includes('Scomp Link')||!!c.aboardRole&&!!c.attachedTo&&(cardDefinition(m,c.attachedTo).icons as string[]).includes('Scomp Link')) && !w.completed.includes(key(c.id))).map(c=>({
       id:'r2:'+c.id+':'+branch,label:'R2-D2 · '+(branch==='activate'?'activate 1 Force':'draw top card of Reserve Deck'),
       source:c.id,handler:'astromech:respond',payload:{source:referenceCard(m,c.id),window:w.serial,branch} as unknown as Json,
     }));

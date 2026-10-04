@@ -1,3 +1,4 @@
+import {hasNavigation,vesselHyperspeed} from './piloting';
 import {systemPosition,orbitTransfer} from './mobile-systems';
 import {cardDefinition} from './definitions';
 import {movesFree} from './movement-costs';
@@ -31,7 +32,7 @@ export function vesselRoutes(m:Match,id:string):Route[]{
  }
  const origin=premiereSystems[m.cards[from].blueprint];
  if(origin&&operational(m,id)){
-  if((d.icons as string[]).includes('Nav Computer')&&stat(m,id,'hyperspeed')>0)for(const to of m.locations){const target=systemPosition(m,to);if(to!==from&&target&&Math.abs(systemPosition(m,from)!.parsec-target.parsec)<=stat(m,id,'hyperspeed'))out.push({method:'hyperspace',path:[from,to],cost:1});}
+  if(hasNavigation(m,id)&&(vesselHyperspeed(m,id)??0)>0)for(const to of m.locations){const target=systemPosition(m,to);if(to!==from&&target&&Math.abs(systemPosition(m,from)!.parsec-target.parsec)<=(vesselHyperspeed(m,id)??0))out.push({method:'hyperspace',path:[from,to],cost:1});}
   for(const to of m.locations)if(to!==from&&orbitTransfer(m,from,to))out.push({method:'orbit',path:[from,to],cost:1});
   if(!capital(m,id))for(const to of m.locations.filter(to=>exterior(m,to)&&system(m,to)===origin.system)){
    const bay=bayCosts[m.cards[to].blueprint]!==undefined;
@@ -64,7 +65,9 @@ export function vesselTravelResolve(m:Match,r:Resolution):void{
  }
  if(r.action.handler!=='voyage:step')throw Error('Unknown vessel travel continuation.');
  const next=p.path[p.index+1].id;
- if(!vesselRoutes(m,p.card.id).some(x=>x.method===p.method&&x.path.includes(next)))return;
+ // Hyperspace range is checked when the move begins. Its moving response
+ // cannot retroactively revoke an initiated route by reducing hyperspeed.
+ if(p.method!=='hyperspace'&&!vesselRoutes(m,p.card.id).some(x=>x.method===p.method&&x.path.includes(next)))return;
  const from=p.path[p.index].id;moveWithAttachments(m,p.card.id,next);p.index++;
  const complete=p.index===p.path.length-1;if(!complete)continueMove(m,r,p);
  openWindow(m,'response',other(r.actor),{kind:'moved',card:p.card.id,from,site:next,method:p.method,initial:p.index===1,complete});

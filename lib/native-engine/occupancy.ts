@@ -1,17 +1,20 @@
 import {cardDefinition} from './definitions';
 import {gameTextActive} from './game-text';
 import {battleMembers} from './participation';
-import {pilotPowerBonus,vesselManeuver} from './piloting';
+import {pilotPowerBonus,vesselManeuver,aboardStarfighterBonus,vesselHyperspeed,hasNavigation} from './piloting';
 import {isModel} from './characteristics';
 import type {Card,Match} from './types';
 
 export type AboardRole='pilot'|'driver'|'passenger'|'vehicle'|'starship';
-type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string;vehicles?:number;starships?:number;tiesOnly?:boolean};
+type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string;vehicles?:number;starships?:number;astromechs?:number;tiesOnly?:boolean};
 /** Printed capacities; permanent personnel do not consume these additional slots. */
 export const vesselRules:Record<string,VesselRule>={
  '1_149':{pilots:0,drivers:1,passengers:2,shared:0,permanent:0,enclosed:false},
  '1_151':{pilots:0,drivers:1,passengers:3,shared:0,permanent:0,enclosed:true},
  '1_310':{pilots:0,drivers:1,passengers:2,shared:0,permanent:0,enclosed:true},
+ '1_142':{pilots:0,drivers:0,passengers:0,shared:2,permanent:0,enclosed:true,astromechs:1},
+ '1_145':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true,astromechs:1},
+ '2_71':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true,astromechs:1},
  '1_144':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '1_141':{pilots:0,drivers:0,passengers:0,shared:2,permanent:0,enclosed:true},
  '1_300':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
@@ -56,6 +59,9 @@ export function capacityFits(m:Match,host:string,crew:{id:string;role:AboardRole
   else if(d.type!=='Character'||c.role==='pilot'&&!(d.icons as string[]).includes('Pilot')||c.role==='driver'&&!canDrive(m,c.id))return false;
   n[c.role]++;
  }
+ // Astromechs are passengers; reserved slots are allocated before ordinary capacity.
+ const reserved=Math.min(r.astromechs??0,crew.filter(c=>c.role==='passenger'&&isModel(m,c.id,'ASTROMECH')).length);
+ n.passenger-=reserved;
  return n.vehicle<=(r.vehicles??0)&&n.starship<=(r.starships??0)&&n.driver<=r.drivers&&Math.max(0,n.pilot-r.pilots)+Math.max(0,n.passenger-r.passengers)<=r.shared;
 }
 export function roleAvailable(m:Match,host:string,id:string,role:AboardRole):boolean {
@@ -63,7 +69,7 @@ export function roleAvailable(m:Match,host:string,id:string,role:AboardRole):boo
 }
 export function vesselPower(m:Match,id:string):number {
  if(!operational(m,id))return 0;
- return Number((cardDefinition(m,id).stats as Record<string,string>).power)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0);
+ return Number((cardDefinition(m,id).stats as Record<string,string>).power)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0);
 }
 export function assertOccupancy(m:Match):void {
  for(const c of Object.values(m.cards)){
@@ -77,4 +83,4 @@ export function assertOccupancy(m:Match):void {
   }
  }
 }
-export function occupancyView(m:Match){return {vessels:Object.fromEntries(Object.values(m.cards).filter(c=>c.zone==='table'&&vesselRule(m,c.id)).map(c=>[c.id,{operational:operational(m,c.id),landed:landed(m,c.id),permanent:permanentAbility(m,c.id),permanentPilot:permanentPilot(m,c.id),power:vesselPower(m,c.id),maneuver:vesselManeuver(m,c.id),capacity:vesselRule(m,c.id),exposed:!vesselRule(m,c.id)?.enclosed&&!belowDecks(m,c.id),crew:occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!,active:crewActive(m,x.id)}))}]))};}
+export function occupancyView(m:Match){return {vessels:Object.fromEntries(Object.values(m.cards).filter(c=>c.zone==='table'&&vesselRule(m,c.id)).map(c=>[c.id,{operational:operational(m,c.id),landed:landed(m,c.id),permanent:permanentAbility(m,c.id),permanentPilot:permanentPilot(m,c.id),power:vesselPower(m,c.id),maneuver:vesselManeuver(m,c.id),hyperspeed:vesselHyperspeed(m,c.id),navigation:hasNavigation(m,c.id),capacity:vesselRule(m,c.id),exposed:!vesselRule(m,c.id)?.enclosed&&!belowDecks(m,c.id),crew:occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!,active:crewActive(m,x.id)}))}]))};}

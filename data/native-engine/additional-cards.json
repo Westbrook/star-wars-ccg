@@ -98,7 +98,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler’s Luck",
+    "name": "Gambler\u2019s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -1843,5 +1843,95 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_143.java"
+  },
+  {
+    "gempId": "1_24",
+    "name": "R2-X2 (Artoo-Extoo)",
+    "side": "light",
+    "type": "Character",
+    "subType": "Droid",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/r2x2.gif",
+    "text": "While aboard any starfighter, adds 1 to power, maneuver, and hyperspeed.",
+    "stats": {
+      "deploy": "1",
+      "power": "1",
+      "destiny": "4",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Nav Computer"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_024.java"
+  },
+  {
+    "gempId": "1_142",
+    "name": "Gold 5",
+    "side": "light",
+    "type": "Starship",
+    "subType": "Starfighter: Y-Wing",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/gold5.gif",
+    "text": "May add 2 pilots or passengers, and 1 astromech.",
+    "stats": {
+      "deploy": "1",
+      "power": "2",
+      "destiny": "4",
+      "forfeit": "3",
+      "maneuver": "3",
+      "hyperspeed": "4"
+    },
+    "icons": [
+      "Nav Computer",
+      "Scomp Link"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_142.java"
+  },
+  {
+    "gempId": "1_145",
+    "name": "Red 3",
+    "side": "light",
+    "type": "Starship",
+    "subType": "Starfighter: X-Wing",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/red3.gif",
+    "text": "May add 1 pilot and 1 astromech.",
+    "stats": {
+      "deploy": "2",
+      "power": "3",
+      "destiny": "3",
+      "forfeit": "5",
+      "maneuver": "4",
+      "hyperspeed": "5"
+    },
+    "icons": [
+      "Nav Computer",
+      "Scomp Link"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_145.java"
+  },
+  {
+    "gempId": "2_71",
+    "name": "Red 5",
+    "side": "light",
+    "type": "Starship",
+    "subType": "Starfighter: X-Wing",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/red5.gif",
+    "text": "May add 1 pilot and 1 astromech. Immune to attrition < 4 if Luke piloting. When firing in an Attack Run, adds 1 to total.",
+    "stats": {
+      "deploy": "3",
+      "power": "3",
+      "destiny": "2",
+      "forfeit": "6",
+      "maneuver": "4",
+      "hyperspeed": "5"
+    },
+    "icons": [
+      "Nav Computer",
+      "Scomp Link",
+      "A New Hope"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_071.java"
   }
 ]

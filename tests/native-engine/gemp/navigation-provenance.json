@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T06:55:17.155812+00:00",
+  "files": {
+    "NativeEngineNavigationOracleTests.java": "42ed47de218210cbd92f76deb89f82c700e9882ab94990cbfc5f6970f7ebe46c",
+    "navigation-results.json": "9e3b97a8ecf2f5b4df35fd4a5b30cd5c0e767eea8da4c35042c3d89d3cea9933"
+  },
+  "junitTests": 1,
+  "observations": 11,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineNavigationOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp79,89-93",
+  "scope": "Actual astromech deployment and hyperspace movement, reserved passenger slots, current power/maneuver/hyperspeed, matching Red 5/Artoo/Luke, immunity, droid navigation and Scomp link queries, noncumulative copies, canceled text and source departure after movement begins.",
+  "method": [
+    "Starting ships, planets, pilots and Force are controlled fixtures. Droid deployments and ship movement use real GEMP actions. All eleven complete result rows compare with native command sequences and JSON round trips.",
+    "GEMP text cancellation is a trusted until-end-of-turn production modifier. Native uses the reference-bound suppressGameText effect API with the same turn lifetime; neither is a claim of a particular cancellation card implementation.",
+    "The departure row removes Artoo to hand during the actual MOVING_USING_HYPERSPEED response. GEMP still completes the initiated route after hyperspeed falls from 7 to 5; native agrees.",
+    "Native current hyperspeed retains bonuses while landed/unpiloted, matching GEMP. Movement still requires an operational ship. Power and maneuver remain zero in those states."
+  ],
+  "limitations": [
+    "Component coverage; full production match admission stays false. Red 5 Attack Run bonus remains unimplemented and unverified. Broader matching pilots, navigation-icon cancellation/grants, general vessel modifiers, sectors, capture and full engine/product scope remain.",
+    "Navigation source query is verified independently of permanent icons; these fixtures do not remove printed navigation icons. No complete icon-cancellation feature claim.",
+    "Scomp-link presence is queried in GEMP; native tests additionally execute actual Artoo activation/draw responses aboard a ship.",
+    "Refresh/browser recovery, malformed suppression state, stale instances, excluded droids, capacity overflow and conditional immunity boundaries have additional native-only tests."
+  ]
+}

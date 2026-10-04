@@ -29,7 +29,7 @@ const values=load(new URL('../../lib/native-engine/destiny-values.ts',import.met
 const next={id:'observed',label:'Record result',handler:'probe:done',payload:{}};
 const oracle=JSON.parse(fs.readFileSync(new URL('./gemp/r2-results.json',import.meta.url)));
 const event=m=>m.stack.at(-1)?.event;
-function base(){let m=fresh({light:['2_14','2_14','1_130','1_153','1_124'],dark:['1_194']});const site=location(m,'light','1_129'),source=pull(m,'dark','1_251','playing');force(m,'dark',4);force(m,'light',4);m=phase(m,'deploy');return {m,site,source};}
+function base(){let m=fresh({light:['2_14','2_14','1_130','1_153','1_124','1_147'],dark:['1_194']});const site=location(m,'light','1_129'),source=pull(m,'dark','1_251','playing');force(m,'dark',4);force(m,'light',4);m=phase(m,'deploy');return {m,site,source};}
 function drawR2(modifier=0){let {m,site,source}=base();const card=topDestiny(m,'light','2_14');destiny.drawDestiny(m,'light',source,'probe',next,true,modifier);m=seek(m,x=>x.stack.at(-1)?.handler==='destiny:value');return {m,card,site,source};}
 function finish(m){return seek(m,x=>!!x.data.observed)}
 for(const value of [2,5])test('owner chooses printed '+value+' before just-drawn responses; refresh preserves it',()=>{
@@ -115,4 +115,11 @@ test('activation prohibition suppresses R2 activation but leaves its draw branch
 });
 test('a prohibition resolving after R2 initiation prevents its activation result',()=>{
  let {m,source,r2}=scomp(2);const before=m.players.light.force.length;m=step(m,'r2:'+r2+':activate');activationPolicy.preventActivation(m,source,'light');m=finish(m);assert.equal(m.players.light.force.length,before);
+});
+
+for(const value of [2,5])test('Artoo aboard a Scomp ship responds through actual destiny and refresh: '+value,()=>{
+ let {m,r2}=scomp(value);const site=m.cards[r2].location;const id=pull(m,'light','1_147','table',site);
+ Object.assign(m.cards[r2],{attachedTo:id,aboardRole:'passenger'});
+ const branch=value===2?'activate':'draw',before=m.players.light[branch==='activate'?'force':'hand'].length;
+ m=step(clone(m),'r2:'+r2+':'+branch);m=seek(m,x=>event(x)?.kind==='destiny-drawn');assert.equal(m.players.light[branch==='activate'?'force':'hand'].length,before+1);
 });

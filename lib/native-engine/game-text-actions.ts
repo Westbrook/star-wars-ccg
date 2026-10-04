@@ -1,12 +1,13 @@
 import {hasPersona} from './persona';
 import {cardDefinition} from './definitions';
-import {canceledTexts, gameTextActive, textCancelers} from './game-text';
+import {canceledTexts, gameTextActive, textCancelers, suppressedGameText, assertTextSuppressions} from './game-text';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {openWindow, type RequiredAction} from './runtime';
 import {other, type Json, type Match, type Resolution, type Window} from './types';
 type Payload={target:CardReference;source?:CardReference;cancel:boolean};
 export function gameTextAutomatic(m:Match,w:Window):RequiredAction[]{
   return Object.values(m.cards).filter(c=>c.zone==='table'&&!c.coveredBy).flatMap(c=>{
+    if(suppressedGameText(m,c.id))return [];
     const sources=textCancelers(m,c.id),active=gameTextActive(m,c.id),cancel=active&&sources.length>0;
     if(!cancel&&(active||sources.length))return [];
     const target=referenceCard(m,c.id),p:Payload={target,cancel,...(cancel?{source:referenceCard(m,sources[0])}:{})};
@@ -21,6 +22,7 @@ export function gameTextResolve(m:Match,r:Resolution):void{
   openWindow(m,'response',other(r.actor),{kind:p.cancel?'game-text-canceled':'game-text-restored',card:p.target.id,...(p.source?{source:p.source.id}:{})});
 }
 export function assertGameText(m:Match):void{
+  assertTextSuppressions(m);
   if(m.data.gameTextRevision!==undefined&&(!Number.isSafeInteger(m.data.gameTextRevision)||Number(m.data.gameTextRevision)<0))throw Error('Invalid game text revision.');
   if(!Array.isArray(canceledTexts(m)))throw Error('Invalid canceled game text.');const seen=new Set<string>();
   for(const ref of canceledTexts(m)){assertCardReference(m,ref);const key=ref.id+':'+ref.version;if(ref.zone!=='table'||seen.has(key))throw Error('Invalid canceled text reference.');seen.add(key);}
