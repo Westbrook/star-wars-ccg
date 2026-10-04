@@ -1,0 +1,37 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T21:21:53.944622+00:00",
+  "files": {
+    "NativeEngineOtsdShipsOracleTests.java": "3ccf4217620f05e5e5b7250828df9417b6203f1e9a4376bd8b853199df8e6297",
+    "otsd-ships-results.json": "826f3de8124321c502df25d9c4d0f7c36a0e565b8a4497eba4ec012973340946"
+  },
+  "junitTests": 2,
+  "observations": 30,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineOtsdShipsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "scope": "Twelve real ship deployments and eighteen real weapon deployments/firings on Red Squadron, Obsidian Squadron and Dreadnaught. Native replays compare deployment costs, power, ability, piloted status, firing costs, hits, forfeits and subsequent weapon availability.",
+  "limitations": [
+    "Cloud, cargo, suppression and physical-instance checks use native regression tests; these are not claimed as GEMP comparisons.",
+    "No full-catalog or production match admission. Twelve other OTSD premium cards and remaining catalog dependencies still need real rules coverage.",
+    "Single printed permanent pilot aggregation; broader individual permanent-pilot removal and squadron mechanics are unfinished."
+  ],
+  "nativeIntegration": {
+    "runner": "tests/native-engine/sealed-computer-match.mjs",
+    "runnerSha256": "efa5dafc5493b6b1648153fde7f755ffe9c5c44fe6a9a1c84ba950803cbfdefa",
+    "poolSeed": 266,
+    "entropySeed": 73,
+    "iterations": 1370,
+    "commands": 2736,
+    "winner": "light",
+    "reason": "life-force",
+    "deployedPremium": [
+      "106_13",
+      "106_7",
+      "106_9"
+    ],
+    "scope": "Actual native service with SQLite D1; reconstructed service each iteration; test-only component admission. Not a full-match GEMP comparison or all-card certification."
+  },
+  "browser": "Playwright1.62.1/Chromium1234: three CPU sealed flows,1440/834/390; both interrupted requests recovered, automatic setup and refreshed game persisted."
+}

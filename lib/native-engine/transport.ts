@@ -1,3 +1,4 @@
+import {otsdDeployModifier,cargoRoles} from './otsd-ships';
 import {forceIcons} from './location-icons';
 import {movesFree} from './movement-costs';
 import {hothDeployModifier} from './hoth-text';
@@ -20,7 +21,6 @@ import {other,type Match,type Action,type Side,type Window,type Resolution,type 
 type Mode='shuttle'|'embark'|'disembark'|'bridge'|'deploy';
 type Payload={card:CardReference;origin:CardReference;target:CardReference;location:CardReference;role?:AboardRole;previous?:AboardRole;mode:Mode;react?:true;grant?:CardReference};
 const characterRoles:AboardRole[]=['pilot','driver','passenger'];
-const cargoRole=(m:Match,id:string):AboardRole=>cardDefinition(m,id).type==='Vehicle'?'vehicle':'starship';
 const exterior=(m:Match,id:string)=>cardDefinition(m,id).subType==='Site'&&(cardDefinition(m,id).icons as string[]).includes('Exterior');
 const flightPilot=pilotAboard;
 const carriers=(m:Match,side:Side)=>Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&!c.attachedTo&&capital(m,c.id)&&c.location&&spaceLocation(m,c.location));
@@ -42,21 +42,21 @@ function options(m:Match,side:Side,checkUsage=true):Payload[]{
    if(ships.some(h=>h.id===parent.id))for(const cargo of occupants(m,parent.id).filter(cargo=>inCargo(m,cargo.id)))add(c.id,cargo.id,'bridge',characterRoles);
   }
   if(d.type==='Starship'&&!capital(m,c.id)){
-   if(!c.attachedTo&&c.location&&spaceLocation(m,c.location))for(const host of ships.filter(h=>h.location===c.location))add(c.id,host.id,'embark',['starship']);
+   if(!c.attachedTo&&c.location&&spaceLocation(m,c.location))for(const host of ships.filter(h=>h.location===c.location))add(c.id,host.id,'embark',cargoRoles(m,c.id,host.id));
    if(inCargo(m,c.id)&&flightPilot(m,c.id)&&c.location&&spaceLocation(m,c.location))out.push(selected(m,c.id,c.location,'disembark'));
   }
  }
  return out.filter(p=>p.mode!=='shuttle'||!shieldMovement(m,side,m.cards[p.card.id].location!,p.location.id));
 }
-export function cargoDeploysAt(m:Match,id:string,host:string,ignorePresence=false):boolean {
+export function cargoDeploysAt(m:Match,id:string,host:string,ignorePresence=false,role?:AboardRole):boolean {
  const ship=m.cards[host],r=vesselRule(m,id);if(!r||!ship||shieldDeployment(m,id,ship.location!)||!carriers(m,m.cards[id].owner).some(h=>h.id===host))return false;
  if(r.world&&(system(m,ship.location!)!==r.world||cardDefinition(m,ship.location!).subType!=='Site'))return false;
- return !!(ignorePresence||forceIcons(m,ship.location!,m.cards[id].owner)||presence(m,m.cards[id].owner,ship.location!))&&roleAvailable(m,host,id,cargoRole(m,id));
+ return !!(ignorePresence||forceIcons(m,ship.location!,m.cards[id].owner)||presence(m,m.cards[id].owner,ship.location!))&&cargoRoles(m,id,host).some(r=>(!role||r===role)&&roleAvailable(m,host,id,r));
 }
 function deployOptions(m:Match,side:Side,site?:string,grant?:string):Payload[]{
  const out:Payload[]=[];
  for(const id of m.players[side].hand.filter(id=>vesselRule(m,id)&&canPlayCard(m,id)&&(!grant||canDeployAsReact(m,id))))for(const ship of carriers(m,side).filter(h=>!site||h.location===site)){
-  if(cargoDeploysAt(m,id,ship.id))out.push({...selected(m,id,ship.id,'deploy',cargoRole(m,id)),...(grant?{react:true as const,grant:referenceCard(m,grant)}:{})});
+  for(const role of cargoRoles(m,id,ship.id))if(cargoDeploysAt(m,id,ship.id,false,role))out.push({...selected(m,id,ship.id,'deploy',role),...(grant?{react:true as const,grant:referenceCard(m,grant)}:{})});
  }return out;
 }
 export function transportActions(m:Match,w:Window,side:Side):Action[]{
@@ -64,7 +64,7 @@ export function transportActions(m:Match,w:Window,side:Side):Action[]{
  if(!site&&(w.timing!=='phase'||side!==m.turn.side||!['deploy','move'].includes(m.turn.phase)))return [];
  const choices=site?reactionSources(m,site,side).flatMap(grant=>deployOptions(m,side,site,grant)):m.turn.phase==='deploy'?deployOptions(m,side):options(m,side);
  return choices.map(p=>{
-  const cost=p.mode==='deploy'?Math.max(0,deployValue(m,p.card.id)+bespinDeployModifier(m,p.card.id,p.location.id)+hothDeployModifier(m,p.card.id,p.location.id)):p.mode==='shuttle'&&!movesFree(m,p.card.id,p.location.id)?1+sectorsAt(m,system(m,p.location.id)!,'cloud').length:0;
+  const cost=p.mode==='deploy'?Math.max(0,deployValue(m,p.card.id)+bespinDeployModifier(m,p.card.id,p.location.id)+hothDeployModifier(m,p.card.id,p.location.id)+otsdDeployModifier(m,p.card.id,p.location.id)):p.mode==='shuttle'&&!movesFree(m,p.card.id,p.location.id)?1+sectorsAt(m,system(m,p.location.id)!,'cloud').length:0;
   const verb={deploy:'Deploy',shuttle:'Shuttle',embark:'Embark',disembark:'Disembark',bridge:'Move'}[p.mode];
   return {id:key(p),handler:p.mode==='deploy'?'transport:deploy':'transport:begin',source:p.card.id,payload:p as unknown as Json,payment:{[side]:cost},label:verb+' '+name(m,p.card.id)+' to '+name(m,p.target.id)+(p.role?' as '+p.role:'')+' · '+(cost?cost+' Force':'free')+(p.react?' as a react using '+name(m,p.grant!.id):'')};
  }).filter(a=>(a.payment[side]??0)<=m.players[side].force.length);
@@ -77,7 +77,7 @@ export function transportResolve(m:Match,r:Resolution){
  if(resolveCancelledReact(m,r))return;
  const p=r.action.payload as unknown as Payload,c=m.cards[p.card.id];
  if(r.action.handler==='transport:deploy'){
-  if(r.cancelled||!destinationStill(m,p)||!canEnterTable(m,c.id)||!cargoDeploysAt(m,c.id,p.target.id)){moveCard(m,c.id,'lost');return;}
+  if(r.cancelled||!destinationStill(m,p)||!canEnterTable(m,c.id)||!cargoDeploysAt(m,c.id,p.target.id,false,p.role)){moveCard(m,c.id,'lost');return;}
   moveCard(m,c.id,'table');c.attachedTo=p.target.id;c.aboardRole=p.role;c.location=p.location.id;if(p.react)cancelDrainAfterReact(m,r.actor,{react:true,card:c.id,site:p.location.id});deployed(m,c.id);return;
  }
  if(r.cancelled||!bound(m,p)||!available(m,r.actor,p))return;
@@ -100,7 +100,7 @@ export function assertTransport(m:Match){
   if(p.react!==undefined){if(p.react!==true||p.mode!=='deploy'||!p.grant)throw Error('Invalid cargo deployment react.');assertCardReference(m,p.grant);if(p.grant.zone!=='table'||m.cards[p.grant.id].owner!==f.actor||!['1_6','1_201'].includes(m.cards[p.grant.id].blueprint))throw Error('Invalid cargo react permission.');}else if(p.grant)throw Error('Unexpected cargo react permission.');
   const targetLocation=cardDefinition(m,p.target.id).type==='Location';
   if(targetLocation?p.role!==undefined:!vesselRule(m,p.target.id)||m.cards[p.target.id].owner!==f.actor||p.role===undefined)throw Error('Invalid transport destination.');
-  if(p.mode==='deploy'&&(m.cards[p.card.id].zone!=='playing'||cardVersion(m,p.card.id)!==p.card.version+1||!vesselRule(m,p.card.id)||p.role!==cargoRole(m,p.card.id)))throw Error('Invalid cargo deployment.');
+  if(p.mode==='deploy'&&(m.cards[p.card.id].zone!=='playing'||cardVersion(m,p.card.id)!==p.card.version+1||!vesselRule(m,p.card.id)||!cargoRoles(m,p.card.id,p.target.id).includes(p.role!)))throw Error('Invalid cargo deployment.');
   if(f.action.handler==='transport:finish'&&p.mode==='shuttle'&&!usage(m).moved.includes(p.card.id))throw Error('Missing shuttle movement use.');
   if(p.role!==undefined&&!['pilot','driver','passenger','vehicle','starship'].includes(p.role)||p.previous!==undefined&&!['pilot','driver','passenger','vehicle','starship'].includes(p.previous))throw Error('Invalid transport capacity.');
  }

@@ -1,3 +1,4 @@
+import {otsdWeaponDrawBonus} from './otsd-ships';
 import {supportPowerBonus,fusionWeaponBonus} from './power-support';
 import {artillery} from './artillery';
 import {forceIcons} from './location-icons';
@@ -223,5 +224,5 @@ export function sitePlacements(m: Match, id: string): {id: string; label: string
 /** Current location modifier, evaluated when the physical weapon destiny draws. */
 export function weaponDrawBonus(m: Match, id: string): number {
   const c = m.cards[id];
-  return fusionWeaponBonus(m,id)+hothWeaponModifier(m,id)+(c.owner === 'dark' && c.location && ['1_284', '1_132'].includes(m.cards[c.location].blueprint) ? 1 : 0);
+  return otsdWeaponDrawBonus(m,id)+fusionWeaponBonus(m,id)+hothWeaponModifier(m,id)+(c.owner === 'dark' && c.location && ['1_284', '1_132'].includes(m.cards[c.location].blueprint) ? 1 : 0);
 }

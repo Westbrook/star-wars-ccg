@@ -2428,5 +2428,94 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_069.java"
+  },
+  "106_4": {
+    "keywords": [
+      "GOLD_SQUADRON"
+    ],
+    "species": [],
+    "models": [
+      "Y_WING"
+    ],
+    "nonUnique": false,
+    "uniqueness": "RESTRICTED_3",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_004.java"
+  },
+  "106_7": {
+    "keywords": [
+      "RED_SQUADRON"
+    ],
+    "species": [],
+    "models": [
+      "X_WING"
+    ],
+    "nonUnique": false,
+    "uniqueness": "RESTRICTED_3",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_007.java"
+  },
+  "106_9": {
+    "keywords": [
+      "NO_HYPERDRIVE"
+    ],
+    "species": [],
+    "models": [
+      "Z_95_HEADHUNTER"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_009.java"
+  },
+  "106_10": {
+    "keywords": [
+      "BLACK_SQUADRON",
+      "NO_HYPERDRIVE"
+    ],
+    "species": [],
+    "models": [
+      "TIE_LN"
+    ],
+    "nonUnique": false,
+    "uniqueness": "RESTRICTED_3",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_010.java"
+  },
+  "106_13": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "DREADNAUGHT_CLASS_HEAVY_CRUISER"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_013.java"
+  },
+  "106_15": {
+    "keywords": [
+      "NO_HYPERDRIVE",
+      "OBSIDIAN_SQUADRON"
+    ],
+    "species": [],
+    "models": [
+      "TIE_LN"
+    ],
+    "nonUnique": false,
+    "uniqueness": "RESTRICTED_3",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_015.java"
+  },
+  "1_313": {
+    "keywords": [
+      "STARSHIP_WEAPON_THAT_DEPLOYS_ON_STARFIGHTERS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_313.java"
   }
 }

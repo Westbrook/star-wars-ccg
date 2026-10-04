@@ -6,7 +6,7 @@ import type {Action,Match} from './types';
 /** An active weapon's printed continuous total modifier, distinct from the
  * arithmetic of an already initiated firing action (rifles and Ion Cannon). */
 export type WeaponTotal={weapon:CardReference;target:CardReference};
-const supported=['3_158','3_75','1_159','1_323'];
+const supported=['3_158','3_75','1_159','1_323','1_313'];
 export function assertWeaponTotal(m:Match,c:WeaponTotal):void{
  if(!c)throw Error('Missing weapon total context.');
  assertCardReference(m,c.weapon);assertCardReference(m,c.target);
@@ -26,6 +26,7 @@ export function printedWeaponTotal(m:Match,c:WeaponTotal):number{
   case '3_75':return character?2:0;
   case '1_159':return target.type==='Starship'&&!capital?1:0;
   case '1_323':return capital?-2:-5;
+  case '1_313':return capital?-1:target.type==='Starship'?1:0;
   default:return 0;
  }
 }

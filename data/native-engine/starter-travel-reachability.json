@@ -371,7 +371,7 @@
     "lib/native-engine/beru-stew.ts": "1f93fbc1229ae26330a54f38118484f11e4cd233babdb90979d2f1f5603d153b",
     "lib/native-engine/bespin.ts": "0b2f838ab0a2e4d5f296212eb4a88dac29b605de3e3b689963c9273f1eeb0b2d",
     "lib/native-engine/blown-away.ts": "ce9205ee25e580472f2ca045a55a190eedaa04933ffae30d517abda820ae0d67",
-    "lib/native-engine/board.ts": "f9eb23790a03df6aef019fb7f39eb6702c7e9278854187b091ec48393b40e6a2",
+    "lib/native-engine/board.ts": "c0b59bc87c06bd83673ad0ba46005d539cf29e2d1dffc13a7e4ec45c2962a4a0",
     "lib/native-engine/cancellation.ts": "f7ba7398d56e551fa068e7a4d0cb787e7a2c1b50a2f236b72fe0af581d1000e6",
     "lib/native-engine/capacity-loss.ts": "a5db66dbb2af8a5953374c2bd45abbc31bbeb1fed6dfcb4054a0daa27f48260c",
     "lib/native-engine/card-immunity.ts": "7491270e61e33d2324b8c458864a696e6663a8dcce33f31ea2a1465ad1f7b198",
@@ -398,7 +398,7 @@
     "lib/native-engine/destiny-selection.ts": "c95c6077d360f35895a215ffb25bbcb324b97642bc94c444f593dca2058aa2b5",
     "lib/native-engine/destiny-values.ts": "48de3915fb94276660df13d2d4d20b73348ec941e41c4fe75980590753f82934",
     "lib/native-engine/destiny.ts": "94731cbbef2b6cfb889da616328fd32bb3a0b9a85d4343533c0da57fcf1809fb",
-    "lib/native-engine/docking.ts": "096b0321b4b4f31c713c2e92f5867653531ae69127a88acbdc613b8857d37810",
+    "lib/native-engine/docking.ts": "6ffb44d4eb4bdf2732daa6d6bbb42d4bed5831ea9b7284cc6b96eaf1f34e682c",
     "lib/native-engine/doomed.ts": "4dd11f02ffa16a1b0426c10b29d2d680d3b24eb7745d121f7ba58c57b3f47d46",
     "lib/native-engine/duel-interrupts.ts": "ee402de62708325fb839c67c1ffb224a5c5551847a442fff45856826d97b2b9d",
     "lib/native-engine/duel-modifiers.ts": "9eca9b21f9e436e8fc176ba334ef8136d5caebf554835fe13e671ba405cc330e",
@@ -449,7 +449,7 @@
     "lib/native-engine/navigation.ts": "28909393a27733f41fefeda992b6db644733d1b197c6d29eaae9cb336cd385ea",
     "lib/native-engine/nighttime.ts": "2823417ddf5d8cd48366f6196f288dd2e85deeea4db5cfd289ca246cf61c3136",
     "lib/native-engine/noble-sacrifice.ts": "52dcdf41843a519867f8f43419dc721923212e6dadbba14fc13835c1bec7fbde",
-    "lib/native-engine/occupancy.ts": "ba4c81722c7af5af943129eeadbd48e69b9b3a84b443506a770b705d884627de",
+    "lib/native-engine/occupancy.ts": "d9b1d541ab21c49893f73b9789f5abb15601731c6081e1967234f575cc728432",
     "lib/native-engine/off-the-edge.ts": "3e3ba5a6c26fa8e9cbc762ca313bbdb058b0b4c3f1453bbdd27e1b89f9a52c43",
     "lib/native-engine/on-the-edge.ts": "9a64f6e06bcc642b0a70c18bd4e37b9c28d3992141749b69f616fb1d2c129a34",
     "lib/native-engine/participation.ts": "4cdccab18a835123acb7e2cad7f06b16b1af7276d00254c4566dc384a96cc108",
@@ -457,7 +457,7 @@
     "lib/native-engine/phase-effects.ts": "5f5bc6a8b407d9b2533e21d204ba9506d018052b42784a076352facb8b15b2f2",
     "lib/native-engine/pile-reveal.ts": "d39574ec0ba75588037d2146ffd27655d9311b2c60e1e56a932756ec387ab191",
     "lib/native-engine/pilot-deploy.ts": "53895a50cbe1f8cf78eb89495f370acea3f4a2cd4b134975ed66aee392ace302",
-    "lib/native-engine/piloting.ts": "1892b1a87166fcef518116f7d146da29c99dc04b2c7845cc03767842459d7217",
+    "lib/native-engine/piloting.ts": "53f6aae0f04a76edd317e62d64a794e9e82e6ae141b0a4b7009f8f228b36b42a",
     "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
     "lib/native-engine/premiere-rules.ts": "9b1967af3c63661b0b5e1cb41e869c89ada49a6a2ee33ef3daade4962cf8782a",
@@ -484,7 +484,7 @@
     "lib/native-engine/setup.ts": "837397a33735d8dc878c7fee42f596621e5a53c248e0f3230337b3ee7aab8b74",
     "lib/native-engine/space-slug.ts": "acbe32b85da9dc1809c62321b007fb3ec14514c1ae1fcb3692574c5751c6ba07",
     "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
-    "lib/native-engine/starship-weapons.ts": "6de04f93a5ede7fbf342d81a8d0b9cdfe4feaa1a417af198ef1cd79bf34e8bf0",
+    "lib/native-engine/starship-weapons.ts": "2dcc5aab948f116be351b6af603550921c3f0401e425bc4dfd07398b10c70992",
     "lib/native-engine/stat-modifiers.ts": "4ba087331dbe58da7a5db1e252fea5e44007f28822afa535d1f648756ec363d5",
     "lib/native-engine/state.ts": "1d853ee58ddd1ca3022eeeb9d9a182472f41d04c2ad445f04eb999d216ca10a3",
     "lib/native-engine/stun.ts": "faee987db78ed8b4a54fb077d1672ccec50453418291ce841f8f24ec7a7bd566",
@@ -492,17 +492,18 @@
     "lib/native-engine/table.ts": "f17b42b347b2b12b9c6d8f0945872d4591a5b01d53c480ff944793c820eb3010",
     "lib/native-engine/tallon-roll.ts": "1b9817342cd3d0825e229ed25a6bd47366e3886bd2c5a03a99279901477619e8",
     "lib/native-engine/telepathy.ts": "b28dd1038bf933e4f9fb23e950e7dc8e7144ebb6a1861a266d75d5a26e7b2373",
-    "lib/native-engine/transport.ts": "a2274e5c1f069630d3c7e91d57837352ed1db760968d4a305ddc977bc8267628",
+    "lib/native-engine/transport.ts": "bce88abeac04c325a88cae218c1a1eaf91457d66dc7a088eb6ecab5d7e25e82c",
     "lib/native-engine/travel.ts": "62e91c2e4941025adeab828c02c0cbc918f07f1922bbf683ccd1f318efa0cd3f",
     "lib/native-engine/trooper-assault.ts": "aefc2a2f34ba446b6c88c08064524855a5423a7e6ab1f5d6771893f98892daec",
     "lib/native-engine/types.ts": "7b7b7feec4f39a0d3919ccd79c694cd5540e5a59ebb79c2c473736426eda3866",
     "lib/native-engine/vehicle-react.ts": "babbf440d8aa6ee4bafb54432c945dac908e4152e1840efed891736757081982",
     "lib/native-engine/vessel-travel.ts": "ecf2837085732f6accdd6e38773fefbd3d27d14ef6be3cf16010bab94fdbcaba",
-    "lib/native-engine/vessels.ts": "10073bfd8569f2a351484db900d16bfd6d543781e015a9843b0409f6dccc67dd",
+    "lib/native-engine/vessels.ts": "2cbe953803fff5562ea70a81b74d749fa62224af74b9b9d5b8d37c95123c974d",
     "lib/native-engine/weapon-state.ts": "a60d085a2e3a11bedb978247863e16346d28df9562534e11e4e9ee717b5b3352",
-    "lib/native-engine/weapon-total.ts": "4b5f4ee7153192e1f67d4659faad3bc4b76f5cd48bd874e493f2cb75f51c46d2",
+    "lib/native-engine/weapon-total.ts": "f2b2e454a1c77b41009b0ad69d8343fda968fe53036aa1e1f829dd48dd2687e3",
     "lib/native-engine/wedge-search.ts": "17a54db6048a3f45c7bbe2332e841d43969a4ca57f3e88fd970c2ade5d11f0e2",
-    "lib/native-engine/worse.ts": "cdd54acc301b458a8594a3aac483d6d9039b0ef7306d03a359c5346857612953"
+    "lib/native-engine/worse.ts": "cdd54acc301b458a8594a3aac483d6d9039b0ef7306d03a359c5346857612953",
+    "lib/native-engine/otsd-ships.ts": "ee2ea8cbe47179dd2e1133af88b58ae64ad82da83118782c6439ad9773f54359"
   },
   "evidence": [
     "tests/native-engine/gemp/travel-response-provenance.json",
@@ -567,6 +568,27 @@
       "evidence": [
         "tests/native-engine/sealed-computer.test.mjs",
         "tests/native-engine/service.test.mjs",
+        "tests/native-engine/travel-response.test.mjs"
+      ]
+    },
+    {
+      "at": "2026-10-04T21:21:53.944622+00:00",
+      "files": [
+        "lib/native-engine/vessels.ts",
+        "lib/native-engine/starship-weapons.ts",
+        "lib/native-engine/piloting.ts",
+        "lib/native-engine/otsd-ships.ts",
+        "lib/native-engine/occupancy.ts",
+        "lib/native-engine/docking.ts",
+        "lib/native-engine/transport.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/weapon-total.ts"
+      ],
+      "reason": "OTSD ships and Boosted TIE Cannon are absent from the exact 68-card starter pair. Added modifiers are blueprint gated; TIE model capacity preserves the previously supported three TIEs, and Pilot x2 icon recognition affects the new Dreadnaught. Cargo role extensions apply only to Z-95 aboard starships. No reachable exact-starter movement response or arrival provider is introduced; retain broader-card identity guards and closed admission.",
+      "evidence": [
+        "tests/native-engine/otsd-ships.test.mjs",
+        "tests/native-engine/gemp/otsd-ships-provenance.json",
+        "tests/native-engine/vessels.test.mjs",
         "tests/native-engine/travel-response.test.mjs"
       ]
     }

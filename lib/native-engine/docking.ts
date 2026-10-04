@@ -1,3 +1,4 @@
+import {cargoRoles} from './otsd-ships';
 import {spaceLocation} from './sectors';
 import {cardDefinition,name} from './board';
 import {capital,operational,occupants,roleAvailable,vesselRule,type AboardRole} from './occupancy';
@@ -40,7 +41,7 @@ function options(m:Match,side:Side,p:Dock):Option[]{
  const result:Option[]=[];
  for(const [from,to] of [[p.a.id,p.b.id],[p.b.id,p.a.id]])for(const c of occupants(m,from).filter(c=>c.owner===side)){
   const character=cardDefinition(m,c.id).type==='Character';
-  const roles:AboardRole[]=character?['pilot','passenger']:[cardDefinition(m,c.id).type==='Vehicle'?'vehicle':'starship'];
+  const roles:AboardRole[]=character?['pilot','passenger']:cargoRoles(m,c.id,to);
   for(const role of roles){
    if(roleAvailable(m,to,c.id,role))result.push({id:'transfer:'+c.id+':'+to+':'+role,label:'Transfer '+name(m,c.id)+' to '+shipName(m,to)+' as '+role,card:c.id,host:to,role,transfer:true});
    if(character&&!barred(m,c.id)&&role!==c.aboardRole&&roleAvailable(m,from,c.id,role))result.push({id:'seat:'+c.id+':'+role,label:'Assign '+name(m,c.id)+' as '+role+' aboard '+shipName(m,from),card:c.id,host:from,role,transfer:false});

@@ -1,3 +1,4 @@
+import {otsdShipBonus,tie,vehicleCargoCompatible} from './otsd-ships';
 import {artillery} from './artillery';
 import {sectorAdmits,cloudStatModifier} from './sectors';
 import {capacityPending} from './capacity-loss';
@@ -14,6 +15,12 @@ export type AboardRole='pilot'|'driver'|'passenger'|'vehicle'|'starship';
 type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string;vehicles?:number;starships?:number;astromechs?:number;tiesOnly?:boolean};
 /** Printed capacities; permanent personnel do not consume these additional slots. */
 export const vesselRules:Record<string,VesselRule>={
+ '106_4':{pilots:0,drivers:0,passengers:0,shared:1,permanent:2,enclosed:true},
+ '106_7':{pilots:0,drivers:0,passengers:0,shared:0,permanent:2,enclosed:true},
+ '106_9':{pilots:0,drivers:0,passengers:0,shared:0,permanent:1,enclosed:true},
+ '106_10':{pilots:0,drivers:0,passengers:0,shared:0,permanent:2,enclosed:true},
+ '106_13':{pilots:3,drivers:0,passengers:6,shared:0,permanent:2,enclosed:true,starships:4,tiesOnly:true},
+ '106_15':{pilots:0,drivers:0,passengers:0,shared:0,permanent:2,enclosed:true},
  '3_69':{pilots:0,drivers:0,passengers:0,shared:1,permanent:1,enclosed:true},
  '3_155':{pilots:1,drivers:0,passengers:8,shared:0,permanent:2,enclosed:true},
  '1_149':{pilots:0,drivers:1,passengers:2,shared:0,permanent:0,enclosed:false},
@@ -49,7 +56,7 @@ export function crewActive(m:Match,id:string):boolean {
  const b=m.data.battle as {site:string;stage:string}|undefined;
  return !b||b.stage==='begin'||b.stage==='complete'||b.site!==c.location||battleMembers(m,c.owner).includes(id);
 }
-export const permanentPilot=(m:Match,id:string)=>!!vesselRule(m,id)&&(cardDefinition(m,id).icons as string[]).includes('Pilot');
+export const permanentPilot=(m:Match,id:string)=>!!vesselRule(m,id)&&(cardDefinition(m,id).icons as string[]).some(icon=>/^Pilot(?: x[0-9]+)?$/.test(icon));
 export const pilotAboard=(m:Match,id:string)=>permanentPilot(m,id)||occupants(m,id).some(c=>c.aboardRole==='pilot'&&crewActive(m,c.id));
 export const operational=(m:Match,id:string)=>!!vesselRule(m,id)&&!landed(m,id)&&(pilotAboard(m,id)||occupants(m,id).some(c=>c.aboardRole==='driver'&&crewActive(m,c.id)));
 export const enclosedOccupant=(m:Match,id:string)=>!!m.cards[id]?.aboardRole&&!!vesselRule(m,m.cards[id].attachedTo!)?.enclosed;
@@ -64,8 +71,8 @@ export function capacityFits(m:Match,host:string,crew:{id:string;role:AboardRole
  for(const c of crew){
   if(!['pilot','driver','passenger','vehicle','starship'].includes(c.role))return false;
   const d=cardDefinition(m,c.id);
-  if(c.role==='vehicle'){if(d.type!=='Vehicle')return false;}
-  else if(c.role==='starship'){if(d.type!=='Starship'||!d.subType.startsWith('Starfighter:')||r.tiesOnly&&!['1_305','1_300','1_299'].includes(m.cards[c.id].blueprint))return false;}
+  if(c.role==='vehicle'){if(!vehicleCargoCompatible(m,c.id,host))return false;}
+  else if(c.role==='starship'){if(d.type!=='Starship'||!d.subType.startsWith('Starfighter:')||r.tiesOnly&&!tie(m,c.id))return false;}
   else if(d.type!=='Character'||c.role==='pilot'&&!(d.icons as string[]).includes('Pilot')||c.role==='driver'&&!canDrive(m,c.id))return false;
   n[c.role]++;
  }
@@ -79,7 +86,7 @@ export function roleAvailable(m:Match,host:string,id:string,role:AboardRole):boo
 }
 export function vesselPower(m:Match,id:string):number {
  if(!operational(m,id))return 0;
- return Math.max(0,Number((cardDefinition(m,id).stats as Record<string,string>).power)+cloudStatModifier(m,id)+vesselStatBonus(m,id,'power')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0));
+ return Math.max(0,Number((cardDefinition(m,id).stats as Record<string,string>).power)+cloudStatModifier(m,id)+otsdShipBonus(m,id,'power')+vesselStatBonus(m,id,'power')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0));
 }
 export function assertOccupancy(m:Match):void {
  for(const c of Object.values(m.cards)){

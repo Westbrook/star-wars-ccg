@@ -1,3 +1,4 @@
+import {otsdShipBonus} from './otsd-ships';
 import {cloudStatModifier} from './sectors';
 import {hasNavComputer} from './navigation';
 import {vesselStatBonus,vesselStatValue} from './stat-modifiers';
@@ -31,7 +32,7 @@ export const pilotPowerBonus=(m:Match,id:string)=>actingPilot(m,id)&&gameTextAct
 export function vesselManeuver(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).maneuver;if(raw===undefined)return null;
  if(!Number.isFinite(Number(raw)))throw Error('Maneuver needs a printed-value provider.');
- return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+cloudStatModifier(m,id)+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+matchingPilotManeuver(m,c.id)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0),0)):0;
+ return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+cloudStatModifier(m,id)+otsdShipBonus(m,id,'maneuver')+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+matchingPilotManeuver(m,c.id)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0),0)):0;
 }
 const keywords:Record<string,{keywords:string[]}>=identities;
 export function squadronPilot(m:Match,id:string,squadron:string):boolean {

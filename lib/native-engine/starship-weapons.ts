@@ -1,3 +1,4 @@
+import {otsdWeaponFree} from './otsd-ships';
 import {hasWeaponTotal,weaponTotalModifier} from './weapon-total';
 import {mobileSystem} from './mobile-systems';
 import {attachmentAttempt,assertAttachmentAttempt,validAttachmentAttempt,type AttachmentAttempt} from './attachment';
@@ -22,7 +23,7 @@ import {other,sides,type Action,type Json,type Match,type Resolution,type Side,t
 
 /** Printed ship and mobile-system weapon mounts. */
 export const starshipWeapons:Record<string,{deploy:number;fire:number;draws:number}>={
- '1_318':{deploy:2,fire:1,draws:1},'2_81':{deploy:1,fire:1,draws:1},
+ '1_313':{deploy:1,fire:1,draws:1},'1_318':{deploy:2,fire:1,draws:1},'2_81':{deploy:1,fire:1,draws:1},
  '1_158':{deploy:1,fire:1,draws:1},'1_159':{deploy:2,fire:1,draws:1},'1_323':{deploy:3,fire:2,draws:2},
 };
 export type StarshipShot={weapon:string;host:string;target:string;side:Side;weaponRef:CardReference;targetRef:CardReference;scope?:string;draws:Draw[];total:number|null;modifier:number;defense?:number;ionWeapons?:CardReference[];lostWeapons?:string[];outcome:'pending'|'canceled'|'invalid'|'miss'|'hit'|'ionized'};
@@ -33,7 +34,9 @@ const starship=(m:Match,id:string)=>!!m.cards[id]&&cardDefinition(m,id).type==='
 function validHost(m:Match,weapon:string,host:string):boolean{
  if(m.cards[weapon].blueprint==='1_323'&&mobileSystem(m,host))return m.locations.includes(host);
  if(!starship(m,host)||m.cards[host].owner!==m.cards[weapon].owner)return false;
+ if(gameTextActive(m,host)&&(m.cards[host].blueprint==='106_13'&&m.cards[weapon].blueprint==='1_323'||m.cards[host].blueprint==='106_15'&&m.cards[weapon].blueprint==='1_313'))return true;
  switch(m.cards[weapon].blueprint){
+  case '1_313':return isModel(m,host,'TIE_ADVANCED_X1');
   case '2_81':return ['Y_WING','B_WING'].some(model=>isModel(m,host,model));
   case '1_158':return ['X_WING','Y_WING','B_WING'].some(model=>isModel(m,host,model));
   case '1_159':return isModel(m,host,'CORELLIAN_CORVETTE')||hasPersona(m,host,'FALCON');
@@ -57,17 +60,17 @@ export function starshipWeaponActions(m:Match,w:Window,side:Side):Action[]{
    const transfer=c.zone==='table';
    for(const t of Object.values(m.cards).filter(t=>t.zone==='table'&&hostLocation(m,t.id)&&validHost(m,c.id,t.id))){
     if(transfer&&(!c.attachedTo||c.attachedTo===t.id||!transferPresent(m,c.attachedTo,t.id)))continue;
-    const a=action('equip',{card:c.id,target:t.id,site:hostLocation(m,t.id)!,transfer});a.label=(transfer?'Transfer ':'Deploy ')+name(m,c.id)+' on '+name(m,t.id);a.payment={[side]:rule.deploy};out.push(a);
+    const a=action('equip',{card:c.id,target:t.id,site:hostLocation(m,t.id)!,transfer});a.label=(transfer?'Transfer ':'Deploy ')+name(m,c.id)+' on '+name(m,t.id);a.payment={[side]:otsdWeaponFree(m,c.id,t.id,'deploy')?0:rule.deploy};out.push(a);
    }
   }
   if(reactSite&&c.zone==='hand'&&canDeployAsReact(m,c.id)){
    const sources=reactionSources(m,reactSite,side),vias=[...(sources.some(id=>m.cards[id].blueprint==='1_6')?[undefined]:[]),...sources.filter(id=>m.cards[id].blueprint==='1_201')];
    for(const via of vias)for(const t of Object.values(m.cards).filter(t=>t.zone==='table'&&hostLocation(m,t.id)===reactSite&&validHost(m,c.id,t.id))){
-    const a=action('equip',{card:c.id,target:t.id,site:reactSite,transfer:false,react:true,...(via?{via}:{})});a.id+=':react'+(via?':via:'+via:'');a.label='Deploy '+name(m,c.id)+' as a react on '+name(m,t.id);a.payment={[side]:rule.deploy};out.push(a);
+    const a=action('equip',{card:c.id,target:t.id,site:reactSite,transfer:false,react:true,...(via?{via}:{})});a.id+=':react'+(via?':via:'+via:'');a.label='Deploy '+name(m,c.id)+' as a react on '+name(m,t.id);a.payment={[side]:otsdWeaponFree(m,c.id,t.id,'deploy')?0:rule.deploy};out.push(a);
    }
   }
   if(w.timing!=='response'||(w.event as {kind?:string})?.kind!=='battle-weapons'||b?.stage!=='weapons'||!c.attachedTo||!gameTextActive(m,c.id)||!validHost(m,c.id,c.attachedTo)||(mobileSystem(m,c.attachedTo)?c.attachedTo!==b.site:!members(m,side).includes(c.attachedTo)||!operational(m,c.attachedTo))||belowDecks(m,c.id)||b.fired.includes(c.id)||!canUseWeapon(m,c.id))continue;
-  for(const target of members(m,other(side)).filter(id=>validTarget(m,id,side))){const a=action('fire',{card:c.id,target,site:b.site});a.label='Fire '+name(m,c.id)+' at '+name(m,target);a.payment={[side]:rule.fire};out.push(a);}
+  for(const target of members(m,other(side)).filter(id=>validTarget(m,id,side))){const a=action('fire',{card:c.id,target,site:b.site});a.label='Fire '+name(m,c.id)+' at '+name(m,target);a.payment={[side]:otsdWeaponFree(m,c.id,c.attachedTo,'fire')?0:rule.fire};out.push(a);}
  }
  return out;
 }
@@ -126,7 +129,7 @@ export function starshipWeaponResolve(m:Match,r:Resolution):void{
 export function assertStarshipWeapons(m:Match):void{
  const b=battle(m);if(b?.starshipShots!==undefined&&!Array.isArray(b.starshipShots))throw Error('Invalid starship weapon history.');
  for(const s of b?.starshipShots??[]){
-  if(!s||!starshipWeapons[m.cards[s.weapon]?.blueprint]||!sides.includes(s.side)||m.cards[s.weapon].owner!==s.side||(!starship(m,s.host)&&!mobileSystem(m,s.host))||!starship(m,s.target)||m.cards[s.target].owner===s.side||!Array.isArray(s.draws)||s.draws.length>starshipWeapons[m.cards[s.weapon].blueprint].draws||s.draws.some(d=>!validDraw(m,d,s.side))||s.total!==null&&(!Number.isFinite(s.total)||s.total<0)||![0,1,2,-2,-5].includes(s.modifier)||!['pending','canceled','invalid','miss','hit','ionized'].includes(s.outcome)||s.defense!==undefined&&(!Number.isFinite(s.defense)||s.defense<0))throw Error('Invalid starship weapon record.');
+  if(!s||!starshipWeapons[m.cards[s.weapon]?.blueprint]||!sides.includes(s.side)||m.cards[s.weapon].owner!==s.side||(!starship(m,s.host)&&!mobileSystem(m,s.host))||!starship(m,s.target)||m.cards[s.target].owner===s.side||!Array.isArray(s.draws)||s.draws.length>starshipWeapons[m.cards[s.weapon].blueprint].draws||s.draws.some(d=>!validDraw(m,d,s.side))||s.total!==null&&(!Number.isFinite(s.total)||s.total<0)||![0,1,2,-1,-2,-5].includes(s.modifier)||!['pending','canceled','invalid','miss','hit','ionized'].includes(s.outcome)||s.defense!==undefined&&(!Number.isFinite(s.defense)||s.defense<0))throw Error('Invalid starship weapon record.');
   if(s.outcome==='hit'&&['1_318','2_81'].includes(m.cards[s.weapon].blueprint))throw Error('Ion cannons do not hit ships.');
   if(s.ionWeapons!==undefined){
    if(s.outcome!=='ionized'||!['1_318','2_81'].includes(m.cards[s.weapon].blueprint)||!Array.isArray(s.ionWeapons)||new Set(s.ionWeapons.map(r=>r.id)).size!==s.ionWeapons.length)throw Error('Invalid ion weapon targets.');
