@@ -1,0 +1,101 @@
+[
+  {
+    "mode": "few",
+    "power": 2,
+    "maneuver": 5,
+    "hyperspeed": 6,
+    "hit": false,
+    "fewUsed": true,
+    "darkUsed": false
+  },
+  {
+    "mode": "dark",
+    "power": 3,
+    "maneuver": 5,
+    "hyperspeed": 6,
+    "hit": false,
+    "fewUsed": false,
+    "darkUsed": true
+  },
+  {
+    "mode": "duplicates",
+    "power": 2,
+    "maneuver": 5,
+    "hyperspeed": 6,
+    "hit": false,
+    "fewUsed": true,
+    "darkUsed": false
+  },
+  {
+    "mode": "combined",
+    "power": 3,
+    "maneuver": 7,
+    "hyperspeed": 8,
+    "hit": false,
+    "fewUsed": true,
+    "darkUsed": true
+  },
+  {
+    "mode": "no-hyperdrive",
+    "power": 4,
+    "maneuver": 5,
+    "hyperspeed": null,
+    "hit": false,
+    "fewUsed": false,
+    "darkUsed": true
+  },
+  {
+    "mode": "unpiloted",
+    "power": 0,
+    "maneuver": 0,
+    "hyperspeed": 5,
+    "hit": false,
+    "fewUsed": false,
+    "darkUsed": false
+  },
+  {
+    "mode": "landed",
+    "power": 0,
+    "maneuver": 0,
+    "hyperspeed": 4,
+    "hit": false,
+    "fewUsed": false,
+    "darkUsed": false
+  },
+  {
+    "mode": "capital",
+    "power": 5,
+    "maneuver": 0,
+    "hyperspeed": 3,
+    "hit": false,
+    "fewUsed": false,
+    "darkUsed": false
+  },
+  {
+    "mode": "shot-few",
+    "power": 2,
+    "maneuver": 5,
+    "hyperspeed": 6,
+    "hit": false,
+    "fewUsed": true,
+    "darkUsed": false
+  },
+  {
+    "mode": "shot-dark",
+    "power": 2,
+    "maneuver": 3,
+    "hyperspeed": 7,
+    "hit": true,
+    "fewUsed": false,
+    "darkUsed": true
+  },
+  {
+    "mode": "shot-double",
+    "power": 2,
+    "maneuver": 5,
+    "hyperspeed": 6,
+    "hit": false,
+    "fewUsed": true,
+    "darkUsed": false
+  }
+]

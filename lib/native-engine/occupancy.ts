@@ -1,3 +1,4 @@
+import {vesselStatBonus} from './stat-modifiers';
 import {cardDefinition} from './definitions';
 import {gameTextActive} from './game-text';
 import {battleMembers} from './participation';
@@ -69,7 +70,7 @@ export function roleAvailable(m:Match,host:string,id:string,role:AboardRole):boo
 }
 export function vesselPower(m:Match,id:string):number {
  if(!operational(m,id))return 0;
- return Number((cardDefinition(m,id).stats as Record<string,string>).power)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0);
+ return Math.max(0,Number((cardDefinition(m,id).stats as Record<string,string>).power)+vesselStatBonus(m,id,'power')+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0));
 }
 export function assertOccupancy(m:Match):void {
  for(const c of Object.values(m.cards)){

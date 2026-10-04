@@ -1,3 +1,4 @@
+import {sameCard, type CardReference} from './identity';
 import type {Battle} from './battle';
 import {redrawDestiny} from './destiny';
 import type {Match, Resolution, Side, Window} from './types';
@@ -31,4 +32,17 @@ export function cancelPendingDestiny(m: Match,r: Resolution,redraw=false): boole
   r.cancelled=true;
   if(redraw)(r.action.payload as {redraw?:boolean}).redraw=true;
   return true;
+}
+
+/** Actual targets of the pending draw, bound to its owning shot and original
+ * table instances. Other destiny categories and total-result windows do not
+ * grant a just-drawn defense response. Extend here as new targeting draws ship. */
+export function destinyDefenseTargets(m:Match,w:Window):CardReference[]{
+ const d=destinyInWindow(m,w);if(!d||d.value===null)return [];
+ if(d.resolution.action.handler!=='destiny:finish')return [];
+ const p=d.resolution.action.payload as {source?:string;category?:string;next?:{handler:string;payload:{index?:number;card?:string;target?:string}}};
+ if(p.category!=='weapon'||p.next?.handler!=='space-weapon:draw')return [];
+ const next=p.next.payload,b=m.data.battle as Battle|undefined,shot=b?.starshipShots?.[next.index!];
+ if(!shot||shot.outcome!=='pending'||shot.weapon!==p.source||shot.weapon!==next.card||shot.target!==next.target||!sameCard(m,shot.targetRef))return [];
+ return [shot.targetRef];
 }

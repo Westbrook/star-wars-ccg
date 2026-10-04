@@ -1,3 +1,4 @@
+import {vesselStatBonus} from './stat-modifiers';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './definitions';
 import {isModel} from './characteristics';
@@ -21,7 +22,7 @@ export const pilotPowerBonus=(m:Match,id:string)=>actingPilot(m,id)&&gameTextAct
 export function vesselManeuver(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).maneuver;if(raw===undefined)return null;
  if(!Number.isFinite(Number(raw)))throw Error('Maneuver needs a printed-value provider.');
- return operational(m,id)?Number(raw)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+(matchingPilot(m,c.id)?1:0)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0),0):0;
+ return operational(m,id)?Math.max(0,Number(raw)+vesselStatBonus(m,id,'maneuver')+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+(matchingPilot(m,c.id)?1:0)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0),0)):0;
 }
 const keywords:Record<string,{keywords:string[]}>=identities;
 export function squadronPilot(m:Match,id:string,squadron:string):boolean {
@@ -56,7 +57,7 @@ export function aboardStarfighterBonus(m:Match,id:string):number {
 export function vesselHyperspeed(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).hyperspeed;
  if(raw===undefined)return null;
- return Number(raw)+aboardStarfighterBonus(m,id);
+ return Math.max(0,Number(raw)+aboardStarfighterBonus(m,id)+vesselStatBonus(m,id,'hyperspeed'));
 }
 export function redFiveImmunity(m:Match,id:string):number {
  return m.cards[id].blueprint==='2_71'&&gameTextActive(m,id)&&occupants(m,id).some(c=>actingPilot(m,c.id)&&hasPersona(m,c.id,'LUKE'))?4:0;

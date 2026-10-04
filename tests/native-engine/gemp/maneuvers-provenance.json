@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T07:22:08.997342+00:00",
+  "files": {
+    "NativeEngineManeuversOracleTests.java": "a46555ac2c935ee190b8cf2b5bb14b426fea3c06dd383d904d9bccaf645c67cb",
+    "maneuvers-results.json": "1ae345a923b58cc3121cdbb106f151acd7f423ac2d8b77b174c9a48b660491ee"
+  },
+  "junitTests": 1,
+  "observations": 11,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineManeuversOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "scope": "Actual A Few Maneuvers and Dark Maneuvers plays, each title and repeated/combined titles, non-hyperdrive Black 3, unpiloted/landed/capital values, actual weapon-firing just-drawn responses and resulting hit/miss.",
+  "method": [
+    "Initial ships, pilots, Force and destiny order are controlled fixtures. Plays and weapon shots execute through unmodified production GEMP code.",
+    "GEMP zero for absent maneuver is normalized against native null. Absent hyperspeed is explicitly null in both evidence rows.",
+    "All eleven result rows are compared with native commands. Used pile checks include its face-up top-card zone."
+  ],
+  "limitations": [
+    "Component coverage only. Full native admission remains false. Tallon Roll and other not-yet-implemented maneuver-targeting draws are not covered.",
+    "Expiry, malformed state, target return, Sense cancellation, loss of pilot, long hyperspace movement and browser refresh have additional native tests; not all are separate GEMP observations.",
+    "Broader ship statistic reset/definition effects, missing card providers, capture, Objectives/setup and full engine/product scope remain."
+  ],
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf; A Few Maneuvers and Dark Maneuvers card rulings"
+}

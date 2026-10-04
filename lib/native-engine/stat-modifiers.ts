@@ -2,12 +2,12 @@ import {cardDefinition} from './definitions';
 import {attachedArmor} from './armor-equipment';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {sides, type Json, type Match, type Side} from './types';
-export type Statistic = 'destiny' | 'defense' | 'armor' | 'maneuver' | 'forfeit';
+export type Statistic = 'destiny' | 'defense' | 'armor' | 'maneuver' | 'forfeit' | 'hyperspeed' | 'power';
 export type StatKind = 'add' | 'define' | 'reset' | 'base-double' | 'prevent-reduce' | 'prevent-increase' | 'minimum' | 'maximum' | 'increase-limit' | 'printed-cap' | 'base-cap';
 export type StatModifier = {source: CardReference; target: CardReference; stat: Statistic; kind: StatKind; amount: number;
  duration: 'turn' | 'source'; turn: number; function: string; cumulative: boolean; by: Side | 'both'};
 const allowed: Record<Statistic, StatKind[]> = {
- destiny:['add','reset'],
+ destiny:['add','reset'], hyperspeed:['add'], power:['add'],
  defense:['add','reset','prevent-reduce','minimum','maximum','base-cap'],
  armor:['add','define','reset','base-double'], maneuver:['add','define','reset','base-double'],
  forfeit:['add','define','reset','base-double','prevent-reduce','prevent-increase','increase-limit','printed-cap'],
@@ -20,7 +20,9 @@ function assertModifier(m:Match,p:StatModifier):void{
     !p.function || typeof p.function!=='string' || typeof p.cumulative!=='boolean' || ![...sides,'both'].includes(p.by) ||
     p.by!=='both' && (p.stat!=='defense' || p.kind!=='prevent-reduce'))throw Error('Invalid statistic modifier.');
  assertCardReference(m,p.source);assertCardReference(m,p.target);
- if(p.target.zone!=='table' || cardDefinition(m,p.target.id).type!=='Character' || p.duration==='source' && p.source.zone!=='table')throw Error('Invalid statistic source or target.');
+ const type=cardDefinition(m,p.target.id).type;
+ const validTarget=type==='Character'?!['power','hyperspeed'].includes(p.stat):['Starship','Vehicle'].includes(type)&&['maneuver','hyperspeed','power'].includes(p.stat)&&p.kind==='add';
+ if(p.target.zone!=='table' || !validTarget || p.duration==='source' && p.source.zone!=='table')throw Error('Invalid statistic source or target.');
 }
 /** Trusted rule effects only: public commands cannot supply values. */
 export function addStatModifier(m:Match,source:string,target:string,stat:Statistic,kind:StatKind,amount:number,
@@ -73,3 +75,6 @@ export function characterDestinyValue(m: Match,id: string,printedValue: number):
  const mods=statModifiers(m,id,'destiny'),resets=mods.filter(p=>p.kind==='reset');
  return Math.max(0,resets.length?Math.min(...resets.map(p=>p.amount)):printedValue+mods.filter(p=>p.kind==='add').reduce((n,p)=>n+p.amount,0));
 }
+
+/** Shared physical-instance and noncumulative rules for ship/vehicle additions. */
+export const vesselStatBonus=(m:Match,id:string,stat:'maneuver'|'hyperspeed'|'power')=>statModifiers(m,id,stat).reduce((n,p)=>n+p.amount,0);

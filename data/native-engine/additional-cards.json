@@ -1933,5 +1933,35 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_071.java"
+  },
+  {
+    "gempId": "1_70",
+    "name": "A Few Maneuvers",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/afewmaneuvers.gif",
+    "text": "Add 2 to hyperspeed and maneuver of any starfighter for the remainder of this turn. (Interrupt may even affect the result immediately after a destiny draw targeting the starfighter's maneuver.)",
+    "stats": {
+      "destiny": "6"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_070.java"
+  },
+  {
+    "gempId": "1_241",
+    "name": "Dark Maneuvers",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/darkmaneuvers.gif",
+    "text": "Add 2 to maneuver and 1 to power of any starfighter for the remainder of this turn. If it has hyperdrive, also add 2 to hyperspeed. (Interrupt may even affect the result immediately after a destiny draw targeting the starfighter's maneuver.)",
+    "stats": {
+      "destiny": "6"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_241.java"
   }
 ]

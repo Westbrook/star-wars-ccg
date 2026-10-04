@@ -1,3 +1,4 @@
+import {maneuverActions,maneuverInitiate,maneuverResolve,assertManeuvers} from './maneuvers';
 import {mobileActions,mobileResolve,mobileView,assertMobileSystems} from './mobile-systems';
 import {starshipWeaponActions,starshipWeaponInitiate,starshipWeaponResolve,assertStarshipWeapons} from './starship-weapons';
 import {characterReactActions,characterReactInitiate,characterReactResolve,characterReactChoices,characterReactChoose,characterReactView,assertCharacterReact} from './character-react';
@@ -91,7 +92,7 @@ export const premiereRules: Rules = {
   generation,
   interrupt: m=>scheduleInserts(m),
   automatic: (m, w) => [...angerAutomatic(m,w),...larsAutomatic(m,w), ...gameTextAutomatic(m,w), ...phaseEffectAutomatic(m,w), ...battleEffectAutomatic(m,w), ...groundAutomatic(m, w), ...battleAutomatic(m, w), ...equipmentAutomatic(m, w), ...characterAutomatic(m, w), ...secretPlansAutomatic(m, w)],
-  actions: (m, w, side) => [...mobileActions(m,w,side),...starshipWeaponActions(m,w,side),...characterReactActions(m,w,side),...vehicleReactActions(m,w,side),...pilotDeployActions(m,w,side),...dockingActions(m,w,side),...transportActions(m,w,side),...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
+  actions: (m, w, side) => [...maneuverActions(m,w,side),...mobileActions(m,w,side),...starshipWeaponActions(m,w,side),...characterReactActions(m,w,side),...vehicleReactActions(m,w,side),...pilotDeployActions(m,w,side),...dockingActions(m,w,side),...transportActions(m,w,side),...vesselTravelActions(m,w,side),...vesselActions(m,w,side),...sunsdownActions(m,w,side),...labriaActions(m,w,side),...nobleActions(m,w,side),...telepathyActions(m,w,side),...darkPathActions(m,w,side),...insertActions(m,w,side),...offEdgeActions(m,w,side), ...edgeActions(m,w,side), ...stewActions(m,w,side), ...gravelActions(m,w,side), ...farmDeviceActions(m,w,side), ...characterDestinyActions(m,w,side), ...astromechActions(m,w,side), ...deployEffectActions(m,w,side), ...bactaActions(m,w,side), ...fxActions(m,w,side), ...medicActions(m,w,side), ...lightsaberActions(m,w,side), ...trooperAssaultActions(m,w,side), ...duelInterruptActions(m,w,side), ...phaseEffectActions(m,w,side), ...abilityEffectActions(m,w,side), ...battleEffectActions(m,w,side), ...forceEffectActions(m, w, side), ...cancellationActions(m, w, side), ...groundActions(m, w, side), ...battleActions(m, w, side), ...equipmentActions(m, w, side), ...travelActions(m, w, side), ...interruptActions(m, w, side), ...duelActions(m, w, side), ...revivalActions(m, w, side), ...assaultActions(m, w, side), ...accidentActions(m, w, side), ...stunActions(m, w, side), ...scanActions(m, w, side), ...scavengeActions(m, w, side), ...worseActions(m, w, side), ...doomedActions(m, w, side), ...stakesActions(m, w, side), ...gaderffiiActions(m, w, side), ...substitutionActions(m, w, side), ...gamblersLuckActions(m, w, side)].filter(a => {const card = actionPlayCard(m, a); return !card || canPlayCard(m, card);}),
   initiate: (m, r) => {
     const played = actionPlayCard(m, r.action);
     if (played) {if (!canPlayCard(m, played)) throw Error('Card play limit reached.'); recordCardPlay(m, played);}
@@ -129,6 +130,7 @@ export const premiereRules: Rules = {
     else if (r.action.handler.startsWith('force-effect:')) forceEffectInitiate(m, r);
     else if (r.action.handler.startsWith('cancel:')) cancellationInitiate(m, r);
     else if (r.action.handler.startsWith('gambler:')) gamblersLuckInitiate(m, r);
+    else if (r.action.handler.startsWith('maneuver:')) maneuverInitiate(m,r);
     else if (r.action.handler.startsWith('substitution:')) substitutionInitiate(m, r);
     else if (r.action.handler.startsWith('gaffi:')) gaderffiiInitiate(m, r);
     else if (r.action.handler.startsWith('stakes:')) stakesInitiate(m, r);
@@ -192,6 +194,7 @@ export const premiereRules: Rules = {
     else if (r.action.handler.startsWith('cancel:')) cancellationResolve(m, r);
     else if (r.action.handler.startsWith('plans:')) secretPlansResolve(m, r);
     else if (r.action.handler.startsWith('gambler:')) gamblersLuckResolve(m, r);
+    else if (r.action.handler.startsWith('maneuver:')) maneuverResolve(m,r);
     else if (r.action.handler.startsWith('substitution:')) substitutionResolve(m, r);
     else if (r.action.handler.startsWith('gaffi:')) gaderffiiResolve(m, r);
     else if (r.action.handler.startsWith('stakes:')) stakesResolve(m, r);
@@ -325,7 +328,7 @@ export const premiereRules: Rules = {
     assertDuel(match);
     assertDuelModifiers(match);
     assertCombatModifiers(match);
-    assertStatModifiers(match); assertMedics(match); assertFX(match); assertBacta(match); assertDeployEffects(match); assertForfeitures(match);
+    assertManeuvers(match); assertStatModifiers(match); assertMedics(match); assertFX(match); assertBacta(match); assertDeployEffects(match); assertForfeitures(match);
     assertLightsaber(match); assertForfeitResets(match);
     assertTrooperAssault(match);
     assertDuelInterrupts(match);
