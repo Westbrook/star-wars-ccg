@@ -50,7 +50,7 @@ export function recordCardPlay(m: Match, id: string): void {
 }
 const playHandlers = new Set(['space-weapon:equip','pair:deploy','vessel:deploy','vessel:aboard','transport:deploy','sunsdown:deploy', 'telepathy:play', 'dark-path:deploy', 'insert:deploy', 'farm:deploy', 'deploy-effect:deploy', 'bacta:deploy', 'phase-effect:deploy', 'ability-effect:deploy', 'battle-effect:deploy','force-effect:deploy','ground:deploy','ground:site','ground:barrier','ground:reduce','battle:equip','battle:takeel','battle:reduce',
   'equipment:attach','equipment:macroscan','equipment:mine','gaffi:equip','saber:equip','travel:run','travel:escape']);
-const interruptProviders = ['tallon:', 'maneuver:', 'noble:', 'off-edge:', 'edge:', 'stew:', 'gravel:', 'trooper-assault:', 'duel-interrupt:', 'cancel:','interrupt:','duel:','revival:','assault:','accident:','stun:','scan:','scavenge:','worse:','doomed:','stakes:','substitution:','gambler:'];
+const interruptProviders = ['hyper-escape:', 'tallon:', 'maneuver:', 'noble:', 'off-edge:', 'edge:', 'stew:', 'gravel:', 'trooper-assault:', 'duel-interrupt:', 'cancel:','interrupt:','duel:','revival:','assault:','accident:','stun:','scan:','scavenge:','worse:','doomed:','stakes:','substitution:','gambler:'];
 export function actionPlayCard(m: Match, a: Action): string | undefined {
   const p = a.payload as {card?: string | {id:string}} | null, id = typeof p?.card === 'string' ? p.card : p?.card?.id;
   if (!id || m.cards[id]?.zone !== 'hand') return;

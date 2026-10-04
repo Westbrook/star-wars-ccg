@@ -1,0 +1,70 @@
+[
+  {
+    "mode": "single",
+    "offered": true,
+    "shipMoved": true,
+    "secondMoved": false,
+    "movementCost": 1,
+    "used": true
+  },
+  {
+    "mode": "two-ships",
+    "offered": true,
+    "shipMoved": true,
+    "secondMoved": true,
+    "movementCost": 2,
+    "used": true
+  },
+  {
+    "mode": "one-force",
+    "offered": true,
+    "shipMoved": true,
+    "secondMoved": false,
+    "movementCost": 1,
+    "used": true
+  },
+  {
+    "mode": "no-force",
+    "offered": false,
+    "shipMoved": false,
+    "secondMoved": false,
+    "movementCost": 0,
+    "used": false
+  },
+  {
+    "mode": "out-of-range",
+    "offered": false,
+    "shipMoved": false,
+    "secondMoved": false,
+    "movementCost": 0,
+    "used": false
+  },
+  {
+    "mode": "no-destination",
+    "offered": false,
+    "shipMoved": false,
+    "secondMoved": false,
+    "movementCost": 0,
+    "used": false
+  },
+  {
+    "mode": "own-battle",
+    "offered": true,
+    "shipMoved": true,
+    "secondMoved": false,
+    "movementCost": 1,
+    "used": true
+  },
+  {
+    "mode": "weapon-and-crew",
+    "offered": true,
+    "shipMoved": true,
+    "secondMoved": false,
+    "movementCost": 1,
+    "used": true,
+    "crewAboard": true,
+    "weaponAttached": true,
+    "shipRegularMove": true,
+    "crewRegularMove": false
+  }
+]

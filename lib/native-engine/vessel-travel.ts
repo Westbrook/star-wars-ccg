@@ -46,6 +46,11 @@ export function vesselRoutes(m:Match,id:string):Route[]{
 }
 const routeId=(p:Payload)=>'voyage:'+p.method+':'+p.card.id+':'+p.path.at(-1)!.id;
 const make=(p:Payload):Action=>({id:routeId(p),handler:'voyage:begin',source:p.card.id,payload:p as unknown as Json,label:'Move vessel'});
+/** Shared regular movement action, including moves granted outside Move phase. */
+export function vesselMovementAction(m:Match,id:string,r:Route):Action {
+ const p:Payload={card:referenceCard(m,id),path:r.path.map(id=>referenceCard(m,id)),method:r.method,index:0,cost:r.cost};
+ return {...make(p),payment:{[m.cards[id].owner]:r.cost}};
+}
 export function vesselTravelActions(m:Match,w:Window,side:Side):Action[]{
  if(w.timing!=='phase'||m.turn.side!==side||m.turn.phase!=='move')return [];
  return Object.values(m.cards).filter(c=>c.owner===side&&canMove(m,c.id)).flatMap(c=>vesselRoutes(m,c.id).filter(r=>r.cost<=m.players[side].force.length).map(r=>{

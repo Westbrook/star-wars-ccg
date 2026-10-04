@@ -98,7 +98,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler’s Luck",
+    "name": "Gambler\u2019s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -2069,5 +2069,20 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_101.java"
+  },
+  {
+    "gempId": "1_88",
+    "name": "Hyper Escape",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/hyperescape.gif",
+    "text": "If a battle was just initiated at any system or sector, move all your starships and vehicles there away.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_088.java"
   }
 ]

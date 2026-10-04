@@ -1892,5 +1892,14 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_101.java"
+  },
+  "1_88": {
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_088.java"
   }
 }

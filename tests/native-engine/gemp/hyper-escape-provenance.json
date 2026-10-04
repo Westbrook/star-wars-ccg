@@ -1,0 +1,38 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T08:58:32.420870+00:00",
+  "files": {
+    "NativeEngineHyperEscapeOracleTests.java": "719cdbee4a986bf77a106f0670d79b68711aff308031fe3588b26289777faa8d",
+    "hyper-escape-results.json": "ccad9d2bfedf554ac7a179fbaa24c6fe486999d856dc31383a32f894ebe033c9"
+  },
+  "junitTests": 1,
+  "observations": 8,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineHyperEscapeOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp70\u201371, Movement \u2013 move away",
+  "scope": "Real battle initiation and Hyper Escape movement: one/two ships, limited Force, no Force, out of range, no destination, either battle initiator, carried crew/weapons.",
+  "method": [
+    "Board placement and Force counts are controlled fixtures. Battle initiation, card play, nested costs, movement and Used disposition execute through actual GEMP decisions.",
+    "Six complete outcomes agree with native replay. Two official-rule divergences are explicitly asserted rather than described as conformance.",
+    "Native command replay verifies serialization, state immutability and both seat projections.",
+    "Carrying row explicitly checks retained crew/weapon attachments and that the ship, but not its carried crew, used a regular move."
+  ],
+  "divergences": [
+    {
+      "cases": [
+        "no-force",
+        "out-of-range"
+      ],
+      "gemp": "Pinned GEMP does not offer Hyper Escape. Its movableAsMoveAway target filter requires an immediately legal, affordable move.",
+      "native": "Official AR70\u201371 permits initiating when a destination exists, ignoring range/affordability. Interrupt resolves to Used but no ship moves and no movement Force is spent.",
+      "authority": "AR70 initiation bullets and AR71 Example 1 explicitly demonstrate out-of-range Hyper Escape."
+    }
+  ],
+  "limitations": [
+    "System movement only. Sector topology and vehicle sector movement remain required before complete Hyper Escape card admission.",
+    "Orbit transfers, Sense cancellation, individual move cancellation, changed restrictions, stale instances, no new arrivals, regular-move limits and service refresh have native checks; they are not claimed as additional executed GEMP rows.",
+    "No full native deck/match admission; production supports remains false. Remaining full-engine and product scope is unchanged."
+  ]
+}
