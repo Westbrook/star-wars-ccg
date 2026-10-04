@@ -1,3 +1,4 @@
+import {sectorKind,sectorSystem,sectorRank,sectorPlacements,locationGroup} from './sectors';
 import {squadronForfeitBonus} from './piloting';
 import {gameTextActive} from './game-text';
 import {unitsAt,characterPresent,isVessel,vesselRule,vesselPower,operational} from './occupancy';
@@ -28,7 +29,7 @@ export function printed(m: Match, id: string, property: string): number {
   return Number(value);
 }
 export const name = (m: Match, id: string) => cardDefinition(m, id).name;
-export const system = (m: Match, site: string) => premiereLocations[m.cards[site]?.blueprint]?.system;
+export const system = (m: Match, site: string) => sectorKind(m,site) ? (sectorKind(m,site)==='cloud'?sectorSystem(m,site):undefined) : premiereLocations[m.cards[site]?.blueprint]?.system;
 export const atSite = (m: Match, site: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.location === site && characterPresent(m,c.id));
 export const isSite = (m:Match,id:string) => !!m.cards[id] && cardDefinition(m,id).subType==='Site';
 export const adjacent = (m: Match, a: string, b: string) => isSite(m,a) && isSite(m,b) && m.locations.includes(a) && m.locations.includes(b) && system(m, a) === system(m, b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
@@ -137,6 +138,7 @@ export const battleDestinyRequirement = (m: Match, side: Side, site: string) =>
 
 export function drainAmount(m: Match, side: Side, site: string): number {
   let value = premiereLocations[m.cards[site].blueprint].icons[other(side)];
+  if(sectorKind(m,site)==='cloud'&&m.cards[site].owner!==side&&gameTextActive(m,site)&&controls(m,side,site))value++;
   const blueprint = m.cards[site].blueprint;
   if (side === 'dark' && blueprint === '3_60' && controls(m,side,site) && atSite(m,site).some(c=>c.owner===side && cardDefinition(m,c.id).subType==='Imperial')) value++;
   if (side === 'light' && blueprint === '1_284' || side === 'dark' && blueprint === '1_293') value++;
@@ -155,7 +157,8 @@ export function moveWithAttachments(m: Match, id: string, site: string): void {
 }
 
 export const locationRank = (m: Match, id: string) => {
-  if(cardDefinition(m,id).subType==='System')return 3;
+  if(sectorKind(m,id))return sectorRank(m,id)!;
+  if(cardDefinition(m,id).subType==='System')return 4;
   const icons = cardDefinition(m, id).icons as string[];
   return icons.includes('Interior') && icons.includes('Exterior') ? 1 : icons.includes('Interior') ? 0 : 2;
 };
@@ -166,11 +169,12 @@ export function citySitesTogether(m: Match, order: string[]): boolean {
   const city = order.map((id, i) => ['1_129', '1_291', '1_295'].includes(m.cards[id].blueprint) ? i : -1).filter(i => i >= 0);
   return city.every((i, n) => !n || i === city[n - 1] + 1);
 }
-export function sitePlacements(m: Match, id: string): {id: string; label: string; replace?: string; index?: number}[] {
+export function sitePlacements(m: Match, id: string): {id: string; label: string; replace?: string; index?: number; sector?:string}[] {
   if (!premiereLocations[m.cards[id].blueprint]) return [];
+  if(sectorKind(m,id))return sectorPlacements(m,id);
   const duplicate = m.locations.find(at => name(m, at) === name(m, id));
   if (duplicate) return m.cards[duplicate].owner === m.cards[id].owner ? [] : [{id: 'over:' + duplicate, label: 'Convert ' + name(m, duplicate), replace: duplicate}];
-  const group = m.locations.filter(at => system(m, at) === system(m, id));
+  const group = m.locations.filter(at => locationGroup(m, at) === locationGroup(m, id));
   if (!group.length) return [{id: 'at:' + m.locations.length, label: 'Start the ' + system(m, id) + ' group', index: m.locations.length}];
   const first = m.locations.indexOf(group[0]);
   return Array.from({length: group.length + 1}, (_, i) => i).filter(i => {

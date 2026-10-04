@@ -1,3 +1,4 @@
+import {sectorDefinitions} from './sector-definitions';
 import manifest from '../../data/native-proof/manifest.json';
 import {definition} from './definitions';
 import type {LocationSetupRules} from './setup';
@@ -18,7 +19,7 @@ export const premiereSystems: Record<string,{system:string;icons:Record<Side,num
   '1_127':{system:'Tatooine',icons:{dark:1,light:2},parsec:7},
   '1_289':{system:'Tatooine',icons:{dark:2,light:1},parsec:7},
 };
-export const premiereLocations:Record<string,{system:string;icons:Record<Side,number>}>={...premiereSites,...premiereSystems};
+export const premiereLocations:Record<string,{system:string;icons:Record<Side,number>}>={...premiereSites,...premiereSystems,...sectorDefinitions};
 
 const definitions = new Map(manifest.cards.map(card => [card.gempId, card]));
 export const premiereSetup: LocationSetupRules = {
@@ -28,7 +29,7 @@ export const premiereSetup: LocationSetupRules = {
   ordinarySetup: match => Object.values(match.cards).every(card => definitions.has(card.blueprint)),
   location: (match, id) => {
     const blueprint = match.cards[id]?.blueprint, site = premiereLocations[blueprint];
-    return site ? {identity: definition(blueprint).name, group: site.system, icons: site.icons, convertible: true} : null;
+    return site && !sectorDefinitions[blueprint] ? {identity: definition(blueprint).name, group: site.system, icons: site.icons, convertible: true} : null;
   },
   name: (match, id) => definition(match.cards[id].blueprint).name,
   placements: (match, ids) => {

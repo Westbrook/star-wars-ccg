@@ -1,3 +1,4 @@
+import {spaceLocation,sectorPaths} from './sectors';
 import {battle, members} from './battle';
 import {name} from './board';
 import {cardDefinition} from './definitions';
@@ -12,14 +13,14 @@ import type {Action, Decision, Json, Match, Resolution, Side, Window} from './ty
 type Payload = {card: string; origin: CardReference; ships: CardReference[]; remaining: string[]; window: number};
 const payload = (f: Resolution | Decision) => ('action' in f ? f.action.payload : f.payload) as unknown as Payload;
 const playId = (p: Payload) => 'hyper-escape:' + p.card;
-const systemLocation = (m: Match, id: string) => !!premiereSystems[m.cards[id]?.blueprint];
+const systemLocation = spaceLocation;
 
 export function hyperEscapeActions(m: Match, w: Window, side: Side): Action[] {
  const parent = m.stack.at(-2), b = battle(m);
  if (side !== 'light' || w.timing !== 'response' || parent?.kind !== 'resolution' || parent.action.handler !== 'battle:begin' || parent.cancelled || parent.awaitingResponses || b?.stage !== 'begin' || !systemLocation(m, b.site)) return [];
  // AR pp70–71: check for a destination, not range, navigation, piloting or
- // affordability. Landing is never a move-away option. Sectors remain gated.
- if (!m.locations.some(id => id !== b.site && systemLocation(m, id))) return [];
+ // affordability. Landing is never a move-away option.
+ if (!m.locations.some(id => id !== b.site && premiereSystems[m.cards[b.site].blueprint] && premiereSystems[m.cards[id].blueprint])&&!members(m,side).some(id=>sectorPaths(m,id,b.site).length)) return [];
  const ships = members(m, side).filter(id => cardDefinition(m, id).type === 'Starship' && !m.cards[id].attachedTo).map(id => referenceCard(m, id));
  if (!ships.length) return [];
  return m.players[side].hand.filter(id => m.cards[id].blueprint === '1_88').map(card => {
@@ -34,7 +35,7 @@ function queue(m: Match, p: Payload, handler: string): void {
 function options(m: Match, p: Payload) {
  if (!sameCard(m, p.origin)) return [];
  return p.ships.filter(ref => p.remaining.includes(ref.id) && sameCard(m, ref) && m.cards[ref.id].location === p.origin.id && canMove(m, ref.id)).flatMap(ref =>
-  vesselRoutes(m, ref.id).filter(route => ['hyperspace', 'orbit'].includes(route.method) && route.cost <= m.players.light.force.length).map(route => ({card: ref.id, route})));
+  vesselRoutes(m, ref.id).filter(route => ['hyperspace', 'orbit', 'sector'].includes(route.method) && route.cost <= m.players.light.force.length).map(route => ({card: ref.id, route})));
 }
 export function hyperEscapeResolve(m: Match, r: Resolution): void {
  const p = payload(r);

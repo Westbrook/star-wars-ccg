@@ -1,3 +1,4 @@
+import {sectorDefinitions} from './sector-definitions';
 import {playProhibited} from './deploy-costs';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition, definition} from './definitions';
@@ -9,7 +10,7 @@ export const isUnique = (m: Match, id: string) => identity(m.cards[id].blueprint
 export const hasPersona = (m: Match, id: string, persona: string) => !!m.cards[id] && identity(m.cards[id].blueprint).personas.includes(persona);
 const limit = (bp: string): number => {
   const u = identity(bp).uniqueness;
-  if (u.startsWith('DIAMOND')) throw Error('Diamond uniqueness requires system-scoped implementation.');
+  if (u.startsWith('DIAMOND') && !sectorDefinitions[bp]) throw Error('Diamond uniqueness requires system-scoped implementation.');
   return u === 'UNIQUE' ? 1 : u.startsWith('RESTRICTED_') ? Number(u.slice(11)) : Infinity;
 };
 const title = (bp: string) => (identity(bp).uniqueness === 'UNRESTRICTED' ? 'none:' : 'dot:') + definition(bp).name.replace(/\s*\(V\)$/, '');

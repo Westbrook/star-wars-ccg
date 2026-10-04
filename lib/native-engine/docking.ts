@@ -1,3 +1,4 @@
+import {spaceLocation} from './sectors';
 import {cardDefinition,name} from './board';
 import {capital,operational,occupants,roleAvailable,vesselRule,type AboardRole} from './occupancy';
 import {barred} from './ground';
@@ -21,7 +22,7 @@ function end(m:Match,side:Side,p:Dock){
 }
 export function dockingActions(m:Match,w:Window,side:Side):Action[]{
  if(w.timing!=='phase'||m.turn.side!==side||m.turn.phase!=='move'||m.players[side].force.length<1)return [];
- const ships=Object.values(m.cards).filter(c=>ship(m,c.id,side)&&c.location&&cardDefinition(m,c.location).subType==='System');
+ const ships=Object.values(m.cards).filter(c=>ship(m,c.id,side)&&c.location&&spaceLocation(m,c.location));
  return ships.flatMap((a,i)=>ships.slice(i+1).flatMap(b=>{
   const p:Dock={a:referenceCard(m,a.id),b:referenceCard(m,b.id),site:referenceCard(m,a.location!),transfers:0};
   return ready(m,p,side)?[{...action('begin',p),label:'Dock '+shipName(m,a.id)+' ↔ '+shipName(m,b.id)+' · 1 Force',payment:{[side]:1}}]:[];
@@ -69,7 +70,7 @@ export function assertDocking(m:Match){
   const p=payload(f),side=f.kind==='decision'?f.side:f.actor;
   if(!p||!Number.isSafeInteger(p.transfers)||p.transfers<0||h==='docking:begin'&&p.transfers!==0)throw Error('Invalid docking history.');
   for(const ref of [p.a,p.b,p.site]){assertCardReference(m,ref);if(ref.zone!=='table')throw Error('Invalid docking reference.');}
-  if(p.a.id===p.b.id||cardDefinition(m,p.site.id).subType!=='System'||[p.a,p.b].some(ref=>m.cards[ref.id].owner!==side||!vesselRule(m,ref.id)||cardDefinition(m,ref.id).type!=='Starship'))throw Error('Invalid docking ships.');
+  if(p.a.id===p.b.id||!spaceLocation(m,p.site.id)||[p.a,p.b].some(ref=>m.cards[ref.id].owner!==side||!vesselRule(m,ref.id)||cardDefinition(m,ref.id).type!=='Starship'))throw Error('Invalid docking ships.');
   if(f.kind==='resolution'&&(f.action.source!==p.a.id||f.action.id!=='dock:'+p.a.id+':'+p.b.id))throw Error('Invalid docking identity.');
  }
 }

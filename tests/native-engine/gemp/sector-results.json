@@ -1,0 +1,35 @@
+[
+  {
+    "mode": "cloud",
+    "power": 0.0,
+    "maneuver": 1.0
+  },
+  {
+    "mode": "asteroid-low",
+    "power": 2.0,
+    "maneuver": 3.0,
+    "lost": false,
+    "total": 1.0
+  },
+  {
+    "mode": "asteroid-high",
+    "power": 2.0,
+    "maneuver": 3.0,
+    "lost": true,
+    "total": 6.0
+  },
+  {
+    "mode": "asteroid-card",
+    "power": 2.0,
+    "maneuver": 3.0,
+    "lost": true,
+    "total": 1.0
+  },
+  {
+    "mode": "asteroid-empty",
+    "power": 2.0,
+    "maneuver": 3.0,
+    "lost": false,
+    "total": null
+  }
+]

@@ -1,3 +1,4 @@
+import type {AsteroidDraw} from './asteroids';
 import type {FighterTrouble} from './fighter-trouble';
 import type {TallonRoll} from './tallon-roll';
 import {sameCard, type CardReference} from './identity';
@@ -43,6 +44,10 @@ export function destinyDefenseTargets(m:Match,w:Window):CardReference[]{
  const d=destinyInWindow(m,w);if(!d||d.value===null)return [];
  if(d.resolution.action.handler!=='destiny:finish')return [];
  const p=d.resolution.action.payload as {source?:string;category?:string;next?:{handler:string;payload:{index?:number;card?:string;target?:string;serial?:number}}};
+ if(p.category==='asteroid'&&p.next?.handler==='asteroid:drawn'){
+  const draw=(m.data.asteroidDraws as unknown as AsteroidDraw[]|undefined)?.find(d=>d.serial===p.next?.payload.serial&&d.stage==='destiny');
+  return draw&&p.source===draw.site.id&&sameCard(m,draw.target)?[draw.target]:[];
+ }
  if(p.category==='fighter-trouble'&&p.next?.handler==='fighter-trouble:result'){
   const trouble=m.data.fighterTrouble as FighterTrouble|undefined;
   return trouble?.stage==='destiny'&&trouble.serial===p.next.payload.serial&&trouble.source===p.source&&sameCard(m,trouble.target)?[trouble.target]:[];

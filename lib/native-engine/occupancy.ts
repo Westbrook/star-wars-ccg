@@ -1,3 +1,4 @@
+import {sectorAdmits,cloudStatModifier} from './sectors';
 import {capacityPending} from './capacity-loss';
 import {addedAstromechCapacity} from './navigation';
 import {vesselStatBonus,ionizedShip} from './stat-modifiers';
@@ -75,7 +76,7 @@ export function roleAvailable(m:Match,host:string,id:string,role:AboardRole):boo
 }
 export function vesselPower(m:Match,id:string):number {
  if(!operational(m,id))return 0;
- return Math.max(0,Number((cardDefinition(m,id).stats as Record<string,string>).power)+vesselStatBonus(m,id,'power')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0));
+ return Math.max(0,Number((cardDefinition(m,id).stats as Record<string,string>).power)+cloudStatModifier(m,id)+vesselStatBonus(m,id,'power')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0));
 }
 export function assertOccupancy(m:Match):void {
  for(const c of Object.values(m.cards)){
@@ -84,7 +85,7 @@ export function assertOccupancy(m:Match):void {
   if(c.zone==='table'&&vesselRule(m,c.id)){
    if(!c.location||!m.locations.includes(c.location))throw Error('Vessel needs an active location.');
    if(c.attachedTo&&!inCargo(m,c.id))throw Error('Vessel needs cargo capacity.');
-   belowDecks(m,c.id);if(capital(m,c.id)&&cardDefinition(m,c.location).subType!=='System')throw Error('Capital ship needs a system.');const d=cardDefinition(m,c.location);if(!inCargo(m,c.id)&&(cardDefinition(m,c.id).type==='Vehicle'?(d.subType!=='Site'||!(d.icons as string[]).includes('Exterior')):!(d.subType==='System'||d.subType==='Site'&&(d.icons as string[]).includes('Exterior'))))throw Error('Invalid vessel location.');
+   belowDecks(m,c.id);if(capital(m,c.id)&&cardDefinition(m,c.location).subType!=='System'&&!sectorAdmits(m,c.id,c.location))throw Error('Capital ship needs a system.');const d=cardDefinition(m,c.location);if(!inCargo(m,c.id)&&!sectorAdmits(m,c.id,c.location)&&(cardDefinition(m,c.id).type==='Vehicle'?(d.subType!=='Site'||!(d.icons as string[]).includes('Exterior')):!(d.subType==='System'||d.subType==='Site'&&(d.icons as string[]).includes('Exterior'))))throw Error('Invalid vessel location.');
    if(!capacityFits(m,c.id,occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!})))&&!capacityPending(m,c.id))throw Error('Vessel capacity exceeded.');
   }
  }

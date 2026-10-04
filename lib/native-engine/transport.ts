@@ -1,3 +1,4 @@
+import {spaceLocation,sectorsAt} from './sectors';
 import {deployValue} from './deploy-costs';
 import {cardDefinition} from './definitions';
 import {capital,inCargo,occupants,roleAvailable,vesselRule,pilotAboard,type AboardRole} from './occupancy';
@@ -17,7 +18,7 @@ const characterRoles:AboardRole[]=['pilot','driver','passenger'];
 const cargoRole=(m:Match,id:string):AboardRole=>cardDefinition(m,id).type==='Vehicle'?'vehicle':'starship';
 const exterior=(m:Match,id:string)=>cardDefinition(m,id).subType==='Site'&&(cardDefinition(m,id).icons as string[]).includes('Exterior');
 const flightPilot=pilotAboard;
-const carriers=(m:Match,side:Side)=>Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&!c.attachedTo&&capital(m,c.id)&&c.location&&cardDefinition(m,c.location).subType==='System');
+const carriers=(m:Match,side:Side)=>Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&!c.attachedTo&&capital(m,c.id)&&c.location&&spaceLocation(m,c.location));
 const key=(p:Payload)=>'transport:'+p.mode+':'+p.card.id+':'+p.target.id+(p.role?':'+p.role:'')+(p.react?':react:via:'+p.grant!.id:'');
 function selected(m:Match,id:string,target:string,mode:Mode,role?:AboardRole):Payload{
  const c=m.cards[id];return {card:referenceCard(m,id),origin:referenceCard(m,c.attachedTo??c.location??target),target:referenceCard(m,target),location:referenceCard(m,cardDefinition(m,target).type==='Location'?target:m.cards[target].location!),mode,...(role?{role}:{}),...(c.aboardRole?{previous:c.aboardRole}:{})};
@@ -27,8 +28,8 @@ function options(m:Match,side:Side,checkUsage=true):Payload[]{
  for(const c of Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&!barred(m,c.id))){
   const d=cardDefinition(m,c.id),isCharacter=d.type==='Character';
   if((isCharacter||d.type==='Vehicle')&&(!checkUsage||canMove(m,c.id))){
-   if(!c.attachedTo&&c.location&&exterior(m,c.location))for(const ship of ships.filter(h=>system(m,h.location!)===system(m,c.location!)))add(c.id,ship.id,'shuttle',isCharacter?characterRoles:['vehicle']);
-   if(c.attachedTo&&ships.some(h=>h.id===c.attachedTo))for(const site of m.locations.filter(site=>exterior(m,site)&&system(m,site)===system(m,c.location!)&&(isCharacter||vehicleDestination(m,c.id,site))))out.push(selected(m,c.id,site,'shuttle'));
+   if(!c.attachedTo&&c.location&&exterior(m,c.location))for(const ship of ships.filter(h=>cardDefinition(m,h.location!).subType==='System'&&system(m,h.location!)===system(m,c.location!)))add(c.id,ship.id,'shuttle',isCharacter?characterRoles:['vehicle']);
+   if(c.attachedTo&&cardDefinition(m,c.location!).subType==='System'&&ships.some(h=>h.id===c.attachedTo))for(const site of m.locations.filter(site=>exterior(m,site)&&system(m,site)===system(m,c.location!)&&(isCharacter||vehicleDestination(m,c.id,site))))out.push(selected(m,c.id,site,'shuttle'));
   }
   if(isCharacter&&c.attachedTo){
    const parent=m.cards[c.attachedTo];
@@ -36,8 +37,8 @@ function options(m:Match,side:Side,checkUsage=true):Payload[]{
    if(ships.some(h=>h.id===parent.id))for(const cargo of occupants(m,parent.id).filter(cargo=>inCargo(m,cargo.id)))add(c.id,cargo.id,'bridge',characterRoles);
   }
   if(d.type==='Starship'&&!capital(m,c.id)){
-   if(!c.attachedTo&&c.location&&cardDefinition(m,c.location).subType==='System')for(const host of ships.filter(h=>h.location===c.location))add(c.id,host.id,'embark',['starship']);
-   if(inCargo(m,c.id)&&flightPilot(m,c.id)&&c.location&&cardDefinition(m,c.location).subType==='System')out.push(selected(m,c.id,c.location,'disembark'));
+   if(!c.attachedTo&&c.location&&spaceLocation(m,c.location))for(const host of ships.filter(h=>h.location===c.location))add(c.id,host.id,'embark',['starship']);
+   if(inCargo(m,c.id)&&flightPilot(m,c.id)&&c.location&&spaceLocation(m,c.location))out.push(selected(m,c.id,c.location,'disembark'));
   }
  }
  return out;
@@ -58,7 +59,7 @@ export function transportActions(m:Match,w:Window,side:Side):Action[]{
  if(!site&&(w.timing!=='phase'||side!==m.turn.side||!['deploy','move'].includes(m.turn.phase)))return [];
  const choices=site?reactionSources(m,site,side).flatMap(grant=>deployOptions(m,side,site,grant)):m.turn.phase==='deploy'?deployOptions(m,side):options(m,side);
  return choices.map(p=>{
-  const cost=p.mode==='deploy'?deployValue(m,p.card.id):p.mode==='shuttle'?1:0;
+  const cost=p.mode==='deploy'?deployValue(m,p.card.id):p.mode==='shuttle'?1+sectorsAt(m,system(m,p.location.id)!,'cloud').length:0;
   const verb={deploy:'Deploy',shuttle:'Shuttle',embark:'Embark',disembark:'Disembark',bridge:'Move'}[p.mode];
   return {id:key(p),handler:p.mode==='deploy'?'transport:deploy':'transport:begin',source:p.card.id,payload:p as unknown as Json,payment:{[side]:cost},label:verb+' '+name(m,p.card.id)+' to '+name(m,p.target.id)+(p.role?' as '+p.role:'')+' · '+(cost?cost+' Force':'free')+(p.react?' as a react using '+name(m,p.grant!.id):'')};
  }).filter(a=>(a.payment[side]??0)<=m.players[side].force.length);

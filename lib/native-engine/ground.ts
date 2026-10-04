@@ -1,3 +1,4 @@
+import {registerSector} from './sectors';
 import {gameTextActive} from './game-text';
 import {crewActive} from './occupancy';
 import {barred} from './participation';
@@ -13,7 +14,7 @@ import {other, sides, type Action, type Decision, type Json, type Match, type Pa
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 
 export type GroundState = {turn: number; moved: string[]; reacted: string[]; drained: string[]; barriers: Record<string, number>; cancelledReactTitles?: string[]};
-type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number; targetRef?: CardReference; targets?: CardReference[]; cardRef?: CardReference; pilot?: CardReference};
+type Payload = {card?: string; site?: string; from?: string; placement?: string; react?: boolean; via?: string; target?: string; amount?: number; lossIndex?: number; targetRef?: CardReference; targets?: CardReference[]; cardRef?: CardReference; pilot?: CardReference;sectorBonus?:number};
 export type Loss = {side: Side; remaining: number; source: string; site: string | null; reductionUsed: boolean; worseIncrease?: number; ledger?: LossLedger};
 const payload = (action: Action) => action.payload as Payload;
 export function usage(m: Match): GroundState {
@@ -187,7 +188,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
       if (m.data.nighttimeSites) m.data.nighttimeSites = (m.data.nighttimeSites as string[]).map(site => site === old ? id : site); m.cards[old].coveredBy = id; m.locations[m.locations.indexOf(old)] = id;
       for (const card of Object.values(m.cards)) {if (card.location === old) card.location = id; if(card.attachedTo===old)card.attachedTo=id; if (card.coveredBy === old) card.coveredBy = id;}
       const current = record(m); current.drained = current.drained.map(site => site === old ? id : site);
-    } else m.locations.splice(placement.index!, 0, id);
+    } else {m.locations.splice(placement.index!, 0, id);if(placement.sector)registerSector(m,id,placement.sector);}
     deployed(m, id);
   } else if (kind === 'ground:move') {
     if (!sameCard(m, data.cardRef!) || m.cards[data.card!].attachedTo || m.cards[data.card!].location !== data.from) return;
@@ -200,7 +201,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
   } else if (kind === 'ground:expire') {
     delete record(m).barriers[data.target!];
   } else if (kind === 'ground:drain') {
-    if (controls(m, side, data.site!)) queueForceLoss(m, {side: other(side), remaining: drainAmount(m, side, data.site!) + lightsaberDrainBonus(m, data as {site: string}), source: 'drain', site: data.site!, reductionUsed: false});
+    if (controls(m, side, data.site!)) queueForceLoss(m, {side: other(side), remaining: drainAmount(m, side, data.site!) + (data.sectorBonus??0) + lightsaberDrainBonus(m, data as {site: string}), source: 'drain', site: data.site!, reductionUsed: false});
   } else if (kind === 'ground:force-loss') {
     const loss = resolution.action.payload as Loss;
     loss.remaining = remainingForceLoss(m, loss);

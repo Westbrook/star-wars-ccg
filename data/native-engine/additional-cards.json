@@ -2270,5 +2270,77 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_218.java"
+  },
+  {
+    "gempId": "4_155",
+    "name": "Asteroid Field",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Sector",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Dark/large/asteroidfield.gif",
+    "text": "Dark: 'Asteroid Rules' in effect here. If you control, may cancel Force drain at related system. Light: 'Asteroid Rules' in effect here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Space",
+      "Dagobah"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_155.java"
+  },
+  {
+    "gempId": "4_81",
+    "name": "Asteroid Field",
+    "side": "light",
+    "type": "Location",
+    "subType": "Sector",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Light/large/asteroidfield.gif",
+    "text": "Light: 'Asteroid Rules' in effect here. If you control, may cancel Force drain at related system. Dark: 'Asteroid Rules' in effect here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Space",
+      "Dagobah"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_081.java"
+  },
+  {
+    "gempId": "5_174",
+    "name": "Clouds",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Sector",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Dark/large/clouds.gif",
+    "text": "Dark: If you control, once per turn, may add 1 to a Force drain at a related site. Starships are power and maneuver -2 here. Light: If you control, Force drain +1 here. Starships are power and maneuver -2 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Planet",
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_174.java"
+  },
+  {
+    "gempId": "5_85",
+    "name": "Clouds",
+    "side": "light",
+    "type": "Location",
+    "subType": "Sector",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Light/large/clouds.gif",
+    "text": "Light: If you control, once per turn, may add 1 to a Force drain at a related site. Starships are power and maneuver -2 here. Dark: If you control, Force drain +1 here. Starships are power and maneuver -2 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Planet",
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_085.java"
   }
 ]
