@@ -7,8 +7,8 @@ const board=load(new URL('../../lib/native-engine/board.ts',import.meta.url)),ni
 test('A planet system deploys free alongside its sites and generates printed Force',()=>{
  const f=fixture(),old=board.generation(f.m,'dark'),force=f.m.players.dark.force.length;let m=step(f.m,'site:'+f.planet+':at:1');m=settled(m);assert.deepEqual(m.locations,[f.site,f.planet,f.remote]);assert.equal(board.generation(m,'dark'),old+2);assert.equal(m.players.dark.force.length,force);assert.equal(board.adjacent(m,f.site,f.planet),false);assert.equal(board.deploymentPayment(m,f.spy,f.planet),null);assert.equal(board.atSite(m,f.planet).length,0);
 });
-test('Location placement keeps systems at the exterior end and preserves ground adjacency',()=>{
- const f=fixture();let m=deployed(f),dune=pull(m,'light','1_130','hand');const placements=board.sitePlacements(m,dune);assert.deepEqual(placements.map(p=>p.index),[1]);
+test('Location placement keeps systems at the row end without fixing site orientation',()=>{
+ const f=fixture();let m=deployed(f),dune=pull(m,'light','1_130','hand');const placements=board.sitePlacements(m,dune);assert.deepEqual(placements.map(p=>p.index),[0,1]); // AR Appendix E: either end of the site row is legal.
  assert.ok(!rules.actions(m,m.stack.at(-1),'light').some(x=>x.id.startsWith('site:'+dune)));
  assert.equal(board.adjacent(m,f.site,f.planet),false);
 });

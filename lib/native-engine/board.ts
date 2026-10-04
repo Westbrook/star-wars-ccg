@@ -56,14 +56,20 @@ export const isGuard = (blueprint: string) => ['1_26', '1_181'].includes(bluepri
 export const isJawa = (blueprint: string) => ['1_12', '1_182'].includes(blueprint);
 export const attached = (m: Match, id: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.attachedTo === id);
 export const isWarrior = (m: Match, id: string) => (cardDefinition(m, id).icons as string[]).includes('Warrior') || attached(m, id).some(c => ['1_64', '1_221'].includes(c.blueprint) && equipmentState(m).training[c.id] === 'warrior');
+/** "On" a named world includes its sites and clouds, including carried crew,
+ * but excludes orbit and related asteroids (AR, Prepositions). */
+export function onSystem(m:Match,id:string,world:string):boolean {
+  const at=m.cards[id]?.location;
+  return !!at&&(isSite(m,at)||sectorKind(m,at)==='cloud')&&system(m,at)===world;
+}
 function equipmentBonus(m: Match, id: string, stat: 'power' | 'forfeit'): number {
-  const host = m.cards[id], seen = new Set<string>(); let bonus = 0;
+  const seen = new Set<string>(); let bonus = 0;
   for (const c of attached(m, id)) {
     if (seen.has(c.blueprint)) continue;
     // Separate training modes share a card title but modify different things.
     if (['1_64', '1_221'].includes(c.blueprint) && stat === 'power' && equipmentState(m).training[c.id] === 'power') {bonus++; seen.add(c.blueprint);}
-    if (c.blueprint === '1_207') {bonus += host.location && system(m, host.location) === 'Death Star' ? 2 : 1; seen.add(c.blueprint);}
-    if (c.blueprint === '1_40') {if (host.location && system(m, host.location) === 'Tatooine') bonus += 2; seen.add(c.blueprint);}
+    if (c.blueprint === '1_207') {bonus += onSystem(m,id,'Death Star') ? 2 : 1; seen.add(c.blueprint);}
+    if (c.blueprint === '1_40') {if (onSystem(m,id,'Tatooine')) bonus += 2; seen.add(c.blueprint);}
   }
   return bonus;
 }
@@ -184,6 +190,14 @@ export const locationRank = (m: Match, id: string) => {
   const icons = cardDefinition(m, id).icons as string[];
   return icons.includes('Interior') && icons.includes('Exterior') ? 1 : icons.includes('Interior') ? 0 : 2;
 };
+/** AR Appendix E: a planet's position does not fix the orientation of its
+ * sites. Keep the site sequence and the outer site/sector/system sequence legal
+ * independently; neither sequence may be rearranged after deployment. */
+export function locationOrder(m:Match,order:string[]):boolean {
+  const monotonic=(ranks:number[])=>ranks.every((v,i)=>!i||v>=ranks[i-1])||ranks.every((v,i)=>!i||v<=ranks[i-1]);
+  const site=(id:string)=>!sectorKind(m,id)&&!isCave(m,id)&&cardDefinition(m,id).subType==='Site';
+  return monotonic(order.filter(site).map(id=>locationRank(m,id)))&&monotonic(order.map(id=>site(id)?0:locationRank(m,id)));
+}
 /** The Mos Eisley city sites form an uninterrupted group (AR Appendix E).
  * Cantina is not in the current definition package; its future metadata must
  * join this group when that card is admitted. */
@@ -202,8 +216,8 @@ export function sitePlacements(m: Match, id: string): {id: string; label: string
   if (!group.length) return [{id: 'at:' + m.locations.length, label: 'Start the ' + system(m, id) + ' group', index: m.locations.length}];
   const first = m.locations.indexOf(group[0]);
   return Array.from({length: group.length + 1}, (_, i) => i).filter(i => {
-    const order = [...group]; order.splice(i, 0, id); const ranks = order.map(at => locationRank(m, at));
-    return caveOrder(m,order) && citySitesTogether(m, order) && (ranks.every((v, n) => !n || v >= ranks[n - 1]) || ranks.every((v, n) => !n || v <= ranks[n - 1]));
+    const order = [...group]; order.splice(i, 0, id);
+    return caveOrder(m,order) && citySitesTogether(m, order) && locationOrder(m,order);
   }).map(i => ({id: 'at:' + (first + i), label: i === group.length ? 'Place after ' + name(m, group.at(-1)!) : 'Place before ' + name(m, group[i]), index: first + i}));
 }
 /** Current location modifier, evaluated when the physical weapon destiny draws. */

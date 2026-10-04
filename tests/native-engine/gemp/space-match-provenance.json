@@ -1,0 +1,114 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedOn": "2026-10-04T19:23:30.432082+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineSpaceMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "unchangedProductionFiles": 6820,
+  "fixtures": [
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/space-journeys.json.gz",
+      "sha256": "193168291e60b48074d7fe9c69fa52357cd4de7b20a7777e537d4da8a04b3a9c",
+      "jsonSha256": "c9f2acdbf86c3615dd44c0eaa13f75de0b6ec7225cb3bf58b8c922aefa176b3c",
+      "harness": "tests/native-engine/gemp/complete-matches/space-journeys-source.java.txt",
+      "harnessSha256": "a5d74622012ca79609f1e97784b663705f67ccb7b23bd56ff0afd93e9dc30165",
+      "deckManifest": "tests/native-engine/gemp/complete-matches/space-pilots-decks.json",
+      "deckManifestSha256": "6530755e51c50141405e0970610aabe1bb4fbca6f177ba5a1e2c746ae23800e7",
+      "snapshotVersion": 7,
+      "winner": "dark",
+      "turns": 25,
+      "referenceDecisions": 1637,
+      "nativeCommands": 2343,
+      "comparedCheckpoints": 237,
+      "actions": {
+        "untagged": 12,
+        "activate": 24,
+        "activate-count": 48,
+        "pass": 1290,
+        "site": 9,
+        "draw": 80,
+        "site-placement": 4,
+        "deploy": 21,
+        "deploy-target": 26,
+        "hyperspace": 18,
+        "move-target": 18,
+        "equip": 5,
+        "battle": 5,
+        "loss-order": 1,
+        "reduce": 1,
+        "reduce-amount": 1,
+        "drain": 24,
+        "lose": 40,
+        "forfeit": 7,
+        "dice": 1,
+        "fire": 1,
+        "fire-target": 1
+      }
+    },
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/space-crew.json.gz",
+      "sha256": "4a5aa6aa60e44d516ff2b8955cc4808e3be99647ff099a3ac91f499d359cbbf9",
+      "jsonSha256": "f2da4d1b61f969de2e020de39b06e0ea73e84b8fc7ee29f8c387e1efc861f63d",
+      "harness": "tests/native-engine/gemp/complete-matches/space-crew-source.java.txt",
+      "harnessSha256": "7f42d630a6922ac0d017957b3b3417b2683390ec4efbcb7b07f3139f20a2b809",
+      "deckManifest": "tests/native-engine/gemp/complete-matches/space-crew-decks.json",
+      "deckManifestSha256": "5f33a74717e290b05077c9843357587c614d14efb7a0a2ec0cc34f70263347fc",
+      "snapshotVersion": 7,
+      "winner": "light",
+      "turns": 30,
+      "referenceDecisions": 1669,
+      "nativeCommands": 2398,
+      "comparedCheckpoints": 255,
+      "actions": {
+        "untagged": 8,
+        "activate": 29,
+        "activate-count": 58,
+        "pass": 1289,
+        "site": 11,
+        "draw": 80,
+        "deploy": 19,
+        "deploy-target": 25,
+        "barrier": 3,
+        "hyperspace": 21,
+        "move-target": 21,
+        "crew-capacity": 4,
+        "equip": 6,
+        "drain": 29,
+        "lose": 46,
+        "battle": 4,
+        "forfeit": 3,
+        "site-placement": 8,
+        "reduce": 1,
+        "reduce-amount": 1,
+        "dice": 1,
+        "loss-order": 2
+      }
+    }
+  ],
+  "rules": [
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=181",
+      "scope": "System location position does not fix site orientation; preserve site and sector layouts independently."
+    },
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=43",
+      "scope": "On a world includes its sites and clouds, including occupants; orbit is at that world, not on it."
+    }
+  ],
+  "findings": [
+    "Full-game replay exposed a legal Docking Bay 94 placement rejected by a coupled site/system orientation check. Native now validates both sequences independently.",
+    "Aboard Tatooine Utility Belt was incorrectly boosted in orbit. Both utility belts now distinguish on-world sites/clouds from systems and asteroids.",
+    "Replay records and checks actual ship values, pilot/passenger roles and forced passenger capacity when GEMP omits a choice dialog.",
+    "Both complete games match all retained pile, attachment, stat, loss/destiny and final checkpoints."
+  ],
+  "harnessNotes": [
+    "Ordinary random initial shuffle, fixed custom 60-card decks, and legal offered choices only. No in-game state interventions.",
+    "Run 1 is retained as space-journeys. Run 2 exposed a missing test-client confirmation when forfeiting a carrier with occupants; run 3 handles the ordinary Yes confirmation and is retained as space-crew.",
+    "The profile with more pilot cards prioritizes offered pilot deployment; exact lists and executed harnesses are archived."
+  ],
+  "limits": [
+    "Selected full-game paths do not certify all reachable card interactions. Production admission remains closed.",
+    "Full catalog, special setup/Objectives/capture, CPU/PvP, deck/sealed, clocks/capacity, durable saves and responsive product scope remain required.",
+    "The unresolved failed-Obsession numerical Force amount and earlier documented GEMP discrepancies remain unchanged."
+  ]
+}

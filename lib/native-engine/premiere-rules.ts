@@ -34,7 +34,7 @@ import {vesselTravelActions,vesselTravelResolve,assertVesselTravel,vesselTravelV
 import {assertOccupancy,occupancyView} from './occupancy';
 import {vesselActions,vesselInitiate,vesselResolve,assertVessels} from './vessels';
 import {nighttimeView,sunsdownActions,sunsdownInitiate,sunsdownResolve,assertSunsdown} from './nighttime';
-import {locationRank,isSite} from './board';
+import {locationOrder,isSite} from './board';
 import {labriaActions,labriaInitiate,labriaResolve,labriaChoices,labriaChoose,labriaView,assertLabria} from './labria';
 import {nobleActions, nobleInitiate, nobleResolve, nobleChoices, nobleChoose, assertNoble} from './noble-sacrifice';
 import {angerAutomatic,angerResolve,angerView,assertAnger} from './anger';
@@ -428,8 +428,7 @@ export const premiereRules: Rules = {
       if (!group) throw Error('Location needs its rule metadata.');
       const indices = match.locations.map((id, i) => locationGroup(match, id) === group ? i : -1).filter(i => i >= 0);
       if (indices.some((i, n) => n > 0 && i !== indices[n - 1] + 1)) throw Error('A system must form one contiguous location group.');
-      const ranks = indices.map(i => locationRank(match,match.locations[i]));
-      if (!ranks.every((rank, n) => !n || rank >= ranks[n - 1]) && !ranks.every((rank, n) => !n || rank <= ranks[n - 1])) throw Error('Invalid interior/exterior site arrangement.');
+      if (!locationOrder(match,indices.map(i=>match.locations[i]))) throw Error('Invalid interior/exterior site arrangement.');
     }
     for (const card of Object.values(match.cards)) {
       const def = cardDefinition(match, card.id);

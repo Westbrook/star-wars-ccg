@@ -12,7 +12,7 @@ const publicValues=load(new URL('../../lib/native-engine/public-values.ts',impor
 const ability=load(new URL('../../lib/native-engine/ability.ts',import.meta.url));
 const losses=load(new URL('../../lib/native-engine/loss.ts',import.meta.url));
 const combat=load(new URL('../../lib/native-engine/battle.ts',import.meta.url));
-const {premiereSites}=load(new URL('../../lib/native-engine/premiere-setup.ts',import.meta.url));
+const {premiereLocations}=load(new URL('../../lib/native-engine/premiere-setup.ts',import.meta.url));
 const copy=x=>JSON.parse(JSON.stringify(x));
 const phases=['activate','control','deploy','battle','move','draw'];
 
@@ -28,7 +28,7 @@ export function shuffleEntropy(before,after){
  * order within each system: sorting all locations would hide adjacency bugs. */
 export function normalizedCheckpoint(s,cards){
  const groups=new Map();
- for(const id of s.locations){const system=premiereSites[cards[id].blueprint]?.system;assert.ok(system);if(!groups.has(system))groups.set(system,[]);groups.get(system).push(id);}
+ for(const id of s.locations){const system=premiereLocations[cards[id].blueprint]?.system;assert.ok(system);if(!groups.has(system))groups.set(system,[]);groups.get(system).push(id);}
  return {...s,...(s.phase==='between_turns'?{phase:'activate'}:{}),locations:[...groups.keys()].sort().flatMap(group=>groups.get(group)),players:Object.fromEntries(Object.entries(s.players).map(([side,p])=>[side,{...p,hand:[...p.hand].sort()}]))};
 }
 function snapshot(m,expected,version){
@@ -36,7 +36,7 @@ function snapshot(m,expected,version){
  if(version>=5&&expected.battleLosses)assert.ok(expected.battleDestinies,'Version 5 damage checkpoints require completed destiny evidence');
  for(const card of expected.table)if(card.stats){const actual=values.characters[card.id];assert.ok(actual,'Missing public character values');assert.deepEqual({power:actual.power,ability:actual.ability,forfeit:actual.forfeit},card.stats,'Public character values must match GEMP');}
  const result={turn:m.turn.number,side:m.turn.side,phase:m.turn.phase,locations:[...m.locations],players:Object.fromEntries(['dark','light'].map(side=>[side,Object.fromEntries(['reserve','force','used','lost','hand'].map(p=>[p,[...m.players[side][p]]]))])),table:Object.values(m.cards).filter(c=>c.zone==='table'&&(c.location||version>=4&&board.cardDefinition(m,c.id).type!=='Location')).map(c=>({id:c.id,...(c.location?{location:c.location}:{}),...(version>=3?{...(c.attachedTo?{attachedTo:c.attachedTo}:{}),hit:combat.battle(m)?.hits.includes(c.id)??false}:{}),...(version>=2&&board.cardDefinition(m,c.id).type==='Character'?{stats:{power:board.power(m,c.id,combat.battle(m)?.stage!=='complete'&&combat.battle(m)?.initiator!==c.owner&&combat.members(m,c.owner).includes(c.id)),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)}}:{})})).sort((a,b)=>a.id.localeCompare(b.id))};
- if(version>=6)for(const c of result.table){const card=m.cards[c.id],def=board.cardDefinition(m,c.id);if(def.type==='Vehicle')c.vesselStats={power:board.power(m,c.id),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)};if(card.aboardRole)c.aboardRole=card.aboardRole;}
+ if(version>=6)for(const c of result.table){const card=m.cards[c.id],def=board.cardDefinition(m,c.id);if(def.type==='Vehicle'||version>=7&&def.type==='Starship')c.vesselStats={power:board.power(m,c.id),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)};if(card.aboardRole)c.aboardRole=card.aboardRole;}
  if(expected.battleLosses){const b=combat.battle(m);assert.ok(b);result.battleLosses=Object.fromEntries(['dark','light'].map(side=>[side,{damage:combat.battleDamage(m,side),totalDamage:b.damageLedger?losses.lossTotal(m,side,b.damageLedger[side]):b.initialDamage[side],totalAttrition:b.initialAttrition[side],...(version>=5?{attrition:b.attrition[side]}:{})}]));}
  if(expected.battleDestinies){
   const b=combat.battle(m);assert.ok(b);
@@ -52,10 +52,10 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
- if(!['activate','draw','deploy','equip','fire','site','move','battle','drain','barrier','reduce','explode','macroscan','peek','kintan','old-ben','stun','dice','takeel','run-luke','escape','vehicle-react'].includes(kind))return;
+ if(!['activate','draw','deploy','equip','fire','site','move','battle','drain','barrier','reduce','explode','macroscan','peek','kintan','old-ben','stun','dice','takeel','run-luke','escape','vehicle-react','hyperspace'].includes(kind))return;
  const index=row.parameters.actionId?.indexOf(row.answer);assert.ok(index>=0,'Reference action answer missing');
  const label=row.parameters.actionText[index].toLowerCase();
- const valid=kind==='vehicle-react'?label==="move using landspeed as a 'react'":kind==='activate'?label==='activate force':kind==='draw'?label==='draw card into hand from force pile':
+ const valid=kind==='hyperspace'?label==='move using hyperspeed':kind==='vehicle-react'?label==="move using landspeed as a 'react'":kind==='activate'?label==='activate force':kind==='draw'?label==='draw card into hand from force pile':
   kind==='move'?label==='move using landspeed':kind==='fire'?label.startsWith('fire '):['deploy','equip','site','macroscan'].includes(kind)?label.startsWith('deploy')&&row.state.players[row.semantic.side].hand.includes(row.semantic.card):
   kind==='run-luke'?label==='move luke to battle':kind==='escape'?label==='move cards with ability away':kind==='stun'?label==='return character to hand':kind==='dice'?label==='cancel and re-draw battle destiny':kind==='takeel'?label==='switch battle destiny numbers':
   kind==='kintan'?label==='regenerate top-most character':kind==='old-ben'?label.startsWith('revive '):kind==='peek'?label.startsWith('peek at top'):kind==='battle'?label.startsWith('initiate battle'):kind==='barrier'?label.startsWith('prevent '):kind==='reduce'?label==='reduce force loss':kind==='explode'?label==="'explode'":label.startsWith('force drain');
@@ -70,6 +70,17 @@ export function followingTarget(rows,index,kind){
   assert.equal(tag,kind,'Missing target before the next reference action');return row;
  }
  throw Error('Reference target missing: '+kind);
+}
+
+/** GEMP omits its capacity dialog when only one role fits. Read that role
+ * from this deployment's first completed state, never a later reassignment. */
+export function deployedCrewRole(rows,index,card,target){
+ for(const row of rows.slice(index+1)){
+  const placed=row.state.table.find(c=>c.id===card);
+  if(placed){assert.equal(placed.attachedTo,target,'Crew deployment host mismatch');assert.ok(['pilot','driver','passenger'].includes(placed.aboardRole),'Missing deployed crew role');return placed.aboardRole;}
+  assert.ok(!row.semantic||['pass','deploy-target','crew-capacity'].includes(row.semantic.kind),'Crew role missing before the next reference action');
+ }
+ throw Error('Missing completed crew deployment');
 }
 
 /** Lost Pile dialogs also include cards that cannot be selected. Validate the
@@ -135,9 +146,11 @@ export function inspectionChoice(rows,index,canMove){
 }
 
 export function replayGempMatch(record,{onCheckpoint}={}){
- assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
+ assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
- const profile=record.deckProfile===undefined?null:JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/hoth-vehicles-decks.json',import.meta.url)));
+ const profiles={'hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json'};
+ if(record.deckProfile!==undefined)assert.ok(Object.hasOwn(profiles,record.deckProfile),'Unknown fixed reference deck profile');
+ const profile=record.deckProfile===undefined?null:JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/'+profiles[record.deckProfile],import.meta.url)));
  if(profile)assert.equal(record.deckProfile,profile.id,'Unknown fixed reference deck profile');
  const decks=profile?profile.decks.map(d=>({side:d.side,cards:d.main})):starterDecks(60);
  const auditRules=profile?{...starterRules,supports:bp=>decks.some(d=>d.cards.includes(bp)),starting:{...starterRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>decks.some(d=>d.side===c.owner&&d.cards.includes(c.blueprint)))}}:starterRules;
@@ -184,8 +197,8 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     const target=followingTarget(rows,index,'deploy-target'),to=target.semantic.card,type=board.cardDefinition(m,to).type;
     if(['Vehicle','Starship'].includes(type)){
      const next=rows.slice(rows.indexOf(target)+1).find(r=>r.semantic&&r.semantic.kind!=='pass');
-     let role=(board.cardDefinition(m,s.card).icons??[]).includes('Pilot')?'pilot':'passenger';
-     if(next?.semantic.kind==='crew-capacity'){const options=next.parameters.results;assert.ok(options&&Number.isSafeInteger(Number(next.answer)));role=options[Number(next.answer)].toLowerCase();assert.ok(['pilot','driver','passenger'].includes(role));}
+     const role=deployedCrewRole(rows,index,s.card,to);
+     if(next?.semantic.kind==='crew-capacity'){const options=next.parameters.results;assert.ok(options&&Number.isSafeInteger(Number(next.answer)));assert.equal(role,options[Number(next.answer)].toLowerCase(),'Capacity answer must agree with deployed role');}
      choices=['vessel:aboard:'+s.card+':'+to+':'+role];
     }else choices=['deploy:'+s.card+':'+to,'vessel:deploy:'+s.card+':'+to];
    }
@@ -237,6 +250,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
    if(s.kind==='inspection'){
     choices=()=>{const frame=m.stack.at(-1);return frame?.handler==='equipment:peek'?[inspectionChoice(rows,index,m.cards[frame.payload.card].blueprint==='1_35')]:[];};
    }
+   if(s.kind==='hyperspace'){const target=followingTarget(rows,index,'move-target');choices=['voyage:hyperspace:'+s.card+':'+target.semantic.card];}
    if(s.kind==='vehicle-react'){const target=followingTarget(rows,index,'move-target');choices=['vehicle-react:'+s.card+':'+target.semantic.card];}
    if(s.kind==='battle')choices=['battle:'+s.card];
    if(s.kind==='drain')choices=['drain:'+s.card];
@@ -251,7 +265,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
-   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react'].includes(s.kind)){
+   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
     // observer from changing either the reference or the continuing replay.

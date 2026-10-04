@@ -45,7 +45,7 @@ export function sectorPlacements(m:Match,id:string):SectorPlacement[]{
   const conversions:SectorPlacement[]=group.filter(x=>sectorFamily(m,x)===def.family&&m.cards[x].owner!==m.cards[id].owner).map(at=>({id:'over:'+at,label:'Convert '+cardDefinition(m,at).name+' at '+system,replace:at,sector:system}));
   if(group.filter(x=>sectorFamily(m,x)===def.family).length>=def.limit)return conversions;
   if(!group.length)return [{id:'sector:'+system+':'+m.locations.length,label:'Start the '+system+' group',index:m.locations.length,sector:system}];
-  const first=m.locations.indexOf(group[0]),rank=(x:string)=>sectorRank(m,x)??(premiereSystems[m.cards[x].blueprint]?4:(cardDefinition(m,x).icons as string[]).includes('Interior')?((cardDefinition(m,x).icons as string[]).includes('Exterior')?1:0):2);
+  const first=m.locations.indexOf(group[0]),rank=(x:string)=>sectorRank(m,x)??(premiereSystems[m.cards[x].blueprint]?4:0);
   return [...conversions,...Array.from({length:group.length+1},(_,i)=>i).filter(i=>{const order=[...group];order.splice(i,0,id);const ranks=order.map(rank);return caveOrder(m,order)&&(ranks.every((v,n)=>!n||v>=ranks[n-1])||ranks.every((v,n)=>!n||v<=ranks[n-1]));}).map(i=>({id:'sector:'+system+':'+(first+i),label:system+' · '+(i===group.length?'after '+cardDefinition(m,group.at(-1)!).name:'before '+cardDefinition(m,group[i]).name),index:first+i,sector:system}))];
  });
 }

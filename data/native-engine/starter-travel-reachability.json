@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "auditedAt": "2026-10-04T18:18:18.218237+00:00",
+  "auditedAt": "2026-10-04T19:23:30.433562+00:00",
   "baseCommit": "0a011cc37185cea0f52c1d31b28520cc9d2d45fb",
   "purpose": "Source-bound reachability analysis for the exact intro pair, not full-deck certification.",
   "classification": "outside-current-pair",
@@ -371,7 +371,7 @@
     "lib/native-engine/beru-stew.ts": "1f93fbc1229ae26330a54f38118484f11e4cd233babdb90979d2f1f5603d153b",
     "lib/native-engine/bespin.ts": "0b2f838ab0a2e4d5f296212eb4a88dac29b605de3e3b689963c9273f1eeb0b2d",
     "lib/native-engine/blown-away.ts": "ce9205ee25e580472f2ca045a55a190eedaa04933ffae30d517abda820ae0d67",
-    "lib/native-engine/board.ts": "db281b2c0afd19323454e5ccee3ca0dd9bff3c2d44c7f5f1e0f6496b0bc5130e",
+    "lib/native-engine/board.ts": "f9eb23790a03df6aef019fb7f39eb6702c7e9278854187b091ec48393b40e6a2",
     "lib/native-engine/cancellation.ts": "f7ba7398d56e551fa068e7a4d0cb787e7a2c1b50a2f236b72fe0af581d1000e6",
     "lib/native-engine/capacity-loss.ts": "a5db66dbb2af8a5953374c2bd45abbc31bbeb1fed6dfcb4054a0daa27f48260c",
     "lib/native-engine/card-immunity.ts": "7491270e61e33d2324b8c458864a696e6663a8dcce33f31ea2a1465ad1f7b198",
@@ -460,7 +460,7 @@
     "lib/native-engine/piloting.ts": "1892b1a87166fcef518116f7d146da29c99dc04b2c7845cc03767842459d7217",
     "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
-    "lib/native-engine/premiere-rules.ts": "3d55bd85bde1224848211f7689d01cebb39fd17ddab23aeaf6011cc35d2ee025",
+    "lib/native-engine/premiere-rules.ts": "9b1967af3c63661b0b5e1cb41e869c89ada49a6a2ee33ef3daade4962cf8782a",
     "lib/native-engine/premiere-setup.ts": "b95ebee0c056ddbfc09f47ca22e71441f669b1a1d15c93a4f26ff9a463e7c7cc",
     "lib/native-engine/protocol-droid.ts": "b4057bd27173cd88ea96d58b1584322365ac7f3194f401e3199c108864e6a1e6",
     "lib/native-engine/public-values.ts": "a4d187766cad6467e6bcd071d7ed07b766b624bede25823734374d7e3c96d307",
@@ -478,7 +478,7 @@
     "lib/native-engine/secret-plans.ts": "7e4cda2955b66d977679b1a2e9a51f4efb6b5b38c17a652f1f66bc23efd816a2",
     "lib/native-engine/sector-definitions.ts": "8ea09f52a3d20bb53e0b38027a8496c7f555144bd4f79d6984210d4e5212c5ec",
     "lib/native-engine/sector-effects.ts": "7890cc73e58e089f19e2ce01082c9e99dfc561612e0457ff1d5a91f0ddaeac9b",
-    "lib/native-engine/sectors.ts": "a7d2619ec35c4e79636563eb08619b8b630fdc3699543bdba43c3476784fce6a",
+    "lib/native-engine/sectors.ts": "aff7c1008a116c0720ed4ea8c132de873d937104f7e175fcc72ae6502385cca8",
     "lib/native-engine/server.ts": "97640a61463f9cf16f51ea1fe3e0ff5d0ddb9adc4da20eb7eb1acdba756687ec",
     "lib/native-engine/service.ts": "eb4ff41ce9f34f040067304f158560d632c24f45654ca502e73c5d28476f89da",
     "lib/native-engine/setup.ts": "837397a33735d8dc878c7fee42f596621e5a53c248e0f3230337b3ee7aab8b74",
@@ -527,6 +527,21 @@
       "reason": "Snowspeeder 3_69 and all Vehicle definitions are absent from both exact starter lists. New Escape routing applies only to Vehicle targets. Existing Character choices, payment and handlers are unchanged. Pilot reaction capacity only adds roles permitted by the actual carrier; no starter carrier exists. Thus no new pending movement response provider or return/late-arrival path is reachable in the exact pair.",
       "evidence": [
         "tests/native-engine/vehicle-escape.test.mjs",
+        "tests/native-engine/travel-response.test.mjs"
+      ]
+    },
+    {
+      "at": "2026-10-04T19:23:30.433562+00:00",
+      "files": [
+        "lib/native-engine/board.ts",
+        "lib/native-engine/sectors.ts",
+        "lib/native-engine/premiere-rules.ts"
+      ],
+      "reason": "Reviewed changes only decouple planetary site orientation from systems/sectors and limit on-world belt bonuses to sites/clouds. Exact starter lists contain no system or sector, and ground belt values remain unchanged. No action, trigger, departure, return or late-arrival provider is added; pending character movement response reachability is unchanged.",
+      "evidence": [
+        "tests/native-engine/location-orientation.test.mjs",
+        "tests/native-engine/utility-belt-space.test.mjs",
+        "tests/native-engine/gemp/space-match-provenance.json",
         "tests/native-engine/travel-response.test.mjs"
       ]
     }
