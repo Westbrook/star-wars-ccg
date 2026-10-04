@@ -1,0 +1,26 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": null,
+  "files": {
+    "NativeEngineMatchingPilotOracleTests.java": "e87bf27f9e68913f17670ca7b34d262e5eba495ef34d19247afd53a9ba3bf090",
+    "matching-pilot-results.json": "c408804f9a5d5161177304f71640e8c88f75b996d21df9941668e9cfe11e6a39"
+  },
+  "junitTests": 2,
+  "observations": 19,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineMatchingPilotOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf (matching pilots/starships and searching a pile)",
+  "scope": "Biggs/Red 3, Wedge/Red 2 and DS-61-2/Black 2 real pilot deployment, matching and mismatched ship statistics, landed/canceled-text values, battle destiny eligibility and Red 2 immunity. Wedge paid successful/repeated/failed searches and source departure.",
+  "method": [
+    "Controlled board, Force and Reserve fixtures; actual GEMP player actions deploy pilots, initiate battles and pay/resolve searches.",
+    "Canceled text uses the established canceled-text flag and corresponding turn modifier; battle destiny comparison queries eligibility during the actual battle weapons segment. Native tests additionally execute physical destiny draws.",
+    "All nineteen complete outcome records are compared with native command replays. JSON-round-trip and both-seat projection checks run at each native step."
+  ],
+  "limitations": [
+    "Production full-match admission remains closed. Remaining matching pilots, navigation grants/cancellation, ship sectors, mobile variants, Attack Run, capture/Objectives/setup and full engine/product scope persist.",
+    "Search response nesting, original-card bindings, cancellation, source departure, opponent-turn/battle eligibility and UI recovery have native checks; only the four published search outcome rows claim executed GEMP comparisons. Exact internal search trigger order is not established by final outcomes.",
+    "No production reference edits; all 6820 src/main files match the pinned archive."
+  ]
+}

@@ -36,7 +36,7 @@ export function vesselRoutes(m:Match,id:string):Route[]{
   for(const to of m.locations)if(to!==from&&orbitTransfer(m,from,to))out.push({method:'orbit',path:[from,to],cost:1});
   if(!capital(m,id))for(const to of m.locations.filter(to=>exterior(m,to)&&system(m,to)===origin.system)){
    const bay=bayCosts[m.cards[to].blueprint]!==undefined;
-   if(['1_305','1_300'].includes(m.cards[id].blueprint)&&!bay)continue;
+   if(['1_305','1_300','1_299'].includes(m.cards[id].blueprint)&&!bay)continue;
    out.push({method:'land',path:[from,to],cost:bay?0:1});
   }
  }else if(exterior(m,from)&&pilotAboard(m,id)){

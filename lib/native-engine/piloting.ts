@@ -7,22 +7,29 @@ import {hasPersona} from './persona';
 import {crewActive,landed,operational,occupants} from './occupancy';
 import type {Match} from './types';
 
-const powerBonuses:Record<string,number>={'1_8':2,'1_174':3,'1_11':2,'5_5':2,'1_4':3,'1_172':2,'1_19':3,'3_3':3,'5_99':2,'4_1':2,'9_24':2,'1_168':3,'1_167':2,'1_179':2};
-const matchingShips:Record<string,string>={'1_8':'GOLD_1','1_174':'BLACK_3'};
+const powerBonuses:Record<string,number>={'1_3':2,'2_23':3,'1_173':3,'1_8':2,'1_174':3,'1_11':2,'5_5':2,'1_4':3,'1_172':2,'1_19':3,'3_3':3,'5_99':2,'4_1':2,'9_24':2,'1_168':3,'1_167':2,'1_179':2};
+const matchingShips:Record<string,{persona?:string;blueprint?:string;maneuver:number}>={
+ '1_8':{persona:'GOLD_1',maneuver:1},'1_174':{persona:'BLACK_3',maneuver:1},
+ '1_3':{blueprint:'1_145',maneuver:1},'2_23':{persona:'RED_2',maneuver:2},'1_173':{persona:'BLACK_2',maneuver:1},
+};
 /** A pilot seat is not enough: landed pilots are passengers for functions,
  * and excluded crew cannot operate or enhance a vessel during battle. */
 export function actingPilot(m:Match,id:string):boolean {
  const c=m.cards[id];return !!c&&c.aboardRole==='pilot'&&!!c.attachedTo&&crewActive(m,id)&&crewActive(m,c.attachedTo)&&!landed(m,c.attachedTo);
 }
 export function matchingPilot(m:Match,id:string):boolean {
- const c=m.cards[id],persona=matchingShips[c?.blueprint];return !!persona&&actingPilot(m,id)&&gameTextActive(m,id)&&hasPersona(m,c.attachedTo!,persona);
+ return matchingPilotManeuver(m,id)>0;
+}
+export function matchingPilotManeuver(m:Match,id:string):number {
+ const c=m.cards[id],rule=matchingShips[c?.blueprint];
+ return rule&&actingPilot(m,id)&&gameTextActive(m,id)&&(rule.persona?hasPersona(m,c.attachedTo!,rule.persona):m.cards[c.attachedTo!].blueprint===rule.blueprint)?rule.maneuver:0;
 }
 export const pilotPowerBonus=(m:Match,id:string)=>actingPilot(m,id)&&gameTextActive(m,id)?powerBonuses[m.cards[id].blueprint]??0:0;
 /** Missing maneuver stays missing. Unpiloted maneuver is unmodifiable zero. */
 export function vesselManeuver(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).maneuver;if(raw===undefined)return null;
  if(!Number.isFinite(Number(raw)))throw Error('Maneuver needs a printed-value provider.');
- return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+(matchingPilot(m,c.id)?1:0)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0),0)):0;
+ return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+matchingPilotManeuver(m,c.id)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0),0)):0;
 }
 const keywords:Record<string,{keywords:string[]}>=identities;
 export function squadronPilot(m:Match,id:string,squadron:string):boolean {
@@ -79,3 +86,7 @@ export function repairDroidBonus(m:Match,id:string):number {
 }
 
 export const repairCrew=(m:Match,id:string)=>occupants(m,id).filter(c=>['2_15','2_101'].includes(c.blueprint)&&crewActive(m,c.id)&&gameTextActive(m,c.id));
+
+export function redTwoImmunity(m:Match,id:string):number {
+ return m.cards[id].blueprint==='2_70'&&gameTextActive(m,id)&&occupants(m,id).some(c=>actingPilot(m,c.id)&&hasPersona(m,c.id,'WEDGE'))?3:0;
+}

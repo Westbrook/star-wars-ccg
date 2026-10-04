@@ -1901,5 +1901,75 @@
     "models": [],
     "nonUnique": true,
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_088.java"
+  },
+  "1_3": {
+    "keywords": [
+      "RED_SQUADRON"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_003.java"
+  },
+  "2_23": {
+    "keywords": [
+      "SMUGGLER"
+    ],
+    "species": [
+      "CORELLIAN"
+    ],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "WEDGE"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_023.java"
+  },
+  "1_173": {
+    "keywords": [
+      "BLACK_SQUADRON"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "DS_61_2"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_173.java"
+  },
+  "2_70": {
+    "keywords": [
+      "RED_SQUADRON"
+    ],
+    "species": [],
+    "models": [
+      "X_WING"
+    ],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "RED_2"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_070.java"
+  },
+  "1_299": {
+    "keywords": [
+      "BLACK_SQUADRON",
+      "NO_HYPERDRIVE"
+    ],
+    "species": [],
+    "models": [
+      "TIE_LN"
+    ],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "BLACK_2"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_299.java"
   }
 }

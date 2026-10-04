@@ -1,0 +1,180 @@
+[
+  {
+    "kind": "search",
+    "mode": "success",
+    "cost": 1,
+    "slipsInHand": 1,
+    "again": true
+  },
+  {
+    "kind": "search",
+    "mode": "repeat",
+    "cost": 2,
+    "slipsInHand": 2,
+    "again": true
+  },
+  {
+    "kind": "search",
+    "mode": "failure",
+    "cost": 1,
+    "slipsInHand": 2,
+    "again": false
+  },
+  {
+    "kind": "search",
+    "mode": "source-leaves",
+    "cost": 1,
+    "slipsInHand": 1,
+    "again": false
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_3",
+    "mode": "matched",
+    "deploymentCost": 2,
+    "power": 5,
+    "maneuver": 5,
+    "immunity": 0.0,
+    "draws": 1
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_3",
+    "mode": "other-ship",
+    "deploymentCost": 2,
+    "power": 4,
+    "maneuver": 3,
+    "immunity": 0.0,
+    "draws": 0
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_3",
+    "mode": "landed",
+    "deploymentCost": 2,
+    "power": 0,
+    "maneuver": 0,
+    "immunity": 0.0,
+    "draws": null
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_3",
+    "mode": "pilot-canceled",
+    "deploymentCost": 2,
+    "power": 3,
+    "maneuver": 4,
+    "immunity": 0.0,
+    "draws": 0
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_3",
+    "mode": "ship-canceled",
+    "deploymentCost": 2,
+    "power": 5,
+    "maneuver": 5,
+    "immunity": 0.0,
+    "draws": 1
+  },
+  {
+    "kind": "pilot",
+    "pilot": "2_23",
+    "mode": "matched",
+    "deploymentCost": 2,
+    "power": 6,
+    "maneuver": 6,
+    "immunity": 3.0,
+    "draws": 1
+  },
+  {
+    "kind": "pilot",
+    "pilot": "2_23",
+    "mode": "other-ship",
+    "deploymentCost": 2,
+    "power": 5,
+    "maneuver": 3,
+    "immunity": 0.0,
+    "draws": 0
+  },
+  {
+    "kind": "pilot",
+    "pilot": "2_23",
+    "mode": "landed",
+    "deploymentCost": 2,
+    "power": 0,
+    "maneuver": 0,
+    "immunity": 0.0,
+    "draws": null
+  },
+  {
+    "kind": "pilot",
+    "pilot": "2_23",
+    "mode": "pilot-canceled",
+    "deploymentCost": 2,
+    "power": 3,
+    "maneuver": 4,
+    "immunity": 3.0,
+    "draws": 0
+  },
+  {
+    "kind": "pilot",
+    "pilot": "2_23",
+    "mode": "ship-canceled",
+    "deploymentCost": 2,
+    "power": 6,
+    "maneuver": 6,
+    "immunity": 0.0,
+    "draws": 1
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_173",
+    "mode": "matched",
+    "deploymentCost": 2,
+    "power": 4,
+    "maneuver": 5,
+    "immunity": 0.0,
+    "draws": 1
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_173",
+    "mode": "other-ship",
+    "deploymentCost": 2,
+    "power": 4,
+    "maneuver": 1,
+    "immunity": 0.0,
+    "draws": 0
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_173",
+    "mode": "landed",
+    "deploymentCost": 2,
+    "power": 0,
+    "maneuver": 0,
+    "immunity": 0.0,
+    "draws": null
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_173",
+    "mode": "pilot-canceled",
+    "deploymentCost": 2,
+    "power": 1,
+    "maneuver": 4,
+    "immunity": 0.0,
+    "draws": 0
+  },
+  {
+    "kind": "pilot",
+    "pilot": "1_173",
+    "mode": "ship-canceled",
+    "deploymentCost": 2,
+    "power": 4,
+    "maneuver": 5,
+    "immunity": 0.0,
+    "draws": 1
+  }
+]

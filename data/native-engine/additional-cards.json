@@ -2084,5 +2084,115 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_088.java"
+  },
+  {
+    "gempId": "1_3",
+    "name": "Biggs Darklighter",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/biggsdarklighter.gif",
+    "text": "Adds 2 to power of anything he pilots. When piloting Red 3, also adds 1 to maneuver and draws one battle destiny if not able to otherwise.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "2",
+      "destiny": "2",
+      "forfeit": "5"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_003.java"
+  },
+  {
+    "gempId": "2_23",
+    "name": "Wedge Antilles",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/wedgeantilles.gif",
+    "text": "Adds 3 to power of anything he pilots. When piloting Red 2, also adds 2 to maneuver and draws one battle destiny if not able to otherwise. May use 1 Force to take one Corellian Slip into hand from Reserve Deck; reshuffle.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "2",
+      "destiny": "4",
+      "forfeit": "6"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior",
+      "A New Hope"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_023.java"
+  },
+  {
+    "gempId": "1_173",
+    "name": "DS-61-2",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/ds612.gif",
+    "text": "Adds 3 to power of anything he pilots. When piloting Black 2, also adds 1 to maneuver and may draw one battle destiny if not able to otherwise.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "2",
+      "destiny": "2",
+      "forfeit": "4"
+    },
+    "icons": [
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_173.java"
+  },
+  {
+    "gempId": "2_70",
+    "name": "Red 2",
+    "side": "light",
+    "type": "Starship",
+    "subType": "Starfighter: X-Wing",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/red2.gif",
+    "text": "May add 1 pilot and 1 astromech. Immune to attrition < 3 if Wedge piloting.",
+    "stats": {
+      "deploy": "2",
+      "power": "3",
+      "destiny": "2",
+      "forfeit": "5",
+      "maneuver": "4",
+      "hyperspeed": "5"
+    },
+    "icons": [
+      "Nav Computer",
+      "Scomp Link",
+      "A New Hope"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_070.java"
+  },
+  {
+    "gempId": "1_299",
+    "name": "Black 2",
+    "side": "dark",
+    "type": "Starship",
+    "subType": "Starfighter: TIE/LN",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/black2.gif",
+    "text": "May add 1 pilot.",
+    "stats": {
+      "deploy": "1",
+      "power": "1",
+      "destiny": "2",
+      "forfeit": "3",
+      "maneuver": "4"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_299.java"
   }
 ]
