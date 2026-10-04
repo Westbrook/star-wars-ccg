@@ -1,0 +1,27 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T08:36:16.239011+00:00",
+  "files": {
+    "NativeEngineRepairOracleTests.java": "3920a6d3b14175a7a046769a7cc04fe1338ded1ce1d1ae560e2abd751c8e2a34",
+    "repair-results.json": "bc1f55c0e4838fc01364dee84995124385da1f0c2df5325866434a3a0c9b56cc"
+  },
+  "junitTests": 1,
+  "observations": 16,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineRepairOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf (R5-D4/R5-A2 errata, automatic phase actions, ion weapons)",
+  "scope": "Both R5 titles: real deployment costs, required end-of-owner-Control repair, aboard power/maneuver bonuses, fighter/capital/landed targets, off-ship droid, canceled text, noncumulative duplicates, undamaged ships and departed ion weapon.",
+  "method": [
+    "Initial ship board, Force, persistent ion resets and ionization flags are fixtures matching IonizeStarshipEffect. This fixture does not fire an ion cannon; separate ion-provenance.json verifies actual firing.",
+    "R5 deployments, phase flow, required actions and stat restoration execute through real GEMP player decisions. Cancellation is a controlled established game-text-canceled flag plus its corresponding persistent modifier.",
+    "All sixteen complete outcome records compared with native command replays; each native step verifies JSON-round-trip projections and immutable prior state."
+  ],
+  "limitations": [
+    "No full deck/match admission. Related ship sites, opponent-owned boarding, additional repair cards/ion effects, broader capture/targeting and full catalog interactions remain required.",
+    "Pending source/target departure, unrelated modifiers, corruption, multi-ship ordering and service reload have additional native checks; no separate executed GEMP comparison is claimed for those branches.",
+    "Two copies on one ship compare resulting values; identical internal no-op trigger counts/order are not claimed.",
+    "The reference has no production edits; all 6820 src/main files match the pinned archive."
+  ]
+}

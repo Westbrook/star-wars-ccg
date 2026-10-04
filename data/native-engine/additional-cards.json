@@ -2027,5 +2027,47 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_081.java"
+  },
+  {
+    "gempId": "2_15",
+    "name": "R5-D4 (Arfive-Defour)",
+    "side": "light",
+    "type": "Character",
+    "subType": "Droid",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/r5d4.gif",
+    "text": "While aboard any starship, adds 1 to power and maneuver. During your control phase, if aboard your starship damaged by an ion cannon, restores armor/maneuver and hyperspeed.",
+    "stats": {
+      "deploy": "2",
+      "power": "1",
+      "destiny": "4",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Nav Computer",
+      "A New Hope"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_015.java"
+  },
+  {
+    "gempId": "2_101",
+    "name": "R5-A2 (Arfive-Aytoo)",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Droid",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/r5a2.gif",
+    "text": "While aboard any starship, adds 1 to power and maneuver. During your control phase, if aboard your starship damaged by an ion cannon, restores armor/maneuver and hyperspeed.",
+    "stats": {
+      "deploy": "2",
+      "power": "1",
+      "destiny": "4",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Nav Computer",
+      "A New Hope"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_101.java"
   }
 ]

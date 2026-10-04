@@ -22,7 +22,7 @@ export const pilotPowerBonus=(m:Match,id:string)=>actingPilot(m,id)&&gameTextAct
 export function vesselManeuver(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).maneuver;if(raw===undefined)return null;
  if(!Number.isFinite(Number(raw)))throw Error('Maneuver needs a printed-value provider.');
- return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+vesselStatBonus(m,id,'maneuver')+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+(matchingPilot(m,c.id)?1:0)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0),0)):0;
+ return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+(matchingPilot(m,c.id)?1:0)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0),0)):0;
 }
 const keywords:Record<string,{keywords:string[]}>=identities;
 export function squadronPilot(m:Match,id:string,squadron:string):boolean {
@@ -70,3 +70,12 @@ export function vesselArmor(m:Match,id:string):number|null {
  if(!Number.isFinite(Number(raw)))throw Error('Armor needs a printed-value provider.');
  return operational(m,id)?vesselStatValue(m,id,'armor',Number(raw)):2;
 }
+
+/** R5 units enhance any directly occupied starship, without adding hyperspeed.
+ * Different titles combine; copies of one title are noncumulative. */
+export function repairDroidBonus(m:Match,id:string):number {
+ if(cardDefinition(m,id).type!=='Starship')return 0;
+ return new Set(repairCrew(m,id).map(c=>cardDefinition(m,c.id).name)).size;
+}
+
+export const repairCrew=(m:Match,id:string)=>occupants(m,id).filter(c=>['2_15','2_101'].includes(c.blueprint)&&crewActive(m,c.id)&&gameTextActive(m,c.id));

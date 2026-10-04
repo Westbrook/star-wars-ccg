@@ -1870,5 +1870,27 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_081.java"
+  },
+  "2_15": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "ASTROMECH"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_015.java"
+  },
+  "2_101": {
+    "keywords": [],
+    "species": [],
+    "models": [
+      "ASTROMECH"
+    ],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_101.java"
   }
 }
