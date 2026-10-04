@@ -6,7 +6,7 @@ export function fixture(extra={}){
 }
 export function deploySector(m,id,group='Tatooine',position=0){
  const side=m.cards[id].owner;m=seek(m,x=>x.turn.side===side&&x.turn.phase==='deploy'&&x.stack.length===1);m=priority(m,side);
- const placements=sitePlacements(m,id).filter(p=>p.sector===group),p=placements[position<0?placements.length-1:position];if(!p)throw Error('No sector placement');
+ const placements=sitePlacements(m,id).filter(p=>p.sector===group&&!p.replace),p=placements[position<0?placements.length-1:position];if(!p)throw Error('No sector placement');
  m=step(m,'site:'+id+':'+p.id);return priority(seek(m,x=>x.stack.length===1),side);
 }
 export {pull,phase,priority,step,seek,ids,load,deploy,state};

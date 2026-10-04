@@ -1,4 +1,4 @@
-import {registerSector} from './sectors';
+import {registerSector,registerCave,convertSectorRelationships} from './sectors';
 import {gameTextActive} from './game-text';
 import {crewActive} from './occupancy';
 import {barred} from './participation';
@@ -188,7 +188,9 @@ export function groundResolve(m: Match, resolution: Resolution): void {
       if (m.data.nighttimeSites) m.data.nighttimeSites = (m.data.nighttimeSites as string[]).map(site => site === old ? id : site); m.cards[old].coveredBy = id; m.locations[m.locations.indexOf(old)] = id;
       for (const card of Object.values(m.cards)) {if (card.location === old) card.location = id; if(card.attachedTo===old)card.attachedTo=id; if (card.coveredBy === old) card.coveredBy = id;}
       const current = record(m); current.drained = current.drained.map(site => site === old ? id : site);
-    } else {m.locations.splice(placement.index!, 0, id);if(placement.sector)registerSector(m,id,placement.sector);}
+      convertSectorRelationships(m,old,id);
+    } else {m.locations.splice(placement.index!, 0, id);}
+    if(placement.sector)registerSector(m,id,placement.sector);if(placement.cave)registerCave(m,id,placement.cave);
     deployed(m, id);
   } else if (kind === 'ground:move') {
     if (!sameCard(m, data.cardRef!) || m.cards[data.card!].attachedTo || m.cards[data.card!].location !== data.from) return;

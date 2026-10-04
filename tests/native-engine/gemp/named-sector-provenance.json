@@ -1,0 +1,27 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T11:12:03.981891+00:00",
+  "files": {
+    "NativeEngineNamedSectorOracleTests.java": "c5cd300a35f34c2540f1072721f7231e78268cde25439605534944b426ae6bfe",
+    "named-sector-results.json": "70c75925696e29c2ec790c9b852056bb5450fc4ff79a8041b79405cddc2685b5"
+  },
+  "junitTests": 4,
+  "observations": 11,
+  "exactAgreements": 11,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineNamedSectorOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp36,67,84\u201387,163\u2013164,182,184",
+  "scope": "Named sector costs, drain modifiers, ship statistics, battle power, and actual cave/Big One/Asteroid Field conversion.",
+  "method": [
+    "GEMP controls board placement and samples actual modifier queries for four Bespin control states, two Big One drains, and Cloud City ship values. Native uses the same blueprints and board relationships.",
+    "Both engines initiate a real battle for the Cloud City power observation, and perform actual opponent location deployment/conversion for three conversion rows.",
+    "All eleven full recorded rows compare against native outputs, with native serialization validation. Pinned production source files remain byte-identical to the downloaded archive."
+  ],
+  "limitations": [
+    "Placement ordering, cave landing/takeoff, related-system drain cancellation, starting setup, target-cost payment and saved-state corruption have native command tests; no fresh GEMP parity claim for those additional branches.",
+    "Space Slug habitat, mouth and belly conversion/loss remain unimplemented. Cloud vehicles, broader location/card behavior and the entire remaining native-engine/product scope remain required.",
+    "Production admission remains false. No new standalone Rules Lab scenario."
+  ]
+}

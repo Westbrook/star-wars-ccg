@@ -1,6 +1,6 @@
 import {asteroidActions,asteroidAutomatic,asteroidInitiate,asteroidResolve,asteroidView,assertAsteroids} from './asteroids';
 import {sectorActions,sectorInitiate,sectorResolve,assertSectorEffects} from './sector-effects';
-import {assertSectors,sectorsView,sectorKind,locationGroup} from './sectors';
+import {assertSectors,sectorsView,sectorKind,isCave,locationGroup} from './sectors';
 import {scheduleCapacityLoss,capacityChoices,capacityChoose,assertCapacityLoss} from './capacity-loss';
 import {lostArtooActions,lostArtooInitiate,lostArtooAutomatic,lostArtooResolve,lostArtooView,assertLostArtoo} from './lost-artoo';
 import {fighterTroubleActions,fighterTroubleInitiate,fighterTroubleResolve,fighterTroubleView,assertFighterTrouble} from './fighter-trouble';
@@ -382,7 +382,7 @@ export const premiereRules: Rules = {
     assertBattle(match);
     assertLeaving(match);
     if (!citySitesTogether(match, match.locations)) throw Error('Mos Eisley sites must remain together.');
-    if (new Set(match.locations.filter(id=>!sectorKind(match,id)).map(id => name(match, id))).size !== match.locations.filter(id=>!sectorKind(match,id)).length) throw Error('Duplicate active location identity.');
+    if (new Set(match.locations.filter(id=>!sectorKind(match,id)&&!isCave(match,id)).map(id => name(match, id))).size !== match.locations.filter(id=>!sectorKind(match,id)&&!isCave(match,id)).length) throw Error('Duplicate active location identity.');
     const groups = new Set(match.locations.map(id => locationGroup(match, id)));
     for (const group of groups) {
       if (!group) throw Error('Location needs its rule metadata.');

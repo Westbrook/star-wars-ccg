@@ -2342,5 +2342,157 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_085.java"
+  },
+  {
+    "gempId": "5_76",
+    "name": "Bespin",
+    "side": "light",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Light/large/bespin.gif",
+    "text": "Light: If you control, opponent's characters and vehicles deploy +1 to Cloud City locations. Dark: If you control, your characters and vehicles deploy -1 to Cloud City locations.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "6"
+    },
+    "icons": [
+      "Planet",
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_076.java"
+  },
+  {
+    "gempId": "5_164",
+    "name": "Bespin",
+    "side": "dark",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Dark/large/bespin.gif",
+    "text": "Dark: If you control, opponent's characters and vehicles deploy +1 to Cloud City locations. Light: If you control, your characters and vehicles deploy -1 to Cloud City locations.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "6"
+    },
+    "icons": [
+      "Planet",
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_164.java"
+  },
+  {
+    "gempId": "5_77",
+    "name": "Bespin: Cloud City",
+    "side": "light",
+    "type": "Location",
+    "subType": "Sector",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Light/large/bespincloudcity.gif",
+    "text": "Light: If you control, for each of your starships or vehicles here, your total power is +1 in battles at Cloud City sites. Dark: If you control, for each of your starships or vehicles here, your total power is +1 in battles at Cloud City sites.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Planet",
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_077.java"
+  },
+  {
+    "gempId": "5_165",
+    "name": "Bespin: Cloud City",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Sector",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Dark/large/bespincloudcity.gif",
+    "text": "Dark: If you control, for each of your starships or vehicles here, your total power is +1 in battles at Cloud City sites. Light: If you control, for each of your starships or vehicles here, your total power is +1 in battles at Cloud City sites.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Planet",
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_165.java"
+  },
+  {
+    "gempId": "4_82",
+    "name": "Big One",
+    "side": "light",
+    "type": "Location",
+    "subType": "Sector",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Light/large/bigone.gif",
+    "text": "Light: 'Asteroid Rules' in effect here. If you control, Force drain +1 here for each Asteroid Field at same system. Dark: 'Asteroid Rules' in effect here. If you control, Force drain +1 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Space",
+      "Dagobah"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_082.java"
+  },
+  {
+    "gempId": "4_156",
+    "name": "Big One",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Sector",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Dark/large/bigone.gif",
+    "text": "Dark: 'Asteroid Rules' in effect here. If you control, Force drain +1 here for each Asteroid Field at same system. Light: 'Asteroid Rules' in effect here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Space",
+      "Dagobah"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_156.java"
+  },
+  {
+    "gempId": "4_83",
+    "name": "Big One: Asteroid Cave Or Space Slug Belly",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Light/large/bigoneasteroidcaveorspaceslugbelly.gif",
+    "text": "Light: 'Cave Rules' in effect here. If you control, may cancel Force drains at system Related to Big One. Dark: 'Cave Rules' in effect here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Interior",
+      "Exterior",
+      "Creature Site",
+      "Planet",
+      "Dagobah"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_083.java"
+  },
+  {
+    "gempId": "4_157",
+    "name": "Big One: Asteroid Cave Or Space Slug Belly",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Dark/large/bigoneasteroidcaveorspaceslugbelly.gif",
+    "text": "Dark: 'Cave Rules' in effect here. If you control, may cancel Force drains at system related to Big One. Light: 'Cave Rules' in effect here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Interior",
+      "Exterior",
+      "Creature Site",
+      "Planet",
+      "Dagobah"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_157.java"
   }
 ]

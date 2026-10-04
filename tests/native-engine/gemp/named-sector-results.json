@@ -1,0 +1,47 @@
+[
+  {
+    "cost": 1.0,
+    "mode": "bespin-empty"
+  },
+  {
+    "cost": 2.0,
+    "mode": "bespin-light"
+  },
+  {
+    "cost": 0.0,
+    "mode": "bespin-dark"
+  },
+  {
+    "cost": 1.0,
+    "mode": "bespin-contested"
+  },
+  {
+    "drain": 2.0,
+    "mode": "big-owner"
+  },
+  {
+    "drain": 2.0,
+    "mode": "big-opponent"
+  },
+  {
+    "maneuver": 3.0,
+    "mode": "city-stats",
+    "power": 2.0
+  },
+  {
+    "power": 4.0,
+    "mode": "city-battle"
+  },
+  {
+    "mode": "cave-conversion",
+    "converted": true
+  },
+  {
+    "mode": "big-conversion",
+    "converted": true
+  },
+  {
+    "mode": "field-conversion",
+    "converted": true
+  }
+]

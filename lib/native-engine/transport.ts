@@ -1,3 +1,4 @@
+import {bespinDeployModifier} from './bespin';
 import {spaceLocation,sectorsAt} from './sectors';
 import {deployValue} from './deploy-costs';
 import {cardDefinition} from './definitions';
@@ -59,7 +60,7 @@ export function transportActions(m:Match,w:Window,side:Side):Action[]{
  if(!site&&(w.timing!=='phase'||side!==m.turn.side||!['deploy','move'].includes(m.turn.phase)))return [];
  const choices=site?reactionSources(m,site,side).flatMap(grant=>deployOptions(m,side,site,grant)):m.turn.phase==='deploy'?deployOptions(m,side):options(m,side);
  return choices.map(p=>{
-  const cost=p.mode==='deploy'?deployValue(m,p.card.id):p.mode==='shuttle'?1+sectorsAt(m,system(m,p.location.id)!,'cloud').length:0;
+  const cost=p.mode==='deploy'?Math.max(0,deployValue(m,p.card.id)+bespinDeployModifier(m,p.card.id,p.location.id)):p.mode==='shuttle'?1+sectorsAt(m,system(m,p.location.id)!,'cloud').length:0;
   const verb={deploy:'Deploy',shuttle:'Shuttle',embark:'Embark',disembark:'Disembark',bridge:'Move'}[p.mode];
   return {id:key(p),handler:p.mode==='deploy'?'transport:deploy':'transport:begin',source:p.card.id,payload:p as unknown as Json,payment:{[side]:cost},label:verb+' '+name(m,p.card.id)+' to '+name(m,p.target.id)+(p.role?' as '+p.role:'')+' · '+(cost?cost+' Force':'free')+(p.react?' as a react using '+name(m,p.grant!.id):'')};
  }).filter(a=>(a.payment[side]??0)<=m.players[side].force.length);

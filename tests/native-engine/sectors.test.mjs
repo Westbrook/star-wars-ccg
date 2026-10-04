@@ -11,14 +11,14 @@ const setup=load(new URL('../../lib/native-engine/premiere-setup.ts',import.meta
 const settle=m=>seek(m,x=>x.stack.length===1);
 function ready(kind='cloud',n=1){const f=fixture();let m=f.m;const locations=Array.from({length:n},()=>pull(m,'light',kind==='cloud'?'5_85':'4_81','hand'));for(const id of locations)m=deploySector(m,id);return {...f,m,locations};}
 
-test('generic sectors require a planet already on table, cannot start or convert, allow three shared copies per system',()=>{
+test('generic sectors require a planet already on table, cannot start, allow three shared copies per system',()=>{
  const f=fixture();let m=f.m;const clouds=Array.from({length:4},()=>pull(m,'light','5_85','hand')),dark=pull(m,'dark','5_174','hand');
  assert.equal(setup.premiereSetup.location(m,clouds[0]),null);
  const noPlanet=clone(m);noPlanet.locations=noPlanet.locations.filter(id=>id!==f.planet);assert.equal(board.sitePlacements(noPlanet,clouds[0]).length,0);
  for(const id of clouds.slice(0,2))m=deploySector(m,id);m=deploySector(m,dark);
- assert.equal(sectors.sectorsAt(m,'Tatooine','cloud').length,3);assert.equal(board.sitePlacements(m,clouds[2]).length,0);
+ assert.equal(sectors.sectorsAt(m,'Tatooine','cloud').length,3);assert.equal(board.sitePlacements(m,clouds[2]).filter(p=>!p.replace).length,0);
  assert.ok(m.locations.includes(clouds[0])&&m.locations.includes(dark));assert.equal(m.cards[clouds[0]].coveredBy,undefined);
- const yavin=location(m,'light','1_135');assert.ok(board.sitePlacements(m,clouds[2]).every(p=>p.sector==='Yavin 4'));
+ const yavin=location(m,'light','1_135');assert.ok(board.sitePlacements(m,clouds[2]).filter(p=>!p.replace).every(p=>p.sector==='Yavin 4'));
  m=deploySector(m,clouds[2],'Yavin 4');assert.equal(board.system(m,clouds[2]),'Yavin 4');rules.validate(m);assert.ok(m.locations.includes(yavin));
 });
 

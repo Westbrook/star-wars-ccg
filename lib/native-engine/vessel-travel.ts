@@ -1,4 +1,4 @@
-import {sectorPaths,landingEndpoint,sectorKind,locationGroup} from './sectors';
+import {sectorPaths,landingEndpoint,sectorKind,locationGroup,isCave,caveSector} from './sectors';
 import {hasNavigation,vesselHyperspeed} from './piloting';
 import {systemPosition,orbitTransfer} from './mobile-systems';
 import {cardDefinition} from './definitions';
@@ -37,13 +37,15 @@ export function vesselRoutes(m:Match,id:string):Route[]{
   if(hasNavigation(m,id)&&(vesselHyperspeed(m,id)??0)>0)for(const to of m.locations){const target=systemPosition(m,to);if(to!==from&&target&&Math.abs(systemPosition(m,from)!.parsec-target.parsec)<=(vesselHyperspeed(m,id)??0))out.push({method:'hyperspace',path:[from,to],cost:1});}
   for(const to of m.locations)if(to!==from&&orbitTransfer(m,from,to))out.push({method:'orbit',path:[from,to],cost:1});
  }
+ if(operational(m,id)&&!capital(m,id)&&!['1_305','1_300','1_299'].includes(c.blueprint))for(const to of m.locations.filter(to=>isCave(m,to)&&caveSector(m,to)===from))out.push({method:'land',path:[from,to],cost:1});
+ if(isCave(m,from)&&pilotAboard(m,id)&&caveSector(m,from))out.push({method:'takeoff',path:[from,caveSector(m,from)!],cost:1});
  if(operational(m,id)&&(origin||sectorKind(m,from))&&landingEndpoint(m,locationGroup(m,from)!)===from){
   if(!capital(m,id))for(const to of m.locations.filter(to=>exterior(m,to)&&system(m,to)===locationGroup(m,from))){
    const bay=bayCosts[m.cards[to].blueprint]!==undefined;
    if(['1_305','1_300','1_299'].includes(m.cards[id].blueprint)&&!bay)continue;
    out.push({method:'land',path:[from,to],cost:bay?0:1});
   }
- }else if(exterior(m,from)&&pilotAboard(m,id)){
+ }else if(!isCave(m,from)&&exterior(m,from)&&pilotAboard(m,id)){
   for(const to of m.locations.filter(to=>landingEndpoint(m,system(m,from)!)===to))out.push({method:'takeoff',path:[from,to],cost:bayCosts[m.cards[from].blueprint]!==undefined?0:1});
  }
  return out;

@@ -2057,5 +2057,87 @@
     "uniqueness": "DIAMOND_3",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_085.java"
+  },
+  "5_76": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_076.java"
+  },
+  "5_164": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_164.java"
+  },
+  "5_77": {
+    "keywords": [
+      "CLOUD_CITY_LOCATION",
+      "CLOUD_SECTOR"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_077.java"
+  },
+  "5_165": {
+    "keywords": [
+      "CLOUD_CITY_LOCATION",
+      "CLOUD_SECTOR"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_165.java"
+  },
+  "4_82": {
+    "keywords": [
+      "ASTEROID"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "DIAMOND_1",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_082.java"
+  },
+  "4_156": {
+    "keywords": [
+      "ASTEROID"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "DIAMOND_1",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_156.java"
+  },
+  "4_83": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "DIAMOND_1",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_083.java"
+  },
+  "4_157": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "DIAMOND_1",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_157.java"
   }
 }
