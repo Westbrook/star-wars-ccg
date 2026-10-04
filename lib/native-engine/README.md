@@ -3129,3 +3129,32 @@ not certify every timing window or starter interaction. Successful Stun with
 attachments is not reached here. The older version 4 path lacks the new destiny
 and remaining-attrition fields. Full production admission stays closed, and the
 failed-Obsession question and broader full-engine scope remain outstanding.
+
+### Complete-match battle movement responses
+
+`ground-travel-responses` adds a complete 31-turn GEMP game ending in Dark's
+Life Force victory: 1,775 reference decisions replay as 2,418 native commands
+and 267 exact checkpoints. Luke runs into two battles on different turns.
+Between them, Narrow Escape moves Luke and a Rebel Trooper separately, paying
+one Force for each. The recorded moves preserve table identities and exact
+Force/Used pile order. Existing native gameplay matches this path unchanged.
+
+The client uses the normal starter lists and a reference shuffle. It chooses
+Luke's deployment at Lars Moisture Farm when available and other deployments
+at Docking Bay 94; these are offered player choices, without board corrections.
+The selected Action supplies each Interrupt target. The chosen move-away card
+and its engine-observed arrival supply each destination, checked against the
+immediate next reference state. Altered origins, arrivals, payments and later
+actions cannot silently replace that evidence. Exact source and record hashes
+are in `tests/native-engine/gemp/travel-match-provenance.json`.
+
+Run `NATIVE_MATCH_RESPONSES=travel node tests/native-engine/battle-response-match-browser.mjs`
+against the local app to resume these actual full-game checkpoints through the
+real match service and SQLiteD1. Both Interrupt plays and each Escape destination
+use the UI buttons; the recorded intervening commands complete normally. Pending
+and resolved refreshes retain the exact saved state at phone/tablet/desktop sizes.
+
+This is additional complete-path evidence, not a resolution of the controlled
+departure/return/late-arrival discrepancies. Their starter reachability and the
+failed-Obsession Force amount still require evidence. No admission gate or broader
+engine requirement was removed, and no standalone Rules Lab study was added.

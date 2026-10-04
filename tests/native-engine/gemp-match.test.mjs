@@ -8,7 +8,7 @@ const {shuffled}=load(new URL('../../lib/native-engine/random.ts',import.meta.ur
 const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));
 const loadMatch=name=>readGempMatch(new URL('./gemp/complete-matches/'+name+'.json.gz',import.meta.url));
 
-for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','ground-attachments','ground-mines','ground-responses','ground-devices','ground-inspections','ground-mine-pairs','ground-hand-retention','ground-recovery','ground-battle-responses','ground-redraws','ground-destiny-switch'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
+for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','ground-attachments','ground-mines','ground-responses','ground-devices','ground-inspections','ground-mine-pairs','ground-hand-retention','ground-recovery','ground-battle-responses','ground-redraws','ground-destiny-switch','ground-travel-responses'])test('complete GEMP introductory match replays with exact checkpoints: '+name,()=>{
  const reference=loadMatch(name),before=JSON.stringify(reference),result=replayGempMatch(reference);
  assert.equal(JSON.stringify(reference),before,'reference fixture must stay immutable');
  assert.equal(result.state.result.winner,reference.winner);
@@ -27,6 +27,7 @@ for(const name of ['ground-a','ground-b','ground-weapons','ground-movement','gro
   const receipt=JSON.parse(fs.readFileSync(new URL('./gemp/battle-response-match-provenance.json',import.meta.url))).fixtures.find(f=>f.fixture.endsWith('/'+name+'.json.gz'));
   assert.equal(result.commands,receipt.nativeCommands);assert.equal(result.checkpoints,receipt.comparedCheckpoints);
  }
+ if(name==='ground-travel-responses'){const f=JSON.parse(fs.readFileSync(new URL('./gemp/travel-match-provenance.json',import.meta.url))).fixtures[0];assert.equal(result.commands,f.nativeCommands);assert.equal(result.checkpoints,f.comparedCheckpoints);}
  for(const deck of Object.values(reference.decks))for(const bp of deck)assert.equal(premiereRules.supports(bp),false,'a matching path must not admit a whole deck');
 });
 test('recorded setup permutation is replayed through the real shuffle, preserving the input',()=>{

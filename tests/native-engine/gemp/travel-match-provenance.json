@@ -1,0 +1,72 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedOn": "2026-10-04T17:47:25.673370+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineTravelMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "decks": "Exact introductory 60-card lists in complete-match-provenance.json",
+  "unchangedProductionFiles": 6820,
+  "fixtures": [
+    {
+      "fixture": "tests/native-engine/gemp/complete-matches/ground-travel-responses.json.gz",
+      "sha256": "d629e3e6203d610e747c3fb3ac04edfdf363092e529436f7897f7c77294e198b",
+      "jsonSha256": "7c81a89ecd55ef8537716bc9b08a59deeb11bf10000de6952f94e3d432933de6",
+      "harness": "tests/native-engine/gemp/complete-matches/ground-travel-responses-source.java.txt",
+      "harnessSha256": "071541100c0283355cbb6afa18a127d4a3a6ec0a65221d57137676d104146a40",
+      "snapshotVersion": 5,
+      "finished": true,
+      "winner": "dark",
+      "turns": 31,
+      "referenceDecisions": 1775,
+      "nativeCommands": 2418,
+      "comparedCheckpoints": 267,
+      "actions": {
+        "untagged": 12,
+        "site-placement": 8,
+        "activate": 27,
+        "activate-count": 53,
+        "pass": 1399,
+        "draw": 83,
+        "site": 11,
+        "deploy": 24,
+        "deploy-target": 32,
+        "equip": 8,
+        "drain": 37,
+        "lose": 46,
+        "battle": 6,
+        "run-luke": 2,
+        "interrupt-target": 2,
+        "dice": 1,
+        "takeel": 1,
+        "reduce": 2,
+        "reduce-amount": 2,
+        "forfeit": 11,
+        "escape": 1,
+        "escape-card": 2,
+        "loss-order": 3,
+        "barrier": 1,
+        "macroscan": 1
+      }
+    }
+  ],
+  "harnessNotes": [
+    "Unmodified production engine, random reference setup shuffle and exact 60-card decks. No board or pile interventions.",
+    "Client prefers deploying Luke at Lars Moisture Farm and other characters at Docking Bay 94 when offered. It waits until turn 12 before battles/drains, retains response Force and passes Set For Stun in this executed variant. All are legal choices.",
+    "Primary targets and actual moved-card arrivals are observed from the engine, including shortcut destinations. Each movement is tied to its chosen reference card ID and immediate subsequent table state.",
+    "Runs 1 and 2 stopped at unmapped Lost verification and optional Luke targeting dialogs; neither is complete evidence. Run 3 completed and replayed (2308 commands/245 checkpoints) without movement Interrupts, so it remains exploratory. Run 4 is the canonical record."
+  ],
+  "findings": [
+    "Run Luke is played on turns 12 and 18 for the same Luke; Narrow Escape on turn 13 moves Luke and one Rebel Trooper separately, each costing 1 Force.",
+    "Every ordered pile, table identity, public character value and compared damage/destiny checkpoint matches through Dark life-force victory on turn 31. No production gameplay change was needed."
+  ],
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "https://forum.starwarsccg.org/viewtopic.php?t=77226"
+  ],
+  "limits": [
+    "One selected complete path is not exhaustive timing/card/deck certification. Production admission remains closed.",
+    "This does not reach a target leaving and returning during a pending movement Interrupt or a late arrival during Narrow Escape. Their starter reachability remains unproven; broader custom-deck obligations remain.",
+    "No forced intermediate board interventions or unsupported removal/redeployment cards were added.",
+    "Fresh official failed-destiny research still did not establish Obsession Force-difference arithmetic. Existing explicit guard and all full-engine/product scope remain."
+  ]
+}

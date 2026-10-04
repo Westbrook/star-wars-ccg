@@ -19,7 +19,10 @@ const runtime=load(new URL('../../lib/native-engine/runtime.ts',import.meta.url)
 const db=new SqliteD1(),origin=process.env.NATIVE_UI_ORIGIN||'http://localhost:5173',errors=[];
 let clock=1_800_000_000_000;
 const fresh=()=>nativeMatchService(db,{currentRules:auditRules.id,rules:()=>auditRules,now:()=>clock,entropy:seeded(1)}),handlers=matchHandlers(fresh);
-const browser=await chromium.launch({headless:true}),decks=starterDecks(60),fixtures=battleResponseFixtures();
+const travel=process.env.NATIVE_MATCH_RESPONSES==='travel';
+const browser=await chromium.launch({headless:true}),decks=starterDecks(60),fixtures=battleResponseFixtures(travel?[
+ ['run-luke','ground-travel-responses','run-luke',true],['escape','ground-travel-responses','escape',true],
+]:undefined);
 const output=process.env.NATIVE_UI_OUTPUT||'/private/tmp/swccg-native-client-browser';fs.mkdirSync(output,{recursive:true});
 async function client(width,height,actor){
  const context=await browser.newContext({viewport:{width,height}});
@@ -42,9 +45,12 @@ try{
   const first=fixture.commands[0],actor=first.side==='light'?'owner':'guest',c=await client(width,height,actor);
   const show=async()=>{await c.page.goto(origin+'/matches/'+v.id+'?progress-report');await c.page.getByText('Saved · move '+read().revision,{exact:true}).waitFor();if(width<640)await c.page.getByRole('button',{name:'Actions',exact:false}).click();};
   await show();clock=first.time;
-  const p=prompt(read()),choice=p.choices.find(x=>x.id===first.choice);assert.ok(choice);
-  const index=p.choices.filter(x=>x.label===choice.label).findIndex(x=>x.id===first.choice);
-  await Promise.all([c.page.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/api/matches/'+v.id)),c.page.getByRole('button',{name:choice.label,exact:true}).nth(index).click()]);
+  const clickChoice=async command=>{
+   const p=prompt(read()),choice=p.choices.find(x=>x.id===command.choice);assert.ok(choice);
+   const index=p.choices.filter(x=>x.label===choice.label).findIndex(x=>x.id===command.choice);
+   await Promise.all([c.page.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/api/matches/'+v.id)),c.page.getByRole('button',{name:choice.label,exact:true}).nth(index).click()]);
+  };
+  await clickChoice(first);
   assert.equal(read().revision,first.revision+1);assert.equal(read().cards[fixture.card].zone,'playing');
   const pending=read();await c.page.reload();await c.page.getByText('Saved · move '+pending.revision,{exact:true}).waitFor();
   assert.deepEqual(read(),pending,'Refresh cannot repeat play, payment or change the pending action');
@@ -53,7 +59,8 @@ try{
   for(const command of fixture.commands.slice(1)){
    clock=command.time;const m=read(),p=prompt(m);assert.equal(m.revision,command.revision);assert.equal(p.side,command.side);
    assert.ok(p.choices.some(x=>x.id===command.choice));
-   await fresh().command(v.id,command.side==='light'?'owner':'guest',{commandId:randomUUID(),revision:command.revision,choice:command.choice});
+   if(travel&&command.choice.startsWith('away:')){await show();await clickChoice(command);}
+   else await fresh().command(v.id,command.side==='light'?'owner':'guest',{commandId:randomUUID(),revision:command.revision,choice:command.choice});
   }
   const expected=structuredClone(fixture.end);expected.id=v.id;
   assert.deepEqual(read(),expected,'Service must produce the exact full-match checkpoint');
@@ -63,5 +70,5 @@ try{
   await c.context.close();console.log('Passed '+fixture.id+' at '+width+' through '+fixture.commands.length+' real service commands.');
  }
  assert.deepEqual(errors,[]);
- console.log('Passed: successful/failed Stun, Dice and Takeel from actual complete matches, pending and resolved refresh, exact service state at 1440/834/390.');
+ console.log('Passed: '+(travel?'Run Luke and complete Narrow Escape movement':'successful/failed Stun, Dice and Takeel')+' from actual complete matches, pending and resolved refresh, exact service state at 1440/834/390.');
 }finally{await browser.close();db.close();}

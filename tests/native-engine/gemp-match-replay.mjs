@@ -51,12 +51,12 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
- if(!['activate','draw','deploy','equip','fire','site','move','battle','drain','barrier','reduce','explode','macroscan','peek','kintan','old-ben','stun','dice','takeel'].includes(kind))return;
+ if(!['activate','draw','deploy','equip','fire','site','move','battle','drain','barrier','reduce','explode','macroscan','peek','kintan','old-ben','stun','dice','takeel','run-luke','escape'].includes(kind))return;
  const index=row.parameters.actionId?.indexOf(row.answer);assert.ok(index>=0,'Reference action answer missing');
  const label=row.parameters.actionText[index].toLowerCase();
  const valid=kind==='activate'?label==='activate force':kind==='draw'?label==='draw card into hand from force pile':
   kind==='move'?label==='move using landspeed':kind==='fire'?label.startsWith('fire '):['deploy','equip','site','macroscan'].includes(kind)?label.startsWith('deploy')&&row.state.players[row.semantic.side].hand.includes(row.semantic.card):
-  kind==='stun'?label==='return character to hand':kind==='dice'?label==='cancel and re-draw battle destiny':kind==='takeel'?label==='switch battle destiny numbers':
+  kind==='run-luke'?label==='move luke to battle':kind==='escape'?label==='move cards with ability away':kind==='stun'?label==='return character to hand':kind==='dice'?label==='cancel and re-draw battle destiny':kind==='takeel'?label==='switch battle destiny numbers':
   kind==='kintan'?label==='regenerate top-most character':kind==='old-ben'?label.startsWith('revive '):kind==='peek'?label.startsWith('peek at top'):kind==='battle'?label.startsWith('initiate battle'):kind==='barrier'?label.startsWith('prevent '):kind==='reduce'?label==='reduce force loss':kind==='explode'?label==="'explode'":label.startsWith('force drain');
  assert.ok(valid,'Reference semantic action does not match the chosen command: '+label);
 }
@@ -98,6 +98,28 @@ export function assertInterruptTarget(rows,index,cards){
   if(selected.parameters.selectable)assert.equal(selected.parameters.selectable[i],'true');
  }
  return s.target;
+}
+
+/** A chosen move-away card and its observed arrival belong to one decision,
+ * not an arbitrary later appearance at a convenient destination. */
+export function assertReferenceMove(rows,index,cards,final){
+ const row=rows[index],s=row.semantic,o=row.movementObservation;
+ assert.equal(s.kind,'escape-card');assert.equal(row.type,'CARD_SELECTION');assert.equal(row.text,'Choose next card to move away');
+ assert.ok(o&&o.card===s.card&&o.from===s.from,'Missing observed move away');
+ assert.equal(o.blueprint,cards[s.card]?.blueprint);assert.equal(o.referenceCardId,row.answer);
+ const selected=row.parameters.cardId.indexOf(row.answer);assert.ok(selected>=0,'Move-away answer missing');
+ if(row.parameters.selectable)assert.equal(row.parameters.selectable[selected],'true');
+ assert.equal(row.state.table.find(c=>c.id===s.card)?.location,o.from,'Move-away origin differs');
+ assert.ok(row.state.locations.includes(o.to)&&o.to!==o.from,'Move-away destination missing');
+ assert.ok(Number.isSafeInteger(o.afterDecision)&&o.afterDecision>=index&&o.afterDecision<rows.length,'Invalid movement observation boundary');
+ const later=rows.slice(index+1,o.afterDecision+1);
+ assert.ok(later.every(r=>!r.semantic||['pass','escape-destination'].includes(r.semantic.kind)),'Move observation crosses another action');
+ for(const r of later.filter(r=>r.semantic?.kind==='escape-destination')){
+  assert.equal(r.semantic.card,o.to);assert.equal(r.semantic.side,s.side);assert.ok(r.parameters.cardId.includes(r.answer));
+ }
+ const after=rows[o.afterDecision+1]?.state??final;
+ assert.equal(after?.table.find(c=>c.id===s.card)?.location,o.to,'Observed move does not match the immediate arrival');
+ return o.to;
 }
 
 /** An inspection acknowledgment and the optional Force-pile choice are separate
@@ -143,7 +165,12 @@ export function replayGempMatch(record,{onCheckpoint}={}){
  try{
   const rows=record.trace;
   for(let index=0;index<rows.length;index++){
-   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target'].includes(s.kind))continue;
+   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target','escape-destination'].includes(s.kind))continue;
+   if(s.kind==='recovery-verify'){
+    assert.equal(row.type,'ARBITRARY_CARDS');assert.equal(row.text,"Verify Lost Pile after unsuccessful attempt to 'Choose card to retrieve'");
+    assert.deepEqual(row.parameters.min,['0']);assert.deepEqual(row.parameters.max,['0']);assert.equal(row.answer,'');
+    assert.ok(row.parameters.selectable.every(v=>v==='false'));continue;
+   }
    assertReferenceAction(row);
    let choices=[];
    if(s.kind==='activate')choices=['core:activate'];
@@ -166,6 +193,13 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     choices=[(s.kind==='stun'?'stun:play:':'dice:')+s.card+':'+target];
    }
    if(s.kind==='takeel')choices=['takeel:'+s.card];
+   if(s.kind==='run-luke'||s.kind==='escape'){
+    const target=assertInterruptTarget(rows,index,m.cards);
+    choices=s.kind==='run-luke'?['run-luke:'+s.card+':'+target]:['escape:'+s.card+':'+target,'escape:'+s.card];
+   }
+   if(s.kind==='escape-card'){
+    choices=['away:'+s.card+':'+assertReferenceMove(rows,index,m.cards,record.final)];
+   }
    if(s.kind==='old-ben'){
     const selection=followingTarget(rows,index,'recovery-selection');
     assertRecoverySelection(selection,s.side,m.cards[s.target].blueprint);
@@ -203,7 +237,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
-   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel'].includes(s.kind)){
+   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
     // observer from changing either the reference or the continuing replay.

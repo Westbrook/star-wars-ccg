@@ -230,7 +230,8 @@
         "tests/native-engine/gemp/response-match-provenance.json",
         "tests/native-engine/gemp/device-match-provenance.json",
         "tests/native-engine/gemp/recovery-match-provenance.json",
-        "tests/native-engine/gemp/battle-response-match-provenance.json"
+        "tests/native-engine/gemp/battle-response-match-provenance.json",
+        "tests/native-engine/gemp/travel-match-provenance.json"
       ]
     }
   ],
