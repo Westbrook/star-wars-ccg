@@ -52,7 +52,9 @@ export type Decision = {kind: 'decision'; side: Side; handler: string; payload: 
 export type Frame = Window | Resolution | Decision;
 export type StartingLocation = {identity: string; group: string; icons: Record<Side, number>; convertible: boolean};
 export type Setup = {
-  stage: 'choose' | 'reveal' | 'conversion' | 'placement' | 'shuffle' | 'complete';
+  stage: 'choose' | 'reveal' | 'conversion' | 'placement' | 'additional' | 'shuffle' | 'complete';
+  setAside?: string[];
+  additional?: string[];
   selected: Record<Side, string | null>;
   committed: Record<Side, boolean>;
   revealed: boolean;

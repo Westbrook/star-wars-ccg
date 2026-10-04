@@ -2639,5 +2639,195 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_150.java"
+  },
+  {
+    "gempId": "3_61",
+    "name": "Hoth: Main Power Generators (1st Marker)",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/hothmainpowergenerators.gif",
+    "text": "Light: 'Hoth Energy Shield Rules' in effect. Your artillery weapons here are powered. Dark: 'Hoth Energy Shield Rules' in effect. If 'blown away,' Light Side loses 8 Force.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_061.java"
+  },
+  {
+    "gempId": "3_63",
+    "name": "Hoth: Snow Trench (2nd Marker)",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/hothsnowtrench.gif",
+    "text": "Light: Add 1 to each of your weapon destiny draws here. Dark: If you control, Force generation +1 for you here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_063.java"
+  },
+  {
+    "gempId": "3_56",
+    "name": "Hoth: Defensive Perimeter (3rd Marker)",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/hothdefensiveperimeter.gif",
+    "text": "Light: Your Echo Base Troopers deploy -1 here. If you control, Force drain +1 here. Dark: If you control, Force drain +1 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_056.java"
+  },
+  {
+    "gempId": "3_144",
+    "name": "Hoth: Defensive Perimeter (3rd Marker)",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/hothdefensiveperimeter.gif",
+    "text": "Dark: Add 1 to each of your weapon destiny draws here. If you control, Force drain +1 here. Light: Your troopers are forfeit -1 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_144.java"
+  },
+  {
+    "gempId": "3_62",
+    "name": "Hoth: North Ridge (4th Marker)",
+    "side": "light",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/hothnorthridge.gif",
+    "text": "Light: This site does not count when calculating Epic Events. Dark: This site does not count when calculating Epic Events.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_062.java"
+  },
+  {
+    "gempId": "3_149",
+    "name": "Hoth: North Ridge (4th Marker)",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/hothnorthridge.gif",
+    "text": "Dark: Your AT-ATs move to here for free. Light:",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_149.java"
+  },
+  {
+    "gempId": "3_148",
+    "name": "Hoth: Ice Plains (5th Marker)",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/hothiceplains.gif",
+    "text": "Dark: During your move phase, you may move free from here directly to Mountains (or vice versa). Light: If you control, and Main Power Generators on table, Force drain -1 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_148.java"
+  },
+  {
+    "gempId": "104_4",
+    "name": "Hoth: Mountains (6th Marker)",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/EmpireStrikesBackIntroductoryTwoPlayerGame-Dark/large/hothmountains.gif",
+    "text": "Dark: Your Imperials and combat vehicles deploy -1 here. Light: If you control, Force drain +1 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Premium"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set104/dark/Card104_004.java"
+  },
+  {
+    "gempId": "3_55",
+    "name": "Hoth",
+    "side": "light",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Light/large/hoth.gif",
+    "text": "Light: If you control, for each of your starships here, your total power is +1 in battles at Hoth sites. Dark: If you control, for each of your starships here, your total power is +1 in battles at Hoth sites.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "5"
+    },
+    "icons": [
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_055.java"
+  },
+  {
+    "gempId": "3_143",
+    "name": "Hoth",
+    "side": "dark",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/Hoth-Dark/large/hoth.gif",
+    "text": "Dark: If you control, for each of your starships here, your total power is +1 in battles at Hoth sites. Light: If you control, for each of your starships here, your total power is +1 in battles at Hoth sites.",
+    "stats": {
+      "destiny": "0",
+      "parsec": "5"
+    },
+    "icons": [
+      "Planet",
+      "Hoth"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_143.java"
   }
 ]

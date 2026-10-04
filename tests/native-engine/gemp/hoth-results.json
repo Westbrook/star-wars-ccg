@@ -1,0 +1,36 @@
+[
+  {
+    "ridgeBeforeGenerator": true,
+    "case": "normal-deployment",
+    "generatorDeployed": true
+  },
+  {
+    "openingHand": 8,
+    "ridgeDeployed": true,
+    "case": "starting-generator"
+  },
+  {
+    "shielded": {
+      "3_59": true,
+      "3_61": true,
+      "3_63": true,
+      "3_144": true,
+      "3_62": false,
+      "3_148": false,
+      "104_4": false,
+      "3_150": false
+    },
+    "afterGeneratorLeaves": false,
+    "case": "shield-boundaries"
+  },
+  {
+    "case": "shield-restrictions",
+    "prohibited": {
+      "darkCharacterDeployment": true,
+      "creatureDeployment": false,
+      "outerCharacterDeployment": false,
+      "transitIn": true,
+      "transitOut": true
+    }
+  }
+]

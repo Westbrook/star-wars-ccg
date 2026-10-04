@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T13:29:31.798400+00:00",
+  "files": {
+    "NativeEngineHothOracleTests.java": "2320cc38a68172ee272aa5cf7c2604146588c018465dd7c7a7355987c7b4a8bf",
+    "hoth-results.json": "019cecf9eac55c49349e07c971ff1aa23d89f3ec3779ae44b298682666b6eb5b"
+  },
+  "junitTests": 4,
+  "observations": 4,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineHothOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp145,167,183",
+  "scope": "Main Power Generators prerequisite and opening hands; shield boundaries; character/creature deployment and docking transit restrictions.",
+  "method": [
+    "Normal deployment and starting setup use actual GEMP commands. Normal deployment observes North Ridge on table before the generator. Starting setup auto-selects the only North Ridge and draws eight after placement.",
+    "Shield boundaries/restrictions query unmodified GEMP rules on a controlled authored board; these are not full movement or deployment transcripts.",
+    "Native comparison tests reproduce each recorded observation; native-only checks cover refresh, malformed saved state, landing/takeoff/shuttling, orbital power and failed prerequisite."
+  ],
+  "limitations": [
+    "Component coverage only; production supports remains false and no standalone study was added.",
+    "Starting extra-deployment selection UI differs from GEMP automatic single-target selection. Both deploy North Ridge before Main Power Generators and draw opening hands only after required starting deployments and placement.",
+    "Full Hoth location card text, artillery/blown-away behavior, shield exceptions, linked starship/vehicle sites and remaining wider engine scope stay unfinished.",
+    "Movement destination queries and native simulations do not establish full GEMP action-timing parity for every shield interaction."
+  ],
+  "exactAgreements": 4
+}

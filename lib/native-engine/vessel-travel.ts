@@ -1,3 +1,4 @@
+import {shieldMovement} from './hoth';
 import {bellySlug,caveMouthOpen} from './space-slug';
 import {sectorPaths,landingEndpoint,sectorKind,locationGroup,isCave,caveSector} from './sectors';
 import {hasNavigation,vesselHyperspeed} from './piloting';
@@ -49,7 +50,7 @@ export function vesselRoutes(m:Match,id:string):Route[]{
  }else if(!isCave(m,from)&&exterior(m,from)&&pilotAboard(m,id)){
   for(const to of m.locations.filter(to=>landingEndpoint(m,system(m,from)!)===to))out.push({method:'takeoff',path:[from,to],cost:bayCosts[m.cards[from].blueprint]!==undefined?0:1});
  }
- return out;
+ return out.filter(r=>!['land','takeoff'].includes(r.method)||!shieldMovement(m,c.owner,from,r.path.at(-1)));
 }
 const routeId=(p:Payload)=>'voyage:'+p.method+':'+p.card.id+':'+p.path.at(-1)!.id;
 const make=(p:Payload):Action=>({id:routeId(p),handler:'voyage:begin',source:p.card.id,payload:p as unknown as Json,label:'Move vessel'});

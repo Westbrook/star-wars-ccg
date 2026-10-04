@@ -1,3 +1,4 @@
+import {hothRank,generatorAllowed,shieldDeployment,shielded} from './hoth';
 import {bespinDeployModifier,cloudCityBattleBonus} from './bespin';
 import {sectorKind,sectorFamily,sectorsAt,sectorSystem,sectorRank,sectorPlacements,locationGroup,isCave,cavePlacements,caveOrder} from './sectors';
 import {squadronForfeitBonus} from './piloting';
@@ -66,6 +67,7 @@ function equipmentBonus(m: Match, id: string, stat: 'power' | 'forfeit'): number
 export function deploymentPayment(m: Match, id: string, site: string, aboard = false, ignorePresence = false): Payment | null {
   if (cardDefinition(m, id).status === 'metadata-only') return null;
   const card = m.cards[id], def = cardDefinition(m, id);
+  if (shieldDeployment(m,id,site)) return null;
   if (def.type !== 'Character' || !m.locations.includes(site) || !aboard && !isSite(m,site)) return null;
   const side = card.owner, blueprint = card.blueprint;
   if (!ignorePresence && !premiereLocations[m.cards[site].blueprint].icons[side] && !presence(m, side, site)) return null;
@@ -127,9 +129,9 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
 
 export function totalPower(m: Match, side: Side, site: string, defending = false, active: (id: string) => boolean = () => true): number {
   const members = unitsAt(m, site).filter(c => c.owner === side && active(c.id));
-  const orbit=m.locations.find(id=>['1_127','1_289','1_135','1_296'].includes(m.cards[id].blueprint)&&system(m,id)===system(m,site));
+  const orbit=m.locations.find(id=>['1_127','1_289','1_135','1_296','3_55','3_143'].includes(m.cards[id].blueprint)&&system(m,id)===system(m,site));
   const b=m.data.battle as {site:string;stage:string}|undefined;
-  const orbitBonus=b&&b.stage!=='complete'&&b.site===site&&cardDefinition(m,site).subType==='Site'&&orbit&&gameTextActive(m,orbit)&&controls(m,side,orbit)?unitsAt(m,orbit).filter(c=>c.owner===side&&!c.attachedTo&&cardDefinition(m,c.id).type==='Starship').length:0;
+  const orbitBonus=b&&b.stage!=='complete'&&b.site===site&&cardDefinition(m,site).subType==='Site'&&orbit&&gameTextActive(m,orbit)&&controls(m,side,orbit)&&!(side==='dark'&&shielded(m,site))?unitsAt(m,orbit).filter(c=>c.owner===side&&!c.attachedTo&&cardDefinition(m,c.id).type==='Starship').length:0;
   return orbitBonus + cloudCityBattleBonus(m,side,site) + members.reduce((sum, c) => sum + (cardDefinition(m,c.id).type==='Character'&&!characterPresent(m,c.id)?0:power(m, c.id, defending, active)), 0) + protocolPowerBonus(m,side,site,active) +
     (members.some(c => c.blueprint === '1_196') && members.filter(c => isSpecies(m, c.id, 'TUSKEN_RAIDER') && nonUnique(m, c.id)).length >= 4 ? 2 : 0);
 }
@@ -165,6 +167,7 @@ export function moveWithAttachments(m: Match, id: string, site: string): void {
 export const locationRank = (m: Match, id: string) => {
   if(sectorKind(m,id)||isCave(m,id))return sectorRank(m,id)!;
   if(cardDefinition(m,id).subType==='System')return 4;
+  const special=hothRank(m,id);if(special!==undefined)return special;
   const icons = cardDefinition(m, id).icons as string[];
   return icons.includes('Interior') && icons.includes('Exterior') ? 1 : icons.includes('Interior') ? 0 : 2;
 };
@@ -176,7 +179,7 @@ export function citySitesTogether(m: Match, order: string[]): boolean {
   return city.every((i, n) => !n || i === city[n - 1] + 1);
 }
 export function sitePlacements(m: Match, id: string): {id: string; label: string; replace?: string; index?: number; sector?:string;cave?:string}[] {
-  if (!premiereLocations[m.cards[id].blueprint]) return [];
+  if (!premiereLocations[m.cards[id].blueprint]||!generatorAllowed(m,id)) return [];
   if(isCave(m,id))return cavePlacements(m,id);
   if(sectorKind(m,id))return sectorPlacements(m,id);
   const duplicate = m.locations.find(at => name(m, at) === name(m, id));

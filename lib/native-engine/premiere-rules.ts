@@ -1,3 +1,5 @@
+import {hothView} from './hoth';
+import {beginHothDeployment,hothChoices,hothChoose,hothResolve,assertHothDeployment} from './hoth-deployment';
 import {scheduleEncounterEnd,rememberSelectiveWampas,encounterAutomatic,encounterInitiate,encounterResolve,encounterView,assertCreatureEncounters} from './creature-encounters';
 import {creatureWeaponActions,creatureWeaponInitiate,creatureWeaponResolve,assertCreatureWeapons} from './creature-weapons';
 import {groundCreatureActions,groundCreatureInitiate,groundCreatureResolve,assertGroundCreatures} from './ground-creatures';
@@ -182,10 +184,11 @@ export const premiereRules: Rules = {
       const p = r.action.payload as {react?: boolean; card?: string};
       if (p.react) registerReact(m, p.card!);
       battleInitiate(m, r);
-    } else groundInitiate(m, r);
+    } else {groundInitiate(m, r);beginHothDeployment(m,r);}
   },
   resolve: (m, r, context) => {
     if(r.action.handler.startsWith('asteroid:')){asteroidResolve(m,r);syncBattle(m);return;}
+    if(r.action.handler.startsWith('hoth:')){hothResolve(m,r,context);return;}
     if(r.action.handler.startsWith('encounter:')){encounterResolve(m,r);return;}
     if(r.action.handler.startsWith('creature:')){creatureResolve(m,r);return;}
     if(r.action.handler.startsWith('creature-weapon:')){creatureWeaponResolve(m,r);return;}
@@ -265,6 +268,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if(d.handler.startsWith('hoth:'))return hothChoices(m,d);
     if(d.handler.startsWith('creature:'))return creatureChoices(m,d);
     if(d.handler.startsWith('character-react:'))return characterReactChoices(m,d);
     if(d.handler.startsWith('vehicle-react:'))return vehicleReactChoices(m,d);
@@ -296,6 +300,7 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
+    if(d.handler.startsWith('hoth:')){hothChoose(m,d,c);return;}
     if(d.handler.startsWith('creature:')){creatureChoose(m,d,c);return;}
     if(d.handler==='capacity:used'){capacityChoose(m,d,c);syncBattle(m);return;}
     if(d.handler.startsWith('wedge:')){wedgeChoose(m,d,c);return;}
@@ -329,9 +334,9 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   canPass: battleCanPass,
-  view: (m, seat, now) => ({values: publicValues(m),...encounterView(m),...attackView(m),...slugView(m),...sectorsView(m),...asteroidView(m),...lostArtooView(m),...fighterTroubleView(m),...wedgeView(m,seat),...hyperEscapeView(m),...tallonView(m) as Record<string,Json>,...mobileView(m),...characterReactView(m),...vehicleReactView(m),...pilotDeployView(m),...dockingView(m),...vesselTravelView(m),...occupancyView(m),...nighttimeView(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
+  view: (m, seat, now) => ({...hothView(m),values: publicValues(m),...encounterView(m),...attackView(m),...slugView(m),...sectorsView(m),...asteroidView(m),...lostArtooView(m),...fighterTroubleView(m),...wedgeView(m,seat),...hyperEscapeView(m),...tallonView(m) as Record<string,Json>,...mobileView(m),...characterReactView(m),...vehicleReactView(m),...pilotDeployView(m),...dockingView(m),...vesselTravelView(m),...occupancyView(m),...nighttimeView(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>, ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
-    assertCreatureEncounters(match);assertCreatureWeapons(match);assertGroundCreatures(match);assertCreatureAttack(match);assertSpaceSlugs(match);assertSectors(match);assertSectorEffects(match);assertAsteroids(match);assertMobileSystems(match);assertOccupancy(match);assertVessels(match);
+    assertHothDeployment(match);assertCreatureEncounters(match);assertCreatureWeapons(match);assertGroundCreatures(match);assertCreatureAttack(match);assertSpaceSlugs(match);assertSectors(match);assertSectorEffects(match);assertAsteroids(match);assertMobileSystems(match);assertOccupancy(match);assertVessels(match);
     assertVesselTravel(match);
     assertPilotDeploy(match);
     assertDocking(match);

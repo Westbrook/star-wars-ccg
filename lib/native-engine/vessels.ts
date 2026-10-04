@@ -1,3 +1,4 @@
+import {shieldDeployment} from './hoth';
 import {bespinDeployModifier} from './bespin';
 import {sectorAdmits} from './sectors';
 import {canDeployAsReact,pendingReactSite,reactionSources,registerReact,cancelDrainAfterReact,resolveCancelledReact} from './ground';
@@ -20,7 +21,7 @@ const roles:AboardRole[]=['pilot','driver','passenger'];
 const label=(m:Match,id:string)=>cardDefinition(m,id).name;
 const hasDeployPresence=(m:Match,id:string,side:Side)=>!!premiereLocations[m.cards[id]?.blueprint]?.icons[side]||presence(m,side,id);
 export function vesselDeploysAt(m:Match,id:string,location:string,withPilot=false,ignorePresence=false):boolean{
- const r=vesselRule(m,id);if(!r||!m.locations.includes(location)||!ignorePresence&&!hasDeployPresence(m,location,m.cards[id].owner))return false;
+ const r=vesselRule(m,id);if(!r||shieldDeployment(m,id,location)||!m.locations.includes(location)||!ignorePresence&&!hasDeployPresence(m,location,m.cards[id].owner))return false;
  const d=cardDefinition(m,location),exterior=d.subType==='Site'&&(d.icons as string[]).includes('Exterior');
  return cardDefinition(m,id).type==='Starship'?(d.subType==='System'||sectorAdmits(m,id,location))&&(r.permanent>0||withPilot)||!capital(m,id)&&exterior&&bayCosts[m.cards[location].blueprint]!==undefined:(exterior||sectorAdmits(m,id,location))&&(!r.world||system(m,location)===r.world);
 }
@@ -54,7 +55,7 @@ export function vesselResolve(m:Match,r:Resolution):void {
  if(resolveCancelledReact(m,r))return;
  const p=r.action.payload as unknown as Payload,c=m.cards[p.card],h=r.action.handler,deploy=['vessel:deploy','vessel:aboard'].includes(h),host=m.cards[p.target.id];
  if(deploy){
-  const valid=!r.cancelled&&(!p.react||sameCard(m,p.reactSite!)&&(h==='vessel:deploy'?p.target.id===p.reactSite!.id:host.location===p.reactSite!.id))&&sameCard(m,p.target)&&canEnterTable(m,p.card)&&(h==='vessel:deploy'?vesselDeploysAt(m,p.card,p.target.id):host.owner===r.actor&&!!host.location&&roleAvailable(m,host.id,c.id,p.role!));
+  const valid=!r.cancelled&&(!p.react||sameCard(m,p.reactSite!)&&(h==='vessel:deploy'?p.target.id===p.reactSite!.id:host.location===p.reactSite!.id))&&sameCard(m,p.target)&&canEnterTable(m,p.card)&&(h==='vessel:deploy'?vesselDeploysAt(m,p.card,p.target.id):host.owner===r.actor&&!!host.location&&!shieldDeployment(m,p.card,host.location)&&roleAvailable(m,host.id,c.id,p.role!));
   if(!valid){moveCard(m,p.card,'lost');return;}
   moveCard(m,p.card,'table');c.location=h==='vessel:deploy'?p.target.id:host.location;
   if(h==='vessel:aboard'){c.attachedTo=host.id;c.aboardRole=p.role;}

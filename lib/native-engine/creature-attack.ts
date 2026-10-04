@@ -1,3 +1,4 @@
+import {shieldMovement} from './hoth';
 import {creatureProfile,supportedCreature,ferocityPlan,ferocityValue} from './creature-profile';
 import {gameTextActive} from './game-text';
 import {defenseValue} from './defense';
@@ -157,7 +158,7 @@ export function scheduleAttackEnd(m:Match):boolean{
 function relocationSite(m:Match,a:CreatureAttack):string|undefined {
  const target=liveShips(m,a)[0];if(!target||barred(m,target.id)||!gameTextActive(m,a.slug.id))return;
  if(isSpaceSlug(m,a.slug.id))return !['1_305','1_300','1_299'].includes(m.cards[target.id].blueprint)?m.locations.find(id=>bellySlug(m,id)===a.slug.id):undefined;
- if(m.cards[a.slug.id].blueprint==='3_93'&&cardDefinition(m,target.id).type==='Character'&&!isGuard(m.cards[target.id].blueprint))return m.locations.find(id=>m.cards[id].blueprint==='3_150'&&id!==a.site.id);
+ if(m.cards[a.slug.id].blueprint==='3_93'&&cardDefinition(m,target.id).type==='Character'&&!isGuard(m.cards[target.id].blueprint))return m.locations.find(id=>m.cards[id].blueprint==='3_150'&&id!==a.site.id&&!shieldMovement(m,m.cards[target.id].owner,a.site.id,id));
 }
 export function creatureChoices(m:Match,d:Decision){
  if(d.handler==='creature:destiny')return [{id:'attack-draw',label:'Draw attack destiny'},{id:'attack-skip',label:'Skip attack destiny'}];

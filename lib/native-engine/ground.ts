@@ -1,3 +1,4 @@
+import {generator,generatorAllowed,shieldDeployment} from './hoth';
 import {creatureBlocksLandspeed} from './ground-creatures';
 import {registerSector,registerCave,convertSectorRelationships} from './sectors';
 import {gameTextActive} from './game-text';
@@ -178,13 +179,13 @@ export function groundResolve(m: Match, resolution: Resolution): void {
     return;
   }
   if (kind === 'ground:deploy') {
-    if (!canEnterTable(m, data.card!)) {moveCard(m, data.card!, 'lost'); return;}
+    if (!canEnterTable(m, data.card!)||shieldDeployment(m,data.card!,data.site!)) {moveCard(m, data.card!, 'lost'); return;}
     moveCard(m, data.card!, 'table'); m.cards[data.card!].location = data.site;
     cancelDrainAfterReact(m, side, data);
     deployed(m, data.card!);
   } else if (kind === 'ground:site') {
     const id = data.card!, placement = sitePlacements(m, id).find(p => p.id === data.placement);
-    if (!placement) throw Error('The location placement requires revalidation.');
+    if (!placement) {if(generator(m,id)&&!generatorAllowed(m,id)){moveCard(m,id,'lost');return;}throw Error('The location placement requires revalidation.');}
     moveCard(m, id, 'table');
     if (placement.replace) {
       const old = placement.replace;

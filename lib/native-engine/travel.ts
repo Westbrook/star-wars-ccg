@@ -1,3 +1,4 @@
+import {shieldMovement} from './hoth';
 import {unitsAt,isVessel,characterPresent,belowDecks} from './occupancy';
 import {movesFree} from './movement-costs';
 import {vehicleDestination} from './vessel-travel';
@@ -28,7 +29,7 @@ function decision(m: Match, side: Side, handler: string, p: Payload): void {m.st
 function then(m: Match, side: Side, handler: string, p: Payload, respondable = false): void {
   m.stack.push({kind: 'resolution', actor: side, cancelled: false, ...(respondable ? {awaitingResponses: true} : {}), action: action('travel-step:' + handler, handler, handler, p)});
 }
-export const transitEligible = (m: Match, side: Side, from: string, to?: string) => unitsAt(m, from).filter(c => c.owner === side && !c.attachedTo && canMove(m,c.id) && (!isVessel(m,c.id)||cardDefinition(m,c.id).type==='Vehicle'&&(!to||vehicleDestination(m,c.id,to)))).map(c=>c.id);
+export const transitEligible = (m: Match, side: Side, from: string, to?: string) => unitsAt(m, from).filter(c => !shieldMovement(m,side,from,to)&&c.owner === side && !c.attachedTo && canMove(m,c.id) && (!isVessel(m,c.id)||cardDefinition(m,c.id).type==='Vehicle'&&(!to||vehicleDestination(m,c.id,to)))).map(c=>c.id);
 const bays = (m: Match) => m.locations.filter(id => bayCosts[m.cards[id].blueprint]);
 /** The whole party pays once. Explicitly free movement cannot be increased (AR pp66,70). */
 export function transitCost(m: Match, side: Side, from: string, to: string, party?:string[]): number {
