@@ -7,10 +7,10 @@ import {hasPersona} from './persona';
 import {crewActive,landed,operational,occupants} from './occupancy';
 import type {Match} from './types';
 
-const powerBonuses:Record<string,number>={'1_3':2,'2_23':3,'1_173':3,'1_8':2,'1_174':3,'1_11':2,'5_5':2,'1_4':3,'1_172':2,'1_19':3,'3_3':3,'5_99':2,'4_1':2,'9_24':2,'1_168':3,'1_167':2,'1_179':2};
+const powerBonuses:Record<string,number>={'1_13':2,'1_3':2,'2_23':3,'1_173':3,'1_8':2,'1_174':3,'1_11':2,'5_5':2,'1_4':3,'1_172':2,'1_19':3,'3_3':3,'5_99':2,'4_1':2,'9_24':2,'1_168':3,'1_167':2,'1_179':2};
 const matchingShips:Record<string,{persona?:string;blueprint?:string;maneuver:number}>={
  '1_8':{persona:'GOLD_1',maneuver:1},'1_174':{persona:'BLACK_3',maneuver:1},
- '1_3':{blueprint:'1_145',maneuver:1},'2_23':{persona:'RED_2',maneuver:2},'1_173':{persona:'BLACK_2',maneuver:1},
+ '1_13':{blueprint:'2_72',maneuver:1},'1_3':{blueprint:'1_145',maneuver:1},'2_23':{persona:'RED_2',maneuver:2},'1_173':{persona:'BLACK_2',maneuver:1},
 };
 /** A pilot seat is not enough: landed pilots are passengers for functions,
  * and excluded crew cannot operate or enhance a vessel during battle. */

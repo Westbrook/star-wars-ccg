@@ -1,3 +1,4 @@
+import type {FighterTrouble} from './fighter-trouble';
 import type {TallonRoll} from './tallon-roll';
 import {sameCard, type CardReference} from './identity';
 import type {Battle} from './battle';
@@ -42,6 +43,10 @@ export function destinyDefenseTargets(m:Match,w:Window):CardReference[]{
  const d=destinyInWindow(m,w);if(!d||d.value===null)return [];
  if(d.resolution.action.handler!=='destiny:finish')return [];
  const p=d.resolution.action.payload as {source?:string;category?:string;next?:{handler:string;payload:{index?:number;card?:string;target?:string;serial?:number}}};
+ if(p.category==='fighter-trouble'&&p.next?.handler==='fighter-trouble:result'){
+  const trouble=m.data.fighterTrouble as FighterTrouble|undefined;
+  return trouble?.stage==='destiny'&&trouble.serial===p.next.payload.serial&&trouble.source===p.source&&sameCard(m,trouble.target)?[trouble.target]:[];
+ }
  if(p.category==='tallon-roll'&&p.next?.handler==='tallon:dark'){
   const roll=m.data.tallonRoll as TallonRoll|undefined;
   if(!roll||roll.serial!==p.next.payload.serial||roll.source!==p.source||roll.stage!=='dark-destiny')return [];

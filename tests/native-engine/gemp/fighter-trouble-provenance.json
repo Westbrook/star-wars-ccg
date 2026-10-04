@@ -1,0 +1,28 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": null,
+  "files": {
+    "NativeEngineFighterTroubleOracleTests.java": "ddc5ff3221e776bdc14ba1be380e99973dfb22ebe11056f90f2ac9adb6026915",
+    "fighter-trouble-results.json": "a0328b19bf79b25bb3e2b671d982a9d9af896283f03ad8fef491e386bdbfcab6"
+  },
+  "junitTests": 1,
+  "observations": 10,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineFighterTroubleOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp21 (destiny targeting), 92 (unpiloted text suspension), 118 (Jek and Interrupt errata)",
+  "scope": "Actual Jek deployment, completed system battles with damage paid from Reserve, post-battle Interrupt eligibility/cost, Red 6 opponent bonus, numerical destiny, A Few Maneuvers, strict comparison, failure and source/target departure.",
+  "method": [
+    "Board and Force counts are controlled fixtures. Jek deploys through real actions; battles proceed through actual phase, damage and battle-ended decisions, with optional battle destiny declined.",
+    "Destiny cards are positioned before measuring Interrupt cost. Exact completed destiny and battle-destiny eligibility are queried from the real engine.",
+    "Suppression uses established game-text-canceled flag and corresponding turn modifier. Departure cases directly relocate the ship; these rows compare ship outcome, not dependent crew disposition.",
+    "All ten complete outcome rows are compared with native serialized command replays."
+  ],
+  "limitations": [
+    "System targets covered. Sectors, wider starfighter variants and broad targeting/loss-prevention interactions remain required before complete card admission.",
+    "Native-only checks additionally cover Sense, ordered crew/weapon loss, replacing/canceling draws, corruption, repeated Interrupts, canceled battle and service/browser recovery; these are not separate GEMP outcome claims.",
+    "Production admission remains false; remaining catalog/timing/navigation/transport/capture/Objectives/setup and full product scope remain.",
+    "All 6820 production reference files match the pinned archive."
+  ]
+}
