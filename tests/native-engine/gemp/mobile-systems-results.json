@@ -1,0 +1,76 @@
+[
+  {
+    "fire": 2,
+    "mode": "weapon",
+    "secondWeapon": false,
+    "deploy": 3,
+    "hit": true
+  },
+  {
+    "lightCarried": true,
+    "darkCarried": true,
+    "mode": "forward",
+    "parsec": 1,
+    "regularMove": true,
+    "cost": 1,
+    "gunCarried": true,
+    "orbit": "deep"
+  },
+  {
+    "lightCarried": true,
+    "darkCarried": true,
+    "mode": "orbit",
+    "parsec": 4,
+    "regularMove": true,
+    "cost": 1,
+    "gunCarried": true,
+    "orbit": "Yavin 4"
+  },
+  {
+    "lightCarried": true,
+    "darkCarried": true,
+    "mode": "leave",
+    "parsec": 4,
+    "regularMove": true,
+    "cost": 1,
+    "gunCarried": true,
+    "orbit": "deep"
+  },
+  {
+    "lightCarried": true,
+    "darkCarried": true,
+    "mode": "enter",
+    "parsec": 4,
+    "regularMove": true,
+    "cost": 1,
+    "gunCarried": true,
+    "orbit": "Yavin 4"
+  },
+  {
+    "lightCarried": true,
+    "darkCarried": true,
+    "mode": "depart",
+    "parsec": 5,
+    "regularMove": true,
+    "cost": 1,
+    "gunCarried": true,
+    "orbit": "deep"
+  },
+  {
+    "regularMove": true,
+    "arrived": true,
+    "cost": 1,
+    "mode": "ship-out"
+  },
+  {
+    "regularMove": true,
+    "arrived": true,
+    "cost": 1,
+    "mode": "ship-in"
+  },
+  {
+    "mode": "setup",
+    "first": "light",
+    "parsec": 0
+  }
+]

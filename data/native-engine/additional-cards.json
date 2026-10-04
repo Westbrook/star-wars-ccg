@@ -1825,5 +1825,23 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_323.java"
+  },
+  {
+    "gempId": "2_143",
+    "name": "Death Star",
+    "side": "dark",
+    "type": "Location",
+    "subType": "System",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/deathstar.gif",
+    "text": "Dark: X = parsec of current position. Deploys only at parsec 0. Hyperspeed = 1. Immune to Revolution. If this is your starting location, Light Side goes first in game. Light: -",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Mobile",
+      "A New Hope"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_143.java"
   }
 ]

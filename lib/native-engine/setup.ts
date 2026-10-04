@@ -8,6 +8,7 @@ export type Placement = {id: string; label: string; order: string[]};
  * effects until their separate starting-card sequence is implemented. */
 export interface LocationSetupRules {
   ordinarySetup(match: Match): boolean;
+  firstPlayer?(match: Match): Side;
   location(match: Match, id: string): StartingLocation | null;
   placements(match: Match, selected: string[]): {side: Side; choices: Placement[]};
   name(match: Match, id: string): string;

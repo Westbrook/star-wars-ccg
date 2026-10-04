@@ -11,7 +11,8 @@ export const premiereSites: Record<string, {system: string; icons: Record<Side, 
   ['3_60', 'Hoth', 0, 1], ['3_59', 'Hoth', 0, 1], ['3_147', 'Hoth', 1, 1],
 ].map(([id, system, dark, light]) => [id, {system, icons: {dark, light}}])) as Record<string, {system: string; icons: Record<Side, number>}>;
 
-export const premiereSystems: Record<string,{system:string;icons:Record<Side,number>;parsec:number}> = {
+export const premiereSystems: Record<string,{system:string;icons:Record<Side,number>;parsec:number;mobile?:boolean;hyperspeed?:number}> = {
+  '2_143':{system:'Death Star',icons:{dark:3,light:0},parsec:0,mobile:true,hyperspeed:1},
   '1_135':{system:'Yavin 4',icons:{dark:1,light:2},parsec:4},
   '1_296':{system:'Yavin 4',icons:{dark:2,light:1},parsec:4},
   '1_127':{system:'Tatooine',icons:{dark:1,light:2},parsec:7},
@@ -21,6 +22,7 @@ export const premiereLocations:Record<string,{system:string;icons:Record<Side,nu
 
 const definitions = new Map(manifest.cards.map(card => [card.gempId, card]));
 export const premiereSetup: LocationSetupRules = {
+  firstPlayer: match => match.setup?.selected.dark && match.cards[match.setup.selected.dark]?.blueprint==='2_143' ? 'light' : 'dark',
   // These authored decks have no Objectives, Starting Effects/Interrupts or
   // other starting actions. Unknown cards cannot enter this setup path.
   ordinarySetup: match => Object.values(match.cards).every(card => definitions.has(card.blueprint)),

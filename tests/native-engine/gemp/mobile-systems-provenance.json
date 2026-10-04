@@ -1,0 +1,27 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-04T06:24:39.255038+00:00",
+  "files": {
+    "NativeEngineMobileSystemsOracleTests.java": "812186c3fb17cd9b09d7e6c56be8cf146e2561810743aaa959a76de660a13f88",
+    "mobile-systems-results.json": "f60f2ee7f5b20dca9ba382525f7d68f6bd396f88a26d007c27df5bdc364c6761"
+  },
+  "junitTests": 4,
+  "observations": 9,
+  "unchangedProductionFiles": 6820,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineMobileSystemsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21",
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp67,94\u201395",
+  "scope": "Dark Death Star starting first player and parsec; regular mobile movement in deep space, entering/leaving orbit; carried fleets and mounted weapons; Black 2 with Tarkin using no-hyperdrive transfers; mobile Turbolaser deployment/firing and second-weapon availability.",
+  "method": [
+    "Real GEMP setup, movement, transfers, weapon deployment and firing. Initial board positions, Force and weapon destiny are controlled fixtures.",
+    "All nine observed outcome records compared exactly against native command replays with JSON round-trip projections.",
+    "The VirtualTableScenario framework normalizes opening hands, so its setup observation only covers first player and initial parsec. Native eight-card setup remains covered separately."
+  ],
+  "limitations": [
+    "Component verification; production full-match admission stays closed.",
+    "Only 2_143 Death Star is registered. Light Death Star, Death Star II, nested mobile-system orbits, sectors, Attack Run/blown-away rules, Revolution itself and hyperspeed modifiers still require integration and conformance.",
+    "The pinned GEMP Weapons.numWeaponsAllowedToUse defaults mobile systems to one different weapon each turn; native follows the observed secondWeapon=false. AR p94 explicitly lists characters/vehicles/starfighters and capitals, but does not explicitly state a mobile-system number. This is engine-backed behavior, not a claim of an explicit printed one-weapon restriction.",
+    "Stale references, canceled arrivals, parsec 99, ordinary hand deployment, range changes, Core Shaft site-only control and responsive recovery have additional native-only checks."
+  ]
+}

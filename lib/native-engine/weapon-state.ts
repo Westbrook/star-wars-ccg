@@ -1,3 +1,4 @@
+import {premiereSystems} from './premiere-setup';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './board';
 import type {Json, Match} from './types';
@@ -34,7 +35,7 @@ export function assertWeaponUse(m: Match): void {
   if (s.versions && (typeof s.versions !== 'object' || Array.isArray(s.versions) || Object.keys(s.versions).some(host => !s.users[host]))) throw Error('Invalid weapon instance history.');
   for (const [host, weapons] of Object.entries(s.users)) {
     const versions = s.versions?.[host];
-    if (!m.cards[host] || !['Character','Vehicle','Starship'].includes(cardDefinition(m, host).type) || !Array.isArray(weapons) || !weapons.length || weapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon') || versions && (!Array.isArray(versions) || versions.length !== weapons.length || versions.some((v, i) => !Number.isSafeInteger(v) || v < 0 || v > cardVersion(m, weapons[i]))) || new Set(weapons.map((id, i) => id + ':' + (versions?.[i] ?? 0))).size !== weapons.length) throw Error('Invalid weapon-use record.');
+    if (!m.cards[host] || (!['Character','Vehicle','Starship'].includes(cardDefinition(m, host).type)&&!premiereSystems[m.cards[host].blueprint]?.mobile) || !Array.isArray(weapons) || !weapons.length || weapons.some(id => !m.cards[id] || cardDefinition(m, id).type !== 'Weapon') || versions && (!Array.isArray(versions) || versions.length !== weapons.length || versions.some((v, i) => !Number.isSafeInteger(v) || v < 0 || v > cardVersion(m, weapons[i]))) || new Set(weapons.map((id, i) => id + ':' + (versions?.[i] ?? 0))).size !== weapons.length) throw Error('Invalid weapon-use record.');
   }
 }
 

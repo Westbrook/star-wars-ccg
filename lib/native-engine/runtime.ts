@@ -131,7 +131,10 @@ function enterTurns(match: Match, rules: Rules): void {
   if (rules.starting) assertSetup(match, rules.starting);
   if (match.status !== 'setup' || match.stack.length || match.setup && match.setup.stage !== 'complete' || !rules.setupComplete(match)) throw Error('Starting setup is incomplete.');
   match.status = 'playing';
-  openWindow(match, 'start', 'dark');
+  const first=rules.starting?.firstPlayer?.(match)??'dark';
+  if(!sides.includes(first))throw Error('Invalid first player.');
+  match.turn.side=first;
+  openWindow(match, 'start', first);
 }
 
 function affordable(match: Match, action: Action): boolean {

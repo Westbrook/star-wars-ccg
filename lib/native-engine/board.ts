@@ -40,7 +40,7 @@ export function controls(m: Match, side: Side, site: string): boolean {
   if (!m.locations.includes(site) || !presence(m, side, site) || presence(m, other(side), site)) return false;
   // Dark control of the Core Shaft increases Light's ability needed to control
   // Death Star sites, but does not erase ordinary Light presence there.
-  if (side === 'light' && system(m, site) === 'Death Star' && m.locations.some(id => m.cards[id].blueprint === '101_1' && presence(m, 'dark', id) && !presence(m, 'light', id)))
+  if (side === 'light' && isSite(m,site) && system(m, site) === 'Death Star' && m.locations.some(id => m.cards[id].blueprint === '101_1' && presence(m, 'dark', id) && !presence(m, 'light', id)))
     return abilityAt(m, side, site) >= 2;
   return true;
 }
