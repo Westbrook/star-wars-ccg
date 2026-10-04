@@ -1,3 +1,4 @@
+import {buildSealedComputerDeck,sealedDeckPolicy} from '../sealed-computer-deck';
 import {nativeSealedService} from '../native-sealed';
 import {assertClock, createClock, expiredClock, moveClock, projectClock, validClockMinutes, type MatchClock} from './match-clock';
 import starterManifest from '../../data/native-proof/manifest.json';
@@ -32,7 +33,8 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
   function ownerSnapshot(row: Row): {cards:string[];poolId?:string} {
     const value=JSON.parse(row.owner_deck);
     if(Array.isArray(value))return {cards:value};
-    if(value?.schema!==1||value.format!=='otsd'||!validId(value.poolId)||!Array.isArray(value.cards)||row.mode!=='pvp'||row.deck_size!==40)throw Error('Invalid sealed match binding.');
+    if(value?.schema!==1||value.format!=='otsd'||!validId(value.poolId)||!Array.isArray(value.cards)||row.deck_size!==40)throw Error('Invalid sealed match binding.');
+    if(row.mode==='cpu'&&(typeof value.computerPolicy!=='string'||!Array.isArray(value.computerDeck)||value.computerDeck.length!==40))throw Error('Missing computer sealed snapshot.');
     return {cards:value.cards,poolId:value.poolId};
   }
   function parse(row: Row): Match {
@@ -101,16 +103,22 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     const {id, mode, side, deckSize} = body;
     if (!validId(id) || mode !== 'pvp' && mode !== 'cpu' || side !== 'dark' && side !== 'light' || deckSize !== 40 && deckSize !== 60) fail('Choose a valid match, format, mode and side.');
     if (mode === 'pvp' && body.computerDeck !== undefined) fail('The other player supplies their own deck.');
-    if(body.poolId!==undefined&&(!validId(body.poolId)||mode!=='pvp'||deckSize!==40))fail('Choose a paired 40-card OTSD table.',422,'SEALED_FORMAT');
+    if(body.poolId!==undefined&&(!validId(body.poolId)||deckSize!==40))fail('Choose a paired 40-card OTSD table.',422,'SEALED_FORMAT');
+    if(body.poolId&&body.computerDeck!==undefined)fail('The server builds the computer’s sealed deck.',400,'SERVER_COMPUTER_DECK');
     const minutes = body.clockMinutes ?? null;
     if (minutes !== null && (!validClockMinutes(minutes) || mode !== 'pvp')) fail('Choose an untimed match or a 15, 30, 45 or 60 minute clock for private opponents.');
     const hash = await digest({...(minutes !== null ? {clockMinutes:minutes} : {}),actor,mode,side,deckSize,...(body.poolId?{poolId:body.poolId}:{}),deck:body.deck,computerDeck:body.computerDeck ?? null,rules:options.currentRules});
     const existing = await find(id as string);
     if (existing) {if (existing.owner !== actor || existing.creation_hash !== hash) fail('That match ID was already used.', 409, 'MATCH_ID_REUSED');return read(existing.id, actor);}
     const rules = rulesFor(options.currentRules), ownerDeck = deck(body.deck, side as Side, deckSize as number, rules);
-    if(body.poolId)await nativeSealedService(db).checkDeck(body.poolId as string,actor,side,deckSize,ownerDeck.cards);
-    const snapshot=body.poolId?{schema:1,format:'otsd',poolId:body.poolId,cards:ownerDeck.cards}:ownerDeck.cards;
-    const state = mode === 'cpu' ? createMatch(id as string, deckSize as 40 | 60, [ownerDeck,deck(body.computerDeck,other(side as Side),deckSize as number,rules)],rules) : null;
+    let computerInput=body.computerDeck;
+    if(body.poolId){
+      const sealed=nativeSealedService(db),pool=await sealed.checkDeck(body.poolId as string,actor,side,deckSize,ownerDeck.cards);
+      if(pool.mode!==mode)fail('Use the opponent assigned to this sealed table.',422,'SEALED_FORMAT');
+      if(mode==='cpu'){const inventory=await sealed.computerInventory(pool.id,actor);computerInput=buildSealedComputerDeck(inventory.cards,inventory.side,rules);}
+    }
+    const snapshot=body.poolId?{schema:1,format:'otsd',poolId:body.poolId,cards:ownerDeck.cards,...(mode==='cpu'?{computerPolicy:sealedDeckPolicy,computerDeck:computerInput}:{})}:ownerDeck.cards;
+    const state = mode === 'cpu' ? createMatch(id as string, deckSize as 40 | 60, [ownerDeck,deck(computerInput,other(side as Side),deckSize as number,rules)],rules) : null;
     const time = now(), c = minutes === null ? null : createClock(minutes as number,time), invite = mode === 'pvp' ? uuid() + uuid() : null;
     await db.prepare('INSERT INTO native_matches (id,owner,guest,owner_side,mode,rules_version,deck_size,owner_deck,invite_token,creation_hash,state,clock,version,created,updated) VALUES (?,?,NULL,?,?,?,?,?,?,?,?,?,0,?,?) ON CONFLICT(id) DO NOTHING').bind(id,actor,side,mode,rules.id,deckSize,JSON.stringify(snapshot),invite,hash,state ? JSON.stringify(state) : null,c ? JSON.stringify(c) : null,time,time).run();
     const row = await rowFor(id as string);if (row.owner !== actor || row.creation_hash !== hash) fail('That match ID was already used.', 409, 'MATCH_ID_REUSED');

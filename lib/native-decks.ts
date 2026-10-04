@@ -1,3 +1,5 @@
+import {buildSealedComputerDeck} from './sealed-computer-deck';
+import {SealedError} from './native-sealed';
 import {nativeSealedService,type SealedView} from './native-sealed';
 import manifest from '../data/native-proof/manifest.json';
 import {MatchServiceError} from './native-engine/service';
@@ -22,6 +24,7 @@ export function nativeDeckService(db:Pick<D1Database,'prepare'>,rules:Rules,now=
   if(unique.some(bp=>{try{return rules.definition(bp).side!==d.side}catch{return false}}))issues.push('Every card must belong to the chosen side.');
   const pool=d.poolId?await nativeSealedService(db).read(d.poolId,actor):undefined;
   if(pool)await nativeSealedService(db).checkDeck(pool.id,actor,d.side,d.size,d.cards);
+  if(pool?.mode==='cpu'&&!issues.length){const inventory=await nativeSealedService(db).computerInventory(pool.id,actor);try{buildSealedComputerDeck(inventory.cards,inventory.side,rules)}catch(e){if(!(e instanceof SealedError))throw e;issues.push(e.message)}}
   return {...d,source,eligible:issues.length===0,issues,...(pool?{pool}:{})};
  }
  function parse(row:Row):NativeDeck{

@@ -480,7 +480,7 @@
     "lib/native-engine/sector-effects.ts": "7890cc73e58e089f19e2ce01082c9e99dfc561612e0457ff1d5a91f0ddaeac9b",
     "lib/native-engine/sectors.ts": "aff7c1008a116c0720ed4ea8c132de873d937104f7e175fcc72ae6502385cca8",
     "lib/native-engine/server.ts": "97640a61463f9cf16f51ea1fe3e0ff5d0ddb9adc4da20eb7eb1acdba756687ec",
-    "lib/native-engine/service.ts": "2d29c327a05a97673938e9fe4c9c50bde8fbab137db5896b3e798996e2b26f5d",
+    "lib/native-engine/service.ts": "dbb784da2f0b9fec35fb7884be3a7e63c9c8ea9e7d770115a65667c8c86e9ad0",
     "lib/native-engine/setup.ts": "837397a33735d8dc878c7fee42f596621e5a53c248e0f3230337b3ee7aab8b74",
     "lib/native-engine/space-slug.ts": "acbe32b85da9dc1809c62321b007fb3ec14514c1ae1fcb3692574c5751c6ba07",
     "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
@@ -554,6 +554,18 @@
       "reason": "Sealed binding adds server inventory/participant checks before creating or joining a match and metadata to private projections. HTTP translates bounded pool errors. No runtime action, response, movement, trigger or card provider changes; exact starter pending-movement reachability remains unchanged.",
       "evidence": [
         "tests/native-engine/sealed-match.test.mjs",
+        "tests/native-engine/service.test.mjs",
+        "tests/native-engine/travel-response.test.mjs"
+      ]
+    },
+    {
+      "at": "2026-10-04T21:02:58.110757+00:00",
+      "files": [
+        "lib/native-engine/service.ts"
+      ],
+      "reason": "Computer sealed creation selects a40-card deck from a private persisted pool before invoking unchanged createMatch. Saved games retain both decks and policy version. No action provider, card effect, pending window or movement continuation changes; exact starter movement reachability remains unchanged.",
+      "evidence": [
+        "tests/native-engine/sealed-computer.test.mjs",
         "tests/native-engine/service.test.mjs",
         "tests/native-engine/travel-response.test.mjs"
       ]
