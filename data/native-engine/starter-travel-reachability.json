@@ -370,7 +370,7 @@
     "lib/native-engine/battle-effects.ts": "74bdd0fda6ed087bc4d6517d8a145c7564e0ab314f9080615bf124785889bb20",
     "lib/native-engine/battle-interrupts.ts": "171a149c5df3f9bedc8c94b11f99ea950be9af75d5354e99108497d83d528dc0",
     "lib/native-engine/battle-power.ts": "a9d909dc013ba5a420164a2a74487af1c1f2c694f45480581983998959f82ce0",
-    "lib/native-engine/battle.ts": "c8d7fcce5309f5cb6b7e593db44fbed3cbd920ad2dcab509e5b1d5e02345a6be",
+    "lib/native-engine/battle.ts": "43433242b3b37981f0991a8211f6bf2da800bf6b7460b8099885508753a2464d",
     "lib/native-engine/beru-stew.ts": "1f93fbc1229ae26330a54f38118484f11e4cd233babdb90979d2f1f5603d153b",
     "lib/native-engine/bespin.ts": "0b2f838ab0a2e4d5f296212eb4a88dac29b605de3e3b689963c9273f1eeb0b2d",
     "lib/native-engine/blown-away.ts": "ce9205ee25e580472f2ca045a55a190eedaa04933ffae30d517abda820ae0d67",
@@ -385,7 +385,7 @@
     "lib/native-engine/client.ts": "0619a4d641a8b58a2a169704bd16df1ade9216dda516ea323ba3d1210157a9d7",
     "lib/native-engine/combat-modifiers.ts": "9e3ee700337a44eb85061f354b031de57adc0155099942e33cfb52b2fdf8e060",
     "lib/native-engine/compactor.ts": "c3fc9774a17735657713299ad5982c0714543fea6d8dc874ac82414e46edb349",
-    "lib/native-engine/computer.ts": "4db2220b86b595d2b489fe37457c9b63ed869ccd47f7e1dbd1987d72c7a2ef1b",
+    "lib/native-engine/computer.ts": "af0cfb258a86b1b66105f494188f887e5a1f242d4db0f126167d396a8ae3ce7b",
     "lib/native-engine/creature-attack.ts": "0820b6c993ff79ab5aec603e25f1e974916624b2ca177e08a7a59af1c27dbdb8",
     "lib/native-engine/creature-encounters.ts": "26e00b6cda587de49df933057b06f76710e0c8b4d8b1043eb15b4b0fc5610883",
     "lib/native-engine/creature-profile.ts": "50988eda23382e12b8581ea3752278705275ce42b6fbfce8ba29dc3167604508",
@@ -466,14 +466,14 @@
     "lib/native-engine/otsd-orders.ts": "890c627a14e3cb201cda8552b308a494525bf64e198a5cb7b76bbd324e25019e",
     "lib/native-engine/otsd-ships.ts": "84f4f10e29c9000e4e36f49e9ec19472300a014548ebbd4dba957ba0ad17641f",
     "lib/native-engine/participation.ts": "4cdccab18a835123acb7e2cad7f06b16b1af7276d00254c4566dc384a96cc108",
-    "lib/native-engine/persona.ts": "1a21e751ac32feb44eda6554bb33a21a1beb94d6d085db6b18c8fd6d822bbdb3",
+    "lib/native-engine/persona.ts": "d09f85e58d6f1f1f1379fb080cab7d9bd2cade3ce452b379af190d455ccc1986",
     "lib/native-engine/phase-effects.ts": "5f5bc6a8b407d9b2533e21d204ba9506d018052b42784a076352facb8b15b2f2",
     "lib/native-engine/pile-reveal.ts": "d39574ec0ba75588037d2146ffd27655d9311b2c60e1e56a932756ec387ab191",
     "lib/native-engine/pilot-deploy.ts": "53895a50cbe1f8cf78eb89495f370acea3f4a2cd4b134975ed66aee392ace302",
     "lib/native-engine/piloting.ts": "7cb2d0a9d518ed12e54c4491e8919f7b66a2eb8a28fcf5a120f4fb1911b1b03a",
     "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
-    "lib/native-engine/premiere-rules.ts": "b4bd8c90599435e8122882e6227c11435b437ab1683f3d19b1bc81de78d8d85f",
+    "lib/native-engine/premiere-rules.ts": "95d191cf9b0e764b7e8784a32419c075a16744d7b9b419d2e40ae6962ba45a5d",
     "lib/native-engine/premiere-setup.ts": "2b15d5a53d8a17e05ef2e27d1c4be7cd236719478fee54dd321f3e164ed80ec9",
     "lib/native-engine/protocol-droid.ts": "b4057bd27173cd88ea96d58b1584322365ac7f3194f401e3199c108864e6a1e6",
     "lib/native-engine/public-values.ts": "a4d187766cad6467e6bcd071d7ed07b766b624bede25823734374d7e3c96d307",
@@ -521,7 +521,8 @@
     "lib/native-engine/bionic-hand.ts": "fee56fd2fefd40297200b296bde23ddb67bc08394cda1f105adbbff9bfdfbd71",
     "lib/native-engine/character-weapon-total.ts": "f16a99f503d6c577dd15dddec3d3cc80615111e3828f762c4aeeb7eece1aa9ef",
     "lib/native-engine/disarmed-state.ts": "318cecd66e0ab51d07fd8c877fd2691dbf41fd5be1afd431d8010a5fa0138b64",
-    "lib/native-engine/starting-interrupts.ts": "45ba7a49a05165f5b63572ea974a72226f9fe68f8d26a73ac0faaca1f25fe521"
+    "lib/native-engine/starting-interrupts.ts": "45ba7a49a05165f5b63572ea974a72226f9fe68f8d26a73ac0faaca1f25fe521",
+    "lib/native-engine/preparation-destiny.ts": "65eb82c08526d45e8478eb87c343a8c0e212ea93badb9044b92ee439a567d617"
   },
   "evidence": [
     "tests/native-engine/gemp/travel-response-provenance.json",
@@ -809,6 +810,21 @@
         "tests/native-engine/starting-interrupts.test.mjs",
         "tests/native-engine/gemp/starting-interrupt-provenance.json",
         "tests/native-engine/setup.test.mjs"
+      ]
+    },
+    {
+      "at": "2026-10-05T04:19:16.214069+00:00",
+      "files": [
+        "lib/native-engine/preparation-destiny.ts",
+        "lib/native-engine/premiere-rules.ts",
+        "lib/native-engine/persona.ts",
+        "lib/native-engine/computer.ts",
+        "lib/native-engine/battle.ts"
+      ],
+      "reason": "The new USED responses require an own individual battle-destiny-drawn window and printed9_139/9_51, both absent from the exact intro decks. They add no pending travel action, response window or replacement movement. The card-play registry applies existing uniqueness to their new handler; CPU consumes only projected legal choices. Printed Starting providers remain absent; production admission and all existing discrepancies remain closed. Battle draw continuations now retain their original physical reference for every newly created draw, including the simple single-draw path. This adds persisted identity, not a new timing opportunity; old snapshots without it still load.",
+      "evidence": [
+        "tests/native-engine/preparation-destiny.test.mjs",
+        "tests/native-engine/gemp/preparation-destiny-provenance.json"
       ]
     }
   ]

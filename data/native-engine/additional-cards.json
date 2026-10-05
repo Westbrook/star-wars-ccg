@@ -3694,5 +3694,39 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_012.java"
+  },
+  {
+    "gempId": "9_139",
+    "name": "Prepared Defenses",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used Or Starting",
+    "image": "https://res.starwarsccg.org/cards/DeathStarII-Dark/large/prepareddefenses.gif",
+    "text": "USED: Add 1 to your battle destiny just drawn. STARTING: Deploy up to three Effects if each of them deploys for free, is always immune to Alter and has 'deploy on table' (or 'deploy on your side of table') in its game text. Place Interrupt in Lost Pile.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "Death Star II"
+    ],
+    "status": "used-function-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/dark/Card9_139.java"
+  },
+  {
+    "gempId": "9_51",
+    "name": "Heading For The Medical Frigate",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used Or Starting",
+    "image": "https://res.starwarsccg.org/cards/DeathStarII-Light/large/headingforthemedicalfrigate.gif",
+    "text": "USED: Add 1 to your battle destiny just drawn. STARTING: Deploy up to three Effects if each of them deploys for free, is always immune to Alter and has 'deploy on table' (or 'deploy on your side of table') in its game text. Place Interrupt in Lost Pile.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "Death Star II"
+    ],
+    "status": "used-function-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/light/Card9_051.java"
   }
 ]

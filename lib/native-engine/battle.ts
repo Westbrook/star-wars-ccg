@@ -64,7 +64,7 @@ export type Battle = {
   knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[]; saberShots?: LightsaberShot[]; starshipShots?: StarshipShot[];
 };
 type History = {turn: number; sites: string[]; participants: string[]};
-type Payload = {flow?: DrawFlow; draws?: Draw[]; attachment?: AttachmentAttempt; site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
+type Payload = {reference?:CardReference; flow?: DrawFlow; draws?: Draw[]; attachment?: AttachmentAttempt; site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
 const pair = <T>(dark: T, light: T): Pair<T> => ({dark, light});
 function completedBattleDraws(b: Battle, side: Side): Draw[] {
   // Older saved battles predate the finalized record. Their plan contains all
@@ -406,7 +406,7 @@ export function battleResolve(m: Match, r: Resolution): void {
   } else if (kind === 'battle:drawn' || kind === 'battle:planned-drawn') {
     b.destiny[side] = p.draw!.value; b.destinyCards[side] = p.draw!.card;
     (b.destinyDraws ??= pair(null, null))[side] = structuredClone(p.draw!);
-    continuation(m, 'destiny-finish', {side, ...(p.flow ? {flow: p.flow} : {}), ...(p.draw!.card ? {card: p.draw!.card} : {})}, side);
+    continuation(m, 'destiny-finish', {side, ...(p.flow ? {flow: p.flow} : {}), ...(p.draw!.card ? {card: p.draw!.card,reference:referenceCard(m,p.draw!.card)} : {})}, side);
     if (!p.draw!.skipped) openWindow(m, 'response', other(side), {kind: p.draw!.value !== null ? 'battle-destiny-drawn' : 'battle-destiny-failed', card: p.draw!.card, side, ...(p.draw!.substitution ? {substituted: true, value: p.draw!.value} : {})});
   } else if (kind === 'battle:shot-total') {
     const shot = b.shots[p.index!]; shot.destiny = p.draw!.value;
@@ -474,6 +474,7 @@ export function assertBattle(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:equip') {const p = data(f); assertAttachmentAttempt(m, p.attachment!, p.card!, p.target!);}
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish') {
     const p = data(f);
+    if(p.reference){assertCardReference(m,p.reference,p.card);if(p.reference.zone!=='destiny')throw Error('Invalid battle draw reference.');}
     if (p.flow) {assertDrawFlow(m, p.flow, battle(m)?.destinyDraws?.[p.side!]!); if (p.flow.side !== p.side || f.actor !== p.side || p.flow.source !== battle(m)?.site || p.flow.category !== 'battle' || p.flow.scope !== battle(m)?.destinyScopes?.[p.side!] || !battle(m)?.destinyPlans?.[p.side!] || (p.flow.retain ? p.flow.next.handler !== 'selection:drawn' : p.flow.next.handler !== 'battle:plan-draw')) throw Error('Invalid battle draw actor.');}
     if (!sides.includes(p.side!) || p.card !== undefined && m.cards[p.card]?.owner !== p.side || p.redraw !== undefined && typeof p.redraw !== 'boolean') throw Error('Invalid battle destiny continuation.');
   }

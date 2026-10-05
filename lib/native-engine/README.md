@@ -3303,3 +3303,25 @@ The ordinary shuffled60-card match in `tests/native-engine/gemp/bionic-match-pro
 This follows [Starting the game and Starting Interrupts in the Advanced Rulebook](https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf). `starting-interrupt-provenance.json` binds eight ordinary GEMP setups using Prepared Defenses and Heading For The Medical Frigate in decks with no Effects. All play/decline combinations, both turn orders, simultaneous disclosure and final pile counts agree. Lost arrivals are independently observed, not inferred by sorting into the expected order. All6,820 production files remain unchanged.
 
 The test-only provider abstracts those cards' unsuccessful search verification. It does **not** implement their full starting or USED functions, and no printed Starting Interrupt is registered or admitted in production yet. The next required work is card-specific legal deployment/search, verification and mandatory results, plus in-game functions and their conformance. The protocol's nine browser flows exercise actual HTTP handlers/service/SQLite D1 with private choices and persisted refresh at1440/834/390. This is engine infrastructure, not a standalone Rules Lab study or a full-match admission claim.
+
+### Prepared Defenses / Heading For The Medical Frigate — USED functions
+
+`preparation-destiny.ts` implements the printed USED functions of Dark9_139 and
+Light9_51 in ordinary battle responses. Each adds1 to its own individual physical
+battle destiny, respects unique-card play limits, supports Sense cancellation,
+and binds the exact pending draw across relocation, reload and nested responses.
+A later Han’s Dice redraw discards the earlier bonus. Substituted/failed draws,
+opposing destiny, weapon destiny and total-result windows grant no such action.
+CPU policy20 chooses the legal bonus using only its player projection.
+
+The unchanged pinned GEMP receipt `gemp/preparation-destiny-provenance.json`
+records six actual outcomes: each side’s successful play, Sense cancellation and
+response-time destiny relocation. Fixtures explicitly prepare board/Force/hand/
+destiny; this is component evidence, not an ordinary complete-match receipt.
+The native definitions are marked `used-function-only`. Their STARTING searches
+are **not registered**, and production admission remains closed. The currently
+implemented table Effects do not meet all three printed requirements (free,
+always immune to Alter, exact table-deployment phrase), so no ineligible Effect
+is substituted. Next implement actual eligible Effect providers plus setup
+search/verification and deployment timing, then exercise both functions in
+continuous complete games. Existing full-engine requirements remain unfinished.

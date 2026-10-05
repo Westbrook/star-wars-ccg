@@ -1,0 +1,21 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T04:19:16.214069+00:00",
+  "harness": "NativeEnginePreparationDestinyOracleTests.java",
+  "results": "preparation-destiny-results.json",
+  "junitTests": 1,
+  "branches": 6,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": [
+    "Actual USED plays for both9_139 and9_51; ordinary completion, actual Sense cancellation and physical destiny relocation.",
+    "Individual completed-draw value and source/destiny zones independently observed."
+  ],
+  "limits": [
+    "Component fixtures explicitly prepare board, hands, Force and top destiny. Relocation is a controlled intervention.",
+    "Starting effects, broader interactions and complete-match conformance remain required. Neither full card nor native production admission is certified."
+  ],
+  "harnessSha256": "bd3f36c404984d07db7c4e5e82454fa152cfd252765cf1a8d8dce1d69b7ab889",
+  "resultsSha256": "5ca9e218ec91daa26f1ed4aef0e97e68007a0f652fa28747ecb57cdd1e258da1"
+}
