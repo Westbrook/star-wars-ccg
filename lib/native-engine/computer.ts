@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-21';
+export const computerPolicy = 'native-cpu-22';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -77,6 +77,8 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     const [kind,a,b] = c.id.split(':');
     if (c.id === 'concede') return -Infinity;
     if (c.id === 'pass') return 0;
+    if(kind==='prep-start')return a==='deploy'?40:a==='done'?20:30;
+    if(kind==='starting-select')return 30;
     if (p.timing === 'setup') return c.forceIcons ? 20 + c.forceIcons[side] * 3 - c.forceIcons[opponent] : 10;
     if (c.id === 'core:activate' || c.id === 'core:declare-activation') return 100;
     if (c.id.startsWith('core:activation-amount:')) return 100 + Number(c.id.split(':')[2]);

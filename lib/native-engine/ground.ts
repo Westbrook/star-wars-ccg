@@ -154,6 +154,7 @@ export function syncForceLosses(m: Match): void {
   }
 }
 export function queueForceLoss(m: Match, loss: Loss): void {
+  if(m.status==='setup')return;
   if (!loss.ledger && loss.remaining <= 0) return;
   loss.ledger ??= lossLedger(loss.remaining, loss.source === 'drain' ? 'drain' : 'effect');
   loss.remaining = remainingForceLoss(m, loss);

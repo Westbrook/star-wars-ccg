@@ -3709,7 +3709,7 @@
     "icons": [
       "Death Star II"
     ],
-    "status": "used-function-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/dark/Card9_139.java"
   },
   {
@@ -3726,7 +3726,7 @@
     "icons": [
       "Death Star II"
     ],
-    "status": "used-function-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/light/Card9_051.java"
   },
   {

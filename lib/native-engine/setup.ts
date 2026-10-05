@@ -1,4 +1,4 @@
-import {beginStartingInterrupts,startingInterruptPrompt,applyStartingInterrupt,projectStartingInterrupts,assertStartingInterrupts,type StartingInterruptRules} from './starting-interrupts';
+import {beginStartingInterrupts,startingStackAllowed,startingInterruptPrompt,applyStartingInterrupt,projectStartingInterrupts,assertStartingInterrupts,type StartingInterruptRules} from './starting-interrupts';
 import {moveCard, shufflePile} from './state';
 import {other, sides, type Match, type Prompt, type Side, type StartingLocation} from './types';
 import type {Entropy} from './random';
@@ -156,7 +156,7 @@ export function assertSetup(m: Match, rules: LocationSetupRules): void {
   // After setup, characters may move and locations may convert. The historical
   // starting choice is retained without asserting that its board is immutable.
   if (s.stage === 'complete' && m.status !== 'setup') return;
-  if (m.status === 'playing' || m.stack.length) throw Error('Gameplay entered unfinished setup.');
+  if (m.status === 'playing' || m.stack.length&&!startingStackAllowed(m,rules.interrupts)) throw Error('Gameplay entered unfinished setup.');
   const pending=rules.additionalOptions?.(m);
   if(s.stage==='additional'&&(!pending||!pending.choices.length)||['starting-choice','starting-reveal','starting-resolve','shuffle','complete'].includes(s.stage)&&pending)throw Error('Required starting deployment was skipped.');
   if(s.interrupts?.revealed)return;

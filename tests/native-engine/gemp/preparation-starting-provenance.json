@@ -1,0 +1,22 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T05:11:00.803596+00:00",
+  "harness": "NativeEnginePreparationStartingOracleTests.java",
+  "results": "preparation-starting-results.json",
+  "harnessSha256": "8b895bc15abd576f91b8637209ffbafa4cb35db07467a65f284b5f3db1ac45aa",
+  "resultsSha256": "bb584f04c4e50edf305d4e328f98ca3fa77e5718ef5cacccc60febb2bc994337",
+  "junitTests": 1,
+  "branches": 16,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": [
+    "Normal 60-card setups: one preparation Interrupt, two copies of the one supported unique Effect (or none), one location, remaining troopers. No board/hand/Force/shuffle interventions.",
+    "Both first players, both play/decline selections, successful and unsuccessful searches. Actual Lost arrival order, table Effects and final pile counts compared."
+  ],
+  "limits": [
+    "Each side has only one supported eligible unique Effect title. No claim of three distinct Effects or full printed-card/catalog conformance.",
+    "GEMP performs its own random shuffle; opening-hand identities are not compared.",
+    "Native production admission remains closed. Native 40-card and full-game CPU continuations are integration evidence, not GEMP complete-match parity."
+  ]
+}

@@ -1,3 +1,4 @@
+import {resumeStartingInterrupts} from './starting-interrupts';
 import {mayActivateNormally,needsDeclaration,askActivationAmount,activationAmountChoices,chooseActivationAmount,resolveDeclaredActivation,assertDeclaredActivation,declaration,opposingInserts} from './declared-activation';
 import {validForceQuantity, wholeForce} from './force-quantity';
 import {assertCardReference, referenceCard, type CardReference} from './identity';
@@ -78,7 +79,7 @@ export function openWindow(match: Match, timing: Timing, priority: Side, event?:
 /** Real activation, including card text, counts each unit and yields its own
  * response window. Merely placing a card on Force does not call this helper. */
 export function activateOneForce(m: Match, side: Side): boolean {
-  if (!mayActivate(m,side) || !m.players[side].reserve.length) return false;
+  if (m.status==='setup'||!mayActivate(m,side) || !m.players[side].reserve.length) return false;
   const id = moveTop(m,side,'reserve','force');
   openWindow(m,'response',other(side),recordActivation(m,side,id) as unknown as Json);
   return true;
@@ -87,6 +88,7 @@ export function activateOneForce(m: Match, side: Side): boolean {
 /** Card-text activation rounds once, then rechecks Reserve and prohibitions
  * after each unit's responses. It never spends the turn's generation allowance. */
 export function activateForce(m: Match, side: Side, source: string, amount: number, maximum?: number): void {
+  if(m.status==='setup')return;
   const count=wholeForce(amount), sourceRef=referenceCard(m,source);
   if (!sides.includes(side)) throw Error('Invalid activation side.');
   if(maximum!==undefined && (!Number.isSafeInteger(maximum)||maximum<count))throw Error('Invalid variable activation maximum.');
@@ -131,6 +133,7 @@ export function startTurns(before: Match, rules: Rules): Match {
 function enterTurns(match: Match, rules: Rules): void {
   if (rules.starting) assertSetup(match, rules.starting);
   if (match.status !== 'setup' || match.stack.length || match.setup && match.setup.stage !== 'complete' || !rules.setupComplete(match)) throw Error('Starting setup is incomplete.');
+  delete match.data.deployments;delete match.data.cardPlays;
   match.status = 'playing';
   const first=rules.starting?.firstPlayer?.(match)??'dark';
   if(!sides.includes(first))throw Error('Invalid first player.');
@@ -142,7 +145,7 @@ function affordable(match: Match, action: Action): boolean {
   const payment = action.payment ?? {};
   return Object.keys(payment).every(key => (sides as readonly string[]).includes(key)) && sides.every(side => {
     const amount = payment[side] ?? 0;
-    return validForceQuantity(amount) && wholeForce(amount) <= match.players[side].force.length;
+    return validForceQuantity(amount) && (match.status==='setup'||wholeForce(amount) <= match.players[side].force.length);
   });
 }
 
@@ -152,6 +155,7 @@ type ForcePayment = {
 };
 /** Keep the parent suspended until every cost-result response has resolved. */
 export function queueForcePayment(m: Match, parent: Resolution, payment: Payment): void {
+  if(m.status==='setup')return;
   if (!affordable(m, {...parent.action, payment})) throw Error('Insufficient Force or invalid payment.');
   const amounts = {dark: wholeForce(payment.dark ?? 0), light: wholeForce(payment.light ?? 0)};
   // Dual-pile deployment costs use the opponent’s pile first (GEMP PayDeployCostEffect).
@@ -229,8 +233,8 @@ function available(match: Match, window: Window, rules: Rules): Action[] {
 export function prompt(match: Match, rules: Rules, seat: Side): Prompt | null {
   validate(match, rules);
   if (!sides.includes(seat)) throw Error('Invalid seat.');
-  if (match.status === 'setup' && rules.starting) return setupPrompt(match, rules.starting, seat);
-  if (match.status !== 'playing') return null;
+  if (match.status === 'setup' && !match.stack.length) return rules.starting ? setupPrompt(match, rules.starting, seat) : null;
+  if (match.status !== 'playing'&&match.status!=='setup') return null;
   const frame = top(match);
   if (!frame) throw Error('Missing continuation.');
   if (frame.kind === 'decision') {
@@ -317,7 +321,7 @@ function closeWindow(match: Match, window: Window, rules: Rules): void {
 
 function settle(match: Match, rules: Rules, context: Context): void {
   let transitions = 0;
-  while (match.status === 'playing') {
+  while (match.status === 'playing'||match.status==='setup'&&match.stack.length) {
     if (rules.interrupt?.(match,context)) {if (++transitions > 1000) throw Error('Rule interruption did not yield.'); continue;}
     const window = top(match);
     const parent = match.stack.at(-2);
@@ -369,7 +373,7 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
     const legal = prompt(before, rules, seat);
     if (!legal || legal.side !== seat || !legal.choices.some(c => c.id === command.choice)) throw Error('Illegal choice for this seat.');
     const frame = top(match);
-    if (match.status === 'setup') {
+    if (match.status === 'setup'&&!match.stack.length) {
       applySetup(match, rules.starting!, seat, command.choice, entropy);
       if (match.setup!.stage === 'complete') enterTurns(match, rules);
     } else if (frame?.kind === 'decision') {
@@ -398,6 +402,7 @@ export function applyCommand(before: Match, rules: Rules, seat: Side, command: C
     }
     concludeIfEmpty(match);
     settle(match, rules, {entropy, now});
+    if(match.status==='setup')resumeStartingInterrupts(match,rules.starting?.interrupts);
   }
   match.revision++;
   validate(match, rules);

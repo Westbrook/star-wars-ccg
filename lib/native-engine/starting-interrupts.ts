@@ -8,6 +8,9 @@ export interface StartingInterruptRules {
  candidates(match:Match,side:Side):string[];
  choices(match:Match,card:string):Prompt['choices'];
  apply(match:Match,card:string,choice:string,entropy:Entropy):boolean;
+ /** A printed provider may run nested responses before its result completes. */
+ running?(match:Match,card:string):boolean;
+ complete?(match:Match,card:string):boolean;
  validate(match:Match):void;
 }
 export type StartingInterruptSetup={
@@ -44,6 +47,15 @@ export function startingInterruptPrompt(m:Match,r:StartingInterruptRules,seat:Si
  }else throw Error('Not a starting Interrupt step.');
  return {revision:m.revision,side,timing:'setup',mandatory:true,choices:side===seat?choices:[]};
 }
+export function resumeStartingInterrupts(m:Match,r:StartingInterruptRules|undefined):void {
+ if(m.status!=='setup'||m.stack.length||m.setup?.stage!=='starting-resolve'||!r?.complete)return;
+ const i=m.setup.interrupts!,card=i.selected[i.order[i.resolved]];
+ if(card&&r.complete(m,card)){i.resolved++;if(i.resolved===i.order.length)finish(m);}
+}
+export function startingStackAllowed(m:Match,r:StartingInterruptRules|undefined):boolean {
+ const i=m.setup?.interrupts;if(m.setup?.stage!=='starting-resolve'||!i||!r?.running)return false;
+ const card=i.selected[i.order[i.resolved]];return !!card&&r.running(m,card);
+}
 function finish(m:Match){
  const i=m.setup!.interrupts!;
  i.opening=Object.fromEntries(sides.map(side=>[side,{hand:m.players[side].hand.length,reserve:m.players[side].reserve.length}])) as StartingInterruptSetup['opening'];
@@ -58,6 +70,7 @@ export function applyStartingInterrupt(m:Match,r:StartingInterruptRules,seat:Sid
   i.committed[seat]=true;if(sides.every(side=>i.committed[side]))s.stage='starting-reveal';
  }else if(s.stage==='starting-reveal'){
   if(choice!=='starting-reveal'||seat!=='dark')throw Error('Invalid starting Interrupt reveal.');
+  m.turn.side=first;
   i.revealed=true;i.order=[first,other(first)].filter(side=>i.selected[side]!==null);
   if(i.order.length)s.stage='starting-resolve';else finish(m);
  }else if(s.stage==='starting-resolve'){

@@ -33,6 +33,7 @@ export function canEnterTable(m: Match, id: string): boolean {
   return true;
 }
 export function canPlayThisTurn(m: Match, id: string): boolean {
+  if(m.status==='setup')return true;
   const bp = m.cards[id].blueprint, max = limit(bp), plays = history(m).cards;
   if (plays.filter(p => title(p.blueprint) === title(bp)).length >= max) return false;
   // AR p75 includes persona in the per-turn restriction. Pinned GEMP's title
@@ -46,6 +47,7 @@ export function canPlayCard(m: Match, id: string): boolean {
 /** Record when a real play/deployment is initiated, before costs and responses.
  * A canceled action still consumes its allowance. No record for revival. */
 export function recordCardPlay(m: Match, id: string): void {
+  if(m.status==='setup')return;
   const h = history(m); h.cards.push({card: id, blueprint: m.cards[id].blueprint, side: m.cards[id].owner});
   m.data.cardPlays = h as unknown as import('./types').Json;
 }

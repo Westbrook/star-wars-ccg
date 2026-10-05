@@ -1,3 +1,4 @@
+import {preparationStarting} from './preparation-starting';
 import {invalidHothStarting,hothStartingOptions,deployHothStarting,assertHothStarting,hothStartingPlacements} from './hoth-setup';
 import {sectorDefinitions,caveDefinitions} from './sector-definitions';
 import manifest from '../../data/native-proof/manifest.json';
@@ -30,11 +31,12 @@ export const premiereLocations:Record<string,{system:string;icons:Record<Side,nu
 
 const definitions = new Map(manifest.cards.map(card => [card.gempId, card]));
 export const premiereSetup: LocationSetupRules = {
+  interrupts:preparationStarting,
   invalidStarting:invalidHothStarting,additionalOptions:hothStartingOptions,deployAdditional:deployHothStarting,validateAdditional:assertHothStarting,
   firstPlayer: match => match.setup?.selected.dark && match.cards[match.setup.selected.dark]?.blueprint==='2_143' ? 'light' : 'dark',
-  // These authored decks have no Objectives, Starting Effects/Interrupts or
-  // other starting actions. Unknown cards cannot enter this setup path.
-  ordinarySetup: match => Object.values(match.cards).every(card => definitions.has(card.blueprint)),
+  // Ordinary locations plus the two implemented preparation Interrupts and
+  // their eligible Effects. Other special starting sequences remain gated.
+  ordinarySetup: match => Object.values(match.cards).every(card => definitions.has(card.blueprint)||['9_139','9_51','4_21','4_134','2_143'].includes(card.blueprint)),
   location: (match, id) => {
     const blueprint = match.cards[id]?.blueprint, site = premiereLocations[blueprint];
     return site && !caveDefinitions[blueprint] && (!sectorDefinitions[blueprint] || sectorDefinitions[blueprint].unique) ? {identity: definition(blueprint).name, group: site.system, icons: site.icons, convertible: true} : null;

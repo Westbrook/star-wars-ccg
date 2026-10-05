@@ -56,8 +56,8 @@ test('executed GEMP receipt binds the exact harness and six observations',()=>{
  for(const [file,hash]of [[receipt.harness,receipt.harnessSha256],[receipt.results,receipt.resultsSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(new URL('./gemp/'+file,import.meta.url))).digest('hex'),hash);
  assert.equal(oracle.length,6);assert.equal(receipt.productionFilesCompared,6820);assert.equal(receipt.productionFilesChanged,0);
 });
-test('the USED implementations do not admit unfinished Starting cards into ordinary setup',()=>{
- const {premiereSetup}=load(new URL('../../lib/native-engine/premiere-setup.ts',import.meta.url)),f=ready();assert.equal(premiereSetup.ordinarySetup(f.m),false);assert.equal(premiereSetup.interrupts,undefined);assert.equal(rules.supports('9_139'),true);const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));assert.equal(premiereRules.supports('9_139'),false);
+test('preparation Starting provider is registered but full native admission remains closed',()=>{
+ const {premiereSetup}=load(new URL('../../lib/native-engine/premiere-setup.ts',import.meta.url)),f=ready();assert.equal(premiereSetup.ordinarySetup(f.m),false);assert.ok(premiereSetup.interrupts);assert.equal(rules.supports('9_139'),true);const {premiereRules}=load(new URL('../../lib/native-engine/premiere-rules.ts',import.meta.url));assert.equal(premiereRules.supports('9_139'),false);
 });
 
 for(const side of ['dark','light'])test(side+': bonus changes one draw in a multiple-destiny sequence',()=>{const f=ready(side,1);assert.ok(f.m.stack.at(-2).action.payload.flow);const m=total(step(f.m,choice(f)),side);assert.deepEqual(event(m).draws.map(d=>d.value),[2,1]);assert.equal(event(m).total,3);});

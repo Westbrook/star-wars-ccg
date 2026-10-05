@@ -1,3 +1,4 @@
+import {preparationStartingResolve,preparationStartingChoices,preparationStartingChoose,preparationStartingView,assertPreparationStarting} from './preparation-starting';
 import {tryEffectActions,tryEffectAutomatic,tryEffectInitiate,tryEffectResolve,assertTryEffects} from './try-effects';
 import {preparationActions,preparationInitiate,preparationResolve,assertPreparations} from './preparation-destiny';
 import {weaponDestinyView} from './destiny';
@@ -292,6 +293,7 @@ export const premiereRules: Rules = {
     else if (r.action.handler.startsWith('ability-effect:')) abilityEffectResolve(m,r);
     else if (r.action.handler.startsWith('battle-effect:')) battleEffectResolve(m,r);
     else if (r.action.handler.startsWith('try-effect:')) tryEffectResolve(m,r);
+    else if (r.action.handler.startsWith('prep-start:')) preparationStartingResolve(m,r);
     else if (r.action.handler.startsWith('preparation:')) preparationResolve(m,r);
     else if (r.action.handler.startsWith('force-effect:')) forceEffectResolve(m, r);
     else if (r.action.handler.startsWith('cancel:')) cancellationResolve(m, r);
@@ -328,6 +330,7 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   decisions: (m, d) => {
+    if(d.handler.startsWith('prep-start:'))return preparationStartingChoices(m,d);
     if(d.handler.startsWith('compactor:'))return compactorChoices(m,d);
     if(d.handler.startsWith('scomp:'))return scompChoices();
     if(d.handler.startsWith('orders:'))return ordersChoices(m,d);
@@ -366,6 +369,7 @@ export const premiereRules: Rules = {
     return groundDecisions(m, d);
   },
   choose: (m, d, c, context) => {
+    if(d.handler.startsWith('prep-start:')){preparationStartingChoose(m,d,c);return;}
     if(d.handler.startsWith('compactor:')){compactorChoose(m,d,c);return;}
     if(d.handler.startsWith('scomp:')){scompChoose(m,d,c);return;}
     if(d.handler.startsWith('orders:')){ordersChoose(m,d,c);return;}
@@ -406,9 +410,9 @@ export const premiereRules: Rules = {
     syncForceLosses(m);
   },
   canPass: battleCanPass,
-  view: (m, seat, now) => ({...weaponDestinyView(m),...disarmedView(m),...mentorView(m,seat),...serviceView(m,seat),...alienSearchView(m,seat),...heavyWeaponView(m),...fusionView(m),...artilleryView(m),...generatorView(m),...destructionView(m),...hothView(m),values: publicValues(m),...encounterView(m),...attackView(m),...slugView(m),...sectorsView(m),...asteroidView(m),...lostArtooView(m),...fighterTroubleView(m),...wedgeView(m,seat),...hyperEscapeView(m),...tallonView(m) as Record<string,Json>,...mobileView(m),...characterReactView(m),...vehicleReactView(m),...pilotDeployView(m),...dockingView(m),...vesselTravelView(m),...occupancyView(m),...nighttimeView(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>,...scompView(m,seat), ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
+  view: (m, seat, now) => ({...preparationStartingView(m,seat),...weaponDestinyView(m),...disarmedView(m),...mentorView(m,seat),...serviceView(m,seat),...alienSearchView(m,seat),...heavyWeaponView(m),...fusionView(m),...artilleryView(m),...generatorView(m),...destructionView(m),...hothView(m),values: publicValues(m),...encounterView(m),...attackView(m),...slugView(m),...sectorsView(m),...asteroidView(m),...lostArtooView(m),...fighterTroubleView(m),...wedgeView(m,seat),...hyperEscapeView(m),...tallonView(m) as Record<string,Json>,...mobileView(m),...characterReactView(m),...vehicleReactView(m),...pilotDeployView(m),...dockingView(m),...vesselTravelView(m),...occupancyView(m),...nighttimeView(m),...labriaView(m) as Record<string,Json>,...angerView(m) as Record<string,Json>,...doomedView(m) as Record<string, Json>, ...scavengeView(m) as Record<string, Json>, ...scanView(m, seat) as Record<string, Json>, ...battleView(m) as Record<string, Json>, ...equipmentView(m, seat) as Record<string, Json>,...scompView(m,seat), ...darkPathView(m,seat) as Record<string,Json>, ...travelView(m, seat) as Record<string, Json>, ...retrievalView(m) as Record<string, Json>, ...duelView(m) as Record<string, Json>}),
   validate: match => {
-    assertTryEffects(match);assertPreparations(match);assertMentor(match);assertObiWan(match);assertBattleInterrupts(match);assertCompactor(match);assertService(match);assertScomp(match);assertOrders(match);assertAlienSearch(match);assertOtsdRecruits(match);
+    assertPreparationStarting(match);assertTryEffects(match);assertPreparations(match);assertMentor(match);assertObiWan(match);assertBattleInterrupts(match);assertCompactor(match);assertService(match);assertScomp(match);assertOrders(match);assertAlienSearch(match);assertOtsdRecruits(match);
     assertPowerDroids(match);assertFusion(match);assertHeavyWeapons(match);assertGeneratorShots(match);assertBlownAway(match);assertHothMovement(match);assertHothDeployment(match);assertCreatureEncounters(match);assertCreatureWeapons(match);assertGroundCreatures(match);assertCreatureAttack(match);assertSpaceSlugs(match);assertSectors(match);assertSectorEffects(match);assertAsteroids(match);assertMobileSystems(match);assertOccupancy(match);assertVessels(match);
     assertVesselTravel(match);
     assertPilotDeploy(match);

@@ -3302,7 +3302,7 @@ The ordinary shuffled60-card match in `tests/native-engine/gemp/bionic-match-pro
 
 This follows [Starting the game and Starting Interrupts in the Advanced Rulebook](https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf). `starting-interrupt-provenance.json` binds eight ordinary GEMP setups using Prepared Defenses and Heading For The Medical Frigate in decks with no Effects. All play/decline combinations, both turn orders, simultaneous disclosure and final pile counts agree. Lost arrivals are independently observed, not inferred by sorting into the expected order. All6,820 production files remain unchanged.
 
-The test-only provider abstracts those cards' unsuccessful search verification. It does **not** implement their full starting or USED functions, and no printed Starting Interrupt is registered or admitted in production yet. The next required work is card-specific legal deployment/search, verification and mandatory results, plus in-game functions and their conformance. The protocol's nine browser flows exercise actual HTTP handlers/service/SQLite D1 with private choices and persisted refresh at1440/834/390. This is engine infrastructure, not a standalone Rules Lab study or a full-match admission claim.
+The test-only provider abstracts those cards' unsuccessful search verification. It does **not** implement their full starting or USED functions, The actual printed provider is described below; full native admission remains closed. The protocol's nine browser flows exercise actual HTTP handlers/service/SQLite D1 with private choices and persisted refresh at1440/834/390. This is engine infrastructure, not a standalone Rules Lab study or a full-match admission claim.
 
 ### Prepared Defenses / Heading For The Medical Frigate — USED functions
 
@@ -3318,13 +3318,10 @@ The unchanged pinned GEMP receipt `gemp/preparation-destiny-provenance.json`
 records six actual outcomes: each side’s successful play, Sense cancellation and
 response-time destiny relocation. Fixtures explicitly prepare board/Force/hand/
 destiny; this is component evidence, not an ordinary complete-match receipt.
-The native definitions are marked `used-function-only`. Their STARTING searches
-are **not registered**, and production admission remains closed. The currently
-implemented table Effects do not meet all three printed requirements (free,
-always immune to Alter, exact table-deployment phrase), so no ineligible Effect
-is substituted. Next implement actual eligible Effect providers plus setup
-search/verification and deployment timing, then exercise both functions in
-continuous complete games. Existing full-engine requirements remain unfinished.
+The STARTING provider now supports the two implemented eligible Effects below;
+metadata remains `component-coverage-only` and production admission stays closed.
+Full-match GEMP conformance exercising both functions and additional eligible
+Effect providers remain required.
 
 ### Do, Or Do Not / There Is No Try
 
@@ -3346,5 +3343,38 @@ source departure after initiation, reduction, final Life Force and invalid saved
 continuations. Six Playwright1.62.1/Chromium1234 flows use actual HTTP/service/SQLite
 D1 at1440/834/390; both seats refresh between individual payments and between the
 two mandatory losses without duplication. These are component fixtures, not a
-full-match certification. Actual Starting Interrupt searches/deployments and
-broader engine scope remain required; full native production admission is closed.
+full-match certification. Starting Interrupt integration is described below;
+broader engine scope remains required and full native admission stays closed.
+
+### Starting preparation searches and deployments
+
+`preparation-starting.ts` registers both preparation Interrupts in ordinary
+setup. Private Reserve inspection offers the implemented eligible Effect of
+each side (4_21 or 4_134), enforces uniqueness, and gives the opponent inspection
+only when verifying an unsuccessful search. Actual deployment and arrival
+responses resolve before the Interrupt enters Lost and before the other player
+resolves their preparation. Both finish before shuffle and eight-card opening
+hands. Setup ignores activation, use and loss of Force as required by AR p36;
+setup deployment/play history does not consume first-turn allowances.
+
+The provider uses a persisted response stack with private projections, legal
+computer choices (policy22), concession, duplicate-command protection and
+refresh recovery. Sixteen unchanged GEMP executions compare exact 60-card deck
+compositions, both first players, all play/decline combinations, successful and
+empty searches, Lost arrival order, table Effects and final pile counts. The
+reference chooses its own shuffle; opening-hand identities are not compared.
+See `gemp/preparation-starting-provenance.json` for source and result hashes.
+
+Nine Playwright flows cover actual HTTP/service/SQLite D1 at1440/834/390, with
+both-seat refresh during private search, deployment and failed verification.
+Four CPU-service flows verify durable setup and idempotent requests. Ordinary
+40/60-card computer games complete from location choice through Life Force
+victory using only legal commands and saved-state round trips. Those complete
+native games are integration evidence, not GEMP full-match parity.
+
+Only one unique eligible Effect title per side is implemented here. The printed
+three-Effect capacity and other eligible Effects still need actual card
+providers and conformance evidence. Synthetic arrival-response tests establish
+shared setup semantics but do not certify unimplemented card interactions.
+Full engine/card scope and all existing discrepancies remain outstanding;
+production admission is closed. No new Rules Lab study is added.
