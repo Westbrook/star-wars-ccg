@@ -53,6 +53,17 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
+ if(['battle-add','named-cancel'].includes(kind)){
+  const i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Reference action answer missing');
+  const label=row.parameters.actionText[i].toLowerCase();
+  assert.ok(kind==='battle-add'?['add two battle destiny','add battle destiny'].includes(label):label.startsWith('cancel '),'Reference semantic action does not match the chosen command: '+label);
+  if(kind==='named-cancel'){
+   const bp=row.targetObservation?.blueprint;assert.ok(bp,'Cancellation target blueprint missing');
+   assert.equal(label,'cancel '+board.definition(bp).name.toLowerCase(),'Cancellation label differs from the observed target');
+   assert.ok(row.text.startsWith('Playing ')&&row.text.includes("value='"+bp+"'"),'Cancellation is not responding to the recorded card play');
+  }
+  return;
+ }
  if(!['activate','draw','deploy','equip','fire','site','move','battle','drain','barrier','reduce','explode','macroscan','peek','kintan','old-ben','stun','dice','takeel','run-luke','escape','vehicle-react','hyperspace','maneuver'].includes(kind))return;
  const index=row.parameters.actionId?.indexOf(row.answer);assert.ok(index>=0,'Reference action answer missing');
  const label=row.parameters.actionText[index].toLowerCase();
@@ -98,11 +109,16 @@ export function assertRecoverySelection(row,side,blueprint,kind='old-ben'){
 
 /** Targets are read from the selected GEMP Action after actual targeting. This
  * also covers its single-target shortcut, without guessing from a later turn. */
-export function assertInterruptTarget(rows,index,cards){
+export function assertInterruptTarget(rows,index,cards,{playing=false}={}){
  const row=rows[index],s=row.semantic,o=row.targetObservation;
  assert.ok(o&&Number.isSafeInteger(o.afterDecision)&&o.afterDecision>=index&&o.afterDecision<rows.length,'Missing actual target observation');
  assert.equal(o.card,s.target);assert.equal(o.blueprint,cards[s.target]?.blueprint,'Target blueprint differs');
- assert.ok(row.state.table.some(c=>c.id===s.target),'Target must be on table at initiation');
+ if(playing){
+  assert.equal(s.kind,'named-cancel');assert.equal(o.afterDecision,index,'Playing-card cancellation must observe its bound target immediately');
+  const previous=rows.slice(0,index).findLast(r=>r.semantic&&!['pass','interrupt-target'].includes(r.semantic.kind));
+  assert.equal(previous?.semantic.kind,'battle-add','Cancellation must bind the pending addition');assert.equal(previous.semantic.card,s.target,'Cancellation target differs from pending source');
+  assert.ok(!row.state.table.some(c=>c.id===s.target)&&!Object.values(row.state.players).some(p=>Object.values(p).some(pile=>pile.includes(s.target))),'Cancellation target is not being played');
+ }else assert.ok(row.state.table.some(c=>c.id===s.target),'Target must be on table at initiation');
  if(o.afterDecision!==index){
   const selected=followingTarget(rows,index,'interrupt-target');assert.equal(rows.indexOf(selected),o.afterDecision);
   assert.equal(selected.semantic.side,s.side);assert.equal(selected.semantic.card,s.target);
@@ -111,6 +127,35 @@ export function assertInterruptTarget(rows,index,cards){
   if(selected.parameters.selectable)assert.equal(selected.parameters.selectable[i],'true');
  }
  return s.target;
+}
+
+/** Each primary target is observed on the selected reference Action. A shortcut
+ * may fill several groups at once; explicit dialogs must account for their own
+ * answer before any later gameplay action, without borrowing future choices. */
+export function assertInterruptTargets(rows,index,cards){
+ const row=rows[index],s=row.semantic,observations=row.targetObservations;
+ assert.equal(s.kind,'battle-add');assert.ok(Array.isArray(s.targets)&&s.targets.length===2&&new Set(s.targets).size===2,'Paired addition needs two distinct targets');
+ assert.ok(Array.isArray(observations)&&observations.length===2,'Missing primary target observations');
+ assert.deepEqual(observations.map(o=>o.card),s.targets,'Observed target order differs');
+ assert.equal(new Set(observations.map(o=>o.group)).size,2,'Each target needs its own primary group');
+ for(const o of observations){
+  assert.ok(Number.isSafeInteger(o.group)&&o.group>=0,'Invalid primary target group');
+  assert.equal(o.blueprint,cards[o.card]?.blueprint,'Target blueprint differs');
+  assert.ok(row.state.table.some(c=>c.id===o.card),'Target must be on table at initiation');
+  assert.ok(Number.isSafeInteger(o.afterDecision)&&o.afterDecision>=index&&o.afterDecision<rows.length,'Invalid primary target observation boundary');
+  assert.ok(o.afterDecision===index||rows[o.afterDecision].semantic?.kind==='interrupt-target','Target observation must follow initiation or its targeting choice');
+  for(const later of rows.slice(index+1,o.afterDecision+1))assert.ok(!later.semantic||['pass','interrupt-target'].includes(later.semantic.kind),'Target observation crosses another action');
+ }
+ const last=Math.max(...observations.map(o=>o.afterDecision));
+ for(let i=index+1;i<=last;i++)if(rows[i].semantic?.kind==='interrupt-target'){
+  const target=rows[i],o=observations.find(o=>o.card===target.semantic.card&&o.afterDecision===i);
+  assert.ok(o,'Explicit choice lacks its own primary target observation');assert.equal(target.semantic.side,s.side);
+  assert.equal(target.type,'CARD_SELECTION');assert.equal(target.answer,o.referenceCardId,'Chosen target differs from observed target');
+  const selected=target.parameters.cardId.indexOf(target.answer);assert.ok(selected>=0,'Reference target answer missing');
+  if(target.parameters.selectable)assert.equal(target.parameters.selectable[selected],'true','Target is not selectable');
+  assert.equal(target.parameters.blueprintId[selected],o.blueprint,'Selected target blueprint differs');
+ }
+ return s.targets;
 }
 
 /** A chosen move-away card and its observed arrival belong to one decision,
@@ -149,7 +194,7 @@ export function inspectionChoice(rows,index,canMove){
 export function replayGempMatch(record,{onCheckpoint}={}){
  assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7,8].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
- const profiles={'hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
+ const profiles={'paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
  if(record.deckProfile!==undefined)assert.ok(Object.hasOwn(profiles,record.deckProfile),'Unknown fixed reference deck profile');
  const profile=record.deckProfile===undefined?null:JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/'+profiles[record.deckProfile],import.meta.url)));
  if(profile)assert.equal(record.deckProfile,profile.id,'Unknown fixed reference deck profile');
@@ -192,6 +237,17 @@ export function replayGempMatch(record,{onCheckpoint}={}){
    }
    assertReferenceAction(row);
    let choices=[];
+   if(s.kind==='battle-add'){
+    const targets=assertInterruptTargets(rows,index,m.cards),bp=m.cards[s.card].blueprint;
+    assert.ok(['1_110','1_76','1_116'].includes(bp),'Unsupported paired addition source');
+    const label=row.parameters.actionText[row.parameters.actionId.indexOf(row.answer)].toLowerCase();
+    assert.equal(label,bp==='1_116'?'add battle destiny':'add two battle destiny');
+    choices=()=>auditRules.actions(m,m.stack.at(-1),s.side).filter(a=>a.handler==='battle-add:play'&&a.source===s.card&&JSON.stringify(a.payload.targets.map(t=>t.id).sort())===JSON.stringify([...targets].sort())).map(a=>a.id);
+   }
+   if(s.kind==='named-cancel'){
+    assert.equal(m.cards[s.card].blueprint,'1_235','Unsupported named cancellation source');
+    choices=['scomp:play:'+s.card+':cancel:'+assertInterruptTarget(rows,index,m.cards,{playing:true})];
+   }
    if(s.kind==='activate')choices=['core:activate'];
    if(s.kind==='draw')choices=['core:draw'];
    if(s.kind==='deploy'){
@@ -267,7 +323,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
-   if(['activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
+   if(['battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
     // observer from changing either the reference or the continuing replay.

@@ -335,5 +335,13 @@
     },
     "records": "tests/native-engine/audit/starter-readiness-results.json",
     "limits": "Native-only seeded legal-command runs, with JSON round trips and prior-state immutability checks. They do not compare GEMP, exhaust legal choices, or exercise the Obsession guard. Full transcripts are local; seed, hashes and result summaries are retained for reproduction."
-  }
+  },
+  "additionalCompleteMatchEvidence": [
+    {
+      "profile": "paired-battle-v1",
+      "scope": "Custom decks outside exact intro pair: paired battle additions and named cancellation chains. Does not close exact-starter or full-engine admission.",
+      "receipt": "tests/native-engine/gemp/paired-match-provenance.json",
+      "verification": "2627 native commands,280 matched checkpoints,30 turns,Dark Life Force victory."
+    }
+  ]
 }

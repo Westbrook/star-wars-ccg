@@ -1,0 +1,54 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T00:20:17.504062+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEnginePairedBattleMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "junitTests": 1,
+  "unchangedProductionFiles": 6820,
+  "productionFilesChanged": 0,
+  "fixture": "tests/native-engine/gemp/complete-matches/paired-battle.json.gz",
+  "sha256": "222c76a300ee6250f378945da5f638b8a419d9e51876ccff3e89e02d906b0b02",
+  "jsonSha256": "ac7cfdd097f653323cc3cdd1118933f9369fdb025438fe44ce00d71090ca96f6",
+  "harness": "tests/native-engine/gemp/complete-matches/paired-battle-source.java.txt",
+  "harnessSha256": "b46a21ed1b5292ce581d5ca988f37e2c0900e4d09105027c4c3134c8388d8952",
+  "profile": "tests/native-engine/gemp/complete-matches/paired-battle-decks.json",
+  "profileSha256": "2565717cde1e145243ba1c075e2ed739182074a752da2e89f83c587fa5ae5e24",
+  "referenceDecisions": 1880,
+  "nativeCommands": 2627,
+  "comparedCheckpoints": 280,
+  "turns": 30,
+  "winner": "dark",
+  "actions": {
+    "untagged": 22,
+    "site-placement": 4,
+    "activate": 24,
+    "activate-count": 47,
+    "pass": 1453,
+    "site": 4,
+    "draw": 97,
+    "deploy": 74,
+    "deploy-target": 74,
+    "battle": 10,
+    "battle-add": 10,
+    "named-cancel": 4,
+    "forfeit": 43,
+    "lose": 14
+  },
+  "scope": [
+    "Full 60-card custom-deck game from normal shuffled starting setup to Life Force victory, no table/pile intervention after setup.",
+    "Ten paired Interrupt plays across Skywalkers, Don\u2019t Get Cocky and The Force Is Strong With This One; four actual Boring Conversation cancellations.",
+    "Each physical primary target read from the selected reference Action and bound to the initiating decision. All twenty target observations in this game use legal automatic targeting shortcuts.",
+    "Ordered piles, hand membership, public character stats, table attachments, locations, battle damage/attrition, physical destiny cards/values/totals and final winner compared at 280 checkpoints."
+  ],
+  "limitations": [
+    "One fixed custom-deck integration game, not every reachable branch or full catalog certification. Exact authored starter readiness remains gated.",
+    "Explicit multi-target dialog rejection uses native harness unit fixtures; no executed explicit paired target choice occurred in this match.",
+    "GEMP uses its normal shuffle; native setup encodes the captured legal order as Fisher-Yates entropy. No later native state correction.",
+    "No new vehicle, setup, capture or full-engine rule coverage is claimed from this match. Failed-Obsession and broader existing gates remain."
+  ],
+  "attemptNotes": [
+    "Initial distinct-site selection needed correction after a same-location conversion question.",
+    "First completed client policy game had no paired play because Luke never reached the table; policy now saves Force for heroes and preserves them through legal losses. This receipt covers only the final executed source and recorded match."
+  ]
+}
