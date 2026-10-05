@@ -3372,9 +3372,44 @@ Four CPU-service flows verify durable setup and idempotent requests. Ordinary
 victory using only legal commands and saved-state round trips. Those complete
 native games are integration evidence, not GEMP full-match parity.
 
-Only one unique eligible Effect title per side is implemented here. The printed
-three-Effect capacity and other eligible Effects still need actual card
-providers and conformance evidence. Synthetic arrival-response tests establish
+This initial receipt covers one unique eligible Effect title per side. The
+following iteration extends it to two; the printed three-Effect capacity and
+other eligible Effects still need card providers and conformance evidence. Synthetic arrival-response tests establish
 shared setup semantics but do not certify unimplemented card interactions.
 Full engine/card scope and all existing discrepancies remain outstanding;
 production admission is closed. No new Rules Lab study is added.
+
+### Resistance / Ultimatum and two-Effect starts
+
+`resistance.ts` implements Dark6_147 and Light6_58 as free unique table Effects
+with unconditional Alter immunity. Their owner's drain and insert Force loss is
+capped at2 while that owner occupies at least three battlegrounds or the opponent
+occupies none. Occupation uses presence, including contested locations; shielded
+Hoth locations and destroyed/iconless locations do not count. Other location
+families retain their existing admission boundary and need their own exceptions.
+
+The loss ledger retains the uncapped base and paid credits, rechecking the cap
+before each payment. The cap is independent of reducibility and is applied after
+ordinary loss modifiers; it cannot limit generic Effect loss or battle damage.
+Anger's actual delayed loss carries an explicit insert classification. Public
+loss UI shows the remaining amount, original amount, paid credit and current cap.
+CPU policy23 deploys the Effect through offered legal actions.
+
+`starting-effects.ts` provides explicit real deployment adapters for these and
+the two Sense/Alter Effects. Starting preparation supports two distinct Effects
+in either order, uniqueness, and stopping after the first; opening shuffle waits
+for both players' results. Three distinct Effects still require more providers.
+
+`gemp/resistance-provenance.json` binds28 component outcomes and8 ordinary60-card
+setup outcomes against unchanged GEMP. Component drains use a stable controlled
+bonus; insert checks invoke GEMP's production insert-loss primitive. Source
+arrival/departure/suppression are explicit fixture interventions. Native Anger
+reveal-to-loss integration separately verifies actual card routing. Setup replay
+follows the selected blueprint recorded in the trace rather than display order.
+
+Six browser payment flows and nine setup flows exercise actual HTTP handlers,
+service and SQLite D1 at1440/834/390, both-seat refresh and private inspection.
+Ordinary40/60-card CPU games start with both Effects and finish by Life Force
+victory; these native games are integration evidence, not full-match GEMP parity.
+Full native admission stays closed. Battle Plan/Order, three-Effect conformance
+and all other unfinished engine scope remain required; no new Rules Lab study.

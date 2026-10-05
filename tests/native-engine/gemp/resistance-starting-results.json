@@ -1,0 +1,4030 @@
+[
+  {
+    "light": true,
+    "dark": true,
+    "lostOrder": [
+      "dark",
+      "light"
+    ],
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "4_134",
+            "6_147",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_147",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_21",
+            "4_21",
+            "6_58",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      }
+    ],
+    "stop": false,
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 48
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 48
+      }
+    },
+    "reverse": false,
+    "table": [
+      "4_134",
+      "4_21",
+      "6_147",
+      "6_58"
+    ],
+    "first": "dark"
+  },
+  {
+    "light": true,
+    "dark": true,
+    "lostOrder": [
+      "dark",
+      "light"
+    ],
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "4_134",
+            "6_147",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp3",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "4_134"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp1",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "6_58",
+            "4_21",
+            "4_21"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp3",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp1",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      }
+    ],
+    "stop": false,
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 48
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 48
+      }
+    },
+    "reverse": true,
+    "table": [
+      "4_134",
+      "4_21",
+      "6_147",
+      "6_58"
+    ],
+    "first": "dark"
+  },
+  {
+    "light": true,
+    "dark": true,
+    "lostOrder": [
+      "dark",
+      "light"
+    ],
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_147",
+            "6_147",
+            "4_134",
+            "4_134"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "4_134"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "6_58",
+            "4_21",
+            "4_21"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_21",
+            "4_21"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      }
+    ],
+    "stop": true,
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 49
+      }
+    },
+    "reverse": false,
+    "table": [
+      "6_147",
+      "6_58"
+    ],
+    "first": "dark"
+  },
+  {
+    "light": true,
+    "dark": true,
+    "lostOrder": [
+      "dark",
+      "light"
+    ],
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "4_134",
+            "6_147",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp3",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "4_134"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "4_21",
+            "6_58",
+            "4_21"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp3",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      }
+    ],
+    "stop": true,
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 49
+      }
+    },
+    "reverse": true,
+    "table": [
+      "4_21",
+      "6_147"
+    ],
+    "first": "dark"
+  },
+  {
+    "light": true,
+    "dark": true,
+    "lostOrder": [
+      "light",
+      "dark"
+    ],
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_21",
+            "4_21",
+            "6_58",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "4_134",
+            "6_147",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_147",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      }
+    ],
+    "stop": false,
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 48
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 48
+      }
+    },
+    "reverse": false,
+    "table": [
+      "4_134",
+      "4_21",
+      "6_147",
+      "6_58"
+    ],
+    "first": "light"
+  },
+  {
+    "light": true,
+    "dark": true,
+    "lostOrder": [
+      "light",
+      "dark"
+    ],
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "4_21",
+            "6_58",
+            "4_21"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp3",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp1",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_147",
+            "6_147",
+            "4_134",
+            "4_134"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp3",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_147",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp1",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      }
+    ],
+    "stop": false,
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 48
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 48
+      }
+    },
+    "reverse": true,
+    "table": [
+      "4_134",
+      "4_21",
+      "6_147",
+      "6_58"
+    ],
+    "first": "light"
+  },
+  {
+    "light": true,
+    "dark": true,
+    "lostOrder": [
+      "light",
+      "dark"
+    ],
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_21",
+            "4_21",
+            "6_58",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_58",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "4_134",
+            "6_147",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_147",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      }
+    ],
+    "stop": true,
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 49
+      }
+    },
+    "reverse": false,
+    "table": [
+      "4_134",
+      "4_21"
+    ],
+    "first": "light"
+  },
+  {
+    "light": true,
+    "dark": true,
+    "lostOrder": [
+      "light",
+      "dark"
+    ],
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_21",
+            "6_58",
+            "4_21",
+            "6_58"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp3",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_21",
+            "4_21"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "6_147",
+            "4_134",
+            "4_134",
+            "6_147"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp3",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "4_134"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51"
+        }
+      }
+    ],
+    "stop": true,
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 49
+      }
+    },
+    "reverse": true,
+    "table": [
+      "6_147",
+      "6_58"
+    ],
+    "first": "light"
+  }
+]

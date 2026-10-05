@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "auditedAt": "2026-10-05T05:12:34.945420+00:00",
+  "auditedAt": "2026-10-05T05:35:32.514045+00:00",
   "baseCommit": "0a011cc37185cea0f52c1d31b28520cc9d2d45fb",
   "purpose": "Source-bound reachability analysis for the exact intro pair, not full-deck certification.",
   "classification": "outside-current-pair",
@@ -358,7 +358,7 @@
     "lib/native-engine/action-timing.ts": "b8ee41c769cc09fc96614995508c7ca7ef8a6a5bae7033ed9a096639628cbe12",
     "lib/native-engine/activation.ts": "1a9775a0c4a2eea4ceda52f33492307ec2b304bf58fc00c1389d37366f0ce8f7",
     "lib/native-engine/alien-search.ts": "7e96d29bce038925f4c8f3f6abf3ee5abf02df385c6bb76155d1eb1e85d56b8c",
-    "lib/native-engine/anger.ts": "6111d2b5c3bd36cc544d660bea93eca15e39e7301054a65468991cec47787f16",
+    "lib/native-engine/anger.ts": "741ff99c0fb1a239fc3a29a27d708f354c7fc768ebc75c7291377dbcdf890f70",
     "lib/native-engine/armor-equipment.ts": "d3190df210e188fa118816e998eb77674edca693c1b5d099924401ab2e660b32",
     "lib/native-engine/artillery.ts": "9338a6a6b2c82bb75efb0361bf696bca20a6d4b545bc170f2bcafc8555d990e1",
     "lib/native-engine/assault.ts": "7580373a09fa9eccd8ef196e0153f8ba78e3dfda2005f4e6b46b4d450f547a64",
@@ -375,7 +375,7 @@
     "lib/native-engine/bespin.ts": "0b2f838ab0a2e4d5f296212eb4a88dac29b605de3e3b689963c9273f1eeb0b2d",
     "lib/native-engine/blown-away.ts": "ce9205ee25e580472f2ca045a55a190eedaa04933ffae30d517abda820ae0d67",
     "lib/native-engine/board.ts": "8a990b281eb174c3439b7c94fd9be653ee603947e5082ab6b9504889388b15ba",
-    "lib/native-engine/cancellation.ts": "812db69a0b6f0a8572551a7075cd0db9dfcd11cdbbf596d5ac2600bd0b1ff46a",
+    "lib/native-engine/cancellation.ts": "c861ecda6a4618e9fcc40180b3a3721eb47d96fb0293b13d3aad3efa13779022",
     "lib/native-engine/capacity-loss.ts": "a5db66dbb2af8a5953374c2bd45abbc31bbeb1fed6dfcb4054a0daa27f48260c",
     "lib/native-engine/card-immunity.ts": "7491270e61e33d2324b8c458864a696e6663a8dcce33f31ea2a1465ad1f7b198",
     "lib/native-engine/character-destiny.ts": "9b8ce41c435a1350fe2d74aa718c4d822e403d27e0fd902bfafcd72107ee7a52",
@@ -385,7 +385,7 @@
     "lib/native-engine/client.ts": "0619a4d641a8b58a2a169704bd16df1ade9216dda516ea323ba3d1210157a9d7",
     "lib/native-engine/combat-modifiers.ts": "9e3ee700337a44eb85061f354b031de57adc0155099942e33cfb52b2fdf8e060",
     "lib/native-engine/compactor.ts": "c3fc9774a17735657713299ad5982c0714543fea6d8dc874ac82414e46edb349",
-    "lib/native-engine/computer.ts": "9147cb461e5409e00d9d77565bec4c4a931210427097fbde1b112c92d8f32f60",
+    "lib/native-engine/computer.ts": "c18dd515a02d67bba3c7716d9e3aa1573b24699e87fcd7d3f5f629e8c267827f",
     "lib/native-engine/creature-attack.ts": "0820b6c993ff79ab5aec603e25f1e974916624b2ca177e08a7a59af1c27dbdb8",
     "lib/native-engine/creature-encounters.ts": "26e00b6cda587de49df933057b06f76710e0c8b4d8b1043eb15b4b0fc5610883",
     "lib/native-engine/creature-profile.ts": "50988eda23382e12b8581ea3752278705275ce42b6fbfce8ba29dc3167604508",
@@ -446,7 +446,7 @@
     "lib/native-engine/location-ability.ts": "161e5da5c1da4d5b61714f303102198879a4be578deeef989491361e26ece418",
     "lib/native-engine/location-icons.ts": "5ff4c4cc9467fa549118b7438f7dc08f352a54bd76da53b90ec09aa034316d3b",
     "lib/native-engine/loss-origin.ts": "86ae0d59a63c33c1dd7db1fc7ffed0d2781a0b43b1725980c40e34dd56a57b65",
-    "lib/native-engine/loss.ts": "b969e0f7d6df21aaf20d238cde542840609a0bad21bfae3327e8dbdfd7a98e5e",
+    "lib/native-engine/loss.ts": "083985516408e90b0531d161480805da597680443a8e8021865d10d41671af6d",
     "lib/native-engine/lost-artoo.ts": "ccf2dfbcce2c5d130fa3a30673b120ecda69484839b6a75c0cb82a3d4fcbe5b0",
     "lib/native-engine/maneuvers.ts": "100fe2b00fa8113eaf5931ce686ea80db4de34b1a54eb8b5f7037801508b3b46",
     "lib/native-engine/match-clock.ts": "b41cfff6afa869edd45012023c62de31d7f1931b529ada69de932e66b8d57f77",
@@ -466,15 +466,15 @@
     "lib/native-engine/otsd-orders.ts": "890c627a14e3cb201cda8552b308a494525bf64e198a5cb7b76bbd324e25019e",
     "lib/native-engine/otsd-ships.ts": "84f4f10e29c9000e4e36f49e9ec19472300a014548ebbd4dba957ba0ad17641f",
     "lib/native-engine/participation.ts": "4cdccab18a835123acb7e2cad7f06b16b1af7276d00254c4566dc384a96cc108",
-    "lib/native-engine/persona.ts": "230729b2fe4964b79de13585d3aba6b2ed402aee3e773bbd3c62ef96b3c9e212",
+    "lib/native-engine/persona.ts": "e3f0dbe783551ed174b5ea57697643db1b0864abc9cb92df59d3604f658c1c99",
     "lib/native-engine/phase-effects.ts": "5f5bc6a8b407d9b2533e21d204ba9506d018052b42784a076352facb8b15b2f2",
     "lib/native-engine/pile-reveal.ts": "d39574ec0ba75588037d2146ffd27655d9311b2c60e1e56a932756ec387ab191",
     "lib/native-engine/pilot-deploy.ts": "53895a50cbe1f8cf78eb89495f370acea3f4a2cd4b134975ed66aee392ace302",
     "lib/native-engine/piloting.ts": "7cb2d0a9d518ed12e54c4491e8919f7b66a2eb8a28fcf5a120f4fb1911b1b03a",
     "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
-    "lib/native-engine/premiere-rules.ts": "55e5118fb3b26e0c91efb23bd494e4d289700914c1cc7780f535416ede03f85f",
-    "lib/native-engine/premiere-setup.ts": "9d9c6acb602875429175399e45c174bf3968a181d7d253831bd61a54748991e8",
+    "lib/native-engine/premiere-rules.ts": "8ed4c99f4838f9c0dfe3fcb4f91eb5acc5b8ffe11056f1ab2aa7c3b5738a8de8",
+    "lib/native-engine/premiere-setup.ts": "7eebc26cad02206eccc73ee75981197d0ad29eaca76d91b23df8c1e5232026e1",
     "lib/native-engine/protocol-droid.ts": "b4057bd27173cd88ea96d58b1584322365ac7f3194f401e3199c108864e6a1e6",
     "lib/native-engine/public-values.ts": "a4d187766cad6467e6bcd071d7ed07b766b624bede25823734374d7e3c96d307",
     "lib/native-engine/random.ts": "807bcd0c4e0d94cbb1e569b939c4b709ef1a4bf62c056b2a1dc97ecd9741a1e4",
@@ -524,7 +524,9 @@
     "lib/native-engine/starting-interrupts.ts": "359b11981e7601b7f7e373878745e92bbb878b40a91242ce13300087c2b3654e",
     "lib/native-engine/preparation-destiny.ts": "65eb82c08526d45e8478eb87c343a8c0e212ea93badb9044b92ee439a567d617",
     "lib/native-engine/try-effects.ts": "73c02d7b5780a9f1fc0435608d8b20299259f1d5f57c1dc4b2f5f1737d889d20",
-    "lib/native-engine/preparation-starting.ts": "0f7ad6cee459c91bd0404ca7d001d832fb4ef26ebbe5f76a2b5606e263fcd1b0"
+    "lib/native-engine/preparation-starting.ts": "914d9d526ab2a3adcf039c7775665217bfab9215a4a08aa89f9a64fe6e8192b9",
+    "lib/native-engine/resistance.ts": "8af7c92c36f4890b9382d324e1d7f30a1f15b5ba0e7a4d65228425b80a1159bd",
+    "lib/native-engine/starting-effects.ts": "9a701b50bab26ed7a7c7f0e931d6367ca15d11cc27ae23b235b6a33b203c1cd9"
   },
   "evidence": [
     "tests/native-engine/gemp/travel-response-provenance.json",
@@ -862,6 +864,26 @@
         "tests/native-engine/preparation-starting.test.mjs",
         "tests/native-engine/preparation-starting-service.test.mjs",
         "tests/native-engine/gemp/preparation-starting-provenance.json"
+      ]
+    },
+    {
+      "at": "2026-10-05T05:35:32.514045+00:00",
+      "files": [
+        "lib/native-engine/anger.ts",
+        "lib/native-engine/cancellation.ts",
+        "lib/native-engine/computer.ts",
+        "lib/native-engine/loss.ts",
+        "lib/native-engine/persona.ts",
+        "lib/native-engine/premiere-rules.ts",
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/preparation-starting.ts",
+        "lib/native-engine/resistance.ts",
+        "lib/native-engine/starting-effects.ts"
+      ],
+      "reason": "Resistance/Ultimatum and preparation Interrupts are absent from the exact intro pair. Their deployment and conditional drain/insert limits add no movement response or return path. Insert classification on Anger preserves prior uncapped arithmetic when neither new Effect exists. The shared starting adapter uses existing real deployment actions; no exact intro starting path changes. The Force-loss view is public obligation data, not a rules action. Full production admission remains closed and all pending discrepancies remain.",
+      "evidence": [
+        "tests/native-engine/resistance.test.mjs",
+        "tests/native-engine/gemp/resistance-provenance.json"
       ]
     }
   ]

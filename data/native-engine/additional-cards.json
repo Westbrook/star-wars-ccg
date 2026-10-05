@@ -3762,5 +3762,39 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_134.java"
+  },
+  {
+    "gempId": "6_58",
+    "name": "Ultimatum",
+    "side": "light",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/JabbasPalace-Light/large/ultimatum.gif",
+    "text": "Deploy on your side of table. While you occupy at least three battlegrounds or opponent occupies no battle grounds, you lose no more than 2 Force from each Force drain or 'insert' card. (Immune to Alter.)",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "Jabba's Palace"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set6/light/Card6_058.java"
+  },
+  {
+    "gempId": "6_147",
+    "name": "Resistance",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/JabbasPalace-Dark/large/resistance.gif",
+    "text": "Deploy on your side of table. While you occupy at least 3 battlegrounds or opponent occupies no battle grounds, you lose no more than 2 Force from each Force drain or insert card. (Immune to Alter.)",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "Jabba's Palace"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set6/dark/Card6_147.java"
   }
 ]

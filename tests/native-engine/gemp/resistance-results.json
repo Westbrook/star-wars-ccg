@@ -1,0 +1,222 @@
+[
+  {
+    "side": "dark",
+    "kind": "drain",
+    "count": 0,
+    "mode": "normal",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "drain",
+    "count": 2,
+    "mode": "normal",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "drain",
+    "count": 3,
+    "mode": "normal",
+    "lost": 2,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "insert",
+    "count": 0,
+    "mode": "normal",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "insert",
+    "count": 2,
+    "mode": "normal",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "insert",
+    "count": 3,
+    "mode": "normal",
+    "lost": 2,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "drain",
+    "count": 0,
+    "mode": "normal",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "drain",
+    "count": 2,
+    "mode": "normal",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "drain",
+    "count": 3,
+    "mode": "normal",
+    "lost": 2,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "insert",
+    "count": 0,
+    "mode": "normal",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "insert",
+    "count": 2,
+    "mode": "normal",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "insert",
+    "count": 3,
+    "mode": "normal",
+    "lost": 2,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "insert",
+    "count": 0,
+    "mode": "normal",
+    "lost": 2,
+    "opponent": false
+  },
+  {
+    "side": "dark",
+    "kind": "drain",
+    "count": 3,
+    "mode": "depart",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "insert",
+    "count": 3,
+    "mode": "depart",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "drain",
+    "count": 3,
+    "mode": "arrive",
+    "lost": 2,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "insert",
+    "count": 3,
+    "mode": "arrive",
+    "lost": 2,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "drain",
+    "count": 3,
+    "mode": "suppressed",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "dark",
+    "kind": "insert",
+    "count": 3,
+    "mode": "suppressed",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "insert",
+    "count": 0,
+    "mode": "normal",
+    "lost": 2,
+    "opponent": false
+  },
+  {
+    "side": "light",
+    "kind": "drain",
+    "count": 3,
+    "mode": "depart",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "insert",
+    "count": 3,
+    "mode": "depart",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "drain",
+    "count": 3,
+    "mode": "arrive",
+    "lost": 2,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "insert",
+    "count": 3,
+    "mode": "arrive",
+    "lost": 2,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "drain",
+    "count": 3,
+    "mode": "suppressed",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "side": "light",
+    "kind": "insert",
+    "count": 3,
+    "mode": "suppressed",
+    "lost": 4,
+    "opponent": true
+  },
+  {
+    "kind": "deployment",
+    "cost": 0,
+    "alterOffered": false,
+    "side": "dark"
+  },
+  {
+    "kind": "deployment",
+    "cost": 0,
+    "alterOffered": false,
+    "side": "light"
+  }
+]

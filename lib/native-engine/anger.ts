@@ -1,3 +1,4 @@
+import {lossLedger} from './loss';
 import {queueForceLoss} from './ground';
 import {assertCardReference, type CardReference} from './identity';
 import type {RequiredAction} from './runtime';
@@ -25,7 +26,7 @@ export function angerResolve(m:Match,r:Resolution):void{
   if(!current)return;
   if(r.action.handler==='anger:watch'){if(!r.cancelled)current.watching=m.turn.number;return;}
   m.data.angerObligations=obligations(m).filter(x=>key(x)!==key(p)) as unknown as Json;
-  if(r.action.handler==='anger:loss'&&!r.cancelled)queueForceLoss(m,{side:p.side,remaining:4,source:p.source.id,site:null,reductionUsed:false});
+  if(r.action.handler==='anger:loss'&&!r.cancelled)queueForceLoss(m,{side:p.side,remaining:4,source:p.source.id,site:null,reductionUsed:false,ledger:{...lossLedger(4,'effect'),insert:true}});
 }
 function assertObligation(m:Match,p:Obligation):void{
   if(!p||p.side!=='dark'||!Number.isSafeInteger(p.created)||p.created<1||p.created>m.serial||p.watching!==undefined&&(!Number.isSafeInteger(p.watching)||p.watching<1||p.watching>m.turn.number))throw Error('Invalid Anger obligation.');

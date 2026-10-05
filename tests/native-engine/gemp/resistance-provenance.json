@@ -1,0 +1,26 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T05:33:38.598424+00:00",
+  "files": {
+    "NativeEngineResistanceOracleTests.java": "df3248bc984253d96d0a32172476cdd1a64a556e7f8f7c8184b72e5ea355d662",
+    "NativeEngineResistanceStartingOracleTests.java": "fade6b4ccfe187fc539d47e3cceebd32f2e9e0c671b31e34a2af0f99369fb39a",
+    "resistance-results.json": "c2df29424d656724f2be86701521a1e3fa4138f24b7c801984216c9d04a9d1c6",
+    "resistance-starting-results.json": "3820a3478aea0ec4914f9fc6d8fcc1a48e0909bbcc37d21d88bace0bec5e5c3f"
+  },
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "junitTests": 3,
+  "lossAndDeploymentBranches": 28,
+  "setupBranches": 8,
+  "scope": [
+    "Prepared boards with actual free deployment and Force drains. Stable controlled +3 drain modifier isolates four-Force losses. Production insert-loss primitive verifies the insert flag; this is not an invented printed card.",
+    "Both sides,0/2/3 own occupied battlegrounds, no enemy battleground, source arrival/departure/suppression and Alter immunity.",
+    "Eight ordinary60-card setups deploy two distinct eligible Effects or stop after one, both first players and both selection orders."
+  ],
+  "limits": [
+    "Controlled source moves are interventions, not proof of legal actions producing those moves at that response.",
+    "Native Anger integration separately uses the actual revealed insert and delayed battle-phase loss.",
+    "Broader battleground exceptions need their own location/card providers. Full-catalog and complete-match GEMP conformance remain incomplete; production admission stays closed."
+  ]
+}
