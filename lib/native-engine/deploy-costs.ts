@@ -1,6 +1,7 @@
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './definitions';
 import {isModel} from './characteristics';
+import {isWarrior} from './board';
 import {sameCard} from './identity';
 import type {Deployment} from './deployment';
 import type {Match} from './types';
@@ -18,7 +19,8 @@ export function deployValue(m: Match, id: string, options: {asteriskZero?: boole
   else throw Error('Deploy value needs an explicit definition: '+m.cards[id].blueprint);
   const plus=registry[m.cards[id].blueprint]?.personas.some(p=>affected.has(p)) && badFeelings(m).length ? 2 : 0;
   // Duplicate copies of the same automatic modifier are noncumulative.
-  return Math.max(0,base+plus);
+  const wrongTurn=isWarrior(m,id)&&Object.values(m.cards).some(c=>c.zone==='table'&&!c.coveredBy&&c.blueprint==='1_232'&&c.owner!==m.cards[id].owner)?1:0;
+  return Math.max(0,base+plus+wrongTurn);
 }
 export function playProhibited(m: Match, id: string): boolean {
   return cardDefinition(m,id).name.toLowerCase().includes('bad feeling') && badFeelings(m).some(c=>c.owner!==m.cards[id].owner);

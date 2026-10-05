@@ -1,0 +1,27 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-05T00:03:15.495519+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineWrongTurnOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineWrongTurnOracleTests.java",
+  "harnessSha256": "e3cc21ae487cd1ebec1ac436897891bcced7ea4fd90697233a004b62ad3b7192",
+  "junitTests": 5,
+  "observations": 9,
+  "results": "wrong-turn-results.json",
+  "resultsSha256": "98adbe75d06ccb82bc207d2701c25e2f8d670c9dc076dadc24fa6782b4a9e167",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": [
+    "Real Effect deployment costs 3 and opposing Rebel Trooper deployment costs 2.",
+    "Skywalkers cancels pending or deployed Wrong Turn; Boring Conversation counters Skywalkers. Costs are spent and exact Used/Lost destinations observed.",
+    "Combined Wrong Turn and Bad Feeling Have I global deploy queries in hand, Lost and table; actual Bacta return pays 6.",
+    "Opposing warriors +1; ordinary droid and own warrior unchanged."
+  ],
+  "limitations": [
+    "Component fixtures, not complete-game reference conformance or deck admission.",
+    "Native-only tests cover altered-state rejection, duplicate noncumulative modifiers, warrior training, CPU policy and refresh. These are not additional executed GEMP observations.",
+    "Luke1_19 remains metadata-only for its own deployment/game text; querying its deploy attribute and Bacta recovery does not certify that card.",
+    "Full engine/catalog scope remains unfinished and production native admission closed."
+  ]
+}

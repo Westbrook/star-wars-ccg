@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-15';
+export const computerPolicy = 'native-cpu-16';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -148,6 +148,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
       return -5;
     }
     if (kind === 'deploy') return 35 + value(a) + (!at(b,side).length ? 12 : 0) + Math.min(10,strength(b,opponent));
+    if (kind === 'deploy-effect') return cards.get(a)?.blueprint==='1_232' ? ((own.counts.force??0)>=cheapestCharacter+4?20:-5) : 25;
     if (kind === 'battle') return strength(a,side) >= strength(a,opponent,true) ? 40 : -10;
     if (kind === 'move') {
       const from = cards.get(a)?.location;

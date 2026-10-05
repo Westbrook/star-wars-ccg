@@ -1,0 +1,59 @@
+[
+  {
+    "cost": 6,
+    "mode": "patient"
+  },
+  {
+    "boringUsed": false,
+    "cost": 3,
+    "mode": "pending",
+    "wrongLost": true,
+    "heroDeploy": 3.0,
+    "skyLost": true
+  },
+  {
+    "boringUsed": false,
+    "cost": 3,
+    "mode": "table",
+    "wrongLost": true,
+    "heroDeploy": 3.0,
+    "skyLost": true
+  },
+  {
+    "boringUsed": true,
+    "cost": 3,
+    "mode": "countered",
+    "wrongLost": false,
+    "heroDeploy": 4.0,
+    "skyLost": true
+  },
+  {
+    "combined": 6.0,
+    "mode": "attribute-hand",
+    "afterRemoval": 5.0,
+    "on": 4.0
+  },
+  {
+    "combined": 6.0,
+    "mode": "attribute-lost",
+    "afterRemoval": 5.0,
+    "on": 4.0
+  },
+  {
+    "combined": 6.0,
+    "mode": "attribute-table",
+    "afterRemoval": 5.0,
+    "on": 4.0
+  },
+  {
+    "effectCost": 3,
+    "mode": "deployment",
+    "troopCost": 2
+  },
+  {
+    "ownWarrior": 1.0,
+    "droid": 1.0,
+    "mode": "types",
+    "warrior": 2.0
+  }
+]

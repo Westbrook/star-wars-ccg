@@ -385,7 +385,7 @@
     "lib/native-engine/client.ts": "0619a4d641a8b58a2a169704bd16df1ade9216dda516ea323ba3d1210157a9d7",
     "lib/native-engine/combat-modifiers.ts": "9e3ee700337a44eb85061f354b031de57adc0155099942e33cfb52b2fdf8e060",
     "lib/native-engine/compactor.ts": "c3fc9774a17735657713299ad5982c0714543fea6d8dc874ac82414e46edb349",
-    "lib/native-engine/computer.ts": "c9d2f4e8fe456f0dd907446d01373a6a360ee60a0692b5a9caf2078c728dd3e7",
+    "lib/native-engine/computer.ts": "1728be49a661ffe722b34d9cdeda1700a97b58973ea7e8d79153890f9f516f79",
     "lib/native-engine/creature-attack.ts": "0820b6c993ff79ab5aec603e25f1e974916624b2ca177e08a7a59af1c27dbdb8",
     "lib/native-engine/creature-encounters.ts": "26e00b6cda587de49df933057b06f76710e0c8b4d8b1043eb15b4b0fc5610883",
     "lib/native-engine/creature-profile.ts": "50988eda23382e12b8581ea3752278705275ce42b6fbfce8ba29dc3167604508",
@@ -394,8 +394,8 @@
     "lib/native-engine/declared-activation.ts": "e0d46feb88b259777db2547d540b9236d6e2243a80b3c14df55a4b0cce29f2bf",
     "lib/native-engine/defense.ts": "d85adcd5c3f617e663cc993741656169f6dfd636ce0ff02660a26dd188bd10b1",
     "lib/native-engine/definitions.ts": "ecfec7747cd2f48238e949f8205443c56ff33e518b86d47016bdbf59ad6f594b",
-    "lib/native-engine/deploy-costs.ts": "743adc649fd003b8e8c5bbbca58fc9608ccb98eb38c7a785dfe9babdc7992ebb",
-    "lib/native-engine/deploy-effects.ts": "8e52d799ff1be425011fb4cc475da7892189863ad85de9aa6e4828643b24dd80",
+    "lib/native-engine/deploy-costs.ts": "89a1cbe5a927f97495f68abd872614c4bd1819bd0a4ef6834b106c85acecff98",
+    "lib/native-engine/deploy-effects.ts": "2352333a4e5839c7502e60aacb57ff4b819cc66207048621db8e9cdcc67dc7ea",
     "lib/native-engine/deployment.ts": "93363727f97ac49f26d37782d380d027c33cb437f39d5df00b942944825b9487",
     "lib/native-engine/destiny-limits.ts": "3397fdd436216fb3f5d14b9763720420d0fbe003287b1c0c94d3f7c511f822f7",
     "lib/native-engine/destiny-response.ts": "28d68c1a9b830ce6a4091b44e6a196a4b90ec1218c15531819e2c317a7346707",
@@ -715,6 +715,20 @@
       "evidence": [
         "tests/native-engine/mentor.test.mjs",
         "tests/native-engine/gemp/mentor-provenance.json",
+        "tests/native-engine/travel-response.test.mjs"
+      ]
+    },
+    {
+      "at": "2026-10-05T00:04:22.652686+00:00",
+      "files": [
+        "lib/native-engine/computer.ts",
+        "lib/native-engine/deploy-costs.ts",
+        "lib/native-engine/deploy-effects.ts"
+      ],
+      "reason": "Wrong Turn and Bad Feeling Have I are absent from the exact intro pair. Added Wrong Turn deployment and automatic opponent-warrior deploy attribute create no action during pending movement. Existing starter deployment cost values are unchanged without the absent source. CPU policy chooses only offered legal actions and creates no timing permissions. Starter returning-travel reachability conclusion and full-game admission guard remain unchanged.",
+      "evidence": [
+        "tests/native-engine/wrong-turn.test.mjs",
+        "tests/native-engine/gemp/wrong-turn-provenance.json",
         "tests/native-engine/travel-response.test.mjs"
       ]
     }

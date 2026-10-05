@@ -3634,5 +3634,18 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_277.java"
+  },
+  {
+    "gempId": "1_232",
+    "name": "Wrong Turn",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/wrongturn.gif",
+    "text": "Use 3 Force to deploy on opponent's side of table. All opponent's warriors are deploy +1.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": []
   }
 ]
