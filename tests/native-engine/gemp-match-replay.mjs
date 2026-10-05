@@ -12,6 +12,8 @@ const publicValues=load(new URL('../../lib/native-engine/public-values.ts',impor
 const piloting=load(new URL('../../lib/native-engine/piloting.ts',import.meta.url));
 const ability=load(new URL('../../lib/native-engine/ability.ts',import.meta.url));
 const losses=load(new URL('../../lib/native-engine/loss.ts',import.meta.url));
+const disarmed=load(new URL('../../lib/native-engine/disarmed-state.ts',import.meta.url));
+const destiny=load(new URL('../../lib/native-engine/destiny.ts',import.meta.url));
 const combat=load(new URL('../../lib/native-engine/battle.ts',import.meta.url));
 const {premiereLocations}=load(new URL('../../lib/native-engine/premiere-setup.ts',import.meta.url));
 const identities=JSON.parse(fs.readFileSync(new URL('../../data/native-engine/identities.json',import.meta.url)));
@@ -39,6 +41,7 @@ function snapshot(m,expected,version){
  if(version>=5&&expected.battleLosses)assert.ok(expected.battleDestinies,'Version 5 damage checkpoints require completed destiny evidence');
  for(const card of expected.table)if(card.stats){const actual=values.characters[card.id];assert.ok(actual,'Missing public character values');assert.deepEqual({power:actual.power,ability:actual.ability,forfeit:actual.forfeit},card.stats,'Public character values must match GEMP');}
  const result={turn:m.turn.number,side:m.turn.side,phase:m.turn.phase,locations:[...m.locations],players:Object.fromEntries(['dark','light'].map(side=>[side,Object.fromEntries(['reserve','force','used','lost','hand'].map(p=>[p,[...m.players[side][p]]]))])),table:Object.values(m.cards).filter(c=>c.zone==='table'&&(c.location||version>=4&&board.cardDefinition(m,c.id).type!=='Location')).map(c=>({id:c.id,...(c.location?{location:c.location}:{}),...(version>=3?{...(c.attachedTo?{attachedTo:c.attachedTo}:{}),hit:combat.battle(m)?.hits.includes(c.id)??false}:{}),...(version>=2&&board.cardDefinition(m,c.id).type==='Character'?{stats:{power:board.power(m,c.id,combat.battle(m)?.stage!=='complete'&&combat.battle(m)?.initiator!==c.owner&&combat.members(m,c.owner).includes(c.id)),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)}}:{})})).sort((a,b)=>a.id.localeCompare(b.id))};
+ if(version>=9)for(const c of result.table)if(board.cardDefinition(m,c.id).type==='Character')c.disarmed=disarmed.isDisarmed(m,c.id);
  if(version>=6)for(const c of result.table){const card=m.cards[c.id],def=board.cardDefinition(m,c.id);if(def.type==='Vehicle'||version>=7&&def.type==='Starship')c.vesselStats={power:board.power(m,c.id),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)};if(version>=8&&def.type==='Starship'){for(const [key,fn]of [['armor','vesselArmor'],['maneuver','vesselManeuver'],['hyperspeed','vesselHyperspeed']]){const value=piloting[fn](m,c.id);if(value!==null)c.vesselStats[key]=value;}}if(card.aboardRole)c.aboardRole=card.aboardRole;}
  if(expected.battleLosses){const b=combat.battle(m);assert.ok(b);result.battleLosses=Object.fromEntries(['dark','light'].map(side=>[side,{damage:combat.battleDamage(m,side),totalDamage:b.damageLedger?losses.lossTotal(m,side,b.damageLedger[side]):b.initialDamage[side],totalAttrition:b.initialAttrition[side],...(version>=5?{attrition:b.attrition[side]}:{})}]));}
  if(expected.battleDestinies){
@@ -55,6 +58,12 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
+ if(['bionic-deploy','bionic-trigger'].includes(kind)){
+  const i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Missing Bionic action answer');const label=row.parameters.actionText[i].toLowerCase();
+  assert.ok(kind==='bionic-deploy'?label.startsWith('deploy')&&row.state.players[row.semantic.side].hand.includes(row.semantic.card):label.startsWith('re-arm ')||label==='make lost','Incorrect Bionic action label');return;
+ }
+ if(kind==='weapon-total'){assert.equal(row.answer,'');assert.equal(row.text,'DRAWING_DESTINY_COMPLETE - Optional responses');return;}
+
  if(['disarm-deploy','evazan','disarm-trigger'].includes(kind)){
   const i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Missing disarming action answer');const label=row.parameters.actionText[i].toLowerCase();
   assert.ok(kind==='disarm-deploy'?label.startsWith('deploy')&&row.state.players[row.semantic.side].hand.includes(row.semantic.card):kind==='evazan'?label.startsWith("'operate' on "):label.startsWith('disarm '),'Incorrect disarming action label');return;
@@ -266,16 +275,48 @@ export function assertDisarmOutcome(rows,index,cards,final){
  assert.ok(o&&o.card===target&&o.source===s.card,'Missing disarming outcome binding');assert.ok(Number.isSafeInteger(o.afterDecision)&&o.afterDecision>=row.targetObservation.afterDecision&&o.afterDecision<rows.length,'Invalid disarming completion boundary');
  const after=rows[o.afterDecision+1]?.state??final;assert.deepEqual(o.state,after,'Outcome differs from immediate next reference state');
  assert.deepEqual(o.attachedBefore,[...attached],'Attachment observation differs from initiation');
- const branch=rows.slice(index+1,o.afterDecision+1);assert.ok(branch.every(r=>!r.semantic||['pass','interrupt-target','loss-order','disarm-trigger'].includes(r.semantic.kind)),'Disarming outcome crosses another action');
+ const branch=rows.slice(index+1,o.afterDecision+1);assert.ok(branch.every(r=>!r.semantic||['pass','interrupt-target','loss-order','disarm-trigger','bionic-trigger'].includes(r.semantic.kind)),'Disarming outcome crosses another action');
  const lost=id=>after.players[cards[id].owner].lost.includes(id);
  if(operation){assert.equal(o.lost,true);assert.ok(lost(target));assert.ok(!after.table.some(c=>c.id===target));for(const id of attached)assert.ok(lost(id),'Patient attachment not lost');}
  else{
   assert.equal(o.lost,false);assert.equal(o.disarmed,true);assert.ok(after.table.some(c=>c.id===target&&c.location===initial.location));assert.equal(after.table.find(c=>c.id===s.card)?.attachedTo,target);
   for(const id of weapons){assert.ok(lost(id),'Carried weapon not placed on Lost Pile');assert.ok(!after.table.some(c=>c.id===id));}
-  for(const id of attached.filter(id=>!weapons.includes(id)))assert.equal(after.table.find(c=>c.id===id)?.attachedTo,target,'Disarming lost a nonweapon attachment');
+  for(const id of attached.filter(id=>!weapons.includes(id))){if(cards[id].blueprint==='5_12'){assert.ok(lost(id),'Disarmed-again must lose Bionic Hand');assert.ok(!after.table.some(c=>c.id===id));}else assert.equal(after.table.find(c=>c.id===id)?.attachedTo,target,'Disarming lost a nonweapon attachment');}
  }
  assert.deepEqual(after.players[s.side].force,row.state.players[s.side].force,'Disarming and operation have no Force cost');
  return {target,source:s.card,operation,weapons,attached,outcome:o};
+}
+
+/** Rearming is bound to the selected physical target and its immediate required
+ * action, including the exact two-card payment and canceled Effect placement. */
+export function assertBionicOutcome(rows,index,cards,final){
+ const row=rows[index],s=row?.semantic,o=row?.bionicOutcome;assert.equal(s?.kind,'bionic-deploy');assertReferenceAction(row);
+ assert.equal(cards[s.card]?.blueprint,'5_12');assert.equal(cards[s.card].owner,s.side);assert.equal(row.state.side,s.side);assert.equal(row.state.phase,'deploy');
+ const target=assertInterruptTarget(rows,index,cards),initial=row.state.table.find(c=>c.id===target);
+ assert.equal(cards[target]?.owner,s.side);assert.equal(board.cardDefinition({cards},target).type,'Character');assert.equal(initial.disarmed,true);
+ const attached=row.state.table.filter(c=>c.attachedTo===target).map(c=>c.id),effects=attached.filter(id=>['1_48','1_214'].includes(cards[id].blueprint));
+ assert.ok(o&&o.card===target&&o.source===s.card,'Missing rearm outcome binding');assert.ok(Number.isSafeInteger(o.afterDecision)&&o.afterDecision>=row.targetObservation.afterDecision&&o.afterDecision<rows.length,'Invalid rearm completion boundary');
+ const after=rows[o.afterDecision+1]?.state??final;assert.deepEqual(o.state,after,'Rearm outcome differs from immediate next reference state');assert.deepEqual(o.attachedBefore,attached);
+ assert.ok(rows.slice(index+1,o.afterDecision+1).every(r=>!r.semantic||['pass','interrupt-target','loss-order','bionic-trigger'].includes(r.semantic.kind)),'Rearm outcome crosses another action');
+ assert.equal(o.lost,false);assert.equal(o.disarmed,false);assert.equal(after.table.find(c=>c.id===target)?.disarmed,false);assert.equal(after.table.find(c=>c.id===target)?.location,initial.location);assert.equal(after.table.find(c=>c.id===s.card)?.attachedTo,target);
+ for(const id of effects){assert.ok(after.players[cards[id].owner].lost.includes(id),'Disarming Effect not canceled to Lost');assert.ok(!after.table.some(c=>c.id===id));}
+ for(const id of attached.filter(id=>!effects.includes(id)))assert.equal(after.table.find(c=>c.id===id)?.attachedTo,target,'Rearm removed another attachment');
+ const before=row.state.players[s.side],paid=before.force.slice(0,2);assert.equal(paid.length,2);assert.deepEqual(after.players[s.side].force,before.force.slice(2),'Rearm payment differs');assert.deepEqual(after.players[s.side].used,[...paid.reverse(),...before.used],'Rearm Used ordering differs');
+ return {target,source:s.card,attached,effects,outcome:o};
+}
+/** A total observation belongs to the actual fired weapon/user and selected
+ * targets. GEMP values remain evidence even when they expose a discrepancy. */
+export function assertWeaponTotalEvidence(rows,index,cards){
+ const row=rows[index],s=row?.semantic,e=row?.weaponTotal;assert.equal(s?.kind,'weapon-total');assertReferenceAction(row);
+ assert.ok(e&&e.weapon===s.card,'Missing weapon total binding');assert.equal(board.cardDefinition({cards},e.weapon).type,'Weapon');
+ const fireIndex=rows.findLastIndex((r,i)=>i<index&&r.semantic?.kind==='fire');assert.ok(fireIndex>=0,'Missing actual firing');const fire=rows[fireIndex];assertReferenceAction(fire);assert.equal(fire.semantic.card,e.weapon);assert.equal(fire.semantic.side,cards[e.weapon].owner);assert.notEqual(s.side,fire.semantic.side);
+ assert.equal(fire.state.table.find(c=>c.id===e.weapon)?.attachedTo,e.user,'Wrong original firing user');assert.equal(board.cardDefinition({cards},e.user).type,'Character');
+ const target=followingTarget(rows,fireIndex,'fire-target');assert.deepEqual(e.targets,[target.semantic.card]);assert.equal(target.semantic.side,fire.semantic.side);const selected=target.parameters.cardId.indexOf(target.answer);assert.ok(selected>=0);if(target.parameters.selectable)assert.equal(target.parameters.selectable[selected],'true');assert.equal(target.fireTarget?.referenceCardId,target.answer,'Missing observed selected fire target');assert.equal(target.fireTarget.card,target.semantic.card);assert.equal(target.fireTarget.blueprint,cards[target.semantic.card].blueprint);
+ assert.ok(rows.slice(fireIndex+1,index).every(r=>!r.semantic||['pass','fire-target'].includes(r.semantic.kind)),'Weapon total crosses another action');
+ assert.deepEqual(e.hands,row.state.table.filter(c=>c.attachedTo===e.user&&cards[c.id].blueprint==='5_12').map(c=>c.id));
+ assert.ok(Array.isArray(e.draws)&&Array.isArray(e.cards)&&e.cards.length===e.draws.length&&e.cards.length>0);assert.equal(e.cards.length,Math.min(isSaber(cards[e.weapon].blueprint)?2:1,fire.state.players[fire.semantic.side].reserve.length));
+ for(let i=0;i<e.cards.length;i++){assert.equal(cards[e.cards[i]]?.owner,fire.semantic.side);assert.equal(Number(board.cardDefinition({cards},e.cards[i]).stats.destiny),e.draws[i],'Draw differs from printed destiny');}
+ assert.ok(Number.isFinite(e.total)&&e.total>=0,'Missing observed total');return e;
 }
 
 /** A chosen move-away card and its observed arrival belong to one decision,
@@ -312,9 +353,9 @@ export function inspectionChoice(rows,index,canMove){
 }
 
 export function replayGempMatch(record,{onCheckpoint}={}){
- assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7,8].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
+ assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7,8,9].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
- const profiles={'disarm-battle-v1':'disarm-battle-decks.json','search-battle-v1':'search-battle-decks.json','mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
+ const profiles={'bionic-battle-v1':'bionic-battle-decks.json','disarm-battle-v1':'disarm-battle-decks.json','search-battle-v1':'search-battle-decks.json','mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
  if(record.deckProfile!==undefined)assert.ok(Object.hasOwn(profiles,record.deckProfile),'Unknown fixed reference deck profile');
  const profile=record.deckProfile===undefined?null:JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/'+profiles[record.deckProfile],import.meta.url)));
  if(profile)assert.equal(record.deckProfile,profile.id,'Unknown fixed reference deck profile');
@@ -372,6 +413,9 @@ export function replayGempMatch(record,{onCheckpoint}={}){
    assertReferenceAction(row);
    let choices=[];
    if(['disarm-deploy','evazan'].includes(s.kind)){const proof=assertDisarmOutcome(rows,index,m.cards,record.final);choices=['disarm:'+(s.kind==='evazan'?'operate':'deploy')+':'+s.card+':'+proof.target];}
+   if(s.kind==='bionic-deploy'){const proof=assertBionicOutcome(rows,index,m.cards,record.final);choices=['attach:'+s.card+':'+proof.target];}
+   if(s.kind==='bionic-trigger')choices=['bionic:'+(row.requiredText.toLowerCase().startsWith('re-arm ')?'rearm':'lose')+':'+s.card+':'+s.target];
+   if(s.kind==='weapon-total'){assertWeaponTotalEvidence(rows,index,m.cards);choices=()=>{const f=m.stack.at(-1);return f?.kind==='window'&&f.event?.kind==='destiny-total'&&f.event.source===s.card?['pass']:[];};}
    if(s.kind==='disarm-trigger')choices=['disarm:apply:'+s.card+':'+s.target];
    if(s.kind==='mentor-search'){const proof=assertSearchEvidence(rows,index,m.cards,record.final);assert.ok(!searchPlans.has(s.card)||searchPlans.get(s.card).consumed||searchPlans.get(s.card).order.length<2,'Previous search has not shuffled');searchPlans.set(s.card,proof);choices=['mentor:play:'+s.card+':search'];}
    if(s.kind==='search-selection'){const proof=assertSearchEvidence(rows,s.initiation,m.cards,record.final);assert.equal(proof.selectionIndex,index);choices=['mentor:take:'+proof.selected];}
@@ -470,11 +514,14 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
-   if(['disarm-deploy','evazan','disarm-trigger','mentor-search','search-selection','search-verify','obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
+   if(['bionic-deploy','bionic-trigger','weapon-total','disarm-deploy','evazan','disarm-trigger','mentor-search','search-selection','search-verify','obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
     // observer from changing either the reference or the continuing replay.
     onCheckpoint?.({index,row:copy(row),match:copy(m)});
+   }
+   if(s.kind==='weapon-total'){
+    const p=[...m.stack].reverse().find(f=>f.kind==='resolution'&&f.action.handler==='destiny:total-finish')?.action.payload,e=row.weaponTotal;assert.ok(p);assert.equal(p.source,e.weapon);assert.equal(p.characterWeapon?.context.host,e.user);assert.deepEqual(p.draws.filter(d=>d.card!==null).map(d=>d.card),e.cards);assert.deepEqual(p.draws.filter(d=>d.card!==null).map(d=>d.value),e.draws);assert.equal(destiny.currentDestinyTotal(m,p),e.total,'Actual weapon total differs from GEMP');
    }
    if(s.kind==='search-selection'){
     const source=rows[s.initiation].semantic.card,owner=s.side,frame=m.stack.at(-1);assert.equal(frame?.handler,'mentor:choose');assert.equal(frame.payload.card,source);
