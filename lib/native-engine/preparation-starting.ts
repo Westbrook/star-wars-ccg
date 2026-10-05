@@ -6,7 +6,7 @@ import {preparationBlueprint} from './preparation-destiny';
 import {openWindow} from './runtime';
 import type {StartingInterruptRules} from './starting-interrupts';
 import {moveCard} from './state';
-import {startingEffectBlueprints,initiateStartingEffect} from './starting-effects';
+import {eligibleStartingEffect,initiateStartingEffect} from './starting-effects';
 import {other,type Action,type Decision,type Json,type Match,type Resolution,type Side} from './types';
 
 const startingBlueprints=(side:Side)=>[preparationBlueprint(side),side==='dark'?'6_160':'6_77'];
@@ -17,7 +17,7 @@ const finished=(m:Match)=>(m.data.preparationStarts??[]) as string[];
 const source=(m:Match)=>{const i=m.setup?.interrupts;return i&&m.setup?.stage==='starting-resolve'?i.selected[i.order[i.resolved]]:null;};
 // Explicit implemented deployment adapters. Additional printed Effects require
 // their real behavior; eligible wording alone is not native card admission.
-export const startingEffects=(m:Match,side:Side)=>m.players[side].reserve.filter(id=>startingEffectBlueprints.includes(m.cards[id].blueprint)&&canPlayCard(m,id));
+export const startingEffects=(m:Match,side:Side,card=source(m))=>m.players[side].reserve.filter(id=>!!card&&eligibleStartingEffect(m.cards[id].blueprint,m.cards[card].blueprint)&&canPlayCard(m,id));
 const action=(step:string,p:Payload):Action=>({id:'prep-start:'+step+':'+p.card+':'+p.count,handler:'prep-start:'+step,source:p.card,label:'Resolve '+nameFor(step),payload:p as unknown as Json});
 const nameFor=(step:string)=>step==='finish'?'Starting Interrupt':'starting Effect search';
 const queue=(m:Match,step:string,p:Payload)=>m.stack.push({kind:'resolution',actor:m.cards[p.card].owner,action:action(step,p),cancelled:false});
@@ -42,14 +42,14 @@ export function preparationStartingResolve(m:Match,r:Resolution){
   if(h==='prep-start:search'){queue(m,'inspect',p);openWindow(m,'response',other(side),{kind:'before-looking-at-pile',side,pile:'reserve',source:p.card});}
   else if(h==='prep-start:inspect')choose(m,p);
   else if(h==='prep-start:after'){
-   if(p.count<effectLimit(m,p.card)&&startingEffects(m,side).length)choose(m,p);
+   if(p.count<effectLimit(m,p.card)&&startingEffects(m,side,p.card).length)choose(m,p);
   }else throw Error('Unknown starting preparation continuation.');
  }
 }
 export function preparationStartingChoices(m:Match,d:Decision){
  const p=payload(d),side=m.cards[p.card].owner;
  if(d.handler==='prep-start:verify')return [{id:'prep-start:verified',label:'Finish verification · no eligible Effect'}];
- const eligible=startingEffects(m,side);
+ const eligible=p.count<effectLimit(m,p.card)?startingEffects(m,side,p.card):[];
  return [...eligible.map(id=>({id:'prep-start:deploy:'+id,label:'Deploy '+name(m,id)})),...(p.count?[{id:'prep-start:done',label:'Finish with '+p.count+' Effect'+(p.count===1?'':'s')}]:eligible.length?[]:[{id:'prep-start:not-found',label:'No eligible Effect · allow opponent to verify'}])];
 }
 export function preparationStartingChoose(m:Match,d:Decision,id:string){
@@ -83,8 +83,8 @@ export function assertPreparationStarting(m:Match){
   const p=payload(f),side=m.cards[p?.card]?.owner;
   if(!p||!['setup','finished'].includes(m.status)||source(m)!==p.card||!startingBlueprints(side).includes(m.cards[p.card]?.blueprint)||(m.cards[p.card].zone!=='playing'&&!(h==='prep-start:finish'&&m.cards[p.card].zone==='lost'))||finished(m).includes(p.card)||!Number.isSafeInteger(p.count)||p.count<0||p.count>effectLimit(m,p.card)||!Array.isArray(p.chosen)||p.chosen.length!==p.count||new Set(p.chosen.map(r=>r.id)).size!==p.count)throw Error('Invalid starting preparation continuation.');
   if(f.kind==='decision'){
-   if(!['prep-start:choose','prep-start:verify'].includes(h)||f.side!==(h==='prep-start:verify'?other(side):side)||h==='prep-start:verify'&&(p.count!==0||startingEffects(m,side).length))throw Error('Invalid starting search decision.');
+   if(!['prep-start:choose','prep-start:verify'].includes(h)||p.count>=effectLimit(m,p.card)||f.side!==(h==='prep-start:verify'?other(side):side)||h==='prep-start:verify'&&(p.count!==0||startingEffects(m,side,p.card).length))throw Error('Invalid starting search decision.');
   }else if(!['prep-start:search','prep-start:inspect','prep-start:finish','prep-start:after'].includes(h)||f.actor!==side||f.action.id!==action(h.slice(11),p).id||f.action.source!==p.card||f.action.payment||f.action.unrespondable)throw Error('Invalid starting preparation action.');
-  for(const ref of p.chosen){assertCardReference(m,ref);if(ref.zone!=='reserve'||m.cards[ref.id].owner!==side||!startingEffectBlueprints.includes(m.cards[ref.id].blueprint))throw Error('Invalid starting Effect history.');}
+  for(const ref of p.chosen){assertCardReference(m,ref);if(ref.zone!=='reserve'||m.cards[ref.id].owner!==side||!eligibleStartingEffect(m.cards[ref.id].blueprint,m.cards[p.card].blueprint))throw Error('Invalid starting Effect history.');}
  }
 }

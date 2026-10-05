@@ -1,0 +1,22 @@
+[
+  {
+    "suppressed": false,
+    "side": "light",
+    "offered": true
+  },
+  {
+    "suppressed": true,
+    "side": "light",
+    "offered": false
+  },
+  {
+    "suppressed": false,
+    "side": "dark",
+    "offered": true
+  },
+  {
+    "suppressed": true,
+    "side": "dark",
+    "offered": false
+  }
+]

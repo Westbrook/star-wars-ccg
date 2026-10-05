@@ -1,0 +1,22 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "files": {
+    "NativeEngineForceStartingOracleTests.java": "24fc2d7522ed929c77852b2d798daba3fbfe60e0083d2126b32a49b546666fb1",
+    "NativeEngineForceTextOracleTests.java": "4617a580a63b8fd7e85ab13b0137631f0911e3ea0aa658b07af48c5f43ff2b70",
+    "force-starting-results.json": "2aec29cbba6d7f9beb171bbad95b543f1ed06848abc39581ae11c2995512335f",
+    "force-text-results.json": "323394e7a37d7b0d344c00678e952096c949da339884a4ac1eceada8df08f0e0"
+  },
+  "startingBranches": 8,
+  "gameTextBranches": 4,
+  "scope": "Ordinary unmodified 60-card starting setups, both first players and both starter families, with/without an additional immune Effect. Canceled-text fixtures use actual Sense response windows with controlled table placement and the production cancellation modifier. No full-game or full-card admission.",
+  "rules": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf: Canceling Game Text p23, starting setup pp35-36, Dark Forces p141 and For Luck p143",
+    "Pinned Card6_077/Card6_160: normal Effect with no deploy cost; Card9_051/Card9_139 additionally require unconditional immunity to Alter and table deployment."
+  ],
+  "limitations": [
+    "Starting branch comparison verifies offered choices when GEMP requires a chooser, and actual final piles in every branch, not exact random shuffle order. GEMP automatically deploys a sole eligible Effect without a selection decision; native asks the player. Both implementations expose failed-search verification.",
+    "Existing production-return Sense discrepancy remains open. No starter or full-catalog production admission."
+  ]
+}

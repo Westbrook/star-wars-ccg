@@ -417,7 +417,7 @@
     "lib/native-engine/equipment.ts": "5f2fa84982fbf0775e3a001da8785c64c34d03210486d10363d97b2658fcc68f",
     "lib/native-engine/farm-devices.ts": "375f750a21c3d499885085bba3a9fe0ba2142d6d6c5ad5b58a1f18bb546fd9d3",
     "lib/native-engine/fighter-trouble.ts": "75b4e9cda58825cb7d2aab83c2f87737469177ac4293c630d5249abbf6ac7f93",
-    "lib/native-engine/force-effects.ts": "cfdd80d4922bcd5ea39334522e51403b0579c90dcddd9193bd8173205cfb2c6e",
+    "lib/native-engine/force-effects.ts": "2f2f50578daeba465ebb710b8cf3362164e5a5ea555e8d420b7621077ea82267",
     "lib/native-engine/force-quantity.ts": "eb3b6b57c3b3df7da4cae1c3ccb285afdd883d71fa6830d1cf6dea89819e62a8",
     "lib/native-engine/forfeit.ts": "6cc95b98c951b727ad3b901e6e67221e7520dd1470ef6715d23820f759719fd5",
     "lib/native-engine/forfeiture.ts": "88a8f6820f3f1917db2bd9dd2e2d1df278dcc1ddcaaa8f2aa09587544566fa90",
@@ -478,9 +478,9 @@
     "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
     "lib/native-engine/premiere-rules.ts": "37d7e05ceb5857909649b3b9ccf0923c2df3f04b0cf56a9413281e7fbb70860e",
-    "lib/native-engine/premiere-setup.ts": "1a2770a0f64a504b168861a27c554493f3e1d186de61ccc62fb4fa50eee3ef37",
+    "lib/native-engine/premiere-setup.ts": "dd63ca240a79a7abe2601fd1b1cca9feeca3000d0d9b3da4e35e1f13c4690f2e",
     "lib/native-engine/preparation-destiny.ts": "65eb82c08526d45e8478eb87c343a8c0e212ea93badb9044b92ee439a567d617",
-    "lib/native-engine/preparation-starting.ts": "bad8aea45cc71cd3316ef95c9f5ab153cbc5cdb995d0dccfcf9a098a0aef5df2",
+    "lib/native-engine/preparation-starting.ts": "0b0d4bd2056abe1989002ca7ed2992efd7b4c43d6da25194681fa6882433b828",
     "lib/native-engine/protocol-droid.ts": "b4057bd27173cd88ea96d58b1584322365ac7f3194f401e3199c108864e6a1e6",
     "lib/native-engine/public-values.ts": "a4d187766cad6467e6bcd071d7ed07b766b624bede25823734374d7e3c96d307",
     "lib/native-engine/random.ts": "807bcd0c4e0d94cbb1e569b939c4b709ef1a4bf62c056b2a1dc97ecd9741a1e4",
@@ -506,7 +506,7 @@
     "lib/native-engine/space-slug.ts": "acbe32b85da9dc1809c62321b007fb3ec14514c1ae1fcb3692574c5751c6ba07",
     "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
     "lib/native-engine/starship-weapons.ts": "2dcc5aab948f116be351b6af603550921c3f0401e425bc4dfd07398b10c70992",
-    "lib/native-engine/starting-effects.ts": "bf949571fc0e4d685cad68e1b23a31e3e8291d2efe6d88a53328a85f7f9b526c",
+    "lib/native-engine/starting-effects.ts": "36bc43f66298cc1d1d4ace7144bec3a7091b6a0df96d24f3c12f39db735e6cd5",
     "lib/native-engine/starting-interrupts.ts": "359b11981e7601b7f7e373878745e92bbb878b40a91242ce13300087c2b3654e",
     "lib/native-engine/stat-modifiers.ts": "4ba087331dbe58da7a5db1e252fea5e44007f28822afa535d1f648756ec363d5",
     "lib/native-engine/state.ts": "1d853ee58ddd1ca3022eeeb9d9a182472f41d04c2ad445f04eb999d216ca10a3",
@@ -920,6 +920,21 @@
       "reason": "The Signal6_77 and Twilek Advisor6_160 are absent from the exact intro decks. Their optional paid Reserve searches are unavailable without those cards; their one-Effect starting limit only applies to these blueprints. Existing preparation starting limits remain three. New continuations expose no movement permission and do not change the exact pair travel response inventory. Computer policy25 adds choices only for this new provider. Production admission remains closed and the failed-Obsession amount remains unresolved.",
       "evidence": [
         "tests/native-engine/effect-search.test.mjs"
+      ]
+    },
+    {
+      "at": "2026-10-05T07:10:10.060884+00:00",
+      "files": [
+        "lib/native-engine/force-effects.ts",
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/preparation-starting.ts",
+        "lib/native-engine/starting-effects.ts"
+      ],
+      "reason": "For Luck102_1 and Dark Forces102_6 are absent from the exact intro pair. Their free deployment adapters are eligible only for Signal/Advisor; the six previously registered immune Effects retain their preparation eligibility. Canceled game text now removes the two Force Effects optional actions, with no change to any absent-card path or movement permission. Stricter saved chooser and history validation rejects exhausted limits and nonimmune preparation selections. Full production admission and the failed-Obsession guard remain closed; all retained discrepancies remain open.",
+      "evidence": [
+        "tests/native-engine/force-starting.test.mjs",
+        "tests/native-engine/force-effects.test.mjs",
+        "tests/native-engine/gemp/force-starting-provenance.json"
       ]
     }
   ]

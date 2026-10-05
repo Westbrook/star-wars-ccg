@@ -1,4 +1,5 @@
 import {deployed} from './deployment';
+import {gameTextActive} from './game-text';
 import {ability} from './ability';
 import {cardDefinition, name} from './board';
 import {cancellationCharacters, type CancellationPayload} from './cancellation';
@@ -10,9 +11,11 @@ import {other, type Action, type Decision, type Json, type Match, type Resolutio
 
 type Payload = {card: string; targetIndex?: number; actionId?: string; windowSerial?: number; selected?: CardReference[]};
 const blueprint = (side: Side) => side === 'light' ? '102_1' : '102_6';
+export const forceEffectBlueprints = ['102_1', '102_6'];
 const action = (step: string, p: Payload, label: string): Action => ({id: 'force-effect:' + step + ':' + p.card, label,
   handler: 'force-effect:' + step, source: p.card, payload: p as unknown as Json,
   ...(step === 'deploy' ? {} : {unrespondable: true})});
+export const forceEffectDeployment = (m: Match, card: string) => action('deploy', {card}, 'Deploy ' + name(m, card));
 const target = (m: Match, p: Payload): Resolution | undefined => {
   const r = m.stack[p.targetIndex!], w = m.stack[p.targetIndex! + 1];
   return r?.kind === 'resolution' && !r.cancelled && !r.awaitingResponses && r.action.id === p.actionId &&
@@ -27,10 +30,10 @@ export function forceEffectActions(m: Match, w: Window, side: Side): Action[] {
   const actions: Action[] = [];
   if (w.timing === 'phase' && m.turn.phase === 'deploy' && m.turn.side === side)
     for (const card of m.players[side].hand.filter(id => m.cards[id].blueprint === blueprint(side)))
-      actions.push(action('deploy', {card}, 'Deploy ' + name(m, card)));
+      actions.push(forceEffectDeployment(m, card));
   const r = m.stack.at(-2);
   if (w.timing !== 'response' || w.event !== undefined || r?.kind !== 'resolution' || r.cancelled || r.awaitingResponses || !m.players[side].force.length) return actions;
-  for (const c of Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && c.blueprint === blueprint(side))) {
+  for (const c of Object.values(m.cards).filter(c => c.owner === side && gameTextActive(m, c.id) && c.blueprint === blueprint(side))) {
     const p: Payload = {card: c.id, targetIndex: m.stack.length - 2, actionId: r.action.id, windowSerial: w.serial};
     if (r.action.handler === 'cancel:play') {
       const q = r.action.payload as CancellationPayload;

@@ -82,3 +82,9 @@ for(const row of oracle.filter(r=>r.name.includes('-production-return')))test('d
  const actual={name:row.name,senseUsed:m.cards[f.sense].zone==='used',targetLost:m.cards[f.target].zone==='lost',heroInHand:m.cards[f.hero].zone==='hand'};
  assert.equal(row.targetLost,true);assert.deepEqual(actual,{...row,targetLost:false});
 });
+for(const side of ['light','dark'])for(const type of ['sense','assault'])test(side+' canceled game text disables '+type+' response and recovers when text is restored',()=>{
+ const f=type==='sense'?senseFixture(side):assaultFixture(side),id='force-effect:'+(type==='sense'?'exclude:':'boost:')+f.source;
+ assert.ok(ids(f.m).includes(id));module('game-text').suppressGameText(f.m,f.site,f.source);assert.ok(!ids(f.m).includes(id));assert.throws(()=>step(f.m,id));f.m.data.gameTextSuppressions=[];assert.ok(ids(f.m).includes(id));f.m.data.canceledGameText=[module('identity').referenceCard(f.m,f.source)];assert.ok(!ids(f.m).includes(id));
+});
+
+for(const row of JSON.parse(fs.readFileSync(new URL('./gemp/force-text-results.json',import.meta.url))))test('GEMP canceled text availability '+row.side+' suppressed='+row.suppressed,()=>{const f=senseFixture(row.side);if(row.suppressed)module('game-text').suppressGameText(f.m,f.site,f.source);assert.equal(ids(f.m).includes('force-effect:exclude:'+f.source),row.offered);});
