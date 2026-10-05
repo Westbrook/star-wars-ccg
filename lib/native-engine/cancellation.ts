@@ -1,3 +1,4 @@
+import {senseAlterDisposition} from './try-effects';
 import {ability, mayBeHighestAbility, mayApplySenseAbility} from './ability';
 import {cardDefinition, name} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
@@ -13,8 +14,8 @@ const sense = (bp: string) => ['1_109', '1_267'].includes(bp);
 const alter = (bp: string) => ['1_71', '1_234'].includes(bp);
 const effect = (m: Match, id: string) => ['Effect', 'Utinni Effect'].includes(cardDefinition(m, id).type);
 // These unconditional printed immunities apply during deployment as well.
-const alterImmune = (m: Match, id: string) => ['1_48','1_214','1_42', '1_208', '4_16', '1_64', '1_221', '5_110'].includes(m.cards[id].blueprint);
-export type CancellationPayload = {card: string; target: string; mode: 'card' | 'react' | 'effect' | 'counter'; character?: string;
+const alterImmune = (m: Match, id: string) => ['4_21','4_134','1_48','1_214','1_42', '1_208', '4_16', '1_64', '1_221', '5_110'].includes(m.cards[id].blueprint);
+export type CancellationPayload = {disposition?:'used'|'lost';card: string; target: string; mode: 'card' | 'react' | 'effect' | 'counter'; character?: string;
   targetRef?: CardReference; characterRef?: CardReference; targetIndex?: number; actionId?: string; windowSerial?: number; eligible?: boolean; draw?: Draw; excluded?: CardReference[]; exclusionUsed?: boolean; noCharacter?: boolean};
 const action = (step: string, p: CancellationPayload): Action => ({id: 'cancel:' + step + ':' + p.card + ':' + p.target + ':' + (p.character ?? 'direct'),
   label: 'Resolve cancellation', source: p.card, handler: 'cancel:' + step, payload: p as unknown as Json});
@@ -62,6 +63,7 @@ export function cancellationActions(m: Match, w: Window, side: Side): Action[] {
 }
 export function cancellationInitiate(m: Match, r: Resolution): void {
   const p = r.action.payload as CancellationPayload;
+  p.disposition=senseAlterDisposition(m);
   p.targetRef = referenceCard(m, p.target);
   if (p.character) p.characterRef = referenceCard(m, p.character);
   moveCard(m, p.card, 'playing');
@@ -98,7 +100,7 @@ export function cancellationResolve(m: Match, r: Resolution): void {
       else {moveCard(m, p.target, 'lost'); openWindow(m, 'response', other(r.actor), {kind: 'card-canceled', card: p.target, source: p.card});}
     }
   } else if (h === 'cancel:event') openWindow(m, 'response', other(r.actor), {kind: 'card-canceled', card: p.target, source: p.card});
-  else if (h === 'cancel:finish') moveCard(m, p.card, 'used');
+  else if (h === 'cancel:finish') moveCard(m, p.card, p.disposition??'used');
   else throw Error('Unknown cancellation continuation.');
 }
 export function assertCancellation(m: Match): void {
@@ -108,6 +110,7 @@ export function assertCancellation(m: Match): void {
     if (!p || !sense(bp) && !alter(bp) || m.cards[p.card].owner !== r.actor || m.cards[p.card].zone !== 'playing' ||
         !['cancel:play','cancel:result','cancel:apply','cancel:event','cancel:finish'].includes(r.action.handler) ||
         !['card','react','effect','counter'].includes(p.mode) || !m.cards[p.target]) throw Error('Invalid cancellation continuation.');
+    if(p.disposition!==undefined&&!['used','lost'].includes(p.disposition))throw Error('Invalid cancellation disposition.');
     assertCardReference(m, p.targetRef!, p.target);
     if (p.mode === 'counter') {
       if (p.character !== undefined || !(sense(bp) && alter(m.cards[p.target].blueprint) || alter(bp) && sense(m.cards[p.target].blueprint))) throw Error('Invalid counterplay.');

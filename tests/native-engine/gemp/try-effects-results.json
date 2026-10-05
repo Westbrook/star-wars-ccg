@@ -1,0 +1,316 @@
+[
+  {
+    "alterOffered": false,
+    "side": "dark",
+    "kind": "deployment",
+    "cost": 0
+  },
+  {
+    "alterOffered": false,
+    "side": "light",
+    "kind": "deployment",
+    "cost": 0
+  },
+  {
+    "lost": 3,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "dark",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0
+    ],
+    "kind": "sense"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "dark",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "sense"
+  },
+  {
+    "lost": 3,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "light",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0
+    ],
+    "kind": "sense"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "light",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "sense"
+  },
+  {
+    "lost": 5,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "both",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0,
+      2.0,
+      1.0
+    ],
+    "kind": "sense"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "both",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "sense"
+  },
+  {
+    "lost": 3,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "dark",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0
+    ],
+    "kind": "alter"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "dark",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "alter"
+  },
+  {
+    "lost": 3,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "light",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0
+    ],
+    "kind": "alter"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "light",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "alter"
+  },
+  {
+    "lost": 5,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "both",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0,
+      2.0,
+      1.0
+    ],
+    "kind": "alter"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "dark",
+    "effects": "both",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "alter"
+  },
+  {
+    "lost": 3,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "dark",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0
+    ],
+    "kind": "sense"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "dark",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "sense"
+  },
+  {
+    "lost": 3,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "light",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0
+    ],
+    "kind": "sense"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "light",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "sense"
+  },
+  {
+    "lost": 5,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "both",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0,
+      2.0,
+      1.0
+    ],
+    "kind": "sense"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "both",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "sense"
+  },
+  {
+    "lost": 3,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "dark",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0
+    ],
+    "kind": "alter"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "dark",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "alter"
+  },
+  {
+    "lost": 3,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "light",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0
+    ],
+    "kind": "alter"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "light",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "alter"
+  },
+  {
+    "lost": 5,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "both",
+    "failure": false,
+    "lossChoices": [
+      2.0,
+      1.0,
+      2.0,
+      1.0
+    ],
+    "kind": "alter"
+  },
+  {
+    "lost": 1,
+    "interruptZone": "lost",
+    "side": "light",
+    "effects": "both",
+    "failure": true,
+    "lossChoices": [],
+    "kind": "alter"
+  },
+  {
+    "lost": 1,
+    "side": "dark",
+    "kind": "lifetime",
+    "mode": "depart",
+    "interruptZone": "lost"
+  },
+  {
+    "lost": 2,
+    "side": "dark",
+    "kind": "lifetime",
+    "mode": "arrive",
+    "interruptZone": "used"
+  },
+  {
+    "lost": 0,
+    "side": "dark",
+    "kind": "lifetime",
+    "mode": "suppressed",
+    "interruptZone": "used"
+  },
+  {
+    "lost": 1,
+    "side": "light",
+    "kind": "lifetime",
+    "mode": "depart",
+    "interruptZone": "lost"
+  },
+  {
+    "lost": 2,
+    "side": "light",
+    "kind": "lifetime",
+    "mode": "arrive",
+    "interruptZone": "used"
+  },
+  {
+    "lost": 0,
+    "side": "light",
+    "kind": "lifetime",
+    "mode": "suppressed",
+    "interruptZone": "used"
+  }
+]

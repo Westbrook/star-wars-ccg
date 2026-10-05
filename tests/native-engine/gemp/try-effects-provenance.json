@@ -1,0 +1,23 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T04:47:26.024Z",
+  "harness": "NativeEngineTryEffectsOracleTests.java",
+  "results": "try-effects-results.json",
+  "junitTests": 3,
+  "branches": 32,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": [
+    "Actual successful/failed Sense and Alter for both players under each Effect separately and both together.",
+    "Actual free deployments and Alter immunity during initiation.",
+    "Played Interrupt subtype persists through controlled source arrival/departure; canceled text disables both modifiers and penalties."
+  ],
+  "limits": [
+    "Component boards, hands, Force and destiny are prepared explicitly; source relocation and cancellation are controlled fixture interventions, not granting-card implementations.",
+    "Direct counters, game ending during loss, reduction and interrupted mandatory source departure additionally have native-only tests.",
+    "Starting deployment/search providers and full native production admission remain unfinished."
+  ],
+  "harnessSha256": "c6ff4b5ba81a842fc1ab1a8a9015c1a63dfc42aec43508e01d518bb7f3c6cac6",
+  "resultsSha256": "0ba2a66b062e81bbc9066ccddb1d9482d489a8d41845a24db6f7a1f83cf863e2"
+}

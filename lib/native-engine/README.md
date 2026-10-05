@@ -3325,3 +3325,26 @@ always immune to Alter, exact table-deployment phrase), so no ineligible Effect
 is substituted. Next implement actual eligible Effect providers plus setup
 search/verification and deployment timing, then exercise both functions in
 continuous complete games. Existing full-engine requirements remain unfinished.
+
+### Do, Or Do Not / There Is No Try
+
+`try-effects.ts` implements ordinary deployment of Light4_21 and Dark4_134,
+including free cost, uniqueness and unconditional Alter immunity. While active,
+each changes Sense/Alter into Lost Interrupts and independently requires the
+performing player to lose2 Force after a successful Sense/Alter destiny. Failed
+draws and direct counters do not generate that penalty. The played subtype is
+saved at initiation; a subsequent source arrival/departure does not rewrite it.
+The ordinary loss pipeline supplies reduction, private payment choices, nested
+responses and game completion. CPU policy21 considers its own visible Sense/Alter
+hand before deploying an Effect that penalizes both players.
+
+Thirty-two executed GEMP observations cover both sides, Sense/Alter success and
+failure under either/both Effects, deployment immunity, and controlled source
+arrival/departure/canceled text. All6,820 production source files match the pinned
+archive. Native tests additionally verify direct counters, either mandatory order,
+source departure after initiation, reduction, final Life Force and invalid saved
+continuations. Six Playwright1.62.1/Chromium1234 flows use actual HTTP/service/SQLite
+D1 at1440/834/390; both seats refresh between individual payments and between the
+two mandatory losses without duplication. These are component fixtures, not a
+full-match certification. Actual Starting Interrupt searches/deployments and
+broader engine scope remain required; full native production admission is closed.
