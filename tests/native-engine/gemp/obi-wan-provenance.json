@@ -1,0 +1,27 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-05T00:42:29.557800+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineObiWanOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineObiWanOracleTests.java",
+  "harnessSha256": "a4dab43f4efa8515a30b9a857a0f6565bd5694ee5fad7ea93b50ad68b1403caf",
+  "results": "obi-wan-results.json",
+  "resultsSha256": "39713688b04a893fbdca222634233b582428bfab609aa48c8d8edb861d16385d",
+  "observations": 10,
+  "junitTests": 3,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": [
+    "Real battle-initiation reaction on either turn; pay one Force, opponent chooses free movement or loss.",
+    "No adjacent site and no ability-one target suppress the reaction. Immobile Imperial Trooper Guard is lost without a movement choice.",
+    "Attached weapon moves with the character or is lost with it; paid action persists after controlled source departure; last opposing participant can move away.",
+    "Normal Obi-Wan deployment costs five and attrition immunity is less than five."
+  ],
+  "limitations": [
+    "Component fixtures, not complete-match GEMP conformance or full catalog admission.",
+    "Source departure is a controlled fixture intervention, not demonstrated reachable in an ordinary match.",
+    "Native-only saved-state, cancellation, returning-instance, CPU and browser checks are not additional GEMP observations.",
+    "Full engine remains unfinished; production native admission remains closed."
+  ]
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "mode": "no-adj",
+    "offered": false
+  },
+  {
+    "mode": "ability-two",
+    "offered": false
+  },
+  {
+    "moved": true,
+    "choice": true,
+    "offered": true,
+    "lost": false,
+    "darkCost": 0,
+    "gunLost": false,
+    "gunMoved": false,
+    "lightCost": 1,
+    "mode": "move"
+  },
+  {
+    "moved": true,
+    "choice": true,
+    "offered": true,
+    "lost": false,
+    "darkCost": 0,
+    "gunLost": false,
+    "gunMoved": false,
+    "lightCost": 1,
+    "mode": "own"
+  },
+  {
+    "moved": false,
+    "choice": true,
+    "offered": true,
+    "lost": true,
+    "darkCost": 0,
+    "gunLost": true,
+    "gunMoved": false,
+    "lightCost": 1,
+    "mode": "lose"
+  },
+  {
+    "moved": false,
+    "choice": false,
+    "offered": true,
+    "lost": true,
+    "darkCost": 0,
+    "gunLost": false,
+    "gunMoved": false,
+    "lightCost": 1,
+    "mode": "guard"
+  },
+  {
+    "moved": true,
+    "choice": true,
+    "offered": true,
+    "lost": false,
+    "darkCost": 0,
+    "gunLost": false,
+    "gunMoved": true,
+    "lightCost": 1,
+    "mode": "attachments"
+  },
+  {
+    "moved": true,
+    "choice": true,
+    "offered": true,
+    "lost": false,
+    "darkCost": 0,
+    "gunLost": false,
+    "gunMoved": false,
+    "lightCost": 1,
+    "mode": "source-left"
+  },
+  {
+    "moved": true,
+    "choice": true,
+    "offered": true,
+    "lost": false,
+    "darkCost": 0,
+    "gunLost": false,
+    "gunMoved": false,
+    "lightCost": 1,
+    "mode": "last"
+  },
+  {
+    "mode": "deploy",
+    "cost": 5,
+    "immunity": 5.0
+  }
+]

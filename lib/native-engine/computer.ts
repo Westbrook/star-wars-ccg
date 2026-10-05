@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-16';
+export const computerPolicy = 'native-cpu-17';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -114,6 +114,13 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     }
     if (c.id === 'draw-destiny') return 80;
     if (c.id === 'skip-destiny') return -10;
+    if (kind === 'obi') {
+      // The engine offers only legal targets/routes. Remove the strongest
+      // opposing participant; preserve our own card by taking a free exit.
+      if (a === 'use') return 65 + Math.max(0,value(c.id.split(':')[3]));
+      if (a === 'move') return 80 + icons(b,opponent) - strength(b,opponent);
+      if (a === 'lose') return -20;
+    }
     if (kind === 'drain') return 100 + icons(a,opponent);
     if (kind === 'site') return 50;
     if(c.id==='undock')return 10;

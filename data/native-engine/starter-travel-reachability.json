@@ -370,7 +370,7 @@
     "lib/native-engine/battle-effects.ts": "74bdd0fda6ed087bc4d6517d8a145c7564e0ab314f9080615bf124785889bb20",
     "lib/native-engine/battle-interrupts.ts": "171a149c5df3f9bedc8c94b11f99ea950be9af75d5354e99108497d83d528dc0",
     "lib/native-engine/battle-power.ts": "a9d909dc013ba5a420164a2a74487af1c1f2c694f45480581983998959f82ce0",
-    "lib/native-engine/battle.ts": "265cf8c7fcbd488f5c748c1dd9a928f248110038edc590fd792557cc1f99d3c3",
+    "lib/native-engine/battle.ts": "2ad9e1a42768492ab1fb6169a34cd8552cb98c5e56ccc6977caf8b5bf16195eb",
     "lib/native-engine/beru-stew.ts": "1f93fbc1229ae26330a54f38118484f11e4cd233babdb90979d2f1f5603d153b",
     "lib/native-engine/bespin.ts": "0b2f838ab0a2e4d5f296212eb4a88dac29b605de3e3b689963c9273f1eeb0b2d",
     "lib/native-engine/blown-away.ts": "ce9205ee25e580472f2ca045a55a190eedaa04933ffae30d517abda820ae0d67",
@@ -385,7 +385,7 @@
     "lib/native-engine/client.ts": "0619a4d641a8b58a2a169704bd16df1ade9216dda516ea323ba3d1210157a9d7",
     "lib/native-engine/combat-modifiers.ts": "9e3ee700337a44eb85061f354b031de57adc0155099942e33cfb52b2fdf8e060",
     "lib/native-engine/compactor.ts": "c3fc9774a17735657713299ad5982c0714543fea6d8dc874ac82414e46edb349",
-    "lib/native-engine/computer.ts": "1728be49a661ffe722b34d9cdeda1700a97b58973ea7e8d79153890f9f516f79",
+    "lib/native-engine/computer.ts": "4ec7abae40b5a78197df5ca5d3d004efd33c318720b953429bea96ed14418819",
     "lib/native-engine/creature-attack.ts": "0820b6c993ff79ab5aec603e25f1e974916624b2ca177e08a7a59af1c27dbdb8",
     "lib/native-engine/creature-encounters.ts": "26e00b6cda587de49df933057b06f76710e0c8b4d8b1043eb15b4b0fc5610883",
     "lib/native-engine/creature-profile.ts": "50988eda23382e12b8581ea3752278705275ce42b6fbfce8ba29dc3167604508",
@@ -456,6 +456,7 @@
     "lib/native-engine/navigation.ts": "28909393a27733f41fefeda992b6db644733d1b197c6d29eaae9cb336cd385ea",
     "lib/native-engine/nighttime.ts": "2823417ddf5d8cd48366f6196f288dd2e85deeea4db5cfd289ca246cf61c3136",
     "lib/native-engine/noble-sacrifice.ts": "52dcdf41843a519867f8f43419dc721923212e6dadbba14fc13835c1bec7fbde",
+    "lib/native-engine/obi-wan.ts": "8de0c4a91fea4720c5c93e22b0d3a3952b38b18bc57888e86c5005e14de4ce3d",
     "lib/native-engine/occupancy.ts": "8606ad427cdb68fe65c8a446bac61a7409898d3ffb76b069ebbb2c7ed8e1859c",
     "lib/native-engine/off-the-edge.ts": "3e3ba5a6c26fa8e9cbc762ca313bbdb058b0b4c3f1453bbdd27e1b89f9a52c43",
     "lib/native-engine/on-the-edge.ts": "9a64f6e06bcc642b0a70c18bd4e37b9c28d3992141749b69f616fb1d2c129a34",
@@ -471,7 +472,7 @@
     "lib/native-engine/piloting.ts": "7cb2d0a9d518ed12e54c4491e8919f7b66a2eb8a28fcf5a120f4fb1911b1b03a",
     "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
-    "lib/native-engine/premiere-rules.ts": "dad5458aad6876c3a5724892bce52a2c0ccca857c32abdf310ef5c817426b832",
+    "lib/native-engine/premiere-rules.ts": "928d4558dbf2c113bac83f2cd3803319687157e1ce7ba2adb234c8bd6b84320d",
     "lib/native-engine/premiere-setup.ts": "2b15d5a53d8a17e05ef2e27d1c4be7cd236719478fee54dd321f3e164ed80ec9",
     "lib/native-engine/protocol-droid.ts": "b4057bd27173cd88ea96d58b1584322365ac7f3194f401e3199c108864e6a1e6",
     "lib/native-engine/public-values.ts": "a4d187766cad6467e6bcd071d7ed07b766b624bede25823734374d7e3c96d307",
@@ -729,6 +730,21 @@
       "evidence": [
         "tests/native-engine/wrong-turn.test.mjs",
         "tests/native-engine/gemp/wrong-turn-provenance.json",
+        "tests/native-engine/travel-response.test.mjs"
+      ]
+    },
+    {
+      "at": "2026-10-05T00:43:52.672345+00:00",
+      "files": [
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/computer.ts",
+        "lib/native-engine/obi-wan.ts",
+        "lib/native-engine/premiere-rules.ts"
+      ],
+      "reason": "Obi-Wan1_21 is absent from both exact intro decks. His optional action is restricted to the initial battle-initiation response, so the new provider cannot intervene inside pending travel in that pair. Battle adds only optional usage references. CPU chooses existing legal actions and grants no rules permissions. Existing card definitions and movement providers are unchanged. The controlled returning-travel discrepancy remains outside the exact pair; broader decks and production admission remain guarded.",
+      "evidence": [
+        "tests/native-engine/obi-wan.test.mjs",
+        "tests/native-engine/gemp/obi-wan-provenance.json",
         "tests/native-engine/travel-response.test.mjs"
       ]
     }

@@ -56,6 +56,7 @@ export type Battle = {
   departed?: string[];
   attritionProtected?: CardReference[];
   characterDestinyUses?: CardReference[];
+  obiWanUses?: CardReference[];
   powerDroidUses?: string[];
   powerDroidBoosts?: DroidBoost[];
   worseIncrease?: number; damageLedger?: Pair<LossLedger>;
