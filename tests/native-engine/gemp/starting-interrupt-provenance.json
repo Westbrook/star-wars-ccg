@@ -1,0 +1,23 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T03:58:38.458931+00:00",
+  "harness": "NativeEngineStartingInterruptOracleTests.java",
+  "results": "starting-interrupt-results.json",
+  "junitTests": 1,
+  "branches": 8,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": [
+    "Normal60-card setup with actual9_139 and9_51, no Effects in either deck.",
+    "Both-play, both-decline and either-only, under Dark-first and Death-Star Light-first order.",
+    "Independent actual Lost-pile arrival observations establish resolution order; starting selections remain unrevealed until both choose."
+  ],
+  "limits": [
+    "Protocol evidence only: no Effect is deployed in these decks.",
+    "Native test-only provider abstracts unsuccessful search verification; it does not implement either complete card.",
+    "No card registration or production admission is opened; printed starting and USED functions remain required."
+  ],
+  "harnessSha256": "b06417e7a3096bb417d4a6d9aa0478c4f158f5b3392f7c12ccf42722720d7739",
+  "resultsSha256": "5201476ab522ca45bc36dc54aabf5ddca482b771cd113dd752298e7b2d624ef0"
+}

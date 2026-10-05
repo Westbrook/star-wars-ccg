@@ -1,3 +1,4 @@
+import {beginStartingInterrupts,startingInterruptPrompt,applyStartingInterrupt,projectStartingInterrupts,assertStartingInterrupts,type StartingInterruptRules} from './starting-interrupts';
 import {moveCard, shufflePile} from './state';
 import {other, sides, type Match, type Prompt, type Side, type StartingLocation} from './types';
 import type {Entropy} from './random';
@@ -8,6 +9,7 @@ export type Placement = {id: string; label: string; order: string[]};
  * effects until their separate starting-card sequence is implemented. */
 export interface LocationSetupRules {
   ordinarySetup(match: Match): boolean;
+  interrupts?: StartingInterruptRules;
   firstPlayer?(match: Match): Side;
   invalidStarting?(match: Match): string[];
   additionalOptions?(match: Match): {side:Side;choices:{id:string;label:string;card?:string}[]}|null;
@@ -46,6 +48,7 @@ function placements(m: Match, rules: LocationSetupRules) {
 
 export function setupPrompt(m: Match, rules: LocationSetupRules, seat: Side): Prompt {
   const setup = m.setup!;
+  if(setup.stage.startsWith('starting-'))return startingInterruptPrompt(m,rules.interrupts!,seat,rules.name);
   let side: Side = setup.priority;
   let choices: Prompt['choices'] = [];
   if (setup.stage === 'choose') {
@@ -70,6 +73,7 @@ export function setupPrompt(m: Match, rules: LocationSetupRules, seat: Side): Pr
 /** Mutates only the transaction's cloned state; the runtime owns validation/CAS. */
 export function applySetup(m: Match, rules: LocationSetupRules, seat: Side, choice: string, entropy: Entropy): void {
   const s = m.setup!;
+  if(s.stage.startsWith('starting-')){applyStartingInterrupt(m,rules.interrupts!,seat,choice,entropy,rules.firstPlayer?.(m)??'dark');return;}
   if (s.stage === 'choose') {
     s.selected[seat] = choice.slice('select:'.length); s.committed[seat] = true;
     if (sides.every(side => s.committed[side])) s.stage = 'reveal';
@@ -106,6 +110,7 @@ export function applySetup(m: Match, rules: LocationSetupRules, seat: Side, choi
       m.locations = [...placement.order];
     }
     s.stage = rules.additionalOptions?.(m)?'additional':'shuffle';
+    if(s.stage==='shuffle')beginStartingInterrupts(m,rules.interrupts);
   } else if(s.stage==='additional'){
     if(!rules.deployAdditional)throw Error('Missing starting deployment rules.');rules.deployAdditional(m,choice,entropy);s.stage=rules.additionalOptions?.(m)?'additional':'placement';
   } else if (s.stage === 'shuffle') {
@@ -121,6 +126,7 @@ export function projectSetup(m: Match, rules: LocationSetupRules, seat: Side) {
   const s = m.setup!;
   const card = (id: string | null) => id ? {...m.cards[id], name: rules.name(m, id), forceIcons: {...rules.location(m, id)!.icons}} : null;
   return {
+    ...(s.interrupts?{interrupts:projectStartingInterrupts(m,seat,rules.name)}:{}),
     stage: s.stage, committed: {...s.committed},
     selected: Object.fromEntries(sides.map(side => [side, s.revealed || side === seat ? card(s.selected[side]) : null])),
     rejected: s.rejected.map(pair => pair.map(card)),
@@ -131,7 +137,8 @@ export function projectSetup(m: Match, rules: LocationSetupRules, seat: Side) {
 
 export function assertSetup(m: Match, rules: LocationSetupRules): void {
   const s = m.setup;
-  if (!s || !['choose', 'reveal', 'conversion', 'placement', 'additional', 'shuffle', 'complete'].includes(s.stage) || !sides.includes(s.priority) || typeof s.revealed !== 'boolean' || !Array.isArray(s.rejected)) throw Error('Invalid starting setup.');
+  if (!s || !['choose', 'reveal', 'conversion', 'placement', 'additional', 'starting-choice', 'starting-reveal', 'starting-resolve', 'shuffle', 'complete'].includes(s.stage) || !sides.includes(s.priority) || typeof s.revealed !== 'boolean' || !Array.isArray(s.rejected)) throw Error('Invalid starting setup.');
+  assertStartingInterrupts(m,rules.interrupts,rules.firstPlayer?.(m)??'dark');
   const rejected = s.rejected.flat();
   for(const field of ['setAside','additional'] as const){const ids=s[field];if(ids!==undefined&&(!Array.isArray(ids)||new Set(ids).size!==ids.length||ids.some(id=>!rules.location(m,id))))throw Error('Invalid starting supplements.');}
   rules.validateAdditional?.(m);
@@ -144,16 +151,17 @@ export function assertSetup(m: Match, rules: LocationSetupRules): void {
   const both = sides.every(side => s.committed[side]);
   if ((s.stage === 'choose' ? both : !both) || s.revealed !== !['choose', 'reveal'].includes(s.stage)) throw Error('Invalid setup disclosure.');
   const ids = selected(m), collision = ids.length === 2 && rules.location(m, ids[0])!.identity === rules.location(m, ids[1])!.identity;
-  if (s.stage === 'conversion' && !collision || s.covered !== null && (!collision || !ids.includes(s.covered) || !['placement', 'additional', 'shuffle', 'complete'].includes(s.stage))) throw Error('Invalid starting conversion.');
-  if (collision && ['placement', 'additional', 'shuffle', 'complete'].includes(s.stage) && !s.covered) throw Error('Starting conversion needs consent.');
+  if (s.stage === 'conversion' && !collision || s.covered !== null && (!collision || !ids.includes(s.covered) || !['placement', 'additional', 'starting-choice', 'starting-reveal', 'starting-resolve', 'shuffle', 'complete'].includes(s.stage))) throw Error('Invalid starting conversion.');
+  if (collision && ['placement', 'additional', 'starting-choice', 'starting-reveal', 'starting-resolve', 'shuffle', 'complete'].includes(s.stage) && !s.covered) throw Error('Starting conversion needs consent.');
   // After setup, characters may move and locations may convert. The historical
   // starting choice is retained without asserting that its board is immutable.
   if (s.stage === 'complete' && m.status !== 'setup') return;
   if (m.status === 'playing' || m.stack.length) throw Error('Gameplay entered unfinished setup.');
   const pending=rules.additionalOptions?.(m);
-  if(s.stage==='additional'&&(!pending||!pending.choices.length)||['shuffle','complete'].includes(s.stage)&&pending)throw Error('Required starting deployment was skipped.');
+  if(s.stage==='additional'&&(!pending||!pending.choices.length)||['starting-choice','starting-reveal','starting-resolve','shuffle','complete'].includes(s.stage)&&pending)throw Error('Required starting deployment was skipped.');
+  if(s.interrupts?.revealed)return;
   const extra=s.additional??[];
-  const placed = ['shuffle','complete'].includes(s.stage), drawn = s.stage === 'complete';
+  const placed = ['starting-choice','starting-reveal','starting-resolve','shuffle','complete'].includes(s.stage), drawn = s.stage === 'complete';
   for (const side of sides) {
     const p = m.players[side];
     if (p.hand.length !== (drawn ? 8 : 0) || p.force.length || p.used.length || p.lost.length || p.destiny.length || p.reserve.length !== m.deckSize - (placed && s.selected[side] ? 1 : 0) -extra.filter(id=>m.cards[id].owner===side).length - (drawn ? 8 : 0)) throw Error('Unexpected starting piles.');

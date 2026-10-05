@@ -53,7 +53,8 @@ export type Decision = {kind: 'decision'; side: Side; handler: string; payload: 
 export type Frame = Window | Resolution | Decision;
 export type StartingLocation = {identity: string; group: string; icons: Record<Side, number>; convertible: boolean};
 export type Setup = {
-  stage: 'choose' | 'reveal' | 'conversion' | 'placement' | 'additional' | 'shuffle' | 'complete';
+  stage: 'choose' | 'reveal' | 'conversion' | 'placement' | 'additional' | 'starting-choice' | 'starting-reveal' | 'starting-resolve' | 'shuffle' | 'complete';
+  interrupts?: import('./starting-interrupts').StartingInterruptSetup;
   setAside?: string[];
   additional?: string[];
   selected: Record<Side, string | null>;

@@ -495,7 +495,7 @@
     "lib/native-engine/sectors.ts": "aff7c1008a116c0720ed4ea8c132de873d937104f7e175fcc72ae6502385cca8",
     "lib/native-engine/server.ts": "97640a61463f9cf16f51ea1fe3e0ff5d0ddb9adc4da20eb7eb1acdba756687ec",
     "lib/native-engine/service.ts": "dbb784da2f0b9fec35fb7884be3a7e63c9c8ea9e7d770115a65667c8c86e9ad0",
-    "lib/native-engine/setup.ts": "837397a33735d8dc878c7fee42f596621e5a53c248e0f3230337b3ee7aab8b74",
+    "lib/native-engine/setup.ts": "c92d94b46064454076f12abbdcd528a5a260c29612ac01350c9e978243dd9ad5",
     "lib/native-engine/space-slug.ts": "acbe32b85da9dc1809c62321b007fb3ec14514c1ae1fcb3692574c5751c6ba07",
     "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
     "lib/native-engine/starship-weapons.ts": "2dcc5aab948f116be351b6af603550921c3f0401e425bc4dfd07398b10c70992",
@@ -509,7 +509,7 @@
     "lib/native-engine/transport.ts": "16485235603bdb4c372d6f582cad9b043f8c3ab047719c8989fc283c0497371f",
     "lib/native-engine/travel.ts": "62e91c2e4941025adeab828c02c0cbc918f07f1922bbf683ccd1f318efa0cd3f",
     "lib/native-engine/trooper-assault.ts": "aefc2a2f34ba446b6c88c08064524855a5423a7e6ab1f5d6771893f98892daec",
-    "lib/native-engine/types.ts": "7b7b7feec4f39a0d3919ccd79c694cd5540e5a59ebb79c2c473736426eda3866",
+    "lib/native-engine/types.ts": "463a82f5838bd4aa3b2d1b6e2f0ad31ddb702e05712c3bda5ac10eeaa2e15600",
     "lib/native-engine/vehicle-react.ts": "babbf440d8aa6ee4bafb54432c945dac908e4152e1840efed891736757081982",
     "lib/native-engine/vessel-travel.ts": "ecf2837085732f6accdd6e38773fefbd3d27d14ef6be3cf16010bab94fdbcaba",
     "lib/native-engine/vessels.ts": "77e31dfabdeabf12f0b9c678a24b6c8c327885069a9a0a7115a3cd46a4df99a4",
@@ -520,7 +520,8 @@
     "lib/native-engine/worse.ts": "cdd54acc301b458a8594a3aac483d6d9039b0ef7306d03a359c5346857612953",
     "lib/native-engine/bionic-hand.ts": "fee56fd2fefd40297200b296bde23ddb67bc08394cda1f105adbbff9bfdfbd71",
     "lib/native-engine/character-weapon-total.ts": "f16a99f503d6c577dd15dddec3d3cc80615111e3828f762c4aeeb7eece1aa9ef",
-    "lib/native-engine/disarmed-state.ts": "318cecd66e0ab51d07fd8c877fd2691dbf41fd5be1afd431d8010a5fa0138b64"
+    "lib/native-engine/disarmed-state.ts": "318cecd66e0ab51d07fd8c877fd2691dbf41fd5be1afd431d8010a5fa0138b64",
+    "lib/native-engine/starting-interrupts.ts": "45ba7a49a05165f5b63572ea974a72226f9fe68f8d26a73ac0faaca1f25fe521"
   },
   "evidence": [
     "tests/native-engine/gemp/travel-response-provenance.json",
@@ -794,6 +795,20 @@
         "tests/native-engine/bionic-hand.test.mjs",
         "tests/native-engine/gemp/bionic-hand-provenance.json",
         "tests/native-engine/travel-response.test.mjs"
+      ]
+    },
+    {
+      "at": "2026-10-05T03:58:38.458931+00:00",
+      "files": [
+        "lib/native-engine/setup.ts",
+        "lib/native-engine/types.ts",
+        "lib/native-engine/starting-interrupts.ts"
+      ],
+      "reason": "The generic pre-game Starting Interrupt protocol runs only when an explicit setup provider is supplied. Premiere rules do not register such a provider and the exact intro pair contains no Starting Interrupts, preserving its prior serialized setup and shuffle path. The new stages grant no during-play response or movement timing permission. Full card providers, broader identity discrepancies, failed-Obsession arithmetic and closed admission remain required.",
+      "evidence": [
+        "tests/native-engine/starting-interrupts.test.mjs",
+        "tests/native-engine/gemp/starting-interrupt-provenance.json",
+        "tests/native-engine/setup.test.mjs"
       ]
     }
   ]
