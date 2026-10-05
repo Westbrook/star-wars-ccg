@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-24';
+export const computerPolicy = 'native-cpu-25';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -212,6 +212,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
       if(mode==='search')return own.lost.some(c=>definition(c.blueprint).subType.startsWith('Starfighter:')&&(identities as Record<string,{nonUnique:boolean}>)[c.blueprint]?.nonUnique)&&own.lifeForce!==null&&own.lifeForce>1?25:-10;
       return 10;
     }
+    if(kind==='effect-search')return a==='play'?35:a==='take'?35+value(b):20;
     if(kind==='alien-search')return a==='begin'?35:a==='take'?35+value(b):20;
     if(kind==='recruit')return 20+value(b);
     if (kind === 'forfeit') return forfeitScore(a);

@@ -1,4 +1,5 @@
 import {name} from './board';
+import {effectSearchBlueprints} from './effect-search';
 import {referenceCard,assertCardReference,type CardReference} from './identity';
 import {canPlayCard} from './persona';
 import {preparationBlueprint} from './preparation-destiny';
@@ -8,6 +9,8 @@ import {moveCard} from './state';
 import {startingEffectBlueprints,initiateStartingEffect} from './starting-effects';
 import {other,type Action,type Decision,type Json,type Match,type Resolution,type Side} from './types';
 
+const startingBlueprints=(side:Side)=>[preparationBlueprint(side),side==='dark'?'6_160':'6_77'];
+const effectLimit=(m:Match,card:string)=>effectSearchBlueprints.includes(m.cards[card].blueprint)?1:3;
 type Payload={card:string;count:number;chosen:CardReference[]};
 const payload=(f:Decision|Resolution)=>('action' in f?f.action.payload:f.payload) as unknown as Payload;
 const finished=(m:Match)=>(m.data.preparationStarts??[]) as string[];
@@ -20,7 +23,7 @@ const nameFor=(step:string)=>step==='finish'?'Starting Interrupt':'starting Effe
 const queue=(m:Match,step:string,p:Payload)=>m.stack.push({kind:'resolution',actor:m.cards[p.card].owner,action:action(step,p),cancelled:false});
 const choose=(m:Match,p:Payload)=>m.stack.push({kind:'decision',side:m.cards[p.card].owner,handler:'prep-start:choose',payload:p as unknown as Json});
 export const preparationStarting:StartingInterruptRules={
- candidates:(m,side)=>m.players[side].reserve.filter(id=>m.cards[id].blueprint===preparationBlueprint(side)),
+ candidates:(m,side)=>m.players[side].reserve.filter(id=>startingBlueprints(side).includes(m.cards[id].blueprint)),
  choices:(m,card)=>[{id:'prep-start:begin:'+card,label:'Resolve '+name(m,card)}],
  apply:(m,card,id)=>{
   if(id!=='prep-start:begin:'+card||m.cards[card].zone!=='reserve'||finished(m).includes(card))throw Error('Invalid Starting Interrupt initiation.');
@@ -39,7 +42,7 @@ export function preparationStartingResolve(m:Match,r:Resolution){
   if(h==='prep-start:search'){queue(m,'inspect',p);openWindow(m,'response',other(side),{kind:'before-looking-at-pile',side,pile:'reserve',source:p.card});}
   else if(h==='prep-start:inspect')choose(m,p);
   else if(h==='prep-start:after'){
-   if(p.count<3&&startingEffects(m,side).length)choose(m,p);
+   if(p.count<effectLimit(m,p.card)&&startingEffects(m,side).length)choose(m,p);
   }else throw Error('Unknown starting preparation continuation.');
  }
 }
@@ -72,13 +75,13 @@ export function preparationStartingView(m:Match,seat:Side){
  return {startingSearch:{source:name(m,p.card),side,stage:verify?'verify':'search',count:p.count,cards:visible?[...m.players[side].reserve].sort().map(id=>({...m.cards[id]})):[]}};
 }
 export function assertPreparationStarting(m:Match){
- const done=finished(m);if(!Array.isArray(done)||new Set(done).size!==done.length||done.some(id=>!m.cards[id]||m.cards[id].blueprint!==preparationBlueprint(m.cards[id].owner)))throw Error('Invalid completed starting preparations.');
- if(m.setup?.interrupts)for(const side of ['dark','light'] as const){const id=m.setup.interrupts.selected[side];if(id!==null&&m.cards[id]?.blueprint!==preparationBlueprint(side))throw Error('Invalid starting preparation selection.');}
+ const done=finished(m);if(!Array.isArray(done)||new Set(done).size!==done.length||done.some(id=>!m.cards[id]||!startingBlueprints(m.cards[id].owner).includes(m.cards[id].blueprint)))throw Error('Invalid completed starting preparations.');
+ if(m.setup?.interrupts)for(const side of ['dark','light'] as const){const id=m.setup.interrupts.selected[side];if(id!==null&&!startingBlueprints(side).includes(m.cards[id]?.blueprint))throw Error('Invalid starting preparation selection.');}
  for(const f of m.stack){
   if(f.kind==='window'){if(m.status==='setup'&&f.timing!=='response')throw Error('Setup cannot enter a turn window.');continue;}
   const h=f.kind==='decision'?f.handler:f.action.handler;if(!h.startsWith('prep-start:'))continue;
   const p=payload(f),side=m.cards[p?.card]?.owner;
-  if(!p||!['setup','finished'].includes(m.status)||source(m)!==p.card||m.cards[p.card]?.blueprint!==preparationBlueprint(side)||(m.cards[p.card].zone!=='playing'&&!(h==='prep-start:finish'&&m.cards[p.card].zone==='lost'))||finished(m).includes(p.card)||!Number.isSafeInteger(p.count)||p.count<0||p.count>3||!Array.isArray(p.chosen)||p.chosen.length!==p.count||new Set(p.chosen.map(r=>r.id)).size!==p.count)throw Error('Invalid starting preparation continuation.');
+  if(!p||!['setup','finished'].includes(m.status)||source(m)!==p.card||!startingBlueprints(side).includes(m.cards[p.card]?.blueprint)||(m.cards[p.card].zone!=='playing'&&!(h==='prep-start:finish'&&m.cards[p.card].zone==='lost'))||finished(m).includes(p.card)||!Number.isSafeInteger(p.count)||p.count<0||p.count>effectLimit(m,p.card)||!Array.isArray(p.chosen)||p.chosen.length!==p.count||new Set(p.chosen.map(r=>r.id)).size!==p.count)throw Error('Invalid starting preparation continuation.');
   if(f.kind==='decision'){
    if(!['prep-start:choose','prep-start:verify'].includes(h)||f.side!==(h==='prep-start:verify'?other(side):side)||h==='prep-start:verify'&&(p.count!==0||startingEffects(m,side).length))throw Error('Invalid starting search decision.');
   }else if(!['prep-start:search','prep-start:inspect','prep-start:finish','prep-start:after'].includes(h)||f.actor!==side||f.action.id!==action(h.slice(11),p).id||f.action.source!==p.card||f.action.payment||f.action.unrespondable)throw Error('Invalid starting preparation action.');

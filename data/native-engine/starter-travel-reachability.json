@@ -388,7 +388,7 @@
     "lib/native-engine/client.ts": "0619a4d641a8b58a2a169704bd16df1ade9216dda516ea323ba3d1210157a9d7",
     "lib/native-engine/combat-modifiers.ts": "9e3ee700337a44eb85061f354b031de57adc0155099942e33cfb52b2fdf8e060",
     "lib/native-engine/compactor.ts": "c3fc9774a17735657713299ad5982c0714543fea6d8dc874ac82414e46edb349",
-    "lib/native-engine/computer.ts": "23f713e31511ccdf4c66da56a117a8f8a51cea60cd3abd1d8a91bbde29836e78",
+    "lib/native-engine/computer.ts": "21d460f80e31c7f2db7ac1fb8ca4aff222b81b1b0a54f7122d78aee550437b22",
     "lib/native-engine/creature-attack.ts": "0820b6c993ff79ab5aec603e25f1e974916624b2ca177e08a7a59af1c27dbdb8",
     "lib/native-engine/creature-encounters.ts": "26e00b6cda587de49df933057b06f76710e0c8b4d8b1043eb15b4b0fc5610883",
     "lib/native-engine/creature-profile.ts": "50988eda23382e12b8581ea3752278705275ce42b6fbfce8ba29dc3167604508",
@@ -470,17 +470,17 @@
     "lib/native-engine/otsd-orders.ts": "890c627a14e3cb201cda8552b308a494525bf64e198a5cb7b76bbd324e25019e",
     "lib/native-engine/otsd-ships.ts": "84f4f10e29c9000e4e36f49e9ec19472300a014548ebbd4dba957ba0ad17641f",
     "lib/native-engine/participation.ts": "4cdccab18a835123acb7e2cad7f06b16b1af7276d00254c4566dc384a96cc108",
-    "lib/native-engine/persona.ts": "f537308f823109c686ca707d751363ca93fb0916a87158d289804494cff607cf",
+    "lib/native-engine/persona.ts": "eac0acbc1cfb429f9edff74a1d7cf150c3dcc0f6b16ee3d84ffcd496d718f7c0",
     "lib/native-engine/phase-effects.ts": "5f5bc6a8b407d9b2533e21d204ba9506d018052b42784a076352facb8b15b2f2",
     "lib/native-engine/pile-reveal.ts": "d39574ec0ba75588037d2146ffd27655d9311b2c60e1e56a932756ec387ab191",
     "lib/native-engine/pilot-deploy.ts": "53895a50cbe1f8cf78eb89495f370acea3f4a2cd4b134975ed66aee392ace302",
     "lib/native-engine/piloting.ts": "7cb2d0a9d518ed12e54c4491e8919f7b66a2eb8a28fcf5a120f4fb1911b1b03a",
     "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
-    "lib/native-engine/premiere-rules.ts": "84f904ea671e4735c58258898c6dc55cc37ff3372d58966b80aa8ac169704b75",
-    "lib/native-engine/premiere-setup.ts": "a8dd8df099282045f220c2690727051d8c934478f33d6f9f7cb09211af79b3f3",
+    "lib/native-engine/premiere-rules.ts": "37d7e05ceb5857909649b3b9ccf0923c2df3f04b0cf56a9413281e7fbb70860e",
+    "lib/native-engine/premiere-setup.ts": "1a2770a0f64a504b168861a27c554493f3e1d186de61ccc62fb4fa50eee3ef37",
     "lib/native-engine/preparation-destiny.ts": "65eb82c08526d45e8478eb87c343a8c0e212ea93badb9044b92ee439a567d617",
-    "lib/native-engine/preparation-starting.ts": "914d9d526ab2a3adcf039c7775665217bfab9215a4a08aa89f9a64fe6e8192b9",
+    "lib/native-engine/preparation-starting.ts": "bad8aea45cc71cd3316ef95c9f5ab153cbc5cdb995d0dccfcf9a098a0aef5df2",
     "lib/native-engine/protocol-droid.ts": "b4057bd27173cd88ea96d58b1584322365ac7f3194f401e3199c108864e6a1e6",
     "lib/native-engine/public-values.ts": "a4d187766cad6467e6bcd071d7ed07b766b624bede25823734374d7e3c96d307",
     "lib/native-engine/random.ts": "807bcd0c4e0d94cbb1e569b939c4b709ef1a4bf62c056b2a1dc97ecd9741a1e4",
@@ -527,7 +527,8 @@
     "lib/native-engine/weapon-state.ts": "a60d085a2e3a11bedb978247863e16346d28df9562534e11e4e9ee717b5b3352",
     "lib/native-engine/weapon-total.ts": "f2b2e454a1c77b41009b0ad69d8343fda968fe53036aa1e1f829dd48dd2687e3",
     "lib/native-engine/wedge-search.ts": "17a54db6048a3f45c7bbe2332e841d43969a4ca57f3e88fd970c2ade5d11f0e2",
-    "lib/native-engine/worse.ts": "cdd54acc301b458a8594a3aac483d6d9039b0ef7306d03a359c5346857612953"
+    "lib/native-engine/worse.ts": "cdd54acc301b458a8594a3aac483d6d9039b0ef7306d03a359c5346857612953",
+    "lib/native-engine/effect-search.ts": "80cd6cb4ad588bb0e801e8d4c4c6c8ce12146b2bad933d570cf576ac1352b48e"
   },
   "evidence": [
     "tests/native-engine/gemp/travel-response-provenance.json",
@@ -904,6 +905,21 @@
       "evidence": [
         "tests/native-engine/battle-plan.test.mjs",
         "tests/native-engine/gemp/battle-plan-provenance.json"
+      ]
+    },
+    {
+      "at": "2026-10-05T06:34:39.709285+00:00",
+      "files": [
+        "lib/native-engine/preparation-starting.ts",
+        "lib/native-engine/effect-search.ts",
+        "lib/native-engine/premiere-rules.ts",
+        "lib/native-engine/computer.ts",
+        "lib/native-engine/persona.ts",
+        "lib/native-engine/premiere-setup.ts"
+      ],
+      "reason": "The Signal6_77 and Twilek Advisor6_160 are absent from the exact intro decks. Their optional paid Reserve searches are unavailable without those cards; their one-Effect starting limit only applies to these blueprints. Existing preparation starting limits remain three. New continuations expose no movement permission and do not change the exact pair travel response inventory. Computer policy25 adds choices only for this new provider. Production admission remains closed and the failed-Obsession amount remains unresolved.",
+      "evidence": [
+        "tests/native-engine/effect-search.test.mjs"
       ]
     }
   ]

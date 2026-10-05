@@ -3484,3 +3484,38 @@ Nine Playwright flows resume actual paid-drain, paid-battle and free-battle
 checkpoints from this fully replayed game through HTTP/service/SQLite D1 at
 1440/834/390. Each follows the recorded legal command sequence, refreshes while
 pending, and compares the exact resulting saved state with the reference replay.
+
+### The Signal / Twi’lek Advisor
+
+Both printed Interrupts now have ordinary three-Force Reserve searches and a
+one-Effect starting path. The USED search accepts Effects of any kind, reveals
+the selected physical card before taking it into hand, reshuffles, and puts the
+Interrupt in Used. A failed search gives the opponent a private verification
+step and records the same-title search restriction for the turn. Sense can
+cancel the play after its payment without exposing the Reserve Deck. Save/load
+retains the exact choice, payment, target instance and response boundary.
+
+The starting function reuses the ordinary simultaneous selection and ordered
+resolution protocol, with a one-Effect limit independent of Prepared Defenses /
+Heading For The Medical Frigate. Its current deployment adapters cover the six
+already implemented free table Effects. This is not all eligible printed Effects;
+additional deployment adapters remain required before their decks are admitted.
+
+`effect-search-provenance.json` binds 16 actual GEMP starting setups and four
+controlled USED searches to the executed harness and unchanged pinned production
+source (6,820 files). Native tests additionally cover Sense cancellation, target
+relocation, corrupted continuations, mixed starting providers, CPU decisions,
+and complete 40/60-card games. The 40-card game executes one paid search; the
+60-card game verifies setup-to-victory integration without drawing/playing its
+second search Interrupt. Neither game is a complete-match GEMP replay.
+
+Playwright checks exercise the actual HTTP/service/SQLite D1 path at desktop,
+tablet and phone sizes. Search/verification/reveal states survive refresh and
+keep hidden cards out of the other player's projection. Test admission is
+explicit; production admission remains closed.
+
+The failed-Obsession amount remains unresolved. The official Advanced Rulebook,
+pp29–31, explicitly excludes a nonexistent failed destiny from the ordinary
+undefined-value-as-zero rule. It establishes the winner but does not establish
+this card's numerical Force difference. The existing guarded discrepancy is
+retained rather than assigned an unsupported amount.

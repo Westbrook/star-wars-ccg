@@ -98,7 +98,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler\u2019s Luck",
+    "name": "Gambler’s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -3830,5 +3830,39 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/dark/Card8_118.java"
+  },
+  {
+    "gempId": "6_77",
+    "name": "The Signal",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Used Or Starting",
+    "image": "https://res.starwarsccg.org/cards/JabbasPalace-Light/large/thesignal.gif",
+    "text": "USED: Use 3 Force to search your Reserve Deck and take one Effect of any kind into hand; reshuffle. STARTING: Deploy from your Reserve Deck one Effect which has no deploy cost; reshuffle. Place Interrupt in the Lost Pile.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [
+      "Jabba's Palace"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set6/light/Card6_077.java"
+  },
+  {
+    "gempId": "6_160",
+    "name": "Twi'lek Advisor",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Used Or Starting",
+    "image": "https://res.starwarsccg.org/cards/JabbasPalace-Dark/large/twilekadvisor.gif",
+    "text": "USED: Use 3 Force to search your Reserve Deck and take one Effect of any kind into hand; reshuffle. STARTING: Deploy from your Reserve Deck one Effect which has no deploy cost; reshuffle. Place Interrupt in the Lost Pile.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [
+      "Jabba's Palace"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set6/dark/Card6_160.java"
   }
 ]

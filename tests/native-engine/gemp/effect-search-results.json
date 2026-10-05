@@ -1,0 +1,3072 @@
+[
+  {
+    "empty": false,
+    "used": true,
+    "effectInHand": true,
+    "trace": [
+      {
+        "side": "Dark Side Player",
+        "text": "Use 3 Force - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Use 3 Force - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00276_77\u0027\u003e•The Signal\u003c/div\u003e - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00276_77\u0027\u003e•The Signal\u003c/div\u003e - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Choose card to take into hand",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40",
+            "temp41",
+            "temp42"
+          ],
+          "selectable": [
+            "true",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_21",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "LOOKED_AT_CARDS_IN_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "LOOKED_AT_CARDS_IN_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "SHUFFLE_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "SHUFFLE_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      }
+    ],
+    "side": "light",
+    "cost": 3
+  },
+  {
+    "empty": true,
+    "used": true,
+    "effectInHand": true,
+    "trace": [
+      {
+        "side": "Dark Side Player",
+        "text": "Use 3 Force - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Use 3 Force - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00276_77\u0027\u003e•The Signal\u003c/div\u003e - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00276_77\u0027\u003e•The Signal\u003c/div\u003e - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to take into hand\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to take into hand\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "SHUFFLE_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "SHUFFLE_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      }
+    ],
+    "side": "light",
+    "cost": 3
+  },
+  {
+    "empty": false,
+    "used": true,
+    "effectInHand": true,
+    "trace": [
+      {
+        "side": "Light Side Player",
+        "text": "Use 3 Force - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Use 3 Force - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00276_160\u0027\u003e•Twi\u0027lek Advisor\u003c/div\u003e - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00276_160\u0027\u003e•Twi\u0027lek Advisor\u003c/div\u003e - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Choose card to take into hand",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40"
+          ],
+          "selectable": [
+            "true",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "4_134",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "LOOKED_AT_CARDS_IN_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "LOOKED_AT_CARDS_IN_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "SHUFFLE_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "SHUFFLE_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      }
+    ],
+    "side": "dark",
+    "cost": 3
+  },
+  {
+    "empty": true,
+    "used": true,
+    "effectInHand": true,
+    "trace": [
+      {
+        "side": "Light Side Player",
+        "text": "Use 3 Force - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Use 3 Force - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00276_160\u0027\u003e•Twi\u0027lek Advisor\u003c/div\u003e - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00276_160\u0027\u003e•Twi\u0027lek Advisor\u003c/div\u003e - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to take into hand\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to take into hand\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Light Side Player",
+        "text": "SHUFFLE_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      },
+      {
+        "side": "Dark Side Player",
+        "text": "SHUFFLE_CARD_PILE - Optional responses",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        }
+      }
+    ],
+    "side": "dark",
+    "cost": 3
+  }
+]

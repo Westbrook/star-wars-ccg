@@ -1,0 +1,25 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T06:36:39.297461+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineEffectStartingOracleTests,NativeEngineEffectSearchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "junitTests": 2,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "files": {
+    "NativeEngineEffectStartingOracleTests.java": "0d24444256ea521e5c98a81087bb3dd3580a1f72db101a2050a07422ee1a9560",
+    "NativeEngineEffectSearchOracleTests.java": "c97b34feb371047b81ca109ae6749fef871813c3fbb99a6ecbece98e15c1d96a",
+    "effect-starting-results.json": "b604caf92a6a7d41d4aee45a5c6ff69cce789795c83581ea6650d6258cc86980",
+    "effect-search-results.json": "1cd7942b379a48d8110f20167eb6d6753395eef438a9a72c1324bc5d729667f4"
+  },
+  "startingBranches": 16,
+  "usedBranches": 4,
+  "scope": [
+    "Sixteen actual ordinary60-card starting setups: each first player, both play/decline choices, present/absent eligible Effect.",
+    "Four controlled USED searches: both sides, success and verified failure; actual3-Force payment and Used cleanup.",
+    "Native setup currently offers registered free Effect deployment adapters. Broader eligible Effects need real adapters before deck admission; no claim that all starting targets are implemented.",
+    "USED search recognizes all Effect types, including Utinni/Immediate/Mobile; component reference searches use ordinary Effects.",
+    "Full native production admission remains closed. No new Rules Lab study."
+  ]
+}
