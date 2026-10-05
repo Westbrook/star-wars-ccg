@@ -39,7 +39,7 @@ function group(m:Match,id:string):Card[]{
 function endParticipation(m:Match,ids:string[]):void{
  const b=battle(m);if(!b||b.stage==='complete')return;
  for(const id of ids)if(Object.values(b.participants).some(v=>v.includes(id))&&!(b.departed??=[]).includes(id))b.departed.push(id);
- b.hits=b.hits.filter(id=>!ids.includes(id));
+ // Capture is the same on-table instance; it does not restore a hit (AR p96).
 }
 /** Trusted effect API. The caller supplies capture permission and its response
  * timing; destination legality is rechecked at resolution. */

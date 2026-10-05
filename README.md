@@ -30,3 +30,12 @@ retains a printed/modified value. A dedicated GEMP theft execution also confirms
 that its attached-Effect ownership behavior differs from the official rule; native
 keeps the Effect’s original owner. These differences remain explicit in the receipts,
 and neither widens production admission.
+
+The next integration checkpoint adds general hit-card departure loss, including
+capture and premature battle endings; Premiere Millennium Falcon, its matching
+pilots and printed docking capability; Special Modifications; and Executor:
+Control Station. Current Special Modifications errata restricts deployment to your
+own starship. Control Station separates the player moving Executor from its owner
+and charges that player. Legal ship-site placement, saved response continuations,
+and CPU choices have focused coverage. These are engine components; complete
+native match admission remains closed.

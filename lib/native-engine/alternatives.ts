@@ -10,7 +10,7 @@ import {corulagAllowsGuardMove} from './otsd-locations';
 import {openWindow,retireAction} from './runtime';
 import {spaceLocation} from './sectors';
 import {moveCard} from './state';
-import {loseFromTable,tableLossCards} from './table';
+import {loseFromTable} from './table';
 import type {Action,Json,Match,Resolution,Side,Window} from './types';
 
 type Mode='battle'|'effect'|'deployment'|'release';
@@ -64,7 +64,6 @@ export function alternativesResolve(m:Match,r:Resolution):void {
  if(h==='alternatives:release'){
   if(r.cancelled)return;
   const refs=remaining(m,p),b=battle(m);if(!refs.length)return;
-  const hitIds=refs.filter(ref=>b?.hits.includes(ref.id)).map(ref=>ref.id);
   // Reactivate the personal attachments as a group; preserve physical card
   // instances and leave vehicles/starships aboard the captured hull.
   for(const ref of refs){const c=m.cards[ref.id],group=attachmentGroup(m,c.id);for(const item of group){
@@ -72,9 +71,8 @@ export function alternativesResolve(m:Match,r:Resolution):void {
    if(b&&b.stage!=='complete'&&b.participants.light.includes(item.id)&&!(b.departed??=[]).includes(item.id))b.departed.push(item.id);
   }delete c.attachedTo;delete c.aboardRole;moveWithAttachments(m,c.id,p.bay!.id);}
   openWindow(m,'response','dark',{kind:'relocated',cards:refs.map(r=>r.id),site:p.bay!.id,source:p.card.id,method:'alternatives'});
-  // AR p96: leaving battle does not restore a hit card; it is immediately
-  // lost, with the ordinary loss-prevention response before its removal.
-  if(hitIds.length){const hitPayload={...p,hits:hitIds.map(id=>referenceCard(m,id))};queue(m,hitPayload,'hit-loss');const cards=tableLossCards(m,hitIds);openWindow(m,'response','dark',{kind:'about-to-lose',cards,site:p.bay!.id,source:p.card.id,cause:'hit-outside-battle'});}
+  // The shared hit-departure interruption handles any released hit character.
+  // Retain the legacy hit-loss resolver above for already-saved continuations.
   return;
  }
  if(h!=='alternatives:play')throw Error('Unknown Alternatives To Fighting continuation.');

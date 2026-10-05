@@ -1,3 +1,4 @@
+import {starshipEffectBonus} from './starship-effects';
 import {otsdShipBonus} from './otsd-ships';
 import {cloudStatModifier} from './sectors';
 import {hasNavComputer} from './navigation';
@@ -12,6 +13,7 @@ import type {Match} from './types';
 
 const powerBonuses:Record<string,number>={'1_13':2,'1_3':2,'2_23':3,'1_173':3,'1_8':2,'1_174':3,'106_1':2,'106_11':2,'1_11':2,'5_5':2,'1_4':3,'1_172':2,'1_19':3,'3_3':3,'5_99':2,'4_1':2,'9_24':2,'1_168':3,'1_167':2,'1_179':2};
 const matchingShips:Record<string,{persona?:string;blueprint?:string;maneuver:number}>={
+ '1_11':{persona:'FALCON',maneuver:2},
  '1_8':{persona:'GOLD_1',maneuver:1},'1_174':{persona:'BLACK_3',maneuver:1},
  '1_13':{blueprint:'2_72',maneuver:1},'1_3':{blueprint:'1_145',maneuver:1},'2_23':{persona:'RED_2',maneuver:2},'1_173':{persona:'BLACK_2',maneuver:1},
 };
@@ -27,12 +29,12 @@ export function matchingPilotManeuver(m:Match,id:string):number {
  const c=m.cards[id],rule=matchingShips[c?.blueprint];
  return rule&&actingPilot(m,id)&&gameTextActive(m,id)&&(rule.persona?hasPersona(m,c.attachedTo!,rule.persona):m.cards[c.attachedTo!].blueprint===rule.blueprint)?rule.maneuver:0;
 }
-export const pilotPowerBonus=(m:Match,id:string)=>actingPilot(m,id)&&gameTextActive(m,id)?m.cards[id].blueprint==='1_168'&&hasPersona(m,m.cards[id].attachedTo!,'VADERS_CUSTOM_TIE')?4:powerBonuses[m.cards[id].blueprint]??0:0;
+export const pilotPowerBonus=(m:Match,id:string)=>actingPilot(m,id)&&gameTextActive(m,id)?m.cards[id].blueprint==='1_168'&&hasPersona(m,m.cards[id].attachedTo!,'VADERS_CUSTOM_TIE')?4:m.cards[id].blueprint==='5_5'&&hasPersona(m,m.cards[id].attachedTo!,'FALCON')?3:powerBonuses[m.cards[id].blueprint]??0:0;
 /** Missing maneuver stays missing. Unpiloted maneuver is unmodifiable zero. */
 export function vesselManeuver(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).maneuver;if(raw===undefined)return null;
  if(!Number.isFinite(Number(raw)))throw Error('Maneuver needs a printed-value provider.');
- return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+cloudStatModifier(m,id)+otsdShipBonus(m,id,'maneuver')+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+matchingPilotManeuver(m,c.id)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0)+(c.blueprint==='1_168'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'VADERS_CUSTOM_TIE')?3:0),0)):0;
+ return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+starshipEffectBonus(m,id,'maneuver')+cloudStatModifier(m,id)+otsdShipBonus(m,id,'maneuver')+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+matchingPilotManeuver(m,c.id)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0)+(c.blueprint==='1_168'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'VADERS_CUSTOM_TIE')?3:0),0)):0;
 }
 const keywords:Record<string,{keywords:string[]}>=identities;
 export function squadronPilot(m:Match,id:string,squadron:string):boolean {
@@ -80,7 +82,7 @@ export function vesselArmor(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).armor;
  if(raw===undefined)return null;
  if(!Number.isFinite(Number(raw)))throw Error('Armor needs a printed-value provider.');
- return operational(m,id)?vesselStatValue(m,id,'armor',Number(raw)):2;
+ return operational(m,id)?vesselStatValue(m,id,'armor',Number(raw)+starshipEffectBonus(m,id,'armor')):2;
 }
 
 /** R5 units enhance any directly occupied starship, without adding hyperspeed.
@@ -99,4 +101,9 @@ export function redTwoImmunity(m:Match,id:string):number {
 /** The ship supplies immunity from Vader's identity, independently of his text. */
 export function customTieImmunity(m:Match,id:string):number {
  return m.cards[id].blueprint==='1_306'&&gameTextActive(m,id)&&occupants(m,id).some(c=>actingPilot(m,c.id)&&hasPersona(m,c.id,'VADER'))?4:0;
+}
+
+/** Falcon immunity follows the acting pilot's persona, not their canceled text. */
+export function falconImmunity(m:Match,id:string):number {
+ return m.cards[id].blueprint==='1_143'&&gameTextActive(m,id)&&occupants(m,id).some(c=>actingPilot(m,c.id)&&['HAN','LANDO','CHEWIE'].some(p=>hasPersona(m,c.id,p)))?5:0;
 }

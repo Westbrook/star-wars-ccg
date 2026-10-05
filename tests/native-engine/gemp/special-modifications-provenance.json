@@ -1,0 +1,85 @@
+{
+  "scope": "Special Modifications (1_65) current normal text and Premiere Millennium Falcon (1_143), plus existing Han (1_11)/Lando (5_5) matching pilot branches; all admission gates remain closed.",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-05T13:50:29.023925+00:00",
+  "junitTests": 1,
+  "observations": 11,
+  "classResult": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineSpecialModificationsOracleTests,NativeEngineHitDepartureOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "executionNote": "The Special Modifications class succeeded with 11 observations; the batched process failed in a separate hit-departure test. The copied per-class Surefire summary certifies only Special Modifications. Earlier incorrect pilot fixture was corrected to BoardAsPilot before this receipt.",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "files": {
+    "NativeEngineSpecialModificationsOracleTests.java": "7a6bd84493d6a18e579ec15e95221e58390d2ee7b07e1d01dbc367982bd5c437",
+    "special-modifications-results.json": "8c073f4d29051a6979e9cadfbbe610843b906435f323db08ae02129d3a3a690b",
+    "special-modifications-junit.txt": "829ea9acbacd0feeb0337b9ccd3bb69f82e859d78ab4a8f524b20c728f01ea9b"
+  },
+  "productionVerification": {
+    "productionFilesCompared": 6820,
+    "productionFilesChanged": 0
+  },
+  "sourceReview": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_065.java",
+      "sha256": "71c4768ffe03a219111a684d5222d043ccd35bffadde77368c96e3a70c6ce810"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_143.java",
+      "sha256": "5d50c539ab148737ba83185a025193619aebcb0d8e83eca5a224f05b3959c999"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_011.java",
+      "sha256": "c661cb63645f827e8cda7c2275d0d592fe8f19fc05b0337c702dcea06eb88431"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_005.java",
+      "sha256": "67ae42f53449f4482df3ac695139907eeac1ea93efae9f84694fd8cebedb40b9"
+    }
+  ],
+  "officialRules": [
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=128",
+      "rule": "Current Special Modifications errata restricts deployment to your starship; pay 1 Force and add 2 to armor/maneuver, plus 2 power/forfeit on Falcon with Han/Lando/Chewie piloting."
+    },
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=173",
+      "rule": "Effects attached to stolen starships remain attached but are not themselves stolen."
+    },
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=92",
+      "rule": "Unpiloted attributes and acting pilot restrictions apply to landed and unpiloted craft; external modifiers do not override unmodifiable zero."
+    }
+  ],
+  "method": [
+    "Initial ship, pilot-slot placement, Force and starting locations are controlled fixtures. Effect deployment executes real player actions and pays 1 Force. Named cancellations use trusted text-cancellation effects, not a claim about a particular cancellation card.",
+    "Ten legal own-host rows match exactly between native command sequences and executed GEMP for costs, power, armor, maneuver, forfeit, immunity and Effect owner. Additional native-only tests cover six-Force Falcon/Han simultaneous deployment followed by the Effect, refresh, uniqueness, invalid targets/payment, cancellation, target departure/reentry, pending owner change, ion resets, capacity, battle if-unable destiny and excluded pilots.",
+    "Current stat bonuses require a named acting pilot; suppressing that pilot text does not erase persona qualifications. Suppressing Effect text removes its contributions; suppressing Falcon text removes ship immunity but preserves external Effect/pilot bonuses.",
+    "Native actual Effect deployment followed by a controlled capture foundation and real theft continuation verifies unchanged Effect owner, retained attachment/armor and separate owner Lost piles. This is not a newly executed GEMP capture oracle; it is linked to existing theft-response evidence."
+  ],
+  "knownDiscrepancies": [
+    {
+      "case": "opponent",
+      "reference": "Pinned Card1_065 accepts old any-starship deployment; retained observation shows a Light Effect deployed for 1 Force on a Dark Star Destroyer.",
+      "native": "Current official page 128 your-starship errata rejects that action. This row explicitly checks refusal rather than claiming result parity; existing attached Effects continue working after theft."
+    },
+    {
+      "case": "attached Effect owner after theft",
+      "reference": "Existing theft-response-results.json transfers Effect ownership with the ship, contrary to official page 173.",
+      "native": "Retains the original Effect owner while the ship changes owner. The existing immutable theft oracle and discrepancy receipt are preserved.",
+      "evidence": [
+        "theft-response-results.json",
+        "theft-response-provenance.json"
+      ]
+    }
+  ],
+  "limitations": [
+    "No doubling or other cards that modify Special Modifications text are implemented or certified; the normal current card text is the bounded scope.",
+    "Han and Lando are real supported matching-pilot fixtures. Chewie persona matching is generic but no unimplemented Chewie card version is admitted or certified.",
+    "Falcon ship-docking-capability integration and browser checks are verified separately by parent-owned tests. No full match or full catalog claim.",
+    "Lando other text, broader ship stat definitions, unrelated card providers and other Falcon versions remain outside this component oracle."
+  ]
+}

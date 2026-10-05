@@ -1,4 +1,5 @@
 import {beginBesieged,endBesieged} from './besieged';
+import type {HitDepartureEvent} from './hit-departure';
 import {besiegedParticipant,type BesiegedBattle} from './captured-ship-state';
 import {mayBattleForFree} from './battle-plan';
 import {battlePowerBonus,assertBattlePower,type BattlePowerModifier} from './battle-power';
@@ -31,7 +32,6 @@ import {reactionActions} from './ground';
 import {openWindow, type RequiredAction} from './runtime';
 import {moveCard} from './state';
 import {drawDestiny, validDraw, assertDrawFlow, type DrawFlow, completeDestinyDraw, completeDestinyTotal, pendingWeaponTotal, type Draw, type Substitution} from './destiny';
-import {loseFromTable} from './table';
 import {canUseWeapon, useWeapon} from './weapon-state';
 import {other, sides, type Action, type Decision, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
@@ -58,6 +58,7 @@ export type Battle = {
   attrition: Pair<number>; damage: Pair<number>; initialAttrition: Pair<number>; initialDamage: Pair<number>;
   reduced: Pair<boolean>; totalsReady: boolean; premature: boolean; cancelled?: boolean; runLuke?: boolean;
   departed?: string[];
+  hitDepartures?: HitDepartureEvent[];
   attritionProtected?: CardReference[];
   characterDestinyUses?: CardReference[];
   obiWanUses?: CardReference[];
@@ -104,12 +105,12 @@ function windowThen(m: Match, step: string, kind: string, priority: Side, payloa
 export const participatingAbility = (m: Match, side: Side) => members(m, side).reduce((n, id) => n + ability(m, id), 0);
 export function syncBattle(m: Match): void {
   const b = battle(m); if (!b || b.stage === 'complete') return;
-  // Departure ends this participation and clears its hit. A new table instance
-  // can join before power, but never afterward (including Old Ben in damage).
+  // Departure ends participation, but does not restore a hit card (AR p96).
+  // The shared interruption queues its immediate loss before another action.
+  // A genuinely new table instance has its hit cleared by leaveTable.
   const departed = b.departed ??= [];
   for (const id of sides.flatMap(side => b.participants[side]))
     if (!departed.includes(id) && (b.besieged&&!besiegedParticipant(m,id) || m.cards[id]?.zone !== 'table' || m.cards[id].location !== b.site || battleProhibited(m, id))) departed.push(id);
-  b.hits = b.hits.filter(id => !departed.includes(id));
   syncBattleDamage(m);
   if (b.besieged || !['begin', 'weapons'].includes(b.stage)) return;
   const history = battleHistory(m);
@@ -237,12 +238,10 @@ function beginEnd(m: Match, premature = false): void {
   // calculated balances never become damage-segment obligations. Retain the
   // initial totals as history while clearing what remains payable.
   if (premature) {b.damage = pair(0, 0); b.attrition = pair(0, 0);}
-  windowThen(m, 'ended', 'battle-ending', other(b.initiator));
-  const hit = sides.flatMap(s => members(m, s)).filter(id => b.hits.includes(id));
-  if (premature && hit.length) {
-    continuation(m, 'premature-loss-result', {cards: hit});
-    loseFromTable(m, hit);
-  }
+  // GEMP BattleEffect steps 8–9 skips "battle ending" for a premature end.
+  // The completed battle then triggers loss of remaining hit cards.
+  if(premature)continuation(m,'ended');
+  else windowThen(m, 'ended', 'battle-ending', other(b.initiator));
 }
 export function battleAutomatic(m: Match, w: Window): RequiredAction[] {
   const b = battle(m);

@@ -1,0 +1,46 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68",
+  "harness": "NativeEngineControlStationOracleTests.java",
+  "results": "control-station-results.json",
+  "log": "control-station-reference.log",
+  "execution": {
+    "exitCode": 0,
+    "junitTests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observedCases": 7
+  },
+  "scope": "Controlled initial table, Force, text cancellation and current-owner fixture; unchanged production action providers queried. Ordinary Dark-owned Executor under Light Control Station control executes a real Light hyperspeed action. Stolen-owner mode directly sets current owner and is not a legal theft trajectory.",
+  "discrepancy": {
+    "case": "stolen",
+    "observed": "Light-owned Executor under Light control during Dark move has neither Light nor Dark Move/Transfer actions.",
+    "officialNative": "Printed Light-side text permits only Light to move Executor in this circumstance, regardless of current owner.",
+    "source": "Card4_160 uses MovedOnlyByOpponentModifier. AbstractDeployable.checkMoveRequirements317 chooses opponent of current owner; owner action gathering2077 suppresses Light. The alternative Dark hyperspeed path is also rejected by owner-turn phase check740. This produces both menus empty; the initial source-only prediction of a Dark option was not observed.",
+    "nativePolicy": "Preserve the official explicit Light-side permission and retain this raw discrepancy."
+  },
+  "sourceFiles": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_160.java",
+      "sha256": "b9a7c82b83cffecd4bf0840778d319fd2f49220bf002f2940fc26efb41454f6f"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/AbstractDeployable.java",
+      "sha256": "3113d4c4c928042a8b1ef1c7acb14a1a8aedd2e940f777db4bead350e2dbde4f"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/filters/Filters.java",
+      "sha256": "b8906f47b4001ec6c53538c6fe41a59e20f03e6b393a1f2e0b8f452377def2c1"
+    }
+  ],
+  "attempts": [
+    "First execution stopped at driver querying Light action availability while Dark had priority.",
+    "Second execution adds actual-decider guard and completes seven cases."
+  ],
+  "harnessSha256": "f3c1ffcabb4bfc868bba4c962dcd1c5104e49f3786a76a22992df0516ffd3d15",
+  "resultsSha256": "8084742a5803cf68331d14f9b0990ef9106fc9957777c174a3c9767c68baf794",
+  "logSha256": "d6053e65c3e06310f291fca3339f4a7b4e0344ca50f75ed8bbf1fdc2f9e414a9"
+}

@@ -11,7 +11,7 @@
   "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
   "findings": [
     "AR Failed Destiny Draws determines the winner when exactly one side completes any destiny draw and specifies no winner when both fail.",
-    "AR distinguishes an absent total from a successful zero. Neither the reviewed rulebook entry nor the reviewed PC ruling supplies a numerical Vader’s Obsession difference for the absent total.",
+    "AR distinguishes an absent total from a successful zero. Neither the reviewed rulebook entry nor the reviewed PC ruling supplies a numerical Vader\u2019s Obsession difference for the absent total.",
     "Pinned Card101_006 retains base power when no destiny succeeds. Its executed outcomes disagree with the official failed-destiny winner in the recorded Dark-failure and both-fail cases; that cannot establish the missing arithmetic.",
     "The native unresolved amount guard remains. Recovered result validation now prevents replacing that null with a number or changing the absent destiny total to zero. Determined winners and differences are validated against saved final totals without re-reading subsequently changed power."
   ],
@@ -59,8 +59,11 @@
     "AR p31 supplies automatic loss after one-sided failure and neither winner nor loser after both fail. The Obsession/Brainiac example (p139) concerns successful numerical draws; Dueling (pp165-166) provides resolution order. None establishes arithmetic for a one-sided absent destiny total.",
     "The current Appendix F thread 83345 was reviewed through indexed PC content because direct forum requests return HTTP 403. No relevant replacement rule or non-virtual Obsession erratum was found there. This is a qualified search finding, not a claim that all possible rulings were exhaustively accessible.",
     "All five directly relevant current GEMP files are byte-identical to the pinned source. Card101_006 skips adding absent destiny, DuelState compares remaining numerical totals, and the card subtracts loser total from winner total. The previously executed divergence remains evidence against using this implementation as the official failed-destiny interpretation.",
-    "The public GEMP issue search for Obsession returned issues 324, 559, 622, and 699; their subjects concern Epic Duel, targeting, cancellation or response timing, not the missing Force-difference amount."
+    "The public GEMP issue search for Obsession returned issues 324, 559, 622, and 699; their subjects concern Epic Duel, targeting, cancellation or response timing, not the missing Force-difference amount.",
+    "A further bounded browser review found official forum normal, print, feed and alternate views still unavailable (HTTP 403). No new authoritative amount was recovered.",
+    "AR p169 explicitly sets a failed lightsaber-combat total to zero but states that lightsaber combat is not a duel and its rules do not cross-apply. This does not supply Obsession arithmetic. The official sample game demonstrates successful draws only."
   ],
-  "unresolvedQuestion": "For non-virtual Vader’s Obsession, when exactly one player has no destiny total and therefore loses automatically under AR p31, what numerical difference determines Force retrieval and loss? Specifically, does the failing character retain base power for this calculation, is any resulting signed difference clamped or made absolute, or do the numerical results not occur? Existing sources establish the winner but do not select among these interpretations.",
-  "implementationChange": "None in this review. Existing null amount and atomic guard retained; no invented numerical result or new conformance claim."
+  "unresolvedQuestion": "For non-virtual Vader\u2019s Obsession, when exactly one player has no destiny total and therefore loses automatically under AR p31, what numerical difference determines Force retrieval and loss? Specifically, does the failing character retain base power for this calculation, is any resulting signed difference clamped or made absolute, or do the numerical results not occur? Existing sources establish the winner but do not select among these interpretations.",
+  "implementationChange": "None in this review. Existing null amount and atomic guard retained; no invented numerical result or new conformance claim.",
+  "officialRulingRequested": "User asked whether they can provide or obtain a Players Committee ruling; no answer yet. Other implementation proceeds with the existing guard."
 }

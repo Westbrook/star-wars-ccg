@@ -1,5 +1,26 @@
 [
   {
+    "gempId": "4_160",
+    "name": "Executor: Control Station",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Dark/large/executorcontrolstation.gif",
+    "text": "Dark: If an Imperial leader here, Executor is power +1 for each Executor site on table. Light: If you control, only you may move Executor during opponent's move phase.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Interior",
+      "Mobile",
+      "Starship",
+      "Scomp Link",
+      "Dagobah"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_160.java"
+  },
+  {
     "gempId": "2_44",
     "name": "Alternatives To Fighting",
     "side": "light",
@@ -4163,5 +4184,43 @@
     ],
     "status": "pending",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_306.java"
+  },
+  {
+    "gempId": "1_65",
+    "name": "Special Modifications",
+    "side": "light",
+    "type": "Effect",
+    "subType": "Normal",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/specialmodifications.gif",
+    "text": "Use 1 Force to deploy on your starship to add 2 to its armor or maneuver. If on Falcon with Han, Lando or Chewie piloting, also adds 2 to power and forfeit.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_065.java"
+  },
+  {
+    "gempId": "1_143",
+    "name": "Millennium Falcon",
+    "side": "light",
+    "type": "Starship",
+    "subType": "Starfighter: Modified Light Freighter",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/millenniumfalcon.gif",
+    "text": "May add 2 pilots and 2 passengers. Immune to attrition < 5 if Han, Chewie or Lando piloting. Has ship-docking capability. Must have pilot aboard to use power, maneuver or hyperspeed.",
+    "stats": {
+      "destiny": "2",
+      "deploy": "3",
+      "power": "3",
+      "maneuver": "4",
+      "hyperspeed": "6",
+      "forfeit": "7"
+    },
+    "icons": [
+      "Nav Computer",
+      "Scomp Link"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_143.java"
   }
 ]

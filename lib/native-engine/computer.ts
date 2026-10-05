@@ -10,7 +10,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-32';
+export const computerPolicy = 'native-cpu-33';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -112,6 +112,13 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     const [kind,a,b] = c.id.split(':');
     if (c.id === 'concede') return -Infinity;
     if (c.id === 'pass') return 0;
+    if(kind==='starship-effect'&&a==='deploy'){
+      const host=c.id.split(':')[3],card=cards.get(host),vessel=rules?.vessels?.[host];
+      if(!card||card.owner!==side||!vessel?.operational)return -5;
+      const identity=identities as Record<string,{personas:string[]}>;
+      const matching=identity[card.blueprint]?.personas.includes('FALCON')&&vessel.crew.some(crew=>crew.role==='pilot'&&crew.active&&identity[cards.get(crew.id)?.blueprint??'']?.personas.some(p=>['HAN','LANDO','CHEWIE'].includes(p)));
+      return 20+(matching?15:0)+Math.min(5,vessel.power);
+    }
     if(kind==='alternatives'){
       const target=c.id.split(':')[3],destination=c.id.split(':')[4];
       if(b==='battle'){
@@ -255,6 +262,18 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (kind === 'voyage') {
       const to=c.id.split(':')[3],from=cards.get(b)?.location;
       if(!from)return -5;
+      if(cards.get(b)?.owner!==side){
+        // An offered Control Station action can move an enemy ship without
+        // changing ownership. Prefer removing its drain or moving it away from
+        // our weaker fleet; never send it into another visibly weaker fleet.
+        const power=rules?.vessels?.[b]?.power??stat(b,'power');
+        const ours=strength(to,side),theirs=strength(to,opponent)+power;
+        if(ours>0&&ours<theirs)return -5;
+        const drainReduction=icons(from,side)-icons(to,side);
+        const relieve=strength(from,side)>0&&strength(from,opponent)>strength(from,side);
+        const ambush=ours>theirs;
+        return drainReduction>0||relieve||ambush?30+drainReduction*3+(relieve?10:0)+(ambush?10:0):-5;
+      }
       if(a==='landspeed'&&isTube(b))return tubeRouteScore(b,to);
       if(a==='takeoff')return 25;
       if(a==='land')return -5; // Landing needs a coordinated crew-delivery plan.

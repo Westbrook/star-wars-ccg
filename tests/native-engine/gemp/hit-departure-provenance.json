@@ -1,0 +1,64 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68",
+  "harness": "NativeEngineHitDepartureOracleTests.java",
+  "results": "hit-departure-results.json",
+  "log": "hit-departure-reference.log",
+  "execution": {
+    "exitCode": 0,
+    "junitTests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observedCases": 6
+  },
+  "scope": "Foundation lifecycle conformance only. Controlled starting board and Force; injected production HitCardEffect then production relocation/restoration/exclusion/capture/hand-return effects during a real initiated battle. Production required rules execute normally. Not a claim of legal named-card departure action coverage or a complete match.",
+  "findings": [
+    "Hit movement and exclusion cause immediate target and attachment loss while another ally keeps the battle active.",
+    "Capturing a hit character or occupied starship does not restore hit: captive/inactive target and attachments are lost by the required rule.",
+    "Restoration before relocation preserves the target and its attached weapon.",
+    "Returning the hit character to hand ends the table instance and clears hit; attachment is lost by ordinary return handling. No subsequent loss of the hand card occurs."
+  ],
+  "sourceFiles": [
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/timing/rules/HitCardOutsideOfAttackOrBattleRule.java",
+      "sha256": "25d373525bbd5b3bfe90ef16330f2d01f93e7dcc26ce14102df6120646644b33"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/HitCardEffect.java",
+      "sha256": "96bd74815aa349c388b638d48f88b628f07679941347e016972831522abe2c37"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/RestoreCardToNormalEffect.java",
+      "sha256": "3f80c0ef1b1440f0a75b194d549a94cf1f36de243cd7d4e55c35a3f41757377d"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/CaptureStarshipEffect.java",
+      "sha256": "01dbf87c06e9192918adc13964950092a3abff42033c4a5378ec94ba98166258"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/CaptureWithSeizureEffect.java",
+      "sha256": "975d6ab9b361c1ab0301c482e2690e3adb20112fdbbb084b681499ee21602122"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/game/state/GameState.java",
+      "sha256": "dff17438744b869d3df11875d16d9b6313584c6b18cff94948d4a1f141251eb5"
+    }
+  ],
+  "attempts": [
+    "Initial test compilation failed because getBlueprintId requires a boolean; driver corrected.",
+    "Second execution stopped at mandatory Lost Pile ordering; driver corrected to select an observed offered cardId.",
+    "Third execution completed six cases with no failures."
+  ],
+  "harnessSha256": "466a5994db2889ed1e7d6a54ae1dabfc12a2d87dede0796ca5160fbfb23e9b49",
+  "resultsSha256": "76646bd0d2fc8f17415baa27dfc0227389c415d0e49a429bda9b1d1586ad9975",
+  "logSha256": "360f8c53f9433a0956ba275ed01b1e5feb97aa58bd4857766cb2ff85af7ccd43",
+  "officialRule": {
+    "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "printedPage": 96,
+    "section": "Weapons \u2013 Hit",
+    "summary": "A hit card not participating in battle or attack is immediately lost. Restoring removes hit; leaving table ends the instance."
+  }
+}

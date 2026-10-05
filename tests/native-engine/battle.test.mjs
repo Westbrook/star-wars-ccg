@@ -125,7 +125,11 @@ for(const cancel of [false,true])test('a battle-loss response retains the pendin
 });
 
 test('loss of presence before damage ends the battle and loses hit cards; during damage it does not',()=>{
- let {m,site,dark,light}=basic();const gun=weapon(m,'dark','1_317',dark[0]);top(m,'dark','1_182');m=start(m,site);m=boundary(step(m,'fire:'+gun+':'+light[0]),'battle-weapons');for(const id of dark.slice(1))state.moveCard(m,id,'lost');state.moveCard(m,gun,'lost');state.moveCard(m,dark[0],'lost');assert.ok(ids(m).includes('battle-premature-end'));m=step(m,'battle-premature-end');m=finish(m);assert.equal(battle(m).premature,true);assert.equal(m.cards[light[0]].zone,'lost');assert.equal(m.status,'playing');
+ let {m,site,dark,light}=basic();const gun=weapon(m,'dark','1_317',dark[0]);top(m,'dark','1_182');m=start(m,site);m=boundary(step(m,'fire:'+gun+':'+light[0]),'battle-weapons');for(const id of dark.slice(1))state.moveCard(m,id,'lost');state.moveCard(m,gun,'lost');state.moveCard(m,dark[0],'lost');assert.ok(ids(m).includes('battle-premature-end'));m=step(m,'battle-premature-end');m=finish(m);assert.equal(battle(m).premature,true);
+ // Battle completion precedes the mandatory hit loss (GEMP BattleEffect).
+ // Refresh retains that loss response; completion alone is not loss resolution.
+ assert.equal(stackEvent(m),'about-to-lose');assert.equal(m.cards[light[0]].zone,'table');assert.deepEqual(combat.members(m,'light'),[]);
+ m=boundary(clone(m),'cards-lost');assert.equal(m.cards[light[0]].zone,'lost');assert.equal(m.status,'playing');
 });
 
 test('battle damage can end the match on the last Life Force without consuming cards from hand',()=>{

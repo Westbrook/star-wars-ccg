@@ -1,0 +1,66 @@
+[
+  {
+    "mode": "controlled",
+    "owner": "dark",
+    "darkMoves": [],
+    "lightMoves": [
+      "Move using hyperspeed"
+    ],
+    "power": 12,
+    "lightCost": 1,
+    "darkCost": 0,
+    "regularMove": true
+  },
+  {
+    "mode": "uncontrolled",
+    "owner": "dark",
+    "darkMoves": [
+      "Move using hyperspeed"
+    ],
+    "lightMoves": [],
+    "power": 12
+  },
+  {
+    "mode": "contested",
+    "owner": "dark",
+    "darkMoves": [
+      "Move using hyperspeed"
+    ],
+    "lightMoves": [],
+    "power": 12
+  },
+  {
+    "mode": "text-canceled",
+    "owner": "dark",
+    "darkMoves": [
+      "Move using hyperspeed"
+    ],
+    "lightMoves": [],
+    "power": 12
+  },
+  {
+    "mode": "stolen",
+    "owner": "light",
+    "darkMoves": [],
+    "lightMoves": [],
+    "power": 12
+  },
+  {
+    "mode": "leader",
+    "owner": "dark",
+    "darkMoves": [
+      "Move using hyperspeed"
+    ],
+    "lightMoves": [],
+    "power": 15
+  },
+  {
+    "mode": "leader-canceled",
+    "owner": "dark",
+    "darkMoves": [
+      "Move using hyperspeed"
+    ],
+    "lightMoves": [],
+    "power": 15
+  }
+]

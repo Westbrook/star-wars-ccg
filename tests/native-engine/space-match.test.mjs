@@ -8,7 +8,12 @@ const read=name=>readGempMatch(new URL('./gemp/complete-matches/'+name+'.json.gz
 const provenance=JSON.parse(fs.readFileSync(new URL('./gemp/space-match-provenance.json',import.meta.url)));
 for(const name of ['space-journeys','space-crew'])test('complete space match exactly replays: '+name,()=>{
  const r=read(name),before=JSON.stringify(r),result=replayGempMatch(r),p=provenance.fixtures.find(f=>f.fixture.endsWith('/'+name+'.json.gz'));
- assert.equal(JSON.stringify(r),before);assert.equal(result.state.status,'finished');assert.equal(result.state.result.reason,'life-force');assert.equal(result.state.result.winner,p.winner);assert.equal(result.commands,p.nativeCommands);assert.equal(result.checkpoints,p.comparedCheckpoints);
+ // Keep historical receipt counts intact. The journeys replay has one
+ // premature end (turn 12): GEMP skips its battle-ending window, removing two
+ // obsolete passes. Crew has none. All state checkpoints remain unchanged.
+ const prematureEnds=result.transcript.filter(x=>x.choice==='battle-premature-end').length;
+ assert.equal(prematureEnds,name==='space-journeys'?1:0);
+ assert.equal(JSON.stringify(r),before);assert.equal(result.state.status,'finished');assert.equal(result.state.result.reason,'life-force');assert.equal(result.state.result.winner,p.winner);assert.equal(result.commands,p.nativeCommands-2*prematureEnds);assert.equal(result.checkpoints,p.comparedCheckpoints);
  assert.ok(r.trace.some(t=>t.semantic?.kind==='hyperspace'));
  if(name==='space-crew'){
   assert.ok(r.trace.some(t=>t.state.table.some(c=>c.aboardRole==='pilot')));

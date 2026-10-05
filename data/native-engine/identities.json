@@ -3075,5 +3075,38 @@
     "nonUnique": true,
     "uniqueness": "UNRESTRICTED",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_044.java"
+  },
+  "1_65": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_065.java"
+  },
+  "1_143": {
+    "keywords": [
+      "SHIP_DOCKING_CAPABILITY"
+    ],
+    "species": [],
+    "models": [
+      "MODIFIED_LIGHT_FREIGHTER"
+    ],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "FALCON"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_143.java"
+  },
+  "4_160": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_160.java"
   }
 }

@@ -1,0 +1,35 @@
+{
+  "blueprint": "4_160",
+  "card": "Executor: Control Station",
+  "status": "pending admission; full native text implemented, starter gates remain closed",
+  "sources": [
+    "https://res.starwarsccg.org/cards/Dagobah-Dark/large/executorcontrolstation.gif",
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "Pinned GEMP bbd94d183b29c2e82458293df0327c3b946f3d85: src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_160.java",
+    "Pinned GEMP AbstractDeployable.checkMoveRequirements and getOpponentsCardTopLevelActions",
+    "Pinned GEMP Filters.Imperial_leader and Filters.Executor_site"
+  ],
+  "implementation": [
+    "Unique named Executor site may deploy without the hull; dynamic relation and ordinary hull-departure persistence follow the existing named ship-site provider.",
+    "An active Imperial leader at the station adds one Executor power for each named Executor site on table. Nonunique Launch Bay is not a named Executor site; canceling a leader's game text preserves its leader characteristic.",
+    "When Light controls the station during Dark's move phase, only Light can move Executor. This belongs to the Light side of the printed text and does not change the hull or crew owner.",
+    "Movement retains normal piloting, navigation, range, cost, barrier and regular-move requirements. Light pays its own Force. Exact source-site identity and active permission are rechecked during responses.",
+    "The same exclusive movement helper applies to parent-owned ship-docking integration. Moving a character to or from Executor does not move Executor and does not inherit this restriction."
+  ],
+  "verification": {
+    "focusedBatch": "44/44 native Control Station, ship-site placement, Holotheatre lifecycle and vessel travel regressions passed before the added moving-response control-loss test.",
+    "tests": "tests/native-engine/control-station.test.mjs",
+    "fixture": "tests/native-engine/control-station-fixture.mjs",
+    "referenceOracle": "tests/native-engine/gemp/NativeEngineControlStationOracleTests.java",
+    "mutationDisclosure": "Text cancellation, a contesting character, same-card table reentry and stolen ownership are controlled native fixtures, not newly admitted card providers. Real legal movement actions and command/recovery validation are exercised.",
+    "referenceExecution": "Seven observations completed; ordinary opponent-authorized move executed with Light paying 1 Force. See control-station-provenance.json; pinned production 6820 files unchanged.",
+    "finalFocused": "9/9 Control Station behavior tests and 8/8 executed-reference comparison/receipt tests passed; earlier combined vessel/site regression batch44/44."
+  },
+  "executedDiscrepancy": {
+    "case": "stolen",
+    "observed": "Light-owned Executor under Light control during Dark move has neither Light nor Dark Move/Transfer actions.",
+    "officialNative": "Printed Light-side text permits only Light to move Executor in this circumstance, regardless of current owner.",
+    "source": "Card4_160 uses MovedOnlyByOpponentModifier. AbstractDeployable.checkMoveRequirements317 chooses opponent of current owner; owner action gathering2077 suppresses Light. The alternative Dark hyperspeed path is also rejected by owner-turn phase check740. This produces both menus empty; the initial source-only prediction of a Dark option was not observed.",
+    "nativePolicy": "Preserve the official explicit Light-side permission and retain this raw discrepancy."
+  }
+}

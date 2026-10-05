@@ -1,0 +1,112 @@
+[
+  {
+    "mode": "han",
+    "cost": 1,
+    "power": 7,
+    "maneuver": 8,
+    "armor": null,
+    "forfeit": 9,
+    "immunity": 5.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "lando",
+    "cost": 1,
+    "power": 8,
+    "maneuver": 6,
+    "armor": null,
+    "forfeit": 9,
+    "immunity": 5.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "other-pilot",
+    "cost": 1,
+    "power": 5,
+    "maneuver": 6,
+    "armor": null,
+    "forfeit": 7,
+    "immunity": 0.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "landed",
+    "cost": 1,
+    "power": 0,
+    "maneuver": 0,
+    "armor": null,
+    "forfeit": 7,
+    "immunity": 0.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "unpiloted",
+    "cost": 1,
+    "power": 0,
+    "maneuver": 0,
+    "armor": null,
+    "forfeit": 7,
+    "immunity": 0.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "effect-canceled",
+    "cost": 1,
+    "power": 5,
+    "maneuver": 6,
+    "armor": null,
+    "forfeit": 7,
+    "immunity": 5.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "pilot-canceled",
+    "cost": 1,
+    "power": 5,
+    "maneuver": 6,
+    "armor": null,
+    "forfeit": 9,
+    "immunity": 5.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "ship-canceled",
+    "cost": 1,
+    "power": 7,
+    "maneuver": 8,
+    "armor": null,
+    "forfeit": 9,
+    "immunity": 0.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "other-fighter",
+    "cost": 1,
+    "power": 2,
+    "maneuver": 5,
+    "armor": null,
+    "forfeit": 2,
+    "immunity": 0.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "capital",
+    "cost": 1,
+    "power": 5,
+    "maneuver": null,
+    "armor": 6.0,
+    "forfeit": 8,
+    "immunity": 0.0,
+    "effectOwner": "light"
+  },
+  {
+    "mode": "opponent",
+    "cost": 1,
+    "power": 8,
+    "maneuver": null,
+    "armor": 8.0,
+    "forfeit": 9,
+    "immunity": 0.0,
+    "effectOwner": "light"
+  }
+]

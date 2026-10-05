@@ -83,7 +83,11 @@ test('A hit character released during Besieged is immediately lost with equipmen
  const high=m.players.dark.reserve.find(id=>m.cards[id].blueprint==='1_241');m.players.dark.reserve.splice(m.players.dark.reserve.indexOf(high),1);m.players.dark.reserve.unshift(high);
  m=priority(m,'dark');m=step(m,'fire:'+blaster+':'+f.characters[0]);m=seek(m,x=>x.stack.at(-1)?.event?.kind==='battle-weapons'&&battle.battle(x).hits.includes(f.characters[0]));m=priority(m,'light');
  m=step(m,releaseId(f));m=seek(m,x=>x.stack.at(-1)?.event?.kind==='about-to-lose'&&x.stack.at(-1).event.cause==='hit-outside-battle');
- assert.equal(m.cards[f.characters[0]].zone,'table');assert.equal(m.cards[f.characters[0]].location,f.bay);rules.validate(clone(m));m=done(clone(m));
+ assert.equal(m.cards[f.characters[0]].zone,'table');assert.equal(m.cards[f.characters[0]].location,f.bay);
+ assert.equal(m.cards[f.ship].owner,'light','theft cannot overtake the pending hit loss');assert.equal(m.cards[f.ship].capturedShip.pending,undefined);
+ assert.ok(!m.stack.some(x=>x.kind==='resolution'&&x.action.handler==='captured-ship:steal'));rules.validate(clone(m));
+ m=seek(clone(m),x=>x.stack.at(-1)?.event?.kind==='about-to-steal');
+ assert.equal(m.cards[f.characters[0]].zone,'lost');assert.equal(m.cards[f.gun].zone,'lost');assert.equal(m.cards[f.ship].owner,'light');rules.validate(clone(m));m=done(clone(m));
  assert.equal(m.cards[f.characters[0]].zone,'lost');assert.equal(m.cards[f.gun].zone,'lost');assert.equal(m.cards[f.characters[1]].zone,'table');assert.equal(m.cards[f.characters[1]].location,f.bay);
 });
 const fs=await import('node:fs'),{createHash}=await import('node:crypto');

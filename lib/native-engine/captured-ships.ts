@@ -28,7 +28,7 @@ export function captureStarship(m:Match,id:string,host:string):void {
   card.zone=card.blueprint==='2_117'?'table':'inactive';card.location=location;
   if(battle&&battle.stage!=='complete'){
    if(Object.values(battle.participants).some(ids=>ids.includes(card.id))&&!(battle.departed??=[]).includes(card.id))battle.departed.push(card.id);
-   battle.hits=battle.hits.filter(x=>x!==card.id);
+   // Becoming inactive is not restoration; the shared hit rule still applies.
   }
  }
  c.capturedShip={host};c.attachedTo=host;delete c.aboardRole;
@@ -47,6 +47,10 @@ export function releaseCapturedShip(m:Match,id:string):void {
  c.capturedShip.pending='release';m.stack.push({kind:'decision',side:'light',handler:'captured-ship:release',payload:{target:referenceCard(m,id),mode:'release'} as unknown as Json});
 }
 export function scheduleCapturedShips(m:Match):boolean {
+ // The interrupt loop runs again after scheduling hit loss. Do not push a
+ // newly-empty hull's theft above that already-suspended mandatory loss (or
+ // its Lost ordering/result); the released hit crew must leave first.
+ if(m.stack.some(f=>f.kind==='resolution'&&(f.action.handler.startsWith('hit-departure:')||f.action.handler==='alternatives:hit-loss')))return false;
  // One mandatory transition at a time; refreshing retains the exact choice.
  if(m.stack.some(f=>f.kind==='decision'&&f.handler.startsWith('captured-ship:')||f.kind==='resolution'&&f.action.handler.startsWith('captured-ship:')))return false;
  for(const c of capturedShips(m)){

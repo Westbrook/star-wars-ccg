@@ -47,5 +47,22 @@
     "Laser Gate insertion/rearrangement geometry remains separately unverified.",
     "Unique-site movement integration is owned by parent checkpoint and is not certified by this receipt.",
     "Full native starter/card admission remains closed."
-  ]
+  ],
+  "lifecycleFollowUp": {
+    "date": "2026-10-05",
+    "finding": "Ordinary Executor departure remains independent of its unique sites. Pinned GEMP BlowAwayEffect has a generic starship branch, but its only starship caller is Bravo Fighter14_58 targeting Blockade Flagship. No reviewed caller authorizes blowing away Executor or either current Executor site. The AR157 Blockade Flagship exception is not generalized into an invented Executor action.",
+    "officialPages": [
+      85,
+      157
+    ],
+    "referenceCaller": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set14/light/Card14_058.java",
+    "actualGapClosed": "Ship-site deployment now filters interior/exterior layout order and revalidates the selected insertion on resolution. Launch Bay may not separate two interior Executor sites.",
+    "tests": "tests/native-engine/ship-site-placement.test.mjs",
+    "verification": {
+      "passed": 41,
+      "failed": 0,
+      "log": "/private/tmp/swccg-ship-site-placement2.log"
+    },
+    "scope": "Three new placement tests plus existing unique/nonunique ship-site regressions. Response rearrangement is a controlled integration mutation to test revalidation, not a newly admitted Executor rearrangement card."
+  }
 }

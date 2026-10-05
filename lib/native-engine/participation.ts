@@ -13,7 +13,7 @@ export function battleProhibited(m:Match,id:string):boolean {
 }
 export function battleMembers(m: Match, side: Side): string[] {
   const b = m.data.battle as Battle | undefined;
-  if (!b) return [];
+  if (!b || b.stage === 'complete') return [];
   return b.participants[side].filter(id => (!b.besieged||besiegedParticipant(m,id)) && !b.departed?.includes(id) && m.cards[id]?.zone === 'table' && m.cards[id].location === b.site && !battleProhibited(m,id));
 }
 

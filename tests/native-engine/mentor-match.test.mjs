@@ -35,7 +35,14 @@ for(const altered of [false,true])test('synthetic explicit destination validates
  d.semantic={kind:'obi-destination',side:'dark',card:to};d.type='CARD_SELECTION';d.text='Choose where to move';d.parameters={cardId:['destination'],blueprintId:[cards(r)[to].blueprint],selectable:['true']};d.answer=altered?'different':'destination';
  if(altered)assert.throws(()=>assertObiOutcome(r.trace,i,cards(r),r.final));else assertObiOutcome(r.trace,i,cards(r),r.final);
 });
-test('normal setup through victory matches without later state corrections',()=>{const r=replayGempMatch(record());assert.equal(r.commands,2273);assert.equal(r.checkpoints,253);assert.equal(r.state.turn.number,23);assert.deepEqual(r.state.result,{winner:'light',loser:'dark',reason:'life-force'});});
+test('normal setup through victory matches without later state corrections',()=>{
+ const r=replayGempMatch(record());
+ // GEMP BattleEffect skips battle-ending on premature completion. This replay
+ // has one such end (turn 21); removing that obsolete window removes two passes.
+ // Restoring only that window reproduces the historical 2,273-command transcript.
+ assert.equal(r.transcript.filter(x=>x.choice==='battle-premature-end').length,1);
+ assert.equal(r.commands,2271);assert.equal(r.checkpoints,253);assert.equal(r.state.turn.number,23);assert.deepEqual(r.state.result,{winner:'light',loser:'dark',reason:'life-force'});
+});
 for(const mode of ['missing-choice','paid-force','destiny'])test('continuous replay rejects altered '+mode,()=>{const r=record(),i=first(r),row=r.trace[i];if(mode==='missing-choice')delete r.trace.find(x=>x.semantic?.kind==='obi-choice'&&x.semantic.initiation===i).semantic;if(mode==='paid-force'){const choice=r.trace.find(x=>x.semantic?.kind==='obi-choice'&&x.semantic.initiation===i);choice.state.players.light.force.push(choice.state.players.light.used.shift());}if(mode==='destiny')r.trace.find(x=>x.state.battleDestinies).state.battleDestinies.light.values[0]++;assert.throws(()=>replayGempMatch(r));});
 test('reference receipt fingerprints exact executed source, decks and game',()=>{
  const p=JSON.parse(fs.readFileSync(new URL('./gemp/mentor-match-provenance.json',import.meta.url))),bytes=f=>fs.readFileSync(new URL('../../'+f,import.meta.url)),hash=b=>createHash('sha256').update(b).digest('hex'),r=record();

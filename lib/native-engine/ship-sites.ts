@@ -1,4 +1,5 @@
 import {cardDefinition} from './definitions';
+import {locationOrder} from './board';
 import {isModel} from './characteristics';
 import {gameTextActive} from './game-text';
 import {referenceCard,sameCard,assertCardReference,type CardReference} from './identity';
@@ -10,7 +11,7 @@ import type {Action,Json,Match,Resolution,Side,Window} from './types';
 type Link={site:CardReference;host:CardReference};
 type Deploy={card:CardReference;host?:CardReference;persona?:'EXECUTOR';index:number};
 const links=(m:Match)=>(m.data.shipSites??{}) as unknown as Record<string,Link>;
-export const uniqueShipSitePersona=(m:Match,id:string)=>['4_161','4_162'].includes(m.cards[id]?.blueprint)?'EXECUTOR':undefined;
+export const uniqueShipSitePersona=(m:Match,id:string)=>['4_160','4_161','4_162'].includes(m.cards[id]?.blueprint)?'EXECUTOR':undefined;
 export const shipSite=(m:Match,id:string)=>m.cards[id]?.blueprint==='4_165'||!!uniqueShipSitePersona(m,id);
 export const starDestroyer=(m:Match,id:string)=>!!m.cards[id]&&['IMPERIAL_CLASS_STAR_DESTROYER','VICTORY_CLASS_STAR_DESTROYER','SUPER_CLASS_STAR_DESTROYER','VENATOR_CLASS_STAR_DESTROYER'].some(model=>isModel(m,id,model));
 export function relatedShip(m:Match,site:string):string|undefined {const persona=uniqueShipSitePersona(m,site);if(persona)return Object.values(m.cards).find(c=>c.zone==='table'&&!c.coveredBy&&cardDefinition(m,c.id).type==='Starship'&&hasPersona(m,c.id,persona))?.id;const p=links(m)[site];return p&&sameCard(m,p.site)&&sameCard(m,p.host)?p.host.id:undefined;}
@@ -24,11 +25,15 @@ export function registerShipSite(m:Match,site:string,host:string):void {
 }
 const key=(p:Deploy)=>'ship-site:deploy:'+p.card.id+':'+(p.persona??p.host?.id)+':'+p.index;
 const groupFor=(m:Match,p:Deploy)=>p.persona?m.locations.filter(id=>shipSiteGroup(m,id)==='ship-persona:'+p.persona):relatedShipSites(m,p.host!.id);
+const legalIndices=(m:Match,id:string,group:string[])=>{
+ const first=group.length?m.locations.indexOf(group[0]):m.locations.length;
+ return Array.from({length:group.length+1},(_,i)=>i).filter(i=>{const order=[...group];order.splice(i,0,id);return locationOrder(m,order);}).map(i=>first+i);
+};
 export function shipSiteActions(m:Match,w:Window,side:Side):Action[]{
  if(w.timing!=='phase'||m.turn.side!==side||m.turn.phase!=='deploy')return [];
- return m.players[side].hand.filter(id=>shipSite(m,id)).flatMap(id=>{const persona=uniqueShipSitePersona(m,id);if(persona){const group=m.locations.filter(site=>shipSiteGroup(m,site)==='ship-persona:'+persona),first=group.length?m.locations.indexOf(group[0]):m.locations.length;return Array.from({length:group.length+1},(_,i)=>{const p:Deploy={card:referenceCard(m,id),persona,index:first+i};return {id:key(p),handler:'ship-site:deploy',source:id,label:'Deploy '+cardDefinition(m,id).name,payload:p as unknown as Json};});}return Object.values(m.cards).filter(c=>c.zone==='table'&&starDestroyer(m,c.id)).flatMap(host=>{
+ return m.players[side].hand.filter(id=>shipSite(m,id)).flatMap(id=>{const persona=uniqueShipSitePersona(m,id);if(persona){const group=m.locations.filter(site=>shipSiteGroup(m,site)==='ship-persona:'+persona);return legalIndices(m,id,group).map(index=>{const p:Deploy={card:referenceCard(m,id),persona,index};return {id:key(p),handler:'ship-site:deploy',source:id,label:'Deploy '+cardDefinition(m,id).name,payload:p as unknown as Json};});}return Object.values(m.cards).filter(c=>c.zone==='table'&&starDestroyer(m,c.id)).flatMap(host=>{
   const group=relatedShipSites(m,host.id),first=group.length?m.locations.indexOf(group[0]):m.locations.length;
-  return Array.from({length:group.length+1},(_,i)=>{const p:Deploy={card:referenceCard(m,id),host:referenceCard(m,host.id),index:first+i};return {id:key(p),handler:'ship-site:deploy',source:id,label:'Deploy '+cardDefinition(m,id).name+' aboard '+cardDefinition(m,host.id).name+(group.length?' · bay position '+(i+1):''),payload:p as unknown as Json};});
+  return legalIndices(m,id,group).map(index=>{const p:Deploy={card:referenceCard(m,id),host:referenceCard(m,host.id),index};return {id:key(p),handler:'ship-site:deploy',source:id,label:'Deploy '+cardDefinition(m,id).name+' aboard '+cardDefinition(m,host.id).name+(group.length?' · bay position '+(index-first+1):''),payload:p as unknown as Json};});
  });});
 }
 export function shipSiteInitiate(m:Match,r:Resolution){const p=r.action.payload as unknown as Deploy;moveCard(m,p.card.id,'playing');}
@@ -36,6 +41,9 @@ export function shipSiteResolve(m:Match,r:Resolution){
  const p=r.action.payload as unknown as Deploy;
  if(r.cancelled||p.host&&!sameCard(m,p.host)||!canEnterTable(m,p.card.id)){moveCard(m,p.card.id,'lost');return;}
  const group=groupFor(m,p),index=group.length?Math.max(m.locations.indexOf(group[0]),Math.min(p.index,m.locations.indexOf(group.at(-1)!)+1)):m.locations.length;
+ // Responses may change the row. Never commit an illegal order or silently
+ // replace the selected gap with a different legal one.
+ if(!legalIndices(m,p.card.id,group).includes(index)){moveCard(m,p.card.id,'lost');return;}
  moveCard(m,p.card.id,'table');m.locations.splice(index,0,p.card.id);if(p.host)registerShipSite(m,p.card.id,p.host.id);deployed(m,p.card.id);
 }
 /** Nonunique sites depart with the bound physical host. Unique sites and their

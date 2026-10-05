@@ -8,7 +8,7 @@ import type {Side} from './types';
 
 // Printed setup metadata only. This is not a registry of fully playable cards.
 export const premiereSites: Record<string, {system: string; icons: Record<Side, number>}> = Object.fromEntries([
-  ['4_162', 'Executor', 1, 0], ['4_161', 'Executor', 1, 0], ['4_165', 'Star Destroyer', 1, 0], ['1_283', 'Death Star', 1, 0], ['1_125', 'Death Star', 0, 0], ['106_8', 'Tatooine', 1, 1], ['106_18', 'Tatooine', 1, 1], ['101_1', 'Death Star', 1, 1], ['101_4', 'Death Star', 1, 0], ['1_124', 'Death Star', 1, 1], ['1_284', 'Death Star', 1, 0], ['1_285', 'Death Star', 1, 1],
+  ['4_160', 'Executor', 1, 0], ['4_162', 'Executor', 1, 0], ['4_161', 'Executor', 1, 0], ['4_165', 'Star Destroyer', 1, 0], ['1_283', 'Death Star', 1, 0], ['1_125', 'Death Star', 0, 0], ['106_8', 'Tatooine', 1, 1], ['106_18', 'Tatooine', 1, 1], ['101_1', 'Death Star', 1, 1], ['101_4', 'Death Star', 1, 0], ['1_124', 'Death Star', 1, 1], ['1_284', 'Death Star', 1, 0], ['1_285', 'Death Star', 1, 1],
   ['1_129', 'Tatooine', 1, 1], ['1_130', 'Tatooine', 1, 1], ['1_131', 'Tatooine', 1, 1], ['1_132', 'Tatooine', 1, 2], ['1_291', 'Tatooine', 1, 1], ['1_292', 'Tatooine', 1, 1], ['1_293', 'Tatooine', 1, 1], ['1_295', 'Tatooine', 2, 1],
   ['5_79', 'Bespin', 1, 1],
   ['3_61', 'Hoth', 0, 1], ['3_63', 'Hoth', 1, 1], ['3_56', 'Hoth', 1, 1], ['3_144', 'Hoth', 2, 1], ['3_62', 'Hoth', 1, 1], ['3_149', 'Hoth', 1, 0], ['3_148', 'Hoth', 2, 0], ['104_4', 'Hoth', 1, 0], ['3_150', 'Hoth', 2, 0], ['3_60', 'Hoth', 0, 1], ['3_59', 'Hoth', 0, 1], ['3_147', 'Hoth', 1, 1],
@@ -36,7 +36,7 @@ export const premiereSetup: LocationSetupRules = {
   firstPlayer: match => match.setup?.selected.dark && match.cards[match.setup.selected.dark]?.blueprint==='2_143' ? 'light' : 'dark',
   // Ordinary locations plus the two implemented preparation Interrupts and
   // their eligible Effects. Other special starting sequences remain gated.
-  ordinarySetup: match => Object.values(match.cards).every(card => definitions.has(card.blueprint)||['4_162','4_161','6_77','6_160','9_139','9_51','4_21','4_134','6_58','6_147','8_35','8_118','102_1','102_6','5_110','2_143'].includes(card.blueprint)),
+  ordinarySetup: match => Object.values(match.cards).every(card => definitions.has(card.blueprint)||['4_160','4_162','4_161','6_77','6_160','9_139','9_51','4_21','4_134','6_58','6_147','8_35','8_118','102_1','102_6','5_110','2_143'].includes(card.blueprint)),
   location: (match, id) => {
     const blueprint = match.cards[id]?.blueprint, site = premiereLocations[blueprint];
     // A nonunique ship site requires its physical host, unavailable at ordinary

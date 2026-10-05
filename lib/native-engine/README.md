@@ -3772,3 +3772,45 @@ Laser Gate gap insertion, pair-separating rearrangements and endpoint-loss seman
 remain unresolved by the reviewed primary sources. Full native production admission
 stays closed, and all outstanding catalog, timing, match and product scope remains.
 No additional standalone study or Sites publication accompanies this batch.
+
+
+### Hit departure, Falcon and Control Station
+
+Hit cards leaving their battle now enter a shared immediate-loss continuation,
+including capture and premature battle endings. Capturing a card does not restore
+it. Saved physical references preserve response and Lost-pile ordering; explicit
+restoration, prevention and a different physical instance are rechecked before
+loss. Alternatives release uses this shared mechanism. The reference receipts
+cover six executed foundation cases, not every possible capture card.
+
+Special Modifications (`1_65`) deploys for 1 Force on your own starship under current
+errata (AR p128). It adds 2 to armor or maneuver and grants Falcon 2 power/forfeit
+with an acting Han, Lando or Chewie pilot. The Effect keeps its owner when its host
+is stolen and continues to modify that host. Pinned GEMP permits deployment on an
+opponent’s ship and transfers the Effect’s owner during theft; both disagreements
+remain explicit. The Chewie identity condition does not certify additional Chewie
+card versions.
+
+Premiere Millennium Falcon (`1_143`) has two pilot and two passenger spaces,
+conditional immunity below 5, printed ship-docking capability and matching pilot
+integration. Han provides maneuver and the conditional battle-destiny permission;
+Lando provides power. Printed docking capability can enable a pair without a
+capital ship while retaining operational, ownership, cost and movement checks.
+Computer policy `native-cpu-33` evaluates the offered Effect and controlled enemy
+ship movement choices from its public projection; it does not grant legality.
+
+Executor: Control Station (`4_160`) grants power per named Executor site with an
+Imperial leader present. Light control permits only Light to move Executor during
+Dark’s Move phase; Light pays and the ship retains its owner. Source, physical
+instance, regular movement and response changes are revalidated. It does not allow
+Light to dock an enemy ship. Pinned GEMP’s stolen-Executor case denies both players
+movement; native follows the printed Light permission and records that discrepancy.
+Ship-site deployment now offers only arrangements that preserve legal interior
+and exterior grouping and checks the selected placement again after responses.
+
+The existing whole-match, starter admission and responsive service checks remain
+regressions. New browser continuations use the actual HTTP/service/SQLite path;
+controlled capture foundations are identified explicitly. Full catalog admission,
+nonempty theft-response equivalence, Gate geometry/endpoint loss and the unresolved
+failed-Obsession arithmetic remain outstanding. No additional Rules Lab study or
+Sites publication is included.

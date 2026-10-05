@@ -1,3 +1,5 @@
+import {executorMayMove} from './executor-sites';
+import identities from '../../data/native-engine/identities.json';
 import {launchBayDockingSource,launchBayTransfers,launchBayPermission} from './launch-bay';
 import {relatedShip,relatedShipSites} from './ship-sites';
 import {moveWithAttachments} from './board';
@@ -17,7 +19,10 @@ const ship=(m:Match,id:string,side:Side)=>m.cards[id]?.zone==='table'&&m.cards[i
 function together(m:Match,p:Dock,side:Side):boolean {
  return [p.a,p.b,p.site].every(ref=>sameCard(m,ref))&&ship(m,p.a.id,side)&&ship(m,p.b.id,side)&&m.cards[p.a.id].location===p.site.id&&m.cards[p.b.id].location===p.site.id;
 }
-const ready=(m:Match,p:Dock,side:Side)=>together(m,p,side)&&(capital(m,p.a.id)||capital(m,p.b.id))&&(operational(m,p.a.id)||operational(m,p.b.id))&&!barred(m,p.a.id)&&!barred(m,p.b.id);
+// Printed docking capability is identity metadata, retained when text is
+// canceled and while unpiloted (AR; pinned Filters.canShipdockWith).
+export const hasShipDockingCapability=(m:Match,id:string)=>capital(m,id)||!!(identities as Record<string,{keywords:string[]}>)[m.cards[id]?.blueprint]?.keywords.includes('SHIP_DOCKING_CAPABILITY');
+const ready=(m:Match,p:Dock,side:Side)=>together(m,p,side)&&[p.a.id,p.b.id].every(id=>executorMayMove(m,id,side))&&(hasShipDockingCapability(m,p.a.id)||hasShipDockingCapability(m,p.b.id))&&(operational(m,p.a.id)||operational(m,p.b.id))&&!barred(m,p.a.id)&&!barred(m,p.b.id);
 const action=(handler:string,p:Dock):Action=>({id:'dock:'+p.a.id+':'+p.b.id,handler:'docking:'+handler,label:'Ship docking',source:p.a.id,payload:p as unknown as Json});
 function resume(m:Match,side:Side,p:Dock){m.stack.push({kind:'resolution',actor:side,cancelled:false,action:action('continue',p)});}
 function end(m:Match,side:Side,p:Dock){
@@ -82,7 +87,7 @@ export function assertDocking(m:Match){
   if(p.bays!==undefined){if(!Array.isArray(p.bays)||!p.bays.length||new Set(p.bays.map(g=>g.site.id)).size!==p.bays.length)throw Error('Invalid Launch Bay docking grants.');for(const g of p.bays){assertCardReference(m,g.site);assertCardReference(m,g.host);if(g.site.zone!=='table'||g.host.zone!=='table'||m.cards[g.site.id].blueprint!=='4_165'||![p.a.id,p.b.id].includes(g.host.id)||sameCard(m,g.site)&&sameCard(m,g.host)&&relatedShip(m,g.site.id)!==g.host.id)throw Error('Invalid Launch Bay docking grant.');}}
   if(p.freeBay){assertCardReference(m,p.freeBay);assertCardReference(m,p.freeHost!);if(p.freeBay.zone!=='table'||m.cards[p.freeBay.id].blueprint!=='4_165'||![p.a,p.b].some(ref=>JSON.stringify(ref)===JSON.stringify(p.freeHost))||sameCard(m,p.freeBay)&&sameCard(m,p.freeHost!)&&relatedShip(m,p.freeBay.id)!==p.freeHost!.id)throw Error('Invalid free docking source.');}else if(p.freeHost)throw Error('Unexpected free docking host.');
   if(f.kind==='resolution'&&h==='docking:begin'&&(f.action.payment?.[side]!== (p.freeBay?0:1)||f.action.payment?.[other(side)]!==undefined))throw Error('Invalid docking payment.');
-  if(p.a.id===p.b.id||!spaceLocation(m,p.site.id)||[p.a,p.b].some(ref=>m.cards[ref.id].owner!==side||!vesselRule(m,ref.id)||cardDefinition(m,ref.id).type!=='Starship'))throw Error('Invalid docking ships.');
+  if(p.a.id===p.b.id||!(hasShipDockingCapability(m,p.a.id)||hasShipDockingCapability(m,p.b.id))||!spaceLocation(m,p.site.id)||[p.a,p.b].some(ref=>m.cards[ref.id].owner!==side||!vesselRule(m,ref.id)||cardDefinition(m,ref.id).type!=='Starship'))throw Error('Invalid docking ships.');
   if(f.kind==='resolution'&&(f.action.source!==p.a.id||f.action.id!=='dock:'+p.a.id+':'+p.b.id))throw Error('Invalid docking identity.');
  }
 }

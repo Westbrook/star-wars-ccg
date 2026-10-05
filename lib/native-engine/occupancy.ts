@@ -1,3 +1,5 @@
+import {executorControlPowerBonus} from './executor-sites';
+import {starshipEffectBonus} from './starship-effects';
 import {liftTube,liftTubeDestination} from './lift-tube';
 import {capturedShipFor,besiegedParticipant,besiegedActiveCard} from './captured-ship-state';
 import {escorted} from './captives';
@@ -40,6 +42,7 @@ export const vesselRules:Record<string,VesselRule>={
  '1_141':{pilots:0,drivers:0,passengers:0,shared:2,permanent:0,enclosed:true},
  '2_72':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '2_70':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true,astromechs:1},
+ '1_143':{pilots:2,drivers:0,passengers:2,shared:0,permanent:0,enclosed:true},
  '1_306':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '1_299':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '1_300':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
@@ -101,7 +104,7 @@ export function roleAvailable(m:Match,host:string,id:string,role:AboardRole):boo
 }
 export function vesselPower(m:Match,id:string):number {
  if(!operational(m,id))return 0;
- return Math.max(0,Number((cardDefinition(m,id).stats as Record<string,string>).power)+cloudStatModifier(m,id)+otsdShipBonus(m,id,'power')+vesselStatBonus(m,id,'power')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0));
+ return Math.max(0,Number((cardDefinition(m,id).stats as Record<string,string>).power)+executorControlPowerBonus(m,id)+starshipEffectBonus(m,id,'power')+cloudStatModifier(m,id)+otsdShipBonus(m,id,'power')+vesselStatBonus(m,id,'power')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+pilotPowerBonus(m,c.id),0));
 }
 export function assertOccupancy(m:Match):void {
  for(const c of Object.values(m.cards)){

@@ -1,3 +1,4 @@
+import {starshipEffectBonus} from './starship-effects';
 import {forfeit} from './board';
 import {medicProtectsForfeit} from './medics';
 import {statModifiers} from './stat-modifiers';
@@ -20,7 +21,7 @@ export function currentForfeit(m:Match,target:string,printed:number,bonuses:numb
   let value=printed;
   for(const p of mods.filter(p=>p.kind==='define'))value=p.amount;
   if(mods.some(p=>p.kind==='base-double'))value*=2;
-  for(const amount of [...bonuses,...mods.filter(p=>p.kind==='add').map(p=>p.amount)])if(amount>=0&&!preventIncrease||amount<=0&&!prevent)value+=amount;
+  for(const amount of [...bonuses,starshipEffectBonus(m,target,'forfeit'),...mods.filter(p=>p.kind==='add').map(p=>p.amount)])if(amount>=0&&!preventIncrease||amount<=0&&!prevent)value+=amount;
   const resets=[...mods.filter(p=>p.kind==='reset').map(p=>p.amount),...entries(m).filter(p=>p.target.id===target&&sameCard(m,p.target)).map(p=>p.value)].filter(v=>v>=value||!prevent);
   if(resets.length)value=Math.min(...resets);
   const limits=mods.filter(p=>p.kind==='increase-limit');if(limits.length)value=Math.min(value,printed+Math.min(...limits.map(p=>p.amount)));

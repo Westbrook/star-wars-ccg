@@ -1,0 +1,75 @@
+{
+  "scope": "General battle hit-card departure and premature-end loss; production deck admission remains closed.",
+  "officialSource": {
+    "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "printedPage": 96,
+    "section": "Weapons - hit",
+    "review": "Hit cards outside battle or attack are immediately lost. Ending battle before damage also loses remaining hit cards. Movement and capture do not themselves restore a hit."
+  },
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "sourceFindings": [
+    "HitCardOutsideOfAttackOrBattleRule reacts to hit, movement, exclusion, capture and battle/attack completion; it is a singleton required rule and includes on-table and stacked cards.",
+    "GameState capture and CaptureStarshipEffect preserve hit state. CaptureCharacter and captured ship custody are not fresh table instances.",
+    "BattleEffect steps 8\u20139 skip battle-ending when battle cannot continue, emit battle-ended, then clear battle state before the required hit loss.",
+    "Card2_142 requires participation in battle for the single-character loss replacement and explicitly restores its target. A hit lost after battle completion is no longer eligible.",
+    "The default ReturnCardToHandFromTableEffect loses attachments; Stun Blast's named return-all-cards permission is distinct and unchanged."
+  ],
+  "departureAudit": [
+    {
+      "path": "alternatives.ts",
+      "finding": "Actual weapon hit followed by Alternatives crew release now uses shared hit loss; legacy saved alternatives:hit-loss remains resumable."
+    },
+    {
+      "path": "captives.ts / captured-ships.ts",
+      "finding": "Same-instance captivity no longer clears hit. Captive/inactive hit targets and dependents enter the ordinary simultaneous loss and ordering flow."
+    },
+    {
+      "path": "ground.ts / travel.ts / transport.ts / character-react.ts / vehicle-react.ts",
+      "finding": "Shared movement preserves hits; departing participation triggers generic loss. Current ordinary and react/move-away permissions retain their original timing, and this rule grants no additional movement."
+    },
+    {
+      "path": "lifecycle.ts / restoration.ts / battle.ts Talz rescue",
+      "finding": "Actual table departure and explicit restoration clear hit. Normal forfeiture, Stun return, Old Ben's fresh instance, Talz and Prisoner restoration do not acquire an extra loss."
+    },
+    {
+      "path": "battle.ts / participation.ts",
+      "finding": "Premature end now completes battle before required loss and does not create a battle-ending opportunity. Completed battles report no participants."
+    },
+    {
+      "path": "captured-ships.ts scheduler",
+      "finding": "Autonomous theft waits while a hit-loss continuation or its Lost ordering/result is pending. The actual weapon-to-Alternatives release regression asserts that hit crew and attachments are Lost before the first theft response; browser verification exposed and corrected the prior interrupt-loop ordering."
+    }
+  ],
+  "persistence": "Every pending loss is bound to serialized event identity, physical targets and original response. Result events include only the actual Lost visits. A core loss replacement without restoration records one handled occurrence, reset by restoration, new instance, changed destination or resumed participation; it does not loop indefinitely. This replacement-only case is foundation testing, not a newly claimed card permission.",
+  "verification": {
+    "reference": "hit-departure-provenance.json",
+    "native": "../hit-departure.test.mjs",
+    "namedCardRegression": "../alternatives.test.mjs",
+    "adjacentRegressions": [
+      "../revival.test.mjs",
+      "../prisoner.test.mjs",
+      "../character-triggers.test.mjs"
+    ]
+  },
+  "requiredResponseOrdering": {
+    "finding": "After the hit card and attachments have entered Lost, mandatory theft of the empty captured ship resolves before optional cards-lost responses. The theft must not overtake an already-pending hit-loss effect or its pile-ordering continuation.",
+    "sources": [
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/timing/rules/StealCapturedStarshipWithNoCharactersRule.java",
+        "lines": "39\u201361",
+        "finding": "The table-change response produces a RequiredRuleTriggerAction for an empty captured ship."
+      },
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/timing/PlayOutEffectResults.java",
+        "lines": "49\u201359",
+        "finding": "Required after-responses are queued before optional after-responses."
+      },
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/timing/PlayoutRequiredAfterResponsesEffect.java",
+        "lines": "25\u201355",
+        "finding": "Required responses are resolved on the action stack and rechecked before the optional stage."
+      }
+    ],
+    "browserExpectation": "Saved about-to-lose with Light-owned hull; casualty and personal equipment fully Lost at about-to-steal; resolve theft, then observe the original cards-lost optional response."
+  }
+}

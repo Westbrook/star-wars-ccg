@@ -1,0 +1,170 @@
+[
+  {
+    "battleContinues": true,
+    "attachmentAfter": {
+      "zone": "LOST_PILE",
+      "hit": false,
+      "participating": false,
+      "lost": true,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "after": {
+      "zone": "TOP_OF_LOST_PILE",
+      "hit": false,
+      "participating": false,
+      "lost": true,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "mode": "move",
+    "before": {
+      "zone": "AT_LOCATION",
+      "hit": true,
+      "participating": true,
+      "lost": false,
+      "capturedShip": false,
+      "attachedTo": null
+    }
+  },
+  {
+    "battleContinues": true,
+    "attachmentAfter": {
+      "zone": "ATTACHED",
+      "hit": false,
+      "participating": false,
+      "lost": false,
+      "capturedShip": false,
+      "attachedTo": "1_28"
+    },
+    "after": {
+      "zone": "AT_LOCATION",
+      "hit": false,
+      "participating": false,
+      "lost": false,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "mode": "restore-move",
+    "before": {
+      "zone": "AT_LOCATION",
+      "hit": true,
+      "participating": true,
+      "lost": false,
+      "capturedShip": false,
+      "attachedTo": null
+    }
+  },
+  {
+    "battleContinues": true,
+    "attachmentAfter": {
+      "zone": "LOST_PILE",
+      "hit": false,
+      "participating": false,
+      "lost": true,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "after": {
+      "zone": "TOP_OF_LOST_PILE",
+      "hit": false,
+      "participating": false,
+      "lost": true,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "mode": "exclude",
+    "before": {
+      "zone": "AT_LOCATION",
+      "hit": true,
+      "participating": true,
+      "lost": false,
+      "capturedShip": false,
+      "attachedTo": null
+    }
+  },
+  {
+    "battleContinues": true,
+    "attachmentAfter": {
+      "zone": "TOP_OF_LOST_PILE",
+      "hit": false,
+      "participating": false,
+      "lost": true,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "after": {
+      "zone": "LOST_PILE",
+      "hit": false,
+      "participating": false,
+      "lost": true,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "mode": "capture-character",
+    "before": {
+      "zone": "AT_LOCATION",
+      "hit": true,
+      "participating": true,
+      "lost": false,
+      "capturedShip": false,
+      "attachedTo": null
+    }
+  },
+  {
+    "battleContinues": true,
+    "attachmentAfter": {
+      "zone": "LOST_PILE",
+      "hit": false,
+      "participating": false,
+      "lost": true,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "after": {
+      "zone": "TOP_OF_LOST_PILE",
+      "hit": false,
+      "participating": false,
+      "lost": true,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "mode": "capture-ship",
+    "before": {
+      "zone": "AT_LOCATION",
+      "hit": true,
+      "participating": true,
+      "lost": false,
+      "capturedShip": false,
+      "attachedTo": null
+    }
+  },
+  {
+    "battleContinues": true,
+    "attachmentAfter": {
+      "zone": "TOP_OF_LOST_PILE",
+      "hit": false,
+      "participating": false,
+      "lost": true,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "after": {
+      "zone": "HAND",
+      "hit": false,
+      "participating": false,
+      "lost": false,
+      "capturedShip": false,
+      "attachedTo": null
+    },
+    "mode": "return-hand",
+    "before": {
+      "zone": "AT_LOCATION",
+      "hit": true,
+      "participating": true,
+      "lost": false,
+      "capturedShip": false,
+      "attachedTo": null
+    }
+  }
+]
