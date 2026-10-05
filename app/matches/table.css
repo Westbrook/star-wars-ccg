@@ -25,3 +25,7 @@
 .native-sealed{margin-top:24px}.native-sealed select{display:block;width:100%;background:#101c20;color:#eee8dc;padding:12px;border:1px solid #53615c;border-radius:6px;font:inherit;margin-top:8px}.native-sealed .native-tools{align-items:end;flex-wrap:wrap}.native-sealed-select{display:block;margin-top:20px}.native-sealed-delivery{border:1px solid #edc77f44;background:linear-gradient(135deg,#34332355,#10212688);border-radius:10px;padding:20px;margin:20px 0}.native-sealed summary{cursor:pointer;padding:12px 0;color:#e3c48e}.native-sealed details details{padding-left:12px}.native-sealed li{line-height:1.8}.native-sealed a{font-size:12px}.native-sealed .native-notice{overflow-wrap:anywhere}@media(max-width:640px){.native-sealed .native-tools>*{width:100%}.native-sealed-delivery{padding:14px}}
 
 .native-card .native-disarmed{top:auto;bottom:34px;background:#59400e;color:#fff2ca}
+
+/* Reserve a developer-only strip; the fixed report link never covers actions. */
+.native-shell[data-progress-report=true]{height:calc(100dvh - 52px - env(safe-area-inset-bottom));min-height:0;overflow-y:auto;overscroll-behavior-y:contain}
+.native-shell[data-progress-report=true]>.report-return{bottom:calc(10px + env(safe-area-inset-bottom));right:12px}

@@ -3373,8 +3373,8 @@ victory using only legal commands and saved-state round trips. Those complete
 native games are integration evidence, not GEMP full-match parity.
 
 This initial receipt covers one unique eligible Effect title per side. The
-following iteration extends it to two; the printed three-Effect capacity and
-other eligible Effects still need card providers and conformance evidence. Synthetic arrival-response tests establish
+following iterations extend it to two and three; see the subsequent receipts.
+Other eligible Effects still need card providers and conformance evidence. Synthetic arrival-response tests establish
 shared setup semantics but do not certify unimplemented card interactions.
 Full engine/card scope and all existing discrepancies remain outstanding;
 production admission is closed. No new Rules Lab study is added.
@@ -3398,7 +3398,7 @@ CPU policy23 deploys the Effect through offered legal actions.
 `starting-effects.ts` provides explicit real deployment adapters for these and
 the two Sense/Alter Effects. Starting preparation supports two distinct Effects
 in either order, uniqueness, and stopping after the first; opening shuffle waits
-for both players' results. Three distinct Effects still require more providers.
+for both players' results. The next receipt verifies three distinct Effects.
 
 `gemp/resistance-provenance.json` binds28 component outcomes and8 ordinary60-card
 setup outcomes against unchanged GEMP. Component drains use a stable controlled
@@ -3411,5 +3411,41 @@ Six browser payment flows and nine setup flows exercise actual HTTP handlers,
 service and SQLite D1 at1440/834/390, both-seat refresh and private inspection.
 Ordinary40/60-card CPU games start with both Effects and finish by Life Force
 victory; these native games are integration evidence, not full-match GEMP parity.
-Full native admission stays closed. Battle Plan/Order, three-Effect conformance
-and all other unfinished engine scope remain required; no new Rules Lab study.
+Full native admission stays closed. The following receipt extends coverage to
+Battle Plan/Order and three-Effect setup; broader engine scope remains required.
+
+### Battle Plan / Battle Order and three-Effect starts
+
+`battle-plan.ts` implements Light8_35 and Dark8_118: free unique table deployment,
+unconditional Alter immunity, optional free own battles and a3-Force cost to
+initiate either side's drain unless that side occupies both a battleground site
+and a battleground system. Contested occupation counts; a sector cannot replace
+the system. Order's drain cost turns off whenever Plan is on table, including
+when Plan's text is canceled. Order's modifiers consult the shared card-title
+immunity query; this does not admit unimplemented immunity-granting cards.
+
+The paid battle remains a separate choice because the printed benefit says
+"may." CPU policy24 prefers the free legal option. Drain and battle payments
+use the existing persisted cost-result response stack, with affordability checked
+before initiation. The labels distinguish paid drains and paid/free battles.
+Both Effects register actual deployment adapters for starting preparation.
+
+`gemp/battle-plan-provenance.json` binds38 component outcomes and12 ordinary60-card
+setups against6820 unchanged pinned production files. Components compare both
+sides, Plan/Order/both, ground/space occupation, contested locations, canceled
+Plan text, actual drain/battle payment and ordinary deployment. Setup selects
+one, two or three distinct Effects, both first players and selection directions,
+with exact selected-blueprint replay and pile counts. Controlled component board
+and text interventions are declared; this is not complete-match GEMP parity.
+
+Ordinary40/60-card native CPU games finish by Life Force victory after three-Effect
+setup, paid drains and free battles, with saved-state round trips at every command.
+Full catalog and complete-match conformance remain unfinished; production admission
+stays closed, and the four existing discrepancies remain open. No standalone
+Rules Lab study is added.
+
+Eighteen payment browser flows and nine ordinary setup flows use actual HTTP,
+service and SQLite D1 at1440/834/390. Recovery checks freeze only the browser clock
+to isolate saved-state reloads from the separately verified automatic-pass timer.
+A reserved developer-only bottom strip keeps the Progress Report link clear of
+actions; unflagged matches retain their normal layout.

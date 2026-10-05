@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-23';
+export const computerPolicy = 'native-cpu-24';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -77,6 +77,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     const [kind,a,b] = c.id.split(':');
     if (c.id === 'concede') return -Infinity;
     if (c.id === 'pass') return 0;
+    if(kind==='battle-plan')return 35;
     if(kind==='resistance')return 35;
     if(kind==='prep-start')return a==='deploy'?40:a==='done'?20:30;
     if(kind==='starting-select')return 30;
@@ -159,7 +160,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     }
     if (kind === 'deploy') return 35 + value(a) + (!at(b,side).length ? 12 : 0) + Math.min(10,strength(b,opponent));
     if (kind === 'deploy-effect') return cards.get(a)?.blueprint==='1_232' ? ((own.counts.force??0)>=cheapestCharacter+4?20:-5) : 25;
-    if (kind === 'battle') return strength(a,side) >= strength(a,opponent,true) ? 40 : -10;
+    if (kind === 'battle' || kind === 'battle-free') return strength(a,side) >= strength(a,opponent,true) ? (kind==='battle-free'?42:40) : -10;
     if (kind === 'move') {
       const from = cards.get(a)?.location;
       if (!from) return -10;

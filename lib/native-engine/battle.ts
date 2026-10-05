@@ -1,3 +1,4 @@
+import {mayBattleForFree} from './battle-plan';
 import {battlePowerBonus,assertBattlePower,type BattlePowerModifier} from './battle-power';
 import {forceLossCredit} from './droid-service';
 import {otsdClearsAttrition} from './otsd-characters';
@@ -158,7 +159,8 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
     }
     if (m.turn.phase === 'battle' && (!b || b.stage === 'complete')) for (const site of m.locations) {
       if (!battleHistory(m).sites.includes(name(m, site)) && sides.every(s => locationAbility(m, s, site, eligibleAt(m, s, site).reduce((n,c) => n + ability(m,c.id),0)) >= 1))
-        actions.push(act('battle:' + site, 'Battle at ' + name(m, site), 'begin', {site}, {[side]: 1}));
+        {const free=mayBattleForFree(m,side,site);actions.push(act('battle:' + site, 'Battle at ' + name(m, site)+(free?' · use 1 Force':''), 'begin', {site}, {[side]: 1}));
+         if(free)actions.push(act('battle-free:'+site,'Battle at '+name(m,site)+' · free','begin',{site}));}
     }
   }
   if (w.timing !== 'response' || !b || b.stage === 'complete') return actions;

@@ -1,3 +1,4 @@
+import {forceDrainCost} from './battle-plan';
 import {forceLossCredit} from './droid-service';
 import {corulagAllowsGuardMove} from './otsd-locations';
 import {generator,generatorAllowed,shieldDeployment} from './hoth';
@@ -84,7 +85,7 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
       }
     }
     if (m.turn.phase === 'control') for (const site of m.locations) {
-      if (controls(m, side, site) && !usage(m).drained.includes(site)) actions.push(action('drain:' + site, 'Force drain at ' + name(m, site), 'drain', {site}));
+      if (controls(m, side, site) && !usage(m).drained.includes(site)) {const cost=forceDrainCost(m,side,site);actions.push(action('drain:' + site, 'Force drain at ' + name(m, site)+(cost?' · use '+cost+' Force':''), 'drain', {site},cost?{[side]:cost}:undefined));}
     }
     if (m.turn.phase === 'move' && m.players[side].force.length) {
       for (const site of m.locations) for (const card of atSite(m, site)) {

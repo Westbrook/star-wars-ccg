@@ -1,0 +1,386 @@
+[
+  {
+    "cost": 0,
+    "side": "dark",
+    "alterImmune": true,
+    "kind": "deployment"
+  },
+  {
+    "cost": 0,
+    "side": "light",
+    "alterImmune": true,
+    "kind": "deployment"
+  },
+  {
+    "source": "plan",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "dark",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": false
+  },
+  {
+    "source": "plan",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "dark",
+    "space": true,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": false
+  },
+  {
+    "source": "plan",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "dark",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": false
+  },
+  {
+    "source": "plan",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "dark",
+    "space": true,
+    "mode": "normal",
+    "drain": 0.0,
+    "free": false
+  },
+  {
+    "source": "order",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "dark",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "order",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "dark",
+    "space": true,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "order",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "dark",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "order",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "dark",
+    "space": true,
+    "mode": "normal",
+    "drain": 0.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "dark",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "dark",
+    "space": true,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "dark",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "dark",
+    "space": true,
+    "mode": "normal",
+    "drain": 0.0,
+    "free": true
+  },
+  {
+    "source": "plan",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "light",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "plan",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "light",
+    "space": true,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "plan",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "light",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "plan",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "light",
+    "space": true,
+    "mode": "normal",
+    "drain": 0.0,
+    "free": true
+  },
+  {
+    "source": "order",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "light",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": false
+  },
+  {
+    "source": "order",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "light",
+    "space": true,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": false
+  },
+  {
+    "source": "order",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "light",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": false
+  },
+  {
+    "source": "order",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "light",
+    "space": true,
+    "mode": "normal",
+    "drain": 0.0,
+    "free": false
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "light",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": false,
+    "contested": false,
+    "side": "light",
+    "space": true,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "light",
+    "space": false,
+    "mode": "normal",
+    "drain": 3.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "light",
+    "space": true,
+    "mode": "normal",
+    "drain": 0.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": true,
+    "contested": true,
+    "side": "dark",
+    "space": true,
+    "mode": "normal",
+    "drain": 0.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "dark",
+    "space": false,
+    "mode": "suppressed-plan",
+    "drain": 0.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": true,
+    "contested": true,
+    "side": "light",
+    "space": true,
+    "mode": "normal",
+    "drain": 0.0,
+    "free": true
+  },
+  {
+    "source": "both",
+    "kind": "query",
+    "ground": true,
+    "contested": false,
+    "side": "light",
+    "space": false,
+    "mode": "suppressed-plan",
+    "drain": 0.0,
+    "free": false
+  },
+  {
+    "cost": 3,
+    "space": false,
+    "side": "dark",
+    "kind": "drain"
+  },
+  {
+    "cost": 0,
+    "space": true,
+    "side": "dark",
+    "kind": "drain"
+  },
+  {
+    "offered": [
+      "Initiate battle",
+      "Initiate battle for free"
+    ],
+    "free": false,
+    "side": "dark",
+    "kind": "battle",
+    "cost": 1
+  },
+  {
+    "offered": [
+      "Initiate battle",
+      "Initiate battle for free"
+    ],
+    "free": true,
+    "side": "dark",
+    "kind": "battle",
+    "cost": 0
+  },
+  {
+    "cost": 3,
+    "space": false,
+    "side": "light",
+    "kind": "drain"
+  },
+  {
+    "cost": 0,
+    "space": true,
+    "side": "light",
+    "kind": "drain"
+  },
+  {
+    "offered": [
+      "Initiate battle",
+      "Initiate battle for free"
+    ],
+    "free": false,
+    "side": "light",
+    "kind": "battle",
+    "cost": 1
+  },
+  {
+    "offered": [
+      "Initiate battle",
+      "Initiate battle for free"
+    ],
+    "free": true,
+    "side": "light",
+    "kind": "battle",
+    "cost": 0
+  }
+]

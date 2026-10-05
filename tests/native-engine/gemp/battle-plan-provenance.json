@@ -1,0 +1,26 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T05:52:46.884757+00:00",
+  "files": {
+    "NativeEngineBattlePlanOracleTests.java": "ec7640f747a43a8ecce92c1a9405183d6ab00ecd571ee2ccf2e02dc7d91a0ce6",
+    "NativeEngineBattlePlanStartingOracleTests.java": "d2b84aa4d6f04b1582fbd9e3ef8f10f6c5144e786ff9a61613756b215a3cbe05",
+    "battle-plan-results.json": "8c982bf806e9da3ee8a946ac0af4d4417e22ee97c7a364880c6bafa0afec6a8c",
+    "battle-plan-starting-results.json": "aa8fa7257d1328c2100dd7129de198dfb93e0a0bee05431cfd75e57ee859b8aa"
+  },
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "junitTests": 4,
+  "componentBranches": 38,
+  "setupBranches": 12,
+  "scope": [
+    "Prepared boards: actual printed cost/occupation queries, actual drain and paid/free battle initiation, ordinary deployment.",
+    "Both sides; Plan/Order/both; site/system occupation including contested sites; canceled Plan text while Order remains.",
+    "Ordinary60-card setups choosing one/two/three distinct Effects, both first players and selection directions."
+  ],
+  "limits": [
+    "Prepared component boards and controlled text suppression are interventions, not complete-match conformance.",
+    "Native full matches are integration evidence; full-catalog admission remains closed.",
+    "Battle Order uses shared card-title immunity query; no additional immunity-granting card is admitted by this checkpoint."
+  ]
+}

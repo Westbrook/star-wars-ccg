@@ -14,7 +14,7 @@ const sense = (bp: string) => ['1_109', '1_267'].includes(bp);
 const alter = (bp: string) => ['1_71', '1_234'].includes(bp);
 const effect = (m: Match, id: string) => ['Effect', 'Utinni Effect'].includes(cardDefinition(m, id).type);
 // These unconditional printed immunities apply during deployment as well.
-const alterImmune = (m: Match, id: string) => ['6_58','6_147','4_21','4_134','1_48','1_214','1_42', '1_208', '4_16', '1_64', '1_221', '5_110'].includes(m.cards[id].blueprint);
+const alterImmune = (m: Match, id: string) => ['6_58','6_147','8_35','8_118','4_21','4_134','1_48','1_214','1_42', '1_208', '4_16', '1_64', '1_221', '5_110'].includes(m.cards[id].blueprint);
 export type CancellationPayload = {disposition?:'used'|'lost';card: string; target: string; mode: 'card' | 'react' | 'effect' | 'counter'; character?: string;
   targetRef?: CardReference; characterRef?: CardReference; targetIndex?: number; actionId?: string; windowSerial?: number; eligible?: boolean; draw?: Draw; excluded?: CardReference[]; exclusionUsed?: boolean; noCharacter?: boolean};
 const action = (step: string, p: CancellationPayload): Action => ({id: 'cancel:' + step + ':' + p.card + ':' + p.target + ':' + (p.character ?? 'direct'),
