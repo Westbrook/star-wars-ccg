@@ -1,8 +1,8 @@
+import {battleAtSite} from './participation';
 import {hasPersona} from './persona';
 import {hasCharacteristic} from './characteristics';
 import {remainingDestinyDraws} from './destiny-limits';
 import {battle, members} from './battle';
-import {cardDefinition} from './board';
 import {convertDestinySelection} from './destiny-selection';
 import {moveCard} from './state';
 import type {Action, Json, Match, Resolution, Side, Window} from './types';
@@ -29,7 +29,7 @@ export function gamblersLuckActions(m: Match, w: Window, side: Side): Action[] {
     }];
   }
   if (m.data.gamblersLuckPlayedTurn === m.turn.number || w.timing !== 'response' || (w.event as {kind?: string})?.kind !== 'battle-weapons' || !b || b.stage !== 'weapons' || b.initiator === side ||
-    cardDefinition(m, b.site).subType !== 'Site' || own.length !== 1) return [];
+    !battleAtSite(m) || own.length !== 1) return [];
   // Shared character characteristic and reviewed persona metadata.
   const amounts: (1 | 2)[] = [...(hasCharacteristic(m, own[0], 'GAMBLER') ? [1 as const] : []), ...(hasPersona(m, own[0], 'LANDO') ? [2 as const] : [])];
   return m.players[side].hand.filter(card => m.cards[card].blueprint === '5_48').flatMap(card => amounts.map(amount => ({

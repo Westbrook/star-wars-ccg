@@ -1,3 +1,5 @@
+import {beginBesieged,endBesieged} from './besieged';
+import {besiegedParticipant,type BesiegedBattle} from './captured-ship-state';
 import {mayBattleForFree} from './battle-plan';
 import {battlePowerBonus,assertBattlePower,type BattlePowerModifier} from './battle-power';
 import {forceLossCredit} from './droid-service';
@@ -37,6 +39,7 @@ type DestinyPlan = {remaining: number; draws: Draw[]; selection: {x: number; y: 
 type Pair<T> = Record<Side, T>;
 type Shot = {host?: string; weapon: string; target: string; side: Side; defense: number; bonus: number; card: string | null; destiny: number | null; hit: boolean | null; total?: number | null; substitution?: Substitution};
 export type Battle = {
+  besieged?: BesiegedBattle;
   site: string; initiator: Side; stage: 'begin' | 'weapons' | 'power' | 'damage' | 'end' | 'complete';
   participants: Pair<string[]>; hits: string[]; fired: string[]; users: Record<string, string>; shots: Shot[];
   destiny: Pair<number | null>; destinyCards: Pair<string | null>; power: Pair<number>;
@@ -105,10 +108,10 @@ export function syncBattle(m: Match): void {
   // can join before power, but never afterward (including Old Ben in damage).
   const departed = b.departed ??= [];
   for (const id of sides.flatMap(side => b.participants[side]))
-    if (!departed.includes(id) && (m.cards[id]?.zone !== 'table' || m.cards[id].location !== b.site || battleProhibited(m, id))) departed.push(id);
+    if (!departed.includes(id) && (b.besieged&&!besiegedParticipant(m,id) || m.cards[id]?.zone !== 'table' || m.cards[id].location !== b.site || battleProhibited(m, id))) departed.push(id);
   b.hits = b.hits.filter(id => !departed.includes(id));
   syncBattleDamage(m);
-  if (!['begin', 'weapons'].includes(b.stage)) return;
+  if (b.besieged || !['begin', 'weapons'].includes(b.stage)) return;
   const history = battleHistory(m);
   for (const c of unitsAt(m, b.site)) if (!battleProhibited(m, c.id) && !history.participants.includes(c.id)) {
     // leaveTable expires the old instance's turn history. Merely moving away
@@ -165,7 +168,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
   }
   if (w.timing !== 'response' || !b || b.stage === 'complete') return actions;
   const parent = m.stack.at(-2);
-  if (parent?.kind === 'resolution' && parent.action.handler === 'battle:begin' && !parent.cancelled && side !== b.initiator)
+  if (parent?.kind === 'resolution' && parent.action.handler === 'battle:begin' && !b.besieged && !parent.cancelled && side !== b.initiator)
     actions.push(...reactionActions(m, b.site, side, id => !battleHistory(m).participants.includes(id)));
   if (event(w) === 'battle-weapons') {
     for (const weapon of Object.values(m.cards)) {
@@ -197,7 +200,8 @@ export function battleInitiate(m: Match, r: Resolution): void {
   if (kind === 'battle:begin') {
     const b: Battle = {site: p.site!, initiator: r.actor, stage: 'begin', participants: pair([], []), hits: [], fired: [], users: {}, shots: [], destiny: pair(null, null), destinyCards: pair(null, null), power: pair(0, 0), attrition: pair(0, 0), damage: pair(0, 0), initialAttrition: pair(0, 0), initialDamage: pair(0, 0), reduced: pair(false, false), totalsReady: false, premature: false};
     m.data.battle = b as unknown as Json;
-    const history = battleHistory(m); history.sites.push(name(m, p.site!)); m.data.battles = history as unknown as Json; syncBattle(m);
+    if ('besieged' in p) beginBesieged(m,b,(p as unknown as {besieged:Parameters<typeof beginBesieged>[2]}).besieged);
+    else {const history = battleHistory(m); history.sites.push(name(m, p.site!)); m.data.battles = history as unknown as Json; syncBattle(m);}
   } else if (kind === 'battle:equip' && m.cards[p.card!].zone === 'hand' || ['battle:takeel', 'battle:reduce'].includes(kind)) moveCard(m, p.card!, 'playing');
   else if (kind === 'battle:fire') {
     const b = battle(m)!, id = p.card!, host = m.cards[id].attachedTo!;
@@ -306,7 +310,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     if (kind === 'battle:begin') {
       // Cancellation preserves participation/cost history but does not emit
       // normal end-of-battle response windows (GEMP BattleEffect steps 8–9).
-      b!.cancelled = true; b!.premature = true; b!.stage = 'complete';
+      endBesieged(m,b!); b!.cancelled = true; b!.premature = true; b!.stage = 'complete';
       b!.damage = pair(0, 0); b!.attrition = pair(0, 0);
     }
     return;
@@ -378,7 +382,7 @@ export function battleResolve(m: Match, r: Resolution): void {
     windowThen(m, 'end', 'battle-damage', b.initiator);
   }
   else if (kind === 'battle:end') beginEnd(m);
-  else if (kind === 'battle:ended') {b.stage = 'complete'; openWindow(m, 'response', other(b.initiator), {kind: 'battle-ended'});}
+  else if (kind === 'battle:ended') {endBesieged(m,b); b.stage = 'complete'; openWindow(m, 'response', other(b.initiator), {kind: 'battle-ended'});}
   else if (kind === 'battle:takeel') {
     // Individual modifiers travel with the number; resolved total modifiers
     // stay with their original player (AR, Takeel). Keep physical ownership.

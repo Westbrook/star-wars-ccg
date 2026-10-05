@@ -1,3 +1,4 @@
+import {besiegedParticipant} from './captured-ship-state';
 import {characterPresent} from './occupancy';
 import {cardDefinition} from './definitions';
 import type {Battle} from './battle';
@@ -13,7 +14,7 @@ export function battleProhibited(m:Match,id:string):boolean {
 export function battleMembers(m: Match, side: Side): string[] {
   const b = m.data.battle as Battle | undefined;
   if (!b) return [];
-  return b.participants[side].filter(id => !b.departed?.includes(id) && m.cards[id]?.zone === 'table' && m.cards[id].location === b.site && !battleProhibited(m,id));
+  return b.participants[side].filter(id => (!b.besieged||besiegedParticipant(m,id)) && !b.departed?.includes(id) && m.cards[id]?.zone === 'table' && m.cards[id].location === b.site && !battleProhibited(m,id));
 }
 
 /** Current ground presence. Excluded/nonparticipating cards at the battle site
@@ -23,4 +24,10 @@ export function groundPresent(m: Match, id: string): boolean {
   if (!c || c.zone !== 'table' || !characterPresent(m,id) || c.coveredBy || !c.location || !m.locations.includes(c.location) || cardDefinition(m,id).type !== 'Character') return false;
   const b = m.data.battle as Battle | undefined;
   return !b || b.stage === 'complete' || b.site !== c.location || battleMembers(m,c.owner).includes(id);
+}
+
+/** Besieged has a virtual site context without changing its physical location. */
+export function battleAtSite(m:Match):boolean {
+ const b=m.data.battle as Battle|undefined;
+ return !!b&&b.stage!=='complete'&&(!!b.besieged||cardDefinition(m,b.site).subType==='Site');
 }

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "kind": "official-rule-native-integration",
+  "card": "2_117",
+  "sources": [
+    {"url": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/besieged.gif", "purpose": "Printed deployment, character battle and Effect cleanup text"},
+    {"url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf", "printedPages": [25,138,163], "purpose": "Active attachment exception, cancellation destination errata, participant selection and capture battle rules"}
+  ],
+  "verification": {
+    "command": "node --test tests/native-engine/besieged.test.mjs",
+    "testCount": 15,
+    "coverage": ["deployment and persistent subset selection", "character weapons, power and passenger ability", "completion and cancellation restore trapped crew", "both bay battle orders prohibit combining groups", "Light cannot initiate trapped battle", "launch retains Effect and escape/theft lose it", "release and theft during battle", "recapture reuses retained Effect", "related Launch Bay", "saved-state validation"]
+  },
+  "gempConformance": "Not claimed: no executed Besieged battle oracle. Existing captured-ship and site-capture conformance remains separate.",
+  "limitations": [
+    "Component match states override full-deck admission; these are not certified complete starter games.",
+    "The battle retains its physical system/site identifier. All cross-card site-qualified, location-specific and remote continuous modifiers have not been certified for the as-if-at-a-site context.",
+    "Source and crew departures in several regression tests are controlled fixture interventions. Deployment, selection, Force payment, weapon fire and normal battle progression use public runtime choices."
+  ],
+  "productionAdmission": "closed"
+}

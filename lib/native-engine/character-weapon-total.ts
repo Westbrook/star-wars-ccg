@@ -8,8 +8,8 @@ export function characterWeaponTotalContext(m:Match,next:Action):CharacterWeapon
  if(!Object.values(m.cards).some(c=>c.blueprint==='5_12'))return;
  const index=(next.payload as {index?:number})?.index;if(!Number.isSafeInteger(index))return;
  const b=m.data.battle as unknown as {shots?:CharacterWeaponTotal[];saberShots?:CharacterWeaponTotal[];gaffiShots?:CharacterWeaponTotal[]}|undefined;
- if(next.handler==='creature-weapon:result'){
-  const s=(m.data.creatureShots as unknown as {weapon:{id:string};host:{id:string}}[]|undefined)?.[index!];
+ if(next.handler==='creature-weapon:result'||next.handler==='sniping:result'){
+  const s=((next.handler==='sniping:result'?m.data.snipingShots:m.data.creatureShots) as unknown as {weapon:{id:string};host:{id:string}}[]|undefined)?.[index!];
   return s?{weapon:s.weapon.id,host:s.host.id}:undefined;
  }
  const s=next.handler==='battle:shot-result'?b?.shots?.[index!]:next.handler==='saber:result'?b?.saberShots?.[index!]:next.handler==='gaffi:result'?b?.gaffiShots?.[index!]:undefined;

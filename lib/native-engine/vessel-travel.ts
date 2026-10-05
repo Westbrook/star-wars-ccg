@@ -1,4 +1,5 @@
 import {relatedShip} from './ship-sites';
+import {laserGateAllowsPassage} from './laser-gate';
 import {launchBayVesselRoutes,launchBayUnlimitedMove,launchBay} from './launch-bay';
 import {shieldMovement} from './hoth';
 import {bellySlug,caveMouthOpen} from './space-slug';
@@ -32,7 +33,7 @@ export function vesselRoutes(m:Match,id:string):Route[]{
  if(d.type==='Vehicle'){
   if(!operational(m,id))return [];
   for(const direction of [-1,1]){const path=[from];let previous=from;
-   for(let n=1;n<=stat(m,id,'landspeed');n++){const to=m.locations[m.locations.indexOf(from)+direction*n];if(!to||!adjacent(m,previous,to)||!vehicleDestination(m,id,to))break;path.push(to);out.push({method:'landspeed',path:[...path],cost:movesFree(m,id,to)?0:1});previous=to;}
+   for(let n=1;n<=stat(m,id,'landspeed');n++){const to=m.locations[m.locations.indexOf(from)+direction*n];if(!to||!adjacent(m,previous,to)||!vehicleDestination(m,id,to)||!laserGateAllowsPassage(m,id,previous,to))break;path.push(to);out.push({method:'landspeed',path:[...path],cost:movesFree(m,id,to)?0:1});previous=to;}
   }return out;
  }
  if(operational(m,id))for(const path of sectorPaths(m,id,from))out.push({method:'sector',path,cost:1});

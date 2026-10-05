@@ -1,8 +1,8 @@
 # Project working preferences
 
-## Private publication
+## Publication
 
-The user authorizes publishing each completed iteration of this project without another confirmation while the existing Sites site remains private to the user. Verify owner-only access and publish to the existing site recorded in `.openai/hosting.json`. Ask before publishing to a wider audience.
+Sites publication is on hold at the user's request. Do not publish or deploy current work to Sites. Keep the existing site's audience unchanged. Deliver completed checkpoints by committing and pushing `main` to GitHub; resume Sites publication only when the user requests it.
 
 ## Gameplay
 

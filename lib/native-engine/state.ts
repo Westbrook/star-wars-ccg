@@ -1,3 +1,4 @@
+import {besiegedActiveCard,capturedShipActiveAttachment} from './captured-ship-state';
 import {assertRevealVersions,invalidatePileReveals} from './pile-reveal';
 import {assertReserveInserts, reserveInserts, insertsIn, isInserted, saveInserts, assertReserveTopAccessible, reserveCardRemoved, reserveCardAdded, forgetInsert, shuffledReserve} from './reserve-inserts';
 import {validForceQuantity} from './force-quantity';
@@ -151,7 +152,7 @@ export function assertState(match: Match): void {
     if (isPile(card.zone) !== seen.has(id)) throw Error('Card missing from pile or listed outside its zone.');
     for (const key of ['location', 'attachedTo', 'coveredBy'] as const) {
       const target = card[key];
-      if (target && (!(card.zone === 'table' || ['captive','inactive'].includes(card.zone) && key !== 'coveredBy' || card.zone === 'buried' && key === 'location') || target === id || !(match.cards[target]?.zone === 'table' || card.zone === 'inactive' && key === 'attachedTo' && ['captive','inactive'].includes(match.cards[target]?.zone)))) throw Error('Invalid table relation.');
+      if (target && (!(card.zone === 'table' || ['captive','inactive'].includes(card.zone) && key !== 'coveredBy' || card.zone === 'buried' && key === 'location') || target === id || !(match.cards[target]?.zone === 'table' || key === 'attachedTo' && (besiegedActiveCard(match,id)||capturedShipActiveAttachment(match,id)) && match.cards[target]?.zone === 'inactive' || card.zone === 'inactive' && key === 'attachedTo' && ['captive','inactive'].includes(match.cards[target]?.zone)))) throw Error('Invalid table relation.');
     }
     if (card.zone === 'stacked' ? !card.stackedOn || card.stackedOn === id || match.cards[card.stackedOn]?.zone !== 'table' : card.stackedOn !== undefined) throw Error('Invalid stacked card relation.');
     const visiting = new Set<string>([id]);

@@ -1,4 +1,5 @@
 import {ability} from './ability';
+import {laserGateAllowsPassage} from './laser-gate';
 import {battle} from './battle';
 import {adjacent,cardDefinition,moveWithAttachments,name} from './board';
 import {canLandspeed,record} from './ground';
@@ -15,7 +16,7 @@ const data=(f:Resolution|Decision)=>('action' in f?f.action.payload:f.payload) a
 const action=(step:string,p:Payload):Action=>({id:'obi:'+step+':'+p.source.id+':'+p.target.id+(p.to?':'+p.to.id:''),handler:'obi:'+step,source:p.source.id,label:'Resolve Obi-Wan Kenobi',payload:p as unknown as Json});
 const queue=(m:Match,step:string,p:Payload,actor=m.cards[p.source.id].owner,respondable=false)=>m.stack.push({kind:'resolution',actor,cancelled:false,...(respondable?{awaitingResponses:true}:{}),action:action(step,p)});
 const used=(m:Match,id:string)=>(battle(m)?.obiWanUses??[]).some(ref=>ref.id===id&&sameCard(m,ref));
-const routes=(m:Match,p:Payload)=>sameCard(m,p.target)&&!belowDecks(m,p.target.id)&&canLandspeed(m,p.target.id)&&m.cards[p.target.id].location?m.locations.filter(to=>adjacent(m,m.cards[p.target.id].location!,to)):[];
+const routes=(m:Match,p:Payload)=>sameCard(m,p.target)&&!belowDecks(m,p.target.id)&&canLandspeed(m,p.target.id)&&m.cards[p.target.id].location?m.locations.filter(to=>adjacent(m,m.cards[p.target.id].location!,to)&&laserGateAllowsPassage(m,p.target.id,m.cards[p.target.id].location!,to)):[];
 
 export function obiWanActions(m:Match,w:Window,side:Side):Action[]{
  const b=battle(m),parent=m.stack.at(-2);

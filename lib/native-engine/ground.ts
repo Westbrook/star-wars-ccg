@@ -13,6 +13,7 @@ import {deployed} from './deployment';
 import {isUnique, canEnterTable} from './persona';
 import {assertLedger, lossLedger, lossRemaining, type LossLedger} from './loss';
 import {abilityAt, adjacent, atSite, cardDefinition, controls, deploymentPayment, drainAmount, isGuard, moveWithAttachments, name, presence, sitePlacements} from './board';
+import {laserGateAllowsPassage,convertLaserGateSite} from './laser-gate';
 import {moveCard, moveTop} from './state';
 import {openWindow, type RequiredAction} from './runtime';
 import {other, sides, type Action, type Decision, type Json, type Match, type Payment, type Resolution, type Side, type Window} from './types';
@@ -59,7 +60,7 @@ export function pendingReactSite(m: Match, w: Window, side: Side): string | null
   const p = pending(m);
   if (m.turn.side===side || w.timing !== 'response' || !p || p.awaitingResponses || p.cancelled || p.actor === side) return null;
   if (p.action.handler === 'ground:drain') {const site = payload(p.action).site!; return controls(m, p.actor, site) ? site : null;}
-  return p.action.handler === 'battle:begin' ? payload(p.action).site! : null;
+  return p.action.handler === 'battle:begin' && !(m.data.battle as {besieged?:unknown}|undefined)?.besieged ? payload(p.action).site! : null;
 }
 const action = (id: string, label: string, handler: string, data: Payload, payment?: Payment, source?: string): Action =>
   ({id, label, handler: 'ground:' + handler, payload: data as Json, ...(payment ? {payment} : {}), ...(source ? {source} : {})});
@@ -90,7 +91,7 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
     if (m.turn.phase === 'move' && m.players[side].force.length) {
       for (const site of m.locations) for (const card of atSite(m, site)) {
         if (card.owner !== side || card.attachedTo || !canLandspeed(m, card.id)) continue;
-        for (const to of m.locations.filter(to => adjacent(m, site, to))) actions.push(action('move:' + card.id + ':' + to, 'Move ' + name(m, card.id) + ' to ' + name(m, to), 'move', {card: card.id, from: site, site: to}, {[side]: 1}));
+        for (const to of m.locations.filter(to => adjacent(m, site, to) && laserGateAllowsPassage(m,card.id,site,to))) actions.push(action('move:' + card.id + ':' + to, 'Move ' + name(m, card.id) + ' to ' + name(m, to), 'move', {card: card.id, from: site, site: to}, {[side]: 1}));
       }
     }
   }
@@ -196,12 +197,12 @@ export function groundResolve(m: Match, resolution: Resolution): void {
       if (m.data.nighttimeSites) m.data.nighttimeSites = (m.data.nighttimeSites as string[]).map(site => site === old ? id : site); m.cards[old].coveredBy = id; m.locations[m.locations.indexOf(old)] = id;
       for (const card of Object.values(m.cards)) {if (card.location === old) card.location = id; if(card.attachedTo===old)card.attachedTo=id; if(card.capturedShip?.host===old)card.capturedShip.host=id; if(card.captivity&&'prison' in card.captivity&&card.captivity.prison===old)card.captivity.prison=id; if (card.coveredBy === old) card.coveredBy = id;}
       const current = record(m); current.drained = current.drained.map(site => site === old ? id : site);
-      convertSectorRelationships(m,old,id);
+      convertSectorRelationships(m,old,id);convertLaserGateSite(m,old,id);
     } else {m.locations.splice(placement.index!, 0, id);}
     if(placement.sector)registerSector(m,id,placement.sector);if(placement.cave)registerCave(m,id,placement.cave);
     deployed(m, id);
   } else if (kind === 'ground:move') {
-    if (!sameCard(m, data.cardRef!) || m.cards[data.card!].attachedTo || m.cards[data.card!].location !== data.from || !canLandspeed(m,data.card!)) return;
+    if (!sameCard(m, data.cardRef!) || m.cards[data.card!].attachedTo || m.cards[data.card!].location !== data.from || !canLandspeed(m,data.card!) || !adjacent(m,data.from!,data.site!) || !laserGateAllowsPassage(m,data.card!,data.from!,data.site!)) return;
     moveWithAttachments(m, data.card!, data.site!); record(m).moved.push(data.card!);
     cancelDrainAfterReact(m, side, data);
     openWindow(m, 'response', other(side), {kind: 'moved', card: data.card!, from: data.from!, site: data.site!});

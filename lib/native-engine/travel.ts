@@ -1,4 +1,5 @@
 import {shieldMovement} from './hoth';
+import {laserGateAllowsPassage} from './laser-gate';
 import {unitsAt,isVessel,characterPresent,belowDecks} from './occupancy';
 import {movesFree} from './movement-costs';
 import {vesselRoutes, vesselMovementAction, vehicleDestination} from './vessel-travel';
@@ -43,7 +44,7 @@ const battleInitiation = (m: Match, w: Window) => {
   const parent = m.stack.at(-2);
   return w.timing === 'response' && parent?.kind === 'resolution' && parent.action.handler === 'battle:begin' && !parent.cancelled && !parent.awaitingResponses && battle(m)?.stage === 'begin';
 };
-const runEligible = (m: Match, id: string, to: string) => m.cards[id]?.zone === 'table' && m.cards[id].blueprint === '101_2' && !m.cards[id].attachedTo && !!m.cards[id].location && adjacent(m, m.cards[id].location!, to) && canLandspeed(m, id) && !battleHistory(m).participants.includes(id);
+const runEligible = (m: Match, id: string, to: string) => m.cards[id]?.zone === 'table' && m.cards[id].blueprint === '101_2' && !m.cards[id].attachedTo && !!m.cards[id].location && adjacent(m, m.cards[id].location!, to) && laserGateAllowsPassage(m,id,m.cards[id].location!,to) && canLandspeed(m, id) && !battleHistory(m).participants.includes(id);
 export function travelActions(m: Match, w: Window, side: Side): Action[] {
   const result: Action[] = [];
   if (w.timing === 'phase' && side === m.turn.side) {
@@ -95,7 +96,7 @@ function shuffle(m: Match, context: Context): void {shufflePile(m, 'dark', 'rese
 // Landed starships have ability but cannot use landspeed; nested cargo crew cannot exit directly.
 const escapeEligible = (m: Match, id: string, from: string, to: string) =>
   m.cards[id]?.zone === 'table' && cardDefinition(m,id).type === 'Character' && !belowDecks(m,id) &&
-  m.cards[id].location === from && canLandspeed(m,id) && adjacent(m,from,to);
+  m.cards[id].location === from && canLandspeed(m,id) && adjacent(m,from,to) && laserGateAllowsPassage(m,id,from,to);
 const originalRoute = (m: Match, p: Payload) =>
   (!p.fromRef || sameCard(m,p.fromRef)) && (!p.toRef || sameCard(m,p.toRef)) &&
   (!p.originRef || sameCard(m,p.originRef) && (m.cards[p.target!].attachedTo ?? m.cards[p.target!].location) === p.originRef.id);

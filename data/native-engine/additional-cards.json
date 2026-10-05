@@ -98,7 +98,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler’s Luck",
+    "name": "Gambler\u2019s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -3969,5 +3969,73 @@
     ],
     "status": "pending",
     "sourceClass": null
+  },
+  {
+    "gempId": "2_113",
+    "name": "Laser Gate",
+    "side": "dark",
+    "type": "Device",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/lasergate.gif",
+    "text": "Deploy between any two interior mobile sites. To pass, a character must have (power + ability) > 4 or use a Lift Tube (all other vehicles are blocked). Laser Gate defense value = 3; may be targeted (as if a character) by a character weapon from either site.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "A New Hope"
+    ],
+    "status": "pending",
+    "sourceClass": null
+  },
+  {
+    "gempId": "2_117",
+    "name": "Besieged",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/besieged.gif",
+    "text": "Deploy on a captured starship. Your characters present with captured starship may battle opponent's characters aboard it (as if present together at a site). Effect canceled if starship escapes or is stolen.",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [
+      "A New Hope"
+    ],
+    "status": "pending",
+    "sourceClass": null
+  },
+  {
+    "gempId": "2_57",
+    "name": "Sorry About The Mess",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/sorryaboutthemess.gif",
+    "text": "During your control phase, fire one of your weapons. If Han firing, may add 1 to each weapon destiny draw. (A seeker may be targeted by a character weapon, as if a character with defense value of 4.) Any 'hit' targets are immediately lost.",
+    "stats": {
+      "destiny": "4"
+    },
+    "icons": [
+      "A New Hope"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_057.java"
+  },
+  {
+    "gempId": "2_139",
+    "name": "Sniper",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/sniper.gif",
+    "text": "During your control phase, fire one of your weapons. If URoRRuR'R'R firing, may add 2 to each weapon destiny draw. (A seeker may be targeted by a character weapon, as if a character with defense value of 4.) Any 'hit' targets are immediately lost.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "A New Hope"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_139.java"
   }
 ]

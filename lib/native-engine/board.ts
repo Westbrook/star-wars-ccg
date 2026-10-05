@@ -1,3 +1,4 @@
+import {laserGateSeparates} from './laser-gate';
 import {shipSite} from './ship-sites';
 import {bionicHandBonus} from './bionic-hand';
 import {disarmedByEffect} from './weapon-carrying';
@@ -231,6 +232,7 @@ export function sitePlacements(m: Match, id: string): {id: string; label: string
   if (!group.length) return [{id: 'at:' + m.locations.length, label: 'Start the ' + system(m, id) + ' group', index: m.locations.length}];
   const first = m.locations.indexOf(group[0]);
   return Array.from({length: group.length + 1}, (_, i) => i).filter(i => {
+    const index=first+i;if(index>0&&index<m.locations.length&&laserGateSeparates(m,m.locations[index-1],m.locations[index]))return false;
     const order = [...group]; order.splice(i, 0, id);
     return caveOrder(m,order) && citySitesTogether(m, order) && locationOrder(m,order);
   }).map(i => ({id: 'at:' + (first + i), label: i === group.length ? 'Place after ' + name(m, group.at(-1)!) : 'Place before ' + name(m, group[i]), index: first + i}));

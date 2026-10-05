@@ -3,10 +3,10 @@ import {premiereSystems} from './premiere-setup';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './definitions';
 import {name,system,moveWithAttachments,presence} from './board';
-import {attachmentGroup,capturedShips,capturedShipFor,trappedCharacters} from './captured-ship-state';
+import {attachmentGroup,capturedShips,capturedShipFor,trappedCharacters,besiegedActiveCard,capturedShipActiveAttachment} from './captured-ship-state';
 import {capacityFits,vesselRule} from './occupancy';
 import {referenceCard,sameCard,assertCardReference,type CardReference} from './identity';
-import {escapeShipToUsed} from './table';
+import {escapeShipToUsed,loseFromTable} from './table';
 import {openWindow} from './runtime';
 import type {Battle} from './battle';
 import type {Decision,Json,Match,Resolution} from './types';
@@ -25,7 +25,7 @@ export function captureStarship(m:Match,id:string,host:string):void {
  const group=attachmentGroup(m,id);if(group.some(x=>x.zone!=='table'))throw Error('Invalid captured ship group.');
  const battle=m.data.battle as unknown as Battle|undefined;
  for(const card of group){
-  card.zone='inactive';card.location=location;
+  card.zone=card.blueprint==='2_117'?'table':'inactive';card.location=location;
   if(battle&&battle.stage!=='complete'){
    if(Object.values(battle.participants).some(ids=>ids.includes(card.id))&&!(battle.departed??=[]).includes(card.id))battle.departed.push(card.id);
    battle.hits=battle.hits.filter(x=>x!==card.id);
@@ -76,6 +76,8 @@ export function capturedShipChoices(m:Match,d:Decision){
 export function capturedShipChoose(m:Match,d:Decision,choice:string):void {
  if(!capturedShipChoices(m,d).some(c=>c.id===choice))throw Error('Invalid captured ship destination.');
  const p=d.payload as unknown as Transition,c=m.cards[p.target.id];
+ const besieged=attachmentGroup(m,c.id).filter(e=>e.blueprint==='2_117').map(e=>e.id);
+ if(p.mode==='steal'||choice==='captured-ship:escape')if(besieged.length)loseFromTable(m,besieged);
  if(choice==='captured-ship:escape'){escapeShipToUsed(m,c.id);return;}
  const location=choice.slice('captured-ship:launch:'.length),group=attachmentGroup(m,c.id);
  for(const card of group){
@@ -104,7 +106,7 @@ export function assertCapturedShips(m:Match):void {
   }
   const root=capturedShipFor(m,c.id);
   if(root){
-   if(c.zone!=='inactive'||c.location!==root.location||c.captivity)throw Error('Invalid trapped ship occupant.');
+   if(c.zone!=='inactive'&&!besiegedActiveCard(m,c.id)&&!capturedShipActiveAttachment(m,c.id)||c.location!==root.location||c.captivity)throw Error('Invalid trapped ship occupant.');
    if(c.id!==root.id&&cardDefinition(m,c.id).type==='Character'&&!c.aboardRole)throw Error('Trapped character needs an aboard role.');
    if(vesselRule(m,c.id)&&!capacityFits(m,c.id,attachmentGroup(m,c.id).filter(x=>x.attachedTo===c.id&&x.aboardRole).map(x=>({id:x.id,role:x.aboardRole!}))))throw Error('Captured ship crew exceeds capacity.');
   }

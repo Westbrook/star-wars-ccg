@@ -1,15 +1,17 @@
 {
-  "reviewedAt": "2026-10-05T11:18:45.044099+00:00",
+  "reviewedAt": "2026-10-05T11:52:54.294707+00:00",
   "status": "numerical-failure-amount-unresolved",
   "rulesSources": [
     "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
-    "https://forum.starwarsccg.org/viewtopic.php?t=77226"
+    "https://forum.starwarsccg.org/viewtopic.php?t=77226",
+    "https://www.starwarsccg.org/rules/",
+    "https://forum.starwarsccg.org/viewtopic.php?t=83345"
   ],
   "referenceEvidence": "duel-provenance.json and duel-results.json; reused executed observations, no new GEMP execution claimed",
   "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
   "findings": [
     "AR Failed Destiny Draws determines the winner when exactly one side completes any destiny draw and specifies no winner when both fail.",
-    "AR distinguishes an absent total from a successful zero. Neither the reviewed rulebook entry nor the reviewed PC ruling supplies a numerical Vader\u2019s Obsession difference for the absent total.",
+    "AR distinguishes an absent total from a successful zero. Neither the reviewed rulebook entry nor the reviewed PC ruling supplies a numerical Vader’s Obsession difference for the absent total.",
     "Pinned Card101_006 retains base power when no destiny succeeds. Its executed outcomes disagree with the official failed-destiny winner in the recorded Dark-failure and both-fail cases; that cannot establish the missing arithmetic.",
     "The native unresolved amount guard remains. Recovered result validation now prevents replacing that null with a number or changing the absent destiny total to zero. Determined winners and differences are validated against saved final totals without re-reading subsequently changed power."
   ],
@@ -18,5 +20,47 @@
     "duel.test.mjs",
     "duel-modifiers.test.mjs"
   ],
-  "limits": "This is a rules review and durable-state integrity fix, not resolution of the numerical ambiguity, new gameplay conformance, or production deck admission. Existing full-engine obligations remain."
+  "limits": "Fresh primary-source review and byte comparison only. Direct PC forum retrieval was unavailable; indexed content was used. No native implementation edits, new tests, GEMP executions, or production admission. Existing full-engine obligations remain.",
+  "currentSourceReview": {
+    "reviewedCommit": "2f64958baf688ad3f28be53115cff57f96ed38b3",
+    "committedAt": "2026-10-05T00:57:32Z",
+    "commitUrl": "https://github.com/PlayersCommittee/gemp-swccg-public/commit/2f64958baf688ad3f28be53115cff57f96ed38b3",
+    "method": "Fetched current public master commit metadata and exact raw files; byte-compared against the existing pinned reference checkout. No GEMP execution performed.",
+    "files": [
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_006.java",
+        "sha256": "5ec3fb13a61583c8d71c808d6d42c020d9c820600fd1c44fc56f28d1161eb602",
+        "identicalToPinned": true
+      },
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/game/state/DuelState.java",
+        "sha256": "0ffacde6a67eed2b64d1dab66661199fee38512382b56dcd44f9702c0d32c8a8",
+        "identicalToPinned": true
+      },
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/DuelResultsEffect.java",
+        "sha256": "ed9c92fd650f90a55a178ff3ed0f2294ff5edeca870324e6e01e37552baf00d6",
+        "identicalToPinned": true
+      },
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/DuelEffect.java",
+        "sha256": "45c9347827d9331db129201cc6dfd61840842e15d50b0a32b0d9e60635bbc858",
+        "identicalToPinned": true
+      },
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/DrawDestinyEffect.java",
+        "sha256": "20766d22cf4c910b6703c682a1d537f67be18c01f4021d1569937d9c755b7ec9",
+        "identicalToPinned": true
+      }
+    ]
+  },
+  "freshReviewFindings": [
+    "The PC rules index still lists the 2023 Advanced Rulebook. Its Values & Numbers - Undefined Values entry (pp29-30) exempts nonexistent destiny from the usual undefined-as-zero rule.",
+    "AR p31 supplies automatic loss after one-sided failure and neither winner nor loser after both fail. The Obsession/Brainiac example (p139) concerns successful numerical draws; Dueling (pp165-166) provides resolution order. None establishes arithmetic for a one-sided absent destiny total.",
+    "The current Appendix F thread 83345 was reviewed through indexed PC content because direct forum requests return HTTP 403. No relevant replacement rule or non-virtual Obsession erratum was found there. This is a qualified search finding, not a claim that all possible rulings were exhaustively accessible.",
+    "All five directly relevant current GEMP files are byte-identical to the pinned source. Card101_006 skips adding absent destiny, DuelState compares remaining numerical totals, and the card subtracts loser total from winner total. The previously executed divergence remains evidence against using this implementation as the official failed-destiny interpretation.",
+    "The public GEMP issue search for Obsession returned issues 324, 559, 622, and 699; their subjects concern Epic Duel, targeting, cancellation or response timing, not the missing Force-difference amount."
+  ],
+  "unresolvedQuestion": "For non-virtual Vader’s Obsession, when exactly one player has no destiny total and therefore loses automatically under AR p31, what numerical difference determines Force retrieval and loss? Specifically, does the failing character retain base power for this calculation, is any resulting signed difference clamped or made absolute, or do the numerical results not occur? Existing sources establish the winner but do not select among these interpretations.",
+  "implementationChange": "None in this review. Existing null amount and atomic guard retained; no invented numerical result or new conformance claim."
 }

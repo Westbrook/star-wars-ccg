@@ -2,7 +2,8 @@ import {addBattlePower} from './battle-power';
 import {ability} from './ability';
 import {addBattleDrawModifier} from './battle-destiny';
 import {battle,members} from './battle';
-import {cardDefinition,isSite,isWarrior,name} from './board';
+import {cardDefinition,isWarrior,name} from './board';
+import {battleAtSite} from './participation';
 import {assertCardReference,referenceCard,type CardReference} from './identity';
 import {crewActive,unitsAt} from './occupancy';
 import {hasPersona} from './persona';
@@ -29,9 +30,9 @@ export function battleInterruptActions(m:Match,w:Window,side:Side):Action[]{
   if(!weapons)continue;
   if(bp==='1_110')for(const luke of participants.filter(id=>hasPersona(m,id,'LUKE')))for(const leia of participants.filter(id=>hasPersona(m,id,'LEIA')))offer([luke,leia],2);
   if(['1_82','1_76'].includes(bp))for(const luke of participants.filter(id=>hasPersona(m,id,'LUKE')))for(const partner of participants.filter(id=>bp==='1_76'?hasPersona(m,id,'HAN'):hasPersona(m,id,'OBIWAN')||hasPersona(m,id,'YODA')))offer([luke,partner],2);
-  if(bp==='1_277'&&isSite(m,b.site)){const defenders=participants.filter(id=>m.cards[id].owner!==b.initiator&&aloneInBattle(m,id));if(defenders.some(id=>hasPersona(m,id,'VADER')))offer([],1,1);else if(defenders.some(id=>cardDefinition(m,id).subType==='Imperial'&&ability(m,id)>2))offer([],1);}
+  if(bp==='1_277'&&battleAtSite(m)){const defenders=participants.filter(id=>m.cards[id].owner!==b.initiator&&aloneInBattle(m,id));if(defenders.some(id=>hasPersona(m,id,'VADER')))offer([],1,1);else if(defenders.some(id=>cardDefinition(m,id).subType==='Imperial'&&ability(m,id)>2))offer([],1);}
   if(bp==='1_116')for(const luke of participants.filter(id=>hasPersona(m,id,'LUKE')))for(const imperial of participants.filter(id=>cardDefinition(m,id).subType==='Imperial'&&ability(m,id)>2))offer([luke,imperial],hasPersona(m,imperial,'VADER')?2:1);
-  if(bp==='1_119'&&isSite(m,b.site))for(const id of participants.filter(id=>m.cards[id].owner!==b.initiator&&aloneInBattle(m,id))){if(m.cards[id].owner===side&&isWarrior(m,id))offer([id],1);if(hasPersona(m,id,'LEIA'))offer([id],2);}
+  if(bp==='1_119'&&battleAtSite(m))for(const id of participants.filter(id=>m.cards[id].owner!==b.initiator&&aloneInBattle(m,id))){if(m.cards[id].owner===side&&isWarrior(m,id))offer([id],1);if(hasPersona(m,id,'LEIA'))offer([id],2);}
  }
  return result;
 }
@@ -56,11 +57,11 @@ export function assertBattleInterrupts(m:Match){
    if(p.targets.length!==1||p.amount!==1||cardDefinition(m,p.targets[0].id).type!=='Starship'||m.cards[p.targets[0].id].owner!==r.actor||parent?.kind!=='resolution'||parent.action.handler!=='battle:begin'||b.initiator===r.actor||!['System','Sector'].includes(cardDefinition(m,p.site.id).subType)||r.action.payment?.[r.actor]!==1)throw Error('Invalid Out Of Nowhere binding.');
   }else{
    if((w.event as {kind?:string})?.kind!=='battle-weapons'||r.action.payment)throw Error('Invalid battle addition timing.');
-   if(bp==='1_277'&&(p.targets.length!==0||p.amount!==1||!isSite(m,p.site.id)))throw Error('Invalid Vader’s Eye mode.');
+   if(bp==='1_277'&&(p.targets.length!==0||p.amount!==1||!battleAtSite(m)))throw Error('Invalid Vader’s Eye mode.');
    if(['1_82','1_76'].includes(bp)&&(p.targets.length!==2||p.amount!==2||!hasPersona(m,p.targets[0].id,'LUKE')||!(bp==='1_76'?hasPersona(m,p.targets[1].id,'HAN'):hasPersona(m,p.targets[1].id,'OBIWAN')||hasPersona(m,p.targets[1].id,'YODA'))))throw Error('Invalid mentor/cocky pair.');
    if(bp==='1_110'&&(p.targets.length!==2||p.amount!==2||!hasPersona(m,p.targets[0].id,'LUKE')||!hasPersona(m,p.targets[1].id,'LEIA')))throw Error('Invalid Skywalkers targets.');
    if(bp==='1_116'&&(p.targets.length!==2||!hasPersona(m,p.targets[0].id,'LUKE')||cardDefinition(m,p.targets[1].id).subType!=='Imperial'||p.amount!==(hasPersona(m,p.targets[1].id,'VADER')?2:1)))throw Error('Invalid Force Is Strong targets.');
-   if(bp==='1_119'&&(p.targets.length!==1||!isSite(m,p.site.id)||cardDefinition(m,p.targets[0].id).type!=='Character'||p.amount===2&&!hasPersona(m,p.targets[0].id,'LEIA')||p.amount===1&&m.cards[p.targets[0].id].owner!==r.actor))throw Error('Invalid Warrior’s Courage target.');
+   if(bp==='1_119'&&(p.targets.length!==1||!battleAtSite(m)||cardDefinition(m,p.targets[0].id).type!=='Character'||p.amount===2&&!hasPersona(m,p.targets[0].id,'LEIA')||p.amount===1&&m.cards[p.targets[0].id].owner!==r.actor))throw Error('Invalid Warrior’s Courage target.');
   }
  }
 }

@@ -1,0 +1,1322 @@
+{
+  "schema": 1,
+  "auditedAt": "2026-10-05T11:58:52.787647+00:00",
+  "scope": "Only duel pre-result original-participant return and accident changed-target-group reachability in the exact 68-definition intro pair. Not full card/deck certification.",
+  "classification": "outside-current-pair",
+  "productionAdmission": "closed",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "conclusion": "No exact starter provider supplies the necessary departure/return or late arrival while either reviewed action is pending. This follows the complete timing-predicate inventory and is corroborated by actual reference and native menus, not by controlled board mutations. Existing wider-engine discrepancies remain required.",
+  "conditions": [
+    "Exact intro-light and intro-dark physical counts below; no external card grants, objective or starting-effect modifications.",
+    "All relevant response windows are restricted to responses to their immediate action/event; an older battle-initiation event is not reoffered during nested accident resolution.",
+    "Earlier legal removal, reaction, mine or deployment actions complete before the reviewed Interrupt initiates; their outcomes determine initial legal targets.",
+    "Duplicate starter copies do not create a different timing permission. Unique use limits can remove an option; inventory starts with those options unused.",
+    "Any change to exact counts, definitions, referenced card predicates or immediate-response semantics requires review."
+  ],
+  "deckFingerprints": {
+    "intro-light": "49c5ec2c109f8edb1cfa7b9a471d5bb60301e78e1e60574565232cfe95541707",
+    "intro-dark": "277059fa0f510581ec4c59ba2f392ed6da9522e581a761706fc61815ac0063ec"
+  },
+  "groups": [
+    {
+      "id": "battle-initiation",
+      "cards": [
+        "101_3",
+        "1_237",
+        "1_279",
+        "1_315",
+        "1_77",
+        "1_80",
+        "1_91",
+        "1_98"
+      ],
+      "duelPredicate": "Requires battle initiation, absent throughout the Dark MOVE duel chain. Run Luke separately may cancel Obsession while it is being played; cancellation prevents the duel and does not move either participant.",
+      "accidentPredicate": "Battle-initiation responses are offered before playing an accident and again after it completes, not inside the accident or its generic destiny draw. No nested battle-initiation event occurs. Chances booster requires its opposite Chances Interrupt; an accident is neither Chances card. Gaderffii disables a weapon but requires the same older battle-initiation event."
+    },
+    {
+      "id": "deployment-reactions",
+      "cards": [
+        "1_201",
+        "1_30",
+        "1_6"
+      ],
+      "duelPredicate": "CZ-3, Comlink and Wolfman require opponent battle/drain initiation. Vader moving or initiating a duel supplies neither event.",
+      "accidentPredicate": "A pending accident is not a new battle/drain initiation. These grants cannot deploy or move a late character into the target group. Earlier responses finish before accident targeting, so their resulting participants belong to the initial group."
+    },
+    {
+      "id": "general-actions",
+      "cards": [
+        "1_106",
+        "1_115",
+        "1_224",
+        "1_251",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_275",
+        "1_35"
+      ],
+      "duelPredicate": "Set For Stun, inspections, shuffles, scavenging and Reinforcements use top-level actions. A pending Interrupt/duel/destiny response is not top-level. Stun could remove Luke before Obsession is played only if its own legal action window existed; that would change initiation eligibility, not produce a departure/return inside the duel.",
+      "accidentPredicate": "The same top-level restriction excludes hand return, retrieval and inspection during an accident or its generic destiny draw. At-any-time text does not itself create a valid response to every action."
+    },
+    {
+      "id": "control-only",
+      "cards": [
+        "1_120"
+      ],
+      "duelPredicate": "We're Doomed requires opponent CONTROL; Obsession runs in Dark MOVE.",
+      "accidentPredicate": "We're Doomed requires opponent CONTROL; accidents run in BATTLE."
+    },
+    {
+      "id": "force-drain-response",
+      "cards": [
+        "1_113",
+        "1_238"
+      ],
+      "duelPredicate": "No Force drain is initiated inside a pending duel.",
+      "accidentPredicate": "No Force drain is initiated inside a pending accident."
+    },
+    {
+      "id": "deployed-response",
+      "cards": [
+        "1_105",
+        "1_249"
+      ],
+      "duelPredicate": "Barriers respond only to actual deployment. Adjacent Vader movement and duel destiny are not deployment; no other starter grants a deployment inside this chain.",
+      "accidentPredicate": "No deployment occurs inside the accident chain. Barriers do not act on a character that merely moves, is selected or draws destiny."
+    },
+    {
+      "id": "battle-destiny-response",
+      "cards": [
+        "1_269",
+        "1_84"
+      ],
+      "duelPredicate": "Han's Dice and Takeel require battle destiny; Obsession draws DUEL_DESTINY. They cannot replace a duel draw or remove/return a duelist.",
+      "accidentPredicate": "Han's Dice and Takeel require battle destiny; an accident draws untyped card destiny, not battle destiny. They cannot change its target group."
+    },
+    {
+      "id": "force-loss-response",
+      "cards": [
+        "1_252",
+        "1_90"
+      ],
+      "duelPredicate": "A pre-result duel does not lose Force. After determined results, It Could Be Worse can reduce an actual Force loss; neither modifier relocates a character. It's Worse additionally depends on its specific loss/Interrupt response, not destiny merely being drawn.",
+      "accidentPredicate": "An accident loses a character, not Force. Neither Force-loss modifier provides a pending-accident departure/return/arrival."
+    },
+    {
+      "id": "lost-character-response",
+      "cards": [
+        "1_100",
+        "1_254"
+      ],
+      "duelPredicate": "No character is lost or forfeited before duel results in this exact-provider chain. After results, Kintan can retrieve the top Lost Pile character to hand; no deployment response follows. Old Ben requires forfeiture, not duel loss.",
+      "accidentPredicate": "The casualty is chosen after destiny comparison, when the target group has already served its purpose. Kintan can then retrieve a character to hand; it cannot enter the current target group. Ordinary loss is not forfeiture and never grants Old Ben. No second casualty is selected by either accident."
+    },
+    {
+      "id": "duel",
+      "cards": [
+        "101_6"
+      ],
+      "duelPredicate": "Obsession requires completed adjacent Vader movement in Dark MOVE. No second move event happens inside the pending duel. Its cancellation is handled separately by Run Luke; that branch prevents the duel rather than changing either original character.",
+      "accidentPredicate": "Obsession requires Dark MOVE; accident is in BATTLE, and no starter creates a qualifying move event inside it."
+    },
+    {
+      "id": "vader-choke",
+      "cards": [
+        "101_5"
+      ],
+      "duelPredicate": "Choke requires losing a battle, absent during a MOVE-phase duel.",
+      "accidentPredicate": "Choke requires battle result, after battle-initiation accident has completed."
+    },
+    {
+      "id": "talz-forfeit",
+      "cards": [
+        "1_31"
+      ],
+      "duelPredicate": "Talz requires resolving battle damage/attrition and a hit character, absent in MOVE duel.",
+      "accidentPredicate": "An accident loses a character at battle initiation; it does not hit with a weapon or enter battle damage/attrition. Talz cannot forfeit now."
+    },
+    {
+      "id": "mining-droids",
+      "cards": [
+        "1_18",
+        "1_186"
+      ],
+      "duelPredicate": "Ordinary mine defusing is top-level; special defusing needs a triggered mine. No arrival occurs between duel initiation and result.",
+      "accidentPredicate": "Ordinary defusing is top-level; an accident causes no movement/arrival. Defusing only removes a mine and never inserts a character into the accident group."
+    },
+    {
+      "id": "timer-mines",
+      "cards": [
+        "1_162",
+        "1_322"
+      ],
+      "duelPredicate": "Turn-begin mine triggers and buried-mine arrival triggers finish in their own timing sequence. A mine may trigger on Vader's approach before Obsession; the resulting state determines whether the duel may initiate. No move occurs after Obsession starts, so no mine can interrupt a pre-result participant via a new arrival.",
+      "accidentPredicate": "Turn-begin is not battle initiation; the accident creates no arrival. Earlier battle reaction mine effects finish before accident initiation, establishing its initial targets. No mine can fire merely because accident destiny is drawn."
+    },
+    {
+      "id": "ordinary-character",
+      "cards": [
+        "101_2",
+        "1_12",
+        "1_170",
+        "1_181",
+        "1_182",
+        "1_194",
+        "1_196",
+        "1_26",
+        "1_28"
+      ],
+      "duelPredicate": "Printed stat/deploy restrictions grant no response to a duel/destiny; ordinary movement/deployment cannot interrupt a duel.",
+      "accidentPredicate": "Printed stat/deploy restrictions grant no response to an accident/destiny; ordinary movement/deployment cannot interrupt its target selection or result."
+    },
+    {
+      "id": "ordinary-location",
+      "cards": [
+        "101_1",
+        "101_4",
+        "1_124",
+        "1_129",
+        "1_130",
+        "1_131",
+        "1_132",
+        "1_284",
+        "1_285",
+        "1_291",
+        "1_292",
+        "1_293",
+        "1_295"
+      ],
+      "duelPredicate": "Location placement/conversion and Docking Control search require DEPLOY; the duel is in MOVE and has no top-level action window. Continuous location stats cannot change physical identity.",
+      "accidentPredicate": "Location placement/conversion and search require DEPLOY; accident is in BATTLE. Continuous stats do not create a new participant or remove an existing one."
+    },
+    {
+      "id": "ordinary-weapon",
+      "cards": [
+        "1_152",
+        "1_153",
+        "1_312",
+        "1_317"
+      ],
+      "duelPredicate": "These weapons fire in battle weapons segment or an attack; there is no battle/attack during the duel.",
+      "accidentPredicate": "Accident is a battle-initiation response, before weapons segment. Its generic destiny draw does not grant weapon firing."
+    },
+    {
+      "id": "ordinary-device",
+      "cards": [
+        "1_207",
+        "1_40"
+      ],
+      "duelPredicate": "Utility belts only continuously modify stats; they grant no participant departure/return.",
+      "accidentPredicate": "Utility belts only continuously modify stats; they grant no target group change."
+    },
+    {
+      "id": "ordinary-effect",
+      "cards": [
+        "1_221",
+        "1_64"
+      ],
+      "duelPredicate": "Sai'torr/Ket modify warrior/power after deployment; no top-level DEPLOY window exists in the duel.",
+      "accidentPredicate": "Sai'torr/Ket modify warrior/power after deployment; no top-level DEPLOY window exists inside an accident."
+    }
+  ],
+  "cards": [
+    {
+      "gempId": "101_1",
+      "name": "Death Star: Level 6 Core Shaft Corridor",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_001.java",
+      "sourceSha256": "bfe8d6d53c7ad80625a9ca1d2441c8b1dcd1cef5597be4594d04c1a4ff013c53",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "d1d298ebd42248952516b4516d76e20055dc2e82bdbecc65da67a0109a044bdc"
+    },
+    {
+      "gempId": "101_2",
+      "name": "Luke",
+      "type": "Character",
+      "group": "ordinary-character",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_002.java",
+      "sourceSha256": "481f063a677df5d8145a64934de8a7d4cf0fe0d9a1a94667aa18d9289bc56d21",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "779893e05db704ca45a980a75e211c54348d7c76e095990b0883d0a4c5f0ce95"
+    },
+    {
+      "gempId": "101_3",
+      "name": "Run Luke, Run!",
+      "type": "Interrupt",
+      "group": "battle-initiation",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_003.java",
+      "sourceSha256": "cf67b84f963fd847f812f2f29135f2cd8971d817cadee1f59e5dc14f36081f3f",
+      "timingPredicates": [
+        {
+          "line": 45,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, final SwccgGame game, final EffectResult effectResult, final PhysicalCard self) {\n        Filter filter = Filters.and(Filters.Luke, Filters.movableAsRegularMoveUsingLandspeed(playerId, false, false, true, 0, null, Filters.battleLocation));"
+        },
+        {
+          "line": 49,
+          "text": "if (TriggerConditions.battleInitiatedAt(game, effectResult, Filters.adjacentSiteTo(self, filter))) {\n            final PhysicalCard battleLocation = game.getGameState().getBattleLocation();\n            if (GameConditions.canTarget(game, self, filter)) {"
+        },
+        {
+          "line": 91,
+          "text": "protected List<PlayInterruptAction> getGameTextTopLevelActions(final String playerId, SwccgGame game, final PhysicalCard self) {\n        // Check condition(s)\n        if (GameConditions.canTargetToCancel(game, self, Filters.Vaders_Obsession)) {"
+        },
+        {
+          "line": 104,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalBeforeActions(String playerId, SwccgGame game, Effect effect, PhysicalCard self) {\n        // Check condition(s)\n        if (TriggerConditions.isPlayingCard(game, effect, Filters.Vaders_Obsession)"
+        },
+        {
+          "line": 106,
+          "text": "if (TriggerConditions.isPlayingCard(game, effect, Filters.Vaders_Obsession)\n                && GameConditions.canCancelCardBeingPlayed(game, self, effect)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "4c8f4a1edc73fe482200c57b9e0e3da2b55b93fe014077b186b271c65ebc984d"
+    },
+    {
+      "gempId": "101_4",
+      "name": "Death Star: Docking Control Room 327",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_004.java",
+      "sourceSha256": "3a23b2c83e26f00c02c908682c18ffde457cdf6d1be1beaefe6f7cf773ca7e81",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "e3cbc0f90f4b4ede137266254cd5d6668dc900f8bd3e63a2c64c3bfe893d833c"
+    },
+    {
+      "gempId": "101_5",
+      "name": "Vader",
+      "type": "Character",
+      "group": "vader-choke",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_005.java",
+      "sourceSha256": "79231df7e91620a7d245159dfcfb321f9fefe6b9cd3275e003f96c405ac21733",
+      "timingPredicates": [
+        {
+          "line": 66,
+          "text": "protected List<RequiredGameTextTriggerAction> getGameTextRequiredAfterTriggers(SwccgGame game, EffectResult effectResult, final PhysicalCard self, int gameTextSourceCardId) {\n        final String playerId = self.getOwner();"
+        },
+        {
+          "line": 70,
+          "text": "if (TriggerConditions.lostBattle(game, effectResult, playerId)\n                && GameConditions.isInBattle(game, self)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "e2521c26fa61143160f2e7762b31c401d97d3be022d09cac55ae3db22271d775"
+    },
+    {
+      "gempId": "101_6",
+      "name": "Vader's Obsession",
+      "type": "Interrupt",
+      "group": "duel",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_006.java",
+      "sourceSha256": "5ec3fb13a61583c8d71c808d6d42c020d9c820600fd1c44fc56f28d1161eb602",
+      "timingPredicates": [
+        {
+          "line": 61,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, final EffectResult effectResult, final PhysicalCard self) {\n        // Check condition(s)\n        if (GameConditions.isDuringYourPhase(game, self, Phase.MOVE)) {"
+        },
+        {
+          "line": 63,
+          "text": "if (GameConditions.isDuringYourPhase(game, self, Phase.MOVE)) {\n            final Filter darkSideFilter = Filters.or(game.getModifiersQuerying().getValidDuelParticipant(game.getGameState(), self, Side.DARK));\n            Filter lightSideFilter = game.getModifiersQuerying().getValidDuelParticipant(game.getGameState(), self, Side.LIGHT);"
+        },
+        {
+          "line": 66,
+          "text": "if (TriggerConditions.movedFromLocationToLocation(game, effectResult, darkSideFilter, Filters.adjacentSiteTo(self, lightSideFilter), Filters.sameSiteAs(self, lightSideFilter))) {\n                MovedResult movedResult = (MovedResult) effectResult;\n                final Collection<PhysicalCard> movedCards = Filters.filter(movedResult.getMovedCards(), game, darkSideFilter);"
+        }
+      ],
+      "manifestDefinitionSha256": "75dc533ac04a7f721e4173cb0c6ebf3664aae8ce415e36eb4b99cfe8dd482ecc"
+    },
+    {
+      "gempId": "1_100",
+      "name": "Old Ben",
+      "type": "Interrupt",
+      "group": "lost-character-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_100.java",
+      "sourceSha256": "5bc251a5895bf0e2fa59a1ee0658f9530d7ca5b6403b35ecc55aae70168facf8",
+      "timingPredicates": [
+        {
+          "line": 40,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, EffectResult effectResult, final PhysicalCard self) {\n        // Check condition(s)\n        if (TriggerConditions.justForfeitedToLostPileFromLocation(game, effectResult, Filters.and(Filters.your(self),"
+        },
+        {
+          "line": 42,
+          "text": "if (TriggerConditions.justForfeitedToLostPileFromLocation(game, effectResult, Filters.and(Filters.your(self),\n                Filters.character, Filters.except(Filters.ObiWan), Filters.canBeTargetedBy(self)), Filters.Tatooine_site)\n                && GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)"
+        }
+      ],
+      "manifestDefinitionSha256": "816ce0b5e1ccbb9980719d5f811e42040bc4a48a198e8b0f772d1ee14eaaef4e"
+    },
+    {
+      "gempId": "1_105",
+      "name": "Rebel Barrier",
+      "type": "Interrupt",
+      "group": "deployed-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_105.java",
+      "sourceSha256": "b222e9fb3f03e0a49ff4cded56c99edc7128e0c03193d5ad482121d62ac401c1",
+      "timingPredicates": [
+        {
+          "line": 44,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, EffectResult effectResult, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);\n        final Filter filter = Filters.and(Filters.opponents(self), Filters.or(Filters.character, Filters.starship), Filters.canBeTargetedBy(self));"
+        },
+        {
+          "line": 49,
+          "text": "if (TriggerConditions.justDeployed(game, effectResult, opponent, filter)\n                && GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)) {\n            final PlayCardResult playCardResult = (PlayCardResult) effectResult;"
+        }
+      ],
+      "manifestDefinitionSha256": "e1acaaf24f18e509d8155bc6f76b7e9b3dfdeb02ca33d7fb5ae93954427fd7aa"
+    },
+    {
+      "gempId": "1_106",
+      "name": "Rebel Reinforcements",
+      "type": "Interrupt",
+      "group": "general-actions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_106.java",
+      "sourceSha256": "86c240386511dc81ce1a29bd8cc6109e7103f02af36332aa5f1b7829cc0beb29",
+      "timingPredicates": [
+        {
+          "line": 37,
+          "text": "protected List<PlayInterruptAction> getGameTextTopLevelActions(final String playerId, SwccgGame game, final PhysicalCard self) {\n        // Check condition(s)\n        if (GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)"
+        }
+      ],
+      "manifestDefinitionSha256": "5c8bf1824923d9f553a0acb46987995b58dbb659f0b4ae0c20cd921004ae7fc0"
+    },
+    {
+      "gempId": "1_113",
+      "name": "Surprise Assault",
+      "type": "Interrupt",
+      "group": "force-drain-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_113.java",
+      "sourceSha256": "377977edfee54871eeb0ef17f4f7f611cf37842922a5148450edd124af76d210",
+      "timingPredicates": [
+        {
+          "line": 45,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, final EffectResult effectResult, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 49,
+          "text": "if (TriggerConditions.forceDrainInitiatedAt(game, effectResult, Filters.canBeTargetedBy(self))\n                && GameConditions.canCancelForceDrain(game, self)\n                && GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "c313fa4748b7414b86fac36e1aef35106b906df1905f76d595a8f6afc70e4f47"
+    },
+    {
+      "gempId": "1_115",
+      "name": "The Bith Shuffle",
+      "type": "Interrupt",
+      "group": "general-actions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_115.java",
+      "sourceSha256": "5d043327663e7a756d06ef4de7dcfab3865e53f69383b31496d43dc5232de8f5",
+      "timingPredicates": [
+        {
+          "line": 37,
+          "text": "protected List<PlayInterruptAction> getGameTextTopLevelActions(final String playerId, SwccgGame game, final PhysicalCard self) {\n        String opponent = game.getOpponent(playerId);"
+        }
+      ],
+      "manifestDefinitionSha256": "66811ec68f658841e90cf6c364bc09c3d0fafa88f89ba0b42bfd31bf6533d690"
+    },
+    {
+      "gempId": "1_12",
+      "name": "Jawa",
+      "type": "Character",
+      "group": "ordinary-character",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_012.java",
+      "sourceSha256": "0c5ecb94b93cc9922909259da7545f3db524bf84df31ea7916711dd7aa74bbb8",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "9eaf6e5323766a033c88584689da77d16b1669ce55a38546a2a648d1c0a70fa3"
+    },
+    {
+      "gempId": "1_120",
+      "name": "We're Doomed",
+      "type": "Interrupt",
+      "group": "control-only",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_120.java",
+      "sourceSha256": "01bac6f1dfcfa884b462b8c695876e912492ebf82de753898a5d3f8a82207a31",
+      "timingPredicates": [
+        {
+          "line": 43,
+          "text": "protected List<PlayInterruptAction> getGameTextTopLevelActions(final String playerId, SwccgGame game, final PhysicalCard self) {\n        // Check condition(s)\n        if (GameConditions.isDuringOpponentsPhase(game, self, Phase.CONTROL)"
+        },
+        {
+          "line": 45,
+          "text": "if (GameConditions.isDuringOpponentsPhase(game, self, Phase.CONTROL)\n                && GameConditions.hasLifeForceLessThan(game, playerId, 15)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "e9ed2a644f87378c2cf9b5e9addf3bd98419ac7f93dfdd8f629d1442457a5554"
+    },
+    {
+      "gempId": "1_124",
+      "name": "Death Star: Docking Bay 327",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_124.java",
+      "sourceSha256": "8a1b6e3afc8aee05c155f6b01a8cd7226286c34c4b5fdb0110a887d6eddc3231",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "4027f428bab955a6fb17f2f4292ac43395bb45f2e92a1b83a38fc3e305fc3219"
+    },
+    {
+      "gempId": "1_129",
+      "name": "Tatooine: Docking Bay 94",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_129.java",
+      "sourceSha256": "f27f305abf4d3e6cfa5db5d8693e9812ca4e0089ad3556b274bf109994c20bf7",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "a88691e21f99c242a26e5455293f38be7fcba86caf18ff14eb08fbec86adf3b8"
+    },
+    {
+      "gempId": "1_130",
+      "name": "Tatooine: Dune Sea",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_130.java",
+      "sourceSha256": "5e887e78cae35c980cdc954cb2ab486cc5e8ee0dbac7dfc4ccc970a39d90c668",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "fc07d4c452396d59cb4c4dee9dcc0d5259e068fdb590e3c7e0b7a69aa2b6256c"
+    },
+    {
+      "gempId": "1_131",
+      "name": "Tatooine: Jawa Camp",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_131.java",
+      "sourceSha256": "8ebbc93d841d2a2be49fa23d48d6bf9e9a697fad06f77b351e8971f2cf2c644d",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "f0b21fcddeda3e83d3681cc69e6a302cbaac2cd37cee9f79717c2ca902f27344"
+    },
+    {
+      "gempId": "1_132",
+      "name": "Tatooine: Lars' Moisture Farm",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_132.java",
+      "sourceSha256": "4487d9a8ac7d0f287cfc561e397db7d1706bcc731cdefe93575a163ea5a74cd3",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "5e5016882111de104a6f9639e1995171cbd76d5e4b17a1d71277a6e4e8b98fb9"
+    },
+    {
+      "gempId": "1_152",
+      "name": "Blaster",
+      "type": "Weapon",
+      "group": "ordinary-weapon",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_152.java",
+      "sourceSha256": "dcc439e64266c4f71c15519f48a4e8fedf4180d6a308199bfce874e72dc3b724",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "a1b9393b469f95f419745205fbce06d271c1832e0441db33f708fbdbaf6710b3"
+    },
+    {
+      "gempId": "1_153",
+      "name": "Blaster Rifle",
+      "type": "Weapon",
+      "group": "ordinary-weapon",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_153.java",
+      "sourceSha256": "9deabfec5ef996508aaa47b7259aaf0d052f60ed316d6f5c5bc88df7b1d849e9",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "5b8cfdbbf672c695d6027fd29bb335e92349254e4f88bd93682893664ed79462"
+    },
+    {
+      "gempId": "1_162",
+      "name": "Timer Mine",
+      "type": "Weapon",
+      "group": "timer-mines",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_162.java",
+      "sourceSha256": "39d96910d9650fcca7e39903f664dda89430a2760ea0e4b41c655c89adefb038",
+      "timingPredicates": [
+        {
+          "line": 50,
+          "text": "protected List<RequiredGameTextTriggerAction> getGameTextRequiredAfterTriggers(final SwccgGame game, EffectResult effectResult, final PhysicalCard self, int gameTextSourceCardId) {\n        final String playerId = self.getOwner();\n        final String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 55,
+          "text": "if (TriggerConditions.isStartOfYourTurn(game, effectResult, playerId)) {\n\n            final RequiredGameTextTriggerAction action = new RequiredGameTextTriggerAction(self, gameTextSourceCardId);"
+        }
+      ],
+      "manifestDefinitionSha256": "49b1916943d89cf2fb8cf30e13a8684ef801364550c2a321257b3262547f3f80"
+    },
+    {
+      "gempId": "1_170",
+      "name": "Death Star Trooper",
+      "type": "Character",
+      "group": "ordinary-character",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_170.java",
+      "sourceSha256": "1b3f6203205ce5ed6b22e780f34639e9c64a001310e36493815b55521730fd15",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "87878be195d055baf438c32dfd5ab0fc3b99d9ecea05578c9ae0777fb1327002"
+    },
+    {
+      "gempId": "1_18",
+      "name": "LIN-V8K (Elleyein-Veeatekay)",
+      "type": "Character",
+      "group": "mining-droids",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_018.java",
+      "sourceSha256": "d9f423f4cbf1670ed5b36329fa03c729bc94eb051daaf9ae114b29bcd5d463d2",
+      "timingPredicates": [
+        {
+          "line": 41,
+          "text": "protected List<TopLevelGameTextAction> getGameTextTopLevelActions(final String playerId, SwccgGame game, final PhysicalCard self, int gameTextSourceCardId) {\n        Filter targetFilter = Filters.and(Filters.mine, Filters.atSameSite(self));\n        TargetingReason targetingReason = TargetingReason.TO_BE_LOST;"
+        },
+        {
+          "line": 46,
+          "text": "if (GameConditions.isDuringYourTurn(game, playerId)\n                && GameConditions.canUseForce(game, playerId, 1)\n                && GameConditions.canTarget(game, self, targetingReason, targetFilter)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "bd4f67807029088a9df45aaeafaa24fe9990858290d93d1c271776fcf34f0a9c"
+    },
+    {
+      "gempId": "1_181",
+      "name": "Imperial Trooper Guard",
+      "type": "Character",
+      "group": "ordinary-character",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_181.java",
+      "sourceSha256": "d68557dcdbb839b42e9eab19d8fb9214c234cb31e4d2534c5d6872009656bb6e",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "6ff2d176f60a5433a4377322e03785c95ed140b11ee7ef248e6a84f3ec029a7d"
+    },
+    {
+      "gempId": "1_182",
+      "name": "Jawa",
+      "type": "Character",
+      "group": "ordinary-character",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_182.java",
+      "sourceSha256": "bd6f8640a830e0c6e3a06b802d75b537fb247ce0f8adeb5c97dfd016d9bd0a46",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "f5440c9aa00e09d10fe4043f3b900971154b1a267b055510c90dbba09d4d8fab"
+    },
+    {
+      "gempId": "1_186",
+      "name": "LIN-V8M (Elleyein-Veeateemm)",
+      "type": "Character",
+      "group": "mining-droids",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_186.java",
+      "sourceSha256": "1317240bae1e00dcf8631ccffb949dea3c536aca101549a15a09ecabe292d4be",
+      "timingPredicates": [
+        {
+          "line": 41,
+          "text": "protected List<TopLevelGameTextAction> getGameTextTopLevelActions(final String playerId, SwccgGame game, final PhysicalCard self, int gameTextSourceCardId) {\n        Filter targetFilter = Filters.and(Filters.mine, Filters.atSameSite(self));\n        TargetingReason targetingReason = TargetingReason.TO_BE_LOST;"
+        },
+        {
+          "line": 46,
+          "text": "if (GameConditions.isDuringYourTurn(game, playerId)\n                && GameConditions.canUseForce(game, playerId, 1)\n                && GameConditions.canTarget(game, self, targetingReason, targetFilter)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "fd8f8a1b4f63c2aad88a7fe73748277441f7e9984c65edf7728b9a90a1b2dbfd"
+    },
+    {
+      "gempId": "1_194",
+      "name": "Stormtrooper",
+      "type": "Character",
+      "group": "ordinary-character",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_194.java",
+      "sourceSha256": "3a2d95241ba9a4d27a6ec182ad6a8b0a85c848186477c6efdf8a58b30c3cbd6d",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "c2113c361972ba51b4d9bbb573c5cc5d4a5cffd22a9ae7500ca7519ee45a9178"
+    },
+    {
+      "gempId": "1_196",
+      "name": "Tusken Raider",
+      "type": "Character",
+      "group": "ordinary-character",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_196.java",
+      "sourceSha256": "19350026984f5499951dbaeaed370c89296fb6e4633c19058157e0939278b433",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "3154298fe53fcf3b965312cd7ad7f1af88431d9257f052400a8c9ce61ad83bf8"
+    },
+    {
+      "gempId": "1_201",
+      "name": "Comlink",
+      "type": "Device",
+      "group": "deployment-reactions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_201.java",
+      "sourceSha256": "1969e877596627892c1ed20947f96edfca23a3326dc28531aa35c77379494343",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "5abbc7d557ff702ce05de89a0af5066f65a119ca6f0b3ed81c1688839167cc50"
+    },
+    {
+      "gempId": "1_207",
+      "name": "Stormtrooper Utility Belt",
+      "type": "Device",
+      "group": "ordinary-device",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_207.java",
+      "sourceSha256": "5962475cc99064d339872c2fb04f90e850e02d2b3735e139404a329348ec1f11",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "1097df44287783b1aff8622be25af449de96e0c1e8797523b25217ff1781cfbf"
+    },
+    {
+      "gempId": "1_221",
+      "name": "Ket Maliss",
+      "type": "Effect",
+      "group": "ordinary-effect",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_221.java",
+      "sourceSha256": "3cca56891548b9be6eab21c651c170416adeb6f6204d11f257c80b840441e50e",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "691f78530fba06c43ad70edcfafa64e6fb46cb571de25d1d97fc7464ab3328b4"
+    },
+    {
+      "gempId": "1_224",
+      "name": "Macroscan",
+      "type": "Effect",
+      "group": "general-actions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_224.java",
+      "sourceSha256": "bb3523abad1fb68e471bf3e78671aef35f615dcb6a21ed4ef73929f01080881b",
+      "timingPredicates": [
+        {
+          "line": 43,
+          "text": "protected List<TopLevelGameTextAction> getGameTextTopLevelActions(final String playerId, final SwccgGame game, final PhysicalCard self, int gameTextSourceCardId) {\n        final String opponent = game.getOpponent(playerId);"
+        }
+      ],
+      "manifestDefinitionSha256": "fc9db80fde37d80efb82d5461ccdad37cd1c31bf48dc4eff5233ff6f56576876"
+    },
+    {
+      "gempId": "1_237",
+      "name": "Collateral Damage",
+      "type": "Interrupt",
+      "group": "battle-initiation",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_237.java",
+      "sourceSha256": "dfc99fc338731600534ffede8234e9d26a129d898abb795b6ebb4f8f7a2c7153",
+      "timingPredicates": [
+        {
+          "line": 43,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, final EffectResult effectResult, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);\n        Filter filter = Filters.and(Filters.opponents(self), Filters.character, Filters.participatingInBattle);"
+        },
+        {
+          "line": 48,
+          "text": "if (TriggerConditions.battleInitiatedAt(game, effectResult, Filters.sameSiteAs(self, Filters.and(Filters.opponents(self), Filters.weapon)))\n                && GameConditions.canSpot(game, self, 2, filter)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "ad15c94a841550c29a5f04c619e65533a661746d98ce358cfc839111eba0d95d"
+    },
+    {
+      "gempId": "1_238",
+      "name": "Counter Assault",
+      "type": "Interrupt",
+      "group": "force-drain-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_238.java",
+      "sourceSha256": "c345bf4f82fd84777d54e6e3f9851a642b01bd402d4b68fd6bca63f4be1bab10",
+      "timingPredicates": [
+        {
+          "line": 45,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, final EffectResult effectResult, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 49,
+          "text": "if (TriggerConditions.forceDrainInitiated(game, effectResult)\n                && GameConditions.canCancelForceDrain(game, self)\n                && GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "9aa55fb0c6f73e4d3d462a0aef645d38a34d7bc956bb0db9d01ed78c79cc4263"
+    },
+    {
+      "gempId": "1_249",
+      "name": "Imperial Barrier",
+      "type": "Interrupt",
+      "group": "deployed-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_249.java",
+      "sourceSha256": "debe142d4a16c0b136a58c02c7a7f52f8fb2759fff72d13deb2de5629798b203",
+      "timingPredicates": [
+        {
+          "line": 44,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, EffectResult effectResult, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);\n        final Filter filter = Filters.and(Filters.opponents(self), Filters.or(Filters.character, Filters.starship), Filters.canBeTargetedBy(self));"
+        },
+        {
+          "line": 49,
+          "text": "if (TriggerConditions.justDeployed(game, effectResult, opponent, filter)\n                && GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)) {\n            final PlayCardResult playCardResult = (PlayCardResult) effectResult;"
+        }
+      ],
+      "manifestDefinitionSha256": "73126055f5e6eab563e0396c7dd1419f53330fb6b40f318f12a96258c697ef0c"
+    },
+    {
+      "gempId": "1_251",
+      "name": "Imperial Reinforcements",
+      "type": "Interrupt",
+      "group": "general-actions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_251.java",
+      "sourceSha256": "84b3c7324c32481738d50a2a1a9dd1db72db2ef1c4bbfb758f58bb263a5518e7",
+      "timingPredicates": [
+        {
+          "line": 37,
+          "text": "protected List<PlayInterruptAction> getGameTextTopLevelActions(final String playerId, SwccgGame game, final PhysicalCard self) {\n        // Check condition(s)\n        if (GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)"
+        }
+      ],
+      "manifestDefinitionSha256": "f2b3c9e78aa4e9ae1307e0f979e9a51991f70733ca172ea2a0047f18553d7d8a"
+    },
+    {
+      "gempId": "1_252",
+      "name": "It's Worse",
+      "type": "Interrupt",
+      "group": "force-loss-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_252.java",
+      "sourceSha256": "fa9d8c5ae70fcc676a6c5f8c8c0430c239fd5dd4a3c2f832013af39d85d419b5",
+      "timingPredicates": [
+        {
+          "line": 46,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalBeforeActions(final String playerId, final SwccgGame game, Effect effect, PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 50,
+          "text": "if (TriggerConditions.isPlayingCard(game, effect, opponent, Filters.It_Could_Be_Worse)\n                && GameConditions.canCancelCardBeingPlayed(game, self, effect)) {\n            final RespondablePlayingCardEffect respondableEffect = (RespondablePlayingCardEffect) effect;"
+        },
+        {
+          "line": 117,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, final SwccgGame game, final EffectResult effectResult, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 121,
+          "text": "if (TriggerConditions.justLostForceFromBattleDamage(game, effectResult, opponent)) {\n\n            final PlayInterruptAction action = new PlayInterruptAction(game, self);"
+        }
+      ],
+      "manifestDefinitionSha256": "fa3c1c4e5bdaf83ddf697d04b499a3233548a85309d118727cd29ef62f9cf139"
+    },
+    {
+      "gempId": "1_254",
+      "name": "Kintan Strider",
+      "type": "Interrupt",
+      "group": "lost-character-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_254.java",
+      "sourceSha256": "2fff6c5f4df21c6d730fb064987ae156c801f2c17dbcacce6b86685b68f1c175",
+      "timingPredicates": [
+        {
+          "line": 40,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, EffectResult effectResult, final PhysicalCard self) {\n        GameTextActionId gameTextActionId = GameTextActionId.KINTAN_STRIDER__RETRIEVE_TOPMOST_CHARACTER;"
+        },
+        {
+          "line": 44,
+          "text": "if (TriggerConditions.justLost(game, effectResult, Filters.and(Filters.opponents(self), Filters.character))\n                && GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)\n                && GameConditions.canSearchLostPile(game, playerId, self, gameTextActionId)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "030de4a48d74ee491743e1c2064a2abdfef2949b246b6ec02ed6221e18a37588"
+    },
+    {
+      "gempId": "1_26",
+      "name": "Rebel Guard",
+      "type": "Character",
+      "group": "ordinary-character",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_026.java",
+      "sourceSha256": "90833a1eeb00985d206dcf29c0f5ff66dfc8fe078c6ae84b380992db2197b7ee",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "697f0eb99758ccd3ea1c599d567b2f5be5fb0d8c64310f8b6651847495c6b57d"
+    },
+    {
+      "gempId": "1_262",
+      "name": "Ommni Box",
+      "type": "Interrupt",
+      "group": "general-actions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_262.java",
+      "sourceSha256": "2e0c30e58fc33f9cad1bd08f6ad2e6fdebe0f99fc9194264c35ca88c5d38e190",
+      "timingPredicates": [
+        {
+          "line": 37,
+          "text": "protected List<PlayInterruptAction> getGameTextTopLevelActions(final String playerId, SwccgGame game, final PhysicalCard self) {\n        String opponent = game.getOpponent(playerId);"
+        }
+      ],
+      "manifestDefinitionSha256": "071a8ea9ac9f09490fda0648df9aec9ac87b412fe2a21d613ba151b9d017e22d"
+    },
+    {
+      "gempId": "1_266",
+      "name": "Scanning Crew",
+      "type": "Interrupt",
+      "group": "general-actions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_266.java",
+      "sourceSha256": "38ab2955666ba5237f779010f3dc350262e6acb8ff977113816a1e13aa769f61",
+      "timingPredicates": [
+        {
+          "line": 44,
+          "text": "protected List<PlayInterruptAction> getGameTextTopLevelActions(final String playerId, final SwccgGame game, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);"
+        }
+      ],
+      "manifestDefinitionSha256": "79aeb041e921c1f0191ac2942be2a83628c7a564f3adaf83fcc8772a03a63491"
+    },
+    {
+      "gempId": "1_268",
+      "name": "Set For Stun",
+      "type": "Interrupt",
+      "group": "general-actions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_268.java",
+      "sourceSha256": "7c481779e5c3e372b03fc3ed30936ab9ceba898f87a38f6583ecf3d52ce0ff29",
+      "timingPredicates": [
+        {
+          "line": 44,
+          "text": "protected List<PlayInterruptAction> getGameTextTopLevelActions(final String playerId, SwccgGame game, final PhysicalCard self) {\n        Filter filter = Filters.and(Filters.opponents(self), Filters.character);"
+        }
+      ],
+      "manifestDefinitionSha256": "c5da37110965a857519b04a8d92e8e5c3985f942e50b0932b73b2e98fa0aec3c"
+    },
+    {
+      "gempId": "1_269",
+      "name": "Takeel",
+      "type": "Interrupt",
+      "group": "battle-destiny-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_269.java",
+      "sourceSha256": "fd9f1042bb9b1f193a488596dea7a7039680d8b74315789dfeacf2ee0d12fcdb",
+      "timingPredicates": [
+        {
+          "line": 37,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, final EffectResult effectResult, final PhysicalCard self) {\n        // Check condition(s)\n        if (TriggerConditions.isBattleDestinyDrawingJustCompletedForBothPlayers(game, effectResult)"
+        },
+        {
+          "line": 39,
+          "text": "if (TriggerConditions.isBattleDestinyDrawingJustCompletedForBothPlayers(game, effectResult)\n                && GameConditions.didBothPlayersDrawOneBattleDestiny(game)\n                && GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "bcde6a5ffdf4a984c9ac8e1bb180497212d0c0d76baa6abeb706274f19c5e175"
+    },
+    {
+      "gempId": "1_275",
+      "name": "Tusken Scavengers",
+      "type": "Interrupt",
+      "group": "general-actions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_275.java",
+      "sourceSha256": "c2478effd609f299b04bc90472bed64de0d25bf3e01e01e37c76fc86e25fac29",
+      "timingPredicates": [
+        {
+          "line": 45,
+          "text": "protected List<PlayInterruptAction> getGameTextTopLevelActions(final String playerId, final SwccgGame game, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);"
+        }
+      ],
+      "manifestDefinitionSha256": "b443c350b63739116fd1c0a951660ba233dc60a176ab5904931153eb15211bb1"
+    },
+    {
+      "gempId": "1_279",
+      "name": "You Overestimate Their Chances",
+      "type": "Interrupt",
+      "group": "battle-initiation",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_279.java",
+      "sourceSha256": "191faa7a2e6b1cc46d591358452df1efbb8ffc0b6f988baed044af5712366abd",
+      "timingPredicates": [
+        {
+          "line": 43,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, final SwccgGame game, EffectResult effectResult, final PhysicalCard self) {\n        String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 47,
+          "text": "if (TriggerConditions.battleInitiated(game, effectResult, opponent)) {\n\n            final PlayInterruptAction action = new PlayInterruptAction(game, self);"
+        },
+        {
+          "line": 75,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalBeforeActions(String playerId, final SwccgGame game, Effect effect, final PhysicalCard self) {\n        // Check condition(s)\n        if (TriggerConditions.isPlayingCard(game, effect, Filters.Dont_Underestimate_Our_Chances)) {"
+        },
+        {
+          "line": 77,
+          "text": "if (TriggerConditions.isPlayingCard(game, effect, Filters.Dont_Underestimate_Our_Chances)) {\n            final PhysicalCard interruptCard = ((RespondablePlayingCardEffect) effect).getCard();"
+        }
+      ],
+      "manifestDefinitionSha256": "7fd3c76a0a88a73a762997d6ab932c17d6d2e3c30cc9a657b65ddd27129535f4"
+    },
+    {
+      "gempId": "1_28",
+      "name": "Rebel Trooper",
+      "type": "Character",
+      "group": "ordinary-character",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_028.java",
+      "sourceSha256": "0fac54a2832d33d4d9832092804db5c4457f07674a51a59728813757b84d5f3e",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "65bc9f78195d44b466be55196b26b002cf16ac0d957f12d54f1b1b9832440226"
+    },
+    {
+      "gempId": "1_284",
+      "name": "Death Star: Detention Block Corridor",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_284.java",
+      "sourceSha256": "f1c76a32170dea15d93dad7d4e4fb6bf2401808a1204dc01f790ee4d50167e50",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "3407dcb45a9468ab6c94ea26137476cad73e08862bea851641cc8edb346f9c1e"
+    },
+    {
+      "gempId": "1_285",
+      "name": "Death Star: Docking Bay 327",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_285.java",
+      "sourceSha256": "35668b581d24844807e2183ee6b0d699116b04375e101e27a74b5005dc674195",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "fbab047cc29beef79254b6534e33b9cedf74408967f90bba3c9400a822536797"
+    },
+    {
+      "gempId": "1_291",
+      "name": "Tatooine: Docking Bay 94",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_291.java",
+      "sourceSha256": "52d44f907f53a377539c94f8ee7aa3dbbcd41b554db442c92c88c52f5b9f0bef",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "112ac131e853ca504e70b2814462841b6aa921f1a25f1d3632f23947e7e2babd"
+    },
+    {
+      "gempId": "1_292",
+      "name": "Tatooine: Jawa Camp",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_292.java",
+      "sourceSha256": "431e76d08679bc828638c22b8531ed5401ae224343e881c9a77cc5e0edd38a98",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "8e232db4b986b15e7cf86c6904b26ed969a211166d886c60b2287a6ba9276be1"
+    },
+    {
+      "gempId": "1_293",
+      "name": "Tatooine: Jundland Wastes",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_293.java",
+      "sourceSha256": "5c334ab1186e9ca2f721dc322ff22a39e2434e44acefc936eea11422b1946cf7",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "0306d3824ae0e8b52dd934f059815e9e4c7a38937c62b7b3afc886931bb451e7"
+    },
+    {
+      "gempId": "1_295",
+      "name": "Tatooine: Mos Eisley",
+      "type": "Location",
+      "group": "ordinary-location",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_295.java",
+      "sourceSha256": "d63acac6122517cdfea7bee14da3278105406a7b699e1cf0a93608b003adfeb2",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "573f2264efb7dd97b01c675f69a6efeeddefc362914edb1e5d1b2337ec67d1c1"
+    },
+    {
+      "gempId": "1_30",
+      "name": "Shistavanen Wolfman",
+      "type": "Character",
+      "group": "deployment-reactions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_030.java",
+      "sourceSha256": "b8cb71604c11d1ac4fdc2eb45858a83204ff23248e1635a8bd08a430e3bd806a",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "3213304148c6401edcf2f4f981198c6711d80d64333182d261ef0f7745f38fdc"
+    },
+    {
+      "gempId": "1_31",
+      "name": "Talz",
+      "type": "Character",
+      "group": "talz-forfeit",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_031.java",
+      "sourceSha256": "9fd969f6c68f4e7adc9ffeaf8ec1deed211150cda2bc394a1e7ce61a785c88e0",
+      "timingPredicates": [
+        {
+          "line": 53,
+          "text": "protected List<OptionalGameTextTriggerAction> getGameTextOptionalAfterTriggers(final String playerId, SwccgGame game, final EffectResult effectResult, final PhysicalCard self, int gameTextSourceCardId) {\n        Filter targetFilter = Filters.and(Filters.your(playerId), Filters.other(self), Filters.hit, Filters.character, Filters.atSameSite(self));"
+        },
+        {
+          "line": 57,
+          "text": "if (TriggerConditions.isResolvingBattleDamageAndAttrition(game, effectResult, playerId)\n                && GameConditions.canTarget(game, self, targetFilter)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "db9cd8bd950c35b0d762b9ac086e20dc98d3bd4b8e25950827cb75396240d956"
+    },
+    {
+      "gempId": "1_312",
+      "name": "Blaster Rifle",
+      "type": "Weapon",
+      "group": "ordinary-weapon",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_312.java",
+      "sourceSha256": "d0055120fcc486f44a5f48a80ba33bf7bf4846efa99709d32ecde9163b774759",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "4ce1e5312e40f05884c4ae321f33e922e2ed93d1f15bf1f8f0bb6a231587de53"
+    },
+    {
+      "gempId": "1_315",
+      "name": "Gaderffii Stick",
+      "type": "Weapon",
+      "group": "battle-initiation",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_315.java",
+      "sourceSha256": "d90a6c80ebbc551ae5b8a2ad6fbc5762ae2c58d83db1cd50dd638ff8f3827cf8",
+      "timingPredicates": [
+        {
+          "line": 63,
+          "text": "// Only include fire weapon action if firing due to another action (e.g. Sniper), since normal weapon firing is handled by getGameTextOptionalAfterTriggers() due to a battle just initiated.\n        if (!Filters.sameCardId(self).accepts(game, sourceCard)) {\n            // Build action using common utility"
+        },
+        {
+          "line": 76,
+          "text": "protected List<OptionalGameTextTriggerAction> getGameTextOptionalAfterTriggers(final String playerId, SwccgGame game, EffectResult effectResult, final PhysicalCard self, int gameTextSourceCardId) {\n        // Check condition(s)\n        if (TriggerConditions.battleInitiatedAt(game, effectResult, Filters.wherePresent(self))) {"
+        },
+        {
+          "line": 78,
+          "text": "if (TriggerConditions.battleInitiatedAt(game, effectResult, Filters.wherePresent(self))) {\n\n            // Build action using common utility"
+        }
+      ],
+      "manifestDefinitionSha256": "e546479f50eb0b139ca4efe60e9d398a98c616fb7877b18f6a92ea22b290c915"
+    },
+    {
+      "gempId": "1_317",
+      "name": "Imperial Blaster",
+      "type": "Weapon",
+      "group": "ordinary-weapon",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_317.java",
+      "sourceSha256": "873c887220fa622586a1ca587d4c546f7f668de9460e93f943836b1a1d7e9f2c",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "d344febcdad301920bbedec2ffd608b5dfe734a4c7c5c1c6e95269b0285fb2eb"
+    },
+    {
+      "gempId": "1_322",
+      "name": "Timer Mine",
+      "type": "Weapon",
+      "group": "timer-mines",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_322.java",
+      "sourceSha256": "4030d26f730929409706ead43ad1d0685c4c3fcf1f772cd7202df9c6a742c78f",
+      "timingPredicates": [
+        {
+          "line": 50,
+          "text": "protected List<RequiredGameTextTriggerAction> getGameTextRequiredAfterTriggers(final SwccgGame game, EffectResult effectResult, final PhysicalCard self, int gameTextSourceCardId) {\n        final String playerId = self.getOwner();\n        final String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 55,
+          "text": "if (TriggerConditions.isStartOfYourTurn(game, effectResult, playerId)) {\n\n            final RequiredGameTextTriggerAction action = new RequiredGameTextTriggerAction(self, gameTextSourceCardId);"
+        }
+      ],
+      "manifestDefinitionSha256": "95b99dfdc4b6316640892289baae4d652f19868846baa99270dff6d675dd0408"
+    },
+    {
+      "gempId": "1_35",
+      "name": "Electrobinoculars",
+      "type": "Device",
+      "group": "general-actions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_035.java",
+      "sourceSha256": "93f4c014319b445f833ef3f16ce69adaaec499e44e9b9000afa701fc13252c84",
+      "timingPredicates": [
+        {
+          "line": 60,
+          "text": "protected List<TopLevelGameTextAction> getGameTextTopLevelActions(final String playerId, final SwccgGame game, final PhysicalCard self, int gameTextSourceCardId) {\n        // Check condition(s)\n        if (GameConditions.canUseForce(game, playerId, 2)"
+        }
+      ],
+      "manifestDefinitionSha256": "810e59093747804c846a620a9f4fd90d13bc527212334261811955812faea17a"
+    },
+    {
+      "gempId": "1_40",
+      "name": "Tatooine Utility Belt",
+      "type": "Device",
+      "group": "ordinary-device",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_040.java",
+      "sourceSha256": "1f6ed5cb4cac84a1cd497c660299acbfa493806e104b0414839abffa45c9da65",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "b3fc6e198940dc7a5c46e7c1259a413e12e97beacb876b797b21bd9d7b66e2c6"
+    },
+    {
+      "gempId": "1_6",
+      "name": "CZ-3 (Seezee-Three)",
+      "type": "Character",
+      "group": "deployment-reactions",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_006.java",
+      "sourceSha256": "61accdbd3e52869998764041d5293be09bbc1e96e3b90dc4a62c6ea6c8fedce3",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "0134d57b0d7aed75827fe733c60583825e212349afb5d8cc228d6d6ebcea6f3e"
+    },
+    {
+      "gempId": "1_64",
+      "name": "Sai'torr Kal Fas",
+      "type": "Effect",
+      "group": "ordinary-effect",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_064.java",
+      "sourceSha256": "c147f7051d11f8f9823d55cebb70c849aefe8565915d5410bfc57be8d548326d",
+      "timingPredicates": [],
+      "manifestDefinitionSha256": "8e332fb2f6f88f973be18b2dc2619787c4bb20e4b931cecb33ca4a4e871bbc9c"
+    },
+    {
+      "gempId": "1_77",
+      "name": "Don't Underestimate Our Chances",
+      "type": "Interrupt",
+      "group": "battle-initiation",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_077.java",
+      "sourceSha256": "d6110ae51aa341917512e4ed5931949ee3162c80c2af559c7ba6010ad1c40b61",
+      "timingPredicates": [
+        {
+          "line": 44,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, final SwccgGame game, EffectResult effectResult, final PhysicalCard self) {\n        String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 48,
+          "text": "if (TriggerConditions.battleInitiated(game, effectResult, opponent)) {\n\n            final PlayInterruptAction action = new PlayInterruptAction(game, self);"
+        },
+        {
+          "line": 76,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalBeforeActions(String playerId, final SwccgGame game, Effect effect, final PhysicalCard self) {\n        // Check condition(s)\n        if (TriggerConditions.isPlayingCard(game, effect, Filters.and(Filters.You_Overestimate_Their_Chances, Filters.canBeTargetedBy(self)))) {"
+        },
+        {
+          "line": 78,
+          "text": "if (TriggerConditions.isPlayingCard(game, effect, Filters.and(Filters.You_Overestimate_Their_Chances, Filters.canBeTargetedBy(self)))) {\n            RespondablePlayingCardEffect respondableEffect = (RespondablePlayingCardEffect) effect;"
+        }
+      ],
+      "manifestDefinitionSha256": "cc516d26b9385e58c8a178864203fa23bed41dfe12a1ea67c6053574c18a48cc"
+    },
+    {
+      "gempId": "1_80",
+      "name": "Friendly Fire",
+      "type": "Interrupt",
+      "group": "battle-initiation",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_080.java",
+      "sourceSha256": "b2e12acbd591e6e6dce64e115f6c29490c0793e5e96fe2ee5fa12221124ccb8c",
+      "timingPredicates": [
+        {
+          "line": 46,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, final EffectResult effectResult, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 50,
+          "text": "if (TriggerConditions.battleInitiatedAt(game, effectResult, Filters.and(Filters.site, Filters.canBeTargetedBy(self)))) {\n            TargetingReason targetingReason = TargetingReason.TO_BE_LOST;\n            Filter characterFilter = Filters.and(Filters.opponents(self), Filters.character, Filters.at(Filters.and(Filters.battleLocation,"
+        }
+      ],
+      "manifestDefinitionSha256": "57d67f907a78719bde25ca81aa29eec5a828428b71911e4ebf2883fb6a5c0203"
+    },
+    {
+      "gempId": "1_84",
+      "name": "Han's Dice",
+      "type": "Interrupt",
+      "group": "battle-destiny-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_084.java",
+      "sourceSha256": "186301f9ac4947fc1670f319b4ae7fea4fd1536bbdeccd14dd9c56bd6c74dba1",
+      "timingPredicates": [
+        {
+          "line": 42,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, final EffectResult effectResult, final PhysicalCard self) {\n        GameTextActionId gameTextActionId = GameTextActionId.ANY_CARD__CANCEL_AND_REDRAW_A_DESTINY;\n        Filter targetFilter = Filters.and(Filters.your(self), Filters.character, Filters.abilityMoreThan(2), Filters.participatingInBattle);"
+        },
+        {
+          "line": 47,
+          "text": "if (TriggerConditions.isBattleDestinyJustDrawnBy(game, effectResult, playerId)\n                && GameConditions.canUseForceToPlayInterrupt(game, playerId, self, 1)\n                && GameConditions.canCancelDestinyAndCauseRedraw(game, playerId)"
+        }
+      ],
+      "manifestDefinitionSha256": "b4a1c9d6ddea79288cd7095f7997ff94b3721882f35860468074882a839006b2"
+    },
+    {
+      "gempId": "1_90",
+      "name": "It Could Be Worse",
+      "type": "Interrupt",
+      "group": "force-loss-response",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_090.java",
+      "sourceSha256": "5625e8f2186e97c450b80091bfc8986dd96964447e4d5822775e8dc42aca984f",
+      "timingPredicates": [
+        {
+          "line": 41,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, EffectResult effectResult, final PhysicalCard self) {\n        // Check condition(s)\n        if (TriggerConditions.isAboutToLoseForce(game, effectResult, playerId)) {"
+        },
+        {
+          "line": 43,
+          "text": "if (TriggerConditions.isAboutToLoseForce(game, effectResult, playerId)) {\n            AboutToLoseForceResult result = (AboutToLoseForceResult) effectResult;\n            if (!result.isCannotBeReduced(game)) {"
+        }
+      ],
+      "manifestDefinitionSha256": "9f9507798e8d6031f5dfa2c8ae3842feb608d4b5950649e03a853fc3fc1eb6ec"
+    },
+    {
+      "gempId": "1_91",
+      "name": "I've Got A Bad Feeling About This",
+      "type": "Interrupt",
+      "group": "battle-initiation",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_091.java",
+      "sourceSha256": "cdaf31e1fa64f855ddf5347e9c1451d2ad38486bf6829b3f13335325474c0b3e",
+      "timingPredicates": [
+        {
+          "line": 39,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, EffectResult effectResult, final PhysicalCard self) {\n        final String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 45,
+          "text": "if (TriggerConditions.battleInitiatedAt(game, effectResult, playerId, Filters.canTargetCard(self))\n                && GameConditions.hasLessPowerInBattleThanOpponent(game, playerId)) {\n            final int damageMultiplier = GameConditions.isDuringBattleWithParticipant(game, Filters.and(Filters.Han, Filters.presentInBattle, Filters.canBeTargetedBy(self))) ? 3 : 2;"
+        },
+        {
+          "line": 47,
+          "text": "final int damageMultiplier = GameConditions.isDuringBattleWithParticipant(game, Filters.and(Filters.Han, Filters.presentInBattle, Filters.canBeTargetedBy(self))) ? 3 : 2;\n\n            final PlayInterruptAction action = new PlayInterruptAction(game, self);"
+        }
+      ],
+      "manifestDefinitionSha256": "e002512c246520270ad4def91e76861c6dee64ad100a58386e7c37a4eebfc517"
+    },
+    {
+      "gempId": "1_98",
+      "name": "Narrow Escape",
+      "type": "Interrupt",
+      "group": "battle-initiation",
+      "referenceSource": "gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_098.java",
+      "sourceSha256": "c66f79ed5f50fd311a07e1d5227e6441ce45ac9f60bc98b2c408e76d04f3824f",
+      "timingPredicates": [
+        {
+          "line": 39,
+          "text": "protected List<PlayInterruptAction> getGameTextOptionalAfterActions(final String playerId, SwccgGame game, EffectResult effectResult, final PhysicalCard self) {\n        String opponent = game.getOpponent(playerId);"
+        },
+        {
+          "line": 43,
+          "text": "if (TriggerConditions.battleInitiatedAt(game, effectResult, opponent, Filters.and(Filters.site,\n                Filters.wherePresent(self, Filters.and(Filters.your(self), Filters.Rebel, Filters.abilityMoreThan(2),\n                        Filters.presentInBattle, Filters.canBeTargetedBy(self))), Filters.canBeTargetedBy(self)))"
+        }
+      ],
+      "manifestDefinitionSha256": "c3bbcda48a64dfec9683a33c459d8171197684ebc61df88bdf165e720d9589e3"
+    }
+  ],
+  "execution": {
+    "executedAt": "2026-10-05T12:05:27.285792+00:00",
+    "runtime": "maven:3.9.6-eclipse-temurin-21",
+    "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineStarterTimingReachabilityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+    "junitTests": 1,
+    "junitFailures": 0,
+    "junitErrors": 0,
+    "cases": 6,
+    "responseWindows": 147,
+    "preResultDuelWindows": 40,
+    "pendingAccidentWindows": 48,
+    "resultPath": "tests/native-engine/starter-timing-reachability-results.json",
+    "harnessPath": "tests/native-engine/gemp/NativeEngineStarterTimingReachabilityOracleTests.java",
+    "observedNonemptyResponses": [
+      "Run Luke cancels Obsession before any duel draws.",
+      "It Could Be Worse reduces actual Force loss after determined duel results.",
+      "Kintan retrieves only after Collateral Damage casualty; no pre-comparison response changes participants."
+    ],
+    "nativeComparison": "Current native runtime executes the same six provider-rich paths using exact starter physical counts. Tests compare all nonempty response menus, verify four duel draws and one accident draw, protect original pending groups, and separately execute Kintan retrieval to hand. Empty-window counts differ; exact empty timing-menu parity is not claimed.",
+    "surefireXmlSha256": "5b2e5367d9b415a029400296e4e0b4274b8efacc8463761e98672efcd6ca1d3e",
+    "baselineConditions": "Friendly-dark has Luke adjacent for Run Luke; collateral-dark has Luke in battle for Narrow Escape. Both sides have funded deployment reactions, armed accident targets, inspection equipment/effects, and Lost Pile retrieval targets. Both battle initiators are covered."
+  },
+  "fingerprints": {
+    "data/native-proof/manifest.json": "77afdb7c87f19fde5177672aafdfe7515d5b39898d17b038e146eb3ea8098c93",
+    "tests/native-engine/gemp/NativeEngineStarterTimingReachabilityOracleTests.java": "c225934c11a5e12082fe1bc53c4e1df54cdc7598778d5bf24af2809ecaaaa49e",
+    "tests/native-engine/starter-timing-reachability-results.json": "18e73d2d7e5be04039f1414ba4eff19ed40fa5a8266bb89dcc2efdd4f2d99fe2",
+    "tests/native-engine/starter-timing-reachability-fixture.mjs": "a63337f495c00bf761ad89f704f6bf0b4b9b6a6650e394023571d07b91b163b0"
+  },
+  "productionVerification": {
+    "verifiedFiles": 6820,
+    "allUnchanged": true,
+    "archive": "swccg-engine-reference.tar.gz",
+    "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68",
+    "productionInventorySha256": "8c83767f8264bea441d815a5b1221d00cdae9a25f9e799beccd2393eb5f4b54f"
+  },
+  "limits": [
+    "No exhaustive state search or legal complete shuffled match is claimed. All 68 provider capabilities receive explicit timing predicates; controlled response inventories corroborate the argument.",
+    "GEMP uses controlled boards, one copy of every starter Interrupt, supporting cards, prepared destiny and filler decks; native uses exact starter counts with controlled initial zones. Neither is an authored-deck match transcript.",
+    "The exact participants/table effects need not occur simultaneously in every legal game. Conditional providers are furnished favorable targets/Force; proof of exclusion comes from timing, not absence on this board.",
+    "All post-result loss/retrieval responses remain legal where offered. Their timing cannot change a pre-result duel or an already-compared accident target group.",
+    "Failed-Obsession arithmetic, other official/reference differences, wider deck providers and full production admission remain separate obligations.",
+    "Separate initial-target candidate remains pending: played Barrier followed by Friendly Fire. No gameplay divergence established. Correct the diagnostic character-only participant count and verify the actual battle-initiated menu before drawing a conclusion. Unverified harness and fixture are preserved only in /private/tmp/swccg-starter-barrier-pending, outside committed evidence."
+  ],
+  "nativeRuntimeInputs": {
+    "lib/native-engine/action-timing.ts": "b8ee41c769cc09fc96614995508c7ca7ef8a6a5bae7033ed9a096639628cbe12",
+    "lib/native-engine/ground.ts": "6620d51cab348dcb6c28bcd01e629f89ad6c4d31a4cc1b3fa36f34788b96ac35",
+    "lib/native-engine/character-react.ts": "c0009a5215a7b70ac3b31cd61b6e523a26a07b82f6708f6baac9e2ea198299b8",
+    "lib/native-engine/equipment.ts": "5f2fa84982fbf0775e3a001da8785c64c34d03210486d10363d97b2658fcc68f",
+    "lib/native-engine/travel.ts": "5ceb1bf6cff5d2296618dbc3689813d5ba08ecf39a911c025a2da50429ac7ca6",
+    "lib/native-engine/accident.ts": "e5e2ce44cf4557674e9ec2a26c3d6e9f2cf5cc571435937bc0391e4921fd1d63",
+    "lib/native-engine/duel.ts": "be4e6035ffe49371f2d73a043dbd31992346646b1dee1ae31a407547418b79d2",
+    "lib/native-engine/interrupts.ts": "3ddc0086f5f6cc6047ceae24b7e906cc35e8a539eb0838c86fef72a2a3b5c987",
+    "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
+    "lib/native-engine/gaderffii.ts": "a03742104025ac1117041d0174b4a6166577482837333862bf1df49dcbe33c7e",
+    "lib/native-engine/doomed.ts": "4dd11f02ffa16a1b0426c10b29d2d680d3b24eb7745d121f7ba58c57b3f47d46",
+    "lib/native-engine/assault.ts": "7580373a09fa9eccd8ef196e0153f8ba78e3dfda2005f4e6b46b4d450f547a64",
+    "lib/native-engine/scan.ts": "7e8a3b8a7d671468817e410cd1a65d7e851fe2bee2383bb173b043f6a75c5aa3",
+    "lib/native-engine/scavenge.ts": "d909f5ac6360d8f1286207d3f5d8fce60e0d55651c2bbd04d72acb77719f9402",
+    "lib/native-engine/stun.ts": "faee987db78ed8b4a54fb077d1672ccec50453418291ce841f8f24ec7a7bd566",
+    "lib/native-engine/worse.ts": "cdd54acc301b458a8594a3aac483d6d9039b0ef7306d03a359c5346857612953",
+    "lib/native-engine/revival.ts": "7aae114d50011172b1ed8314b7c5c28f9c5e0d965eea80948176188781552811",
+    "lib/native-engine/retrieval.ts": "44568cda2c2aa978dffc06d538f12efe4743069885cc0723cd706e71cb79a14d",
+    "lib/native-engine/character-triggers.ts": "eb868114b96ddb79fc46bdba11b5fd083783f536d9d6d5158f59b9ff311690ec",
+    "lib/native-engine/battle.ts": "ff7f46c47cd645193e79f8d2d3db6cfe6c0b55934eaf82dd9234717504bcee21",
+    "lib/native-engine/table.ts": "363c515c9758fc9ae3e0c466e00505ef711784efc5acbb2fdb4fc3b8b9919686",
+    "lib/native-engine/equipment-state.ts": "594144f2c08cbb26d6380b77b24d00e8e5bb8b58f3fbcb277f7067ac89e0ec77",
+    "lib/native-engine/forfeiture.ts": "1214e54a4afa9783cf873ed326bfb4b43573e147bb4c93fa1222808269fa1377",
+    "lib/native-engine/identity.ts": "af9d0426edef52eda915ffba675d30b0b05442648381b2f7826db0ba6933f42a",
+    "lib/native-engine/persona.ts": "cca0fbd56fd890c14e71b642b44546fe36d578e5ee72771c667b8c6e832dfae3",
+    "lib/native-engine/runtime.ts": "0e75a8308ac9bc7534d60f1c36ccc140052019b4db0d0ff51fe1a30143019387",
+    "lib/native-engine/premiere-rules.ts": "22267100b310c891ba07cffac2e520c068bbea4d26dc8b4ec27f57eb67ec3f49"
+  },
+  "nativeVerification": {
+    "command": "node --test tests/native-engine/starter-timing-reachability.test.mjs",
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "verifiedAt": "2026-10-05T12:11:35.604426+00:00",
+    "scope": "Six inventories, actual post-accident Kintan path, and fingerprints/coverage. Native source fingerprints identify executed inputs, not a claim that every broader source branch was exercised."
+  },
+  "separateOpenInvestigations": [
+    {
+      "scope": "Initial Friendly Fire/Barrier target eligibility, separate from pending-action mutation reachability.",
+      "status": "pending-driver-correction",
+      "snapshotDirectory": "/private/tmp/swccg-starter-barrier-pending",
+      "finding": "No gameplay divergence established. Earlier absence observations used an invalid non-warrior weapon bearer or earlier exclusion window. Latest corrected probe failed because getCardsParticipating includes an attached weapon, not only characters.",
+      "next": "Filter participant inventory to characters; reach actual battle-initiated response; then compare offered accident and barred casualty selection using the legal warrior bearer.",
+      "admissionImpact": "Candidate remains open; this review is not full accident/starter certification."
+    }
+  ]
+}

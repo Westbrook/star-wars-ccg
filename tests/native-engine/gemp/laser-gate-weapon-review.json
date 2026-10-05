@@ -1,0 +1,55 @@
+{
+  "cards": ["2_113", "2_57", "2_139"],
+  "name": "Explicit control-phase character-weapon firing at Laser Gate",
+  "status": "bounded native implementation; official-rule and GEMP source review; no executed GEMP parity",
+  "officialSources": [
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+      "printedPage": 119,
+      "section": "Appendix A — Laser Gate errata",
+      "finding": "Laser Gate can be targeted as a character by a character weapon from either endpoint site, using defense value 3."
+    },
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+      "printedPages": [94, 95, 96],
+      "section": "Weapons",
+      "finding": "Weapons require firing permission and normally target an opponent's cards. A hit outside a battle or attack causes immediate loss. This does not independently establish a firing action during an arbitrary timing window."
+    },
+    {
+      "localCatalog": "data/native-engine/sealed-cards.json",
+      "blueprints": ["2_57", "2_139"],
+      "finding": "Sorry About The Mess and Sniper explicitly permit firing one weapon during the user's control phase, offer their named user's optional per-draw bonus, and immediately lose hit targets. The control-phase permission supplies the timing missing from Laser Gate's target permission."
+    }
+  ],
+  "reference": {
+    "repository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+    "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+    "sourceFiles": [
+      "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_057.java",
+      "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_139.java"
+    ],
+    "finding": "The Interrupt initially chooses the weapon, responds, then runs FireWeaponEffect; optional named-user modifiers are after-destiny triggers. Native ordering follows this source structure. Laser Gate itself has no implementation in the pinned reference, so this scenario has no independent executed GEMP oracle.",
+    "executedGempParity": false
+  },
+  "nativeScope": [
+    "Reachable Light control-phase Sorry About The Mess action chooses a supported character weapon, resolves the Interrupt response, then chooses the opposing Laser Gate from either endpoint.",
+    "Pistols, rifles and supported lightsabers use their existing firing-cost and draw-count profiles, intrinsic rifle total modifier, and shared weapon destiny response machinery.",
+    "Han's optional per-draw bonus and Bionic Hand's total modifier apply through existing response and total windows.",
+    "Weapon cost/use is committed at firing initiation. Original weapon and user references remain latched after initiation; departed/redeployed target instances cannot be hit.",
+    "A successful total greater than 3 opens about-to-hit, hit, about-to-lose and card-lost responses. Loss prevention is independently consulted before removal. Failed destiny produces no hit.",
+    "Saved continuations bind actor, source, weapon, user, target, action identity, destination and optional bonus to the original shot. Unexpected payment or unrespondable fields are rejected."
+  ],
+  "verification": {
+    "command": "node --test tests/native-engine/laser-gate-weapon.test.mjs",
+    "passed": 25,
+    "failed": 0,
+    "testFile": "tests/native-engine/laser-gate-weapon.test.mjs",
+    "scope": "Both endpoint sites, hit/miss boundary, pistol/rifle/lightsaber costs and draws, optional Han bonus, Bionic Hand, cancellation at Interrupt/firing/hit, target departure and redeployment, latched weapon departure, loss prevention, serialization and forged continuation rejection."
+  },
+  "requiredRemaining": [
+    "Ordinary battle firing at Laser Gate requires authoritative resolution of participation and timing; no battle action was added.",
+    "All other Sorry About The Mess and Sniper targets, seeker targeting, remaining weapon profiles, and all reachable response interactions require implementation and conformance before full card admission.",
+    "Sniper shares the bounded handler but a Dark player's own Dark Laser Gate is correctly excluded. No naturally reachable Sniper-against-Gate fixture or URoRRuR'R'R bonus verification is claimed.",
+    "The tests exercise native behavior and source-reviewed ordering. They are not independent GEMP parity and do not close starter-deck production admission."
+  ]
+}

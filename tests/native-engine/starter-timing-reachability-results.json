@@ -1,0 +1,1587 @@
+[
+  {
+    "mode": "duel-pass",
+    "handInterrupts": {
+      "dark": [
+        "101_6",
+        "1_237",
+        "1_238",
+        "1_249",
+        "1_251",
+        "1_252",
+        "1_254",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_269",
+        "1_275",
+        "1_279"
+      ],
+      "light": [
+        "101_3",
+        "1_100",
+        "1_105",
+        "1_106",
+        "1_113",
+        "1_115",
+        "1_120",
+        "1_77",
+        "1_80",
+        "1_84",
+        "1_90",
+        "1_91",
+        "1_98"
+      ]
+    },
+    "baseline": [
+      {
+        "side": "light",
+        "actions": [],
+        "text": "Use 1 Force - Optional responses"
+      },
+      {
+        "side": "dark",
+        "actions": [],
+        "text": "Use 1 Force - Optional responses"
+      },
+      {
+        "side": "light",
+        "actions": [],
+        "text": "MOVING_USING_LANDSPEED - Optional responses"
+      },
+      {
+        "side": "dark",
+        "actions": [],
+        "text": "MOVING_USING_LANDSPEED - Optional responses"
+      },
+      {
+        "side": "light",
+        "actions": [],
+        "text": "MOVED_USING_LANDSPEED - Optional responses"
+      },
+      {
+        "side": "dark",
+        "actions": [
+          "Initiate duel"
+        ],
+        "text": "Moved \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u0027101_5\u0027\u003e•Vader\u003c/div\u003e from \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_130\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Dune Sea\u003c/div\u003e to \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_129\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e using landspeed - Optional responses"
+      }
+    ],
+    "windows": [
+      {
+        "side": "light",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u0027101_6\u0027\u003e•Vader\u0027s Obsession\u003c/div\u003e - Optional responses",
+        "actions": [
+          "Cancel Vader\u0027s Obsession"
+        ],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u0027101_6\u0027\u003e•Vader\u0027s Obsession\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DUEL_INITIATED - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DUEL_INITIATED - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DUEL_ADD_MODIFY_DUEL_DESTINIES_STEP - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DUEL_ADD_MODIFY_DUEL_DESTINIES_STEP - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": true,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DUEL_RESULT_DETERMINED - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DUEL_RESULT_DETERMINED - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "FORCE_RETRIEVAL_INITIATED - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "FORCE_RETRIEVAL_INITIATED - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "FORCE_RETRIEVAL_ABOUT_TO_RETRIEVE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "FORCE_RETRIEVAL_ABOUT_TO_RETRIEVE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "RETRIEVED_FORCE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "RETRIEVED_FORCE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "FORCE_LOSS_INITIATED - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "FORCE_LOSS_INITIATED - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "About to lose 2 Force - Optional responses",
+        "actions": [
+          "Reduce Force loss"
+        ],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "About to lose 1 Force - Optional responses",
+        "actions": [
+          "Reduce Force loss"
+        ],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "DUEL_ENDING - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "DUEL_ENDING - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": true,
+        "casualtyAlreadyChosen": true
+      }
+    ],
+    "preResultSeen": true,
+    "resultsSeen": true,
+    "canceled": false,
+    "casualtyChoices": 1,
+    "interruptLost": true,
+    "lukeZone": "TOP_OF_LOST_PILE",
+    "vaderZone": "AT_LOCATION"
+  },
+  {
+    "mode": "duel-cancel",
+    "handInterrupts": {
+      "dark": [
+        "101_6",
+        "1_237",
+        "1_238",
+        "1_249",
+        "1_251",
+        "1_252",
+        "1_254",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_269",
+        "1_275",
+        "1_279"
+      ],
+      "light": [
+        "101_3",
+        "1_100",
+        "1_105",
+        "1_106",
+        "1_113",
+        "1_115",
+        "1_120",
+        "1_77",
+        "1_80",
+        "1_84",
+        "1_90",
+        "1_91",
+        "1_98"
+      ]
+    },
+    "baseline": [
+      {
+        "side": "light",
+        "actions": [],
+        "text": "Use 1 Force - Optional responses"
+      },
+      {
+        "side": "dark",
+        "actions": [],
+        "text": "Use 1 Force - Optional responses"
+      },
+      {
+        "side": "light",
+        "actions": [],
+        "text": "MOVING_USING_LANDSPEED - Optional responses"
+      },
+      {
+        "side": "dark",
+        "actions": [],
+        "text": "MOVING_USING_LANDSPEED - Optional responses"
+      },
+      {
+        "side": "light",
+        "actions": [],
+        "text": "MOVED_USING_LANDSPEED - Optional responses"
+      },
+      {
+        "side": "dark",
+        "actions": [
+          "Initiate duel"
+        ],
+        "text": "Moved \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u0027101_5\u0027\u003e•Vader\u003c/div\u003e from \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_130\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Dune Sea\u003c/div\u003e to \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_129\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e using landspeed - Optional responses"
+      }
+    ],
+    "windows": [
+      {
+        "side": "light",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u0027101_6\u0027\u003e•Vader\u0027s Obsession\u003c/div\u003e - Optional responses",
+        "actions": [
+          "Cancel Vader\u0027s Obsession"
+        ],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u0027101_3\u0027\u003e•Run Luke, Run!\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u0027101_3\u0027\u003e•Run Luke, Run!\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      }
+    ],
+    "preResultSeen": false,
+    "resultsSeen": false,
+    "canceled": true,
+    "casualtyChoices": 0,
+    "interruptLost": true,
+    "lukeZone": "AT_LOCATION",
+    "vaderZone": "AT_LOCATION"
+  },
+  {
+    "mode": "friendly-dark",
+    "handInterrupts": {
+      "dark": [
+        "101_6",
+        "1_237",
+        "1_238",
+        "1_249",
+        "1_251",
+        "1_252",
+        "1_254",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_269",
+        "1_275",
+        "1_279"
+      ],
+      "light": [
+        "101_3",
+        "1_100",
+        "1_105",
+        "1_106",
+        "1_113",
+        "1_115",
+        "1_120",
+        "1_77",
+        "1_80",
+        "1_84",
+        "1_90",
+        "1_91",
+        "1_98"
+      ]
+    },
+    "baseline": [
+      {
+        "side": "light",
+        "actions": [
+          "Deploy a card as a \u0027react\u0027",
+          "Move using landspeed as a \u0027react\u0027",
+          "Move Luke to battle",
+          "Triple battle damage",
+          "Play"
+        ],
+        "text": "Battle just initiated at \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_129\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e - Optional responses"
+      }
+    ],
+    "windows": [
+      {
+        "side": "dark",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_80\u0027\u003eFriendly Fire\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_80\u0027\u003eFriendly Fire\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "null - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "null - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      }
+    ],
+    "preResultSeen": false,
+    "resultsSeen": false,
+    "canceled": false,
+    "casualtyChoices": 5,
+    "interruptLost": true,
+    "lukeZone": "AT_LOCATION",
+    "vaderZone": "AT_LOCATION"
+  },
+  {
+    "mode": "friendly-light",
+    "handInterrupts": {
+      "dark": [
+        "101_6",
+        "1_237",
+        "1_238",
+        "1_249",
+        "1_251",
+        "1_252",
+        "1_254",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_269",
+        "1_275",
+        "1_279"
+      ],
+      "light": [
+        "101_3",
+        "1_100",
+        "1_105",
+        "1_106",
+        "1_113",
+        "1_115",
+        "1_120",
+        "1_77",
+        "1_80",
+        "1_84",
+        "1_90",
+        "1_91",
+        "1_98"
+      ]
+    },
+    "baseline": [
+      {
+        "side": "dark",
+        "actions": [
+          "Fire Gaderffii Stick",
+          "Deploy a card as a \u0027react\u0027",
+          "Play",
+          "Triple battle damage"
+        ],
+        "text": "Battle just initiated at \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_129\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e - Optional responses"
+      },
+      {
+        "side": "light",
+        "actions": [
+          "Play"
+        ],
+        "text": "Battle just initiated at \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_129\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e - Optional responses"
+      }
+    ],
+    "windows": [
+      {
+        "side": "dark",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_80\u0027\u003eFriendly Fire\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_80\u0027\u003eFriendly Fire\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "null - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "null - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      }
+    ],
+    "preResultSeen": false,
+    "resultsSeen": false,
+    "canceled": false,
+    "casualtyChoices": 5,
+    "interruptLost": true,
+    "lukeZone": "AT_LOCATION",
+    "vaderZone": "AT_LOCATION"
+  },
+  {
+    "mode": "collateral-dark",
+    "handInterrupts": {
+      "dark": [
+        "101_6",
+        "1_237",
+        "1_238",
+        "1_249",
+        "1_251",
+        "1_252",
+        "1_254",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_269",
+        "1_275",
+        "1_279"
+      ],
+      "light": [
+        "101_3",
+        "1_100",
+        "1_105",
+        "1_106",
+        "1_113",
+        "1_115",
+        "1_120",
+        "1_77",
+        "1_80",
+        "1_84",
+        "1_90",
+        "1_91",
+        "1_98"
+      ]
+    },
+    "baseline": [
+      {
+        "side": "light",
+        "actions": [
+          "Deploy a card as a \u0027react\u0027",
+          "Move using landspeed as a \u0027react\u0027",
+          "Triple battle damage",
+          "Play",
+          "Move cards with ability away"
+        ],
+        "text": "Battle just initiated at \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_129\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e - Optional responses"
+      },
+      {
+        "side": "dark",
+        "actions": [
+          "Fire Gaderffii Stick",
+          "Play"
+        ],
+        "text": "Battle just initiated at \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_129\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e - Optional responses"
+      }
+    ],
+    "windows": [
+      {
+        "side": "light",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_237\u0027\u003eCollateral Damage\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_237\u0027\u003eCollateral Damage\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "null - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "null - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "Optional responses",
+        "actions": [
+          "Regenerate top-most character"
+        ],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      }
+    ],
+    "preResultSeen": false,
+    "resultsSeen": false,
+    "canceled": false,
+    "casualtyChoices": 5,
+    "interruptLost": true,
+    "lukeZone": "AT_LOCATION",
+    "vaderZone": "AT_LOCATION"
+  },
+  {
+    "mode": "collateral-light",
+    "handInterrupts": {
+      "dark": [
+        "101_6",
+        "1_237",
+        "1_238",
+        "1_249",
+        "1_251",
+        "1_252",
+        "1_254",
+        "1_262",
+        "1_266",
+        "1_268",
+        "1_269",
+        "1_275",
+        "1_279"
+      ],
+      "light": [
+        "101_3",
+        "1_100",
+        "1_105",
+        "1_106",
+        "1_113",
+        "1_115",
+        "1_120",
+        "1_77",
+        "1_80",
+        "1_84",
+        "1_90",
+        "1_91",
+        "1_98"
+      ]
+    },
+    "baseline": [
+      {
+        "side": "dark",
+        "actions": [
+          "Fire Gaderffii Stick",
+          "Deploy a card as a \u0027react\u0027",
+          "Play",
+          "Triple battle damage"
+        ],
+        "text": "Battle just initiated at \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_129\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e - Optional responses"
+      }
+    ],
+    "windows": [
+      {
+        "side": "light",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_237\u0027\u003eCollateral Damage\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "Playing \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_237\u0027\u003eCollateral Damage\u003c/div\u003e - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DESTINY_DRAWN - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "light",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": false
+      },
+      {
+        "side": "dark",
+        "text": "null - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "null - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "dark",
+        "text": "Optional responses",
+        "actions": [
+          "Regenerate top-most character"
+        ],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      },
+      {
+        "side": "light",
+        "text": "Optional responses",
+        "actions": [],
+        "duelPreResult": false,
+        "duelResults": false,
+        "casualtyAlreadyChosen": true
+      }
+    ],
+    "preResultSeen": false,
+    "resultsSeen": false,
+    "canceled": false,
+    "casualtyChoices": 5,
+    "interruptLost": true,
+    "lukeZone": "AT_LOCATION",
+    "vaderZone": "AT_LOCATION"
+  }
+]
