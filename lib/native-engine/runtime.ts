@@ -1,3 +1,4 @@
+import {assertLossPreventions,resolveWithLossPrevention} from './loss-prevention';
 import {resumeStartingInterrupts} from './starting-interrupts';
 import {mayActivateNormally,needsDeclaration,askActivationAmount,activationAmountChoices,chooseActivationAmount,resolveDeclaredActivation,assertDeclaredActivation,declaration,opposingInserts} from './declared-activation';
 import {validForceQuantity, wholeForce} from './force-quantity';
@@ -42,6 +43,7 @@ const core = (id: string, label: string): Action => ({id, label, handler: id, pa
 function validate(match: Match, rules: Rules): void {
   assertState(match);
   assertActivations(match);
+  assertLossPreventions(match);
   assertDeclaredActivation(match);
   for (let index = 0; index < match.stack.length; index++) {
     const f = match.stack[index];
@@ -70,8 +72,11 @@ export function createMatch(id: string, size: 40 | 60, decks: readonly Deck[], r
 
 export function openWindow(match: Match, timing: Timing, priority: Side, event?: Json): void {
   const e = event as {kind?: string; card?: string; cards?: string[]; cardRefs?: unknown; target?:string;targetRef?:unknown} | undefined;
+  if(e && ['cards-lost','character-lost'].includes(e.kind??'') && e.cards?.length===0)return;
   if (e && ['forfeited','character-lost','cards-lost'].includes(e.kind ?? '') && e.cardRefs === undefined)
     event = {...e, cardRefs: (e.cards ?? (e.card ? [e.card] : [])).filter(id => match.cards[id]?.zone === 'lost').map(id => referenceCard(match,id))} as Json;
+  if(e && ['about-to-lose','about-to-forfeit'].includes(e.kind??'') && e.cardRefs===undefined)
+    event={...e,cardRefs:(e.cards??(e.card?[e.card]:[])).filter(id=>match.cards[id]?.zone==='table').map(id=>referenceCard(match,id))} as Json;
   if(e?.kind==='hit'&&e.target&&match.cards[e.target]?.zone==='table'&&e.targetRef===undefined)event={...e,targetRef:referenceCard(match,e.target)} as Json;
   match.stack.push({kind: 'window', serial: ++match.serial, timing, priority, passes: 0, completed: [], ...(event === undefined ? {} : {event})});
 }
@@ -356,7 +361,7 @@ function settle(match: Match, rules: Rules, context: Context): void {
       if (!resolution.cancelled && activateOneForce(match,resolution.actor)) match.turn.activated++;
     } else if (resolution.action.handler === 'core:draw') {
       if (!resolution.cancelled) moveTop(match, resolution.actor, 'force', 'hand');
-    } else rules.resolve(match, resolution, context); // Includes cancellation cleanup.
+    } else resolveWithLossPrevention(match,resolution,()=>rules.resolve(match, resolution, context)); // Includes cancellation cleanup.
     concludeIfEmpty(match);
   }
 }

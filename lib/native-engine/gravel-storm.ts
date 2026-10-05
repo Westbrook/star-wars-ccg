@@ -1,3 +1,4 @@
+import {lossPrevented} from './loss-prevention';
 import {optionalActionWindow} from './action-timing';
 import {ability} from './ability';
 import {cardDefinition, name} from './board';
@@ -38,7 +39,7 @@ export function gravelResolve(m:Match,r:Resolution):void {
       queue(m,'lose',p);openWindow(m,'response',other(r.actor),{kind:'about-to-lose',card:p.target.id,source:p.card,...(p.site?{site:p.site}:{}),cause:'gravel-storm'});
     }
   } else if(h==='gravel:lose') {
-    if(m.cards[p.target.id].zone==='table') {
+    if(m.cards[p.target.id].zone==='table'&&!lossPrevented(m,p.target.id)) {
       p.cards=tableLossCards(m,[p.target.id]);queue(m,'lost',p);loseFromTable(m,[p.target.id]);
     }
   } else if(h==='gravel:lost') {

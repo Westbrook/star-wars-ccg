@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-25';
+export const computerPolicy = 'native-cpu-26';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -77,6 +77,24 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     const [kind,a,b] = c.id.split(':');
     if (c.id === 'concede') return -Infinity;
     if (c.id === 'pass') return 0;
+    if(kind==='prisoner'){
+      if(a==='prison')return 85;
+      if(a==='escort')return 60+value(b)-(rules?.battle?.hits.includes(b)?100:0);
+      if(a==='escape')return 5;
+      // Optional capture needs a visible custody plan. The rules still decide
+      // eligibility/capacity; this conservative estimate never examines a hand
+      // or destination choice belonging to another player.
+      const target=cards.get(b),site=target?.location;
+      const prison=site&&(identities[cards.get(site)?.blueprint as keyof typeof identities]?.keywords as readonly string[]|undefined)?.includes('PRISON');
+      const escort=site&&at(site,side).some(c=>(definition(c.blueprint).icons as readonly string[]).includes('Warrior')&&!rules?.battle?.hits.includes(c.id));
+      return prison||escort?30+Math.max(0,value(b)):-5;
+    }
+    if(kind==='captives'){
+      if(a==='deliver')return 35;
+      if(a==='take')return -5; // Keep an imprisoned captive secured; avoid a free delivery/take loop.
+      if(a==='escape')return own.lifeForce!==null&&own.lifeForce<=2?90:10;
+      if(a==='rally')return c.id.endsWith(':pilot')||c.id.endsWith(':driver')?75:70;
+    }
     if(kind==='battle-plan')return 35;
     if(kind==='resistance')return 35;
     if(kind==='prep-start')return a==='deploy'?40:a==='done'?20:30;

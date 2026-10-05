@@ -1,3 +1,4 @@
+import {lossPrevented} from './loss-prevention';
 import {artillery} from './artillery';
 import {cardDefinition} from './definitions';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
@@ -22,7 +23,7 @@ export function pendingForfeiture(m: Match, id: string): Forfeiture | undefined 
 export function forfeitureResolve(m: Match, r: Resolution): void {
   const p=r.action.payload as unknown as Forfeiture;if(r.cancelled)return;
   if(r.action.handler==='forfeiture:leave'){
-    if(!sameCard(m,p.target))return;
+    if(!sameCard(m,p.target)||lossPrevented(m,p.target.id))return;
     m.stack.push({kind:'resolution',actor:r.actor,cancelled:false,action:action('result',p)});
     if(p.destination==='used')forfeitToUsed(m,p.target.id);else loseFromTable(m,[p.target.id]);
   }else if(r.action.handler==='forfeiture:result'){

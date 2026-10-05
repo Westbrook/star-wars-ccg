@@ -98,7 +98,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler’s Luck",
+    "name": "Gambler\u2019s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -3864,5 +3864,20 @@
     ],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set6/dark/Card6_160.java"
+  },
+  {
+    "gempId": "2_142",
+    "name": "We Have A Prisoner",
+    "side": "dark",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/wehaveaprisoner.gif",
+    "text": "Use 1 Force if opponent's character is about to be lost or forfeited from battle. It is captured instead (character is first restored to normal). OR Use X Force to capture all characters on board a captured starship, where X = twice the number of characters.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_142.java"
   }
 ]

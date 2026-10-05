@@ -1,3 +1,4 @@
+import {lossPrevented} from './loss-prevention';
 import {cardDefinition, name} from './board';
 import {battle, members} from './battle';
 import {drawDestiny, type Draw} from './destiny';
@@ -36,7 +37,7 @@ export function accidentResolve(m: Match, r: Resolution): void {
     if (p.draw!.value !== null && p.draw!.value < p.characters.length && remaining(m, p).length)
       m.stack.push({kind: 'decision', side: other(r.actor), handler: 'accident:select', payload: p as unknown as Json});
   } else if (h === 'accident:lose') {
-    if (remaining(m, p).includes(p.target!)) {queue(m, 'lost', p); loseFromTable(m, [p.target!]);}
+    if (remaining(m, p).includes(p.target!) && !lossPrevented(m,p.target!)) {queue(m, 'lost', p); loseFromTable(m, [p.target!]);}
   } else if (h === 'accident:lost') {
     openWindow(m, 'response', other(r.actor), {kind: 'character-lost', card: p.target!, source: p.card, site: p.site, cause: 'accident'});
   } else if (h === 'accident:finish') moveCard(m, p.card, 'lost');

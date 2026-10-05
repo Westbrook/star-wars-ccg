@@ -1,3 +1,4 @@
+import {lossPrevented} from './loss-prevention';
 import {carrierCaptives,releaseForDepartures} from './captives';
 import {bellyLossCards} from './space-slug';
 import {isVessel} from './occupancy';
@@ -10,12 +11,14 @@ import {sides, type Decision, type Json, type Match} from './types';
 type Ordering = {remaining: string[]; used?: string[]};
 /** All dependents leave simultaneously. Ordering their Lost Piles must not keep
  * their presence/modifiers on table, or add their forfeit to the host's value. */
-function tableGroup(m: Match, hosts: string[]): Set<string> {
-  const ids = new Set(hosts);
+function tableGroup(m: Match, hosts: string[], loss = false): Set<string> {
+  const excluded=new Set(loss ? Object.keys(m.cards).filter(id=>lossPrevented(m,id)) : []);
+  for(let changed=true;changed;){changed=false;for(const c of Object.values(m.cards))if(c.attachedTo&&excluded.has(c.attachedTo)&&!excluded.has(c.id)){excluded.add(c.id);changed=true;}}
+  const ids = new Set(hosts.filter(id=>!excluded.has(id)));
   for (let changed = true; changed;) {
     changed = false;
-    for(const id of carrierCaptives(m,ids))if(!ids.has(id)){ids.add(id);changed=true;}
-    for (const c of Object.values(m.cards)) if ((c.attachedTo || c.stackedOn) && ids.has((c.attachedTo || c.stackedOn)!) && !ids.has(c.id)) {ids.add(c.id); changed = true;}
+    for(const id of carrierCaptives(m,ids))if(!ids.has(id)&&!excluded.has(id)){ids.add(id);changed=true;}
+    for (const c of Object.values(m.cards)) if ((c.attachedTo || c.stackedOn) && ids.has((c.attachedTo || c.stackedOn)!) && !ids.has(c.id) && !excluded.has(c.id)) {ids.add(c.id); changed = true;}
   }
   if ([...ids].some(id => !['table','stacked','captive','inactive'].includes(m.cards[id]?.zone) || m.locations.includes(id))) throw Error('Invalid table loss.');
   return ids;
@@ -31,9 +34,9 @@ function removeGroup(m: Match, ids: Set<string>, zone: 'leaving' | 'hand'): void
   }
 }
 /** Snapshot the complete affected group for response targeting before removal. */
-export const tableLossCards = (m: Match, hosts: string[]): string[] => [...tableGroup(m,[...hosts,...bellyLossCards(m,hosts)])];
+export const tableLossCards = (m: Match, hosts: string[]): string[] => [...tableGroup(m,[...hosts,...bellyLossCards(m,hosts)],true)];
 export function loseFromTable(m: Match, hosts: string[]): string[] {
-  const ids = tableGroup(m, [...hosts,...bellyLossCards(m,hosts)]), references = [...ids].map(id=>referenceCard(m,id));
+  const ids = tableGroup(m, [...hosts,...bellyLossCards(m,hosts)],true), references = [...ids].map(id=>referenceCard(m,id));
   removeGroup(m, ids, 'leaving');
   recordTableLossOrigins(m,references);
   orderNext(m, [...ids]);
@@ -63,7 +66,7 @@ export const forfeitToUsed = placeInUsedFromTable;
 /** Out-of-play costs remove the host permanently. Its dependents are lost,
  * not sacrificed; their ordering must finish before the parent can respond. */
 export function placeOutFromTable(m: Match, host: string): string[] {
-  const ids = tableGroup(m, [host]), lost = [...ids].filter(id => id !== host);
+  const ids = tableGroup(m, [host],true), lost = [...ids].filter(id => id !== host);
   const references = lost.map(id => referenceCard(m, id));
   removeGroup(m, ids, 'leaving');
   moveCard(m, host, 'out');
@@ -116,6 +119,7 @@ export function siteLossCards(m:Match,site:string,except:string):string[]{
  return [...new Set([...tableLossCards(m,roots),...Object.values(m.cards).filter(c=>c.zone==='buried'&&c.location===site&&c.id!==except).map(c=>c.id)])];
 }
 export function loseSiteCards(m:Match,ids:string[]):void{
+ ids=ids.filter(id=>!lossPrevented(m,id));
  if(new Set(ids).size!==ids.length||ids.some(id=>!['table','stacked','buried','captive','inactive'].includes(m.cards[id]?.zone)||m.locations.includes(id)))throw Error('Invalid site casualties.');
  const refs=ids.filter(id=>m.cards[id].zone!=='buried').map(id=>referenceCard(m,id));removeGroup(m,new Set(ids),'leaving');recordTableLossOrigins(m,refs);orderNext(m,ids);
 }

@@ -1,0 +1,71 @@
+[
+  {
+    "name": "seize",
+    "paid": 2,
+    "cost": 1,
+    "restoredForfeit": 9,
+    "restoredPower": 5,
+    "hit": false,
+    "captive": true,
+    "imprisoned": false,
+    "used": false,
+    "weaponLost": false,
+    "deviceLost": false,
+    "weaponAttached": true,
+    "deviceAttached": true
+  },
+  {
+    "name": "imprisonment",
+    "paid": 2,
+    "cost": 1,
+    "restoredForfeit": 7,
+    "restoredPower": 3,
+    "hit": false,
+    "captive": true,
+    "imprisoned": true,
+    "used": false,
+    "weaponLost": false,
+    "deviceLost": false,
+    "weaponAttached": true,
+    "deviceAttached": true
+  },
+  {
+    "name": "escape",
+    "paid": 2,
+    "cost": 1,
+    "restoredForfeit": 9,
+    "restoredPower": 5,
+    "hit": false,
+    "captive": false,
+    "imprisoned": false,
+    "used": true,
+    "weaponLost": true,
+    "deviceLost": true,
+    "weaponAttached": false,
+    "deviceAttached": false
+  },
+  {
+    "name": "loss",
+    "paid": 0,
+    "cost": 1,
+    "restoredForfeit": 9,
+    "restoredPower": 5,
+    "hit": false,
+    "captive": true,
+    "imprisoned": false,
+    "used": false,
+    "weaponLost": false,
+    "deviceLost": false,
+    "weaponAttached": true,
+    "deviceAttached": true
+  },
+  {
+    "deviceLost": true,
+    "cost": 1,
+    "weaponLost": true,
+    "name": "cancel",
+    "paid": 2,
+    "interruptLost": true,
+    "lost": true
+  }
+]

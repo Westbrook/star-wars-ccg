@@ -1,3 +1,4 @@
+import {lossPrevented} from './loss-prevention';
 import {duelModifier} from './duel-modifiers';
 import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
 import {adjacent, power} from './board';
@@ -138,7 +139,7 @@ export function duelResolve(m: Match, r: Resolution): void {
     queue(m, 'lose-character', {card: p.card, target});
     openWindow(m, 'response', 'light', {kind: 'about-to-lose', card: target, source: p.card, site: d.site, cause: 'duel'});
   } else if (h === 'duel:lose-character') {
-    if (m.cards[p.target!].zone !== 'table') {end(m, p); return;}
+    if (m.cards[p.target!].zone !== 'table' || lossPrevented(m,p.target!)) {end(m, p); return;}
     queue(m, 'lost', p); loseFromTable(m, [p.target!]);
   } else if (h === 'duel:lost') {
     queue(m, 'end', p); openWindow(m, 'response', 'light', {kind: 'character-lost', card: p.target!, source: p.card, site: d.site, cause: 'duel'});

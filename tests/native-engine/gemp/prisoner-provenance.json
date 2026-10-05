@@ -1,0 +1,19 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": "Five outcomes of real We Have A Prisoner card actions: three forfeiture destinations, actual Sense cancellation, and a controlled non-forfeiture loss during battle. Fixture placements and temporary stat reductions are explicit. The ordinary-loss probe supplies a synthetic loss effect, not invented capture permission. No complete capture match or captured-starship mode is claimed.",
+  "files": {
+    "NativeEnginePrisonerOracleTests.java": "9e189f6ff060db89ae65aef12e77f3dfc5ed85e425d29cfc3feca3bec9e81462",
+    "prisoner-results.json": "08c3a83a1cee9f5e32441a47521b338cf7d1f1edba29175acc905dc7d00a719b"
+  },
+  "rules": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=133",
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=155"
+  ],
+  "limitations": [
+    "Captured-starship second mode, frozen/unattended and special capture behavior remain required. Production card admission remains closed.",
+    "Native release-before-original-loss-resumes test is a controlled intervention, separate from these GEMP card-action comparisons.",
+    "All previously recorded engine discrepancies and full engine scope remain open."
+  ]
+}

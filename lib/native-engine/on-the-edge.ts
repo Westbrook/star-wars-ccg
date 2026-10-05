@@ -1,3 +1,4 @@
+import {lossPrevented} from './loss-prevention';
 import {mayContributeToRetrieval} from './retrieval-contributors';
 import {ability} from './ability';
 import {cardDefinition, name} from './board';
@@ -35,12 +36,12 @@ export function edgeResolve(m: Match,r: Resolution): void {
     if(p.draw!.value!==null&&p.draw!.value>p.chosen!){
       if(mayContributeToRetrieval(m,p.target.id))m.stack.push({kind:'decision',side:r.actor,handler:'edge:retrieve',payload:p as unknown as Json});
     }
-    else if(m.cards[p.target.id].zone==='table'){
+    else if(m.cards[p.target.id].zone==='table'&&!lossPrevented(m,p.target.id)){
       p.site=m.cards[p.target.id].location;queue(m,'lose',p);
       openWindow(m,'response',other(r.actor),{kind:'about-to-lose',card:p.target.id,source:p.card,...(p.site?{site:p.site}:{}),cause:'on-the-edge'});
     }
   } else if(h==='edge:lose'){
-    if(m.cards[p.target.id].zone==='table'){
+    if(m.cards[p.target.id].zone==='table'&&!lossPrevented(m,p.target.id)){
       p.cards=tableLossCards(m,[p.target.id]);queue(m,'lost',p);loseFromTable(m,[p.target.id]);
     }
   } else if(h==='edge:lost')openWindow(m,'response',other(r.actor),{kind:'character-lost',card:p.target.id,cards:p.cards!,source:p.card,...(p.site?{site:p.site}:{}),cause:'on-the-edge'});

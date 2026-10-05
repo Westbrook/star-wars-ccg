@@ -1,3 +1,4 @@
+import {lossPrevented} from './loss-prevention';
 import {cardDefinition, name, printed} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
 import {alternateDestinies} from './destiny-values';
@@ -41,12 +42,12 @@ export function offEdgeResolve(m: Match,r: Resolution): void {
       const difference=Math.abs(drawn-value);
       if(drawn>value)retrieve(m,r.actor,p.card,difference,null,'used',undefined,{contributors:[p.target.id]});
       else queueForceLoss(m,{side:r.actor,remaining:difference,source:p.card,site:m.cards[p.target.id].location??null,reductionUsed:false});
-    } else if(m.cards[p.target.id].zone==='table'){
+    } else if(m.cards[p.target.id].zone==='table'&&!lossPrevented(m,p.target.id)){
       p.site=m.cards[p.target.id].location;queue(m,'lose',p);
       openWindow(m,'response',other(r.actor),{kind:'about-to-lose',card:p.target.id,source:p.card,...(p.site?{site:p.site}:{}),cause:'off-the-edge'});
     }
   } else if(h==='off-edge:lose'){
-    if(m.cards[p.target.id].zone==='table'){p.cards=tableLossCards(m,[p.target.id]);queue(m,'lost',p);loseFromTable(m,[p.target.id]);}
+    if(m.cards[p.target.id].zone==='table'&&!lossPrevented(m,p.target.id)){p.cards=tableLossCards(m,[p.target.id]);queue(m,'lost',p);loseFromTable(m,[p.target.id]);}
   } else if(h==='off-edge:lost')openWindow(m,'response',other(r.actor),{kind:'character-lost',card:p.target.id,cards:p.cards!,source:p.card,...(p.site?{site:p.site}:{}),cause:'off-the-edge'});
   else if(h==='off-edge:finish')moveCard(m,p.card,'lost');
   else throw Error('Unknown Off The Edge continuation.');

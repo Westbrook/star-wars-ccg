@@ -44,6 +44,7 @@ export type Window = {
   event?: Json;
 };
 export type Resolution = {
+  preventedLosses?: import('./loss-prevention').PreventedLoss[];
   kind: 'resolution';
   awaitingResponses?: boolean;
   actor: Side;

@@ -3583,3 +3583,51 @@ phase, consistent with the card's phase-specific condition. See
 match agrees; the controlled canceled-start branch does not. Do not count that
 branch as conformance or admit its broader reachability. All previous differences,
 remaining card families and full-engine requirements remain outstanding.
+
+### We Have A Prisoner: battle replacement
+
+`prisoner.ts` connects the real 2_142 Lost Interrupt to a Light character about to
+be lost or forfeited while participating in battle. Its 1 Force cost precedes
+Sense responses. A successful play prevents that particular loss, restores the
+character, opens restoration/capture responses, and lets Dark choose a currently
+legal escort, prison, or escape to Used. Forfeiture credit is applied before this
+replacement and is never refunded or recalculated. Attachments remain inactive
+with a seized/imprisoned captive; escape loses attachments before the Interrupt
+finishes. Identical escorts have distinct choice labels.
+
+`loss-prevention.ts` serializes the original loss window and target instance on
+its suspended resolution. Shared table-loss primitives consume that record only
+while resolving that effect. Release and rally before the original effect resumes
+does not cause another loss; later independent losses remain legal. Explicit
+attachment-only windows do not accidentally target their host. The synchronous
+resolution scope is cleared even if the handler throws; only JSON continuations
+are persisted. Single-target loss handlers also suppress a replaced loss result.
+
+`restoration.ts` removes the hit status, persistent weapon forfeit resets, and
+resolved temporary stat/ability/characteristic/text/retrieval modifiers. It
+preserves continuous source-bound modifiers, attachments, physical-instance
+identity, movement/weapon limits, and Disarmed status. The latter can persist
+through inactive captivity and becomes queryable again upon release.
+
+Validation: five exact component outcomes against pinned, unchanged GEMP
+`bbd94d183b29c2e82458293df0327c3b946f3d85` cover three forfeiture destinations,
+real Sense cancellation, and a controlled ordinary loss during battle. The
+ordinary-loss oracle inserts a loss effect while playing the real Interrupt;
+it is not a complete match receipt. The native tests additionally cover release
+before suspended loss completion, stale references, separate casualties,
+restoration, and serialized continuation validation. Nine browser flows use the
+actual HTTP handlers/service/SQLite D1 at phone, tablet and desktop widths, with
+both seats refreshed at the destination decision and after resolution.
+
+This does not finish capture coverage. The captured-starship lifecycle and the
+card's second mode, frozen/unattended and exceptional captives, special capture
+and release text, multi-release ordering, and escort movement restrictions remain
+required. Full native deck admission stays closed; the prior discrepancy list and
+full engine/product scope remain open. No additional Rules Lab study was added.
+
+The deterministic computer policy also uses this path from the same player
+projection: it plays capture when it sees a ground escort or prison plan, favors
+custody over escape, avoids assigning a hit escort when another is available,
+and does not loop between free prison delivery and taking custody. Released Light
+characters favor rallying unless an escape is needed at critically low Life Force.
+These are strategy estimates; only server-offered legal choices are selectable.

@@ -1,3 +1,4 @@
+import {lossPrevented} from './loss-prevention';
 import {atSite, cardDefinition, name} from './board';
 import {battle, members} from './battle';
 import {drawDestiny, validDraw, type Draw} from './destiny';
@@ -29,7 +30,7 @@ export function characterResolve(m: Match, r: Resolution): void {
     if ((p.draw!.value === null || p.draw!.value > 4) && targets(m, p).length)
       m.stack.push({kind: 'decision', side: r.actor, handler: 'character:choke-target', payload: p as unknown as Json});
   } else if (r.action.handler === 'character:apply-choke') {
-    if (targets(m, p).includes(p.target!)) {
+    if (targets(m, p).includes(p.target!) && !lossPrevented(m,p.target!)) {
       m.stack.push({kind: 'resolution', actor: r.actor, cancelled: false, action: action('choke-lost', p)});
       loseFromTable(m, [p.target!]);
     }
