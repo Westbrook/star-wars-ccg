@@ -1,0 +1,62 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T07:28:42.302163+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineForceEffectsMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "junitTests": 1,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "files": {
+    "NativeEngineForceEffectsMatchOracleTests.java": "cdddf593b0f4cd1db94b3896e725f6a8bddb7e2fe0e4e97100d55117697a2fd4",
+    "complete-matches/force-effects-battle-decks.json": "7c60819d8899cac95ce57d00a7c659f1acaa0ffc10db2784a9595575ee0c13da",
+    "complete-matches/force-effects-battle.json.gz": "38b600845241dcc117534b3b57ffcd3ff81ec7cea0e8f5ca99503e0d58ad7c19"
+  },
+  "jsonSha256": "e12c7693c6a554c3a4814573dc91cf8a6999be2153dada1ce052f3537c016e6f",
+  "referenceDecisions": 1077,
+  "nativeCommands": 1592,
+  "comparedCheckpoints": 157,
+  "turns": 22,
+  "winner": "light",
+  "actions": {
+    "untagged": 8,
+    "site-placement": 2,
+    "setup-interrupt": 2,
+    "setup-effect": 2,
+    "activate": 20,
+    "activate-count": 40,
+    "pass": 836,
+    "draw": 21,
+    "deploy": 14,
+    "deploy-target": 14,
+    "drain": 14,
+    "assault": 3,
+    "force-boost": 2,
+    "sense": 1,
+    "ability-selection": 1,
+    "force-exclude": 1,
+    "exclude-selection": 1,
+    "lose": 54,
+    "move": 14,
+    "move-target": 14,
+    "site": 2,
+    "battle": 7,
+    "forfeit": 4
+  },
+  "scope": [
+    "Ordinary shuffled60-card game with For Luck and Dark Forces starting deployments.",
+    "Three Assaults, two defensive bonuses (one from each Effect), and Sense against Counter Assault with Dark Forces excluding Obi-Wan.",
+    "Exact physical action and target observations, one-Force payments, setup piles, all157 compared checkpoints and Life Force victory.",
+    "Only legal client actions and read-only observations. No board, Force, destiny, hand or pile correction."
+  ],
+  "limitations": [
+    "One exact game is not all branches or full catalog admission.",
+    "Only one Jedi is excluded; no Alter or multi-Jedi exclusion in this match. Existing component coverage remains separate.",
+    "Existing Force Effects production-return discrepancy, failed-Obsession amount and all retained discrepancies remain open. Full production admission stays closed."
+  ],
+  "clientPolicy": [
+    "Prioritize Jedi deployment and preserve them during forfeiture; reserve Force when a Jedi in hand cannot yet deploy.",
+    "Choose offered Assaults, defensive bonuses and exclusions. Sense targets Assaults; legal self-cancellation is allowed with a Jedi present, although the recorded Sense targets the opposing Counter Assault.",
+    "Initial two clients reached victory without an exclusion. Final coverage uses the documented Jedi-heavy deck/profile and policy, not a selected favorable shuffle or intervened state."
+  ]
+}

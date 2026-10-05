@@ -1,0 +1,160 @@
+package com.gempukku.swccgo.rules.devices;
+
+import com.gempukku.swccgo.common.*;
+import com.gempukku.swccgo.framework.VirtualTableScenario;
+import com.gempukku.swccgo.game.*;
+import com.gempukku.swccgo.game.state.GameState;
+import com.gempukku.swccgo.logic.decisions.*;
+import com.gempukku.swccgo.logic.timing.*;
+import com.gempukku.swccgo.logic.vo.SwccgDeck;
+import com.google.gson.*;
+import org.junit.Test;
+import java.nio.file.*;
+import java.util.*;
+import static org.junit.Assert.*;
+
+/** Ordinary shuffled 60-card match. Only legal client decisions; no board,
+ * Force, destiny or pile interventions after normal setup. */
+public class NativeEngineForceEffectsMatchOracleTests {
+ final Gson gson=new GsonBuilder().setPrettyPrinting().create();
+ DefaultSwccgGame game; DefaultUserFeedback feedback;
+ final Map<Integer,String> identities=new HashMap<>();
+ final List<Map<String,Object>> trace=new ArrayList<>();
+ final Map<Action,Map<String,Object>> targets=new LinkedHashMap<>();
+ final Set<Object> totalSeen=Collections.newSetFromMap(new IdentityHashMap<>());
+ final Map<PhysicalCard,Map<String,Object>> outcomes=new LinkedHashMap<>();
+ Map<String,Object> setup;
+ Map<String,Object> pendingSearch; PhysicalCard searchSource;
+ final Map<String,Integer> searchCounts=new HashMap<>();
+    GameState state() { return game.getGameState(); }
+    String identity(PhysicalCard c) { return c == null ? null : identities.get(c.getPermanentCardId()); }
+    List<String> ids(Collection<PhysicalCard> cards) { return cards.stream().map(this::identity).toList(); }
+    PhysicalCard card(String id) { return state().getAllPermanentCards().stream().filter(c -> Integer.toString(c.getCardId()).equals(id)).findFirst().orElse(null); }
+    Map<String,Object> snapshot() {
+        var players = new LinkedHashMap<String,Object>();
+        for (var side : List.of("dark","light")) players.put(side, Map.of("reserve",ids(state().getReserveDeck(side)),"force",ids(state().getForcePile(side)),"used",ids(state().getUsedPile(side)),"lost",ids(state().getLostPile(side)),"hand",ids(state().getHand(side))));
+        var table = new ArrayList<Map<String,Object>>();
+        for (var c : state().getAllPermanentCards()) if (c.getZone()==Zone.AT_LOCATION || c.getZone()==Zone.ATTACHED || c.getZone()==Zone.SIDE_OF_TABLE) {
+            var entry=new LinkedHashMap<String,Object>();entry.put("id",identity(c));entry.put("location",identity(game.getModifiersQuerying().getLocationThatCardIsAt(state(),c)));entry.put("attachedTo",identity(c.getAttachedTo()));entry.put("hit",c.isHit());if(c.getBlueprint().getCardCategory()==CardCategory.CHARACTER)entry.put("disarmed",c.isDisarmed());
+            if(c.getBlueprint().getCardCategory()==CardCategory.CHARACTER)entry.put("stats",Map.of("power",game.getModifiersQuerying().getPower(state(),c),"ability",game.getModifiersQuerying().getAbility(state(),c),"forfeit",game.getModifiersQuerying().getForfeit(state(),c)));
+            table.add(entry);
+        }
+        table.sort(Comparator.comparing(c -> (String)c.get("id")));
+        var result=new LinkedHashMap<String,Object>(Map.of("turn",state().getPlayersLatestTurnNumber("dark")+state().getPlayersLatestTurnNumber("light"),"side",state().getCurrentPlayerId(),"phase",state().getCurrentPhase().name().toLowerCase(),"players",players,"table",table,"locations",ids(state().getLocationsInOrder())));
+        var battle=state().getBattleState();
+        if(battle!=null&&battle.isReachedDamageSegment()) {
+            var losses=new LinkedHashMap<String,Object>();
+            for(var side:List.of("dark","light"))losses.put(side,Map.of("damage",battle.getBattleDamageRemaining(game,side),"totalDamage",battle.getBattleDamageTotal(game,side),"totalAttrition",battle.getAttritionTotal(game,side),"attrition",battle.getAttritionRemaining(game,side)));
+            result.put("battleLosses",losses);
+            var destinies=new LinkedHashMap<String,Object>();
+            for(var side:List.of("dark","light"))destinies.put(side,Map.of("total",battle.getTotalBattleDestiny(game,side),"cards",battle.getBattleDestinyDraws(side)==null?List.of():ids(battle.getBattleDestinyDraws(side)),"values",battle.getBattleDestinyDrawsValues(side)==null?List.of():battle.getBattleDestinyDrawsValues(side)));
+            result.put("battleDestinies",destinies);
+        }
+        return result;
+    }
+    void semantic(String kind, String side, PhysicalCard source) {
+        var value=new LinkedHashMap<String,Object>();value.put("kind",kind);value.put("side",side);if(source!=null)value.put("card",identity(source));trace.getLast().put("semantic",value);
+    }
+ Action selected(AwaitingDecision d,String answer){try{var method=(d instanceof CardActionSelectionDecision?CardActionSelectionDecision.class:ActionSelectionDecision.class).getDeclaredMethod("getSelectedAction",String.class);method.setAccessible(true);return (Action)method.invoke(d,answer);}catch(ReflectiveOperationException e){throw new AssertionError(e);}}
+ void observe(AwaitingDecision d,String answer){targets.put(selected(d,answer),trace.getLast());}
+ void recordTargets(){for(var e:targets.entrySet()){var row=e.getValue();if(row.containsKey("targetEvidence"))continue;var sem=(Map<String,Object>)row.get("semantic");var cs=e.getKey().getAllPrimaryTargetCards().values().stream().flatMap(v->v.keySet().stream()).distinct().toList();int count=sem.get("kind").equals("sense")?2:1;if(cs.size()<count)continue;row.put("targetEvidence",cs.stream().map(c->Map.of("card",identity(c),"blueprint",c.getBlueprintId(true),"referenceCardId",Integer.toString(c.getCardId()))).toList());row.put("targetsObservedAt",trace.size()-1);}}
+ PhysicalCard pendingInterrupt(List<String> blueprints){return state().getAllPermanentCards().stream().filter(c->blueprints.contains(c.getBlueprintId(true))&&!state().getHand(c.getOwner()).contains(c)&&!state().getReserveDeck(c.getOwner()).contains(c)&&!state().getUsedPile(c.getOwner()).contains(c)&&!state().getLostPile(c.getOwner()).contains(c)&&!state().getForcePile(c.getOwner()).contains(c)).findFirst().orElseThrow();}
+ String setupChoice(AwaitingDecision decision,String side,String kind){var p=decision.getDecisionParameters();try{var method=ArbitraryCardsSelectionDecision.class.getDeclaredMethod("getPhysicalCardByIndex",int.class);method.setAccessible(true);var offered=new ArrayList<String>();for(int i=0;i<p.get("cardId").length;i++)offered.add(identity((PhysicalCard)method.invoke(decision,i)));int index=0;while(!"true".equals(p.get("selectable")[index]))index++;var c=(PhysicalCard)method.invoke(decision,index);semantic(kind,side,c);trace.getLast().put("setupOffered",offered);return p.get("cardId")[index];}catch(ReflectiveOperationException e){throw new AssertionError(e);}}
+    void recordSearchOutcome(){
+        if(pendingSearch!=null&&state().getUsedPile(searchSource.getOwner()).contains(searchSource)){
+            var result=new LinkedHashMap<String,Object>();result.put("source",identity(searchSource));result.put("reserve",ids(state().getReserveDeck(searchSource.getOwner())));result.put("hand",ids(state().getHand(searchSource.getOwner())));result.put("afterDecision",trace.size()-1);pendingSearch.put("searchOutcome",result);pendingSearch=null;searchSource=null;
+        }
+    }
+    PhysicalCard observeSearchChoice(AwaitingDecision d,String answer){
+        try{var method=ArbitraryCardsSelectionDecision.class.getDeclaredMethod("getSelectedCardsByResponse",String.class);method.setAccessible(true);var selected=(List<PhysicalCard>)method.invoke(d,answer);var byIndex=ArbitraryCardsSelectionDecision.class.getDeclaredMethod("getPhysicalCardByIndex",int.class);byIndex.setAccessible(true);var offered=new ArrayList<String>();for(int i=0;i<d.getDecisionParameters().get("cardId").length;i++)offered.add(identity((PhysicalCard)byIndex.invoke(d,i)));trace.getLast().put("searchOffered",offered);assertEquals(1,selected.size());return selected.getFirst();}catch(ReflectiveOperationException e){throw new AssertionError(e);}
+    }
+ PhysicalCard front(){return state().getLocationsInOrder().stream().filter(c->List.of("1_129","1_291").contains(c.getBlueprintId(true))).findFirst().orElse(null);}
+ String choose(String side,AwaitingDecision decision){
+  String text=decision.getText().toLowerCase();var p=decision.getDecisionParameters();
+        if(decision.getDecisionType()==AwaitingDecisionType.ARBITRARY_CARDS&&text.equals("choose card to take into hand")){
+            assertNotNull(pendingSearch);int selected=0;while(!"true".equals(p.get("selectable")[selected]))selected++;String answer=p.get("cardId")[selected];var chosen=observeSearchChoice(decision,answer);semantic("search-selection",side,chosen);((Map<String,Object>)trace.getLast().get("semantic")).put("initiation",trace.indexOf(pendingSearch));pendingSearch.put("selection",Map.of("card",identity(chosen),"blueprint",chosen.getBlueprintId(true),"answer",answer,"atDecision",trace.size()-1));return answer;
+        }
+        if(decision.getDecisionType()==AwaitingDecisionType.ARBITRARY_CARDS&&text.startsWith("verify reserve deck after unsuccessful attempt to 'choose card to take into hand'")){
+            assertNotNull(pendingSearch);semantic("search-verify",side,searchSource);((Map<String,Object>)trace.getLast().get("semantic")).put("initiation",trace.indexOf(pendingSearch));return "";
+        }
+
+  if(decision.getDecisionType()==AwaitingDecisionType.CARD_SELECTION&&(text.contains("highest-ability")||text.contains("target jedi")||text.contains("target dark jedi"))){semantic(text.contains("target")?"exclude-selection":"ability-selection",side,card(p.get("cardId")[0]));return p.get("cardId")[0];}
+  if(text.contains("select ok to start"))return "0";
+  if(text.contains("starting location")){String bp=side.equals("dark")?"1_291":"1_132";for(int i=0;i<p.get("blueprintId").length;i++)if(p.get("blueprintId")[i].equals(bp))return p.get("cardId")[i];}
+  if(text.contains("starting interrupt"))return setupChoice(decision,side,"setup-interrupt");
+  if(text.contains("choose card")&&text.contains("deploy from reserve"))return setupChoice(decision,side,"setup-effect");
+  if(decision.getDecisionType()==AwaitingDecisionType.MULTIPLE_CHOICE&&text.startsWith("on which side of ")){semantic("site-placement",side,null);return "0";}
+  if(decision.getDecisionType()==AwaitingDecisionType.CARD_SELECTION&&text.contains("next to (or convert)")){semantic("site-placement",side,card(p.get("cardId")[0]));return p.get("cardId")[0];}
+  if(decision.getDecisionType()==AwaitingDecisionType.ARBITRARY_CARDS&&text.equals("choose card to put on lost pile")){semantic("loss-order",side,null);return p.get("cardId")[0];}
+  if(decision.getDecisionType()==AwaitingDecisionType.MULTIPLE_CHOICE&&text.matches("do you want to draw [0-9]+ battle destiny.*"))return "0";
+  if(decision.getDecisionType()==AwaitingDecisionType.INTEGER&&text.contains("activate")){semantic("activate-count",side,null);trace.getLast().put("count",Integer.parseInt(p.get("max")[0]));return p.get("max")[0];}
+  if(decision.getDecisionType()==AwaitingDecisionType.CARD_SELECTION&&text.contains("where to move")){var locations=new ArrayList<>(state().getLocationsInOrder());int goal=locations.indexOf(front());var target=Arrays.stream(p.get("cardId")).map(this::card).min(Comparator.comparingInt(c->Math.abs(locations.indexOf(c)-goal))).orElseThrow();semantic("move-target",side,target);return Integer.toString(target.getCardId());}
+  if(decision.getDecisionType()==AwaitingDecisionType.CARD_SELECTION&&text.contains("where to deploy")){
+   var options=Arrays.stream(p.get("cardId")).filter(id->!p.containsKey("selectable")||"true".equals(p.get("selectable")[Arrays.asList(p.get("cardId")).indexOf(id)])).map(this::card).toList();
+   var target=options.stream().min(Comparator.comparingInt((PhysicalCard c)->(int)state().getAllPermanentCards().stream().filter(v->v.getOwner().equals(side)&&v.getAtLocation()==c).count())).orElseThrow();
+   semantic("deploy-target",side,target);return Integer.toString(target.getCardId());
+  }
+  if(decision.getDecisionType()==AwaitingDecisionType.CARD_SELECTION&&(text.contains("to lose")||text.contains("to be lost")||text.contains("to forfeit"))){var options=Arrays.stream(p.get("cardId")).map(this::card).filter(Objects::nonNull).sorted(Comparator.comparingInt((PhysicalCard c)->(c.getZone()==Zone.AT_LOCATION||c.getZone()==Zone.ATTACHED)?0:c.getZone()==Zone.RESERVE_DECK?1:c.getZone()==Zone.USED_PILE?2:c.getZone()==Zone.FORCE_PILE?3:4).thenComparingDouble(c->c.getZone()==Zone.AT_LOCATION?game.getModifiersQuerying().getAbility(state(),c):0).thenComparing(this::identity)).toList();var c=options.getFirst();semantic((c.getZone()==Zone.AT_LOCATION||c.getZone()==Zone.ATTACHED)?"forfeit":"lose",side,c);trace.getLast().put("lossZone",c.getZone().name());return Integer.toString(c.getCardId());}
+  if(decision.getDecisionType()==AwaitingDecisionType.CARD_ACTION_CHOICE||decision.getDecisionType()==AwaitingDecisionType.ACTION_CHOICE){String[] actions=p.get("actionText"),ids=p.get("actionId"),cards=p.get("cardId");
+   if(actions!=null)for(int i=0;i<actions.length;i++){var a=selected(decision,ids[i]);var c=a.getActionSource();String label=actions[i].toLowerCase();if(c==null)continue;String bp=c.getBlueprintId(true);
+    if(List.of("102_1","102_6").contains(bp)&&label.equals("add one destiny to total")){semantic("force-boost",side,c);trace.getLast().put("assault",identity(pendingInterrupt(List.of("1_113","1_238"))));return ids[i];}
+    if(List.of("102_1","102_6").contains(bp)&&label.startsWith("exclude ")){semantic("force-exclude",side,c);trace.getLast().put("sense",identity(pendingInterrupt(List.of("1_109","1_267"))));observe(decision,ids[i]);return ids[i];}
+    if(List.of("1_113","1_238").contains(bp)&&label.equals("cancel force drain")){semantic("assault",side,c);trace.getLast().put("drainSite",identity(state().getForceDrainLocation()));return ids[i];}
+    if(List.of("1_109","1_267").contains(bp)&&label.startsWith("draw destiny to cancel ")&&(!label.contains("your ")||state().getAllPermanentCards().stream().anyMatch(v->v.getOwner().equals(side)&&v.getZone()==Zone.AT_LOCATION&&game.getModifiersQuerying().getAbility(state(),v)>=6))&&(label.contains("surprise assault")||label.contains("counter assault"))){semantic("sense",side,c);observe(decision,ids[i]);return ids[i];}
+   }
+   if(!text.contains("optional")&&!text.contains("response")&&actions!=null)for(int i=0;i<actions.length;i++){var c=cards==null?null:card(cards[i]);if(c!=null&&List.of("1_21","101_5").contains(c.getBlueprintId(true))&&actions[i].toLowerCase().startsWith("deploy")){semantic("deploy",side,c);return ids[i];}}
+   if(!text.contains("optional")&&!text.contains("response")&&actions!=null)for(int i=0;i<actions.length;i++){String action=actions[i].toLowerCase();var c=cards==null?null:card(cards[i]);
+    if(action.startsWith("initiate battle")){long previous=trace.stream().filter(r->r.get("semantic") instanceof Map<?,?> v&&"battle".equals(v.get("kind"))).count();boolean wantFree=previous%3!=0;boolean free=action.contains("for free");boolean hasFree=Arrays.stream(actions).anyMatch(a->a.equalsIgnoreCase("Initiate battle for free"));if(hasFree&&free!=wantFree&&state().getForcePile(side).size()>0)continue;semantic("battle",side,c);trace.getLast().put("free",free);trace.getLast().put("initiationCost",game.getModifiersQuerying().getInitiateBattleCost(state(),c,side,free));return ids[i];}
+    if(action.equals("activate force")||action.startsWith("force drain")){semantic(action.equals("activate force")?"activate":"drain",side,c);if(action.startsWith("force drain"))trace.getLast().put("initiationCost",game.getModifiersQuerying().getInitiateForceDrainCost(state(),c,side));return ids[i];}
+    if(action.equals("move using landspeed")&&front()!=null&&game.getModifiersQuerying().getLocationThatCardIsAt(state(),c)!=front()){semantic("move",side,c);return ids[i];}
+    if(action.startsWith("deploy")&&c!=null&&c.getZone()==Zone.HAND){var type=c.getBlueprint().getCardCategory();if(type==CardCategory.CHARACTER&&(state().getForcePile(side).size()<4||state().getHand(side).stream().anyMatch(v->List.of("1_21","101_5").contains(v.getBlueprintId(true)))&&!state().getAllPermanentCards().stream().anyMatch(v->v.getOwner().equals(side)&&v.getZone()==Zone.AT_LOCATION&&List.of("1_21","101_5").contains(v.getBlueprintId(true)))))continue;if(type==CardCategory.CHARACTER&&state().getAllPermanentCards().stream().filter(v->v.getOwner().equals(side)&&v.getZone()==Zone.AT_LOCATION).count()>=10)continue;if(type==CardCategory.CHARACTER||type==CardCategory.LOCATION||type==CardCategory.EFFECT){semantic(type==CardCategory.LOCATION?"site":type==CardCategory.EFFECT?"table-effect":"deploy",side,c);return ids[i];}}
+    if(action.equals("draw card into hand from force pile")&&state().getHand(side).size()<20&&state().getForcePile(side).size()>3){semantic("draw",side,c);return ids[i];}
+   }
+   semantic("pass",side,null);return "";
+  }
+  throw new AssertionError("Unmapped decision: "+side+" "+decision.getDecisionType()+" "+decision.getText()+" "+gson.toJson(p));
+ }
+    @Test public void completeForceEffectsMatch() throws Exception {
+        var manifest=JsonParser.parseString(Files.readString(Path.of("/opt/gemp-swccg/force-effects-battle-manifest.json"))).getAsJsonObject();
+        var decks=new LinkedHashMap<String,SwccgDeck>();var lists=new LinkedHashMap<String,List<String>>();
+        for(var entry:manifest.getAsJsonArray("decks")) {
+            var object=entry.getAsJsonObject();String side=object.get("side").getAsString();
+            var deck=new SwccgDeck(side);var list=new ArrayList<String>();
+            for(var bp:object.getAsJsonArray("main")){deck.addCard(bp.getAsString());list.add(bp.getAsString());}
+            assertEquals(60,list.size());decks.put(side,deck);lists.put(side,list);
+        }
+        feedback=new DefaultUserFeedback();
+        game=new DefaultSwccgGame(VirtualTableScenario._formatLibrary.getFormat("open"),decks,feedback,VirtualTableScenario._cardLibrary,Map.of("dark",0,"light",0),false);
+        feedback.setGame(game);game.startGame();game.setTestEnvironment(true);
+        for(var side:List.of("dark","light")){
+            var remaining=new ArrayList<>(state().getAllPermanentCards().stream().filter(c->c.getOwner().equals(side)).sorted(Comparator.comparingInt(PhysicalCard::getPermanentCardId)).toList());
+            assertEquals(60,remaining.size());
+            for(int i=0;i<60;i++){String bp=lists.get(side).get(i);var c=remaining.stream().filter(v->v.getBlueprintId(true).equals(bp)).findFirst().orElseThrow();identities.put(c.getPermanentCardId(),side+"-"+(i+1));remaining.remove(c);}
+        }
+        try {
+            for(int i=0;i<10000&&!game.isFinished();i++){
+                String side=feedback.getAwaitingDecision("dark")!=null?"dark":"light";
+                var d=feedback.getAwaitingDecision(side);assertNotNull("No live decision",d);
+                if(setup==null&&state().getCurrentPhase()==Phase.ACTIVATE)setup=snapshot();
+                var row=new LinkedHashMap<String,Object>();row.put("side",side);row.put("type",d.getDecisionType());row.put("text",d.getText());row.put("parameters",d.getDecisionParameters());row.put("state",snapshot());trace.add(row);
+                String answer=choose(side,d);row.put("answer",answer);if(row.get("semantic") instanceof Map<?,?> sem&&List.of("assault","sense","force-exclude","force-boost").contains(sem.get("kind"))){var a=selected(d,answer);var c=a.getActionSource();row.put("actionEvidence",Map.of("card",identity(c),"blueprint",c.getBlueprintId(true),"referenceCardId",Integer.toString(c.getCardId()),"answer",answer));}
+                var priorLost=ids(state().getLostPile(side));
+                feedback.participantDecided(side);d.decisionMade(answer);game.carryOutPendingActionsUntilDecisionNeeded();recordTargets();
+                if(row.get("semantic") instanceof Map<?,?> sem && "loss-order".equals(sem.get("kind"))){
+                    var added=new ArrayList<>(ids(state().getLostPile(side)));added.removeAll(priorLost);assertFalse(added.isEmpty());
+                    var selected=state().getAllPermanentCards().stream().filter(c->identity(c).equals(added.getLast())).findFirst().orElseThrow();
+                    assertEquals(d.getDecisionParameters().get("blueprintId")[0],selected.getBlueprintId(true));semantic("loss-order",side,selected);
+                }
+            }
+            assertTrue("Command budget exhausted",game.isFinished());
+            assertEquals(2,trace.stream().filter(r->r.get("semantic") instanceof Map<?,?> v&&"setup-effect".equals(v.get("kind"))).count());
+            assertNull("Search completion must be observed",pendingSearch);
+            assertTrue("An actual defensive boost is required",trace.stream().anyMatch(r->r.get("semantic") instanceof Map<?,?> v&&"force-boost".equals(v.get("kind"))));
+            assertTrue("An actual Jedi exclusion is required",trace.stream().anyMatch(r->r.get("semantic") instanceof Map<?,?> v&&"force-exclude".equals(v.get("kind"))));
+            assertTrue(trace.stream().anyMatch(r->r.get("semantic") instanceof Map<?,?> v&&"drain".equals(v.get("kind"))));
+        } finally {
+            var result=new LinkedHashMap<String,Object>();result.put("schema",1);result.put("snapshotVersion",9);result.put("deckProfile","force-effects-battle-v1");result.put("decks",lists);result.put("setup",setup);result.put("trace",trace);result.put("winner",game.getWinner());result.put("finished",game.isFinished());result.put("final",snapshot());
+            Files.writeString(Path.of("/opt/gemp-swccg/force-effects-match-results.json"),gson.toJson(result));
+        }
+    }
+}

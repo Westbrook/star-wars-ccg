@@ -366,24 +366,46 @@ export function assertStartingSetupEvidence(record,cards){
   assert.equal(row.side,s.side);assert.equal(cards[s.card]?.owner,s.side);const choice=row.parameters.cardId.indexOf(row.answer);assert.ok(choice>=0,'Setup answer must be offered');assert.equal(row.parameters.blueprintId[choice],cards[s.card].blueprint);assert.ok(row.state.players[s.side].reserve.includes(s.card),'Chosen setup card must be in Reserve');
   assert.equal(row.setupOffered?.length,row.parameters.cardId.length);assert.equal(row.setupOffered[choice],s.card);for(let j=0;j<row.setupOffered.length;j++){const id=row.setupOffered[j];assert.equal(cards[id]?.owner,s.side);assert.equal(cards[id]?.blueprint,row.parameters.blueprintId[j]);assert.ok(row.state.players[s.side].reserve.includes(id));}assert.equal(row.parameters.selectable[choice],'true');
   if(s.kind==='setup-interrupt'){
-   assert.ok(row.text.toLowerCase().includes('starting interrupt'));assert.equal(cards[s.card].blueprint,record.deckProfile==='effect-search-battle-v1'?(s.side==='dark'?'6_160':'6_77'):(s.side==='dark'?'9_139':'9_51'));assert.equal(plan.interrupts[s.side],undefined,'Duplicate Starting Interrupt');plan.interrupts[s.side]=s.card;
+   assert.ok(row.text.toLowerCase().includes('starting interrupt'));assert.equal(cards[s.card].blueprint,['effect-search-battle-v1','force-effects-battle-v1'].includes(record.deckProfile)?(s.side==='dark'?'6_160':'6_77'):(s.side==='dark'?'9_139':'9_51'));assert.equal(plan.interrupts[s.side],undefined,'Duplicate Starting Interrupt');plan.interrupts[s.side]=s.card;
   }else{
-   assert.ok(row.text.toLowerCase().includes('deploy from reserve'));assert.ok(plan.interrupts[s.side]);assert.ok((s.side==='dark'?['4_134','6_147','8_118']:['4_21','6_58','8_35']).includes(cards[s.card].blueprint),'Unsupported setup Effect');
+   assert.ok(row.text.toLowerCase().includes('deploy from reserve'));assert.ok(plan.interrupts[s.side]);assert.ok((s.side==='dark'?['4_134','6_147','8_118',...(['effect-search-battle-v1','force-effects-battle-v1'].includes(record.deckProfile)?['102_6']:[])]:['4_21','6_58','8_35',...(['effect-search-battle-v1','force-effects-battle-v1'].includes(record.deckProfile)?['102_1']:[])]).includes(cards[s.card].blueprint),'Unsupported setup Effect');
    assert.ok(!plan.effects[s.side].some(id=>cards[id].blueprint===cards[s.card].blueprint),'Duplicate unique starting Effect');
    if(row.parameters.selectableCardId)assert.ok(row.parameters.selectableCardId.includes(row.answer));
    const next=rows.findIndex((r,j)=>j>i&&r.semantic?.kind==='setup-effect');const end=next<0?boundary:next;
    assert.ok(record.trace.slice(i+1,end+1).some(r=>r.state.table.some(c=>c.id===s.card)),'Starting deployment result not observed before next choice');plan.effects[s.side].push(s.card);
   }
  }
- const count=record.deckProfile==='effect-search-battle-v1'?1:3;
+ const count=['effect-search-battle-v1','force-effects-battle-v1'].includes(record.deckProfile)?1:3;
  for(const side of ['dark','light']){assert.ok(plan.interrupts[side]);assert.equal(plan.effects[side].length,count);assert.deepEqual(record.setup.players[side].lost,[plan.interrupts[side]]);assert.equal(record.setup.players[side].hand.length,8);assert.equal(record.setup.players[side].reserve.length,50-count);for(const card of plan.effects[side])assert.ok(record.setup.table.some(c=>c.id===card));}
  assert.equal(record.setup.table.length,count*2);return plan;
+}
+
+export function assertForceMatchPayment(rows,index,cost){
+ const row=rows[index],side=row.semantic.side,before=row.state.players[side],after=rows.slice(index+1).find(r=>JSON.stringify(r.state.players[side].force)!==JSON.stringify(before.force)||JSON.stringify(r.state.players[side].used)!==JSON.stringify(before.used));assert.ok(after,'Missing observed payment');assert.deepEqual(after.state.players[side].force,before.force.slice(cost),'Wrong Force cost or order');assert.deepEqual(after.state.players[side].used,[...before.force.slice(0,cost)].reverse().concat(before.used),'Payment must enter Used in actual order');
+}
+function assertForceTargetEvidence(rows,index){
+ const row=rows[index],end=row.targetsObservedAt;assert.ok(Number.isSafeInteger(end)&&end>=index&&end<rows.length,'Invalid target observation boundary');
+ const next=rows.findIndex((r,i)=>i>index&&r.semantic&&!['pass','ability-selection','exclude-selection'].includes(r.semantic.kind));assert.ok(next<0||end<next,'Targets observed after another action');
+ const kind=row.semantic.kind==='sense'?'ability-selection':'exclude-selection';
+ for(const choice of rows.slice(index+1,end+1).filter(r=>r.semantic?.kind===kind)){
+  assert.equal(choice.side,row.side);assert.equal(choice.semantic.side,row.side);assert.ok(choice.parameters.cardId.includes(choice.answer));
+  const ref=row.targetEvidence.find(t=>t.card===choice.semantic.card);assert.ok(ref,'Selection does not belong to this action');assert.equal(choice.answer,ref.referenceCardId,'Physical target answer differs from actual selected card');
+ }
+}
+export function assertForceMatchAction(rows,index,cards){
+ const row=rows[index],s=row.semantic,e=row.actionEvidence,i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Missing reference action');assert.equal(row.side,s.side);assert.equal(e?.card,s.card);assert.equal(e.answer,row.answer);assert.equal(cards[s.card]?.blueprint,e.blueprint);assert.equal(cards[s.card].owner,s.side);if(row.parameters.cardId)assert.equal(row.parameters.cardId[i],e.referenceCardId);
+ const label=row.parameters.actionText[i].toLowerCase(),active=id=>row.state.table.some(c=>c.id===id),previous=kind=>rows.slice(0,index).findLast(r=>r.semantic?.kind===kind);
+ if(s.kind==='assault'){assertForceMatchPayment(rows,index,1);assert.equal(label,'cancel force drain');assert.equal(e.blueprint,s.side==='light'?'1_113':'1_238');assert.ok(row.state.players[s.side].hand.includes(s.card));assert.ok(row.state.players[s.side].force.length>=1);assert.equal(previous('drain')?.semantic.card,row.drainSite);assert.ok(row.state.locations.includes(row.drainSite));return;}
+ if(s.kind==='sense'){assert.equal(e.blueprint,s.side==='light'?'1_109':'1_267');assert.ok(label.startsWith('draw destiny to cancel '));assert.ok(row.state.players[s.side].hand.includes(s.card));assert.equal(row.targetEvidence?.length,2);const t=row.targetEvidence.find(x=>board.definition(x.blueprint).type==='Interrupt'),c=row.targetEvidence.find(x=>board.definition(x.blueprint).type==='Character');assert.ok(t&&c);for(const ref of [t,c])assert.equal(cards[ref.card]?.blueprint,ref.blueprint);assert.equal(t.card,previous('assault')?.semantic.card);assert.equal(label,'draw destiny to cancel '+(cards[t.card].owner===s.side?'your ':'')+board.definition(t.blueprint).name.toLowerCase());assert.ok(active(c.card));assert.equal(cards[c.card].owner,s.side);assert.ok(!Object.values(row.state.players).some(p=>Object.values(p).some(pile=>pile.includes(t.card))),'Sense target must still be playing');assertForceTargetEvidence(rows,index);return;}
+ assert.equal(e.blueprint,s.side==='light'?'102_1':'102_6');assert.ok(active(s.card));assert.ok(row.state.players[s.side].force.length>=1);
+ if(s.kind==='force-boost'){assertForceMatchPayment(rows,index,1);assert.equal(label,'add one destiny to total');assert.equal(row.assault,previous('assault')?.semantic.card);assert.notEqual(cards[row.assault]?.owner,s.side);return;}
+ assert.equal(s.kind,'force-exclude');assert.ok(label.startsWith('exclude '));assert.equal(row.sense,previous('sense')?.semantic.card);assert.ok(row.targetEvidence?.length>0&&row.targetEvidence.length<=row.state.players[s.side].force.length);assertForceMatchPayment(rows,index,row.targetEvidence.length);assert.equal(new Set(row.targetEvidence.map(t=>t.card)).size,row.targetEvidence.length);for(const t of row.targetEvidence){assert.equal(cards[t.card]?.blueprint,t.blueprint);assert.notEqual(cards[t.card].owner,s.side);assert.ok(row.state.table.some(c=>c.id===t.card&&c.stats?.ability>=6));}assertForceTargetEvidence(rows,index);
 }
 
 export function replayGempMatch(record,{onCheckpoint}={}){
  assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7,8,9].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
- const profiles={'effect-search-battle-v1':'effect-search-battle-decks.json','preparation-battle-v1':'preparation-battle-decks.json','bionic-battle-v1':'bionic-battle-decks.json','disarm-battle-v1':'disarm-battle-decks.json','search-battle-v1':'search-battle-decks.json','mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
+ const profiles={'force-effects-battle-v1':'force-effects-battle-decks.json','effect-search-battle-v1':'effect-search-battle-decks.json','preparation-battle-v1':'preparation-battle-decks.json','bionic-battle-v1':'bionic-battle-decks.json','disarm-battle-v1':'disarm-battle-decks.json','search-battle-v1':'search-battle-decks.json','mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
  if(record.deckProfile!==undefined)assert.ok(Object.hasOwn(profiles,record.deckProfile),'Unknown fixed reference deck profile');
  const profile=record.deckProfile===undefined?null:JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/'+profiles[record.deckProfile],import.meta.url)));
  if(profile)assert.equal(record.deckProfile,profile.id,'Unknown fixed reference deck profile');
@@ -407,7 +429,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
   if(shuffle){assert.equal(used,expected.length,'Incomplete search shuffle');assert.deepEqual(m.players[shuffle.side].reserve,shuffle.order);shuffle.consumed=true;}
   transcript.push({side:p.side,...c,...(values.length?{entropy:values}:{})});
  }
- const startingPlan=['preparation-battle-v1','effect-search-battle-v1'].includes(record.deckProfile)?assertStartingSetupEvidence(record,m.cards):null,startingIndices={dark:0,light:0};
+ const startingPlan=['preparation-battle-v1','effect-search-battle-v1','force-effects-battle-v1'].includes(record.deckProfile)?assertStartingSetupEvidence(record,m.cards):null,startingIndices={dark:0,light:0};
  while(m.status==='setup'){
   const p=prompt();
   const f=m.stack.at(-1);
@@ -436,17 +458,24 @@ export function replayGempMatch(record,{onCheckpoint}={}){
  try{
   const rows=record.trace;
   for(let index=0;index<rows.length;index++){
-   const row=rows[index],s=row.semantic;if(startingPlan&&index<startingPlan.boundary)continue;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target','escape-destination','obi-destination','crew-capacity'].includes(s.kind))continue;
+   const row=rows[index],s=row.semantic;if(startingPlan&&index<startingPlan.boundary)continue;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target','escape-destination','obi-destination','crew-capacity','exclude-selection'].includes(s.kind))continue;
    if(s.kind==='recovery-verify'){
     assert.equal(row.type,'ARBITRARY_CARDS');assert.equal(row.text,"Verify Lost Pile after unsuccessful attempt to 'Choose card to retrieve'");
     assert.deepEqual(row.parameters.min,['0']);assert.deepEqual(row.parameters.max,['0']);assert.equal(row.answer,'');
     assert.ok(row.parameters.selectable.every(v=>v==='false'));continue;
    }
    if(s.kind==='search-verify'&&s.side===m.cards[s.card]?.owner){const proof=assertSearchEvidence(rows,s.initiation,m.cards,record.final);assert.ok(proof.verificationIndices.includes(index));continue;}
+   if(s.kind==='ability-selection'){const previous=rows.slice(0,index).findLast(x=>x.semantic&&!['pass','exclude-selection'].includes(x.semantic.kind));if(previous?.semantic.kind!=='force-exclude')continue;}
    assertReferenceAction(row);
    let choices=[];
+   if(['assault','sense','force-boost','force-exclude'].includes(s.kind))assertForceMatchAction(rows,index,m.cards);
+   if(s.kind==='assault')choices=['assault:play:'+s.card];
+   if(s.kind==='force-boost')choices=['force-effect:boost:'+s.card];
+   if(s.kind==='sense'){const targets=row.targetEvidence,target=targets.find(x=>board.definition(x.blueprint).type==='Interrupt'),character=targets.find(x=>board.definition(x.blueprint).type==='Character');choices=['cancel:play:'+s.card+':'+target.card+':'+character.card];}
+   if(s.kind==='force-exclude')choices=['force-effect:exclude:'+s.card];
+   if(s.kind==='ability-selection')choices=['force-effect:target:'+s.card];
    if(['disarm-deploy','evazan'].includes(s.kind)){const proof=assertDisarmOutcome(rows,index,m.cards,record.final);choices=['disarm:'+(s.kind==='evazan'?'operate':'deploy')+':'+s.card+':'+proof.target];}
-   if(s.kind==='table-effect'){const bp=m.cards[s.card].blueprint;assert.ok(['4_21','4_134','6_58','6_147','8_35','8_118'].includes(bp));choices=[(['4_21','4_134'].includes(bp)?'try-effect':['6_58','6_147'].includes(bp)?'resistance':'battle-plan')+':deploy:'+s.card];}
+   if(s.kind==='table-effect'){const bp=m.cards[s.card].blueprint;assert.ok(['4_21','4_134','6_58','6_147','8_35','8_118','102_1','102_6'].includes(bp));choices=[(['4_21','4_134'].includes(bp)?'try-effect':['6_58','6_147'].includes(bp)?'resistance':['102_1','102_6'].includes(bp)?'force-effect':'battle-plan')+':deploy:'+s.card];}
    if(s.kind==='bionic-deploy'){const proof=assertBionicOutcome(rows,index,m.cards,record.final);choices=['attach:'+s.card+':'+proof.target];}
    if(s.kind==='bionic-trigger')choices=['bionic:'+(row.requiredText.toLowerCase().startsWith('re-arm ')?'rearm':'lose')+':'+s.card+':'+s.target];
    if(s.kind==='weapon-total'){assertWeaponTotalEvidence(rows,index,m.cards);choices=()=>{const f=m.stack.at(-1);return f?.kind==='window'&&f.event?.kind==='destiny-total'&&f.event.source===s.card?['pass']:[];};}
@@ -548,8 +577,9 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
+   if(['force-boost','force-exclude'].includes(s.kind)){const pending=m.stack.at(-2);assert.equal(pending?.kind,'resolution');assert.equal(pending.action.source,s.kind==='force-boost'?row.assault:row.sense,'Optional effect must be bound to the actual suspended action');}
    if(startingPlan&&['battle','drain'].includes(s.kind)){const a=auditRules.actions(m,m.stack.at(-1),s.side).find(a=>a.id===choice);assert.ok(a);assert.equal(a.payment?.[s.side]??0,row.initiationCost,'Actual initiation cost differs from GEMP');}
-   if(['bionic-deploy','bionic-trigger','weapon-total','disarm-deploy','evazan','disarm-trigger','effect-search','table-effect','mentor-search','search-selection','search-verify','obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
+   if(['assault','sense','force-boost','force-exclude','ability-selection','bionic-deploy','bionic-trigger','weapon-total','disarm-deploy','evazan','disarm-trigger','effect-search','table-effect','mentor-search','search-selection','search-verify','obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
     // observer from changing either the reference or the continuing replay.
@@ -571,6 +601,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     assert.deepEqual(frame.payload.cards.map(id=>m.cards[id].blueprint),row.parameters.blueprintId,'Private inspection must show the reference cards in order');
    }
    command(choice);
+   if(s.kind==='force-exclude'){for(const t of row.targetEvidence)command('force-effect:select:'+t.card);command('force-effect:confirm');}
    if(s.kind==='mine-victims'&&choice.startsWith('lose-mine:'))assert.equal(s.cards.length,1,'Each sequential casualty requires a separate reference choice');
    if(s.kind==='mine-victims'&&choice.startsWith('select:'))for(const card of s.cards.slice(1))command('select:'+card);
    if(s.kind==='activate'){
