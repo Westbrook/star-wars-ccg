@@ -3519,3 +3519,30 @@ pp29–31, explicitly excludes a nonexistent failed destiny from the ordinary
 undefined-value-as-zero rule. It establishes the winner but does not establish
 this card's numerical Force difference. The existing guarded discrepancy is
 retained rather than assigned an unsupported amount.
+
+### Complete game with one-Effect starts and paid Effect searches
+
+The `effect-search-battle-v1` receipt runs an ordinary shuffled 60-card game on
+unchanged GEMP, then replays only legal native commands to the same turn-29
+Dark Side Life Force victory. The replay matches 197 exact checkpoints across
+2,293 commands, including both one-Effect starting deployments, four paid
+searches by both players, three successful selections, one failed search with
+verification, and later deployment of each selected Effect.
+
+Private search choices bind GEMP's temporary chooser IDs to actual physical
+cards. The proof checks each target's owner, blueprint, Reserve membership and
+selectability. It also checks three-Force payment order, the Interrupt entering
+Used, the immediate hand change and reshuffled Reserve membership/order.
+Recorded randomness enters only through normal shuffle entropy; the replay
+never replaces board state or repairs piles. Malformed-payment, hidden-target,
+borrowed-choice, missing-verification and modified-shuffle receipts are rejected.
+
+The browser continuation fixtures resume checkpoints from this full replay and
+continue through the real HTTP/service/SQLite D1 path. Their recorded entropy
+must be consumed exactly. They verify recovery and private inspection at desktop,
+tablet and phone widths. Test-only deck admission remains explicit.
+
+This is one exact complete game, not all reachable combinations. It contains no
+Sense cancellation of these searches; the earlier actual component cancellation
+checks remain separate. The full-engine goal, wider Effect deployment adapters,
+other card families and outstanding rule discrepancies remain unfinished.

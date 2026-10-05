@@ -1,0 +1,55 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T06:50:24.669869+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineEffectSearchMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "junitTests": 1,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "files": {
+    "NativeEngineEffectSearchMatchOracleTests.java": "3bf7b0c853719ee112fbf63f2077d7a67efc5f43ea3042952205284046fdfefa",
+    "complete-matches/effect-search-battle-decks.json": "369cad382222a097c1023bda3b3b4d6db9d6246bba5ff1889f229b28d85c79e5",
+    "complete-matches/effect-search-battle.json.gz": "7d581d8ecf7e8746b356125b88e9d70e63dcd8668cc0b759803712ed22f4ad49"
+  },
+  "jsonSha256": "e5fd2ebde458d31f3be65d431704f851117b61f58173622e7151de8d920162e7",
+  "referenceDecisions": 1589,
+  "nativeCommands": 2293,
+  "comparedCheckpoints": 197,
+  "turns": 29,
+  "winner": "dark",
+  "actions": {
+    "untagged": 12,
+    "site-placement": 1,
+    "setup-interrupt": 2,
+    "setup-effect": 2,
+    "activate": 29,
+    "activate-count": 57,
+    "pass": 1274,
+    "effect-search": 4,
+    "search-selection": 3,
+    "site": 2,
+    "table-effect": 4,
+    "deploy": 23,
+    "deploy-target": 23,
+    "battle": 20,
+    "forfeit": 14,
+    "move": 20,
+    "move-target": 20,
+    "drain": 12,
+    "lose": 47,
+    "draw": 18,
+    "search-verify": 2
+  },
+  "scope": [
+    "Actual shuffled60-card game; two Starting Interrupts each deploy one real Effect.",
+    "Four actual paid Effect searches across both players: three selections, one failed search with both verification dialogs.",
+    "Three-Force payment order, physical private choice mappings, revealed targets, shuffle membership and entropy, Used cleanup and later real Effect deployment.",
+    "Legal-client decisions only after ordinary setup; no board, Force, destiny or pile correction. Native replay matches all197checkpoints and Life Force victory."
+  ],
+  "limitations": [
+    "One exact custom-deck game is not all reachable behavior or full catalog admission.",
+    "No Sense cancellation in this game; existing actual component Sense tests remain separate.",
+    "Failed-Obsession amount and other retained discrepancies remain open; full native production admission remains closed."
+  ]
+}
