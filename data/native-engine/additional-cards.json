@@ -3879,5 +3879,20 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_142.java"
+  },
+  {
+    "gempId": "2_115",
+    "name": "Tractor Beam",
+    "side": "dark",
+    "type": "Device",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/tractorbeam.gif",
+    "text": "Use 2 Force to deploy on your Star Destroyer. At the end of a battle at same system or sector, may target an opponent's starship present (except Mon Calamari Star Cruiser) using 2 Force. Draw destiny. Target captured if destiny > defense value.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "A New Hope"
+    ]
   }
 ]

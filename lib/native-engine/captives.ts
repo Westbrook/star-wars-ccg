@@ -1,3 +1,4 @@
+import {capturedShipFor} from './captured-ship-state';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './definitions';
 import {hasCharacteristic,isModel} from './characteristics';
@@ -28,7 +29,7 @@ function canSeize(m:Match,escort:string,target:string):boolean{
  return !e.aboardRole||!e.attachedTo||capacityFits(m,e.attachedTo,[...occupants(m,e.attachedTo).map(c=>({id:c.id,role:c.aboardRole!})),...captivePassengers(m,e.attachedTo).map(c=>({id:c.id,role:'passenger' as const})),{id:target,role:'passenger'}]);
 }
 export function captureDestinations(m:Match,id:string):CaptureDestination[]{
- const c=m.cards[id];if(!c||c.zone!=='table'||c.owner!=='light'||cardDefinition(m,id).type!=='Character'||!c.location)return [];
+ const c=m.cards[id];if(!c||!(c.zone==='table'||c.zone==='inactive'&&capturedShipFor(m,id))||c.owner!=='light'||cardDefinition(m,id).type!=='Character'||!c.location)return [];
  return [{kind:'escape'},...Object.values(m.cards).filter(e=>canSeize(m,e.id,id)).map(e=>({kind:'escort' as const,id:e.id})),...(prison(m,c.location)?[{kind:'prison' as const,id:c.location}]:[])];
 }
 function group(m:Match,id:string):Card[]{
@@ -46,7 +47,7 @@ export function captureCharacter(m:Match,id:string,destination:CaptureDestinatio
  if(!captureDestinations(m,id).some(d=>JSON.stringify(d)===JSON.stringify(destination)))throw Error('Invalid capture destination.');
  if(destination.kind==='escape'){placeInUsedFromTable(m,id);return;}
  const c=m.cards[id],cards=group(m,id);
- if(cards.some(x=>x.zone!=='table'))throw Error('Invalid capture attachment group.');
+ if(cards.some(x=>x.zone!=='table'&&!(x.zone==='inactive'&&capturedShipFor(m,x.id))))throw Error('Invalid capture attachment group.');
  endParticipation(m,cards.map(c=>c.id));
  delete c.attachedTo;delete c.aboardRole;
  c.captivity=destination.kind==='escort'?{escort:destination.id}:{prison:destination.id};
@@ -119,7 +120,7 @@ export function assertCaptives(m:Match):void{
    else if('prison' in p){if(Object.keys(p).length!==1||p.prison!==c.location)throw Error('Invalid imprisoned captive.');}
    else if(Object.keys(p).length!==2||p.release!==true||!pending.has(c.id))throw Error('Orphaned captive release.');
   }else if(c.captivity!==undefined)throw Error('Captivity requires an inactive captive.');
-  if(c.zone==='inactive'){
+  if(c.zone==='inactive'&&!capturedShipFor(m,c.id)){
    let host=m.cards[c.attachedTo!],seen=new Set<string>([c.id]);while(host?.zone==='inactive'){if(seen.has(host.id))throw Error('Cyclic inactive attachment.');seen.add(host.id);host=m.cards[host.attachedTo!];}
    if(!host||host.zone!=='captive'||c.location!==host.location||c.aboardRole)throw Error('Inactive attachment needs a captive.');
   }

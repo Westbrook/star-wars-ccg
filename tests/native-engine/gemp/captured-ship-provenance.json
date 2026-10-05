@@ -1,0 +1,19 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": "Six executed GEMP outcomes: real Tractor Beam deployment and successful/failed battle-ending destiny; actual We Have A Prisoner captured-crew action; required release Launch/Escape; empty captured ship stealing. Controlled starting placement; capture setup for crew/release is an injected CaptureStarshipEffect, not a full shuffled match.",
+  "files": {
+    "NativeEngineCapturedShipOracleTests.java": "a0151acb8b5894e3b42bf762006ab578f1257f66dd37f8ff978bdc3ed39b611f",
+    "captured-ship-results.json": "0fff43b422829e2eda3013ad33634bd88bbd0f1441d00ef685189bdc717b1c4c"
+  },
+  "rules": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=162",
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=173"
+  ],
+  "limitations": [
+    "Related ship sites, cargo destinations, trapped disembarkation, Besieged battles and unique permanent-persona handling remain required.",
+    "Native theft preserves attached Effect ownership per official rules; pinned GEMP source sets ownership recursively without that exclusion. This difference needs a dedicated executed comparison.",
+    "No complete shuffled capture match is claimed. Production admission and retained discrepancies remain unchanged."
+  ]
+}

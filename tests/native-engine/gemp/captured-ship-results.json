@@ -1,0 +1,49 @@
+[
+  {
+    "name": "tractor-6",
+    "deployCost": 2,
+    "useCost": 2,
+    "captured": true
+  },
+  {
+    "name": "tractor-1",
+    "deployCost": 2,
+    "useCost": 2,
+    "captured": false
+  },
+  {
+    "pilotCaptive": true,
+    "gunAttached": true,
+    "stolen": true,
+    "captured": false,
+    "name": "crew",
+    "cost": 4,
+    "passengerUsed": true
+  },
+  {
+    "passengerUsed": false,
+    "shipUsed": false,
+    "name": "launch",
+    "pilotAttached": true,
+    "gunUsed": false,
+    "captured": false,
+    "gunAttached": true,
+    "pilotUsed": false
+  },
+  {
+    "passengerUsed": true,
+    "shipUsed": true,
+    "name": "escape",
+    "pilotAttached": false,
+    "gunUsed": true,
+    "captured": false,
+    "gunAttached": false,
+    "pilotUsed": true
+  },
+  {
+    "name": "empty",
+    "captured": false,
+    "stolen": true,
+    "detached": true
+  }
+]

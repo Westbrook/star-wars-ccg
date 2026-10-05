@@ -9,6 +9,9 @@ export type Card = {
   id: string;
   blueprint: string;
   owner: Side;
+  /** Printed deck ownership remains stable when a stolen card changes sides. */
+  originalOwner?: Side;
+  capturedShip?: import('./captured-ship-state').CapturedShip;
   zone: Zone;
   location?: string;
   attachedTo?: string;

@@ -62,7 +62,7 @@ export function moveCard(match: Match, id: string, zone: Zone, position: 'top' |
     const versions = (match.data.cardVersions ??= {}) as Record<string, number>; versions[id] = nextVersion;
   }
   card.zone = zone;
-  delete card.captivity; delete card.blownAway; delete card.aboardRole; delete card.location; delete card.attachedTo; delete card.coveredBy; delete card.stackedOn;
+  delete card.capturedShip; delete card.captivity; delete card.blownAway; delete card.aboardRole; delete card.location; delete card.attachedTo; delete card.coveredBy; delete card.stackedOn;
   if (isPile(zone)) {
     const pile = match.players[card.owner][zone];
     if (zone === 'reserve') reserveCardAdded(match,card.owner,position === 'top');
@@ -143,10 +143,11 @@ export function assertState(match: Match): void {
         seen.add(id);
       }
     }
-    if (Object.values(match.cards).filter(c => c.owner === side).length !== match.deckSize) throw Error('Physical deck size changed.');
+    if (Object.values(match.cards).filter(c => (c.originalOwner ?? c.owner) === side).length !== match.deckSize) throw Error('Physical deck size changed.');
   }
   for (const [id, card] of Object.entries(match.cards)) {
     if (id !== card.id || !card.blueprint || !sides.includes(card.owner) || ![...piles, 'table', 'playing', 'leaving', 'buried', 'stacked', 'captive', 'inactive', 'out'].includes(card.zone)) throw Error('Invalid physical card.');
+    if (card.originalOwner !== undefined && (!sides.includes(card.originalOwner))) throw Error('Invalid original card ownership.');
     if (isPile(card.zone) !== seen.has(id)) throw Error('Card missing from pile or listed outside its zone.');
     for (const key of ['location', 'attachedTo', 'coveredBy'] as const) {
       const target = card[key];

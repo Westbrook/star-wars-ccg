@@ -3631,3 +3631,44 @@ custody over escape, avoids assigning a hit escort when another is available,
 and does not loop between free prison delivery and taking custody. Released Light
 characters favor rallying unless an escape is needed at critically low Life Force.
 These are strategy estimates; only server-offered legal choices are selectable.
+
+### Captured starships and Tractor Beam
+
+The separate captured-ship state now supersedes the earlier second-mode gap:
+Tractor Beam (2_115) deploys/transfers onto supported Star Destroyers for 2 Force,
+then offers its once-per-battle-ending trigger. A sole eligible target is selected
+automatically; multiple targets produce a saved choice before paying 2 Force.
+Normal cost/draw/total/capture response windows determine whether destiny exceeds
+the target's current defense. Old target instances cannot be reacquired.
+
+A held ship and its attached crew/equipment are inactive. Trapped characters are
+not character captives, and the held ship consumes no cargo capacity. We Have A
+Prisoner (2_142) now offers its second mode: pay twice the character count, resolve
+normal Interrupt responses, choose capture order, then seize/imprison/escape each
+character. It does not restore these characters (restoration belongs to the first
+mode). When no Light character remains aboard, stealing changes current ownership
+while preserving original deck ownership for physical-card conservation. Stolen
+cards continue into the new owner's piles; losing a whole carrier includes its
+held ships and their contents.
+
+Losing the last holding beam yields Light's Launch/Escape choice. Launch preserves
+aboard cards and roles; Escape removes the whole group simultaneously and offers
+owner-specific Used ordering. The match UI groups each captured ship with its
+trapped crew and shows the holder, capacity exemption and release/steal state.
+CPU choices use only their private legal-action projection.
+
+`gemp/captured-ship-provenance.json` binds six executed outcomes to the unchanged
+pinned GEMP production source (6,820 files): real beam deployment/capture/miss,
+captured-crew Interrupt, Launch, Escape, and empty-ship stealing. Native tests also
+cover cancellation, capture ordering, carrier loss, multiple beams, target-instance
+changes and corrupt saves. `captured-ships-browser.mjs` uses Playwright 1.62.1,
+actual HTTP/service/SQLite D1 commands and both-seat refreshes at 1440/834/390 widths.
+These are component integrations, not a claim of a complete shuffled capture match.
+
+Remaining required coverage includes related starship sites/holding beams, cargo
+release destinations, trapped-character disembarkation, Besieged battles, permanent
+unique pilot/persona stealing behavior and cards granting exceptional capture.
+Native theft retains attached Effect ownership according to the official rule;
+the pinned GEMP implementation recursively changes attached ownership. That source
+mismatch still needs an executed comparison. Full native card/deck admission stays
+closed; all previously retained full-engine scope and discrepancies remain open.

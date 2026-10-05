@@ -1,3 +1,4 @@
+import {prisonerShipActions,prisonerShipInitiate,prisonerShipResolve,prisonerShipChoices,prisonerShipChoose,assertPrisonerShip} from './prisoner-ship';
 import {cardDefinition} from './definitions';
 import {name} from './board';
 import {battleMembers} from './participation';
@@ -13,10 +14,9 @@ type Payload={card:CardReference;target:CardReference;window:number};
 const action=(p:Payload,step='play'):Action=>({id:'prisoner:'+p.card.id+':'+p.target.id+':'+step,handler:'prisoner:'+step,source:p.card.id,label:'We Have A Prisoner · capture '+p.target.id,payload:p as unknown as Json});
 const queue=(m:Match,p:Payload,step:string)=>m.stack.push({kind:'resolution',actor:'dark',cancelled:false,action:action(p,step)});
 const targetEligible=(m:Match,ref:CardReference)=>sameCard(m,ref)&&cardDefinition(m,ref.id).type==='Character'&&battleMembers(m,'light').includes(ref.id)&&captureDestinations(m,ref.id).length>0;
-/** Battle replacement mode. Captured-starship mode remains unadmitted until
- * the separate captured-ship lifecycle and its occupant rules are implemented. */
+/** Both card modes use the same Interrupt play/cancellation pipeline. */
 export function prisonerActions(m:Match,w:Window,side:Side):Action[]{
- if(side!=='dark'||w.timing!=='response'||!lossParent(m,w.serial))return [];
+ if(side!=='dark'||w.timing!=='response'||!lossParent(m,w.serial))return prisonerShipActions(m,w,side);
  const parent=lossParent(m,w.serial)!;
  const targets=lossTargets(w).filter(ref=>targetEligible(m,ref)&&!parent.preventedLosses?.some(p=>p.target.id===ref.id));
  return m.players.dark.hand.filter(id=>m.cards[id].blueprint==='2_142').flatMap(id=>targets.map(target=>{
@@ -25,9 +25,11 @@ export function prisonerActions(m:Match,w:Window,side:Side):Action[]{
  }));
 }
 export function prisonerInitiate(m:Match,r:Resolution):void{
+ if(r.action.handler.startsWith('prisoner:ship-')){prisonerShipInitiate(m,r);return;}
  const p=r.action.payload as unknown as Payload;moveCard(m,p.card.id,'playing');p.card=referenceCard(m,p.card.id);
 }
 export function prisonerResolve(m:Match,r:Resolution):void{
+ if(r.action.handler.startsWith('prisoner:ship-')){prisonerShipResolve(m,r);return;}
  const p=r.action.payload as unknown as Payload,h=r.action.handler;
  if(h==='prisoner:play'){
   if(r.cancelled){moveCard(m,p.card.id,'lost');return;}
@@ -47,16 +49,20 @@ export function prisonerResolve(m:Match,r:Resolution):void{
 }
 const destinationId=(d:CaptureDestination)=>'prisoner:'+d.kind+('id' in d?':'+d.id:'');
 export function prisonerChoices(m:Match,d:Decision){
+ if(d.handler.startsWith('prisoner:ship-'))return prisonerShipChoices(m,d);
  const p=d.payload as unknown as Payload;
  return sameCard(m,p.target)?captureDestinations(m,p.target.id).map(destination=>({id:destinationId(destination),label:destination.kind==='escape'?'Escape · place '+name(m,p.target.id)+' in Used':destination.kind==='escort'?'Seize · '+name(m,destination.id)+' ('+destination.id+') escorts '+name(m,p.target.id):'Imprison at '+name(m,destination.id)})):[];
 }
 export function prisonerChoose(m:Match,d:Decision,choice:string):void{
+ if(d.handler.startsWith('prisoner:ship-')){prisonerShipChoose(m,d,choice);return;}
  const p=d.payload as unknown as Payload,destination=captureDestinations(m,p.target.id).find(x=>destinationId(x)===choice);
  if(!sameCard(m,p.target)||!destination)throw Error('Invalid capture choice.');
  captureCharacter(m,p.target.id,destination);
 }
 export function assertPrisoner(m:Match):void{
+ assertPrisonerShip(m);
  for(const [index,f] of m.stack.entries())if((f.kind==='resolution'&&f.action.handler.startsWith('prisoner:'))||(f.kind==='decision'&&f.handler.startsWith('prisoner:'))){
+  if((f.kind==='resolution'?f.action.handler:f.handler).startsWith('prisoner:ship-'))continue;
   const p=(f.kind==='resolution'?f.action.payload:f.payload) as unknown as Payload,h=f.kind==='resolution'?f.action.handler:f.handler;
   if(!p||!['prisoner:play','prisoner:capture','prisoner:destination','prisoner:finish'].includes(h)||!Number.isSafeInteger(p.window)||m.cards[p.card?.id]?.blueprint!=='2_142')throw Error('Invalid capture Interrupt.');
   assertCardReference(m,p.card);assertCardReference(m,p.target);
