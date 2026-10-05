@@ -1,0 +1,119 @@
+[
+  {
+    "after": 4.0,
+    "mode": "stay",
+    "power": 2,
+    "weapon": "spare",
+    "before": 4.0,
+    "protected": true
+  },
+  {
+    "after": 3.0,
+    "mode": "leave",
+    "power": 1,
+    "weapon": "spare",
+    "before": 4.0,
+    "protected": false
+  },
+  {
+    "after": 4.0,
+    "mode": "return",
+    "power": 2,
+    "weapon": "spare",
+    "before": 4.0,
+    "protected": true
+  },
+  {
+    "after": 3.0,
+    "mode": "cancel",
+    "power": 1,
+    "weapon": "spare",
+    "before": 4.0,
+    "protected": true
+  },
+  {
+    "after": 4.0,
+    "mode": "weapon-cancel",
+    "power": 2,
+    "weapon": "spare",
+    "before": 4.0,
+    "protected": true
+  },
+  {
+    "after": 7.0,
+    "mode": "stay",
+    "power": 2,
+    "weapon": "saber",
+    "before": 7.0,
+    "protected": true
+  },
+  {
+    "after": 6.0,
+    "mode": "leave",
+    "power": 1,
+    "weapon": "saber",
+    "before": 7.0,
+    "protected": false
+  },
+  {
+    "after": 7.0,
+    "mode": "return",
+    "power": 2,
+    "weapon": "saber",
+    "before": 7.0,
+    "protected": true
+  },
+  {
+    "after": 6.0,
+    "mode": "cancel",
+    "power": 1,
+    "weapon": "saber",
+    "before": 7.0,
+    "protected": true
+  },
+  {
+    "after": 7.0,
+    "mode": "weapon-cancel",
+    "power": 2,
+    "weapon": "saber",
+    "before": 7.0,
+    "protected": true
+  },
+  {
+    "mode": "rearmed",
+    "power": 2,
+    "effectLost": true,
+    "disarmed": false,
+    "protected": true,
+    "cost": 2
+  },
+  {
+    "handLost": true,
+    "gunLost": true,
+    "disarmed": true,
+    "mode": "disarmed-again",
+    "power": 0
+  },
+  {
+    "canceled": false,
+    "mode": "transfer",
+    "transferable": true
+  },
+  {
+    "canceled": true,
+    "mode": "transfer",
+    "transferable": true
+  },
+  {
+    "disarmed": true,
+    "mode": "effect-leaves"
+  },
+  {
+    "disarmed": true,
+    "mode": "effect-canceled"
+  },
+  {
+    "disarmed": false,
+    "mode": "character-leaves"
+  }
+]

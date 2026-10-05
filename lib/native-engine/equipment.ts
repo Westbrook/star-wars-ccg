@@ -1,3 +1,5 @@
+import {isDisarmed} from './disarmed-state';
+import {protectedDevice} from './bionic-hand';
 import {fusionGenerator} from './power-support';
 import {optionalActionWindow} from './action-timing';
 import {peekReserve, assertReservePeek, returnReservePeek, reservePeekView, type ReservePeek} from './reserve-peek';
@@ -21,7 +23,7 @@ type Payload = {inspection?: ReservePeek; source?: string; attachment?: Attachme
 export const isMine = (blueprint: string) => ['1_162', '1_322'].includes(blueprint);
 const mining = (m: Match, side: Side, site: string) => atSite(m, site).filter(c => c.owner === side && ['1_18', '1_186'].includes(c.blueprint));
 const isTraining = (bp: string) => ['1_64', '1_221'].includes(bp);
-const devices: Record<string, number> = {'1_201': 1, '1_207': 1, '1_40': 1, '1_35': 1, '5_109': 3, '3_96':0, '4_13':0};
+const devices: Record<string, number> = {'1_201': 1, '1_207': 1, '1_40': 1, '1_35': 1, '5_109': 3, '3_96':0, '4_13':0, '5_12':2};
 const act = (id: string, label: string, handler: string, p: Payload = {}, payment?: Payment, source?: string): Action => ({id, label, handler: 'equipment:' + handler, payload: p as Json, ...(payment ? {payment} : {}), ...(source ? {source} : {})});
 const data = (r: Resolution | Decision) => ('action' in r ? r.action.payload : r.payload) as Payload;
 const event = (w: Window) => w.event as {kind?: string; card?: string; site?: string; cards?: string[]} | undefined;
@@ -31,6 +33,7 @@ const burySite = (m: Match, side: Side, site: string) => system(m, site) === 'Ta
 function validHost(m: Match, blueprint: string, host: string, side: Side): boolean {
   const c = m.cards[host], def = cardDefinition(m, host);
   if (c.zone !== 'table' || c.owner !== side || def.type !== 'Character' || !c.location) return false;
+  if (blueprint === '5_12') return isDisarmed(m,host);
   if (blueprint === '1_201') return true;
   if (blueprint === '1_35' || fusionGenerator(blueprint) || weapons[blueprint]) return isWarrior(m, host);
   if (blueprint === '1_40') return ['Rebel', 'Alien'].includes(def.subType);
@@ -62,7 +65,7 @@ export function equipmentActions(m: Match, w: Window, side: Side): Action[] {
   const result: Action[] = [];
   if (w.timing === 'phase' && m.turn.side === side && m.turn.phase === 'deploy') {
     result.push(...deployActions(m, side));
-    for (const c of Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && devices[c.blueprint] !== undefined && c.attachedTo))
+    for (const c of Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && devices[c.blueprint] !== undefined && c.attachedTo && !protectedDevice(m,c.id)))
       for (const host of Object.values(m.cards).filter(h => h.id !== c.attachedTo && h.location === c.location && validHost(m, c.blueprint, h.id, side)))
         result.push(act('device-transfer:' + c.id + ':' + host.id, 'Transfer ' + name(m, c.id) + ' to ' + name(m, host.id), 'attach', {card: c.id, target: host.id}, {[side]: devices[c.blueprint]}, c.id));
     for (const site of m.locations.filter(site => burySite(m, side, site))) for (const card of m.players[side].hand)

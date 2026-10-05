@@ -1,3 +1,4 @@
+import {protectedDevice} from './bionic-hand';
 import {cardDefinition} from './definitions';
 import {canCarryWeapon} from './weapon-carrying';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
@@ -10,7 +11,7 @@ export function attachmentAttempt(m: Match, card: string, host: string): Attachm
 }
 export function validAttachmentAttempt(m: Match, a: AttachmentAttempt): boolean {
   return !!a && (cardDefinition(m,a.cardRef.id).type!=='Weapon'||canCarryWeapon(m,a.hostRef.id)) && sameCard(m, a.cardRef) && sameCard(m, a.hostRef) && a.hostRef.zone === 'table' &&
-    (a.transfer ? a.cardRef.zone === 'table' && m.cards[a.cardRef.id].attachedTo === a.fromHost && m.cards[a.cardRef.id].location === m.cards[a.hostRef.id].location : a.cardRef.zone === 'playing');
+    (a.transfer ? !protectedDevice(m,a.cardRef.id) && a.cardRef.zone === 'table' && m.cards[a.cardRef.id].attachedTo === a.fromHost && m.cards[a.cardRef.id].location === m.cards[a.hostRef.id].location : a.cardRef.zone === 'playing');
 }
 export function assertAttachmentAttempt(m: Match, a: AttachmentAttempt, card: string, host: string): void {
   if (!a || typeof a.transfer !== 'boolean' || a.fromHost !== null && !m.cards[a.fromHost] || a.transfer !== (a.cardRef?.zone === 'table') || !['table', 'playing'].includes(a.cardRef?.zone) || a.hostRef?.zone !== 'table') throw Error('Invalid attachment attempt.');

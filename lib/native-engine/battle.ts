@@ -34,7 +34,7 @@ import {other, sides, type Action, type Decision, type Json, type Match, type Re
 
 type DestinyPlan = {remaining: number; draws: Draw[]; selection: {x: number; y: number} | null};
 type Pair<T> = Record<Side, T>;
-type Shot = {weapon: string; target: string; side: Side; defense: number; bonus: number; card: string | null; destiny: number | null; hit: boolean | null; total?: number | null; substitution?: Substitution};
+type Shot = {host?: string; weapon: string; target: string; side: Side; defense: number; bonus: number; card: string | null; destiny: number | null; hit: boolean | null; total?: number | null; substitution?: Substitution};
 export type Battle = {
   site: string; initiator: Side; stage: 'begin' | 'weapons' | 'power' | 'damage' | 'end' | 'complete';
   participants: Pair<string[]>; hits: string[]; fired: string[]; users: Record<string, string>; shots: Shot[];
@@ -201,7 +201,7 @@ export function battleInitiate(m: Match, r: Resolution): void {
     const b = battle(m)!, id = p.card!, host = m.cards[id].attachedTo!;
     useWeapon(m, id);
     b.fired.push(id); b.users[host] = id;
-    b.shots.push({weapon: id, target: p.target!, side: r.actor, defense: defenseValue(m, p.target!), bonus: weaponBonus(m, id), card: null, destiny: null, hit: null});
+    b.shots.push({host: m.cards[id].attachedTo!, weapon: id, target: p.target!, side: r.actor, defense: defenseValue(m, p.target!), bonus: weaponBonus(m, id), card: null, destiny: null, hit: null});
     p.index = b.shots.length - 1;
   } else if (kind === 'battle:rescue') {
     // Talz's forfeiture is the cost; the restoration follows its loss responses.
@@ -535,7 +535,7 @@ export function assertBattle(m: Match): void {
     }
     if (b.destinyDraws?.[side] && !validDraw(m, b.destinyDraws[side]!, side, true)) throw Error('Invalid battle destiny record.');
   }
-  for (const shot of b.shots) if (!weapons[m.cards[shot.weapon]?.blueprint] || !m.cards[shot.target] || !sides.includes(shot.side) ||
+  for (const shot of b.shots) if (shot.host!==undefined&&(!m.cards[shot.host]||cardDefinition(m,shot.host).type!=='Character') || !weapons[m.cards[shot.weapon]?.blueprint] || !m.cards[shot.target] || !sides.includes(shot.side) ||
     shot.substitution !== undefined && !validDraw(m, {card: shot.card, value: shot.destiny, substitution: shot.substitution}, shot.side, true) ||
     shot.card !== null && m.cards[shot.card]?.owner !== shot.side || shot.destiny !== null && !Number.isFinite(shot.destiny) ||
     shot.total !== undefined && shot.total !== null && (!Number.isFinite(shot.total) || shot.total < 0) ||

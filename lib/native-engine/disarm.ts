@@ -1,3 +1,4 @@
+import {assertDisarmed,setDisarmed} from './disarmed-state';
 import {attachmentAttempt,assertAttachmentAttempt,validAttachmentAttempt,type AttachmentAttempt} from './attachment';
 import {attached,cardDefinition,isSite,name} from './board';
 import {deployed} from './deployment';
@@ -45,7 +46,7 @@ export function disarmResolve(m:Match,r:Resolution){
   if(!validAttachmentAttempt(m,p.attachment!)||!sameCard(m,p.target)){if(m.cards[p.card].zone==='playing')moveCard(m,p.card,'lost');return;}
   moveCard(m,p.card,'table');m.cards[p.card].attachedTo=p.target.id;m.cards[p.card].location=m.cards[p.target.id].location;deployed(m,p.card);
  }else if(h==='disarm:apply'){
-  if(!sameCard(m,p.target))return;
+  if(!sameCard(m,p.target))return;setDisarmed(m,p.target.id,true);
   const ws=weapons(m,p.target.id),refs=ws.map(id=>referenceCard(m,id));queue(m,'weapons',{...p,weapons:refs});
   if(ws.length){const cards=tableLossCards(m,ws);openWindow(m,'response',other(r.actor),{kind:'about-to-lose',cards,cardRefs:cards.map(id=>referenceCard(m,id)),source:p.card,cause:'disarmed',allCards:true});}
  }else if(h==='disarm:weapons'){
@@ -61,6 +62,7 @@ export function disarmResolve(m:Match,r:Resolution){
  else throw Error('Unknown disarm continuation.');
 }
 export function assertDisarm(m:Match){
+ assertDisarmed(m);
  if(!Array.isArray(uses(m)))throw Error('Invalid Evazan usage.');const seen=new Set<string>();
  for(const u of uses(m)){assertCardReference(m,u.source);const key=u.source.id+':'+u.source.version+':'+u.window;if(m.cards[u.source.id].blueprint!=='1_172'||u.source.zone!=='table'||!Number.isSafeInteger(u.window)||u.window<1||u.window>m.serial||seen.has(key))throw Error('Invalid Evazan usage.');seen.add(key);}
  for(const r of m.stack)if(r.kind==='resolution'&&r.action.handler.startsWith('disarm:')){

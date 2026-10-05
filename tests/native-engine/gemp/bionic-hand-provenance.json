@@ -1,0 +1,31 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-05T02:59:25.451909+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineBionicHandOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineBionicHandOracleTests.java",
+  "harnessSha256": "c62d7c49975a8cbd13988dccdcbe0fae40a3f87e7fc36e29389f2ae6f9f277da",
+  "results": "bionic-hand-results.json",
+  "resultsSha256": "af87e2e5d7633f82076e97d9bc2f2e7d22b2a8ae9c633fd251445b84b313eefa",
+  "observations": 17,
+  "junitTests": 4,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": [
+    "Actual Disarmed and Bionic Hand deployment, two Force cost, rearmed status, cancellation and later disarming loss.",
+    "Actual single- and two-draw character weapon firing: total bonus updates when Hand leaves, returns, or has canceled game text; weapon text cancellation does not cancel its external bonus.",
+    "Controlled persistence and transfer-eligibility query observations."
+  ],
+  "rulesSource": {
+    "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "page": 138,
+    "entry": "Bionic Hand: multiple weapon destiny draws receive one total bonus."
+  },
+  "limitations": [
+    "Component fixtures with prepared boards, Force and destiny; no full-match conformance for Bionic Hand.",
+    "Source removal and game-text cancellation during responses are controlled interventions.",
+    "Transfer is an unresolved reference discrepancy: pinned GEMP offers transfers with active or canceled text despite printed removal prohibition. Native transfer remains guarded; no broad conformance claim.",
+    "Production admission stays closed."
+  ]
+}

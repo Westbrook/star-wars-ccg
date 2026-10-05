@@ -1,3 +1,4 @@
+import {bionicHandBonus} from './bionic-hand';
 import {disarmedByEffect} from './weapon-carrying';
 import {leiaPowerBonus} from './leia';
 import {corulagStatBonus,otsdDrainModifier} from './otsd-locations';
@@ -138,6 +139,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   if (blueprint === '9_24' && armedWithLightsaber(m,id)) value+=2;
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
   if(disarmedByEffect(m,id))value--;
+  value+=bionicHandBonus(m,id);
   return Math.max(0, value);
 }
 

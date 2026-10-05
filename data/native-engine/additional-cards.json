@@ -3677,5 +3677,22 @@
     "icons": [],
     "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_214.java"
+  },
+  {
+    "gempId": "5_12",
+    "name": "Bionic Hand",
+    "side": "light",
+    "type": "Device",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/CloudCity-Light/large/bionichand.gif",
+    "text": "Use 2 Force to deploy on a Disarmed character. Cancels the disarming card. Character is power +1 and adds 1 to weapon destiny when firing character weapons. Device lost if character Disarmed again (otherwise, may not be removed).",
+    "stats": {
+      "destiny": "7"
+    },
+    "icons": [
+      "Cloud City"
+    ],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_012.java"
   }
 ]
