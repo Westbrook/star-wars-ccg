@@ -1,5 +1,51 @@
 [
   {
+    "gempId": "4_167",
+    "name": "Executor",
+    "side": "dark",
+    "type": "Starship",
+    "subType": "Capital: Super-Class Star Destroyer",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Dark/large/executor.gif",
+    "text": "May add unlimited pilots, passengers, vehicles and starfighters. Has ship-docking capability. Permanent pilots aboard provide total ability of 3. Immune to attrition < 12.",
+    "stats": {
+      "deploy": "15",
+      "power": "12",
+      "destiny": "1",
+      "forfeit": "15",
+      "armor": "12",
+      "hyperspeed": "2"
+    },
+    "icons": [
+      "Pilot x3",
+      "Nav Computer",
+      "Scomp Link",
+      "Dagobah"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_167.java"
+  },
+  {
+    "gempId": "4_161",
+    "name": "Executor: Holotheatre",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Dark/large/executorholotheatre.gif",
+    "text": "Dark: If Vader or Emperor on table, your Force generation is +1 here (+2 if both). Light: Force drain +1 here.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Interior",
+      "Mobile",
+      "Starship",
+      "Scomp Link",
+      "Dagobah"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_161.java"
+  },
+  {
     "gempId": "1_148",
     "name": "Lift Tube",
     "side": "light",
@@ -542,7 +588,7 @@
       "Pilot",
       "Warrior"
     ],
-    "status": "metadata-only",
+    "status": "pending",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_019.java"
   },
   {
@@ -860,7 +906,7 @@
       "Pilot",
       "Warrior"
     ],
-    "status": "metadata-only",
+    "status": "pending",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_168.java"
   },
   {

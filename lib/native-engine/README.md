@@ -3672,3 +3672,54 @@ Native theft retains attached Effect ownership according to the official rule;
 the pinned GEMP implementation recursively changes attached ownership. That source
 mismatch still needs an executed comparison. Full native card/deck admission stays
 closed; all previously retained full-engine scope and discrepancies remain open.
+
+### Complete capture match and Executor checkpoint
+
+`tests/native-engine/capture-match.test.mjs` now executes a complete shuffled
+60-card-per-side capture trajectory: 1,677 legal commands, 162 exact settled
+reference checkpoints and a Dark Life Force victory on turn 28. The unchanged
+pinned GEMP trace includes seven Tractor Beam attempts, two captured/stolen
+Corvettes, trapped crew, an escorted captive and forced crew escape. No board or
+pile correction occurs after setup. Three reached JSON custody snapshots resume
+using the original command/entropy transcript to the identical final state.
+
+The raw GEMP record exposes STOLEN responses before queued system placement;
+native currently emits its stolen response after placement. All four recorded
+intermediate windows have no legal actions, enforced by negative tests. This is
+settled-state conformance for this trajectory, not nonempty theft-response
+equivalence. The raw trace and timing review preserve that limitation. Six
+Playwright desktop/phone continuations exercise 194 service commands and 18
+consequential UI choices, refreshing both seats and checking exact persisted
+states. They do not visually replay every command of the full game.
+
+Executor (4_167) adds unlimited pilots/passengers/vehicles/starfighters with normal
+role/category checks, its printed stats, permanent pilots and attrition immunity.
+Holotheatre (4_161) uses current errata, can start/deploy without the hull and
+survives ordinary hull departure. Related unique sites bind dynamically to the
+ship persona; nonunique Launch Bays retain physical-host loss behavior. Free
+regular hull/site transfers check capacity, moving-craft pilot/driver requirements
+and saved physical references. Holotheatre does not inherit Launch Bay's separate
+shuttle and unlimited landing permissions. Nine browser cases cover deployment,
+capacity, transfer, hull loss and starting choices across three screen sizes.
+
+Premiere Luke/Vader can now deploy as pending definitions: Luke contributes Force
+generation when not on Tatooine, Vader adds one to each actual battle destiny,
+and their text-based immunity respects suppression. Pending draw bonuses respond
+to source departure/suppression without modifying substituted values. Vader's
+Custom TIE and broader text-modification interactions remain explicitly pending.
+Stealing preserves historical deployment actors instead of invalidating saves.
+The power-droid trigger compares power using completed battle-destiny groups;
+the current draw and earlier draws in its unresolved group are not added yet.
+This correction preserves the original executed GEMP doubling outcomes, including
+Vader's newly implemented individual-destiny bonus.
+The computer policy uses legal projected capture, Besieged, Gate and Lift Tube
+choices; it does not determine legality.
+
+Executor/site/Skywalker component receipts distinguish official-rule/source
+review from executed GEMP comparisons. Unpiloted related-site movement follows
+the official rule even though the reviewed GEMP predicate lacks that check.
+Full production admission remains closed. Other ship sites, blown-away unique
+site propagation, exceptional capture/stealing, nonempty theft responses, failed
+Obsession arithmetic, Gate rearrangement/loss semantics and all wider engine
+and product scope remain required. No new Rules Lab study or Sites publication
+was added.

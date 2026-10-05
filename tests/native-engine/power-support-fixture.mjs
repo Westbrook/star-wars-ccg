@@ -20,14 +20,16 @@ export function fixture(side='dark'){
 }
 export function attach(f){let m=step(f.m,'attach:'+f.fusion+':'+f.warrior);m=seek(m,x=>x.stack.length===1);f.m=priority(m,f.side);return f;}
 export function enhance(f){f.m=step(f.m,'fusion:'+f.fusion+':'+f.target);return f;}
-export function drawing(side='light',high=true){
+export function drawing(side='light',high=true,{extraDraw=false}={}){
  const f=fixture(side),m=f.m,opp=side==='light'?'dark':'light';
  for(const id of [f.target])state.moveCard(m,id,'hand');
  const own=pull(m,side,side==='light'?'101_2':'1_168','table',f.site);
  pull(m,opp,opp==='dark'?'1_168':'101_2','table',f.site);
  if(high)for(let i=0;i<6;i++)pull(m,opp,opp==='dark'?'1_194':'1_28','table',f.site);
  state.moveCard(m,f.power,'reserve');
+ if(extraDraw){const first=pull(m,side,side==='dark'?'1_194':'1_28','hand');state.moveCard(m,first,'reserve');}
  f.m=seek(m,x=>x.turn.side===side&&x.turn.phase==='battle'&&x.stack.length===1);f.m=priority(f.m,side);f.m=step(f.m,'battle:'+f.site);
+ if(extraDraw)load(new URL('../../lib/native-engine/battle-destiny.ts',import.meta.url)).addBattleDrawModifier(f.m,own,side,'add',1);
  f.m=seek(f.m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side===side);f.m=step(f.m,'draw-destiny');
  f.m=seek(f.m,x=>x.stack.at(-1)?.event?.kind==='battle-destiny-drawn');return {...f,own};
 }

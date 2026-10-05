@@ -108,6 +108,16 @@ test('stealing preserves the original deployment ledger through refresh and repl
  assert.throws(()=>persona.assertCardPlays(bad),/play history/);
 });
 
+test('actual deployment arrival history retains its actor after the ship is stolen',()=>{
+ const f=fixture(0,{capture:false}),deployment=mod('deployment');let m=f.m;
+ state.moveCard(m,f.ship,'hand');m=phase(m,'light','deploy');
+ m=step(m,'vessel:deploy:'+f.ship+':'+f.site);m=seek(m,x=>x.cards[f.ship].zone==='table');
+ const original=clone(m.data.deployments.find(d=>d.card.id===f.ship));assert.equal(original.side,'light');
+ m=phase(m,'dark','control');ships.captureStarship(m,f.ship,f.host);m=promptAt(m,'captured-ship:steal');m=step(m,'captured-ship:launch:'+f.site);refresh(m);
+ assert.equal(m.cards[f.ship].owner,'dark');assert.deepEqual(m.data.deployments.find(d=>d.card.id===f.ship),original);deployment.assertDeployments(clone(m));
+ const bad=clone(m);delete bad.cards[f.ship].originalOwner;assert.throws(()=>deployment.assertDeployments(bad),/deployment identity/);
+});
+
 test('stolen Rebel capital ship supplies the Imperial capital ship TIE discount',()=>{
  const f=fixture(0);let m=promptAt(step(f.m,'pass'),'captured-ship:steal');m=step(m,'captured-ship:launch:'+f.site);
  // Remove the original Imperial carrier so only the stolen Corvette can supply

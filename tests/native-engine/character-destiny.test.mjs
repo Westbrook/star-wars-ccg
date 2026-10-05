@@ -32,9 +32,15 @@ const oracle=JSON.parse(fs.readFileSync(new URL('./gemp/character-destiny-result
 const event=m=>m.stack.at(-1)?.event;
 const next={id:'observed',label:'Record result',handler:'probe:done',payload:{}};
 function base(){let m=fresh({light:['1_11','1_5','2_14','1_106','1_153','1_115','1_84'],dark:['1_167','1_179','1_168','1_194']});const site=location(m,'light','1_129'),remote=location(m,'dark','1_284'),han=pull(m,'light','1_11','table',site),luke=pull(m,'light','101_2','table',site),rebel=pull(m,'light','1_28','table',site),vader=pull(m,'dark','1_168','table',site),tarkin=pull(m,'dark','1_179','table',site),praji=pull(m,'dark','1_167','table',site),trooper=pull(m,'dark','1_194','table',site);force(m,'dark',12);force(m,'light',12);m=phase(m,'deploy');return {m,site,remote,han,luke,rebel,vader,tarkin,praji,trooper};}
-function drawing(kind='battle'){
+function drawing(kind='battle',substituted=false){
  let f=base(),{m,site,han,trooper}=f;const gun=pull(m,'light','1_153','table',site);m.cards[gun].attachedTo=f.luke;const reinforce=pull(m,'light','1_106','hand');pull(m,'light','1_28','lost');topDestiny(m,'light','1_115');const original=topDestiny(m,'light','1_28');m=phase(m,'battle');m=step(m,'battle:'+site);
- if(kind==='battle'){m=seek(m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');m=step(m,'draw-destiny');}
+ if(kind==='battle'){m=seek(m,x=>x.stack.at(-1)?.handler==='battle:destiny'&&prompt(x).side==='light');m=step(m,'draw-destiny');
+  if(substituted){
+   m=seek(m,x=>event(x)?.kind==='about-to-draw-destiny'&&event(x)?.category==='battle'&&event(x)?.side==='light');
+   const pending=m.stack.find(f=>f.kind==='resolution'&&f.action.handler==='destiny:draw'&&f.actor==='light');
+   assert.ok(pending);assert.equal(destiny.substituteDestiny(m,pending,han,3),true);
+  }
+ }
  else{m=seek(m,x=>event(x)?.kind==='battle-weapons');m=priority(m,'light');m=step(m,kind==='weapon'?'fire:'+gun+':'+trooper:'reinforce:'+reinforce);}
  m=seek(m,x=>['destiny-drawn','battle-destiny-drawn','weapon-destiny-drawn'].includes(event(x)?.kind));return {...f,m,gun,reinforce,original};
 }
@@ -64,7 +70,7 @@ test('Han needs one Force; Tarkin needs none',()=>{
  let f=drawing(),m=f.m;for(const side of ['light','dark'])for(const id of [...m.players[side].force])state.moveCard(m,id,'used');assert.ok(options(m).some(id=>id.includes(f.tarkin)));m=priority(m,'light');assert.equal(options(m).length,0);
 });
 for(const who of ['han','tarkin'])test(who+' cannot affect substituted destiny',()=>{
- let f=drawing(),m=f.m;const side='light';m.data.battle.destinyDraws.light={card:null,value:3,substitution:{source:f.han,value:3}};m.data.battle.destiny.light=3;m=priority(m,m.cards[f[who]].owner);assert.equal(options(m).length,0);
+ let f=drawing('battle',true),m=f.m;assert.equal(m.cards[f.original].zone,'reserve');assert.equal(m.data.battle.destinyCards.light,null);assert.equal(m.data.battle.destinyDraws.light.substitution.value,3);m=priority(clone(m),m.cards[f[who]].owner);assert.equal(options(m).length,0);
 });
 for(const who of ['han','tarkin'])test(who+' effect survives source departure after initiation and refresh',()=>{
  let f=drawing(),m=act(f.m,f[who],who==='han'?'redraw':'cancel');state.moveCard(m,f[who],'hand');m=clone(m);m=seek(m,x=>x.cards[f.original].zone==='used');assert.equal(m.data.battle.characterDestinyUses.length,1);if(who==='han'){m=seek(m,x=>event(x)?.kind==='destiny-total');assert.equal(event(m).total,5);}

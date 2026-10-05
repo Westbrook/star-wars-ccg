@@ -14,7 +14,7 @@ for(const side of ['light','dark']){
   const f=enhance(attach(fixture(side))),base=board.power(f.m,f.target);text.suppressGameText(f.m,f.site,f.fusion);assert.equal(board.power(f.m,f.target),base-1);f.m.data.gameTextSuppressions=[];assert.equal(board.power(f.m,f.target),base);f.m.cards[f.target].location=f.remote;assert.equal(support.expireFusionLinks(f.m),true);f.m.cards[f.target].location=f.site;assert.equal(board.power(f.m,f.target),base-1);rules.validate(clone(f.m));
  });
  test(side+' lower-power battle destiny triggers a lasting bonus before just responses',()=>{
-  const f=drawing(side),before=board.presentPower(f.m,side,f.site,side!==f.m.data.battle.initiator,id=>f.m.data.battle.participants[side].includes(id));assert.equal(prompt(f.m).mandatory,true);let m=step(f.m,ids(f.m)[0]);m=seek(m,x=>x.data.battle.powerDroidBoosts?.length===1);assert.equal(m.data.battle.powerDroidBoosts[0].amount,before);assert.equal(m.data.battle.destiny[side],0);assert.equal(prompt(m).mandatory,false);state.moveCard(m,f.power,'hand');assert.equal(board.totalPower(m,side,f.site),2*before);rules.validate(clone(m));
+  const f=drawing(side),before=board.presentPower(f.m,side,f.site,side!==f.m.data.battle.initiator,id=>f.m.data.battle.participants[side].includes(id));assert.equal(prompt(f.m).mandatory,true);let m=step(f.m,ids(f.m)[0]);m=seek(m,x=>x.data.battle.powerDroidBoosts?.length===1);assert.equal(m.data.battle.powerDroidBoosts[0].amount,before);assert.equal(m.data.battle.destiny[side],side==='dark'?1:0);assert.equal(prompt(m).mandatory,false);state.moveCard(m,f.power,'hand');assert.equal(board.totalPower(m,side,f.site),2*before);rules.validate(clone(m));
  });
 }
 test('greater power does not trigger the power droid destiny',()=>{const f=drawing('dark',false);assert.equal(prompt(f.m).mandatory,false);assert.ok(!ids(f.m).some(x=>x.startsWith('power-droid:')));});
@@ -65,4 +65,11 @@ test('a carrier that loses its warrior permission cannot initiate generator use'
 test('power support evidence fingerprints match the executed reference fixture',async()=>{
  const {createHash}=await import('node:crypto'),receipt=JSON.parse(fs.readFileSync(new URL('./gemp/power-support-provenance.json',import.meta.url)));assert.equal(receipt.observations,10);assert.equal(receipt.exactAgreements,10);
  for(const [name,hash] of Object.entries(receipt.files))assert.equal(createHash('sha256').update(fs.readFileSync(new URL('./gemp/'+name,import.meta.url))).digest('hex'),hash);
+});
+test('power-droid comparison excludes earlier completed draws in the same unfinished destiny group',()=>{
+ const f=drawing('dark',true,{extraDraw:true});assert.notEqual(f.m.data.battle.destinyCards.dark,f.power);assert.equal(f.m.data.battle.destiny.dark,2);
+ let m=seek(f.m,x=>x.stack.at(-1)?.event?.kind==='battle-destiny-drawn'&&x.data.battle.destinyCards.dark===f.power);
+ assert.equal(m.data.battle.destinyPlans.dark.draws[0].value,2);assert.equal(m.data.battle.destinyResults?.dark??null,null);assert.equal(prompt(m).mandatory,true);
+ m=step(clone(m),ids(m)[0]);m=seek(m,x=>x.data.battle.powerDroidBoosts?.length===1);assert.equal(m.data.battle.powerDroidBoosts[0].amount,7);
+ m=seek(m,x=>!!x.data.battle.destinyResults?.dark);assert.equal(m.data.battle.destinyResults.dark.total,3);
 });

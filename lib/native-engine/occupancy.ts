@@ -15,9 +15,10 @@ import {isModel} from './characteristics';
 import type {Card,Match} from './types';
 
 export type AboardRole='pilot'|'driver'|'passenger'|'vehicle'|'starship';
-type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string;vehicles?:number;starships?:number;astromechs?:number;tiesOnly?:boolean};
+type VesselRule={pilots:number;drivers:number;passengers:number;shared:number;permanent:number;enclosed:boolean;world?:string;vehicles?:number;starships?:number;astromechs?:number;tiesOnly?:boolean;unlimited?:true};
 /** Printed capacities; permanent personnel do not consume these additional slots. */
 export const vesselRules:Record<string,VesselRule>={
+ '4_167':{pilots:0,drivers:0,passengers:0,shared:0,permanent:3,enclosed:true,unlimited:true},
  '1_304':{pilots:0,drivers:0,passengers:0,shared:0,permanent:1,enclosed:true},
  '106_4':{pilots:0,drivers:0,passengers:0,shared:1,permanent:2,enclosed:true},
  '106_7':{pilots:0,drivers:0,passengers:0,shared:0,permanent:2,enclosed:true},
@@ -89,7 +90,10 @@ export function capacityFits(m:Match,host:string,crew:{id:string;role:AboardRole
  // Astromechs are passengers; reserved slots are allocated before ordinary capacity.
  const reserved=Math.min(r.astromechs??0,crew.filter(c=>c.role==='passenger'&&isModel(m,c.id,'ASTROMECH')).length);
  n.passenger-=reserved;
- return n.vehicle<=(r.vehicles??0)&&n.starship<=(r.starships??0)&&n.driver<=r.drivers&&Math.max(0,n.pilot-r.pilots)+Math.max(0,n.passenger-r.passengers)<=r.shared;
+ // Unlimited capacity applies only to the printed pilot/passenger/vehicle/
+ // starfighter roles. Category checks above still exclude capital ships and
+ // non-pilot characters, and no driver slot is created.
+ return n.driver<=r.drivers&&(r.unlimited===true||n.vehicle<=(r.vehicles??0)&&n.starship<=(r.starships??0)&&Math.max(0,n.pilot-r.pilots)+Math.max(0,n.passenger-r.passengers)<=r.shared);
 }
 export function roleAvailable(m:Match,host:string,id:string,role:AboardRole):boolean {
  return !capturedShipFor(m,host)&&capacityFits(m,host,[...occupants(m,host).filter(c=>c.id!==id).map(c=>({id:c.id,role:c.aboardRole!})),{id,role}]);

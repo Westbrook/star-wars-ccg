@@ -10,9 +10,11 @@ type Payload={source:CardReference;window:number};
 export type DroidBoost={source:CardReference;side:Side;amount:number};
 function currentPower(m:Match,side:Side,pendingSide:Side):number{
  const b=battle(m)!,ids=members(m,side);
- // While a multi-draw plan is pending, b.destiny holds the current draw.
- const earlier=side===pendingSide?(b.destinyPlans?.[side]?.draws??[]).reduce((n,d)=>n+(d.value??0),0):0;
- return totalPower(m,side,b.site,side!==b.initiator,id=>ids.includes(id))+(b.destiny[side]??0)+earlier+(b.powerDestinies?.[side]?.total??0)+tradedPower(m,side);
+ // GEMP installs battle destiny only after the full draw group completes.
+ // b.destiny is also the UI's unresolved individual draw, so neither that
+ // draw nor earlier draws in its pending group count for a just-drawn trigger.
+ const completed=b.destinyResults?.[side]?.total??(side===pendingSide?0:b.destiny[side]??0);
+ return totalPower(m,side,b.site,side!==b.initiator,id=>ids.includes(id))+completed+(b.powerDestinies?.[side]?.total??0)+tradedPower(m,side);
 }
 export function powerDroidAutomatic(m:Match,w:Window):RequiredAction[]{
  const b=battle(m),e=w.event as {kind?:string;category?:string;card?:string;side?:Side}|undefined,d=destinyInWindow(m,w);

@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCaptureSpaceMatchOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "fixture": "tests/native-engine/gemp/complete-matches/capture-space.json.gz",
+  "sha256": "bb12fb9494789ef928f1c1dd3295c930bd15c3631244d458c5d79a85e0a64857",
+  "jsonSha256": "4335d7d6e60c5499999e37066a9e84e3081d17a433ca8e66ed069bd2000ff00c",
+  "harness": "tests/native-engine/gemp/complete-matches/capture-space-source.java.txt",
+  "harnessSha256": "68fd543c9ac62d153b3c97353793721530562c93c825d96875eaeb608943925b",
+  "deckManifest": "tests/native-engine/gemp/complete-matches/capture-space-decks.json",
+  "deckManifestSha256": "66cc359e7ec28f736034a2822285e9f1af3e70dcdd056e0075e9b8b5df152d52",
+  "finished": true,
+  "winner": "dark",
+  "turns": 28,
+  "referenceDecisions": 1013,
+  "actions": {
+    "untagged": 4,
+    "activate": 28,
+    "activate-count": 56,
+    "pass": 781,
+    "deploy": 7,
+    "deploy-target": 8,
+    "draw": 44,
+    "site": 1,
+    "crew-capacity": 1,
+    "equip": 1,
+    "battle": 8,
+    "skip-battle-destiny": 8,
+    "lose": 54,
+    "tractor-use": 7,
+    "prisoner-ship": 1,
+    "prisoner-ship-target": 1,
+    "prisoner-character": 1,
+    "prisoner-seize": 1,
+    "forfeit": 1
+  },
+  "capturedShips": [
+    "light-3",
+    "light-8"
+  ],
+  "captives": [
+    "light-18"
+  ],
+  "stolenShips": [
+    "light-3",
+    "light-8"
+  ],
+  "initialization": "Real DefaultSwccgGame with two authored 60-card decks and legal starting-location choices; initial reference shuffle is observed in setup. No VirtualTableScenario instance, synthetic filler objects, prepared destiny, injected action, board/pile placement or later state corrections. Test environment flag exposes otherwise unnamed effect-result decision labels; engine source remains unchanged.",
+  "coverage": [
+    "Continuous shuffled setup through Life Force exhaustion in battle",
+    "Starship and pilot/passenger deployment through legal decisions",
+    "Real Tractor Beam deployment and battle-ending destiny attempts",
+    "Occupied and empty starship capture, inactive crew",
+    "We Have A Prisoner captured-crew mode, seizure with a real escort, remaining crew escape",
+    "Mandatory theft of ships after their crew are gone",
+    "Controller changes persist through later battles and end of game"
+  ],
+  "limitations": [
+    "One executed trajectory through a fixed custom deck pair, not exhaustive full-catalog coverage or production admission.",
+    "No vehicle/site capture, Besieged, release, ship sites or capture-protection effects in this trace.",
+    "Native replay conformance, recovery and runtime fixes are recorded separately.",
+    "Initial shuffle varies across oracle runs; archived physical setup and complete subsequent decisions are the reproducible replay input."
+  ]
+}

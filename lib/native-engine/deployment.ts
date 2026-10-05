@@ -47,7 +47,10 @@ export function assertDeployments(m: Match): void {
         !Number.isSafeInteger(d.serial) || d.serial <= last || d.serial > m.serial || !Array.isArray(d.observers)) throw Error('Invalid deployment history.');
     assertCardReference(m, d.card);
     const key = d.card.id + ':' + d.card.version;
-    if (d.card.zone !== 'table' || m.cards[d.card.id].owner !== d.side || seen.has(key)) throw Error('Invalid deployment identity.');
+    // The actor is historical: stealing a deployed card does not rewrite who
+    // deployed it or which side's phase-based effects observed that arrival.
+    const card = m.cards[d.card.id];
+    if (d.card.zone !== 'table' || card.owner !== d.side && card.originalOwner !== d.side || seen.has(key)) throw Error('Invalid deployment identity.');
     seen.add(key); last = d.serial;
     const observers = new Set<string>();
     for (const ref of d.observers) {

@@ -9,6 +9,7 @@ import {otsdWeaponDrawBonus} from './otsd-ships';
 import {supportPowerBonus,fusionWeaponBonus} from './power-support';
 import {artillery} from './artillery';
 import {forceIcons} from './location-icons';
+import {executorGenerationModifier,executorDrainModifier} from './executor-sites';
 import {hothDeployModifier,hothDrainModifier,hothGenerationModifier,hothWeaponModifier,hothForfeitModifier} from './hoth-text';
 import {hothRank,generatorAllowed,shieldDeployment,shielded} from './hoth';
 import {bespinDeployModifier,cloudCityBattleBonus} from './bespin';
@@ -49,7 +50,7 @@ export const isSite = (m:Match,id:string) => !!m.cards[id] && cardDefinition(m,i
 export const adjacent = (m: Match, a: string, b: string) => !isCave(m,a) && !isCave(m,b) && isSite(m,a) && isSite(m,b) && m.locations.includes(a) && m.locations.includes(b) && locationGroup(m,a)!==undefined && locationGroup(m,a)===locationGroup(m,b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
 export const abilityAt = (m: Match, side: Side, site: string) => locationAbility(m, side, site, unitsAt(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0));
 export const presence = (m: Match, side: Side, site: string) => abilityAt(m, side, site) >= 1;
-export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + forceIcons(m,id,side)+hothGenerationModifier(m,side,id), 0);
+export const generation = (m: Match, side: Side) => 1 + (Object.values(m.cards).some(c=>c.owner===side&&c.blueprint==='1_19'&&gameTextActive(m,c.id)&&!onSystem(m,c.id,'Tatooine'))?1:0) + m.locations.reduce((sum, id) => sum + forceIcons(m,id,side)+hothGenerationModifier(m,side,id)+executorGenerationModifier(m,side,id), 0);
 
 export function controls(m: Match, side: Side, site: string): boolean {
   if (!m.locations.includes(site) || !presence(m, side, site) || presence(m, other(side), site)) return false;
@@ -178,7 +179,7 @@ export function drainAmount(m: Match, side: Side, site: string): number {
   if(sectorFamily(m,site)==='clouds'&&m.cards[site].owner!==side&&gameTextActive(m,site)&&controls(m,side,site))value++;
   const blueprint = m.cards[site].blueprint;
   if(['1_125','1_283'].includes(blueprint)&&side==='light'&&gameTextActive(m,site)&&controls(m,side,site))value++;
-  value+=hothDrainModifier(m,side,site)+otsdDrainModifier(m,side,site);
+  value+=hothDrainModifier(m,side,site)+otsdDrainModifier(m,side,site)+executorDrainModifier(m,side,site);
   if(sectorFamily(m,site)==='big-one'&&gameTextActive(m,site)&&controls(m,side,site)){
     if(m.cards[site].owner===side)value+=sectorsAt(m,sectorSystem(m,site)!,'asteroid').filter(id=>sectorFamily(m,id)==='field').length;
     else if(blueprint==='4_82')value++;

@@ -8,10 +8,10 @@ import {pathToFileURL} from 'node:url';
 import {randomUUID} from 'node:crypto';
 import {load} from '../native-proof/load-engine.mjs';
 import {SqliteD1} from './sqlite-d1.mjs';
-import {rules,runtime} from './prisoner-fixture.mjs';
+import {rules as defaultRules,runtime} from './prisoner-fixture.mjs';
 
 export const widths=key=>[[1440,1000],[834,1112],[390,844]].filter(([width])=>!process.env[key]||process.env[key].split(',').includes(String(width)));
-export async function browserHarness(name){
+export async function browserHarness(name,{rules=defaultRules}={}){
  const require=createRequire(import.meta.url),root=process.env.PLAYWRIGHT_PACKAGE||path.dirname(require.resolve('playwright/package.json'));
  assert.equal(JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version,'1.62.1');
  const {chromium}=await import(pathToFileURL(path.join(root,'index.mjs'))),browser=await chromium.launch({headless:true});
@@ -52,12 +52,18 @@ export async function browserHarness(name){
   }
   async function refresh(){const before=read();for(const side of ['dark','light'])await show(side);assert.deepEqual(read(),before,'Both-seat refresh must preserve pending choices and exact persisted state.');}
   async function choose(choice){
-   const before=read(),p=prompt(),label=p.choices.find(c=>c.id===choice)?.label;assert.ok(label,'Missing choice '+choice);
+   const before=read(),p=prompt(),option=p.choices.find(c=>c.id===choice),label=option?.label;assert.ok(label,'Missing choice '+choice);
    const page=await show(p.side,true);
    // Copies of the same card have the same human-readable label. The UI maps
    // prompt choices in order, so use the matching occurrence of that label.
    const occurrence=p.choices.slice(0,p.choices.findIndex(c=>c.id===choice)).filter(c=>c.label===label).length;
-   const [response]=await Promise.all([page.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/api/matches/'+v.id)),page.getByRole('button',{name:label,exact:true}).nth(occurrence).click()]);
+   // Setup adds Force icons to the accessible button name; its strong label
+   // remains exact. Assert readiness before starting the network wait so a
+   // selector failure cannot masquerade as a server timeout.
+   const choices=option.forceIcons?page.locator('.native-choices').getByRole('button').filter({has:page.getByText(label,{exact:true})}):page.getByRole('button',{name:label,exact:true});
+   assert.equal(await choices.count(),p.choices.filter(c=>c.label===label).length,'Rendered choices for '+label);
+   const control=choices.nth(occurrence);assert.equal(await control.isEnabled(),true);
+   const [response]=await Promise.all([page.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/api/matches/'+v.id)),control.click()]);
    assert.equal(response.status(),200);
    assert.deepEqual(read(),runtime.applyCommand(before,rules,p.side,{revision:before.revision,choice},()=>0,1800000000000));
   }

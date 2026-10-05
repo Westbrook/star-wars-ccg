@@ -1,13 +1,16 @@
 import identities from '../../data/native-engine/identities.json';
 import type {occupancyView} from './occupancy';
 import type {publicValues} from './public-values';
+import type {vehicleReactView} from './vehicle-react';
+import type {laserGatesView} from './laser-gate';
+import type {capturedShipView} from './captured-ships';
 import type {Battle} from './battle';
 import {definition} from './board';
 import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup';
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-30';
+export const computerPolicy = 'native-cpu-31';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -19,7 +22,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   if (view.status === 'finished' || !p || p.side !== side || !p.choices.length) return null;
   const own = view.players[side], opponent = other(side);
   const visible = [...view.table, ...own.hand, ...own.lost, ...own.destiny];
-  const rules = view.rules as {battleDrawPolicy?:Record<Side,{count:number;limit:number|null}>;forceLossCredits?:Record<string,number>;values?: ReturnType<typeof publicValues>; vessels?:ReturnType<typeof occupancyView>['vessels']; battle?: Battle | null} | undefined;
+  const rules = view.rules as {vehicleReact?:ReturnType<typeof vehicleReactView>['vehicleReact']; laserGates?:ReturnType<typeof laserGatesView>['laserGates']; capturedShips?:ReturnType<typeof capturedShipView>['capturedShips'];battleDrawPolicy?:Record<Side,{count:number;limit:number|null}>;forceLossCredits?:Record<string,number>;values?: ReturnType<typeof publicValues>; vessels?:ReturnType<typeof occupancyView>['vessels']; battle?: Battle | null} | undefined;
   const battle = rules?.battle?.stage === 'damage' ? rules.battle : null;
   const cards = new Map(visible.map(c => [c.id, c]));
   const stat = (id: string, field: string) => {
@@ -73,12 +76,78 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   const reduceAmount = Math.min(Math.ceil(avoidableDamage),Math.max(0,...amounts));
   const extraActivations = p.choices.filter(c => c.id.startsWith('stew:amount:')).map(c => Number(c.id.split(':')[2]));
   const extraActivation = Math.min(Math.max(0,...extraActivations),Math.max(0,(own.counts?.reserve ?? 0)-1),Math.max(0,6-(own.counts?.force ?? 0)));
+  const isTube = (id: string) => ['1_148','1_308'].includes(cards.get(id)?.blueprint ?? '');
+  const passengers = (id: string) => view.table.filter(c => c.zone === 'table' && c.owner === side && c.attachedTo === id && c.aboardRole && definition(c.blueprint).type === 'Character');
+  // A route is actionable only when the engine offers it. Boarding keeps a
+  // garrison and targets a stronger uncontested drain, or retreats from danger.
+  const tubeRouteScore = (host: string, to: string) => {
+    const from=cards.get(host)?.location;if(!from)return -5;
+    const cargo=passengers(host),safe=strength(to,opponent)===0;
+    const retreat=strength(from,opponent)>strength(from,side);
+    const spread=at(from,side).some(c=>stat(c.id,'ability')>0)&&!at(to,side).some(c=>stat(c.id,'ability')>0)&&icons(to,opponent)>0;
+    return cargo.some(c=>stat(c.id,'ability')>0)&&safe&&(retreat||spread||icons(to,opponent)>icons(from,opponent))?30+icons(to,opponent):-5;
+  };
+  const offeredTubeRoutes = (host: string) => p.choices.filter(c=>c.id.startsWith('voyage:landspeed:'+host+':')).map(c=>c.id.split(':')[3]);
+  const canBoardTube = (id: string, host: string) => {
+    const from=cards.get(host)?.location;if(!from||stat(id,'ability')<=0)return false;
+    const retreat=strength(from,opponent)>strength(from,side);
+    return (retreat||at(from,side).some(c=>c.id!==id&&stat(c.id,'ability')>0))&&offeredTubeRoutes(host).some(to=>strength(to,opponent)===0&&(retreat||!at(to,side).some(c=>stat(c.id,'ability')>0)&&icons(to,opponent)>0||icons(to,opponent)>icons(from,opponent)));
+  };
+  // Gate text restricts both players. This is a public mobility estimate, not
+  // another legality implementation; suppression and offered routes win.
+  const gateBenefit = (pair: string[]) => view.table.filter(c=>c.zone==='table'&&!c.coveredBy&&!c.attachedTo&&pair.includes(c.location??'')).reduce((sum,c)=>{
+    const type=definition(c.blueprint).type,blocked=type==='Character'?stat(c.id,'power')+stat(c.id,'ability')<=4:type==='Vehicle'&&!isTube(c.id);
+    return sum+(blocked?(c.owner===side?-1:1)*(1+Math.max(0,stat(c.id,'power'))):0);
+  },0);
+  const gateRemoval = (id: string) => {const gate=rules?.laserGates?.[id];return gate?.active?-gateBenefit(gate.sites):0;};
+  const siegeBalance = (ship: string) => {
+    const captured=rules?.capturedShips?.find(c=>c.id===ship);if(!captured)return -Infinity;
+    const host=cards.get(captured.host),aboard=host&&definition(host.blueprint).type==='Starship';
+    const attackers=view.table.filter(c=>c.zone==='table'&&c.owner===side&&definition(c.blueprint).type==='Character'&&(aboard?c.attachedTo===captured.host:!c.attachedTo&&c.location===captured.host));
+    // Inactive trapped cards have no derived active values: printed power is
+    // only an estimate until the engine starts their special battle.
+    return attackers.reduce((n,c)=>n+stat(c.id,'power'),0)-captured.crew.reduce((n,id)=>n+stat(id,'power'),0);
+  };
   const score = (c: typeof p.choices[number]): number => {
     const [kind,a,b] = c.id.split(':');
     if (c.id === 'concede') return -Infinity;
     if (c.id === 'pass') return 0;
+    if(kind==='besieged'){
+      if(a==='deploy'||a==='select')return siegeBalance(c.id.split(':')[3])>=0?(a==='deploy'?32:40):-5;
+      if(a==='add')return 90+stat(b,'power')+stat(b,'ability');
+      if(a==='begin-free')return 70;
+      if(a==='begin')return 60;
+      if(a==='cancel')return -20;
+    }
+    if(kind==='laser-gate'&&a==='deploy'){const benefit=gateBenefit(c.id.split(':').slice(3));return benefit>0?25+benefit:-5;}
+    if(kind==='sniping'){
+      if(a==='bonus')return 80;
+      if(a==='target')return 40+gateRemoval(b);
+      if(a==='play'){
+        const host=cards.get(cards.get(c.id.split(':')[3])?.attachedTo??''),site=host?.location;
+        const benefit=Math.max(0,...Object.entries(rules?.laserGates??{}).filter(([id,g])=>cards.get(id)?.owner===opponent&&g.active&&!!site&&g.sites.includes(site)).map(([id])=>gateRemoval(id)));
+        return benefit>0?45+benefit:-5;
+      }
+    }
+    if(kind==='retract'){
+      if(a==='play')return c.id.split(':')[3]==='cancel'?75:-5;
+      if(a==='site')return 50-(view.locations??[]).indexOf(b);
+      if(a==='gate'){
+        const current=c.card?rules?.laserGates?.[c.card]:undefined,benefit=current?.active?gateBenefit(b==='keep'?current.sites:c.id.split(':').slice(2)):0;
+        return 20+benefit+(b==='keep'?0.5:0);
+      }
+    }
+    if(kind==='vehicle-react'&&isTube(a)){
+      const from=cards.get(a)?.location,cargo=passengers(a),available=[...cargo,...(from?at(from,side):[])];
+      const reinforces=rules?.battle?.stage!=='complete'&&rules?.battle?.site===b;
+      const power=available.reduce((n,c)=>n+stat(c.id,'power'),0);
+      return available.some(c=>stat(c.id,'ability')>0)&&(!reinforces||strength(b,side)+power>=strength(b,opponent))?55:-5;
+    }
+    if(c.id==='continue-react'&&rules?.vehicleReact?.name==='Lift Tube')return 20;
+    if(kind==='board'&&rules?.vehicleReact?.name==='Lift Tube'&&p.choices.some(c=>c.id==='continue-react'))return 40+stat(a,'power')+stat(a,'ability');
+    if(kind==='exit'&&rules?.vehicleReact?.name==='Lift Tube'&&p.choices.some(c=>c.id==='continue-react'))return 60+stat(a,'power');
     if(kind==='tractor')return a==='cancel'?-50:a==='target'?50:a==='use'?40:a==='deploy'?25:15;
-    if(kind==='captured-ship')return a==='escape'?(own.lifeForce!==null&&own.lifeForce<=2?100:10):70;
+    if(kind==='captured-ship')return a==='escape'?(own.lifeForce!==null&&own.lifeForce<=2?100:10):70+icons(b,opponent)-strength(b,opponent);
     if(kind==='prisoner'){
       if(a==='ship-play')return 40; // Capturing the crew also steals the emptied ship.
       if(a==='ship-character')return 30+value(b);
@@ -160,6 +229,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     if (kind === 'voyage') {
       const to=c.id.split(':')[3],from=cards.get(b)?.location;
       if(!from)return -5;
+      if(a==='landspeed'&&isTube(b))return tubeRouteScore(b,to);
       if(a==='takeoff')return 25;
       if(a==='land')return -5; // Landing needs a coordinated crew-delivery plan.
       const threat=strength(from,opponent)>strength(from,side);
@@ -173,6 +243,10 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     }
     if (kind === 'vessel') {
       const role=c.id.split(':')[4];
+      const host=c.id.split(':')[3];
+      if(a==='embark'&&isTube(host))return canBoardTube(b,host)?45+stat(b,'power'):-5;
+      if(a==='exit'&&isTube(host))return offeredTubeRoutes(host).some(to=>tubeRouteScore(host,to)>0)?-5:35+stat(b,'power');
+      if(a==='deploy'&&isTube(b))return at(host,side).some(c=>stat(c.id,'ability')>0)&&!view.table.some(c=>c.zone==='table'&&c.owner===side&&isTube(c.id)&&c.location===host)?26:-5;
       if(a==='escape')return 40+stat(b,'ability');
       if(a==='deploy')return 30+stat(b,'power')*2;
       if(a==='aboard')return role==='pilot'?48+stat(b,'ability'):role==='driver'?45:8;

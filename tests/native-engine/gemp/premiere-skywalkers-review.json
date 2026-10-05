@@ -1,0 +1,49 @@
+{
+  "scope": "Premiere Luke Skywalker (1_19) and Darth Vader (1_168) deployment integration; both remain pending and production admission is closed.",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "sourceReview": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_019.java",
+      "sha256": "eaa2f136673bc5e8384ddfdb264b9534010de4717766ac2f72d7a824fd7b7db8"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_168.java",
+      "sha256": "479ed59ad20b3347565588fa6548ffe5b949bee6eaced4ec15a103068cf7f826"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/modifiers/EachBattleDestinyModifier.java",
+      "sha256": "13a459a2ab3a22672d3a29bab65a5e40da0b271adbfd4d839a821fd5de276b24"
+    }
+  ],
+  "implemented": [
+    "Luke total generation +1 while active and not on Tatooine; orbit differs from the surface, inactive captured crew and suppressed text do not contribute.",
+    "Vader +1 to each actual battle destiny draw while participating with active text. Does not grant another draw. Live contribution is reevaluated until individual draw completion; failed or substituted draws do not receive it.",
+    "Existing +3 pilot power and Luke Red 5 maneuver +2 retained. Luke immunity <3 and Vader immunity <5 now require active game text, independently granted immunity remains.",
+    "Both definitions marked pending to permit test-admitted legal paid ground and aboard deployment."
+  ],
+  "limitations": [
+    "Vader's Custom TIE has no native definition; its +4 power/+3 maneuver branch remains unimplemented.",
+    "Vader-specific game text modification, total-instead-of-each-draw replacement and other unimplemented full-catalog interactions are not certified.",
+    "Focused native integration and pinned source review do not claim complete card or full-match GEMP conformance."
+  ],
+  "powerDroidInteraction": {
+    "finding": "Adding Vader exposed an existing currentPower timing error: an unresolved +1 draw incorrectly changed a lower-power comparison into a tie.",
+    "sourceSemantics": "EG-6 identifies its actual drawn card and compares battle power; it does not require the modified destiny to remain zero. GEMP installs total battle destiny after the complete draw group callback. Current and earlier draws in that still-pending group are excluded; completed opponent destiny remains included.",
+    "sourceReview": [
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_175.java",
+        "sha256": "18b6aadcbeec8a0b21cf71fd26bcaeb35ad890c67ba510bee42161e0e11de530"
+      },
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/game/state/BattleState.java",
+        "sha256": "80dca57a2e7ab53b52a7be3a14eef5f8ab64b4bf4b093763a0e24f9690cd7ef3"
+      },
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/timing/actions/battle/BattlePowerSegmentAction.java",
+        "sha256": "9541f1cf70ca8cd5c23c01b994e6d47e572bb9d3ae63f6adcf33291abcfa8e34"
+      }
+    ],
+    "verification": "Existing executed power-support reference observations retained byte-for-byte; dark before7/after14 again agrees. Added native multiple-draw case where preceding destiny2 remains outside the unfinished group total during the trigger.",
+    "limitations": "The new multiple-draw test is native integration plus source timing review; it is not a newly executed GEMP oracle."
+  }
+}

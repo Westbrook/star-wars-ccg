@@ -1,10 +1,12 @@
+import type {Battle} from './battle';
+import {battleMembers} from './participation';
 import {gameTextActive} from './game-text';
 import {redFiveImmunity,redTwoImmunity} from './piloting';
 import {armedWithLightsaber} from './weapon-state';
 import {attachedArmor} from './armor-equipment';
 import {cardDefinition} from './definitions';
 import {referenceCard, sameCard, assertCardReference, type CardReference} from './identity';
-import type {Json, Match} from './types';
+import type {Json, Match, Side} from './types';
 
 type Kind = 'power-add' | 'immunity-less-than' | 'immunity-full' | 'immunity-cancel' | 'immunity-exact' | 'immunity-change' | 'immunity-limit' | 'immunity-uncancelable';
 export type CombatModifier = {source: CardReference; target: CardReference; kind: Kind; amount: number;
@@ -48,8 +50,8 @@ export function attritionImmunityValues(m: Match,id: string): {lessThan:number;e
   const c=m.cards[id],none={lessThan:0,exact:0};if(c?.zone!=='table')return none;
   const mods=active(m,id);
   if(mods.some(p=>p.kind==='immunity-cancel') && !mods.some(p=>p.kind==='immunity-uncancelable'))return none;
-  const fixed:Record<string,number>={'1_171':3,'1_4':3,'1_19':3,'3_3':3,'1_21':5,'4_1':4,'1_168':5};
-  let value=Math.max(c.blueprint==='1_17'&&gameTextActive(m,id)?2:0,c.blueprint==='3_155'&&gameTextActive(m,id)?4:0,fixed[c.blueprint]??0,redFiveImmunity(m,id),redTwoImmunity(m,id));
+  const fixed:Record<string,number>={'1_171':3,'1_4':3,'3_3':3,'1_21':5,'4_1':4};
+  let value=Math.max(c.blueprint==='1_17'&&gameTextActive(m,id)?2:0,c.blueprint==='3_155'&&gameTextActive(m,id)?4:0,c.blueprint==='4_167'&&gameTextActive(m,id)?12:0,fixed[c.blueprint]??0,gameTextActive(m,id)?({'1_19':3,'1_168':5} as Record<string,number>)[c.blueprint]??0:0,redFiveImmunity(m,id),redTwoImmunity(m,id));
   if(c.blueprint==='4_103' && c.location)value=Object.values(m.cards).filter(o=>o.zone==='table' && o.location===c.location && !o.attachedTo && o.owner!==c.owner && cardDefinition(m,o.id).subType==='Alien').length;
   if(c.blueprint==='9_24'){
     const alone=!!c.location && !Object.values(m.cards).some(o=>o.id!==id && o.zone==='table' && o.owner===c.owner && o.location===c.location && !o.attachedTo && ['Character','Vehicle','Starship'].includes(cardDefinition(m,o.id).type));
@@ -68,3 +70,20 @@ export function attritionImmunityValues(m: Match,id: string): {lessThan:number;e
 export const attritionImmunity = (m: Match,id: string): number => attritionImmunityValues(m,id).lessThan;
 export const hasAttritionImmunity = (m: Match,id: string): boolean => {const v=attritionImmunityValues(m,id);return v.lessThan>0 || v.exact>0;};
 export const immuneToAttrition = (m: Match,id: string,amount:number): boolean => {const v=attritionImmunityValues(m,id);return v.exact>0?v.exact===amount:v.lessThan>amount;};
+
+/** Premiere Vader changes each actual battle draw, not draw entitlement. The
+ * source must still participate, even when piloting or in a Besieged party. */
+export function battleDestinyBonus(m:Match,side:Side):number {
+ const b=m.data.battle as Battle|undefined;
+ return b&&b.stage!=='complete'&&battleMembers(m,side).some(id=>m.cards[id].blueprint==='1_168'&&gameTextActive(m,id))?1:0;
+}
+/** Pending draw adjustments remain live until that individual draw completes.
+ * Interrupt changes stay in the stored value; this replaces only Vader's
+ * original continuous contribution. Completed/substituted draws are fixed. */
+export function currentBattleDestiny(m:Match,side:Side,initial?:number):number|null {
+ const b=m.data.battle as Battle|undefined;if(!b)return null;
+ const pending=m.stack.find(f=>f.kind==='resolution'&&f.action.handler==='battle:destiny-finish'&&(f.action.payload as {side?:Side}).side===side);
+ const previous=initial??(pending?.kind==='resolution'?(pending.action.payload as {continuousBattleBonus?:number}).continuousBattleBonus:undefined);
+ const value=b.destiny[side];
+ return value===null||previous===undefined?value:value+battleDestinyBonus(m,side)-previous;
+}

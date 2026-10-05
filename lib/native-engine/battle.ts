@@ -14,7 +14,7 @@ import {restoreWeaponForfeit} from './forfeit';
 import {beginForfeiture} from './forfeiture';
 import type {StarshipShot} from './starship-weapons';
 import type {LightsaberShot} from './lightsabers';
-import {immuneToAttrition} from './combat-modifiers';
+import {immuneToAttrition,battleDestinyBonus,currentBattleDestiny} from './combat-modifiers';
 import {deployed} from './deployment';
 import {locationAbility} from './location-ability';
 import {tradedPower, type AbilityTrade} from './battle-effects';
@@ -68,7 +68,7 @@ export type Battle = {
   knockedWeapons?: string[]; gaffiShots?: GaderffiiShot[]; saberShots?: LightsaberShot[]; starshipShots?: StarshipShot[];
 };
 type History = {turn: number; sites: string[]; participants: string[]};
-type Payload = {reference?:CardReference; flow?: DrawFlow; draws?: Draw[]; attachment?: AttachmentAttempt; site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
+type Payload = {continuousBattleBonus?:number; reference?:CardReference; flow?: DrawFlow; draws?: Draw[]; attachment?: AttachmentAttempt; site?: string; card?: string; cards?: string[]; target?: string; side?: Side; step?: string; index?: number; amount?: number; from?: string; value?: number; redraw?: boolean; draw?: Draw; total?: number | null};
 const pair = <T>(dark: T, light: T): Pair<T> => ({dark, light});
 function completedBattleDraws(b: Battle, side: Side): Draw[] {
   // Older saved battles predate the finalized record. Their plan contains all
@@ -263,7 +263,7 @@ export function battleResolve(m: Match, r: Resolution): void {
         if (original.card) replaceDestinyDraw(m, f.scope);
         drawDestiny(m, f.side, f.source, f.category, f.next, false, f.modifier, f.drawn, f.retain, f.scope);
       } else {
-        const value = original.substitution?.value ?? (r.cancelled ? null : b!.destiny[f.side]);
+        const value = original.substitution?.value ?? (r.cancelled ? null : currentBattleDestiny(m,f.side,p.continuousBattleBonus));
         b!.destiny[f.side] = value === null ? null : Math.max(0, value);
         completeDestinyDraw(m, f.side, f.source, f.category, {...original, value: b!.destiny[f.side]}, f.next, false, f.retain, f.retain ? f.reference : undefined, f.scope);
       }
@@ -276,7 +276,7 @@ export function battleResolve(m: Match, r: Resolution): void {
       b!.destiny[p.side!] = null; b!.destinyCards[p.side!] = null;
       windowThen(m, 'destiny-next', 'battle-destiny-player-complete', other(p.side!), {side: p.side});
     } else {
-      const value = b!.destiny[p.side!];
+      const value = currentBattleDestiny(m,p.side!,p.continuousBattleBonus);
       const substitution = b!.destinyDraws?.[p.side!]?.substitution;
       b!.destiny[p.side!] = substitution?.value ?? (r.cancelled || value === null ? null : Math.max(0, value));
       completeDestinyDraw(m, p.side!, b!.site, 'battle', {card: p.card ?? null, value: b!.destiny[p.side!], ...(substitution ? {substitution} : {})},
@@ -410,9 +410,10 @@ export function battleResolve(m: Match, r: Resolution): void {
     continuation(m, 'shot-finish', {index: p.index, ...(p.flow ? {flow:p.flow} : {})}, side);
     if (!p.draw!.skipped) openWindow(m, 'response', other(side), {kind: shot.destiny !== null ? 'weapon-destiny-drawn' : 'weapon-destiny-failed', card: shot.card, value: shot.destiny, ...(shot.substitution ? {substituted: true} : {})});
   } else if (kind === 'battle:drawn' || kind === 'battle:planned-drawn') {
-    b.destiny[side] = p.draw!.value; b.destinyCards[side] = p.draw!.card;
+    const bonus=p.draw!.value!==null&&!p.draw!.substitution?battleDestinyBonus(m,side):undefined;
+    b.destiny[side] = p.draw!.value===null?null:p.draw!.value+(bonus??0); b.destinyCards[side] = p.draw!.card;
     (b.destinyDraws ??= pair(null, null))[side] = structuredClone(p.draw!);
-    continuation(m, 'destiny-finish', {side, ...(p.flow ? {flow: p.flow} : {}), ...(p.draw!.card ? {card: p.draw!.card,reference:referenceCard(m,p.draw!.card)} : {})}, side);
+    continuation(m, 'destiny-finish', {side, ...(bonus===undefined?{}:{continuousBattleBonus:bonus}), ...(p.flow ? {flow: p.flow} : {}), ...(p.draw!.card ? {card: p.draw!.card,reference:referenceCard(m,p.draw!.card)} : {})}, side);
     if (!p.draw!.skipped) openWindow(m, 'response', other(side), {kind: p.draw!.value !== null ? 'battle-destiny-drawn' : 'battle-destiny-failed', card: p.draw!.card, side, ...(p.draw!.substitution ? {substituted: true, value: p.draw!.value} : {})});
   } else if (kind === 'battle:shot-total') {
     const shot = b.shots[p.index!]; shot.destiny = p.draw!.value;
@@ -471,6 +472,7 @@ export function battleView(m: Match): Json {
   const b = battle(m);
   // Only public battle information; neither continuations nor hidden pile IDs.
   const projected=b?structuredClone(b):null;
+  if(projected)for(const side of sides)projected.destiny[side]=currentBattleDestiny(m,side);
   if(projected?.starshipShots)projected.starshipShots=projected.starshipShots.map(shot=>({...shot,...(shot.outcome==='pending'?pendingWeaponTotal(m,{weapon:shot.weaponRef,target:shot.targetRef}):{})}));
   return {battleDrawPolicy: b && b.stage !== 'complete' ? {dark:battleDrawPolicy(m,'dark'),light:battleDrawPolicy(m,'light')} : null, battle: b ? {...projected, damage: pair(battleDamage(m, 'dark'), battleDamage(m, 'light'))} as unknown as Json : null};
 }
@@ -480,6 +482,7 @@ export function assertBattle(m: Match): void {
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:equip') {const p = data(f); assertAttachmentAttempt(m, p.attachment!, p.card!, p.target!);}
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish') {
     const p = data(f);
+    if(p.continuousBattleBonus!==undefined&&(![0,1].includes(p.continuousBattleBonus)||!battle(m)?.destinyDraws?.[p.side!]||battle(m)!.destinyDraws![p.side!]!.value===null||battle(m)!.destinyDraws![p.side!]!.substitution))throw Error('Invalid continuous battle destiny bonus.');
     if(p.reference){assertCardReference(m,p.reference,p.card);if(p.reference.zone!=='destiny')throw Error('Invalid battle draw reference.');}
     if (p.flow) {assertDrawFlow(m, p.flow, battle(m)?.destinyDraws?.[p.side!]!); if (p.flow.side !== p.side || f.actor !== p.side || p.flow.source !== battle(m)?.site || p.flow.category !== 'battle' || p.flow.scope !== battle(m)?.destinyScopes?.[p.side!] || !battle(m)?.destinyPlans?.[p.side!] || (p.flow.retain ? p.flow.next.handler !== 'selection:drawn' : p.flow.next.handler !== 'battle:plan-draw')) throw Error('Invalid battle draw actor.');}
     if (!sides.includes(p.side!) || p.card !== undefined && m.cards[p.card]?.owner !== p.side || p.redraw !== undefined && typeof p.redraw !== 'boolean') throw Error('Invalid battle destiny continuation.');

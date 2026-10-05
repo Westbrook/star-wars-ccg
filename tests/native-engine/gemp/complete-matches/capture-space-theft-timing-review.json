@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "classification": "GEMP observable intermediate ownership-before-placement state, not persistent cargo or a stale final attachment",
+  "sourceExplanation": "StealCapturedStarshipToLocationEffect first changes owner and clears capturedStarship, appends ChooseCardOnTableEffect for placement, then emits StolenResult from the current PassthruEffect. STOLEN responses precede the appended placement effect. GameState.moveCardToLocation subsequently clears attachedTo and places the ship at the system.",
+  "sources": {
+    "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/choose/StealCapturedStarshipToLocationEffect.java": "623c7ef32726b9851138089d103d846d1a4e04910ecfa12205f02c71a20cdb78",
+    "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/game/state/GameState.java": "dff17438744b869d3df11875d16d9b6313584c6b18cff94948d4a1f141251eb5"
+  },
+  "recordedCases": [
+    {
+      "ship": "light-8",
+      "beforePlacementRow": 836,
+      "beforePlacement": {
+        "id": "light-8",
+        "location": "light-2",
+        "attachedTo": "dark-4",
+        "hit": false,
+        "owner": "dark",
+        "zone": "table",
+        "vesselStats": {
+          "ability": 1.0,
+          "power": 0.0,
+          "forfeit": 8.0,
+          "armor": 2.0,
+          "hyperspeed": 3.0
+        }
+      },
+      "emptyStolenWindows": [
+        {
+          "row": 836,
+          "side": "light",
+          "text": "STOLEN - Optional responses",
+          "legalActions": [],
+          "answer": ""
+        },
+        {
+          "row": 837,
+          "side": "dark",
+          "text": "STOLEN - Optional responses",
+          "legalActions": [],
+          "answer": ""
+        }
+      ],
+      "settledRow": 838,
+      "settledEvent": "CAPTURED_STARSHIP - Optional responses",
+      "settled": {
+        "id": "light-8",
+        "location": "light-2",
+        "hit": false,
+        "owner": "dark",
+        "zone": "table",
+        "vesselStats": {
+          "ability": 1.0,
+          "power": 5.0,
+          "forfeit": 8.0,
+          "armor": 4.0,
+          "hyperspeed": 3.0
+        }
+      }
+    },
+    {
+      "ship": "light-3",
+      "beforePlacementRow": 954,
+      "beforePlacement": {
+        "id": "light-3",
+        "location": "light-2",
+        "attachedTo": "dark-4",
+        "hit": false,
+        "owner": "dark",
+        "zone": "table",
+        "vesselStats": {
+          "ability": 1.0,
+          "power": 0.0,
+          "forfeit": 8.0,
+          "armor": 2.0,
+          "hyperspeed": 3.0
+        }
+      },
+      "emptyStolenWindows": [
+        {
+          "row": 954,
+          "side": "light",
+          "text": "STOLEN - Optional responses",
+          "legalActions": [],
+          "answer": ""
+        },
+        {
+          "row": 955,
+          "side": "dark",
+          "text": "STOLEN - Optional responses",
+          "legalActions": [],
+          "answer": ""
+        }
+      ],
+      "settledRow": 956,
+      "settledEvent": "CAPTURED - Optional responses",
+      "settled": {
+        "id": "light-3",
+        "location": "light-2",
+        "hit": false,
+        "owner": "dark",
+        "zone": "table",
+        "vesselStats": {
+          "ability": 1.0,
+          "power": 5.0,
+          "forfeit": 8.0,
+          "armor": 4.0,
+          "hyperspeed": 3.0
+        }
+      }
+    }
+  ],
+  "comparisonBoundary": "The complete-match settled custody comparison must occur after actual placement at the subsequent CAPTURED_STARSHIP/CAPTURED boundary; raw STOLEN-window snapshots remain unmodified.",
+  "limitation": "Both recorded STOLEN response windows have zero legal actions. This trace does not prove native equivalence for cards with a legal response during the GEMP ownership-before-placement intermediate state. Do not generalize this boundary comparison to non-empty responses or erase the reference intermediate state."
+}

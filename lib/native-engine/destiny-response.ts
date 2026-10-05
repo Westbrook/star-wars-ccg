@@ -1,3 +1,4 @@
+import {currentBattleDestiny} from './combat-modifiers';
 import type {AsteroidDraw} from './asteroids';
 import type {FighterTrouble} from './fighter-trouble';
 import type {TallonRoll} from './tallon-roll';
@@ -15,7 +16,7 @@ export function pendingDestiny(m: Match, r: Resolution): {resolution: Resolution
   const b=m.data.battle as Battle|undefined;if(!b)return;
   if(r.action.handler==='battle:destiny-finish'){
     const {side}=r.action.payload as {side:Side};const s=b.destinyDraws?.[side]?.substitution;
-    return {resolution:r,side,value:s?.value??b.destiny[side],substituted:!!s};
+    return {resolution:r,side,value:s?.value??currentBattleDestiny(m,side),substituted:!!s};
   }
   if(r.action.handler==='battle:shot-finish'){
     const shot=b.shots[(r.action.payload as {index:number}).index];

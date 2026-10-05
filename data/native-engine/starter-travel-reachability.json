@@ -372,13 +372,13 @@
     "lib/native-engine/battle-interrupts.ts": "12c3e3e702525251d50bfc328a51ae49d85438fd16011c34c5d351e1c5def595",
     "lib/native-engine/battle-plan.ts": "9926e472181ea7e4a90d76c16beac6c2fa23b7efb60d79b8e8dfb9e0873bf959",
     "lib/native-engine/battle-power.ts": "a9d909dc013ba5a420164a2a74487af1c1f2c694f45480581983998959f82ce0",
-    "lib/native-engine/battle.ts": "ff7f46c47cd645193e79f8d2d3db6cfe6c0b55934eaf82dd9234717504bcee21",
+    "lib/native-engine/battle.ts": "e646cd719b3a5c69754ad965b2318e17d66c2d68287152561e2f41db48a70222",
     "lib/native-engine/beru-stew.ts": "1f93fbc1229ae26330a54f38118484f11e4cd233babdb90979d2f1f5603d153b",
     "lib/native-engine/besieged.ts": "353b9b17c44eaf53e23df1203d122a49a7dbcfea0b4c6cf7fb31df34ae3d8ddf",
     "lib/native-engine/bespin.ts": "0b2f838ab0a2e4d5f296212eb4a88dac29b605de3e3b689963c9273f1eeb0b2d",
     "lib/native-engine/bionic-hand.ts": "fee56fd2fefd40297200b296bde23ddb67bc08394cda1f105adbbff9bfdfbd71",
     "lib/native-engine/blown-away.ts": "ce9205ee25e580472f2ca045a55a190eedaa04933ffae30d517abda820ae0d67",
-    "lib/native-engine/board.ts": "c0a5fa6f88fae0b687c3ab4e177127d632a99a138a24f42854b157ac454a0ae0",
+    "lib/native-engine/board.ts": "bb157699f2056f404044801b70eefcdffdf7a3ca18dc39146dbab06914e319d9",
     "lib/native-engine/cancellation.ts": "bdd5e0f47445a020b0a8fa35e446df2c9e3a895ac21bef847b3957576e74e554",
     "lib/native-engine/capacity-loss.ts": "a5db66dbb2af8a5953374c2bd45abbc31bbeb1fed6dfcb4054a0daa27f48260c",
     "lib/native-engine/captives.ts": "35211e919903a522b5a31930519fc82b114cb4493815fd0d09242a710bf78266",
@@ -392,9 +392,9 @@
     "lib/native-engine/character-weapon-total.ts": "dec1e3b53a7881c0dd4b4c3cfe4cfbb2d282b95453d6964850ec59cfa8134e45",
     "lib/native-engine/characteristics.ts": "a3f12f0f5b08fc157eb28f9816033bf45a1ebdc214e749bc25d81221d98012bc",
     "lib/native-engine/client.ts": "0619a4d641a8b58a2a169704bd16df1ade9216dda516ea323ba3d1210157a9d7",
-    "lib/native-engine/combat-modifiers.ts": "9e3ee700337a44eb85061f354b031de57adc0155099942e33cfb52b2fdf8e060",
+    "lib/native-engine/combat-modifiers.ts": "7a36d1110d2f1ef9e3068acf7f3aa800fcc8664292e67e4bdbe110194075362e",
     "lib/native-engine/compactor.ts": "c3fc9774a17735657713299ad5982c0714543fea6d8dc874ac82414e46edb349",
-    "lib/native-engine/computer.ts": "7a1835e9553c0ed9fa08eca26c47eee9aa1c9f62219f3bd0370bd2e8f562f84e",
+    "lib/native-engine/computer.ts": "c1588048e585c78884bf67e0c7c712393c8e821c57a2553463d147802ac48cd4",
     "lib/native-engine/creature-attack.ts": "0820b6c993ff79ab5aec603e25f1e974916624b2ca177e08a7a59af1c27dbdb8",
     "lib/native-engine/creature-encounters.ts": "26e00b6cda587de49df933057b06f76710e0c8b4d8b1043eb15b4b0fc5610883",
     "lib/native-engine/creature-profile.ts": "50988eda23382e12b8581ea3752278705275ce42b6fbfce8ba29dc3167604508",
@@ -405,9 +405,9 @@
     "lib/native-engine/definitions.ts": "ecfec7747cd2f48238e949f8205443c56ff33e518b86d47016bdbf59ad6f594b",
     "lib/native-engine/deploy-costs.ts": "89a1cbe5a927f97495f68abd872614c4bd1819bd0a4ef6834b106c85acecff98",
     "lib/native-engine/deploy-effects.ts": "4c6beae78759740f3443db3c5c951709b1e1c33d0ff7de525fe9f9643e8f4808",
-    "lib/native-engine/deployment.ts": "c9d1345fe13235bc874573f2cd755cc8f60d95305acb49160587b2f32d9f389a",
+    "lib/native-engine/deployment.ts": "147c70a5ec8bac37ab068052bf5cc1644632b61d3433e7199b98231d01725375",
     "lib/native-engine/destiny-limits.ts": "3397fdd436216fb3f5d14b9763720420d0fbe003287b1c0c94d3f7c511f822f7",
-    "lib/native-engine/destiny-response.ts": "28d68c1a9b830ce6a4091b44e6a196a4b90ec1218c15531819e2c317a7346707",
+    "lib/native-engine/destiny-response.ts": "fefb1b771fba8be779a957ee94fdff1279ceb1a829f65efe159bd6e27358e456",
     "lib/native-engine/destiny-selection.ts": "c95c6077d360f35895a215ffb25bbcb324b97642bc94c444f593dca2058aa2b5",
     "lib/native-engine/destiny-values.ts": "48de3915fb94276660df13d2d4d20b73348ec941e41c4fe75980590753f82934",
     "lib/native-engine/destiny.ts": "7d1c24970e2436fe4f3da8b056337f09e20a5d153bcd97d271555130ed23395e",
@@ -422,6 +422,7 @@
     "lib/native-engine/effect-search.ts": "80cd6cb4ad588bb0e801e8d4c4c6c8ce12146b2bad933d570cf576ac1352b48e",
     "lib/native-engine/equipment-state.ts": "594144f2c08cbb26d6380b77b24d00e8e5bb8b58f3fbcb277f7067ac89e0ec77",
     "lib/native-engine/equipment.ts": "5f2fa84982fbf0775e3a001da8785c64c34d03210486d10363d97b2658fcc68f",
+    "lib/native-engine/executor-sites.ts": "98cabf202f2827d36bf4b4aef4c9b608af1e1782923b52913ee8488fdd9796da",
     "lib/native-engine/farm-devices.ts": "375f750a21c3d499885085bba3a9fe0ba2142d6d6c5ad5b58a1f18bb546fd9d3",
     "lib/native-engine/fighter-trouble.ts": "75b4e9cda58825cb7d2aab83c2f87737469177ac4293c630d5249abbf6ac7f93",
     "lib/native-engine/force-effects.ts": "2f2f50578daeba465ebb710b8cf3362164e5a5ea555e8d420b7621077ea82267",
@@ -452,9 +453,10 @@
     "lib/native-engine/labria.ts": "7f2143cef242dacbeecf3b350c4f227cb28b5bc5c123820727ed9cec28aa1c4e",
     "lib/native-engine/lars.ts": "592394eec94474421ee84b0672615e79ff362c68bab88a8beb06043ce1a86aac",
     "lib/native-engine/laser-gate.ts": "bd5dfcaf41613f3ac449b069cd1a7107f4a86c3028e6290b27db16b696300944",
-    "lib/native-engine/launch-bay.ts": "59cb2f2f1317825c1947e815f38dbfae99705a5e63d057796b80ace72f5fcd09",
+    "lib/native-engine/launch-bay.ts": "91f292b34ffb1919bb732beaa835375f6643abc17b73a458eb7386f25b09644a",
     "lib/native-engine/leia.ts": "a14c0cd62a33f5b72aa1f165b3b5349af1a85754dc677b18e92c018b42e3e7fa",
     "lib/native-engine/lifecycle.ts": "c2ef6073f6907c64f28083e4fdbd08c0e0a0e4c4fae7fdfc5d8cf6191df7a70c",
+    "lib/native-engine/lift-tube.ts": "269819b80b672336b6897c79f34d3d8d001bea50feb7906b891c710cd769aa9e",
     "lib/native-engine/lightsabers.ts": "50bb7845171ce6a33783426a27612c91140585b5262b6b027814927f903eb0d8",
     "lib/native-engine/location-ability.ts": "cab565f1676f2955983cc8890f8993ee301af2f5227365dcf7b8eefee3c749cc",
     "lib/native-engine/location-icons.ts": "5ff4c4cc9467fa549118b7438f7dc08f352a54bd76da53b90ec09aa034316d3b",
@@ -472,7 +474,7 @@
     "lib/native-engine/nighttime.ts": "2823417ddf5d8cd48366f6196f288dd2e85deeea4db5cfd289ca246cf61c3136",
     "lib/native-engine/noble-sacrifice.ts": "52dcdf41843a519867f8f43419dc721923212e6dadbba14fc13835c1bec7fbde",
     "lib/native-engine/obi-wan.ts": "89158b6320584b63c16290a8b0b1e737c8d8db9283fd088b816fd3e4adc887aa",
-    "lib/native-engine/occupancy.ts": "71f67f445dd746af06f282b81bef1c1b9035c9dd6b7780df957dbef30a5d68ae",
+    "lib/native-engine/occupancy.ts": "4a9e2b5a9446481fee269efb9b885cb07f80adf3abfceabcfa03df60b83c3061",
     "lib/native-engine/off-the-edge.ts": "25d9a6da74b43d1f08d119c6833b39d8b4089d1ebc8a563197506c004ede696b",
     "lib/native-engine/on-the-edge.ts": "9cc0c661b83aa29bbf2eb0ccb622178b0f9c8220216d8f78681ffd5ff792468e",
     "lib/native-engine/otsd-characters.ts": "846a650513d925c9359c325093f4b4f36c0be9347da631c6628b032eb2cb451e",
@@ -485,10 +487,10 @@
     "lib/native-engine/pile-reveal.ts": "d39574ec0ba75588037d2146ffd27655d9311b2c60e1e56a932756ec387ab191",
     "lib/native-engine/pilot-deploy.ts": "a6eee44dd03b9f44623b7a7a4ac6c3d182b635128c80324a83fb9803dc50c8da",
     "lib/native-engine/piloting.ts": "7cb2d0a9d518ed12e54c4491e8919f7b66a2eb8a28fcf5a120f4fb1911b1b03a",
-    "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
+    "lib/native-engine/power-droid.ts": "840cafaffae1d41cf530580aae22a45e8bd1aae8ac951206f6e0e1d5df9014bc",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
     "lib/native-engine/premiere-rules.ts": "22267100b310c891ba07cffac2e520c068bbea4d26dc8b4ec27f57eb67ec3f49",
-    "lib/native-engine/premiere-setup.ts": "573a163829665c385bcc614d89fd023189793b8a84372cd13304a578f7483a9b",
+    "lib/native-engine/premiere-setup.ts": "8c9853b76b40bba66a12fffb1bb9e6b4b3827cebccff490e1c28e1cbebc6deb4",
     "lib/native-engine/preparation-destiny.ts": "65eb82c08526d45e8478eb87c343a8c0e212ea93badb9044b92ee439a567d617",
     "lib/native-engine/preparation-starting.ts": "0b0d4bd2056abe1989002ca7ed2992efd7b4c43d6da25194681fa6882433b828",
     "lib/native-engine/prisoner-ship.ts": "b2782b33b69756095525b9e8aab28565c3092cf7681eda2107882b239d608f6c",
@@ -517,7 +519,7 @@
     "lib/native-engine/server.ts": "9cc5cea13d0e4c5a8945e428fe1abb654a14bb81cccea946e68c96f1e89e117e",
     "lib/native-engine/service.ts": "b8c8cc93b8eaef8f23a446872067f1e2ec0ef398862187a02c3b6478b12db197",
     "lib/native-engine/setup.ts": "3a94caef7e5db7520c3620297efea07e4a675ce655b5de03f40968e27e1cc173",
-    "lib/native-engine/ship-sites.ts": "8b0ab2a74024faca28c10fb70f0993371c52bab2e9630c416cc31fd90dd36d61",
+    "lib/native-engine/ship-sites.ts": "e294b913f85f8684de1cb686c8fdf42c2a596e527cb9974cb525518a6ba210a2",
     "lib/native-engine/sniping.ts": "ff33a5b1a9f3d7c94fb3a0ff85675365297331f5133b14cfacd86bb66bff2ac9",
     "lib/native-engine/space-slug.ts": "acbe32b85da9dc1809c62321b007fb3ec14514c1ae1fcb3692574c5751c6ba07",
     "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
@@ -532,7 +534,7 @@
     "lib/native-engine/tallon-roll.ts": "1b9817342cd3d0825e229ed25a6bd47366e3886bd2c5a03a99279901477619e8",
     "lib/native-engine/telepathy.ts": "b28dd1038bf933e4f9fb23e950e7dc8e7144ebb6a1861a266d75d5a26e7b2373",
     "lib/native-engine/tractor-beam.ts": "ed39e37c51595dab26a44c6aeb80705181c0f5bd94d00ecffa3fba2ed730f074",
-    "lib/native-engine/transport.ts": "7ff90737871ae125faf2cbf00f5a2439ea7272165cc02bd0f7fb30be39f33f53",
+    "lib/native-engine/transport.ts": "3f5ebc69dae7058ebdd85367e755f3e8f19c4ccc4830e07f2b090a2392728279",
     "lib/native-engine/travel.ts": "5ceb1bf6cff5d2296618dbc3689813d5ba08ecf39a911c025a2da50429ac7ca6",
     "lib/native-engine/trooper-assault.ts": "8edfc640154988a5e4e2b2a95117be389122187fbbfc3ed431e768a6a40be05f",
     "lib/native-engine/try-effects.ts": "73c02d7b5780a9f1fc0435608d8b20299259f1d5f57c1dc4b2f5f1737d889d20",
@@ -544,8 +546,7 @@
     "lib/native-engine/weapon-state.ts": "a60d085a2e3a11bedb978247863e16346d28df9562534e11e4e9ee717b5b3352",
     "lib/native-engine/weapon-total.ts": "f2b2e454a1c77b41009b0ad69d8343fda968fe53036aa1e1f829dd48dd2687e3",
     "lib/native-engine/wedge-search.ts": "17a54db6048a3f45c7bbe2332e841d43969a4ca57f3e88fd970c2ade5d11f0e2",
-    "lib/native-engine/worse.ts": "cdd54acc301b458a8594a3aac483d6d9039b0ef7306d03a359c5346857612953",
-    "lib/native-engine/lift-tube.ts": "269819b80b672336b6897c79f34d3d8d001bea50feb7906b891c710cd769aa9e"
+    "lib/native-engine/worse.ts": "cdd54acc301b458a8594a3aac483d6d9039b0ef7306d03a359c5346857612953"
   },
   "evidence": [
     "tests/native-engine/gemp/travel-response-provenance.json",
@@ -1107,6 +1108,109 @@
         "lib/native-engine/vessels.ts"
       ],
       "conclusion": "Both Lift Tube prints, Scramble, Affect Mind, Tractor Beam, TIE Fighter and all starships/vehicles are absent from the exact 68-definition starter pair. Tube movement/react permissions and the generic arrived-passenger disembark correction require an absent reacting vehicle. Besieged virtual-site predicates require absent captured-ship state; open-vehicle Scramble and active/suppressed effect checks require absent cards. Historical ownership validation changes require a stolen card, impossible in this pair; they add no action or timing window. Imperial capital discount likewise requires absent ships. Existing movement-response reachability conclusion retained, with original deck/card fingerprints unchanged. This does not certify complete matches or resolve failed Obsession arithmetic."
+    },
+    {
+      "reviewedAt": "2026-10-05T13:00:45.007233+00:00",
+      "scope": "Frozen Executor/Holotheatre, unlimited occupancy, related ship-site transport, CPU capture/Gate/Tube choices, historical deployment ownership and Premiere Luke/Vader printed text",
+      "method": "Source and exact-provider reachability review after integrator runtime freeze. No new oracle, native behavioral test, browser or production execution by this audit.",
+      "files": [
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/combat-modifiers.ts",
+        "lib/native-engine/computer.ts",
+        "lib/native-engine/deployment.ts",
+        "lib/native-engine/destiny-response.ts",
+        "lib/native-engine/executor-sites.ts",
+        "lib/native-engine/launch-bay.ts",
+        "lib/native-engine/occupancy.ts",
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/ship-sites.ts",
+        "lib/native-engine/transport.ts",
+        "data/native-engine/additional-cards.json",
+        "data/native-engine/identities.json"
+      ],
+      "absentExactPairProviders": [
+        "4_167",
+        "4_161",
+        "4_165",
+        "1_19",
+        "1_168",
+        "1_148",
+        "1_308",
+        "2_142",
+        "2_115",
+        "2_111"
+      ],
+      "conclusions": [
+        "Exact 68 definitions and ordered 60-card deck fingerprints are unchanged. Executor 4_167, Holotheatre 4_161, Launch Bay 4_165, Premiere Luke 1_19 and Darth Vader 1_168 are absent; intro Luke101_2/Vader101_5 are different blueprints.",
+        "Holotheatre generation/drain additions require its absent site. Luke extra generation requires absent 1_19. Executor immunity and unlimited capacity require absent 4_167; finite capacity still retains its previous constraints, with driver/category restrictions outside the unlimited branch.",
+        "Unique ship-site relationships require Holotheatre/Executor; Launch Bay-only permissions remain explicitly 4_165. Setup exclusion only removes absent nonunique Launch Bay as a starting location. Starter location group, conversion and adjacency rules are unchanged.",
+        "Free related ship-site transport requires an absent ship site and active related hull. Its ordinary Move-phase gate is unchanged; no travel, duel or accident pending response is granted. It consumes regular movement and preserves current transport bindings. Final onboard pilot/driver restriction is applied only to this new craft transfer branch; source review versus official AR distinction is retained separately.",
+        "Premiere Vader continuous battle destiny bonus requires participating active 1_168. Without it, each actual starter draw records zero and pending recalculation adds zero minus zero; replaced/canceled/failed/substituted draw branches retain their distinctions. Optional saved field preserves older snapshots. No draw permission, event window or response provider is added.",
+        "Deployment history validation now permits the recorded original owner after theft without changing arrival events or phase observers. The exact pair has no stealing/capture provider. CPU changes score already offered actions and add no legal actions; Tube/Gate/capture branches require absent providers, while the final conditional rewrite only narrows TypeScript typing.",
+        "No new exact-pair movement return/late-arrival, pre-result duel participant return or accident target-group change is reachable from these additions. Existing travel and duel/accident timing classifications remain outside-current-pair. Failed Obsession numerical amount remains unresolved and production full-match admission stays closed."
+      ],
+      "evidenceLimits": "Current review preserves previous executed observations and their timestamps/hashes; semantic compatibility is not a claim that every historical trace was newly rerun. Full engine/custom-deck obligations and documented wider-catalog discrepancies remain required.",
+      "sourceDiscrepancyReceipt": "tests/native-engine/gemp/unique-ship-site-travel-review.json",
+      "previousFingerprints": {
+        "lib/native-engine/battle.ts": "ff7f46c47cd645193e79f8d2d3db6cfe6c0b55934eaf82dd9234717504bcee21",
+        "lib/native-engine/board.ts": "c0a5fa6f88fae0b687c3ab4e177127d632a99a138a24f42854b157ac454a0ae0",
+        "lib/native-engine/combat-modifiers.ts": "9e3ee700337a44eb85061f354b031de57adc0155099942e33cfb52b2fdf8e060",
+        "lib/native-engine/computer.ts": "7a1835e9553c0ed9fa08eca26c47eee9aa1c9f62219f3bd0370bd2e8f562f84e",
+        "lib/native-engine/deployment.ts": "c9d1345fe13235bc874573f2cd755cc8f60d95305acb49160587b2f32d9f389a",
+        "lib/native-engine/destiny-response.ts": "28d68c1a9b830ce6a4091b44e6a196a4b90ec1218c15531819e2c317a7346707",
+        "lib/native-engine/executor-sites.ts": null,
+        "lib/native-engine/launch-bay.ts": "59cb2f2f1317825c1947e815f38dbfae99705a5e63d057796b80ace72f5fcd09",
+        "lib/native-engine/occupancy.ts": "71f67f445dd746af06f282b81bef1c1b9035c9dd6b7780df957dbef30a5d68ae",
+        "lib/native-engine/premiere-setup.ts": "573a163829665c385bcc614d89fd023189793b8a84372cd13304a578f7483a9b",
+        "lib/native-engine/ship-sites.ts": "8b0ab2a74024faca28c10fb70f0993371c52bab2e9630c416cc31fd90dd36d61",
+        "lib/native-engine/transport.ts": "7ff90737871ae125faf2cbf00f5a2439ea7272165cc02bd0f7fb30be39f33f53"
+      },
+      "reviewedFingerprints": {
+        "lib/native-engine/battle.ts": "e646cd719b3a5c69754ad965b2318e17d66c2d68287152561e2f41db48a70222",
+        "lib/native-engine/board.ts": "bb157699f2056f404044801b70eefcdffdf7a3ca18dc39146dbab06914e319d9",
+        "lib/native-engine/combat-modifiers.ts": "7a36d1110d2f1ef9e3068acf7f3aa800fcc8664292e67e4bdbe110194075362e",
+        "lib/native-engine/computer.ts": "c1588048e585c78884bf67e0c7c712393c8e821c57a2553463d147802ac48cd4",
+        "lib/native-engine/deployment.ts": "147c70a5ec8bac37ab068052bf5cc1644632b61d3433e7199b98231d01725375",
+        "lib/native-engine/destiny-response.ts": "fefb1b771fba8be779a957ee94fdff1279ceb1a829f65efe159bd6e27358e456",
+        "lib/native-engine/executor-sites.ts": "98cabf202f2827d36bf4b4aef4c9b608af1e1782923b52913ee8488fdd9796da",
+        "lib/native-engine/launch-bay.ts": "91f292b34ffb1919bb732beaa835375f6643abc17b73a458eb7386f25b09644a",
+        "lib/native-engine/occupancy.ts": "4a9e2b5a9446481fee269efb9b885cb07f80adf3abfceabcfa03df60b83c3061",
+        "lib/native-engine/premiere-setup.ts": "8c9853b76b40bba66a12fffb1bb9e6b4b3827cebccff490e1c28e1cbebc6deb4",
+        "lib/native-engine/ship-sites.ts": "e294b913f85f8684de1cb686c8fdf42c2a596e527cb9974cb525518a6ba210a2",
+        "lib/native-engine/transport.ts": "3f5ebc69dae7058ebdd85367e755f3e8f19c4ccc4830e07f2b090a2392728279"
+      },
+      "providerMetadataFingerprints": {
+        "data/native-engine/additional-cards.json": "45b1522e6a0f3203dbcf86dd5523ec25e6367e43cf364b27f8f7afcfb4d61602",
+        "data/native-engine/identities.json": "aed698f1ec8e90c7933874ee52930ccba6dc7d208e2b08aa6c14852b1d6e07f0"
+      }
+    },
+    {
+      "reviewedAt": "2026-10-05T13:10:24.763784+00:00",
+      "scope": "Power-droid lower-power comparison excludes unresolved battle-destiny group",
+      "files": [
+        "lib/native-engine/power-droid.ts",
+        "lib/native-engine/power-support.ts"
+      ],
+      "absentExactPairProviders": [
+        "3_8",
+        "1_175"
+      ],
+      "conclusion": "EG-4 3_8 and EG-6 1_175 are absent from the exact 68 definitions. The unchanged required-action predicate first demands the actual drawn physical card be one of those blueprints in destiny; no starter card can create that trigger. currentPower now uses completed destinyResults totals, excludes current and preceding draws of the still-unfinished group, and retains the other seat completed value with legacy fallback. This helper is private to the absent-provider mandatory trigger and adds no timing window, action permission or general starter power calculation. Travel and pending duel/accident reachability conclusions remain unchanged. Failed Obsession and full-match admission remain guarded.",
+      "verification": "Inspected finalized source after owner freeze. Owner reports 46/46 focused power-support plus Skywalkers checks; no new test/oracle execution by this audit. Existing executed power-support observations remain historical and unchanged. New multiple-draw behavior is native integration plus pinned source review, not new GEMP execution.",
+      "evidence": [
+        "tests/native-engine/gemp/premiere-skywalkers-review.json",
+        "tests/native-engine/gemp/power-support-provenance.json",
+        "tests/native-engine/power-support.test.mjs"
+      ],
+      "previousFingerprints": {
+        "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e"
+      },
+      "reviewedFingerprints": {
+        "lib/native-engine/power-droid.ts": "840cafaffae1d41cf530580aae22a45e8bd1aae8ac951206f6e0e1d5df9014bc",
+        "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c"
+      }
     }
-  ]
+  ],
+  "latestSemanticReviewAt": "2026-10-05T13:10:24.763784+00:00"
 }

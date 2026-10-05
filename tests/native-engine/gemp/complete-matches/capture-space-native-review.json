@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "reference": "tests/native-engine/gemp/complete-matches/capture-space-provenance.json",
+  "replay": "tests/native-engine/gemp-match-replay.mjs",
+  "tests": "tests/native-engine/capture-match.test.mjs",
+  "fixture": "tests/native-engine/capture-match-fixture.mjs",
+  "browser": "tests/native-engine/capture-match-browser.mjs",
+  "nativeCommands": 1677,
+  "comparedCheckpoints": 162,
+  "turns": 28,
+  "winner": "dark",
+  "reason": "life-force",
+  "initialization": "Create normal exact 60-card match and choose real starting locations. Convert the observed reference opening shuffle into Fisher-Yates entropy. Replay only legal runtime commands; no post-setup state edits or pile, destiny, ownership, custody or outcome corrections.",
+  "persistence": "Resume three exact JSON-serialized reached states (captured ship, escorted captive and stolen ship) using the original command/time/entropy transcript. Each reproduces the identical final Match state.",
+  "comparison": "Compare location order, all exact ordered piles (hand order disregarded), active and inactive physical cards, current owners, attachments, trapped crew roles, captured-ship hosts, escorted captives, active printed/modified character and vessel values, battle destiny and loss totals at actual selected action boundaries and final victory. Initial setup is independently compared before gameplay.",
+  "representations": "GEMP stores the captive-to-escort relation as attachedTo; native stores captivity.escort. Native snapshot exposes this same explicit relation in attachedTo for comparison without changing either engine state or the immutable reference record.",
+  "responseTimingReview": "tests/native-engine/gemp/complete-matches/capture-space-theft-timing-review.json",
+  "limitations": [
+    "One complete trajectory through custom decks, not exhaustive card or starter admission.",
+    "GEMP's intermediate STOLEN event precedes queued placement; native emits its stolen event after placement. All four recorded intermediate response windows have zero legal actions, enforced directly against the raw record. Settled checkpoints match; nonempty theft-response equivalence remains unproven.",
+    "The replay includes no additional Rules Lab scenario and does not open production native deck admission.",
+    "Browser fixtures initialize SQLite once with a state reached by the complete legal replay, then execute the exact continuation through real UI/HTTP/service paths. They do not replay all 1677 commands visually."
+  ],
+  "validation": {
+    "focusedTests": 8,
+    "passed": 8,
+    "failed": 0,
+    "browserCases": 6,
+    "browserWidths": [
+      1440,
+      390
+    ],
+    "browserServiceCommands": 194,
+    "browserUiChoices": 18,
+    "browserScreenshots": "/private/tmp/swccg-capture-match-browser",
+    "browserLog": "/private/tmp/swccg-capture-match-browser2.log",
+    "browserScope": "Occupied capture, empty-ship theft and captured-crew seizure/escape/theft; both seats refreshed at each consequential action, every persisted service step and settled endpoint equal full-match replay, zero page/HTTP errors or horizontal overflow. Phone custody selection and theft controls plus desktop custody layout visually inspected."
+  }
+}

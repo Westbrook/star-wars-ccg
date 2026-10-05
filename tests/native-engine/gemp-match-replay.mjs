@@ -40,9 +40,16 @@ function snapshot(m,expected,version){
  const values=publicValues(m);
  if(version>=5&&expected.battleLosses)assert.ok(expected.battleDestinies,'Version 5 damage checkpoints require completed destiny evidence');
  for(const card of expected.table)if(card.stats){const actual=values.characters[card.id];assert.ok(actual,'Missing public character values');assert.deepEqual({power:actual.power,ability:actual.ability,forfeit:actual.forfeit},card.stats,'Public character values must match GEMP');}
- const result={turn:m.turn.number,side:m.turn.side,phase:m.turn.phase,locations:[...m.locations],players:Object.fromEntries(['dark','light'].map(side=>[side,Object.fromEntries(['reserve','force','used','lost','hand'].map(p=>[p,[...m.players[side][p]]]))])),table:Object.values(m.cards).filter(c=>c.zone==='table'&&(c.location||version>=4&&board.cardDefinition(m,c.id).type!=='Location')).map(c=>({id:c.id,...(c.location?{location:c.location}:{}),...(version>=3?{...(c.attachedTo?{attachedTo:c.attachedTo}:{}),hit:combat.battle(m)?.hits.includes(c.id)??false}:{}),...(version>=2&&board.cardDefinition(m,c.id).type==='Character'?{stats:{power:board.power(m,c.id,combat.battle(m)?.stage!=='complete'&&combat.battle(m)?.initiator!==c.owner&&combat.members(m,c.owner).includes(c.id)),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)}}:{})})).sort((a,b)=>a.id.localeCompare(b.id))};
- if(version>=9)for(const c of result.table)if(board.cardDefinition(m,c.id).type==='Character')c.disarmed=disarmed.isDisarmed(m,c.id);
- if(version>=6)for(const c of result.table){const card=m.cards[c.id],def=board.cardDefinition(m,c.id);if(def.type==='Vehicle'||version>=7&&def.type==='Starship')c.vesselStats={power:board.power(m,c.id),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)};if(version>=8&&def.type==='Starship'){for(const [key,fn]of [['armor','vesselArmor'],['maneuver','vesselManeuver'],['hyperspeed','vesselHyperspeed']]){const value=piloting[fn](m,c.id);if(value!==null)c.vesselStats[key]=value;}}if(card.aboardRole)c.aboardRole=card.aboardRole;}
+ const result={turn:m.turn.number,side:m.turn.side,phase:m.turn.phase,locations:[...m.locations],players:Object.fromEntries(['dark','light'].map(side=>[side,Object.fromEntries(['reserve','force','used','lost','hand'].map(p=>[p,[...m.players[side][p]]]))])),table:Object.values(m.cards).filter(c=>(c.zone==='table'||version>=10&&['inactive','captive'].includes(c.zone))&&(c.location||version>=4&&board.cardDefinition(m,c.id).type!=='Location')).map(c=>({id:c.id,...(c.location?{location:c.location}:{}),...(version>=3?{...(c.attachedTo?{attachedTo:c.attachedTo}:{}),hit:combat.battle(m)?.hits.includes(c.id)??false}:{}),...(version>=2&&board.cardDefinition(m,c.id).type==='Character'&&(version<10||c.zone==='table')?{stats:{power:board.power(m,c.id,combat.battle(m)?.stage!=='complete'&&combat.battle(m)?.initiator!==c.owner&&combat.members(m,c.owner).includes(c.id)),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)}}:{})})).sort((a,b)=>a.id.localeCompare(b.id))};
+ // Version 9 records Disarmed; version 10 extends the version 8 space schema with custody.
+ if(version===9)for(const c of result.table)if(board.cardDefinition(m,c.id).type==='Character')c.disarmed=disarmed.isDisarmed(m,c.id);
+ if(version>=6)for(const c of result.table){const card=m.cards[c.id];if(version>=10&&card.zone!=='table'){if(card.aboardRole)c.aboardRole=card.aboardRole;continue;}const def=board.cardDefinition(m,c.id);if(def.type==='Vehicle'||version>=7&&def.type==='Starship')c.vesselStats={power:board.power(m,c.id),ability:ability.ability(m,c.id),forfeit:board.forfeit(m,c.id)};if(version>=8&&def.type==='Starship'){for(const [key,fn]of [['armor','vesselArmor'],['maneuver','vesselManeuver'],['hyperspeed','vesselHyperspeed']]){const value=piloting[fn](m,c.id);if(value!==null)c.vesselStats[key]=value;}}if(card.aboardRole)c.aboardRole=card.aboardRole;}
+ if(version>=10)for(const c of result.table){
+  const card=m.cards[c.id];c.zone=card.zone;c.owner=card.owner;
+  if(card.capturedShip)c.capturedShip={host:card.capturedShip.host};
+  // GEMP attaches captives to escorts; native keeps that same relation in captivity.
+  if(card.captivity){assert.ok('escort' in card.captivity,'Capture match currently records escorted captivity only');c.captivity={kind:'escort',escort:card.captivity.escort};c.attachedTo=card.captivity.escort;}
+ }
  if(expected.battleLosses){const b=combat.battle(m);assert.ok(b);result.battleLosses=Object.fromEntries(['dark','light'].map(side=>[side,{damage:combat.battleDamage(m,side),totalDamage:b.damageLedger?losses.lossTotal(m,side,b.damageLedger[side]):b.initialDamage[side],totalAttrition:b.initialAttrition[side],...(version>=5?{attrition:b.attrition[side]}:{})}]));}
  if(expected.battleDestinies){
   const b=combat.battle(m);assert.ok(b);
@@ -58,6 +65,14 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
+ if(['tractor-use','prisoner-ship'].includes(kind)){
+  const i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Missing capture action answer');
+  assert.equal(row.parameters.actionText[i].toLowerCase(),kind==='tractor-use'?'use tractor beam':'capture characters on a captured starship');return;
+ }
+ if(kind==='skip-battle-destiny'){
+  assert.equal(row.type,'MULTIPLE_CHOICE');assert.match(row.text.toLowerCase(),/^do you want to draw [0-9]+ battle destiny/);assert.equal(row.parameters.results[Number(row.answer)],'No');return;
+ }
+
  if(['bionic-deploy','bionic-trigger'].includes(kind)){
   const i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Missing Bionic action answer');const label=row.parameters.actionText[i].toLowerCase();
   assert.ok(kind==='bionic-deploy'?label.startsWith('deploy')&&row.state.players[row.semantic.side].hand.includes(row.semantic.card):label.startsWith('re-arm ')||label==='make lost','Incorrect Bionic action label');return;
@@ -147,7 +162,7 @@ export function assertInterruptTarget(rows,index,cards,{playing=false}={}){
   assert.ok(!row.state.table.some(c=>c.id===s.target)&&!Object.values(row.state.players).some(p=>Object.values(p).some(pile=>pile.includes(s.target))),'Cancellation target is not being played');
  }else assert.ok(row.state.table.some(c=>c.id===s.target),'Target must be on table at initiation');
  if(o.afterDecision!==index){
-  const selected=followingTarget(rows,index,'interrupt-target');assert.equal(rows.indexOf(selected),o.afterDecision);
+  const selected=followingTarget(rows,index,s.kind==='prisoner-ship'&&rows[o.afterDecision].semantic?.kind==='prisoner-ship-target'?'prisoner-ship-target':'interrupt-target');assert.equal(rows.indexOf(selected),o.afterDecision);
   assert.equal(selected.semantic.side,s.side);assert.equal(selected.semantic.card,s.target);
   assert.equal(selected.answer,o.referenceCardId,'Chosen target differs from the observed primary target');
   const i=selected.parameters.cardId.indexOf(selected.answer);assert.ok(i>=0,'Reference target answer missing');
@@ -448,16 +463,37 @@ export function assertPhaseMatchEvidence(record,cards){
  return {penalties:[...groups.values()],avoided,removals};
 }
 
+/** GEMP exposes stolen ownership before its queued placement; native places
+ * before its stolen event. This receipt proves only the explicitly empty
+ * response windows. Never erase a response action to obtain settled parity. */
+export function assertCaptureTheftTiming(record){
+ const review=JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/capture-space-theft-timing-review.json',import.meta.url)));
+ const checked=[];
+ for(const evidence of review.recordedCases){
+  const initial=record.trace[evidence.beforePlacementRow],settled=record.trace[evidence.settledRow];
+  assert.deepEqual(initial.state.table.find(c=>c.id===evidence.ship),evidence.beforePlacement,'Raw pre-placement ownership state differs');
+  assert.deepEqual(settled.state.table.find(c=>c.id===evidence.ship),evidence.settled,'Settled stolen placement differs');
+  assert.equal(settled.text,evidence.settledEvent);
+  for(const window of evidence.emptyStolenWindows){
+   const row=record.trace[window.row];assert.equal(row.text,'STOLEN - Optional responses');assert.equal(row.side,window.side);assert.equal(row.answer,'');
+   assert.equal(row.semantic?.kind,'pass');assert.deepEqual(row.parameters.actionId??[],[],'Nonempty stolen response is not covered');assert.deepEqual(row.parameters.actionText??[],[],'Nonempty stolen response is not covered');checked.push(window.row);
+  }
+ }
+ assert.deepEqual(record.trace.flatMap((row,index)=>row.text==='STOLEN - Optional responses'?[index]:[]),checked,'Unreviewed stolen response window');
+ return review;
+}
+
 export function replayGempMatch(record,{onCheckpoint}={}){
- assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7,8,9].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
+ assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7,8,9,10].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
- const profiles={'phase-effects-battle-v1':'phase-effects-battle-decks.json','force-effects-battle-v1':'force-effects-battle-decks.json','effect-search-battle-v1':'effect-search-battle-decks.json','preparation-battle-v1':'preparation-battle-decks.json','bionic-battle-v1':'bionic-battle-decks.json','disarm-battle-v1':'disarm-battle-decks.json','search-battle-v1':'search-battle-decks.json','mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
+ const profiles={'capture-space-v1':'capture-space-decks.json','phase-effects-battle-v1':'phase-effects-battle-decks.json','force-effects-battle-v1':'force-effects-battle-decks.json','effect-search-battle-v1':'effect-search-battle-decks.json','preparation-battle-v1':'preparation-battle-decks.json','bionic-battle-v1':'bionic-battle-decks.json','disarm-battle-v1':'disarm-battle-decks.json','search-battle-v1':'search-battle-decks.json','mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
  if(record.deckProfile!==undefined)assert.ok(Object.hasOwn(profiles,record.deckProfile),'Unknown fixed reference deck profile');
  const profile=record.deckProfile===undefined?null:JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/'+profiles[record.deckProfile],import.meta.url)));
  if(profile)assert.equal(record.deckProfile,profile.id,'Unknown fixed reference deck profile');
  const decks=profile?profile.decks.map(d=>({side:d.side,cards:d.main})):starterDecks(60);
  const auditRules=profile?{...starterRules,supports:bp=>decks.some(d=>d.cards.includes(bp)),starting:{...starterRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>decks.some(d=>d.side===c.owner&&d.cards.includes(c.blueprint)))}}:starterRules;
  assert.deepEqual(Object.fromEntries(decks.map(d=>[d.side,d.cards])),record.decks);
+ if(record.deckProfile==='capture-space-v1')assertCaptureTheftTiming(record);
  if(record.deckProfile==='phase-effects-battle-v1')assertPhaseMatchEvidence(record,Object.fromEntries(decks.flatMap(d=>d.cards.map((blueprint,i)=>[d.side+'-'+(i+1),{blueprint,owner:d.side}]))));
  let m=runtime.createMatch('gemp-complete-match',60,decks,auditRules),commands=0,checkpoints=0;
  const transcript=[],searchPlans=new Map();
@@ -489,6 +525,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
   }else command(p.choices[0].id);
  }
  if(startingPlan){for(const side of ['dark','light'])assert.equal(startingIndices[side],startingPlan.effects[side].length);assert.deepEqual(normalizedCheckpoint(snapshot(m,record.setup,record.snapshotVersion),m.cards),normalizedCheckpoint(record.setup,m.cards),'Opening setup must reproduce all exact card locations and piles');}
+ if(record.snapshotVersion>=10)assert.deepEqual(normalizedCheckpoint(snapshot(m,record.setup,record.snapshotVersion),m.cards),normalizedCheckpoint(record.setup,m.cards),'Exact recorded setup must match before gameplay');
  function seek(row,choices){
   const phase=row.state.phase==='between_turns'?'activate':row.state.phase;
   for(let i=0;i<1000;i++){
@@ -505,7 +542,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
  try{
   const rows=record.trace;
   for(let index=0;index<rows.length;index++){
-   const row=rows[index],s=row.semantic;if(startingPlan&&index<startingPlan.boundary)continue;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target','escape-destination','obi-destination','crew-capacity','exclude-selection'].includes(s.kind))continue;
+   const row=rows[index],s=row.semantic;if(startingPlan&&index<startingPlan.boundary)continue;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target','escape-destination','obi-destination','crew-capacity','exclude-selection','prisoner-ship-target'].includes(s.kind))continue;
    if(s.kind==='recovery-verify'){
     assert.equal(row.type,'ARBITRARY_CARDS');assert.equal(row.text,"Verify Lost Pile after unsuccessful attempt to 'Choose card to retrieve'");
     assert.deepEqual(row.parameters.min,['0']);assert.deepEqual(row.parameters.max,['0']);assert.equal(row.answer,'');
@@ -514,9 +551,27 @@ export function replayGempMatch(record,{onCheckpoint}={}){
    if(s.kind==='search-verify'&&s.side===m.cards[s.card]?.owner){const proof=assertSearchEvidence(rows,s.initiation,m.cards,record.final);assert.ok(proof.verificationIndices.includes(index));continue;}
    if(s.kind==='ability-selection'){const previous=rows.slice(0,index).findLast(x=>x.semantic&&!['pass','exclude-selection'].includes(x.semantic.kind));if(previous?.semantic.kind!=='force-exclude')continue;}
    assertReferenceAction(row);
+   if(['tractor-target','prisoner-character','prisoner-escort','steal-destination'].includes(s.kind)){
+    assert.equal(row.type,'CARD_SELECTION');const selected=row.parameters.cardId.indexOf(row.answer);assert.ok(selected>=0,'Capture target answer missing');
+    if(row.parameters.selectable)assert.equal(row.parameters.selectable[selected],'true');
+    if(row.parameters.blueprintId)assert.equal(row.parameters.blueprintId[selected],m.cards[s.card]?.blueprint,'Capture selection blueprint differs');
+   }
+   if(s.kind==='prisoner-escape'){assert.equal(row.type,'MULTIPLE_CHOICE');assert.equal(row.parameters.results[Number(row.answer)],'Escape');}
+   if(s.kind==='prisoner-seize'){assert.equal(row.type,'MULTIPLE_CHOICE');assert.equal(row.parameters.results[Number(row.answer)],'Seize');const next=rows.slice(index+1).find(r=>r.semantic&&r.semantic.kind!=='pass');if(next?.semantic.kind==='prisoner-escort')continue;}
    let choices=[];
    if(['assault','sense','force-boost','force-exclude'].includes(s.kind))assertForceMatchAction(rows,index,m.cards);
    if(s.kind==='phase-required')choices=()=>prompt().choices.filter(c=>c.id.startsWith('phase-effect:'+(row.requiredText.toLowerCase()==='make lost'?'lost':'loss')+':'+s.card+':')).map(c=>c.id);
+   if(s.kind==='skip-battle-destiny')choices=['skip-destiny'];
+   if(s.kind==='tractor-use'){
+    assert.equal(m.cards[s.card]?.blueprint,'2_115');const host=row.state.table.find(c=>c.id===s.card)?.attachedTo;assert.ok(host,'Beam host must be observed');choices=['tractor:use:'+s.card+':'+host];
+   }
+   if(s.kind==='tractor-target')choices=['tractor:target:'+s.card];
+   if(s.kind==='prisoner-ship'){assert.equal(m.cards[s.card]?.blueprint,'2_142');const target=assertInterruptTarget(rows,index,m.cards);choices=['prisoner:ship-play:'+s.card+':'+target];}
+   if(s.kind==='prisoner-character')choices=['prisoner:ship-character:'+s.card];
+   if(s.kind==='prisoner-seize')choices=()=>{const offered=prompt().choices.filter(c=>c.id.startsWith('prisoner:escort:'));assert.ok(offered.length<=1,'Reference escort shortcut must be unique');return offered.map(c=>c.id);};
+   if(s.kind==='prisoner-escort')choices=['prisoner:escort:'+s.card];
+   if(s.kind==='prisoner-escape')choices=['prisoner:escape'];
+   if(s.kind==='steal-destination')choices=['captured-ship:launch:'+s.card];
    if(s.kind==='assault')choices=['assault:play:'+s.card];
    if(s.kind==='force-boost')choices=['force-effect:boost:'+s.card];
    if(s.kind==='sense'){const targets=row.targetEvidence,target=targets.find(x=>board.definition(x.blueprint).type==='Interrupt'),character=targets.find(x=>board.definition(x.blueprint).type==='Character');choices=['cancel:play:'+s.card+':'+target.card+':'+character.card];}
@@ -561,7 +616,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
      choices=['vessel:aboard:'+s.card+':'+to+':'+role];
     }else choices=['deploy:'+s.card+':'+to,'vessel:deploy:'+s.card+':'+to];
    }
-   if(s.kind==='equip'){const target=followingTarget(rows,index,'deploy-target');assert.ok(target);choices=['space-weapon:equip:','equip:','saber:equip:','gaffi:equip:','mine:','attach:'].map(prefix=>prefix+s.card+':'+target.semantic.card);}
+   if(s.kind==='equip'){const target=followingTarget(rows,index,'deploy-target');assert.ok(target);choices=['space-weapon:equip:','equip:','saber:equip:','gaffi:equip:','mine:','attach:','tractor:deploy:'].map(prefix=>prefix+s.card+':'+target.semantic.card);}
    if(s.kind==='fire'){const target=followingTarget(rows,index,'fire-target');assert.ok(target);choices=['space-weapon:fire:','fire:','saber:fire:','gaffi:fire:'].map(prefix=>prefix+s.card+':'+target.semantic.card);}
    if(s.kind==='move'){const target=followingTarget(rows,index,'move-target');assert.ok(target);choices=['move:'+s.card+':'+target.semantic.card,'voyage:landspeed:'+s.card+':'+target.semantic.card];}
    if(s.kind==='site'){
@@ -628,7 +683,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
    if(row.phaseLoss&&s.kind==='lose'){const f=m.stack.at(-1);assert.equal(f?.handler,'ground:force-loss');assert.equal(f.payload.source,row.phaseLoss.source);assert.equal(f.payload.remaining,row.phaseLoss.remaining);assert.equal(f.side,'light');}
    if(['force-boost','force-exclude'].includes(s.kind)){const pending=m.stack.at(-2);assert.equal(pending?.kind,'resolution');assert.equal(pending.action.source,s.kind==='force-boost'?row.assault:row.sense,'Optional effect must be bound to the actual suspended action');}
    if(startingPlan&&['battle','drain'].includes(s.kind)){const a=auditRules.actions(m,m.stack.at(-1),s.side).find(a=>a.id===choice);assert.ok(a);assert.equal(a.payment?.[s.side]??0,row.initiationCost,'Actual initiation cost differs from GEMP');}
-   if(['phase-required','assault','sense','force-boost','force-exclude','ability-selection','bionic-deploy','bionic-trigger','weapon-total','disarm-deploy','evazan','disarm-trigger','effect-search','table-effect','mentor-search','search-selection','search-verify','obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
+   if(['skip-battle-destiny','tractor-use','tractor-target','prisoner-ship','prisoner-character','prisoner-seize','prisoner-escort','prisoner-escape','steal-destination','phase-required','assault','sense','force-boost','force-exclude','ability-selection','bionic-deploy','bionic-trigger','weapon-total','disarm-deploy','evazan','disarm-trigger','effect-search','table-effect','mentor-search','search-selection','search-verify','obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
     // observer from changing either the reference or the continuing replay.

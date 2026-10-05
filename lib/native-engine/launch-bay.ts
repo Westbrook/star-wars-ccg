@@ -13,7 +13,7 @@ const tieModels=new Set(['TIE_LN','TIE_ADVANCED_X1','TIE_INTERCEPTOR','TIE_DEFEN
 /** Preserve duplicate model entries: a squadron receives the modifier per TIE,
  * not once per physical card (AR, Death Star Assault Squadron; PerTIEEvaluator). */
 export const launchBayTIECount=(models:readonly string[])=>models.filter(model=>tieModels.has(model)).length;
-export const launchBay=(m:Match,id:string)=>shipSite(m,id)&&m.cards[id].zone==='table'&&m.locations.includes(id)&&!!relatedShip(m,id);
+export const launchBay=(m:Match,id:string)=>m.cards[id]?.blueprint==='4_165'&&shipSite(m,id)&&m.cards[id].zone==='table'&&m.locations.includes(id)&&!!relatedShip(m,id);
 export const launchBayPermission=(m:Match,side:Side,site:string)=>side==='dark'&&launchBay(m,site)&&gameTextActive(m,site);
 export function launchBayDeployModifier(m:Match,id:string,site:string):number {
  const c=m.cards[id];return c&&cardDefinition(m,id).type==='Starship'&&launchBayPermission(m,c.owner,site)?-2*launchBayTIECount((identities as Record<string,{models:string[]}>)[c.blueprint]?.models??[]):0;

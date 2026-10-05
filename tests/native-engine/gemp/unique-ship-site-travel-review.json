@@ -1,0 +1,52 @@
+{
+  "scope": "Related ship/site regular movement for implemented Holotheatre and Launch Bay locations",
+  "officialSource": {
+    "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "printedPages": [
+      67,
+      68,
+      90,
+      92
+    ],
+    "sections": [
+      "Regular - Shuttling",
+      "Regular - Starship And Vehicle Sites",
+      "Starships - Landed",
+      "Starships (or Vehicles) - unpiloted"
+    ]
+  },
+  "reference": {
+    "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+    "reviewedMethods": [
+      "Filters.canMoveToRelatedStarshipOrVehicle",
+      "Filters.canMoveToRelatedStarshipOrVehicleSite",
+      "Filters.canShuttleTo",
+      "AbstractDeployable.getMoveToRelatedStarshipOrVehicleSiteAction"
+    ],
+    "files": [
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/filters/Filters.java",
+        "sha256": "b8906f47b4001ec6c53538c6fe41a59e20f03e6b393a1f2e0b8f452377def2c1"
+      },
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/AbstractDeployable.java",
+        "sha256": "3113d4c4c928042a8b1ef1c7acb14a1a8aedd2e940f777db4bead350e2dbde4f"
+      }
+    ]
+  },
+  "implementation": [
+    "Own cards may move between own related hull and related ship site for free as a regular move.",
+    "Destination hull requires available compatible capacity; site endpoint does not consume hull capacity.",
+    "Character/vehicle/starfighter destination rules remain in force, including no vehicles or starfighters unloading into Holotheatre and no Lift Tube boarding the hull.",
+    "Serializes exact source, original hull, site, origin-location and destination references; moved window rechecks relationship, capacity, origin and destination.",
+    "Holotheatre does not substitute for the hull in planetary shuttling; Launch Bay retains its explicit substitution and unlimited landing/takeoff.",
+    "Related-site regular moves require onboard pilot/driver for craft. These moves are not an enumerated unpiloted movement exception; cargo checks onboard crew rather than generic landed operational status."
+  ],
+  "evidence": "Source review plus native integration regressions. No newly executed GEMP oracle claimed.",
+  "tests": "tests/native-engine/unique-ship-site-travel.test.mjs",
+  "remaining": [
+    "General future vehicle-site and landed-vessel-site enter/exit movement require their site definitions, permissions and conformance fixtures.",
+    "Production full-match admission remains closed; this proves only implemented transport paths."
+  ],
+  "sourceGap": "Pinned related-site movement predicates have no explicit pilot check. Native follows AR unpiloted restrictions; no executed GEMP comparison is claimed for this branch."
+}

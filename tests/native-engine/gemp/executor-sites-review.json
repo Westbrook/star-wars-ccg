@@ -1,0 +1,51 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "verification": "Official rules plus pinned GEMP source review and native integration tests; no newly executed GEMP unique-site oracle.",
+  "officialSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "rules": [
+    {
+      "printedPage": 85,
+      "coverage": "Unique sites may deploy without their named ship and survive ordinary ship departure; nonunique sites require and leave with their particular ship."
+    },
+    {
+      "printedPage": 112,
+      "coverage": "Holotheatre errata: Vader or Emperor on table, without own-only condition; Dark generation +1/+2; Light Force drain +1."
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/AbstractUniqueStarshipSite.java",
+      "sha256": "2d2acce85e7be6b8ede1057a131a25a86d154cf0240c1dc5e2ebe9cad98564fd"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_161.java",
+      "sha256": "68e9ce567651b9226433dfe0c2a537cd08c259fecac0e777fec066d67c3fbe9d"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/game/layout/AbstractLocationLayout.java",
+      "sha256": "c8b9ed54f029fcb46213cdcae2815015ca8749b8f65f290116665a866f06052a"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_167.java",
+      "sha256": "fd8870f728d23e5cc007304ad7219a34e16508544f585cc75d0f52400558a0f1"
+    }
+  ],
+  "nativeTests": [
+    "tests/native-engine/executor-sites.test.mjs",
+    "tests/native-engine/ship-sites.test.mjs",
+    "tests/native-engine/ship-sites-edge.test.mjs",
+    "tests/native-engine/executor-hull.test.mjs"
+  ],
+  "sourceNotes": [
+    "Holotheatre catalog text was stale; additional-cards entry uses AR errata. Pinned GEMP retains redundant Light control condition: legal drain initiation independently requires control.",
+    "Emperor filter follows pinned Filters.Emperor: SIDIOUS persona and Emperor in title. Holotheatre has related Executor persona, not card-persona EXECUTOR; the site does not prevent deployment of the ship.",
+    "Executor4_167 printed/source-reviewed hull behavior: deploy15, power12, armor12, hyperspeed2, three permanent ability1 pilots, navigation computer, ship-docking capability, unlimited pilots/passengers/vehicles/starfighters and immunity to attrition strictly below12. Unlimited capacity keeps normal card-category and role checks and does not admit capital ships. No executed GEMP hull oracle is claimed."
+  ],
+  "remaining": [
+    "Other Executor sites and their card text are not implemented by this provider.",
+    "Blown-away starship/site propagation is not covered by ordinary host departure tests.",
+    "Laser Gate insertion/rearrangement geometry remains separately unverified.",
+    "Unique-site movement integration is owned by parent checkpoint and is not certified by this receipt.",
+    "Full native starter/card admission remains closed."
+  ]
+}

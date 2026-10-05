@@ -1292,14 +1292,29 @@
     "lib/native-engine/revival.ts": "7aae114d50011172b1ed8314b7c5c28f9c5e0d965eea80948176188781552811",
     "lib/native-engine/retrieval.ts": "44568cda2c2aa978dffc06d538f12efe4743069885cc0723cd706e71cb79a14d",
     "lib/native-engine/character-triggers.ts": "eb868114b96ddb79fc46bdba11b5fd083783f536d9d6d5158f59b9ff311690ec",
-    "lib/native-engine/battle.ts": "ff7f46c47cd645193e79f8d2d3db6cfe6c0b55934eaf82dd9234717504bcee21",
+    "lib/native-engine/battle.ts": "e646cd719b3a5c69754ad965b2318e17d66c2d68287152561e2f41db48a70222",
     "lib/native-engine/table.ts": "363c515c9758fc9ae3e0c466e00505ef711784efc5acbb2fdb4fc3b8b9919686",
     "lib/native-engine/equipment-state.ts": "594144f2c08cbb26d6380b77b24d00e8e5bb8b58f3fbcb277f7067ac89e0ec77",
     "lib/native-engine/forfeiture.ts": "1214e54a4afa9783cf873ed326bfb4b43573e147bb4c93fa1222808269fa1377",
     "lib/native-engine/identity.ts": "af9d0426edef52eda915ffba675d30b0b05442648381b2f7826db0ba6933f42a",
     "lib/native-engine/persona.ts": "e2849834c2c1dee5d9594307e8428efee8a390d6a11c6a69e26ad4daf076d3f3",
     "lib/native-engine/runtime.ts": "0e75a8308ac9bc7534d60f1c36ccc140052019b4db0d0ff51fe1a30143019387",
-    "lib/native-engine/premiere-rules.ts": "22267100b310c891ba07cffac2e520c068bbea4d26dc8b4ec27f57eb67ec3f49"
+    "lib/native-engine/premiere-rules.ts": "22267100b310c891ba07cffac2e520c068bbea4d26dc8b4ec27f57eb67ec3f49",
+    "lib/native-engine/board.ts": "bb157699f2056f404044801b70eefcdffdf7a3ca18dc39146dbab06914e319d9",
+    "lib/native-engine/combat-modifiers.ts": "7a36d1110d2f1ef9e3068acf7f3aa800fcc8664292e67e4bdbe110194075362e",
+    "lib/native-engine/computer.ts": "c1588048e585c78884bf67e0c7c712393c8e821c57a2553463d147802ac48cd4",
+    "lib/native-engine/deployment.ts": "147c70a5ec8bac37ab068052bf5cc1644632b61d3433e7199b98231d01725375",
+    "lib/native-engine/destiny-response.ts": "fefb1b771fba8be779a957ee94fdff1279ceb1a829f65efe159bd6e27358e456",
+    "lib/native-engine/executor-sites.ts": "98cabf202f2827d36bf4b4aef4c9b608af1e1782923b52913ee8488fdd9796da",
+    "lib/native-engine/launch-bay.ts": "91f292b34ffb1919bb732beaa835375f6643abc17b73a458eb7386f25b09644a",
+    "lib/native-engine/occupancy.ts": "4a9e2b5a9446481fee269efb9b885cb07f80adf3abfceabcfa03df60b83c3061",
+    "lib/native-engine/premiere-setup.ts": "8c9853b76b40bba66a12fffb1bb9e6b4b3827cebccff490e1c28e1cbebc6deb4",
+    "lib/native-engine/ship-sites.ts": "e294b913f85f8684de1cb686c8fdf42c2a596e527cb9974cb525518a6ba210a2",
+    "lib/native-engine/transport.ts": "3f5ebc69dae7058ebdd85367e755f3e8f19c4ccc4830e07f2b090a2392728279",
+    "data/native-engine/additional-cards.json": "45b1522e6a0f3203dbcf86dd5523ec25e6367e43cf364b27f8f7afcfb4d61602",
+    "data/native-engine/identities.json": "aed698f1ec8e90c7933874ee52930ccba6dc7d208e2b08aa6c14852b1d6e07f0",
+    "lib/native-engine/power-droid.ts": "840cafaffae1d41cf530580aae22a45e8bd1aae8ac951206f6e0e1d5df9014bc",
+    "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c"
   },
   "nativeVerification": {
     "command": "node --test tests/native-engine/starter-timing-reachability.test.mjs",
@@ -1326,6 +1341,143 @@
         "lib/native-engine/persona.ts"
       ],
       "conclusion": "persona.ts now permits recorded original ownership after theft without modifying action generation, per-turn counts or response timing. The exact starter pair has no stealing provider or starships. The six executed reference timing traces and native response predicates remain applicable to their recorded scope; no new complete-match certification claimed."
+    },
+    {
+      "reviewedAt": "2026-10-05T13:00:45.007233+00:00",
+      "scope": "Frozen Executor/Holotheatre, unlimited occupancy, related ship-site transport, CPU capture/Gate/Tube choices, historical deployment ownership and Premiere Luke/Vader printed text",
+      "method": "Source and exact-provider reachability review after integrator runtime freeze. No new oracle, native behavioral test, browser or production execution by this audit.",
+      "files": [
+        "lib/native-engine/battle.ts",
+        "lib/native-engine/board.ts",
+        "lib/native-engine/combat-modifiers.ts",
+        "lib/native-engine/computer.ts",
+        "lib/native-engine/deployment.ts",
+        "lib/native-engine/destiny-response.ts",
+        "lib/native-engine/executor-sites.ts",
+        "lib/native-engine/launch-bay.ts",
+        "lib/native-engine/occupancy.ts",
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/ship-sites.ts",
+        "lib/native-engine/transport.ts",
+        "data/native-engine/additional-cards.json",
+        "data/native-engine/identities.json"
+      ],
+      "absentExactPairProviders": [
+        "4_167",
+        "4_161",
+        "4_165",
+        "1_19",
+        "1_168",
+        "1_148",
+        "1_308",
+        "2_142",
+        "2_115",
+        "2_111"
+      ],
+      "conclusions": [
+        "Exact 68 definitions and ordered 60-card deck fingerprints are unchanged. Executor 4_167, Holotheatre 4_161, Launch Bay 4_165, Premiere Luke 1_19 and Darth Vader 1_168 are absent; intro Luke101_2/Vader101_5 are different blueprints.",
+        "Holotheatre generation/drain additions require its absent site. Luke extra generation requires absent 1_19. Executor immunity and unlimited capacity require absent 4_167; finite capacity still retains its previous constraints, with driver/category restrictions outside the unlimited branch.",
+        "Unique ship-site relationships require Holotheatre/Executor; Launch Bay-only permissions remain explicitly 4_165. Setup exclusion only removes absent nonunique Launch Bay as a starting location. Starter location group, conversion and adjacency rules are unchanged.",
+        "Free related ship-site transport requires an absent ship site and active related hull. Its ordinary Move-phase gate is unchanged; no travel, duel or accident pending response is granted. It consumes regular movement and preserves current transport bindings. Final onboard pilot/driver restriction is applied only to this new craft transfer branch; source review versus official AR distinction is retained separately.",
+        "Premiere Vader continuous battle destiny bonus requires participating active 1_168. Without it, each actual starter draw records zero and pending recalculation adds zero minus zero; replaced/canceled/failed/substituted draw branches retain their distinctions. Optional saved field preserves older snapshots. No draw permission, event window or response provider is added.",
+        "Deployment history validation now permits the recorded original owner after theft without changing arrival events or phase observers. The exact pair has no stealing/capture provider. CPU changes score already offered actions and add no legal actions; Tube/Gate/capture branches require absent providers, while the final conditional rewrite only narrows TypeScript typing.",
+        "No new exact-pair movement return/late-arrival, pre-result duel participant return or accident target-group change is reachable from these additions. Existing travel and duel/accident timing classifications remain outside-current-pair. Failed Obsession numerical amount remains unresolved and production full-match admission stays closed."
+      ],
+      "evidenceLimits": "Current review preserves previous executed observations and their timestamps/hashes; semantic compatibility is not a claim that every historical trace was newly rerun. Full engine/custom-deck obligations and documented wider-catalog discrepancies remain required.",
+      "sourceDiscrepancyReceipt": "tests/native-engine/gemp/unique-ship-site-travel-review.json",
+      "providerMetadataFingerprints": {
+        "data/native-engine/additional-cards.json": "45b1522e6a0f3203dbcf86dd5523ec25e6367e43cf364b27f8f7afcfb4d61602",
+        "data/native-engine/identities.json": "aed698f1ec8e90c7933874ee52930ccba6dc7d208e2b08aa6c14852b1d6e07f0"
+      }
+    },
+    {
+      "reviewedAt": "2026-10-05T13:10:24.763784+00:00",
+      "scope": "Power-droid lower-power comparison excludes unresolved battle-destiny group",
+      "files": [
+        "lib/native-engine/power-droid.ts",
+        "lib/native-engine/power-support.ts"
+      ],
+      "absentExactPairProviders": [
+        "3_8",
+        "1_175"
+      ],
+      "conclusion": "EG-4 3_8 and EG-6 1_175 are absent from the exact 68 definitions. The unchanged required-action predicate first demands the actual drawn physical card be one of those blueprints in destiny; no starter card can create that trigger. currentPower now uses completed destinyResults totals, excludes current and preceding draws of the still-unfinished group, and retains the other seat completed value with legacy fallback. This helper is private to the absent-provider mandatory trigger and adds no timing window, action permission or general starter power calculation. Travel and pending duel/accident reachability conclusions remain unchanged. Failed Obsession and full-match admission remain guarded.",
+      "verification": "Inspected finalized source after owner freeze. Owner reports 46/46 focused power-support plus Skywalkers checks; no new test/oracle execution by this audit. Existing executed power-support observations remain historical and unchanged. New multiple-draw behavior is native integration plus pinned source review, not new GEMP execution.",
+      "evidence": [
+        "tests/native-engine/gemp/premiere-skywalkers-review.json",
+        "tests/native-engine/gemp/power-support-provenance.json",
+        "tests/native-engine/power-support.test.mjs"
+      ],
+      "previousFingerprints": {
+        "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e"
+      },
+      "reviewedFingerprints": {
+        "lib/native-engine/power-droid.ts": "840cafaffae1d41cf530580aae22a45e8bd1aae8ac951206f6e0e1d5df9014bc",
+        "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c"
+      }
     }
-  ]
+  ],
+  "nativeRuntimeBindingHistory": [
+    {
+      "supersededAt": "2026-10-05T13:00:45.007233+00:00",
+      "scope": "Prior reviewed runtime binding, retained without claiming reconstruction of an earlier execution snapshot.",
+      "previousFingerprints": {
+        "lib/native-engine/battle.ts": "ff7f46c47cd645193e79f8d2d3db6cfe6c0b55934eaf82dd9234717504bcee21",
+        "lib/native-engine/board.ts": null,
+        "lib/native-engine/combat-modifiers.ts": null,
+        "lib/native-engine/computer.ts": null,
+        "lib/native-engine/deployment.ts": null,
+        "lib/native-engine/destiny-response.ts": null,
+        "lib/native-engine/executor-sites.ts": null,
+        "lib/native-engine/launch-bay.ts": null,
+        "lib/native-engine/occupancy.ts": null,
+        "lib/native-engine/premiere-setup.ts": null,
+        "lib/native-engine/ship-sites.ts": null,
+        "lib/native-engine/transport.ts": null,
+        "data/native-engine/additional-cards.json": null,
+        "data/native-engine/identities.json": null
+      },
+      "replacementFingerprints": {
+        "lib/native-engine/battle.ts": "e646cd719b3a5c69754ad965b2318e17d66c2d68287152561e2f41db48a70222",
+        "lib/native-engine/board.ts": "bb157699f2056f404044801b70eefcdffdf7a3ca18dc39146dbab06914e319d9",
+        "lib/native-engine/combat-modifiers.ts": "7a36d1110d2f1ef9e3068acf7f3aa800fcc8664292e67e4bdbe110194075362e",
+        "lib/native-engine/computer.ts": "c1588048e585c78884bf67e0c7c712393c8e821c57a2553463d147802ac48cd4",
+        "lib/native-engine/deployment.ts": "147c70a5ec8bac37ab068052bf5cc1644632b61d3433e7199b98231d01725375",
+        "lib/native-engine/destiny-response.ts": "fefb1b771fba8be779a957ee94fdff1279ceb1a829f65efe159bd6e27358e456",
+        "lib/native-engine/executor-sites.ts": "98cabf202f2827d36bf4b4aef4c9b608af1e1782923b52913ee8488fdd9796da",
+        "lib/native-engine/launch-bay.ts": "91f292b34ffb1919bb732beaa835375f6643abc17b73a458eb7386f25b09644a",
+        "lib/native-engine/occupancy.ts": "4a9e2b5a9446481fee269efb9b885cb07f80adf3abfceabcfa03df60b83c3061",
+        "lib/native-engine/premiere-setup.ts": "8c9853b76b40bba66a12fffb1bb9e6b4b3827cebccff490e1c28e1cbebc6deb4",
+        "lib/native-engine/ship-sites.ts": "e294b913f85f8684de1cb686c8fdf42c2a596e527cb9974cb525518a6ba210a2",
+        "lib/native-engine/transport.ts": "3f5ebc69dae7058ebdd85367e755f3e8f19c4ccc4830e07f2b090a2392728279",
+        "data/native-engine/additional-cards.json": "45b1522e6a0f3203dbcf86dd5523ec25e6367e43cf364b27f8f7afcfb4d61602",
+        "data/native-engine/identities.json": "aed698f1ec8e90c7933874ee52930ccba6dc7d208e2b08aa6c14852b1d6e07f0"
+      },
+      "historicalNativeVerification": {
+        "command": "node --test tests/native-engine/starter-timing-reachability.test.mjs",
+        "tests": 8,
+        "passed": 8,
+        "failed": 0,
+        "verifiedAt": "2026-10-05T12:11:35.604426+00:00",
+        "scope": "Six inventories, actual post-accident Kintan path, and fingerprints/coverage. Native source fingerprints identify executed inputs, not a claim that every broader source branch was exercised."
+      }
+    },
+    {
+      "supersededAt": "2026-10-05T13:10:24.763784+00:00",
+      "scope": "Additional private power-droid provider review; prior bindings retained, historical execution fields unchanged.",
+      "previousFingerprints": {
+        "lib/native-engine/power-droid.ts": null,
+        "lib/native-engine/power-support.ts": null
+      },
+      "replacementFingerprints": {
+        "lib/native-engine/power-droid.ts": "840cafaffae1d41cf530580aae22a45e8bd1aae8ac951206f6e0e1d5df9014bc",
+        "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c"
+      }
+    }
+  ],
+  "nativeRuntimeInputBinding": {
+    "reviewedAt": "2026-10-05T13:10:24.763784+00:00",
+    "status": "current semantic review binding; original executions remain historical",
+    "meaning": "Execution, fingerprints, nativeVerification and productionVerification retain the recorded run evidence. nativeRuntimeInputs additionally binds reviewed dependencies at the frozen continuation checkpoint; it is not a new execution receipt."
+  }
 }
