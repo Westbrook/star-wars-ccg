@@ -361,6 +361,12 @@
       "scope": "Actual paid search cancellation followed by successful and failed searches in a separate complete custom-deck game. Does not close exact-starter or full-engine admission.",
       "receipt": "tests/native-engine/gemp/search-cancel-provenance.json",
       "verification": "2484 native commands, 278 matched checkpoints, 40 turns, Dark Life Force victory; canceled search exposes no private cards and consumes no shuffle entropy."
+    },
+    {
+      "profile": "disarm-battle-v1",
+      "scope": "Custom decks outside the exact intro pair: both Disarmed cards, multiple weapon losses and Evazan operation on a disarmed enemy. Does not close exact-starter or full-engine admission.",
+      "receipt": "tests/native-engine/gemp/disarm-match-provenance.json",
+      "verification": "2730 native commands,258 matched checkpoints,44 turns,Light Life Force victory;actual primary targets and complete immediate losses verified."
     }
   ]
 }
