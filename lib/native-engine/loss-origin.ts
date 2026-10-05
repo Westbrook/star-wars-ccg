@@ -21,6 +21,6 @@ export function assertTableLossOrigins(m: Match): void {
   for (const [id,p] of Object.entries(origins(m))) {
     if (!p || !Number.isSafeInteger(p.turn) || p.turn < 1 || p.turn > m.turn.number || !sides.includes(p.side)) throw Error('Invalid table loss origin.');
     assertCardReference(m,p.source,id);
-    if (!['table','stacked'].includes(p.source.zone) || p.source.version >= cardVersion(m,id) || m.cards[id].zone !== 'leaving' && p.source.version + 1 === cardVersion(m,id)) throw Error('Invalid departed table instance.');
+    if (!['table','stacked','captive','inactive'].includes(p.source.zone) || p.source.version >= cardVersion(m,id) || m.cards[id].zone !== 'leaving' && p.source.version + 1 === cardVersion(m,id)) throw Error('Invalid departed table instance.');
   }
 }

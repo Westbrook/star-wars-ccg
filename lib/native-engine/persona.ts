@@ -25,7 +25,7 @@ const history = (m: Match): History => {
  * own rules; captures, stolen cards and permanent personas are not inferred. */
 export function canEnterTable(m: Match, id: string): boolean {
   const c = m.cards[id], type = cardDefinition(m, id).type, max = limit(c.blueprint);
-  const onTable = Object.values(m.cards).filter(o => o.id !== id && (o.zone === 'table' || o.zone === 'stacked') && !o.coveredBy);
+  const onTable = Object.values(m.cards).filter(o => o.id !== id && (o.zone === 'table' || o.zone === 'stacked' || o.zone === 'captive' || o.zone === 'inactive') && !o.coveredBy);
   if (onTable.filter(o => title(o.blueprint) === title(c.blueprint) && (type !== 'Location' || o.owner === c.owner)).length >= max) return false;
   if (onTable.some(o => o.owner === c.owner && samePersona(c.blueprint, o.blueprint))) return false;
   if (['Character', 'Starship', 'Vehicle'].includes(type) && Object.values(m.cards).some(o => o.id !== id && o.owner === c.owner && o.zone === 'out' &&

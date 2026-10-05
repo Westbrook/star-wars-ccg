@@ -1,0 +1,31 @@
+package com.gempukku.swccgo.rules.devices;
+import com.gempukku.swccgo.common.*;
+import com.gempukku.swccgo.framework.*;
+import com.gempukku.swccgo.game.*;
+import com.gempukku.swccgo.logic.actions.*;
+import com.gempukku.swccgo.logic.decisions.CardActionSelectionDecision;
+import com.gempukku.swccgo.logic.effects.*;
+import com.google.gson.GsonBuilder;
+import org.junit.Test;
+import org.junit.AfterClass;
+import java.nio.file.*;
+import java.util.*;
+import static org.junit.Assert.*;
+/** Controlled component fixtures. The capture/release/loss effects are unchanged
+ * production effects attached to a synthetic phase action; no card admission or
+ * full-match conformance is claimed by these results. */
+public class NativeEngineCaptivesOracleTests {
+ static final List<Map<String,Object>> rows=new ArrayList<>();
+ @AfterClass public static void output() throws Exception{Files.writeString(Path.of("/opt/gemp-swccg/captives-results.json"),new GsonBuilder().setPrettyPrinting().create().toJson(rows));}
+ void pass(VirtualTableScenario s){try{if(s.GetCurrentDecision().getText().contains("Choose card to put on Lost Pile")){if(s.GetDecidingPlayer().equals(VirtualTableScenario.LS))s.PlayerDecided(VirtualTableScenario.LS,s.LSGetCardChoices().getFirst());else s.PlayerDecided(VirtualTableScenario.DS,s.DSGetCardChoices().getFirst());return;}s.PlayerPass(s.GetDecidingPlayer());}catch(Exception e){throw new AssertionError(s.GetCurrentDecision().getText()+" "+s.GetCurrentDecision().getDecisionParameters(),e);}}
+ void execute(VirtualTableScenario s,TopLevelGameTextAction a){a.setText("Native capture lifecycle probe");var d=(CardActionSelectionDecision)s.GetCurrentDecision();int index=d.getDecisionParameters().get("actionId").length;d.addAction(a);s.PlayerDecided(VirtualTableScenario.DS,String.valueOf(index));}
+
+ VirtualTableScenario fresh(boolean prison){var s=new VirtualTableScenario(new HashMap<>(Map.of("target","1_19","gun","1_152","device","1_40")),new HashMap<>(Map.of("escort","1_194","ship","1_310")),16,16,StartingSetup.LSStartingLocation("1_129"),StartingSetup.DSStartingLocation("1_284"),StartingSetup.NoLSStartingInterrupts,StartingSetup.NoDSStartingInterrupts,StartingSetup.NoLSShields,StartingSetup.NoDSShields,VirtualTableScenario.Open);s.StartGame();s.SkipToPhase(Phase.CONTROL);var site=prison?s.GetDSStartingLocation():s.GetLSStartingLocation();s.MoveCardsToLocation(site,s.GetLSCard("target"),s.GetDSCard("escort"));s.AttachCardsTo(s.GetLSCard("target"),s.GetLSCard("gun"),s.GetLSCard("device"));s.SkipToPhase(Phase.MOVE);return s;}
+ void capture(VirtualTableScenario s,String mode){var escort=s.GetDSCard("escort");var target=s.GetLSCard("target");var a=new TopLevelGameTextAction(escort,VirtualTableScenario.DS,escort.getCardId());a.appendEffect(new CaptureCharacterOnTableEffect(a,target));execute(s,a);for(int i=0;i<80&&!s.GetCurrentDecision().getText().contains("Choose option for capturing");i++)pass(s);s.DSChoose(mode);for(int i=0;i<80&&!target.isCaptive()&&!s.GetLSUsedPile().contains(target);i++){if(s.GetDecidingPlayer().equals(VirtualTableScenario.DS)&&s.GetCurrentDecision().getText().contains("escort"))s.DSChooseCard(escort);else if(s.GetCurrentDecision().getText().contains("order")||s.GetCurrentDecision().getText().contains("Place card"))s.PlayerDecided(VirtualTableScenario.LS,s.LSGetCardChoices().getFirst());else pass(s);}for(int i=0;i<80&&!s.AwaitingDSMovePhaseActions()&&!s.AwaitingLSMovePhaseActions();i++)pass(s);s.PassAllResponses();}
+ Map<String,Object> snapshot(VirtualTableScenario s,String name){var t=s.GetLSCard("target");var g=s.GetLSCard("gun");var d=s.GetLSCard("device");var r=new LinkedHashMap<String,Object>();r.put("name",name);r.put("captive",t.isCaptive());r.put("imprisoned",t.isImprisoned());r.put("active",s.IsCardActive(t));r.put("weaponActive",s.IsCardActive(g));r.put("deviceActive",s.IsCardActive(d));r.put("weaponAttached",g.getAttachedTo()==t);r.put("deviceAttached",d.getAttachedTo()==t);r.put("used",s.GetLSUsedPile().contains(t));r.put("lost",s.GetLSLostPile().contains(t));r.put("weaponLost",s.GetLSLostPile().contains(g));r.put("deviceLost",s.GetLSLostPile().contains(d));return r;}
+ @Test public void captureDestinations(){for(String mode:new String[]{"Seize","Imprisonment","Escape"}){var s=fresh(mode.equals("Imprisonment"));capture(s,mode);rows.add(snapshot(s,"capture-"+mode.toLowerCase()));}}
+ @Test public void escortRelease(){for(String choice:new String[]{"Rally","Escape"}){var s=fresh(false);capture(s,"Seize");while(!s.AwaitingDSMovePhaseActions())pass(s);var escort=s.GetDSCard("escort");var a=new TopLevelGameTextAction(escort,VirtualTableScenario.DS,escort.getCardId());a.appendEffect(new LoseCardFromTableEffect(a,escort));execute(s,a);for(int i=0;i<80&&!s.GetCurrentDecision().getText().contains("Choose release option");i++)pass(s);s.LSChoose(choice);for(int i=0;i<80&&(s.GetLSCard("target").isCaptive()||!s.GetCurrentDecision().getText().contains("Move phase"));i++){if(s.GetCurrentDecision().getText().contains("order")||s.GetCurrentDecision().getText().contains("Place card"))s.PlayerDecided(VirtualTableScenario.LS,s.LSGetCardChoices().getFirst());else pass(s);if(s.AwaitingDSMovePhaseActions()||s.AwaitingLSMovePhaseActions())break;}s.PassAllResponses();rows.add(snapshot(s,"release-"+choice.toLowerCase()));}}
+ @Test public void wholeCarrierLoss(){var s=fresh(false);var ship=s.GetDSCard("ship");s.MoveCardsToLocation(s.GetLSStartingLocation(),ship);s.BoardAsPilot(ship,s.GetDSCard("escort"));capture(s,"Seize");while(!s.AwaitingDSMovePhaseActions())pass(s);var a=new TopLevelGameTextAction(ship,VirtualTableScenario.DS,ship.getCardId());a.appendEffect(new LoseCardFromTableEffect(a,ship));execute(s,a);for(int i=0;i<100&&!s.AwaitingDSMovePhaseActions()&&!s.AwaitingLSMovePhaseActions();i++)pass(s);rows.add(snapshot(s,"carrier-lost"));}
+ @Test public void prisonRelease(){var s=fresh(true);capture(s,"Imprisonment");while(!s.AwaitingDSMovePhaseActions())pass(s);var source=s.GetDSCard("escort");var a=new TopLevelGameTextAction(source,VirtualTableScenario.DS,source.getCardId());a.appendEffect(new ReleaseCaptivesEffect(a,Collections.singleton(s.GetLSCard("target"))));execute(s,a);for(int i=0;i<100&&!s.AwaitingDSMovePhaseActions()&&!s.AwaitingLSMovePhaseActions();i++)pass(s);rows.add(snapshot(s,"prison-release"));}
+
+}

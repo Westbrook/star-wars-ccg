@@ -43,8 +43,8 @@ export function lifeForce(match: Match, side: Side): number {
 /** Primitive only: a rules handler must resolve leave-table consequences first. */
 export function moveCard(match: Match, id: string, zone: Zone, position: 'top' | 'bottom' = 'top'): void {
   const card = match.cards[id];
-  if (!card || ![...piles, 'table', 'playing', 'leaving', 'buried', 'stacked', 'out'].includes(zone)) throw Error('Invalid card movement.');
-  if (card.zone === 'table' && (match.locations.includes(id) || Object.values(match.cards).some(c => c.attachedTo === id || c.location === id || c.coveredBy === id || c.stackedOn === id)))
+  if (!card || ![...piles, 'table', 'playing', 'leaving', 'buried', 'stacked', 'captive', 'inactive', 'out'].includes(zone)) throw Error('Invalid card movement.');
+  if (['table','captive','inactive'].includes(card.zone) && (match.locations.includes(id) || Object.values(match.cards).some(c => c.attachedTo === id || c.location === id || c.coveredBy === id || c.stackedOn === id)))
     throw Error('Resolve dependent cards before moving their host.');
   const changed = card.zone !== zone, nextVersion = cardVersion(match, id) + 1;
   if (changed && !Number.isSafeInteger(nextVersion)) throw Error('Card instance history exhausted.');
@@ -58,11 +58,11 @@ export function moveCard(match: Match, id: string, zone: Zone, position: 'top' |
     pile.splice(index, 1);
   }
   if (changed) {
-    if (card.zone === 'table') {leaveTable(match, id); forgetInsert(match,id);}
+    if (['table','captive','inactive'].includes(card.zone)) {leaveTable(match, id); forgetInsert(match,id);}
     const versions = (match.data.cardVersions ??= {}) as Record<string, number>; versions[id] = nextVersion;
   }
   card.zone = zone;
-  delete card.blownAway; delete card.aboardRole; delete card.location; delete card.attachedTo; delete card.coveredBy; delete card.stackedOn;
+  delete card.captivity; delete card.blownAway; delete card.aboardRole; delete card.location; delete card.attachedTo; delete card.coveredBy; delete card.stackedOn;
   if (isPile(zone)) {
     const pile = match.players[card.owner][zone];
     if (zone === 'reserve') reserveCardAdded(match,card.owner,position === 'top');
@@ -146,11 +146,11 @@ export function assertState(match: Match): void {
     if (Object.values(match.cards).filter(c => c.owner === side).length !== match.deckSize) throw Error('Physical deck size changed.');
   }
   for (const [id, card] of Object.entries(match.cards)) {
-    if (id !== card.id || !card.blueprint || !sides.includes(card.owner) || ![...piles, 'table', 'playing', 'leaving', 'buried', 'stacked', 'out'].includes(card.zone)) throw Error('Invalid physical card.');
+    if (id !== card.id || !card.blueprint || !sides.includes(card.owner) || ![...piles, 'table', 'playing', 'leaving', 'buried', 'stacked', 'captive', 'inactive', 'out'].includes(card.zone)) throw Error('Invalid physical card.');
     if (isPile(card.zone) !== seen.has(id)) throw Error('Card missing from pile or listed outside its zone.');
     for (const key of ['location', 'attachedTo', 'coveredBy'] as const) {
       const target = card[key];
-      if (target && (!(card.zone === 'table' || card.zone === 'buried' && key === 'location') || target === id || match.cards[target]?.zone !== 'table')) throw Error('Invalid table relation.');
+      if (target && (!(card.zone === 'table' || ['captive','inactive'].includes(card.zone) && key !== 'coveredBy' || card.zone === 'buried' && key === 'location') || target === id || !(match.cards[target]?.zone === 'table' || card.zone === 'inactive' && key === 'attachedTo' && ['captive','inactive'].includes(match.cards[target]?.zone)))) throw Error('Invalid table relation.');
     }
     if (card.zone === 'stacked' ? !card.stackedOn || card.stackedOn === id || match.cards[card.stackedOn]?.zone !== 'table' : card.stackedOn !== undefined) throw Error('Invalid stacked card relation.');
     const visiting = new Set<string>([id]);
@@ -201,7 +201,7 @@ export function publicState(match: Match, seat: Side) {
       lifeForce: insertsIn(match,side).length ? null : lifeForce(match, side), hand: side === seat ? shown(match.players[side].hand) : [],
       lost: shown(match.players[side].lost), destiny: shown(match.players[side].destiny),
     }])),
-    table: shown(Object.values(match.cards).filter(c => !isInserted(match,c.id) && (c.zone === 'table' || c.zone === 'playing' || c.zone === 'leaving' || c.zone === 'stacked')).map(c => c.id)),
+    table: shown(Object.values(match.cards).filter(c => !isInserted(match,c.id) && (c.zone === 'table' || c.zone === 'playing' || c.zone === 'leaving' || c.zone === 'stacked' || c.zone === 'captive' || c.zone === 'inactive')).map(c => c.id)),
     inserts: [...reserveInserts(match)].sort((a,b)=>a.card.id.localeCompare(b.card.id)).map(x=>({side:x.side,owner:match.cards[x.card.id].owner,revealed:x.revealed,card:x.revealed || match.cards[x.card.id].owner === seat || match.cards[x.card.id].owner === x.side ? {...match.cards[x.card.id]} : null})),
     out: shown(Object.values(match.cards).filter(c => c.zone === 'out').map(c => c.id)),
     locations: [...match.locations],

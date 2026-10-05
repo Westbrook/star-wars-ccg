@@ -1,3 +1,4 @@
+import {carrierCaptives,releaseForDepartures} from './captives';
 import {bellyLossCards} from './space-slug';
 import {isVessel} from './occupancy';
 import {referenceCard} from './identity';
@@ -13,13 +14,15 @@ function tableGroup(m: Match, hosts: string[]): Set<string> {
   const ids = new Set(hosts);
   for (let changed = true; changed;) {
     changed = false;
+    for(const id of carrierCaptives(m,ids))if(!ids.has(id)){ids.add(id);changed=true;}
     for (const c of Object.values(m.cards)) if ((c.attachedTo || c.stackedOn) && ids.has((c.attachedTo || c.stackedOn)!) && !ids.has(c.id)) {ids.add(c.id); changed = true;}
   }
-  if ([...ids].some(id => !['table','stacked'].includes(m.cards[id]?.zone) || m.locations.includes(id))) throw Error('Invalid table loss.');
+  if ([...ids].some(id => !['table','stacked','captive','inactive'].includes(m.cards[id]?.zone) || m.locations.includes(id))) throw Error('Invalid table loss.');
   return ids;
 }
 function removeGroup(m: Match, ids: Set<string>, zone: 'leaving' | 'hand'): void {
   // Remove descendants before their host to satisfy the primitive invariant.
+  releaseForDepartures(m,ids);
   const waiting = new Set(ids);
   while (waiting.size) {
     const id = [...waiting].find(id => ![...waiting].some(child => m.cards[child].attachedTo === id || m.cards[child].stackedOn === id));
@@ -109,10 +112,10 @@ export function assertLeaving(m: Match): void {
 /** Site destruction loses active cards, attachments, stacked cards and buried
  * cards together. Removing all first preserves simultaneous-loss ordering. */
 export function siteLossCards(m:Match,site:string,except:string):string[]{
- const roots=Object.values(m.cards).filter(c=>['table','stacked'].includes(c.zone)&&c.id!==except&&!m.locations.includes(c.id)&&(c.location===site||c.attachedTo===site||c.stackedOn===site)).map(c=>c.id);
+ const roots=Object.values(m.cards).filter(c=>['table','stacked','captive','inactive'].includes(c.zone)&&c.id!==except&&!m.locations.includes(c.id)&&(c.location===site||c.attachedTo===site||c.stackedOn===site)).map(c=>c.id);
  return [...new Set([...tableLossCards(m,roots),...Object.values(m.cards).filter(c=>c.zone==='buried'&&c.location===site&&c.id!==except).map(c=>c.id)])];
 }
 export function loseSiteCards(m:Match,ids:string[]):void{
- if(new Set(ids).size!==ids.length||ids.some(id=>!['table','stacked','buried'].includes(m.cards[id]?.zone)||m.locations.includes(id)))throw Error('Invalid site casualties.');
+ if(new Set(ids).size!==ids.length||ids.some(id=>!['table','stacked','buried','captive','inactive'].includes(m.cards[id]?.zone)||m.locations.includes(id)))throw Error('Invalid site casualties.');
  const refs=ids.filter(id=>m.cards[id].zone!=='buried').map(id=>referenceCard(m,id));removeGroup(m,new Set(ids),'leaving');recordTableLossOrigins(m,refs);orderNext(m,ids);
 }

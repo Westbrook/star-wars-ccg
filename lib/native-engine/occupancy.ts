@@ -1,3 +1,4 @@
+import {escorted} from './captives';
 import {otsdShipBonus,tie,vehicleCargoCompatible} from './otsd-ships';
 import {artillery} from './artillery';
 import {sectorAdmits,cloudStatModifier} from './sectors';
@@ -68,6 +69,10 @@ export function canDrive(m:Match,id:string):boolean {
 }
 export function capacityFits(m:Match,host:string,crew:{id:string;role:AboardRole}[]):boolean {
  const r=vesselRule(m,host);if(!r)return false;
+ // Every prospective crew layout includes the captives carried by its escorts.
+ // This also covers docking transfers and combined deployment capacity checks.
+ const ids=new Set(crew.map(c=>c.id));if(ids.size!==crew.length)return false;
+ crew=[...crew];for(const member of [...crew])for(const captive of escorted(m,member.id))if(!ids.has(captive.id)){ids.add(captive.id);crew.push({id:captive.id,role:'passenger'});}
  const n={pilot:0,driver:0,passenger:0,vehicle:0,starship:0};
  for(const c of crew){
   if(!['pilot','driver','passenger','vehicle','starship'].includes(c.role))return false;

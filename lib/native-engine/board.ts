@@ -192,7 +192,7 @@ export function moveWithAttachments(m: Match, id: string, site: string): void {
   let added = true;
   while (added) {
     added = false;
-    for (const card of Object.values(m.cards)) if (card.zone === 'table' && card.attachedTo && moving.has(card.attachedTo) && !moving.has(card.id)) {moving.add(card.id); added = true;}
+    for (const card of Object.values(m.cards)) if (['table','captive','inactive'].includes(card.zone) && (card.attachedTo && moving.has(card.attachedTo) || card.captivity && 'escort' in card.captivity && moving.has(card.captivity.escort)) && !moving.has(card.id)) {moving.add(card.id); added = true;}
   }
   for (const movingId of moving) m.cards[movingId].location = site;
 }

@@ -1,0 +1,24 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": "Seven controlled capture/release component outcomes using unchanged production CaptureCharacterOnTableEffect, ReleaseCaptivesEffect and LoseCardFromTableEffect. Fixture cards and synthetic phase actions are explicit; this is not a card permission test or complete capture match.",
+  "files": {
+    "NativeEngineCaptivesOracleTests.java": "3cd37006dd74b805b872c2766e8d2d5616a2707f9a44c3ad07e12f54b9a88aa2",
+    "captives-results.json": "7d65cb49b03b17d68569b6eaa98914fa896a33ce8b168c47bbc70c264ee32dc6"
+  },
+  "rules": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=25",
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=160"
+  ],
+  "validationNotes": [
+    "Reference harness first used the framework ad-hoc helper, which assumes action index0. Prison and carrier probes exposed other available actions. Final harness selects the exact appended index derived from the current decision action count; all final evidence regenerated.",
+    "Record escape only after attachment Lost Pile ordering completes; placing the captive on Used alone is not the full outcome.",
+    "The module initially introduced a browser-only circular eager import. Removed the runtime battle import and verified actual browser loading."
+  ],
+  "limitations": [
+    "We Have A Prisoner battle loss/forfeit permission, cost, cancellation, restored values and its captured-starship mode remain unimplemented.",
+    "Frozen/unattended captives, exceptions allowing multiple captives, simultaneous multi-captive release order, Bounty/other cards active on a captive, special capture/release triggers and escort movement prohibitions require further implementation and comparison.",
+    "Player-facing matches remain gated. No new Rules Lab study or production deck admission. All earlier discrepancies and the full engine/product scope remain open."
+  ]
+}

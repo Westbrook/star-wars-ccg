@@ -10,3 +10,12 @@ A responsive card archive and interface for the Players Committee's GEMP SWCCG r
 Run `npm run engine:start`, set `GEMP_ORIGIN=http://127.0.0.1:17181` in `.env.local`, then `npm run dev`. Docker is required for the engine. Do not expose the development seed accounts remotely.
 
 [Integration, checks, limitations and next steps](docs/OFFICIAL_RULES.md). Source metadata and MIT attributions are in `data/` and `engine/source.json`. This is an unofficial fan interface; SWCCG names and artwork belong to their respective owners.
+
+
+### Captive lifecycle foundations
+
+The native match engine now distinguishes an inactive captive and its retained attachments from active table cards. Ordinary escort movement carries the group; passenger capacity includes captives when evaluating current or prospective crew layouts. Losing an escort opens a persistent Light release choice. Rally reactivates attachments and may join an ongoing battle; escape returns the character to Used and orders its attachments in Lost. Whole-carrier/site destruction loses affected captives with the other casualties. Dark may deliver captives to prisons and take custody again through ordinary free Move-phase actions. The table UI displays custody and inactive status separately from active forces.
+
+`tests/native-engine/captives.test.mjs` verifies these transitions, malformed saved states, uniqueness, capacity, retained movement/weapon limits and late battle participation. Seven component outcomes compare against unchanged pinned GEMP production effects; `gemp/captives-provenance.json` identifies the controlled fixtures and binds the evidence. Playwright exercises rally, escape and prison delivery through the actual HTTP/service/SQLite D1 path at 1440, 834 and 390px, including both-seat refresh. These are component continuations, not a complete capture match.
+
+Capture permission/card providers are the next integration step: We Have A Prisoner's loss/forfeit replacement, restoration, costs/cancellation and captured-starship mode are not yet implemented. Frozen captives, simultaneous release order, multiple-captive exceptions, captive-specific active card text and special movement permissions remain required work. Production admission remains closed; existing GEMP paths, earlier discrepancies, full catalog and complete native gameplay requirements are unchanged. No additional Rules Lab study was created.
