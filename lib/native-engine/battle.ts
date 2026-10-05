@@ -526,7 +526,7 @@ export function assertBattle(m: Match): void {
   if (b.runLuke !== undefined && typeof b.runLuke !== 'boolean') throw Error('Invalid Run Luke modifier.');
   if (!m.cards[b.site] || !sides.includes(b.initiator) || !['begin', 'weapons', 'power', 'damage', 'end', 'complete'].includes(b.stage)) throw Error('Invalid battle.');
   for (const side of sides) {
-    if (new Set(b.participants[side]).size !== b.participants[side].length || b.participants[side].some(id => m.cards[id]?.owner !== side)) throw Error('Invalid battle participants.');
+    if (new Set(b.participants[side]).size !== b.participants[side].length || b.participants[side].some(id => m.cards[id]?.owner !== side && (!b.departed?.includes(id) || m.cards[id]?.originalOwner !== side))) throw Error('Invalid battle participants.');
     for (const values of [b.power, b.attrition, b.damage, b.initialAttrition, b.initialDamage]) if (!Number.isFinite(values[side]) || values[side] < 0) throw Error('Invalid battle totals.');
     const drawing = m.stack.some(f => f.kind === 'resolution' && f.action.handler === 'battle:destiny-finish' && data(f).side === side);
     if (b.destiny[side] !== null && (!Number.isFinite(b.destiny[side]) || b.destiny[side]! < 0 && !drawing)) throw Error('Invalid battle destiny.');

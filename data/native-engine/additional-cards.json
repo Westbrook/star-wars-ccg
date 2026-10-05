@@ -3894,5 +3894,22 @@
     "icons": [
       "A New Hope"
     ]
+  },
+  {
+    "gempId": "2_111",
+    "name": "Death Star Tractor Beam",
+    "side": "dark",
+    "type": "Device",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/deathstartractorbeam.gif",
+    "text": "Use 2 Force to deploy on Docking Bay 327. At the end of a battle at Death Star system, may target an opponent's starship present (except a Mon Calamari star cruiser) using 2 Force. Draw two destiny. Target captured if total destiny > defense value.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "A New Hope"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_111.java"
   }
 ]

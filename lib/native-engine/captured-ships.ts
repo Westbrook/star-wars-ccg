@@ -1,7 +1,7 @@
 import {premiereSystems} from './premiere-setup';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './definitions';
-import {name,system,moveWithAttachments} from './board';
+import {name,system,moveWithAttachments,presence} from './board';
 import {attachmentGroup,capturedShips,capturedShipFor,trappedCharacters} from './captured-ship-state';
 import {capacityFits,vesselRule} from './occupancy';
 import {referenceCard,sameCard,assertCardReference,type CardReference} from './identity';
@@ -18,7 +18,7 @@ type Transition={target:CardReference;mode:'release'|'steal'};
  * effect. Custody need not fit ordinary cargo capacity. */
 export function captureStarship(m:Match,id:string,host:string):void {
  const c=m.cards[id],h=m.cards[host];
- if(!c||c.zone!=='table'||c.owner!=='light'||cardDefinition(m,id).type!=='Starship'||cardDefinition(m,id).subType.includes('Mon Calamari')||c.attachedTo||!h||h.zone!=='table'||h.owner!=='dark'||!['Starship','Location'].includes(cardDefinition(m,host).type)||cardDefinition(m,host).type==='Location'&&cardDefinition(m,host).subType!=='Site'||!Object.values(m.cards).some(b=>b.attachedTo===host&&tractorBeam(m,b.id)))throw Error('Invalid starship capture.');
+ if(!c||c.zone!=='table'||c.owner!=='light'||cardDefinition(m,id).type!=='Starship'||cardDefinition(m,id).subType.includes('Mon Calamari')||c.attachedTo||!h||h.zone!=='table'||cardDefinition(m,host).type==='Starship'&&h.owner!=='dark'||!['Starship','Location'].includes(cardDefinition(m,host).type)||cardDefinition(m,host).type==='Location'&&cardDefinition(m,host).subType!=='Site'||!Object.values(m.cards).some(b=>b.attachedTo===host&&tractorBeam(m,b.id)))throw Error('Invalid starship capture.');
  const location=cardDefinition(m,host).type==='Location'?host:h.location;
  if(!location||!m.locations.includes(location))throw Error('Captured starship needs a location.');
  const group=attachmentGroup(m,id);if(group.some(x=>x.zone!=='table'))throw Error('Invalid captured ship group.');
@@ -98,7 +98,7 @@ export function assertCapturedShips(m:Match):void {
   if(c.originalOwner!==undefined&&cardDefinition(m,c.id).side!==c.originalOwner)throw Error('Invalid stolen-card original owner.');
   if(c.capturedShip){
    const p=c.capturedShip,h=m.cards[p.host];
-   if(c.zone!=='inactive'||c.owner!=='light'||cardDefinition(m,c.id).type!=='Starship'||c.aboardRole||c.attachedTo!==p.host||!h||h.zone!=='table'||h.owner!=='dark'||!(cardDefinition(m,h.id).type==='Starship'||cardDefinition(m,h.id).type==='Location'&&cardDefinition(m,h.id).subType==='Site')||c.location!==(cardDefinition(m,h.id).type==='Location'?h.id:h.location)||Object.keys(p).some(k=>!['host','pending'].includes(k))||p.pending!==undefined&&(!['steal','release'].includes(p.pending)||!pending.has(c.id)))throw Error('Invalid captured ship custody.');
+   if(c.zone!=='inactive'||c.owner!=='light'||cardDefinition(m,c.id).type!=='Starship'||c.aboardRole||c.attachedTo!==p.host||!h||h.zone!=='table'||cardDefinition(m,h.id).type==='Starship'&&h.owner!=='dark'||!(cardDefinition(m,h.id).type==='Starship'||cardDefinition(m,h.id).type==='Location'&&cardDefinition(m,h.id).subType==='Site')||c.location!==(cardDefinition(m,h.id).type==='Location'?h.id:h.location)||Object.keys(p).some(k=>!['host','pending'].includes(k))||p.pending!==undefined&&(!['steal','release'].includes(p.pending)||!pending.has(c.id)))throw Error('Invalid captured ship custody.');
   }
   const root=capturedShipFor(m,c.id);
   if(root){
@@ -108,4 +108,4 @@ export function assertCapturedShips(m:Match):void {
   }
  }
 }
-export const capturedShipView=(m:Match)=>({capturedShips:capturedShips(m).map(c=>({id:c.id,site:c.location!,host:c.capturedShip!.host,pending:c.capturedShip!.pending??null,crew:trappedCharacters(m,c.id).map(x=>x.id),attachments:attachmentGroup(m,c.id).filter(x=>x.id!==c.id).map(x=>x.id)}))});
+export const capturedShipView=(m:Match)=>({capturedShips:capturedShips(m).map(c=>({id:c.id,site:c.location!,host:c.capturedShip!.host,pending:c.capturedShip!.pending??null,disembark:cardDefinition(m,c.capturedShip!.host).subType==='Site'?(presence(m,'dark',c.location!)?'blocked':'available'):null,crew:trappedCharacters(m,c.id).map(x=>x.id),attachments:attachmentGroup(m,c.id).filter(x=>x.id!==c.id).map(x=>x.id)}))});

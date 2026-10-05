@@ -7,7 +7,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-27';
+export const computerPolicy = 'native-cpu-28';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -173,6 +173,7 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     }
     if (kind === 'vessel') {
       const role=c.id.split(':')[4];
+      if(a==='escape')return 40+stat(b,'ability');
       if(a==='deploy')return 30+stat(b,'power')*2;
       if(a==='aboard')return role==='pilot'?48+stat(b,'ability'):role==='driver'?45:8;
       if(a==='role')return role==='pilot'||role==='driver'?25:-5;

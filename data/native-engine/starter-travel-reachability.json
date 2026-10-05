@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "auditedAt": "2026-10-05T09:16:33.910227+00:00",
+  "auditedAt": "2026-10-05T10:22:17.865281+00:00",
   "baseCommit": "0a011cc37185cea0f52c1d31b28520cc9d2d45fb",
   "purpose": "Source-bound reachability analysis for the exact intro pair, not full-deck certification.",
   "classification": "outside-current-pair",
@@ -371,7 +371,7 @@
     "lib/native-engine/battle-interrupts.ts": "171a149c5df3f9bedc8c94b11f99ea950be9af75d5354e99108497d83d528dc0",
     "lib/native-engine/battle-plan.ts": "9926e472181ea7e4a90d76c16beac6c2fa23b7efb60d79b8e8dfb9e0873bf959",
     "lib/native-engine/battle-power.ts": "a9d909dc013ba5a420164a2a74487af1c1f2c694f45480581983998959f82ce0",
-    "lib/native-engine/battle.ts": "8fcf43a1fe690c867537bec5a2a6dd29216d36b7e29be200ca8eca62ab79af18",
+    "lib/native-engine/battle.ts": "8a4cf15b4aca7030f8168a582a6d11ec123dbbdc8954bf6699532df6fce38e37",
     "lib/native-engine/beru-stew.ts": "1f93fbc1229ae26330a54f38118484f11e4cd233babdb90979d2f1f5603d153b",
     "lib/native-engine/bespin.ts": "0b2f838ab0a2e4d5f296212eb4a88dac29b605de3e3b689963c9273f1eeb0b2d",
     "lib/native-engine/bionic-hand.ts": "fee56fd2fefd40297200b296bde23ddb67bc08394cda1f105adbbff9bfdfbd71",
@@ -381,7 +381,7 @@
     "lib/native-engine/capacity-loss.ts": "a5db66dbb2af8a5953374c2bd45abbc31bbeb1fed6dfcb4054a0daa27f48260c",
     "lib/native-engine/captives.ts": "35211e919903a522b5a31930519fc82b114cb4493815fd0d09242a710bf78266",
     "lib/native-engine/captured-ship-state.ts": "9aaca3a788265634dccbfcee42e5df76338240a2bbfbec53ad8792bf458c783a",
-    "lib/native-engine/captured-ships.ts": "b6b0cc0adcfc5352dea3aaad43546fc47943f1e9e20be652d236604733cd0523",
+    "lib/native-engine/captured-ships.ts": "d7394213223ceca580899084a6be17cbc9ee5d163afa75a2bf4181f83e60ec2c",
     "lib/native-engine/card-immunity.ts": "7491270e61e33d2324b8c458864a696e6663a8dcce33f31ea2a1465ad1f7b198",
     "lib/native-engine/character-destiny.ts": "9b8ce41c435a1350fe2d74aa718c4d822e403d27e0fd902bfafcd72107ee7a52",
     "lib/native-engine/character-react.ts": "494d44e5da51aff13c9ce375dd258d2dfbbf54b8eead9a505ba570c7f34109ec",
@@ -391,7 +391,7 @@
     "lib/native-engine/client.ts": "0619a4d641a8b58a2a169704bd16df1ade9216dda516ea323ba3d1210157a9d7",
     "lib/native-engine/combat-modifiers.ts": "9e3ee700337a44eb85061f354b031de57adc0155099942e33cfb52b2fdf8e060",
     "lib/native-engine/compactor.ts": "c3fc9774a17735657713299ad5982c0714543fea6d8dc874ac82414e46edb349",
-    "lib/native-engine/computer.ts": "8b8ec79dbf781f4d32061f119fe52318dd26224688f0a5c9523f727c7ce60479",
+    "lib/native-engine/computer.ts": "64cb7d831bae635be6ed1ec5a010c2e9249a923227262add7f997d451f9e6856",
     "lib/native-engine/creature-attack.ts": "0820b6c993ff79ab5aec603e25f1e974916624b2ca177e08a7a59af1c27dbdb8",
     "lib/native-engine/creature-encounters.ts": "26e00b6cda587de49df933057b06f76710e0c8b4d8b1043eb15b4b0fc5610883",
     "lib/native-engine/creature-profile.ts": "50988eda23382e12b8581ea3752278705275ce42b6fbfce8ba29dc3167604508",
@@ -433,7 +433,7 @@
     "lib/native-engine/generator-shot.ts": "4fce5859099e11fea6f6a25c3677beed242f942ea61df7a01cfb25f98b0500b1",
     "lib/native-engine/gravel-storm.ts": "4af43f3d5c3dc3110082747bc8be49be039874e233c60320da8e8f3329669d64",
     "lib/native-engine/ground-creatures.ts": "f32bd84d81f1bfac57f52b6f5037cb334b36fa52f115b3bf7f69779ead7bf083",
-    "lib/native-engine/ground.ts": "0f339ccf09c441ffb45930663788220ad745c32dd92305df759776f134ff30c5",
+    "lib/native-engine/ground.ts": "4c91229ba629cfa0e4b8b083bbd311bec2d6d292eae72fa99efae6ac5ac83e9f",
     "lib/native-engine/heavy-weapons.ts": "0f124ca97df09cd379dabbe0572c7a5afeee6f182fc3320b5b3d5bdc5a1fd7ce",
     "lib/native-engine/hoth-deployment.ts": "e021e85e0f500ab8c3a42d47fb674dcd9254170f2ca63dec5b5cea24996314c5",
     "lib/native-engine/hoth-movement.ts": "7e750a7c638f651e5ad4795ac83330165ce5c4eb85c5099c3e59d5f6712b8238",
@@ -482,7 +482,7 @@
     "lib/native-engine/piloting.ts": "7cb2d0a9d518ed12e54c4491e8919f7b66a2eb8a28fcf5a120f4fb1911b1b03a",
     "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
-    "lib/native-engine/premiere-rules.ts": "4abf86f267898127c9db784a37fc1e297472172b0fb98c6a1fc6ea4f40c99ff5",
+    "lib/native-engine/premiere-rules.ts": "edc696a736cb2be89ba1cd193bafec6b5657f7acfc5a4e7707dabc66cf490f8e",
     "lib/native-engine/premiere-setup.ts": "bca285b30d4969d067af11afdf2e6755a3e7c9462a51ceecb48a1454472dd57f",
     "lib/native-engine/preparation-destiny.ts": "65eb82c08526d45e8478eb87c343a8c0e212ea93badb9044b92ee439a567d617",
     "lib/native-engine/preparation-starting.ts": "0b0d4bd2056abe1989002ca7ed2992efd7b4c43d6da25194681fa6882433b828",
@@ -523,7 +523,7 @@
     "lib/native-engine/table.ts": "d6e1c5666a72158b4881cb5106696469bfb66a65a726042698c1153aed3bdc15",
     "lib/native-engine/tallon-roll.ts": "1b9817342cd3d0825e229ed25a6bd47366e3886bd2c5a03a99279901477619e8",
     "lib/native-engine/telepathy.ts": "b28dd1038bf933e4f9fb23e950e7dc8e7144ebb6a1861a266d75d5a26e7b2373",
-    "lib/native-engine/tractor-beam.ts": "ffdf309aa9880668b53a4ee7e63df81b17e0b33fde45a6f41d7e900f07b4d194",
+    "lib/native-engine/tractor-beam.ts": "457300b2e9fccd23855f82c95350437c4f61bedf3d695bfd03385caa6dcd0db4",
     "lib/native-engine/transport.ts": "16485235603bdb4c372d6f582cad9b043f8c3ab047719c8989fc283c0497371f",
     "lib/native-engine/travel.ts": "62e91c2e4941025adeab828c02c0cbc918f07f1922bbf683ccd1f318efa0cd3f",
     "lib/native-engine/trooper-assault.ts": "aefc2a2f34ba446b6c88c08064524855a5423a7e6ab1f5d6771893f98892daec",
@@ -531,7 +531,7 @@
     "lib/native-engine/types.ts": "2e1afc3d3f952a4ff04ff4eb25b4a121484c0d1c6be92d30d87a3cd0d9e79648",
     "lib/native-engine/vehicle-react.ts": "babbf440d8aa6ee4bafb54432c945dac908e4152e1840efed891736757081982",
     "lib/native-engine/vessel-travel.ts": "ecf2837085732f6accdd6e38773fefbd3d27d14ef6be3cf16010bab94fdbcaba",
-    "lib/native-engine/vessels.ts": "77e31dfabdeabf12f0b9c678a24b6c8c327885069a9a0a7115a3cd46a4df99a4",
+    "lib/native-engine/vessels.ts": "61ada686e0226cadaf0c5728a5f07ebf3a1d98d0e1c863b5589d583a142f9715",
     "lib/native-engine/weapon-carrying.ts": "66aa0162014e51214d5cd397b075d5066274c58772d6bd5c55a9108ad21b18e4",
     "lib/native-engine/weapon-state.ts": "a60d085a2e3a11bedb978247863e16346d28df9562534e11e4e9ee717b5b3352",
     "lib/native-engine/weapon-total.ts": "f2b2e454a1c77b41009b0ad69d8343fda968fe53036aa1e1f829dd48dd2687e3",
@@ -1010,6 +1010,12 @@
         "persona.ts",
         "computer.ts"
       ]
+    }
+  ],
+  "continuationReviews": [
+    {
+      "scope": "Death Star Tractor Beam and site-held trapped crew movement",
+      "conclusion": "2_111 and existing capture providers are absent from the exact intro pair. New trapped-crew phase actions require capturedShip custody. Site attachment validation is extended only for the new beam and held ships; prior farm-device representation remains valid. Departed stolen-ship battle history does not create any starter return/arrival response. Existing movement reachability classification and production gate retained. Site conversion retargets capturedShip.host only for pre-existing held ships; the starter pair cannot create that state."
     }
   ]
 }

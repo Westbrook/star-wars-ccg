@@ -528,7 +528,7 @@ export const premiereRules: Rules = {
       if (card.zone === 'table' && def.type === 'Character' && (!card.location || !card.aboardRole && !isSite(match,card.location))) throw Error('A ground character needs its site.');
       if (card.coveredBy && (def.type !== 'Location' || !match.locations.includes(card.coveredBy) || name(match, card.id) !== name(match, card.coveredBy))) throw Error('Invalid supporting location.');
       if (card.zone === 'table' && def.type === 'Location' && !card.coveredBy && !match.locations.includes(card.id)) throw Error('Missing active location.');
-      if (card.attachedTo && card.location !== ((artillery(match,card.id)||serviceBlueprint(card.blueprint))&&match.locations.includes(card.attachedTo)?card.attachedTo:match.cards[card.attachedTo].location)) throw Error('Attachment separated from its host.');
+      if (card.attachedTo && card.location !== ((artillery(match,card.id)||serviceBlueprint(card.blueprint)||card.blueprint==='2_111'||card.capturedShip)&&match.locations.includes(card.attachedTo)?card.attachedTo:match.cards[card.attachedTo].location)) throw Error('Attachment separated from its host.');
     }
   },
 };

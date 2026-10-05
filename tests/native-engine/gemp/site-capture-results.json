@@ -1,0 +1,78 @@
+[
+  {
+    "name": "miss",
+    "deployCost": 2,
+    "useCost": 2,
+    "captured": false,
+    "heldAtBay": false
+  },
+  {
+    "name": "dark-bay",
+    "deployCost": 2,
+    "useCost": 2,
+    "captured": true,
+    "heldAtBay": true,
+    "disembark": true,
+    "firstCost": 0,
+    "gunAttached": true,
+    "stillCaptured": true,
+    "stolenAfterLast": true,
+    "bothAtBay": true
+  },
+  {
+    "name": "light-bay",
+    "deployCost": 2,
+    "useCost": 2,
+    "captured": true,
+    "heldAtBay": true,
+    "disembark": true,
+    "firstCost": 0,
+    "gunAttached": true,
+    "stillCaptured": true,
+    "stolenAfterLast": true,
+    "bothAtBay": true
+  },
+  {
+    "name": "guard",
+    "deployCost": 2,
+    "useCost": 2,
+    "captured": true,
+    "heldAtBay": true,
+    "disembark": false
+  },
+  {
+    "name": "droid",
+    "deployCost": 2,
+    "useCost": 2,
+    "captured": true,
+    "heldAtBay": true,
+    "disembark": true,
+    "firstCost": 0,
+    "gunAttached": true,
+    "stillCaptured": true,
+    "stolenAfterLast": true,
+    "bothAtBay": true
+  },
+  {
+    "name": "contested",
+    "deployCost": 2,
+    "useCost": 2,
+    "captured": true,
+    "heldAtBay": true,
+    "disembark": false
+  },
+  {
+    "name": "convert",
+    "deployCost": 2,
+    "useCost": 2,
+    "captured": true,
+    "heldAtBay": true,
+    "conversionPreservesCustody": true,
+    "disembark": true,
+    "firstCost": 0,
+    "gunAttached": true,
+    "stillCaptured": true,
+    "stolenAfterLast": true,
+    "bothAtBay": true
+  }
+]

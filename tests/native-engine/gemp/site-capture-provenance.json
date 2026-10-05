@@ -1,0 +1,19 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": "Seven actual-card GEMP flows from controlled placement: Death Star Tractor Beam deploy/use, successful and failed capture, both printed Docking Bay sides, occupied/contested/droid-only restrictions, normal crew disembarkation and automatic theft after final departure. No full shuffled match claim. The seventh flow converts the held location through a real Light location deployment, preserves custody and completes both crew exits.",
+  "files": {
+    "NativeEngineSiteCaptureOracleTests.java": "d42e31644e28a6f82b9309b4bf36b5be78f6f4a2dc4c372e0c07811a5142b6b5",
+    "site-capture-results.json": "56067640ece2fb86b215801e7aa0950de84f65a53a27fa75826e2be434da8d4e"
+  },
+  "rules": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=162",
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=43"
+  ],
+  "limitations": [
+    "Death Star Central Core cancellation, related ship sites, cargo launch destinations and Besieged remain required.",
+    "Unique permanent-persona and attached-Effect ownership differences remain unresolved.",
+    "No new card or full starter production admission; all prior discrepancies and full engine scope retained."
+  ]
+}
