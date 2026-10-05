@@ -1,0 +1,2848 @@
+{
+  "schema": 1,
+  "auditedAt": "2026-10-05T11:42:53.704316+00:00",
+  "scope": "Evidence-backed obligation inventory of the exact 68 definitions. Entire engine remains the goal. No card, deck, timing family or production release is certified by this audit.",
+  "productionAdmission": "closed",
+  "verification": {
+    "method": "Inspected exact manifests, card functions, named tests and saved actual GEMP receipts/results; inspected duel guard and v5 replay attrition comparison. No runtime/broad tests, oracle, browser or service execution by this audit.",
+    "compound": "Compound owner reports promoted starter-compound.test.mjs passes 3/3: two actual GEMP outcome comparisons plus pinned receipt integrity. Inspected two recorded observations and provenance reporting 2/2 successful reference tests, 6820 unchanged production files.",
+    "distinctions": [
+      "A source/test filename is a pointer, not execution or behavior proof.",
+      "An inspected native assertion shows what is checked; its execution status belongs to the integrator test receipt.",
+      "Controlled board/zone interventions in reference fixtures are not claims of legal card-provider reachability.",
+      "Selected complete matches do not exhaust all legal choices.",
+      "Absence from exact pair excludes provider branches only for these exact counts; broader requirements remain."
+    ]
+  },
+  "exactPair": {
+    "definitionCount": 68,
+    "decks": [
+      {
+        "id": "intro-light",
+        "side": "light",
+        "count": 60,
+        "copies": {
+          "101_1": 2,
+          "101_2": 3,
+          "101_3": 3,
+          "1_100": 1,
+          "1_105": 1,
+          "1_106": 1,
+          "1_113": 2,
+          "1_115": 1,
+          "1_12": 2,
+          "1_120": 1,
+          "1_124": 1,
+          "1_129": 2,
+          "1_130": 1,
+          "1_131": 2,
+          "1_132": 1,
+          "1_152": 2,
+          "1_153": 1,
+          "1_162": 3,
+          "1_18": 2,
+          "1_26": 2,
+          "1_28": 7,
+          "1_30": 3,
+          "1_31": 3,
+          "1_35": 1,
+          "1_40": 2,
+          "1_6": 1,
+          "1_64": 1,
+          "1_77": 1,
+          "1_80": 2,
+          "1_84": 1,
+          "1_90": 2,
+          "1_91": 1,
+          "1_98": 1
+        },
+        "sha256": "49c5ec2c109f8edb1cfa7b9a471d5bb60301e78e1e60574565232cfe95541707"
+      },
+      {
+        "id": "intro-dark",
+        "side": "dark",
+        "count": 60,
+        "copies": {
+          "101_4": 2,
+          "101_5": 3,
+          "101_6": 3,
+          "1_170": 2,
+          "1_181": 2,
+          "1_182": 2,
+          "1_186": 2,
+          "1_194": 7,
+          "1_196": 5,
+          "1_201": 1,
+          "1_207": 2,
+          "1_221": 1,
+          "1_224": 1,
+          "1_237": 1,
+          "1_238": 2,
+          "1_249": 1,
+          "1_251": 1,
+          "1_252": 1,
+          "1_254": 1,
+          "1_262": 1,
+          "1_266": 1,
+          "1_268": 1,
+          "1_269": 1,
+          "1_275": 1,
+          "1_279": 1,
+          "1_284": 1,
+          "1_285": 2,
+          "1_291": 1,
+          "1_292": 1,
+          "1_293": 1,
+          "1_295": 1,
+          "1_312": 1,
+          "1_315": 1,
+          "1_317": 2,
+          "1_322": 3
+        },
+        "sha256": "277059fa0f510581ec4c59ba2f392ed6da9522e581a761706fc61815ac0063ec"
+      }
+    ],
+    "primaryFamilyCoverage": "Exactly one family per definition; shared rules and cross-family interactions remain explicit obligations."
+  },
+  "families": [
+    {
+      "id": "locations",
+      "cards": [
+        "101_1",
+        "101_4",
+        "1_124",
+        "1_129",
+        "1_130",
+        "1_131",
+        "1_132",
+        "1_284",
+        "1_285",
+        "1_291",
+        "1_292",
+        "1_293",
+        "1_295"
+      ],
+      "obligations": {
+        "eligibility": "Ordinary site placement/conversion, system grouping, Mos Eisley adjacency; current side/control text.",
+        "cost": "Docking transit departure-side printed costs; Docking Control Reserve bay deployment/search/shuffle.",
+        "target": "Exact site or legal Reserve docking bay; Luke/warrior, Raider, weapon-draw and ability-threshold conditions in per-card functions.",
+        "timing": "Deploy search, Move transit, current activation/control/drain/power calculations; failed search title/function/player/pile restriction.",
+        "cancellation": "Conversion preserves units, attachments and history; shuffle failure rolls back action. No starter location-text cancellation provider.",
+        "result": "Current control, drain/activation, power/forfeit, individual weapon destiny and six-ability thresholds. Core Shaft uses current erratum, not stale manifest wording.",
+        "identity": "Converted site preserves units/history; selected Reserve card must remain legal; no universal site-alias claim.",
+        "expiry": "Continuous bonuses recalculate; failed search, regular move and drain allowance expire/reset at appropriate turn boundary."
+      },
+      "nativeTests": [
+        "tests/native-engine/setup.test.mjs",
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/travel.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/travel-provenance.json",
+        "tests/native-engine/gemp/search-policy-provenance.json",
+        "tests/native-engine/gemp/gaderffii-provenance.json",
+        "tests/native-engine/gemp/characteristics-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "101_1",
+          "name": "Death Star: Level 6 Core Shaft Corridor",
+          "functions": [
+            "Ordinary location setup/conversion",
+            "Light control modifies Luke power using current erratum",
+            "Dark control raises ability needed to control Death Star sites"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        },
+        {
+          "gempId": "101_4",
+          "name": "Death Star: Docking Control Room 327",
+          "functions": [
+            "Ordinary location setup/conversion",
+            "Repeatable successful Reserve docking-bay deployment/search/shuffle and failed search",
+            "Rebel ability >2 drain bonus",
+            "Shared failed-search title/function/player/pile restriction with legacy-save recovery"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/travel.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/search-policy.ts"
+          ]
+        },
+        {
+          "gempId": "1_124",
+          "name": "Death Star: Docking Bay 327",
+          "functions": [
+            "Ordinary location setup/conversion",
+            "Printed docking-bay transit group cost",
+            "Related system/site grouping"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/travel.ts"
+          ]
+        },
+        {
+          "gempId": "1_129",
+          "name": "Tatooine: Docking Bay 94",
+          "functions": [
+            "Ordinary location setup/conversion",
+            "Printed docking-bay transit group cost",
+            "Related system/site grouping"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/travel.ts"
+          ]
+        },
+        {
+          "gempId": "1_130",
+          "name": "Tatooine: Dune Sea",
+          "functions": [
+            "Ordinary location setup/deployment",
+            "Side-specific six-ability battle destiny threshold",
+            "Jundland Dark Raider forfeit and drain bonuses"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/battle.ts"
+          ]
+        },
+        {
+          "gempId": "1_131",
+          "name": "Tatooine: Jawa Camp",
+          "functions": [
+            "Ordinary location setup/deployment",
+            "Own Jawa deployment discount",
+            "Dark camp penalty to Light Jawas"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        },
+        {
+          "gempId": "1_132",
+          "name": "Tatooine: Lars' Moisture Farm",
+          "functions": [
+            "Ordinary location setup/deployment",
+            "Per-weapon-destiny Dark modifier",
+            "Beru Lars and Luke-persona deployment discount"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/battle.ts",
+            "lib/native-engine/gaderffii.ts"
+          ]
+        },
+        {
+          "gempId": "1_284",
+          "name": "Death Star: Detention Block Corridor",
+          "functions": [
+            "Ordinary location setup/deployment",
+            "Per-weapon-destiny Dark modifier",
+            "Light control Force drain bonus"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/battle.ts",
+            "lib/native-engine/gaderffii.ts"
+          ]
+        },
+        {
+          "gempId": "1_285",
+          "name": "Death Star: Docking Bay 327",
+          "functions": [
+            "Ordinary location setup/conversion",
+            "Printed docking-bay transit group cost",
+            "Related system/site grouping"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/travel.ts"
+          ]
+        },
+        {
+          "gempId": "1_291",
+          "name": "Tatooine: Docking Bay 94",
+          "functions": [
+            "Ordinary location setup/conversion",
+            "Printed docking-bay transit group cost",
+            "Related system/site grouping"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/travel.ts"
+          ]
+        },
+        {
+          "gempId": "1_292",
+          "name": "Tatooine: Jawa Camp",
+          "functions": [
+            "Ordinary location setup/deployment",
+            "Own Jawa deployment discount",
+            "Dark camp penalty to Light Jawas"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        },
+        {
+          "gempId": "1_293",
+          "name": "Tatooine: Jundland Wastes",
+          "functions": [
+            "Ordinary location setup/deployment",
+            "Side-specific six-ability battle destiny threshold",
+            "Jundland Dark Raider forfeit and drain bonuses"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/battle.ts",
+            "lib/native-engine/characteristics.ts"
+          ]
+        },
+        {
+          "gempId": "1_295",
+          "name": "Tatooine: Mos Eisley",
+          "functions": [
+            "Ordinary location setup/deployment",
+            "Contiguous Mos Eisley city-site placement"
+          ],
+          "implementation": [
+            "lib/native-engine/premiere-setup.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/characteristics.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ground-characters",
+      "cards": [
+        "101_2",
+        "1_12",
+        "1_26",
+        "1_170",
+        "1_181",
+        "1_182",
+        "1_194",
+        "1_196",
+        "1_28"
+      ],
+      "obligations": {
+        "eligibility": "Luke/Tatooine and opposing unique cap; Jawas/Tatooine; Death Star Trooper/Death Star; Raiders/Tatooine; both Guards cannot move; trooper free deployment checks own same-site faction ability greater than two.",
+        "cost": "Printed deployment; bilateral Jawa cost and own Camp exception; Farm Luke discount; free troopers; regular movement one Force.",
+        "target": "Legal own deployment site and original character; Luke same/adjacent warriors, Raider other nonunique Raider/four-Raider group.",
+        "timing": "Deploy, regular movement, current power/forfeit and defending Guard bonus; uniqueness/restricted counts checked at entry.",
+        "cancellation": "Barrier prevents movement/battle without removing presence; canceled movement does not produce arrival.",
+        "result": "World/deployment restrictions and board-dependent stats; guards immobile, Death Star Trooper off-world penalty, Luke forfeit and Raider group power.",
+        "identity": "Zone visits scope movement/battle history; returned card cannot inherit obsolete use/restriction history.",
+        "expiry": "Movement reset per turn; continuous stats depend on current location/control/group."
+      },
+      "nativeTests": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/characteristics-provenance.json",
+        "tests/native-engine/gemp/persona-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "101_2",
+          "name": "Luke",
+          "functions": [
+            "Tatooine deployment",
+            "Unique and opponent-unique conditions",
+            "Same/adjacent warrior forfeit bonus"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/persona.ts"
+          ]
+        },
+        {
+          "gempId": "1_12",
+          "name": "Jawa",
+          "functions": [
+            "Tatooine-only deployment",
+            "Bilateral Force cost and own camp exception",
+            "Jawa Camp Light power/forfeit penalties"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        },
+        {
+          "gempId": "1_26",
+          "name": "Rebel Guard",
+          "functions": [
+            "Defending power bonus",
+            "Cannot move by regular movement/react/transit/escape"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/travel.ts"
+          ]
+        },
+        {
+          "gempId": "1_170",
+          "name": "Death Star Trooper",
+          "functions": [
+            "Death Star-only deployment",
+            "Power penalty off Death Star"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        },
+        {
+          "gempId": "1_181",
+          "name": "Imperial Trooper Guard",
+          "functions": [
+            "Defending power bonus",
+            "Cannot move by regular movement/react/transit/escape"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/travel.ts"
+          ]
+        },
+        {
+          "gempId": "1_182",
+          "name": "Jawa",
+          "functions": [
+            "Tatooine-only deployment",
+            "Bilateral Force cost and own camp exception",
+            "Jawa Camp Light power/forfeit penalties"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        },
+        {
+          "gempId": "1_194",
+          "name": "Stormtrooper",
+          "functions": [
+            "Free same-site deployment with own faction ability >2",
+            "Faction deployment restrictions"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        },
+        {
+          "gempId": "1_196",
+          "name": "Tusken Raider",
+          "functions": [
+            "Tatooine-only deployment",
+            "Another non-unique Raider grants own power",
+            "Four Raiders add total-power bonus"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/characteristics.ts"
+          ]
+        },
+        {
+          "gempId": "1_28",
+          "name": "Rebel Trooper",
+          "functions": [
+            "Free same-site deployment with own faction ability >2",
+            "Faction deployment restrictions"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vader-choke",
+      "cards": [
+        "101_5"
+      ],
+      "obligations": {
+        "eligibility": "Death Star deployment/opposing unique cap; participating losing Vader mandatory choke; absent/barred/winning/tied Vader no trigger.",
+        "cost": "Printed deployment; choke draw and casualty free.",
+        "target": "Present eligible Imperial including lone Vader; no alien/droid/remote target.",
+        "timing": "Power-stage losing-battle trigger; turn player orders mandatory triggers, Dark selects Imperial.",
+        "cancellation": "Failed/canceled destiny distinguished from zero; pre-loss response may prevent selected loss without retrigger.",
+        "result": "Destiny greater than four loses Imperial and attachments without forfeit; premature end/hit loss sync.",
+        "identity": "Revalidate present source/target; owner orders dependent-card losses.",
+        "expiry": "One trigger per qualifying battle; no lasting modifier."
+      },
+      "nativeTests": [
+        "tests/native-engine/character-triggers.test.mjs",
+        "tests/native-engine/ground.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/choke-provenance.json",
+        "tests/native-engine/gemp/persona-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "101_5",
+          "name": "Vader",
+          "functions": [
+            "Death Star deployment",
+            "Unique and opposing-unique conditions",
+            "Mandatory losing-battle choke and Imperial loss"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/character-triggers.ts",
+            "lib/native-engine/persona.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "react-providers",
+      "cards": [
+        "1_6",
+        "1_30",
+        "1_201"
+      ],
+      "obligations": {
+        "eligibility": "CZ-3/Comlink same/adjacent opposing battle or drain; Wolfman adjacent legal regular move react.",
+        "cost": "Comlink deploy one; each react card normal cost; Wolfman normal movement cost/allowance.",
+        "target": "Exact initiating location, legal own card/host or adjacent Wolfman.",
+        "timing": "Battle/drain initiation; attachment deployment allowed, Effect deployment not; battle reinforcements may continue after presence.",
+        "cancellation": "Arriving presence cancels drain persistently; droid-only or canceled react does not; Barrier excludes battle ability without removing presence.",
+        "result": "Arrival updates participants; Gaderffii may fire in same initiation window.",
+        "identity": "Host/source/target restrictions and same table-instance allowances.",
+        "expiry": "React window bound to event; usage expires per turn/instance."
+      },
+      "nativeTests": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/react-weapons-provenance.json",
+        "tests/native-engine/gemp/react-cancellation-provenance.json",
+        "tests/native-engine/gemp/deploy-react-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_6",
+          "name": "CZ-3 (Seezee-Three)",
+          "functions": [
+            "Same/adjacent opponent battle/drain deploy-react permission",
+            "Separate cards, normal costs and type/host restrictions",
+            "Presence arrival cancels drain persistently"
+          ],
+          "implementation": [
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/equipment.ts"
+          ]
+        },
+        {
+          "gempId": "1_30",
+          "name": "Shistavanen Wolfman",
+          "functions": [
+            "Restricted-three count",
+            "Adjacent paid move-react",
+            "Shared movement/react usage"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        },
+        {
+          "gempId": "1_201",
+          "name": "Comlink",
+          "functions": [
+            "Own-character deployment/transfer",
+            "Same/adjacent battle/drain deploy-react permission",
+            "Separate normal-cost deployments including Gaderffii",
+            "No bearer device-use cost for continuous permission"
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/gaderffii.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mines-and-droids",
+      "cards": [
+        "1_18",
+        "1_186",
+        "1_162",
+        "1_322"
+      ],
+      "obligations": {
+        "eligibility": "Mining droid at site for mine deployment; exterior planet site for buried cards; own-turn same-site defuse.",
+        "cost": "Defuse one Force; mine/bury costs as printed; explosion ordinary destiny.",
+        "target": "Exact mine; owner chooses opponent casualties; buried duds never active table characters/devices/locations.",
+        "timing": "Next owner start, arrival trip/reveal, pre-explosion defuse, casualty response before next casualty/mine disposal.",
+        "cancellation": "Zero/failed destiny still loses mine; pre-loss responses and attachment loss/order; Kintan between casualties.",
+        "result": "Casualties as far as possible then mine lost; private choices and ordered Lost piles.",
+        "identity": "Defuse observed physical-target policy; expired Lost visit cannot revive just-lost response; duds emit no character-loss trigger.",
+        "expiry": "Saved explosion schedule ends with disposal; buried identity stays private until reveal."
+      },
+      "nativeTests": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/mine-identity.test.mjs",
+        "tests/native-engine/starter-compound.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/mine-identity-provenance.json",
+        "tests/native-engine/gemp/starter-compound-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_18",
+          "name": "LIN-V8K (Elleyein-Veeatekay)",
+          "functions": [
+            "Paid own-turn mine defusing",
+            "Permission to deploy/bury mines",
+            "Arrival and before-explosion interaction",
+            "Defuse source/target departure and movement match executed GEMP; physical returned target remains affected.",
+            "Buried location/device/character duds discard without becoming active table cards."
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts"
+          ]
+        },
+        {
+          "gempId": "1_186",
+          "name": "LIN-V8M (Elleyein-Veeateemm)",
+          "functions": [
+            "Paid own-turn mine defusing",
+            "Permission to deploy/bury mines",
+            "Arrival and before-explosion interaction",
+            "Defuse source/target departure and movement match executed GEMP; physical returned target remains affected.",
+            "Buried location/device/character duds discard without becoming active table cards."
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts"
+          ]
+        },
+        {
+          "gempId": "1_162",
+          "name": "Timer Mine",
+          "functions": [
+            "Mining-droid deployment/react",
+            "Next owner start explosion",
+            "Destiny and owner casualty choice",
+            "Buried minefield arrival/reveal/explosion",
+            "Pre-loss response boundary, simultaneous dependent-card loss/order, and instance-bound just-lost events."
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/table.ts"
+          ]
+        },
+        {
+          "gempId": "1_322",
+          "name": "Timer Mine",
+          "functions": [
+            "Mining-droid deployment/react",
+            "Next owner start explosion",
+            "Destiny and owner casualty choice",
+            "Buried minefield arrival/reveal/explosion",
+            "Pre-loss response boundary, simultaneous dependent-card loss/order, and instance-bound just-lost events."
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/table.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "weapons",
+      "cards": [
+        "1_152",
+        "1_153",
+        "1_312",
+        "1_317",
+        "1_315"
+      ],
+      "obligations": {
+        "eligibility": "Own warrior for blasters/rifles; own Raider for Gaderffii; bearer weapon capacity/attempt restrictions.",
+        "cost": "Blaster deploy/fire one; Rifle deploy/fire two; Gaderffii deploy/transfer two, initiation shot free.",
+        "target": "Present opponent character; Gaderffii targets character weapons; creature/vehicle alternative absent pair.",
+        "timing": "Gaderffii battle initiation including deploy-react; blasters weapons segment; hit bearer may still fire.",
+        "cancellation": "Strict greater-than comparisons; missing destiny not zero; suppression prevents target firing; repeated hit does not duplicate obligation.",
+        "result": "Blaster/rifle hit, Rifle destiny plus one, individual location bonuses; Gaderffii two-destiny total greater than five suppresses weapons.",
+        "identity": "Exact host/weapon use history; attachment losses/returns update battle references.",
+        "expiry": "Suppression this battle; weapon selection/attempt resets per turn/battle respectively."
+      },
+      "nativeTests": [
+        "tests/native-engine/battle.test.mjs",
+        "tests/native-engine/weapon-conformance.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/react-weapons.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/gaderffii-provenance.json",
+        "tests/native-engine/gemp/react-weapons-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_152",
+          "name": "Blaster",
+          "functions": [
+            "Paid warrior deployment/transfer/react",
+            "Per-turn weapon choice and per-battle attempt",
+            "Weapon destiny/strict defense comparison",
+            "Hit and fired responses"
+          ],
+          "implementation": [
+            "lib/native-engine/battle.ts",
+            "lib/native-engine/weapon-state.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/equipment.ts"
+          ]
+        },
+        {
+          "gempId": "1_153",
+          "name": "Blaster Rifle",
+          "functions": [
+            "Paid warrior deployment/transfer/react",
+            "Per-turn weapon choice and per-battle attempt",
+            "Weapon destiny/strict defense comparison",
+            "Hit and fired responses"
+          ],
+          "implementation": [
+            "lib/native-engine/battle.ts",
+            "lib/native-engine/weapon-state.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/equipment.ts"
+          ]
+        },
+        {
+          "gempId": "1_312",
+          "name": "Blaster Rifle",
+          "functions": [
+            "Paid warrior deployment/transfer/react",
+            "Per-turn weapon choice and per-battle attempt",
+            "Weapon destiny/strict defense comparison",
+            "Hit and fired responses"
+          ],
+          "implementation": [
+            "lib/native-engine/battle.ts",
+            "lib/native-engine/weapon-state.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/equipment.ts"
+          ]
+        },
+        {
+          "gempId": "1_317",
+          "name": "Imperial Blaster",
+          "functions": [
+            "Paid warrior deployment/transfer/react",
+            "Per-turn weapon choice and per-battle attempt",
+            "Weapon destiny/strict defense comparison",
+            "Hit and fired responses"
+          ],
+          "implementation": [
+            "lib/native-engine/battle.ts",
+            "lib/native-engine/weapon-state.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/equipment.ts"
+          ]
+        },
+        {
+          "gempId": "1_315",
+          "name": "Gaderffii Stick",
+          "functions": [
+            "Own Raider paid deployment/transfer/react",
+            "Free battle-initiation weapon firing including after deploy-react",
+            "Two weapon destinies",
+            "Captured weapons prohibited this battle"
+          ],
+          "implementation": [
+            "lib/native-engine/gaderffii.ts",
+            "lib/native-engine/weapon-state.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/characteristics.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "continuous-equipment",
+      "cards": [
+        "1_40",
+        "1_207",
+        "1_64",
+        "1_221"
+      ],
+      "obligations": {
+        "eligibility": "Belts own Rebel/alien or Imperial/alien; training nondroid nonwarrior versus warrior mode.",
+        "cost": "Belts one Force; transfer full cost; training printed cost.",
+        "target": "Legal own bearer and selected persistent effect mode.",
+        "timing": "Deployment/transfer, then continuous stats/warrior permission.",
+        "cancellation": "Printed Alter immunity; Alter absent pair. Duplicate continuous bonuses noncumulative.",
+        "result": "Location-dependent belt power/forfeit; fixed selected training warrior or plus-one-power mode.",
+        "identity": "Bearer and selected mode saved; transfer revalidates host.",
+        "expiry": "Bonuses end on removal; continuous ability never consumes device-use action."
+      },
+      "nativeTests": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/gaderffii.test.mjs",
+        "tests/native-engine/cancellation.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/cancellation-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_40",
+          "name": "Tatooine Utility Belt",
+          "functions": [
+            "Own faction/alien deployment/transfer/react",
+            "Noncumulative location-dependent power/forfeit",
+            "Continuous bonus does not consume device use"
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts",
+            "lib/native-engine/board.ts"
+          ]
+        },
+        {
+          "gempId": "1_207",
+          "name": "Stormtrooper Utility Belt",
+          "functions": [
+            "Own faction/alien deployment/transfer/react",
+            "Noncumulative location-dependent power/forfeit",
+            "Continuous bonus does not consume device use"
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts",
+            "lib/native-engine/board.ts"
+          ]
+        },
+        {
+          "gempId": "1_64",
+          "name": "Sai'torr Kal Fas",
+          "functions": [
+            "Deploy in warrior or power mode",
+            "Persistent selected mode",
+            "Noncumulative power",
+            "No droid training",
+            "Immune to Alter text retained",
+            "Printed immunity enforced for actual Alter during deployment and on table"
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts",
+            "lib/native-engine/equipment-state.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/cancellation.ts"
+          ]
+        },
+        {
+          "gempId": "1_221",
+          "name": "Ket Maliss",
+          "functions": [
+            "Deploy in warrior or power mode",
+            "Persistent selected mode",
+            "Noncumulative power",
+            "No droid training",
+            "Immune to Alter text retained",
+            "Printed immunity enforced for actual Alter during deployment and on table"
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts",
+            "lib/native-engine/equipment-state.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/cancellation.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inspection",
+      "cards": [
+        "1_35",
+        "1_224",
+        "1_266"
+      ],
+      "obligations": {
+        "eligibility": "Electrobinoculars own warrior and nonempty own Reserve; Macroscan opponent Reserve; Crew nonempty opponent hand at ordinary/weapons timing.",
+        "cost": "Binoculars deploy one/peek two; Macroscan deploy two/peek one; Crew one paid before responses.",
+        "target": "Actual ordered top card or inspected hand snapshot; optional inspected Rebel only.",
+        "timing": "Ordinary device usage; Crew untimed acknowledgment then optional selection under current AR.",
+        "cancellation": "Paid depletion finishes safely; cancellation/prevention grants no private view; departed selected target never substituted.",
+        "result": "Private peek preserves order or Binoculars moves top to Force; Crew chosen Rebel atop Used; nighttime Macroscan top-three absent pair.",
+        "identity": "Saved peek bound ordered pile; hand snapshot excludes later arrivals; stale/foreign selections rejected.",
+        "expiry": "Acknowledgment/completion/concession revokes view; one different device per bearer per turn."
+      },
+      "nativeTests": [
+        "tests/native-engine/equipment.test.mjs",
+        "tests/native-engine/mine-identity.test.mjs",
+        "tests/native-engine/scan.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/equipment-provenance.json",
+        "tests/native-engine/gemp/mine-identity-provenance.json",
+        "tests/native-engine/gemp/scan-timing-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_35",
+          "name": "Electrobinoculars",
+          "functions": [
+            "Own warrior paid deployment/transfer/react",
+            "Private paid top-Reserve peek",
+            "Optional Force placement",
+            "One different device per bearer per turn",
+            "Reject empty Reserve under AR implied targeting; validate saved private inspection against actual ordered pile."
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts",
+            "lib/native-engine/equipment-state.ts"
+          ]
+        },
+        {
+          "gempId": "1_224",
+          "name": "Macroscan",
+          "functions": [
+            "Paid table deployment",
+            "Paid opponent top-card private peek",
+            "Nighttime top-three peek",
+            "Preserve order"
+          ],
+          "implementation": [
+            "lib/native-engine/equipment.ts"
+          ]
+        },
+        {
+          "gempId": "1_266",
+          "name": "Scanning Crew",
+          "functions": [
+            "Paid private opponent-hand inspection",
+            "Trusted ten-second expiry",
+            "Optional Rebel to top Used",
+            "Redaction on expiry/concession"
+          ],
+          "implementation": [
+            "lib/native-engine/scan.ts",
+            "lib/native-engine/runtime.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "barriers",
+      "cards": [
+        "1_105",
+        "1_249"
+      ],
+      "obligations": {
+        "eligibility": "Enemy character just deployed, enough Force; starship alternative absent pair.",
+        "cost": "One Force retained if canceled.",
+        "target": "Exact newly deployed table instance.",
+        "timing": "Immediate deployment response including deploy-react.",
+        "cancellation": "Restriction does not erase presence; generic cancellation providers absent pair.",
+        "result": "Blocks movement and battling; battle-react character supplies no participating ability.",
+        "identity": "Original table instance; leave/reentry resets via lifecycle.",
+        "expiry": "Remainder of current turn only."
+      },
+      "nativeTests": [
+        "tests/native-engine/ground.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/deploy-react-provenance.json",
+        "tests/native-engine/gemp/crew-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_105",
+          "name": "Rebel Barrier",
+          "functions": [
+            "Paid just-deployed enemy character restriction",
+            "Prevent movement/battle for current turn",
+            "End-turn expiration"
+          ],
+          "implementation": [
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/battle.ts"
+          ]
+        },
+        {
+          "gempId": "1_249",
+          "name": "Imperial Barrier",
+          "functions": [
+            "Paid just-deployed enemy character restriction",
+            "Prevent movement/battle for current turn",
+            "End-turn expiration"
+          ],
+          "implementation": [
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/battle.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reinforcements",
+      "cards": [
+        "1_106",
+        "1_251"
+      ],
+      "obligations": {
+        "eligibility": "Opponent outnumbers own characters/starships; no successful draw or eligible retrieval target prerequisite.",
+        "cost": "One Force retained on cancellation.",
+        "target": "Eligible Lost Rebel Troopers/Stormtroopers; ship alternatives absent pair.",
+        "timing": "Ordinary/weapons play, destiny then specific retrieval/about-to-retrieve responses.",
+        "cancellation": "Canceled action no draw/retrieval; zero/failed/too-few targets finish as far as possible.",
+        "result": "Top-Lost-first specific retrieval to Used, exact resulting order.",
+        "identity": "Revalidate selected physical Lost card after responses; owner-only revision-bound choice.",
+        "expiry": "No duration; source cleanup and decision complete across save."
+      },
+      "nativeTests": [
+        "tests/native-engine/interrupts.test.mjs",
+        "tests/native-engine/characteristics.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/interrupt-provenance.json",
+        "tests/native-engine/gemp/characteristics-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_106",
+          "name": "Rebel Reinforcements",
+          "functions": [
+            "Compare character/starship count",
+            "Paid destiny",
+            "Specific trooper retrieval to Used"
+          ],
+          "implementation": [
+            "lib/native-engine/interrupts.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/retrieval.ts",
+            "lib/native-engine/characteristics.ts"
+          ]
+        },
+        {
+          "gempId": "1_251",
+          "name": "Imperial Reinforcements",
+          "functions": [
+            "Compare character/starship count",
+            "Paid destiny",
+            "Specific trooper retrieval to Used"
+          ],
+          "implementation": [
+            "lib/native-engine/interrupts.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/retrieval.ts",
+            "lib/native-engine/characteristics.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shuffles",
+      "cards": [
+        "1_115",
+        "1_262"
+      ],
+      "obligations": {
+        "eligibility": "Either player nonempty Reserve/Lost/Used at ordinary/weapons timing.",
+        "cost": "No printed Force cost.",
+        "target": "Exact side/pile, not arbitrary hidden-card choice.",
+        "timing": "Atomic server entropy at Interrupt resolution.",
+        "cancellation": "Canceled shuffle/entropy failure leaves pile unchanged.",
+        "result": "Shuffle preserves membership, privacy and Used Interrupt cleanup.",
+        "identity": "Pile identity targeted; cards retain zone visits.",
+        "expiry": "No duration; revision/idempotency protects retries."
+      },
+      "nativeTests": [
+        "tests/native-engine/interrupts.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/interrupt-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_115",
+          "name": "The Bith Shuffle",
+          "functions": [
+            "Target either nonempty Reserve/Lost/Used",
+            "Atomic server shuffle",
+            "Used Interrupt disposal"
+          ],
+          "implementation": [
+            "lib/native-engine/interrupts.ts",
+            "lib/native-engine/random.ts"
+          ]
+        },
+        {
+          "gempId": "1_262",
+          "name": "Ommni Box",
+          "functions": [
+            "Target either nonempty Reserve/Lost/Used",
+            "Atomic server shuffle",
+            "Used Interrupt disposal"
+          ],
+          "implementation": [
+            "lib/native-engine/interrupts.ts",
+            "lib/native-engine/random.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drain-assaults",
+      "cards": [
+        "1_113",
+        "1_238"
+      ],
+      "obligations": {
+        "eligibility": "Actual Force drain response with one Force; legal own drain cancellation tested.",
+        "cost": "One Force before draws, retained on cancel.",
+        "target": "Location and opposing present-character count/power snapshot; ship/vehicle alternatives absent pair.",
+        "timing": "Cancel drain, serial destinies, total comparison, then Force loss/reduction responses.",
+        "cancellation": "Failed/partial destiny distinct from zero; later failure does not reinstate canceled drain.",
+        "result": "Lower total loses difference; ties none; snapshot power policy and current loss modifiers.",
+        "identity": "Original snapshot survives save; controlled departure fixture is not proof of legal removal provider.",
+        "expiry": "Drain attempt remains used; no lasting modifier."
+      },
+      "nativeTests": [
+        "tests/native-engine/assault.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/assault-provenance.json",
+        "tests/native-engine/gemp/assault-presence-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_113",
+          "name": "Surprise Assault",
+          "functions": [
+            "Drain cancellation",
+            "Snapshot opposing present unit count/power",
+            "Serial destiny with combined total",
+            "Lower side loses difference"
+          ],
+          "implementation": [
+            "lib/native-engine/assault.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        },
+        {
+          "gempId": "1_238",
+          "name": "Counter Assault",
+          "functions": [
+            "Drain cancellation",
+            "Snapshot opposing present unit count/power",
+            "Serial destiny with combined total",
+            "Lower side loses difference"
+          ],
+          "implementation": [
+            "lib/native-engine/assault.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/ground.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "obsession",
+      "cards": [
+        "101_6"
+      ],
+      "obligations": {
+        "eligibility": "Dark Move adjacent Vader arrival to Luke; exact participants and once-per-turn use.",
+        "cost": "No printed play cost; prior movement paid separately.",
+        "target": "Original Vader/Luke table instances; current power plus two destiny each.",
+        "timing": "Arrival, pending Interrupt, duel/draw/total/result, retrieval then loser Force and character loss.",
+        "cancellation": "Run Luke cancels pending Obsession; both failed draws no winner; exactly one failed set winner official but amount unresolved.",
+        "result": "Normal/tie/partial draws compared; one-sided failed set throws before unverified retrieval/loss.",
+        "identity": "Pre-result original instances required; controlled return differs from GEMP under AR p166; post-result physical policy separately documented.",
+        "expiry": "Use persists for turn; saved stages/cleanup retain exact boundaries."
+      },
+      "nativeTests": [
+        "tests/native-engine/duel.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/duel-provenance.json",
+        "tests/native-engine/gemp/duel-identity-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "101_6",
+          "name": "Vader's Obsession",
+          "functions": [
+            "Adjacent Vader arrival during Dark move",
+            "Four serial duel destiny draws and current power",
+            "Winner retrieval then loser Force/character loss",
+            "Unique-per-turn use and Run Luke cancellation"
+          ],
+          "implementation": [
+            "lib/native-engine/duel.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/retrieval.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "battle-travel",
+      "cards": [
+        "101_3",
+        "1_98"
+      ],
+      "obligations": {
+        "eligibility": "Run Luke adjacent Luke legal unused regular move at battle initiation; Escape opponent initiation and qualifying Rebel ability greater than two.",
+        "cost": "Run Luke free regular move; Escape pays each mover, partial success allowed.",
+        "target": "Original Luke or initiation-qualified ability/landspeed group; order and destinations explicit.",
+        "timing": "Battle initiation before power, including arrival mines and their loss responses; separate Run Luke Obsession cancellation.",
+        "cancellation": "Barrier, Guard immobility, previous movement/battle respected; canceled Interrupt no movement/bonus.",
+        "result": "Update participation; Luke plus two unless Vader present/adjacent; Escape syncs battle end.",
+        "identity": "Saved original movement refs; current exact-pair travel audit excludes controlled return/late-arrival providers.",
+        "expiry": "Luke bonus this battle, unique usage/movement this turn; completed individual moves retained."
+      },
+      "nativeTests": [
+        "tests/native-engine/travel.test.mjs",
+        "tests/native-engine/travel-response.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/travel-provenance.json",
+        "tests/native-engine/gemp/travel-identity-provenance.json",
+        "tests/native-engine/gemp/travel-response-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "101_3",
+          "name": "Run Luke, Run!",
+          "functions": [
+            "Adjacent free regular move to just-initiated battle",
+            "Conditional battle power bonus",
+            "Cancel pending Obsession",
+            "Shared unique-per-turn use"
+          ],
+          "implementation": [
+            "lib/native-engine/travel.ts",
+            "lib/native-engine/duel.ts",
+            "lib/native-engine/board.ts",
+            "lib/native-engine/identity.ts"
+          ]
+        },
+        {
+          "gempId": "1_98",
+          "name": "Narrow Escape",
+          "functions": [
+            "Opponent battle-initiation Rebel ability >2 condition",
+            "Individually paid regular escape moves",
+            "Owner ordering, separate destinations, partial failure and battle sync",
+            "All targets must have landspeed at initiation (AR p71 example 3); landed permanent-pilot ship rejects play"
+          ],
+          "implementation": [
+            "lib/native-engine/travel.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/identity.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recovery-and-talz",
+      "cards": [
+        "1_100",
+        "1_254",
+        "1_31"
+      ],
+      "obligations": {
+        "eligibility": "Ben own just-forfeited Tatooine non-Obi-Wan character; Kintan enemy table character just lost; Talz another same-site weapon-hit character.",
+        "cost": "Ben/Kintan one Force; Talz forfeiture cost credits damage/attrition before response.",
+        "target": "Ben original Lost visit; Kintan nearest-to-top current Lost character; Talz exact hit target.",
+        "timing": "Ben during Talz forfeiture before pending restoration; Kintan between mine casualties; ordinary loss never Ben.",
+        "cancellation": "Ben removal closes Kintan eligibility; canceled/prevented recovery retains payment; no substitute lost copy.",
+        "result": "Ben return without attachments/current participation retains forfeit credit; Kintan hand retrieval; Talz restores target/attachments/participation.",
+        "identity": "Expired Lost visit invalid; new table visit clears old history but cannot rejoin battle; Kintan target chosen at resolution.",
+        "expiry": "Immediate just-lost event; failed Kintan search lock next-turn expiry; nighttime Talz bonus provider absent."
+      },
+      "nativeTests": [
+        "tests/native-engine/revival.test.mjs",
+        "tests/native-engine/mine-identity.test.mjs",
+        "tests/native-engine/starter-compound.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/revival-provenance.json",
+        "tests/native-engine/gemp/identity-provenance.json",
+        "tests/native-engine/gemp/starter-compound-provenance.json",
+        "tests/native-engine/gemp/recovery-match-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_100",
+          "name": "Old Ben",
+          "functions": [
+            "Paid just-forfeited Tatooine character return",
+            "Lost removal response and placed-in-play result",
+            "Attachment/copy handling"
+          ],
+          "implementation": [
+            "lib/native-engine/revival.ts",
+            "lib/native-engine/table.ts",
+            "lib/native-engine/persona.ts"
+          ]
+        },
+        {
+          "gempId": "1_254",
+          "name": "Kintan Strider",
+          "functions": [
+            "Paid response to enemy table character loss",
+            "Top-character Lost search/retrieval to hand",
+            "Failed-search title lock",
+            "Shared failed-search title/function/player/pile restriction with legacy-save recovery"
+          ],
+          "implementation": [
+            "lib/native-engine/revival.ts",
+            "lib/native-engine/retrieval.ts",
+            "lib/native-engine/search-policy.ts"
+          ]
+        },
+        {
+          "gempId": "1_31",
+          "name": "Talz",
+          "functions": [
+            "Restricted-three count",
+            "Talz forfeiture cost restores another weapon-hit participant",
+            "Nighttime power bonus"
+          ],
+          "implementation": [
+            "lib/native-engine/board.ts",
+            "lib/native-engine/battle.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stakes",
+      "cards": [
+        "1_77",
+        "1_279",
+        "1_91"
+      ],
+      "obligations": {
+        "eligibility": "Chances defender on opponent initiation or exact opposing pending Chances; Bad Feeling Light initiator initially lower power.",
+        "cost": "No printed Force cost.",
+        "target": "Exact battle/result and eventual loser; Han triple provider absent pair.",
+        "timing": "Battle initiation/pending result before damage.",
+        "cancellation": "Canceled base/boost no effect; repeated same-title noncumulative; canceled original makes boost harmless.",
+        "result": "Multiply base damage then retained payments/reduction; never power/destiny/attrition.",
+        "identity": "Battle/pending source bound; source departure after result does not revoke bonus.",
+        "expiry": "Battle only; one copy each excludes unresolved simultaneously pending nested booster chain."
+      },
+      "nativeTests": [
+        "tests/native-engine/stakes.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/stakes-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_77",
+          "name": "Don't Underestimate Our Chances",
+          "functions": [
+            "Opposing battle-initiation eventual damage tripling",
+            "Exact opposing pending-card result boost",
+            "Noncumulative history and damage ordering"
+          ],
+          "implementation": [
+            "lib/native-engine/stakes.ts",
+            "lib/native-engine/loss.ts",
+            "lib/native-engine/battle.ts"
+          ]
+        },
+        {
+          "gempId": "1_279",
+          "name": "You Overestimate Their Chances",
+          "functions": [
+            "Opposing battle-initiation eventual damage tripling",
+            "Exact opposing pending-card result boost",
+            "Noncumulative history and damage ordering"
+          ],
+          "implementation": [
+            "lib/native-engine/stakes.ts",
+            "lib/native-engine/loss.ts",
+            "lib/native-engine/battle.ts"
+          ]
+        },
+        {
+          "gempId": "1_91",
+          "name": "I've Got A Bad Feeling About This",
+          "functions": [
+            "Light battle-initiation lower-power condition",
+            "Double resulting Dark damage",
+            "Targeted participating Han triples it",
+            "Noncumulative schedule"
+          ],
+          "implementation": [
+            "lib/native-engine/stakes.ts",
+            "lib/native-engine/loss.ts",
+            "lib/native-engine/battle.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "loss-modifiers",
+      "cards": [
+        "1_90",
+        "1_120",
+        "1_252"
+      ],
+      "obligations": {
+        "eligibility": "Reduction pending Force loss; Worse pending reduction or just-lost battle Force; Doomed below fifteen Life Force during opposing Control ordinary action.",
+        "cost": "Use X for reduction or Worse increase; canceled reduction keeps cost; Doomed free.",
+        "target": "Exact loss ledger/battle Force event, not attrition or specific character loss.",
+        "timing": "Per-Force and final-unit responses; Doomed remainder of turn including end responses.",
+        "cancellation": "Worse cancels exact reduction; noncumulative/excess reduction credit retained.",
+        "result": "Doomed round up without absent C-3PO/R2-D2 then reduction/increase; payments/irreducible loss unaffected; last Life Force terminal.",
+        "identity": "Ledger retains paid units through nested responses/save; returned source cannot rebind pending result.",
+        "expiry": "Doomed next-start expiry; reduction/increase exact loss/battle scope."
+      },
+      "nativeTests": [
+        "tests/native-engine/worse.test.mjs",
+        "tests/native-engine/doomed.test.mjs",
+        "tests/native-engine/ground.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/worse-provenance.json",
+        "tests/native-engine/gemp/doomed-provenance.json",
+        "tests/native-engine/gemp/recovery-match-provenance.json",
+        "tests/native-engine/gemp/battle-response-match-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_90",
+          "name": "It Could Be Worse",
+          "functions": [
+            "Pay X to reduce an outstanding Force loss",
+            "General loss and battle balances",
+            "Noncumulative loss reduction and retained payment credit"
+          ],
+          "implementation": [
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/battle.ts",
+            "lib/native-engine/loss.ts"
+          ]
+        },
+        {
+          "gempId": "1_120",
+          "name": "We're Doomed",
+          "functions": [
+            "Opponent-Control low Life Force condition",
+            "Per-loss halving with current droid rounding",
+            "Turn duration",
+            "Shared loss arithmetic"
+          ],
+          "implementation": [
+            "lib/native-engine/doomed.ts",
+            "lib/native-engine/loss.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/battle.ts"
+          ]
+        },
+        {
+          "gempId": "1_252",
+          "name": "It's Worse",
+          "functions": [
+            "Cancel exact pending It Could Be Worse and pay X increase",
+            "Battle Force-lost increase",
+            "Noncumulative same-title result and final-unit reopening"
+          ],
+          "implementation": [
+            "lib/native-engine/worse.ts",
+            "lib/native-engine/loss.ts",
+            "lib/native-engine/ground.ts",
+            "lib/native-engine/battle.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "accidents",
+      "cards": [
+        "1_80",
+        "1_237"
+      ],
+      "obligations": {
+        "eligibility": "Battle initiation with at least two opponent participants and weapon.",
+        "cost": "Free play and ordinary destiny.",
+        "target": "Original participant group; opponent selects casualty; original weapon eligibility rechecked.",
+        "timing": "Initiation casualty/attachment loss response and order before continuation.",
+        "cancellation": "Failed/canceled destiny no casualty; pre-loss prevention/departure does not select replacement.",
+        "result": "Destiny less than group count loses one; Kintan yes/Ben no; last presence loss ends battle.",
+        "identity": "No later arrivals in original target set; controlled group-change discrepancy not a legal-provider proof.",
+        "expiry": "No lasting duration after loss/source cleanup."
+      },
+      "nativeTests": [
+        "tests/native-engine/accident.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/accident-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_80",
+          "name": "Friendly Fire",
+          "functions": [
+            "Battle-initiation character/weapon condition",
+            "Ordinary destiny",
+            "Opponent casualty selection",
+            "Loss/attachment ordering and response"
+          ],
+          "implementation": [
+            "lib/native-engine/accident.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/table.ts"
+          ]
+        },
+        {
+          "gempId": "1_237",
+          "name": "Collateral Damage",
+          "functions": [
+            "Battle-initiation character/weapon condition",
+            "Ordinary destiny",
+            "Opponent casualty selection",
+            "Loss/attachment ordering and response"
+          ],
+          "implementation": [
+            "lib/native-engine/accident.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/table.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "battle-destiny",
+      "cards": [
+        "1_84",
+        "1_269"
+      ],
+      "obligations": {
+        "eligibility": "Dice own participating ability greater than two and just-drawn own battle destiny; Takeel exactly one finalized successful draw each.",
+        "cost": "One Force retained on cancel.",
+        "target": "Exact draw/window; Takeel numbers, not physical cards.",
+        "timing": "Dice after draw responses; Takeel finalized totals; individual/total modifier distinction.",
+        "cancellation": "Canceled Dice retains original; failed redraw no destiny; repeated replacement one finalized draw; canceled Takeel no switch.",
+        "result": "Correct Used order, physical card identities, switched numbers, damage and attrition.",
+        "identity": "Dice qualification latched; private saved draw/window refs; departed destiny not restored.",
+        "expiry": "This draw/battle only; v5 snapshots compare remaining attrition."
+      },
+      "nativeTests": [
+        "tests/native-engine/interrupts.test.mjs",
+        "tests/native-engine/takeel.test.mjs",
+        "tests/native-engine/battle.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/interrupt-provenance.json",
+        "tests/native-engine/gemp/dice-identity-provenance.json",
+        "tests/native-engine/gemp/takeel-provenance.json",
+        "tests/native-engine/gemp/battle-response-match-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_84",
+          "name": "Han's Dice",
+          "functions": [
+            "Ability >2 participant target",
+            "Paid cancel/redraw of just-drawn battle destiny",
+            "Repeated replacement and old-card cleanup",
+            "Exact pending battle draw/window and historical character/destiny references; character qualification is latched at initiation",
+            "Character departure, return, ability reset and destiny-card departure match five executed GEMP traces; nested Sense/Alter and recovery checked natively"
+          ],
+          "implementation": [
+            "lib/native-engine/interrupts.ts",
+            "lib/native-engine/battle.ts",
+            "lib/native-engine/destiny.ts"
+          ]
+        },
+        {
+          "gempId": "1_269",
+          "name": "Takeel",
+          "functions": [
+            "Both sides drew exactly one battle destiny",
+            "Paid swap",
+            "Shared resulting totals",
+            "Exactly one finalized successful battle destiny each, including replacement, cancellation, substitution, selection, limits and exhaustion",
+            "Individual modifiers switch; resolved total modifiers stay with their owner",
+            "Repeated Takeel retains the same switch, matching pinned GEMP"
+          ],
+          "implementation": [
+            "lib/native-engine/battle.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scavenge",
+      "cards": [
+        "1_275"
+      ],
+      "obligations": {
+        "eligibility": "Ordinary/weapons, Raider on table and nonempty opponent Used.",
+        "cost": "One Force before destiny.",
+        "target": "Current Raider count; original equipment in searched Used.",
+        "timing": "Optional search after successful destiny; turn player orders unspecified Lost placements; failed search lock.",
+        "cancellation": "Canceled/failed draw no reveal; inspection prevention not failed search; individual prevented loss does not stop others.",
+        "result": "All found devices/weapons lost, vehicles absent pair; remaining order and terminal Life Force respected.",
+        "identity": "Departed found cards/later arrivals never substituted; saved reveal restrictions.",
+        "expiry": "View ends completion/concession; search lock next-turn expiry."
+      },
+      "nativeTests": [
+        "tests/native-engine/scavenge.test.mjs",
+        "tests/native-engine/search-policy.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/scavenge-provenance.json",
+        "tests/native-engine/gemp/search-policy-provenance.json",
+        "tests/native-engine/gemp/characteristics-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_275",
+          "name": "Tusken Scavengers",
+          "functions": [
+            "Paid destiny compared with Raiders",
+            "Optional opponent Used search",
+            "Ordered equipment losses",
+            "Failed-search turn lock",
+            "Shared failed-search title/function/player/pile restriction with legacy-save recovery"
+          ],
+          "implementation": [
+            "lib/native-engine/scavenge.ts",
+            "lib/native-engine/destiny.ts",
+            "lib/native-engine/characteristics.ts",
+            "lib/native-engine/search-policy.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stun",
+      "cards": [
+        "1_268"
+      ],
+      "obligations": {
+        "eligibility": "Opponent character, two Force, ordinary/weapons timing including opposing turn.",
+        "cost": "Two Force retained on cancellation.",
+        "target": "Original opposing character and current ability; outside-battle target may be legal.",
+        "timing": "Play, destiny, pre-return response, recursive return and battle sync.",
+        "cancellation": "Canceled/failed draw no return; departed original target not substituted; return prevention leaves attachments.",
+        "result": "Destiny greater than ability returns character and each descendant attachment to its owner hand; no loss/forfeit response.",
+        "identity": "Original table instance revalidated; hit state and participation removed; corrupt continuation rejected.",
+        "expiry": "Immediate result, no duration; new zone visit clears old history."
+      },
+      "nativeTests": [
+        "tests/native-engine/stun.test.mjs"
+      ],
+      "referenceReceipts": [
+        "tests/native-engine/gemp/stun-provenance.json"
+      ],
+      "status": "bounded component evidence; not full-card certification",
+      "cardFunctions": [
+        {
+          "gempId": "1_268",
+          "name": "Set For Stun",
+          "functions": [
+            "Paid opposing character target",
+            "Destiny > ability",
+            "Recursive owner-specific return to hand",
+            "Battle participation/premature end sync"
+          ],
+          "implementation": [
+            "lib/native-engine/stun.ts",
+            "lib/native-engine/table.ts",
+            "lib/native-engine/destiny.ts"
+          ]
+        }
+      ]
+    }
+  ],
+  "inspectedAssertions": [
+    {
+      "file": "tests/native-engine/ground.test.mjs",
+      "title": "both Jawa versions pay both players normally and their own camp changes that cost",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/ground.test.mjs",
+      "title": "Core Shaft power erratum applies to Luke on another world and ends when control is contested",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/travel.test.mjs",
+      "title": "failed docking-bay search matches fresh GEMP and resumes both new and legacy verification saves",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/character-triggers.test.mjs",
+      "title": "choke does not satisfy nonzero attrition and later forfeits still pay both balances",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/equipment.test.mjs",
+      "title": "Comlink allows repeated battle reinforcements, weapons and devices, but not Effects",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/mine-identity.test.mjs",
+      "title": "Kintan resolves between mine casualties before the owner chooses the next loss",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/weapon-conformance.test.mjs",
+      "title": "continuous battle engine matches all eighteen recorded GEMP weapon branches",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/equipment.test.mjs",
+      "title": "training selects a persistent mode, grants warrior eligibility, and cannot train a droid",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/scan.test.mjs",
+      "title": "inspection remains available beyond the obsolete printed ten seconds and across refresh",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/battle.test.mjs",
+      "title": "Barrier on a battle react excludes its ability without removing the arriving card",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/interrupts.test.mjs",
+      "title": "Reinforcements require being outnumbered and Force, but do not require a retrieval target or Reserve card",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/interrupts.test.mjs",
+      "title": "shuffle cancellation and entropy failure do not mutate the targeted pile",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/duel.test.mjs",
+      "title": "recorded GEMP failures do not override the rulebook\u2019s failed-destiny winner",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/travel.test.mjs",
+      "title": "Run Luke followed by Narrow Escape cannot give Luke a second regular move",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/revival.test.mjs",
+      "title": "revival during Talz forfeiture cost does not interfere with rescuing the hit character",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/stakes.test.mjs",
+      "title": "multipliers leave destiny, power and attrition unchanged",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/doomed.test.mjs",
+      "title": "ordinary reduction is applied after halving and keeps excess reduction credit",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/accident.test.mjs",
+      "title": "accident target group excludes later arrivals and revalidates before resolution",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/interrupts.test.mjs",
+      "title": "successive Dice redraws still count as one battle destiny for Takeel",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/scavenge.test.mjs",
+      "title": "the turn player orders placements during Light turn, following AR p11",
+      "level": "inspected assertion, not newly executed by this audit"
+    },
+    {
+      "file": "tests/native-engine/stun.test.mjs",
+      "title": "Set For Stun returns all descendant equipment to each owner without losses or forfeiture",
+      "level": "inspected assertion, not newly executed by this audit"
+    }
+  ],
+  "cardIndex": [
+    {
+      "gempId": "101_1",
+      "name": "Death Star: Level 6 Core Shaft Corridor",
+      "side": "light",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "101_2",
+      "name": "Luke",
+      "side": "light",
+      "type": "Character",
+      "family": "ground-characters",
+      "copies": {
+        "light": 3,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "101_3",
+      "name": "Run Luke, Run!",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "battle-travel",
+      "copies": {
+        "light": 3,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "101_4",
+      "name": "Death Star: Docking Control Room 327",
+      "side": "dark",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 0,
+        "dark": 2
+      }
+    },
+    {
+      "gempId": "101_5",
+      "name": "Vader",
+      "side": "dark",
+      "type": "Character",
+      "family": "vader-choke",
+      "copies": {
+        "light": 0,
+        "dark": 3
+      }
+    },
+    {
+      "gempId": "101_6",
+      "name": "Vader's Obsession",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "obsession",
+      "copies": {
+        "light": 0,
+        "dark": 3
+      }
+    },
+    {
+      "gempId": "1_100",
+      "name": "Old Ben",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "recovery-and-talz",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_105",
+      "name": "Rebel Barrier",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "barriers",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_106",
+      "name": "Rebel Reinforcements",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "reinforcements",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_113",
+      "name": "Surprise Assault",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "drain-assaults",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_115",
+      "name": "The Bith Shuffle",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "shuffles",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_12",
+      "name": "Jawa",
+      "side": "light",
+      "type": "Character",
+      "family": "ground-characters",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_120",
+      "name": "We're Doomed",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "loss-modifiers",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_124",
+      "name": "Death Star: Docking Bay 327",
+      "side": "light",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_129",
+      "name": "Tatooine: Docking Bay 94",
+      "side": "light",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_130",
+      "name": "Tatooine: Dune Sea",
+      "side": "light",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_131",
+      "name": "Tatooine: Jawa Camp",
+      "side": "light",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_132",
+      "name": "Tatooine: Lars' Moisture Farm",
+      "side": "light",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_152",
+      "name": "Blaster",
+      "side": "light",
+      "type": "Weapon",
+      "family": "weapons",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_153",
+      "name": "Blaster Rifle",
+      "side": "light",
+      "type": "Weapon",
+      "family": "weapons",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_162",
+      "name": "Timer Mine",
+      "side": "light",
+      "type": "Weapon",
+      "family": "mines-and-droids",
+      "copies": {
+        "light": 3,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_170",
+      "name": "Death Star Trooper",
+      "side": "dark",
+      "type": "Character",
+      "family": "ground-characters",
+      "copies": {
+        "light": 0,
+        "dark": 2
+      }
+    },
+    {
+      "gempId": "1_18",
+      "name": "LIN-V8K (Elleyein-Veeatekay)",
+      "side": "light",
+      "type": "Character",
+      "family": "mines-and-droids",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_181",
+      "name": "Imperial Trooper Guard",
+      "side": "dark",
+      "type": "Character",
+      "family": "ground-characters",
+      "copies": {
+        "light": 0,
+        "dark": 2
+      }
+    },
+    {
+      "gempId": "1_182",
+      "name": "Jawa",
+      "side": "dark",
+      "type": "Character",
+      "family": "ground-characters",
+      "copies": {
+        "light": 0,
+        "dark": 2
+      }
+    },
+    {
+      "gempId": "1_186",
+      "name": "LIN-V8M (Elleyein-Veeateemm)",
+      "side": "dark",
+      "type": "Character",
+      "family": "mines-and-droids",
+      "copies": {
+        "light": 0,
+        "dark": 2
+      }
+    },
+    {
+      "gempId": "1_194",
+      "name": "Stormtrooper",
+      "side": "dark",
+      "type": "Character",
+      "family": "ground-characters",
+      "copies": {
+        "light": 0,
+        "dark": 7
+      }
+    },
+    {
+      "gempId": "1_196",
+      "name": "Tusken Raider",
+      "side": "dark",
+      "type": "Character",
+      "family": "ground-characters",
+      "copies": {
+        "light": 0,
+        "dark": 5
+      }
+    },
+    {
+      "gempId": "1_201",
+      "name": "Comlink",
+      "side": "dark",
+      "type": "Device",
+      "family": "react-providers",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_207",
+      "name": "Stormtrooper Utility Belt",
+      "side": "dark",
+      "type": "Device",
+      "family": "continuous-equipment",
+      "copies": {
+        "light": 0,
+        "dark": 2
+      }
+    },
+    {
+      "gempId": "1_221",
+      "name": "Ket Maliss",
+      "side": "dark",
+      "type": "Effect",
+      "family": "continuous-equipment",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_224",
+      "name": "Macroscan",
+      "side": "dark",
+      "type": "Effect",
+      "family": "inspection",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_237",
+      "name": "Collateral Damage",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "accidents",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_238",
+      "name": "Counter Assault",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "drain-assaults",
+      "copies": {
+        "light": 0,
+        "dark": 2
+      }
+    },
+    {
+      "gempId": "1_249",
+      "name": "Imperial Barrier",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "barriers",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_251",
+      "name": "Imperial Reinforcements",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "reinforcements",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_252",
+      "name": "It's Worse",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "loss-modifiers",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_254",
+      "name": "Kintan Strider",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "recovery-and-talz",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_26",
+      "name": "Rebel Guard",
+      "side": "light",
+      "type": "Character",
+      "family": "ground-characters",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_262",
+      "name": "Ommni Box",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "shuffles",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_266",
+      "name": "Scanning Crew",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "inspection",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_268",
+      "name": "Set For Stun",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "stun",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_269",
+      "name": "Takeel",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "battle-destiny",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_275",
+      "name": "Tusken Scavengers",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "scavenge",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_279",
+      "name": "You Overestimate Their Chances",
+      "side": "dark",
+      "type": "Interrupt",
+      "family": "stakes",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_28",
+      "name": "Rebel Trooper",
+      "side": "light",
+      "type": "Character",
+      "family": "ground-characters",
+      "copies": {
+        "light": 7,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_284",
+      "name": "Death Star: Detention Block Corridor",
+      "side": "dark",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_285",
+      "name": "Death Star: Docking Bay 327",
+      "side": "dark",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 0,
+        "dark": 2
+      }
+    },
+    {
+      "gempId": "1_291",
+      "name": "Tatooine: Docking Bay 94",
+      "side": "dark",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_292",
+      "name": "Tatooine: Jawa Camp",
+      "side": "dark",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_293",
+      "name": "Tatooine: Jundland Wastes",
+      "side": "dark",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_295",
+      "name": "Tatooine: Mos Eisley",
+      "side": "dark",
+      "type": "Location",
+      "family": "locations",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_30",
+      "name": "Shistavanen Wolfman",
+      "side": "light",
+      "type": "Character",
+      "family": "react-providers",
+      "copies": {
+        "light": 3,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_31",
+      "name": "Talz",
+      "side": "light",
+      "type": "Character",
+      "family": "recovery-and-talz",
+      "copies": {
+        "light": 3,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_312",
+      "name": "Blaster Rifle",
+      "side": "dark",
+      "type": "Weapon",
+      "family": "weapons",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_315",
+      "name": "Gaderffii Stick",
+      "side": "dark",
+      "type": "Weapon",
+      "family": "weapons",
+      "copies": {
+        "light": 0,
+        "dark": 1
+      }
+    },
+    {
+      "gempId": "1_317",
+      "name": "Imperial Blaster",
+      "side": "dark",
+      "type": "Weapon",
+      "family": "weapons",
+      "copies": {
+        "light": 0,
+        "dark": 2
+      }
+    },
+    {
+      "gempId": "1_322",
+      "name": "Timer Mine",
+      "side": "dark",
+      "type": "Weapon",
+      "family": "mines-and-droids",
+      "copies": {
+        "light": 0,
+        "dark": 3
+      }
+    },
+    {
+      "gempId": "1_35",
+      "name": "Electrobinoculars",
+      "side": "light",
+      "type": "Device",
+      "family": "inspection",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_40",
+      "name": "Tatooine Utility Belt",
+      "side": "light",
+      "type": "Device",
+      "family": "continuous-equipment",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_6",
+      "name": "CZ-3 (Seezee-Three)",
+      "side": "light",
+      "type": "Character",
+      "family": "react-providers",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_64",
+      "name": "Sai'torr Kal Fas",
+      "side": "light",
+      "type": "Effect",
+      "family": "continuous-equipment",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_77",
+      "name": "Don't Underestimate Our Chances",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "stakes",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_80",
+      "name": "Friendly Fire",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "accidents",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_84",
+      "name": "Han's Dice",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "battle-destiny",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_90",
+      "name": "It Could Be Worse",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "loss-modifiers",
+      "copies": {
+        "light": 2,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_91",
+      "name": "I've Got A Bad Feeling About This",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "stakes",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    },
+    {
+      "gempId": "1_98",
+      "name": "Narrow Escape",
+      "side": "light",
+      "type": "Interrupt",
+      "family": "battle-travel",
+      "copies": {
+        "light": 1,
+        "dark": 0
+      }
+    }
+  ],
+  "actionableGaps": [
+    {
+      "id": "failed-obsession-amount",
+      "classification": "demonstrated reachable starter rule blocker",
+      "cards": [
+        "101_6"
+      ],
+      "evidence": [
+        "lib/native-engine/duel.ts",
+        "tests/native-engine/duel.test.mjs",
+        "tests/native-engine/gemp/duel-provenance.json",
+        "tests/native-engine/gemp/duel-results.json"
+      ],
+      "finding": "Exactly one side with no successful destiny has official failed-draw winner but null/unverified numerical Force difference; retrieve continuation explicitly throws. Empty Reserve is reachable while Used/Force preserve Life Force.",
+      "next": "Resolve authoritative amount, preserve GEMP divergence, implement/test both failing sides, both failed, partial/zero, normal retrieval\u2192Force\u2192character loss including actual starter reductions and saved recovery. Keep guard until normative basis exists.",
+      "reachabilityLimit": "All-destiny cancellation providers are not needed to establish this blocker; empty Reserve suffices."
+    },
+    {
+      "id": "remaining-provider-review",
+      "classification": "bounded reachability/evidence review, not demonstrated legal starter defect",
+      "cards": [
+        "101_6",
+        "1_80",
+        "1_237"
+      ],
+      "finding": "Duel pre-result original-return and accident changed-target-group discrepancies use controlled fixture interventions. Travel has a dedicated provider/timing exclusion; these other families are not proven by that travel audit.",
+      "next": "Inventory actual starter actions at these exact response windows. Record any legal provider combination and targeted test, or fingerprint-bound absence. Do not turn generic fixture interventions into claimed starter blockers.",
+      "evidence": [
+        "tests/native-engine/gemp/duel-identity-provenance.json",
+        "tests/native-engine/gemp/accident-provenance.json",
+        "data/native-engine/starter-travel-reachability.json"
+      ]
+    },
+    {
+      "id": "release-validation",
+      "classification": "production release evidence after rule/evidence closure",
+      "finding": "Service/CPU/PvP/saves/clocks/client and default-disabled exact-pair admission infrastructure exist. Existing fixtures may override supports, so their success does not demonstrate admitted production match.",
+      "next": "After certification run actual profile admission, HTTP/D1 complete CPU and PvP matches, both-seat decision refresh/terminal recovery, responsive browser and private-deployment smoke; preserve server-owned exact counts/opponent/format/version contract and keep general supports false.",
+      "evidence": [
+        "lib/native-engine/admission.ts",
+        "tests/native-engine/admission.test.mjs",
+        "tests/native-engine/service.test.mjs",
+        "tests/native-engine/service-d1-smoke.mjs",
+        "tests/native-engine/client-browser.mjs"
+      ]
+    }
+  ],
+  "newlyClosedSpecificEvidenceGaps": [
+    {
+      "id": "talz-old-ben",
+      "receipt": "tests/native-engine/gemp/starter-compound-provenance.json",
+      "observation": "talz-old-ben",
+      "verifiedFields": {
+        "damageBefore": 8,
+        "forfeit": 4,
+        "damageAfter": 4,
+        "returned": true,
+        "returnedParticipating": false,
+        "targetRestored": true,
+        "targetParticipating": true,
+        "forceSpent": 1
+      },
+      "limit": "Actual isolated component sequence, not complete shuffled starter match."
+    },
+    {
+      "id": "mine-kintan",
+      "receipt": "tests/native-engine/gemp/starter-compound-provenance.json",
+      "observation": "mine-kintan",
+      "verifiedFields": {
+        "retrievedBetweenCasualties": true,
+        "remainingCasualtiesBeforeResume": 2,
+        "minePresentDuringRetrieval": true,
+        "allVictimsLost": true,
+        "mineLost": true,
+        "forceSpent": 1
+      },
+      "limit": "Actual isolated component sequence, not all mine/loss timings."
+    },
+    {
+      "id": "attrition-snapshot-v5",
+      "receipt": "tests/native-engine/gemp/battle-response-match-provenance.json",
+      "fixtures": [
+        "ground-redraws",
+        "ground-destiny-switch"
+      ],
+      "finding": "v5 compares remaining attrition and completed physical destiny cards/values/totals; Takeel switches numbers not physical cards.",
+      "limit": "ground-battle-responses remains v4 and retains its limitation; recovery-match older limitation likewise remains historical to that fixture."
+    }
+  ],
+  "outsideExactPair": [
+    {
+      "providers": [
+        "Sense",
+        "Alter"
+      ],
+      "reason": "Absent definitions. Generic cancellation/return discrepancies remain full-engine work."
+    },
+    {
+      "providers": [
+        "Han Solo",
+        "C-3PO",
+        "R2-D2",
+        "permanent astromechs"
+      ],
+      "reason": "Absent definitions; Bad Feeling Han triple and Doomed round-down/provider dynamics not exact-pair blockers."
+    },
+    {
+      "providers": [
+        "Sandcrawler",
+        "Sunsdown/nighttime",
+        "vehicles",
+        "starships",
+        "creatures",
+        "Objectives"
+      ],
+      "reason": "Absent definitions/types; old wider-catalog notes must not become starter blockers."
+    },
+    {
+      "providers": [
+        "second simultaneously pending Chances copy for one side"
+      ],
+      "reason": "Each starter has one physical copy. Retrieval cannot recover a still-playing copy. Nested boosted-booster guard remains custom/full-engine requirement."
+    },
+    {
+      "providers": [
+        "controlled return/late-arrival during Run Luke/Narrow Escape"
+      ],
+      "reason": "Fingerprint-bound 68-definition travel audit plus 26 empty executed response inventories. Broader discrepant behavior remains required."
+    }
+  ],
+  "officialReferenceDifferencesRetained": [
+    {
+      "family": "inspection",
+      "case": "Empty Electrobinoculars",
+      "decision": "Native rejects under AR implied targeting; GEMP offers empty peek. Do not claim universal parity."
+    },
+    {
+      "family": "scavenge",
+      "case": "Optional search and turn-player ordering",
+      "decision": "Native retains printed optionality/AR pile order; matching final chosen order does not prove identical legal choices."
+    },
+    {
+      "family": "loss-modifiers",
+      "case": "Repeated It\u2019s Worse",
+      "decision": "Native retains official noncumulative result versus pinned cumulative GEMP result; source retrieval/reuse still must obey result history."
+    },
+    {
+      "family": "vader-choke",
+      "case": "AR physical example versus segment rule",
+      "decision": "Retain documented choke provenance interpretation rather than claiming all wording is identical."
+    }
+  ],
+  "staleNotesCorrected": [
+    "Scanning Crew printed ten-second deadline is obsolete; current scan-timing and native tests use untimed acknowledgment.",
+    "Talz\u2192Old Ben and Mine\u2192Kintan now have actual matching component receipts; harness existence alone was never sufficient.",
+    "Do not apply v4 missing-attrition limitation to v5 battle-response records.",
+    "Default-disabled exact-pair admission exists; enabling remains separate evidence decision.",
+    "Generic remaining notes about absent providers are retained full-catalog requirements, not demonstrated starter blockers."
+  ],
+  "retainedFullScope": [
+    "Full catalog and all reachable timing",
+    "Objectives/special setup",
+    "Vehicles, ships, pilots/passengers, movement and captures",
+    "Open 40/60 custom decks, arbitrary copies and sealed",
+    "CPU/PvP strategy, durable saves/deep links, clocks/capacity",
+    "Responsive gameplay and preserved GEMP/Rules Lab regression paths"
+  ],
+  "evidenceFingerprints": {
+    "data/native-engine/starter-coverage.json": "5816090d930f488aa4826a175296c06a50c52f0fa444506267f78401248f841a",
+    "data/native-engine/starter-readiness.json": "1ad14017c6564bbb692f22529edfb3dd4dd692b17b850c18155883861e18c490",
+    "data/native-engine/starter-travel-reachability.json": "9597d6a0024bb4bd9c7dd28ed988a3cf7eb2f57d08f951601fad07d00c0240a1",
+    "data/native-proof/manifest.json": "77afdb7c87f19fde5177672aafdfe7515d5b39898d17b038e146eb3ea8098c93",
+    "lib/native-engine/admission.ts": "4e1effa4d6e0f28508f30be48cd56cc3f7433755d42e92e4d17d46398314cc30",
+    "lib/native-engine/duel.ts": "be4e6035ffe49371f2d73a043dbd31992346646b1dee1ae31a407547418b79d2",
+    "tests/native-engine/accident.test.mjs": "6916736893e69dc822d7104537de97cd246df29a7475bae62bfbe0cff843a1cc",
+    "tests/native-engine/assault.test.mjs": "e2981fe902f3d0c6d4a40c360bea6f58187a9b1b3f20bcc02ff0daf8f8dd0877",
+    "tests/native-engine/battle.test.mjs": "939b11f013bf9f5212cbd503f95ecacaadd9c51d467130dd995161a9abaeaceb",
+    "tests/native-engine/cancellation.test.mjs": "d91d58ead781dcd35cb9fdc9a13ea1fa4a457af37ab749dec12a353e58a42610",
+    "tests/native-engine/character-triggers.test.mjs": "7f7b4434b4d82b8009ee5fc96c1983ca3bb6a5a6d574a4bc2078d3f7d6d43fe6",
+    "tests/native-engine/characteristics.test.mjs": "9351eaf100fc9b12ae2cc7005fc02b344fba2089d5070de8af14cb2e2976cdf7",
+    "tests/native-engine/doomed.test.mjs": "0e8906d5d9ae6b6b05255d86d5ff0804cdbd7d0298e022a03765f7ca427914b4",
+    "tests/native-engine/duel.test.mjs": "da4b32620994af90818dcf3a020654ef94c14d703e125ac74f4282a0dd887539",
+    "tests/native-engine/equipment.test.mjs": "91761c0a0800aca86cf390618956460e0415c1e8cbb251540c4712531f90e7ca",
+    "tests/native-engine/gaderffii.test.mjs": "b012daebd78a78bc02f92d7af560c2b082f5ba39507f4600e8195466223c999d",
+    "tests/native-engine/gemp-match-replay.mjs": "3bec4fdb5f7357720b0fffb8e790898fa69bf91d2d85dc7958f340981eca7d73",
+    "tests/native-engine/gemp/accident-provenance.json": "1595a647c80a46c5c52ca7631985d1711368c668a08e1c39f281803fe30dad2c",
+    "tests/native-engine/gemp/accident-results.json": "9b472ac2853ce1e0a82ad3981203554be8cb5d2cb50b94fe7854304a67b49c7b",
+    "tests/native-engine/gemp/assault-presence-provenance.json": "8c7dcc89a12dcecd0f2138e45136216f4ba1d3e4cd85eb63ae5e2687494f452f",
+    "tests/native-engine/gemp/assault-presence-results.json": "c4f24a6ef0921bdbabba5e0c8a865d0afe777323303e81e39269b7ce1b19a811",
+    "tests/native-engine/gemp/assault-provenance.json": "6129d8e3d964803261fc471e57c8290c3ca9b3a1beeabf1ebe81a7539a6cc348",
+    "tests/native-engine/gemp/assault-results.json": "79e24db8976b25663b4e5831afbb7969d13bfaf45ef73bf178489922eab8f349",
+    "tests/native-engine/gemp/battle-response-match-provenance.json": "b81d5c53f8283fb372944d80531351c72f3b96a42815ce7ffbdc42f027ebc5ee",
+    "tests/native-engine/gemp/cancellation-provenance.json": "629daff0dcf8963823724f2711476564434ca3fbeb4e469981b91eb70f3ca763",
+    "tests/native-engine/gemp/cancellation-results.json": "68b8f00409fe3fb34b4db061c7cfe91e833c09adbdae1031afe8d76a68a52367",
+    "tests/native-engine/gemp/characteristics-provenance.json": "234e97a9c73e945e324ef947af1576429007498b99c53765198bd982bc001473",
+    "tests/native-engine/gemp/characteristics-results.json": "44b52c07c98dd6c74a9616ac8a4ce83b75d5e413a52b4e23fefd31e70e079a90",
+    "tests/native-engine/gemp/choke-provenance.json": "5e17b72413e51e90e2f8253974559af71dfa30c64f8a96deca6807b39304d23a",
+    "tests/native-engine/gemp/choke-results.json": "8681a525b8ec0680ba7e86394e274029f718d8aa24e269d4af838ad64536e15e",
+    "tests/native-engine/gemp/crew-provenance.json": "5804033a643af64baf5f0a7e2409d6a7c615d25776ee954aeb9e5794798ac080",
+    "tests/native-engine/gemp/crew-results.json": "d097a4a9915f8677183ceccda989eb51f91d773267b5a867433c19bbd3256407",
+    "tests/native-engine/gemp/deploy-react-provenance.json": "57ee288bc3c0e01f1073c24dda1f7d5925b9a4b309af74f47c16382ec9e0ec4c",
+    "tests/native-engine/gemp/deploy-react-results.json": "23a6479465b8a76fc3ea1fa0a82132dd0e92fce3562f4a3f2a7c340637c7b8e6",
+    "tests/native-engine/gemp/dice-identity-provenance.json": "c00bd1d0c63d744839e63640cdbbe96693fcfffdb40af856ca43230a9d3f9db7",
+    "tests/native-engine/gemp/dice-identity-results.json": "903bc3c36e0f4b9b5a83fc735ab9dec5198ba8036492abd70728d6dd12e5aa6d",
+    "tests/native-engine/gemp/doomed-provenance.json": "9091407ebc4dcbbff34b172cc8411463689d7311b8ce1a80fbde51d296321d12",
+    "tests/native-engine/gemp/doomed-results.json": "c7358a5b6b4a405be1c3c8ff6e6016a767ac4dfa409def608093fba07ce837d2",
+    "tests/native-engine/gemp/duel-identity-provenance.json": "2d47795d8d074962a350f091f38c9c68de18573b0854438e286c526eb579a8e0",
+    "tests/native-engine/gemp/duel-identity-results.json": "b3e5279a79620ea390b4e6d403093de83614b335c8515b4f532267c36ba8edbe",
+    "tests/native-engine/gemp/duel-provenance.json": "e213f3b3b181ec85d08e007b3ea3b1319e46cb3709b9a40be6311dff00944d73",
+    "tests/native-engine/gemp/duel-results.json": "01c70863f8d8d96d9e1720f8d991da422d76bb26b5a4d3d9055b05deca2e9e76",
+    "tests/native-engine/gemp/equipment-provenance.json": "cc87546dbc74e38755c5efae187812aaceccd3ac164d0ce145cc4a5a95520711",
+    "tests/native-engine/gemp/equipment-results.json": "2f752dabeb3d357da83091b6874deb54a13c8c454771c393e3a4e5a41e43f70f",
+    "tests/native-engine/gemp/gaderffii-provenance.json": "f10981bad472868f6e9450052b584672490ed9f77f3bceca8b875d53bb6ca221",
+    "tests/native-engine/gemp/gaderffii-results.json": "dcb09e4495d20eb8b9cc6bf2c7c07771faf8728b16f90e2786c3563818b87837",
+    "tests/native-engine/gemp/identity-provenance.json": "6a89527d1e2e212984ac79a00bc2896f609216a775d03d5ca902c7cf3c285e73",
+    "tests/native-engine/gemp/identity-results.json": "ede7811d088b5bb574d018d44d4a34a306f1d9cf7a2f1450ed94a3074877821b",
+    "tests/native-engine/gemp/interrupt-provenance.json": "751ed6c07489ca286536b2061fadee7e0aa95d5e39ad7a82a30197c53361a710",
+    "tests/native-engine/gemp/interrupt-results.json": "5655317f19a35906d79b4ffa87bee27b6e6e95172e4e43f2cff7c3506a02ac6f",
+    "tests/native-engine/gemp/mine-identity-provenance.json": "5b4663e713daaf80e48369ae3f4f06480bd465d39fc8350984b051a879a4163c",
+    "tests/native-engine/gemp/mine-identity-results.json": "fd64cc15d4492e814d153557e209f833925d902ba48e78c39590f9b16cc6df53",
+    "tests/native-engine/gemp/persona-provenance.json": "65a91e16c801ce6b40ae035c2922ed1e39a423c60f8ab86ef7acab891fbb7d1d",
+    "tests/native-engine/gemp/persona-results.json": "1f47cc50b3d4b5e791433942dc28a7c218edda4d297282e2e4aac72db11d5755",
+    "tests/native-engine/gemp/react-cancellation-provenance.json": "8987d7b3e8f5623bf6388fc466edaa5c8fc419fc7c47f899e72bd88a312e6df3",
+    "tests/native-engine/gemp/react-cancellation-results.json": "a0fb3c4efbc92ec23e5daadc5a96c36c69c0b308d9783edd2e2e412c1856196b",
+    "tests/native-engine/gemp/react-weapons-provenance.json": "80e8985e5b7cfd8e4b371188a178f71a04428cdc665b954cb441b57628ac89d7",
+    "tests/native-engine/gemp/react-weapons-results.json": "b54433a9db651dbc885ccac304872cc12a2738a567686c4bc5a5faf275d1b274",
+    "tests/native-engine/gemp/recovery-match-provenance.json": "3024ddbfd88b0b424e51bb811056efb327b18a2d79e6c20d3c5e191870b1c4b7",
+    "tests/native-engine/gemp/revival-provenance.json": "0a89b5c2609c93b653aefbf19645fa20bfaa59d7b327adb9195abca34606e25c",
+    "tests/native-engine/gemp/revival-results.json": "daf76cc938d19d68140f401c017406bf06b30631c3656a56750bce86264c923e",
+    "tests/native-engine/gemp/scan-timing-provenance.json": "44f069f216b077e3726dd7f80fd161ac1b9183649097d81060bb1960b41ec25c",
+    "tests/native-engine/gemp/scan-timing-results.json": "530d4b9913191f2a463f7eeb35ea49a143d56dbdaacd862d2a13ee57a089a0f9",
+    "tests/native-engine/gemp/scavenge-provenance.json": "3704daaa78b2f7e251b4a277940ad1504523e1517ef039d32462603500f4298e",
+    "tests/native-engine/gemp/scavenge-results.json": "5110f0221570f9c22ffea09c7571e6cb88d2d80dea42cea3cea2df5d70fd636b",
+    "tests/native-engine/gemp/search-policy-provenance.json": "a1f90ada0888b79e1460068505c269bc7fc7d2ae2aa11ca045b4893062bc386a",
+    "tests/native-engine/gemp/search-policy-results.json": "91d5b2d9b59a499f1a01f4970730f8a66c7ded72694417f0265a7c787f041785",
+    "tests/native-engine/gemp/stakes-provenance.json": "7815f9dff98333aa1fe121c0a11c7db1a965e6c1b0dc82fc6d30e492450cf211",
+    "tests/native-engine/gemp/stakes-results.json": "472b82cc6002704669dced304c6773708d086344a5fb7ea9d681858d219aeae3",
+    "tests/native-engine/gemp/starter-compound-provenance.json": "fa7ddaed53efa25e7a964839f0a91a4b798ca770320a9fec689349008357280f",
+    "tests/native-engine/gemp/starter-compound-results.json": "e1750a133bba909c87ec9241dbeb0f14d07682e84cfc25a22a32a2d8cc1b4bba",
+    "tests/native-engine/gemp/stun-provenance.json": "992ccb8971f5ea9578e924739bea3de576a3e75cdb812d968e294407dde65928",
+    "tests/native-engine/gemp/stun-results.json": "9a99e15cf9d2833569961643f0b3be5159cf68fd01a35d5bfd1da2afbe2b7d33",
+    "tests/native-engine/gemp/takeel-provenance.json": "d183f52580bdc0e1ecadfd918068549588e199e291c255f87c3d5e9539833448",
+    "tests/native-engine/gemp/takeel-results.json": "f5c01bc896496b788f4ad6b2445680e8145256a12c60b89c3e7d14453cf337ac",
+    "tests/native-engine/gemp/travel-identity-provenance.json": "8cdb97d7df99cbf62ff758f29c5274bfc7802301ee6338a332d939cb58bb94e4",
+    "tests/native-engine/gemp/travel-identity-results.json": "56239c59d1e2e0ffb72274ca55cbf14a3075ea43172e1d3044d1ef7e23d055b0",
+    "tests/native-engine/gemp/travel-provenance.json": "a9486ccb99c0b9559025819d6f9306676d2426a3f7c0ea9e7f5c0fc9e4dd3119",
+    "tests/native-engine/gemp/travel-response-provenance.json": "775984059f0614709bfcb8bdca3063c03f302a3d88237b680e684add4c2c9cfc",
+    "tests/native-engine/gemp/travel-response-results.json": "c551d45b6f4975e3218b53d688a47cb644030e01c28a767c34e3f9ccac4bde5e",
+    "tests/native-engine/gemp/travel-results.json": "0e92c18200dda09f76c784cf7f26d25de68c4bf9613ad1405c8182ef44104ec9",
+    "tests/native-engine/gemp/worse-provenance.json": "ad8707392a996a8e5d79f015e23fdbd8850c562810950f16c2a0331da32295d9",
+    "tests/native-engine/gemp/worse-results.json": "e30a009caca015520841389bbba471e9ca01fc6e53512cde4f79a582e871d821",
+    "tests/native-engine/ground.test.mjs": "1663cb3caae61e42f5859151cf6a76cbd4cedadc4d27417e53bef59c1ac3fb8a",
+    "tests/native-engine/interrupts.test.mjs": "2b2246e769f895beada021ffc61120943d3f818971158099347daad10746fce8",
+    "tests/native-engine/mine-identity.test.mjs": "89c6e8d89d489fb0c797d6f8bb8fbbd7f9d0a9f4fe759c6274a0c09e0d97c7c2",
+    "tests/native-engine/react-weapons.test.mjs": "38577762fb870262ea26ebcea32394b8667a1724d07697aa90d3e7b8d76c914e",
+    "tests/native-engine/revival.test.mjs": "e6a41c065b278ce384fe29c639f4f406cfb34ba4604af42f6339e60d37cd33e4",
+    "tests/native-engine/scan.test.mjs": "8fcebf963c68263b035fb279f31b4d3f752991ff83ab0c2969066d95b10a7ba1",
+    "tests/native-engine/scavenge.test.mjs": "57c1692fa73fa52d9df725001c6601e4aa9bbd843c4cc1981ff60c86aa17afb1",
+    "tests/native-engine/search-policy.test.mjs": "64af1735df1f281e5ce8f7ee9ff012c8b0e69cca984dcc05f8ccbaac6d8c129a",
+    "tests/native-engine/setup.test.mjs": "a63462c515a33a416b4fb1aa962d4221e9e8a0c3afeee060821483a91aafbfe8",
+    "tests/native-engine/stakes.test.mjs": "aa53f6473d76597698af3e7c1905e54fa237de20c91a84578019864c70d8c9a5",
+    "tests/native-engine/starter-compound.test.mjs": "734195977f200631f21f46c226ea9a12b0f2a46062ebed14405c561d34611ccc",
+    "tests/native-engine/stun.test.mjs": "ac7fc8749ebfc455f87408b2345ce894cc8b93d61aee1061ee1301a8ed462cb2",
+    "tests/native-engine/takeel.test.mjs": "1d136f1f593b27ec004ca34f3c4d016e2cb632028087c608266fb2ebe103e2b8",
+    "tests/native-engine/travel-response.test.mjs": "c979c223258e636e0a0cea670141f3a0111c028a10fa41aa570a13de56657cbd",
+    "tests/native-engine/travel.test.mjs": "9f38a06f0ddebb8919135dde52955dfcffdf9372b054b675551039466ef3c4e5",
+    "tests/native-engine/weapon-conformance.test.mjs": "b0237b743d3d204e37835a2e6799ebb30604787499b457293c9fad46683c168c",
+    "tests/native-engine/worse.test.mjs": "58da22247a1ca412c1259933edee777f90adc92e6bf164743d84e39252a37fbc"
+  }
+}
