@@ -223,7 +223,7 @@
   },
   {
     "gempId": "5_48",
-    "name": "Gambler\u2019s Luck",
+    "name": "Gambler’s Luck",
     "side": "light",
     "type": "Interrupt",
     "subType": "Lost",
@@ -4222,5 +4222,218 @@
     ],
     "status": "pending",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_143.java"
+  },
+  {
+    "gempId": "2_3",
+    "name": "Chewbacca",
+    "side": "light",
+    "type": "Character",
+    "subType": "Alien/Rebel",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/chewbacca.gif",
+    "text": "Power +1 at same location as Han. Adds 2 to power of anything he pilots. When piloting Falcon, also adds 1 to maneuver. Your vehicles, starships, and droids at same site that are 'hit' and about to be lost go to Used Pile instead.",
+    "stats": {
+      "destiny": "1",
+      "deploy": "4",
+      "power": "6",
+      "ability": "2",
+      "forfeit": "6"
+    },
+    "icons": [
+      "A New Hope",
+      "Pilot",
+      "Warrior"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_003.java"
+  },
+  {
+    "gempId": "7_299_BACK",
+    "name": "Empire's Sinister Agents",
+    "side": "dark",
+    "type": "Objective",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/SpecialEdition-Dark/large/empiressinisteragents.gif",
+    "text": "While this side up, once during each of your draw phases, you may retrieve one ISB agent. When you have a non-Undercover ISB agent at a battleground site, your Force drains are +1 there and opponent's Force drains are -1 at same and related locations. Flip this card if no ISB agents are on table.",
+    "stats": {
+      "destiny": "7"
+    },
+    "icons": [
+      "Special Edition"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set7/dark/Card7_299_BACK.java"
+  },
+  {
+    "gempId": "7_299",
+    "name": "ISB Operations",
+    "side": "dark",
+    "type": "Objective",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/SpecialEdition-Dark/large/isboperations.gif",
+    "text": "Deploy any Coruscant location. For remainder of game, your characters with 'ISB,' 'Rebel' or 'Rebellion' in lore are ISB agents and spies, and may deploy regardless of deployment restrictions listed in their game text. Flip this card if ISB agents control at least two Rebel Base locations or if four ISB agents are on table.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Special Edition"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set7/dark/Card7_299.java"
+  },
+  {
+    "gempId": "12_166",
+    "name": "Coruscant: Docking Bay",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Coruscant-Dark/large/coruscantdockingbay.gif",
+    "text": "Dark: Your docking bay transit from here requires 1 Force. Light: Your docking bay transit from here requires 2 Force.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Exterior",
+      "Planet",
+      "Episode I",
+      "Coruscant"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set12/dark/Card12_166.java"
+  },
+  {
+    "gempId": "1_166",
+    "name": "Colonel Wullf Yularen",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/colonelwullfyularen.gif",
+    "text": "Power +1 if at the same site with Tarkin, Chief Bast or General Dodonna.",
+    "stats": {
+      "deploy": "2",
+      "power": "1",
+      "ability": "2",
+      "destiny": "2",
+      "forfeit": "5"
+    },
+    "icons": [
+      "Warrior"
+    ],
+    "status": "pending-verification",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_166.java"
+  },
+  {
+    "gempId": "104_6",
+    "name": "Veers",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/EmpireStrikesBackIntroductoryTwoPlayerGame-Dark/large/veers.gif",
+    "text": "Must deploy on Hoth, but may move elsewhere. May not be deployed if three or more of opponent's unique (•) characters on table. Snowtroopers at same site are forfeit +1.",
+    "stats": {
+      "deploy": "4",
+      "power": "2",
+      "ability": "3",
+      "destiny": "1",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Warrior",
+      "Premium"
+    ],
+    "status": "pending-verification",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set104/dark/Card104_006.java"
+  },
+  {
+    "gempId": "1_165",
+    "name": "Chief Bast",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/chiefbast.gif",
+    "text": "Adds 2 to power of anything he pilots. Power +1 if at same site as Tarkin. If a battle was just initiated at a system where Bast is present with your non-droid character aboard a starship, may 'evacuate' (relocate) both to a related site.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "ability": "2",
+      "destiny": "2",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Pilot"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_165.java"
+  },
+  {
+    "gempId": "1_10",
+    "name": "General Dodonna",
+    "side": "light",
+    "type": "Character",
+    "subType": "Rebel",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/generaldodonna.gif",
+    "text": "Increases Rebel Planners by 1, doubles if at same site. May use 1 Force to cancel Wrong Turn. Each Rebel present with him at a Yavin 4 site is power +1.",
+    "stats": {
+      "deploy": "3",
+      "power": "2",
+      "ability": "2",
+      "destiny": "2",
+      "forfeit": "5"
+    },
+    "icons": [
+      "Warrior"
+    ],
+    "status": "metadata-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_010.java"
+  },
+  {
+    "gempId": "2_40",
+    "name": "Undercover",
+    "side": "light",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/undercover.gif",
+    "text": "Deploy on your spy at a site and cross spy to opponent's side. Spy is now Undercover. During your deploy phase, may voluntarily 'break cover' (lose Effect) if at a site. (Immune to Alter.)",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [
+      "A New Hope"
+    ]
+  },
+  {
+    "gempId": "2_129",
+    "name": "Undercover",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/undercover.gif",
+    "text": "Deploy on your spy at a site and cross spy to opponent's side. Spy is now Undercover. During your deploy phase, may voluntarily 'break cover' (lose Effect) if at a site. (Immune to Alter.)",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [
+      "A New Hope"
+    ]
+  },
+  {
+    "gempId": "102_11",
+    "name": "Tarkin",
+    "side": "dark",
+    "type": "Character",
+    "subType": "Imperial",
+    "image": "https://res.starwarsccg.org/cards/JediPack-Dark/large/tarkin.gif",
+    "text": "",
+    "stats": {
+      "deploy": "4",
+      "power": "2",
+      "ability": "2",
+      "destiny": "1",
+      "forfeit": "3"
+    },
+    "icons": [
+      "Premium"
+    ],
+    "status": "pending-verification",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set102/dark/Card102_011.java"
   }
 ]

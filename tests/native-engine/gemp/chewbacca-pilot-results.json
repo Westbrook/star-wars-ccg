@@ -1,0 +1,92 @@
+[
+  {
+    "mode": "falcon",
+    "cost": 4,
+    "chewiePower": 6,
+    "shipPower": 5,
+    "maneuver": 5,
+    "forfeit": 7,
+    "immunity": 5.0
+  },
+  {
+    "mode": "han",
+    "cost": 4,
+    "chewiePower": 7,
+    "shipPower": 5,
+    "maneuver": 5,
+    "forfeit": 7,
+    "immunity": 5.0
+  },
+  {
+    "mode": "han-canceled",
+    "cost": 4,
+    "chewiePower": 7,
+    "shipPower": 5,
+    "maneuver": 5,
+    "forfeit": 7,
+    "immunity": 5.0
+  },
+  {
+    "mode": "chewie-canceled",
+    "cost": 4,
+    "chewiePower": 6,
+    "shipPower": 3,
+    "maneuver": 4,
+    "forfeit": 7,
+    "immunity": 5.0
+  },
+  {
+    "mode": "effect",
+    "cost": 4,
+    "chewiePower": 6,
+    "shipPower": 7,
+    "maneuver": 7,
+    "forfeit": 9,
+    "immunity": 5.0
+  },
+  {
+    "mode": "other-ship",
+    "cost": 4,
+    "chewiePower": 6,
+    "shipPower": 4,
+    "maneuver": 3,
+    "forfeit": 2,
+    "immunity": 0.0
+  },
+  {
+    "mode": "passenger",
+    "cost": 4,
+    "chewiePower": 6,
+    "shipPower": 0,
+    "maneuver": 0,
+    "forfeit": 7,
+    "immunity": 0.0
+  },
+  {
+    "mode": "landed",
+    "cost": 4,
+    "chewiePower": 6,
+    "shipPower": 0,
+    "maneuver": 0,
+    "forfeit": 7,
+    "immunity": 0.0
+  },
+  {
+    "mode": "ground",
+    "cost": 4,
+    "chewiePower": 7,
+    "shipPower": 0,
+    "maneuver": 0,
+    "forfeit": 7,
+    "immunity": 0.0
+  },
+  {
+    "mode": "other-site",
+    "cost": 4,
+    "chewiePower": 6,
+    "shipPower": 0,
+    "maneuver": 0,
+    "forfeit": 7,
+    "immunity": 0.0
+  }
+]

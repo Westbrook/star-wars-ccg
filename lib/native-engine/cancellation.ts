@@ -1,3 +1,4 @@
+import {undercoverTargetable,undercoverReference,sameUndercoverCard} from './undercover-state';
 import {senseAlterDisposition} from './try-effects';
 import {ability, mayBeHighestAbility, mayApplySenseAbility} from './ability';
 import {cardDefinition, name} from './board';
@@ -14,14 +15,14 @@ const sense = (bp: string) => ['1_109', '1_267'].includes(bp);
 const alter = (bp: string) => ['1_71', '1_234'].includes(bp);
 const effect = (m: Match, id: string) => ['Effect', 'Utinni Effect'].includes(cardDefinition(m, id).type);
 // These unconditional printed immunities apply during deployment as well.
-const alterImmune = (m: Match, id: string) => ['6_58','6_147','8_35','8_118','4_21','4_134','1_48','1_214','1_42', '1_208', '4_16', '1_64', '1_221', '5_110'].includes(m.cards[id].blueprint);
+const alterImmune = (m: Match, id: string) => ['2_40','2_129','6_58','6_147','8_35','8_118','4_21','4_134','1_48','1_214','1_42', '1_208', '4_16', '1_64', '1_221', '5_110'].includes(m.cards[id].blueprint);
 export type CancellationPayload = {disposition?:'used'|'lost';card: string; target: string; mode: 'card' | 'react' | 'effect' | 'counter'; character?: string;
   targetRef?: CardReference; characterRef?: CardReference; targetIndex?: number; actionId?: string; windowSerial?: number; eligible?: boolean; draw?: Draw; excluded?: CardReference[]; exclusionUsed?: boolean; noCharacter?: boolean};
 const action = (step: string, p: CancellationPayload): Action => ({id: 'cancel:' + step + ':' + p.card + ':' + p.target + ':' + (p.character ?? 'direct'),
   label: 'Resolve cancellation', source: p.card, handler: 'cancel:' + step, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: CancellationPayload) => m.stack.push({kind: 'resolution', actor: m.cards[p.card].owner, cancelled: false, action: action(step, p)});
 export function highestAbilityCharacters(m: Match, side: Side, excluded: CardReference[] = []): string[] {
-  const cards = Object.values(m.cards).filter(c => c.zone === 'table' && c.owner === side && cardDefinition(m, c.id).type === 'Character' && ability(m, c.id) > 0 && mayBeHighestAbility(m, c.id) && !excluded.some(ref => ref.id === c.id && sameCard(m, ref)));
+  const cards = Object.values(m.cards).filter(c => (c.zone === 'table' || undercoverTargetable(m,c.id)) && c.owner === side && cardDefinition(m, c.id).type === 'Character' && ability(m, c.id) > 0 && mayBeHighestAbility(m, c.id) && !excluded.some(ref => ref.id === c.id && sameUndercoverCard(m, ref)));
   const max = Math.max(0, ...cards.map(c => ability(m, c.id)));
   return cards.filter(c => ability(m, c.id) === max).map(c => c.id);
 }
@@ -83,11 +84,11 @@ export function cancellationResolve(m: Match, r: Resolution): void {
     else {
       // The highest target was chosen at initiation (or explicit retargeting).
       // Later numerical changes do not choose a different character.
-      p.eligible = !p.noCharacter && sameCard(m, p.characterRef!);
+      p.eligible = !p.noCharacter && sameUndercoverCard(m, p.characterRef!);
       drawDestiny(m, r.actor, p.card, 'sense-alter', action('result', p));
     }
   } else if (h === 'cancel:result') {
-    if (p.eligible && sameCard(m, p.characterRef!) && p.draw!.value !== null && p.draw!.value < ability(m, p.character!) && validTarget(m, p)) {
+    if (p.eligible && sameUndercoverCard(m, p.characterRef!) && p.draw!.value !== null && p.draw!.value < ability(m, p.character!) && validTarget(m, p)) {
       queue(m, 'apply', p);
       openWindow(m, 'response', other(r.actor), {kind: 'sense-alter-destiny-successful', source: p.card, side: r.actor});
     }
@@ -121,7 +122,7 @@ export function assertCancellation(m: Match): void {
     }
     if (p.excluded !== undefined) {
       if (!Array.isArray(p.excluded) || !p.excluded.length || new Set(p.excluded.map(ref => ref.id)).size !== p.excluded.length || p.exclusionUsed !== true) throw Error('Invalid cancellation exclusions.');
-      for (const ref of p.excluded) {assertCardReference(m, ref); if (ref.zone !== 'table' || cardDefinition(m, ref.id).type !== 'Character') throw Error('Invalid cancellation exclusion target.');}
+      for (const ref of p.excluded) {assertCardReference(m, ref); if (ref.zone !== 'table' && !undercoverReference(m,ref) || cardDefinition(m, ref.id).type !== 'Character') throw Error('Invalid cancellation exclusion target.');}
     }
     if (p.exclusionUsed && (!p.excluded?.length || p.mode === 'counter') || p.noCharacter && !p.exclusionUsed) throw Error('Invalid cancellation exclusion state.');
     if (p.exclusionUsed !== undefined && p.exclusionUsed !== true || p.noCharacter !== undefined && p.noCharacter !== true) throw Error('Invalid cancellation exclusion flags.');

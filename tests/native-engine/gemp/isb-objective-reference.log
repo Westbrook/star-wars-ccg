@@ -1,0 +1,80 @@
+2026-10-05T14:35:49.585433505Z main ERROR Could not determine local host name
+java.net.UnknownHostException: swccg-oracle: swccg-oracle: Temporary failure in name resolution
+	at java.base/java.net.InetAddress.getLocalHost(InetAddress.java:1936)
+	at org.apache.logging.log4j.core.util.NetUtils.getHostname(NetUtils.java:71)
+	at org.apache.logging.log4j.core.util.NetUtils.getLocalHostname(NetUtils.java:56)
+	at org.apache.logging.log4j.core.LoggerContext.lambda$setConfiguration$2(LoggerContext.java:691)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1708)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:691)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:786)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:808)
+	at org.apache.logging.log4j.core.LoggerContext.start(LoggerContext.java:311)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:160)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:48)
+	at org.apache.logging.log4j.LogManager.getContext(LogManager.java:139)
+	at org.apache.logging.log4j.LogManager.getLogger(LogManager.java:557)
+	at com.gempukku.swccgo.game.state.GameState.<clinit>(GameState.java:33)
+	at com.gempukku.swccgo.logic.timing.DefaultSwccgGame.<init>(DefaultSwccgGame.java:108)
+	at com.gempukku.swccgo.framework.VirtualTableScenario.InitializeGameWithDecks(VirtualTableScenario.java:198)
+	at com.gempukku.swccgo.framework.VirtualTableScenario.<init>(VirtualTableScenario.java:137)
+	at com.gempukku.swccgo.rules.devices.NativeEngineIsbObjectiveOracleTests.setup(NativeEngineIsbObjectiveOracleTests.java:17)
+	at com.gempukku.swccgo.rules.devices.NativeEngineIsbObjectiveOracleTests.objective(NativeEngineIsbObjectiveOracleTests.java:21)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:365)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:273)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:238)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:159)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:384)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:345)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:126)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:418)
+Caused by: java.net.UnknownHostException: swccg-oracle: Temporary failure in name resolution
+	at java.base/java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)
+	at java.base/java.net.Inet6AddressImpl.lookupAllHostAddr(Inet6AddressImpl.java:52)
+	at java.base/java.net.InetAddress$PlatformResolver.lookupByName(InetAddress.java:1211)
+	at java.base/java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1828)
+	at java.base/java.net.InetAddress$NameServiceAddresses.get(InetAddress.java:1139)
+	at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1818)
+	at java.base/java.net.InetAddress.getLocalHost(InetAddress.java:1931)
+	... 45 more
+
+ISB Dark Side Player Verify Reserve Deck after unsuccessful attempt to 'Choose Coruscant location to deploy' {horizontal=[Ljava.lang.String;@6ccac6f4, min=[Ljava.lang.String;@438c9aa7, max=[Ljava.lang.String;@3453acd2, backSideTestingText=[Ljava.lang.String;@6c8f60f3, preselected=[Ljava.lang.String;@56c8e6f0, returnAnyChange=[Ljava.lang.String;@71b6172c, cardId=[Ljava.lang.String;@58aa10f4, selectable=[Ljava.lang.String;@4fb56bea, testingText=[Ljava.lang.String;@5e5beb8a, blueprintId=[Ljava.lang.String;@1f95881a, cardText=[Ljava.lang.String;@17b016ac}
+ISB Light Side Player Verify Reserve Deck after unsuccessful attempt to 'Choose Coruscant location to deploy' {horizontal=[Ljava.lang.String;@733ec58b, min=[Ljava.lang.String;@723877dd, max=[Ljava.lang.String;@415ef4d8, backSideTestingText=[Ljava.lang.String;@56cc9f29, preselected=[Ljava.lang.String;@535b1ae6, returnAnyChange=[Ljava.lang.String;@626c19cf, cardId=[Ljava.lang.String;@54a2d96e, selectable=[Ljava.lang.String;@66a53104, testingText=[Ljava.lang.String;@6d229b1c, blueprintId=[Ljava.lang.String;@6f825516, cardText=[Ljava.lang.String;@2da99821}
+ISB Dark Side Player Choose Activate action or Pass {horizontal=[Ljava.lang.String;@26d028f7, actionText=[Ljava.lang.String;@a2df0d5, noPass=[Ljava.lang.String;@782cc5fa, backSideTestingText=[Ljava.lang.String;@2dd3d39d, cardId=[Ljava.lang.String;@ae3c140, yourTurn=[Ljava.lang.String;@6f2d3391, noLongDelay=[Ljava.lang.String;@71b0289b, actionId=[Ljava.lang.String;@42cc420b, autoPassEligible=[Ljava.lang.String;@563172d3, testingText=[Ljava.lang.String;@5086623f, blueprintId=[Ljava.lang.String;@20027c44, revertEligible=[Ljava.lang.String;@7eae55}
+ISB Dark Side Player You have not activated Force. Do you want to Pass? {defaultIndex=[Ljava.lang.String;@da34eb0, results=[Ljava.lang.String;@785a4557}
+ISB Light Side Player Choose Activate action or Pass {horizontal=[Ljava.lang.String;@4d2f9e3c, actionText=[Ljava.lang.String;@686b1e2d, noPass=[Ljava.lang.String;@6e7e0259, backSideTestingText=[Ljava.lang.String;@646e6d07, cardId=[Ljava.lang.String;@5501d1c8, yourTurn=[Ljava.lang.String;@652b3733, noLongDelay=[Ljava.lang.String;@7b598d05, actionId=[Ljava.lang.String;@6cc8c13c, autoPassEligible=[Ljava.lang.String;@371cd2fc, testingText=[Ljava.lang.String;@b32e983, blueprintId=[Ljava.lang.String;@3c346c45, revertEligible=[Ljava.lang.String;@16df9bde}
+ISB Dark Side Player DOUBLE_SIDED_CARD_FLIPPED - Optional responses {horizontal=[Ljava.lang.String;@1e5b33e5, actionText=[Ljava.lang.String;@654b899f, noPass=[Ljava.lang.String;@71468613, backSideTestingText=[Ljava.lang.String;@13f4048e, cardId=[Ljava.lang.String;@5477d90e, yourTurn=[Ljava.lang.String;@6dc9a56e, noLongDelay=[Ljava.lang.String;@287ad0da, actionId=[Ljava.lang.String;@1b19712f, autoPassEligible=[Ljava.lang.String;@714c74eb, testingText=[Ljava.lang.String;@510e4d79, blueprintId=[Ljava.lang.String;@2f0cab82, revertEligible=[Ljava.lang.String;@7fcc3745}
+ISB Light Side Player DOUBLE_SIDED_CARD_FLIPPED - Optional responses {horizontal=[Ljava.lang.String;@6d35ff7b, actionText=[Ljava.lang.String;@4ef31221, noPass=[Ljava.lang.String;@4e9e0c6, backSideTestingText=[Ljava.lang.String;@1a819901, cardId=[Ljava.lang.String;@588d630d, yourTurn=[Ljava.lang.String;@eb91027, noLongDelay=[Ljava.lang.String;@459d2ee6, actionId=[Ljava.lang.String;@5342eec5, autoPassEligible=[Ljava.lang.String;@60e47aab, testingText=[Ljava.lang.String;@261a66b8, blueprintId=[Ljava.lang.String;@adc8683, revertEligible=[Ljava.lang.String;@4eac65db}
+ISB Dark Side Player Choose Activate action or Pass {horizontal=[Ljava.lang.String;@3bc18fec, actionText=[Ljava.lang.String;@1eee9b78, noPass=[Ljava.lang.String;@36762234, backSideTestingText=[Ljava.lang.String;@18ff753c, cardId=[Ljava.lang.String;@2ff62720, yourTurn=[Ljava.lang.String;@45295cfd, noLongDelay=[Ljava.lang.String;@42c9b1ee, actionId=[Ljava.lang.String;@217c6a1e, autoPassEligible=[Ljava.lang.String;@3fad8636, testingText=[Ljava.lang.String;@306cfb8a, blueprintId=[Ljava.lang.String;@3fa57aa8, revertEligible=[Ljava.lang.String;@7d4bdbd8}
+ISB Dark Side Player You have not activated Force. Do you want to Pass? {defaultIndex=[Ljava.lang.String;@2e847e71, results=[Ljava.lang.String;@79636080}
+ISB Light Side Player Choose Activate action or Pass {horizontal=[Ljava.lang.String;@6c2fea95, actionText=[Ljava.lang.String;@6ed87ccf, noPass=[Ljava.lang.String;@4d4600fb, backSideTestingText=[Ljava.lang.String;@7352418c, cardId=[Ljava.lang.String;@60ba6631, yourTurn=[Ljava.lang.String;@4d2950ed, noLongDelay=[Ljava.lang.String;@3095d06b, actionId=[Ljava.lang.String;@51aaa9d4, autoPassEligible=[Ljava.lang.String;@6292c63e, testingText=[Ljava.lang.String;@65bb4cb9, blueprintId=[Ljava.lang.String;@7b33deed, revertEligible=[Ljava.lang.String;@7fd32c56}
+ISB Dark Side Player Choose Activate action or Pass {horizontal=[Ljava.lang.String;@258ac1e6, actionText=[Ljava.lang.String;@491f3fb0, noPass=[Ljava.lang.String;@3d0ce151, backSideTestingText=[Ljava.lang.String;@58a0f75b, cardId=[Ljava.lang.String;@2b569858, yourTurn=[Ljava.lang.String;@1b84d03d, noLongDelay=[Ljava.lang.String;@41d8ac75, actionId=[Ljava.lang.String;@1e1d813a, autoPassEligible=[Ljava.lang.String;@1964ef9, testingText=[Ljava.lang.String;@3c2e73ce, blueprintId=[Ljava.lang.String;@3891db3a, revertEligible=[Ljava.lang.String;@4a778943}
+ISB Dark Side Player You have not activated Force. Do you want to Pass? {defaultIndex=[Ljava.lang.String;@7925e772, results=[Ljava.lang.String;@365a4b9b}
+ISB Light Side Player Choose Activate action or Pass {horizontal=[Ljava.lang.String;@1415f18d, actionText=[Ljava.lang.String;@61c42e54, noPass=[Ljava.lang.String;@533690d, backSideTestingText=[Ljava.lang.String;@3bf306d3, cardId=[Ljava.lang.String;@5101b9, yourTurn=[Ljava.lang.String;@40273969, noLongDelay=[Ljava.lang.String;@5ec25b61, actionId=[Ljava.lang.String;@7da40bf4, autoPassEligible=[Ljava.lang.String;@75708130, testingText=[Ljava.lang.String;@c651286, blueprintId=[Ljava.lang.String;@40304938, revertEligible=[Ljava.lang.String;@1d160161}
+ISB Dark Side Player Choose Activate action or Pass {horizontal=[Ljava.lang.String;@24e0bdb, actionText=[Ljava.lang.String;@1495f70, noPass=[Ljava.lang.String;@2aa85cc4, backSideTestingText=[Ljava.lang.String;@466fd19b, cardId=[Ljava.lang.String;@348d1a5e, yourTurn=[Ljava.lang.String;@7f746160, noLongDelay=[Ljava.lang.String;@17524c36, actionId=[Ljava.lang.String;@2f89b44e, autoPassEligible=[Ljava.lang.String;@730a140b, testingText=[Ljava.lang.String;@2f29046b, blueprintId=[Ljava.lang.String;@2a1fce44, revertEligible=[Ljava.lang.String;@48d6248d}
+ISB Dark Side Player You have not activated Force. Do you want to Pass? {defaultIndex=[Ljava.lang.String;@6b5fdbd0, results=[Ljava.lang.String;@c32908c}
+ISB Light Side Player Choose Activate action or Pass {horizontal=[Ljava.lang.String;@47858d7c, actionText=[Ljava.lang.String;@5a5cd0af, noPass=[Ljava.lang.String;@16cc5e51, backSideTestingText=[Ljava.lang.String;@72090a80, cardId=[Ljava.lang.String;@198c97d0, yourTurn=[Ljava.lang.String;@25e9f5e6, noLongDelay=[Ljava.lang.String;@512319dc, actionId=[Ljava.lang.String;@6bc45472, autoPassEligible=[Ljava.lang.String;@160b7ccd, testingText=[Ljava.lang.String;@7c27ed2f, blueprintId=[Ljava.lang.String;@3503e68e, revertEligible=[Ljava.lang.String;@7c2d4398}
+ISB Light Side Player FORCE_RETRIEVAL_INITIATED - Optional responses {horizontal=[Ljava.lang.String;@46a9af36, actionText=[Ljava.lang.String;@3d1b97e4, noPass=[Ljava.lang.String;@53b3cd9b, backSideTestingText=[Ljava.lang.String;@4a218cc6, cardId=[Ljava.lang.String;@417a5aab, yourTurn=[Ljava.lang.String;@203f41d7, noLongDelay=[Ljava.lang.String;@6dad9f5e, actionId=[Ljava.lang.String;@2b2c7991, autoPassEligible=[Ljava.lang.String;@3810d15d, testingText=[Ljava.lang.String;@627b0e71, blueprintId=[Ljava.lang.String;@63ad2a0f, revertEligible=[Ljava.lang.String;@2b05371a}
+ISB Dark Side Player FORCE_RETRIEVAL_INITIATED - Optional responses {horizontal=[Ljava.lang.String;@15a1911e, actionText=[Ljava.lang.String;@2f931d5d, noPass=[Ljava.lang.String;@2564b7f2, backSideTestingText=[Ljava.lang.String;@27dbe9a3, cardId=[Ljava.lang.String;@3eeba527, yourTurn=[Ljava.lang.String;@9252e52, noLongDelay=[Ljava.lang.String;@9fec3a3, actionId=[Ljava.lang.String;@7190b5ce, autoPassEligible=[Ljava.lang.String;@1231e446, testingText=[Ljava.lang.String;@32c60fec, blueprintId=[Ljava.lang.String;@4d5a21cc, revertEligible=[Ljava.lang.String;@3990c36c}
+ISB Light Side Player LOOKED_AT_CARDS_IN_CARD_PILE - Optional responses {horizontal=[Ljava.lang.String;@7c1a4a74, actionText=[Ljava.lang.String;@46569cab, noPass=[Ljava.lang.String;@5d33426a, backSideTestingText=[Ljava.lang.String;@7b8b458e, cardId=[Ljava.lang.String;@55ecf961, yourTurn=[Ljava.lang.String;@27ad94b3, noLongDelay=[Ljava.lang.String;@604aa23e, actionId=[Ljava.lang.String;@414c2c8c, autoPassEligible=[Ljava.lang.String;@73d9f235, testingText=[Ljava.lang.String;@389ae8f1, blueprintId=[Ljava.lang.String;@d74f68e, revertEligible=[Ljava.lang.String;@2d7c93e0}
+ISB Dark Side Player LOOKED_AT_CARDS_IN_CARD_PILE - Optional responses {horizontal=[Ljava.lang.String;@11088420, actionText=[Ljava.lang.String;@7eba3b90, noPass=[Ljava.lang.String;@54d0724f, backSideTestingText=[Ljava.lang.String;@1dfa18a6, cardId=[Ljava.lang.String;@4886b6bd, yourTurn=[Ljava.lang.String;@674f6286, noLongDelay=[Ljava.lang.String;@305a362a, actionId=[Ljava.lang.String;@7da837af, autoPassEligible=[Ljava.lang.String;@e655f9, testingText=[Ljava.lang.String;@1c215c31, blueprintId=[Ljava.lang.String;@7dabc2f9, revertEligible=[Ljava.lang.String;@418287ac}
+ISB Light Side Player FORCE_RETRIEVAL_ABOUT_TO_RETRIEVE - Optional responses {horizontal=[Ljava.lang.String;@46b0fb24, actionText=[Ljava.lang.String;@13dabbb9, noPass=[Ljava.lang.String;@2a4594b1, backSideTestingText=[Ljava.lang.String;@35fe64ca, cardId=[Ljava.lang.String;@74d6d08a, yourTurn=[Ljava.lang.String;@3217aada, noLongDelay=[Ljava.lang.String;@34f14035, actionId=[Ljava.lang.String;@72efba55, autoPassEligible=[Ljava.lang.String;@307f6602, testingText=[Ljava.lang.String;@3f314bad, blueprintId=[Ljava.lang.String;@1ff4496, revertEligible=[Ljava.lang.String;@ecd7bee}
+ISB Dark Side Player FORCE_RETRIEVAL_ABOUT_TO_RETRIEVE - Optional responses {horizontal=[Ljava.lang.String;@45c95343, actionText=[Ljava.lang.String;@70900474, noPass=[Ljava.lang.String;@b303504, backSideTestingText=[Ljava.lang.String;@6ec73d87, cardId=[Ljava.lang.String;@611b2857, yourTurn=[Ljava.lang.String;@11d823a4, noLongDelay=[Ljava.lang.String;@1b4abc8e, actionId=[Ljava.lang.String;@4c368165, autoPassEligible=[Ljava.lang.String;@74575124, testingText=[Ljava.lang.String;@24c28909, blueprintId=[Ljava.lang.String;@6aa2ffd3, revertEligible=[Ljava.lang.String;@12e7664b}

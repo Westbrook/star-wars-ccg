@@ -1,3 +1,4 @@
+import {undercoverTargetable} from './undercover-state';
 import {premiereSystems} from './premiere-setup';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './board';
@@ -9,7 +10,7 @@ const useState = (m: Match): WeaponUse => {const s = m.data.weaponUse as WeaponU
  * allow that many different weapons, but not repeated use of the same one. */
 export function canUseWeapon(m: Match, id: string, user?: string): boolean {
   const weapon = m.cards[id], host = user ?? weapon?.attachedTo;
-  if (!host || weapon.zone !== 'table' || m.cards[host]?.zone !== 'table') return false;
+  if (!host || weapon.zone !== 'table' || m.cards[host]?.zone !== 'table'&&!undercoverTargetable(m,host)) return false;
   const b = m.data.battle as {stage: string; knockedWeapons?: string[]} | undefined;
   if (b && b.stage !== 'complete' && b.knockedWeapons?.includes(id)) return false;
   const used = useState(m).users[host] ?? [];

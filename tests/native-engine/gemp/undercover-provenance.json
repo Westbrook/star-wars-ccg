@@ -1,0 +1,55 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68",
+  "harness": "NativeEngineUndercoverOracleTests.java",
+  "results": "undercover-results.json",
+  "log": "undercover-reference.log",
+  "execution": {
+    "exitCode": 0,
+    "junitTests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observedCases": 3
+  },
+  "scope": "Controlled initial spy, sites, personal device, Force, and (one row) Luke's X-34 Landspeeder1_149 with passenger Leia. Actual Undercover Effect deployment2_40/2_129, opponent-turn regular landspeed move paid by spy owner, and voluntary owner-deploy break-cover actions execute unchanged production providers. Both sides use printed spies: Leia1_17 and Labria1_184.",
+  "findings": [
+    "Going Undercover is free, preserves owner, crosses sides, becomes inactive and supplies no presence.",
+    "Actual opponent control-phase Force drain is unavailable because controlsForForceDrain is false. The lower-level isProhibitedFromForceDrainingAtLocation flag remains false; it is not the complete legality query.",
+    "An aboard spy disembarks upon going Undercover and keeps personal device attached.",
+    "The spy makes a regular opponent-turn landspeed move for1 owner Force and0 opponent Force.",
+    "Breaking cover restores owner side, loses the Undercover Effect and retains the personal device."
+  ],
+  "limitations": [
+    "No executed docking-bay transit, duel/weapon target, four-ISB-agent Undercover threshold, or isolated deployment-anchor oracle in this receipt. Native fixtures and primary-source coverage must be described separately.",
+    "Initial card placements and phases/piles are controlled; this is not a complete shuffled match."
+  ],
+  "sourceFiles": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_040.java",
+      "sha256": "f95ae6570c99e5fd66c008f49f265c651fba94e787e110e860a337ab16e291f1"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_129.java",
+      "sha256": "b55ab48ed7492652bf8ebe53dc863f8f939ee21d3afadaeec6e23d3e0ca5d97e"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/AbstractDeployable.java",
+      "sha256": "3113d4c4c928042a8b1ef1c7acb14a1a8aedd2e940f777db4bead350e2dbde4f"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/game/state/GameState.java",
+      "sha256": "dff17438744b869d3df11875d16d9b6313584c6b18cff94948d4a1f141251eb5"
+    }
+  ],
+  "attempts": [
+    "First run completed3cycles but used a controlled capital ship at a site; replaced it with a legal vehicle fixture and added complete Force drain legality query.",
+    "Second run compile-only failed using private method name; corrected to public canInitiateForceDrainAtLocation.",
+    "Third execution completed all three cycles."
+  ],
+  "harnessSha256": "708f9897111fb17fe7a5a7fa42d8a652e413dd6f630a6bb6369cf8e410a1caaa",
+  "resultsSha256": "56881c58f03be3e43fe8bcbb38a24dc4d930a1a1294b20ece9bef4ff919d509b",
+  "logSha256": "5ad29ff06f357a5afef8103186175723119c1a0e8642982d2fdc9730a9b928ef"
+}

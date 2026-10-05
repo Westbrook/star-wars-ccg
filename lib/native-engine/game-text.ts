@@ -1,3 +1,4 @@
+import {activeUndercoverSpy} from './undercover-state';
 import {hasPersona} from './persona';
 import {groundPresent} from './participation';
 import {sameCard, referenceCard, assertCardReference, type CardReference} from './identity';
@@ -23,7 +24,7 @@ export const canceledTexts=(m:Match)=>(m.data.canceledGameText??[]) as unknown a
  * or another card's modifiers. Its required rule action records the change. */
 export function gameTextActive(m: Match, id: string): boolean {
   const c=m.cards[id];
-  return !!c && c.zone==='table' && !c.coveredBy && !c.blownAway && !suppressedGameText(m,id) && !canceledTexts(m).some(ref=>ref.id===id&&sameCard(m,ref));
+  return !!c && (c.zone==='table'||activeUndercoverSpy(m,id)) && !c.coveredBy && !c.blownAway && !suppressedGameText(m,id) && !canceledTexts(m).some(ref=>ref.id===id&&sameCard(m,ref));
 }
 /** Praji must be present; the named droid need only be at his location
  * (AR p43). This provider currently describes ground locations. */

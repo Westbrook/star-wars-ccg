@@ -1,0 +1,13 @@
+{
+  "class": "com.gempukku.swccgo.rules.devices.NativeEngineIsbAgentsOracleTests",
+  "tests": 3,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "cases": [
+    "yularen",
+    "forfeit",
+    "deployment"
+  ],
+  "sourceXmlSha256": "4a5f3c837bd518145e679b8bf92c99d01c639dae10eae251e0f40790b2da5cb1"
+}

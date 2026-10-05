@@ -1,0 +1,31 @@
+{
+  "blueprint": "7_299",
+  "card": "ISB Operations / Empire\u2019s Sinister Agents",
+  "status": "Full printed text implemented; production admission remains closed.",
+  "sources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "https://res.starwarsccg.org/cards/SpecialEdition-Dark/large/isboperations.gif",
+    "https://res.starwarsccg.org/cards/SpecialEdition-Dark/large/empiressinisteragents.gif",
+    "Pinned GEMP Card7_299, Card7_299_BACK, AbstractObjective, ObjectiveDeployedTriggerAction, IllegalObjectiveEffect, Filters.loreContains, GameState active-card iteration and Locations.isRelatedLocations"
+  ],
+  "coverage": [
+    "Mandatory physical front replaces starting location; ordinary opposing starting location resolves first. Required Coruscant deployment precedes remainder/while text. Missing requirement places Objective out with no ordinary fallback.",
+    "Front/back are one physical instance with saved face; flip does not lose attachments or reset instance references. Mandatory threshold actions and before/after flip responses persist across recovery. No invented once-per-turn flip limit.",
+    "Exact reviewed lore grants own characters ISB_AGENT and SPY in all zones and ignores their own location deployment restrictions while preserving other deployment prohibitions. Trait removal overrides grants independently.",
+    "Four active ISB agents on either side OR Dark control of two Rebel Base locations with agents flips to back; no active agents flips front. Captives/inactive/Undercover do not count; excluded-from-battle agents count.",
+    "Back-face own Draw retrieval is a selectable Lost-Pile ISB-agent retrieval to Used, once each own Draw phase, using normal retrieval timing/modifiers.",
+    "Back drain bonus requires own non-Undercover agent at battleground site; multiple agents/sites do not cumulatively add the same modifier. Opponent reduction at same/related locations uses direct relations, not transitive planetary/asteroid grouping."
+  ],
+  "dependencies": [
+    "Coruscant: Docking Bay12_166 complete transit text",
+    "Colonel Wullf Yularen1_166, Veers104_6, blank printed Tarkin102_11 and existing Chall Bekan106_11 form a deployable four-agent group. Metadata-only Sergeant Tarl8_114 remains only a controlled filter fixture in the bounded oracle; its own complete behavior is not admitted.",
+    "Actual Undercover2_40/2_129 lifecycle; generic physical-face/setup/characteristic/deployment/drain hooks"
+  ],
+  "nativeVerification": {
+    "tests": "tests/native-engine/objectives.test.mjs",
+    "passed": 14,
+    "fixture": "tests/native-engine/objective-fixture.mjs",
+    "disclosure": "Real starting setup, choices, flips, retrieval and Undercover actions; some initial board/zone arrangements and trait removals are controlled fixtures. Generic setup protocol, agent character conformance, browser and continuous-match work are recorded separately."
+  },
+  "referenceExecution": "Seven executed pinned-GEMP observations matched exactly; nine conformance/receipt tests passed. All 6820 production files compared unchanged. See isb-objective-provenance.json."
+}

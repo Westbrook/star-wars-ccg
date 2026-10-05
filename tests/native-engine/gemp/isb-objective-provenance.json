@@ -1,0 +1,42 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "harness": "NativeEngineIsbObjectiveOracleTests.java",
+  "results": "isb-objective-results.json",
+  "log": "isb-objective-reference.log",
+  "execution": {
+    "exitCode": 0,
+    "junitTests": 1,
+    "observedCases": 7,
+    "scope": "Actual starting Objective mandatory deployment/failure, unchanged flip trigger and retrieval actions. StartGame(false) preserves actual eight-card opening hands. Later board/pile and Force arrangements are controlled fixtures; metadata-only Tarl participates solely in Objective filter observations, not full Tarl card behavior or native match admission."
+  },
+  "sourceFiles": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set7/dark/Card7_299.java",
+      "sha256": "5105532c60d10efef708385aa37e0e5df5c3fcb7182c26dac46090e24332e416"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set7/dark/Card7_299_BACK.java",
+      "sha256": "4a958c02e79d2463814cb86ddbd7ccd4160e92b5150b3314ae7dd581b9260b70"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/AbstractObjective.java",
+      "sha256": "94683316efd3e573484f509067d76f8e2ca42e7f11131af839742129ff4409cd"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/modifiers/querying/Locations.java",
+      "sha256": "a4d5802407428b9e2fd9676a0500fe45d0de050cc77b8f83d6f45d7957de3b07"
+    }
+  ],
+  "attempts": [
+    "Driver compile/API corrections: split compound var declarations and corrected Lost Pile helper.",
+    "Handled activation confirmation when passing toward mandatory flip.",
+    "Handled single eligible retrieval auto-selection and active-seat guards.",
+    "Final execution completed seven observations with production engine unchanged."
+  ],
+  "harnessSha256": "e29b5c8f68e6801feb5f078109ed7f0bc4308133beb4db99f21cc875d6396705",
+  "resultsSha256": "621e400acf1c49bb4916e865b3f04697ffbe85b75b74e9cdd0ffce4684627c83",
+  "logSha256": "ef4c558f193a3124582f499d969e0cb34bed5845c1eff04ba9efc74cf7eb85b9",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68"
+}

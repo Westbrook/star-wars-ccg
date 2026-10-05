@@ -1,3 +1,4 @@
+import {undercoverTargetable} from './undercover-state';
 import type {Json, Match} from './types';
 import {cardVersion} from './identity';
 export type EquipmentState = {
@@ -17,7 +18,7 @@ export function recordEquipment(m: Match): EquipmentState {
 export function canUseDevice(m: Match, id: string): boolean {
   const c = m.cards[id], host = c?.attachedTo;
   const s = equipmentState(m);
-  return !!host && c.zone === 'table' && m.cards[host].zone === 'table' && (!s.devices[host] || s.devices[host] === id && (s.deviceVersions?.[host] ?? 0) === cardVersion(m, id));
+  return !!host && c.zone === 'table' && (m.cards[host].zone === 'table'||undercoverTargetable(m,host)) && (!s.devices[host] || s.devices[host] === id && (s.deviceVersions?.[host] ?? 0) === cardVersion(m, id));
 }
 export function useDevice(m: Match, id: string): void {
   if (!canUseDevice(m, id)) throw Error('A character may use only one different device each turn.');

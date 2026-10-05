@@ -1,3 +1,4 @@
+import {clearUndercover} from './undercover-state';
 import {clearDisarmed} from './disarmed-state';
 import type {Match} from './types';
 import type {GroundState} from './ground';
@@ -8,7 +9,7 @@ import type {Battle} from './battle';
 /** Only card-instance state expires here. Title limits, completed loss credit,
  * and resolved effects with their own duration must survive their source. */
 export function leaveTable(m: Match, id: string): void {
-  clearDisarmed(m,id);
+  clearDisarmed(m,id);clearUndercover(m,id);
   const ground = m.data.ground as GroundState | undefined;
   if (ground) {ground.moved = ground.moved.filter(card => card !== id); delete ground.barriers[id];}
   const equipment = m.data.equipment as EquipmentState | undefined;

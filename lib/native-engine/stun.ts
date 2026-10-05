@@ -1,10 +1,11 @@
+import {undercoverTargetable,sameUndercoverCard} from './undercover-state';
 import {optionalActionWindow} from './action-timing';
 import {ability} from './ability';
 import {cardDefinition, name} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
 import {openWindow} from './runtime';
 import {moveCard} from './state';
-import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
+import {assertCardReference, referenceCard, type CardReference} from './identity';
 import {returnToHand} from './table';
 import {other, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
@@ -12,7 +13,7 @@ type Payload = {card: string; target: string; draw?: Draw; targetRef?: CardRefer
 const action = (step: string, p: Payload): Action => ({id: 'stun:' + step + ':' + p.card + ':' + p.target,
   label: 'Resolve Set For Stun', handler: 'stun:' + step, source: p.card, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: Payload) => m.stack.push({kind: 'resolution', actor: m.cards[p.card].owner, cancelled: false, action: action(step, p)});
-const eligible = (m: Match, target: string, side: Side) => m.cards[target]?.zone === 'table' && m.cards[target].owner !== side && cardDefinition(m, target).type === 'Character';
+const eligible = (m: Match, target: string, side: Side) => (m.cards[target]?.zone === 'table' || undercoverTargetable(m,target)) && m.cards[target].owner !== side && cardDefinition(m, target).type === 'Character';
 export function stunActions(m: Match, w: Window, side: Side): Action[] {
   const event = w.event as {kind?: string} | undefined;
   if (!optionalActionWindow(w)) return [];
@@ -26,16 +27,16 @@ export function stunResolve(m: Match, r: Resolution): void {
   if (r.cancelled) {if (h === 'stun:play') moveCard(m, p.card, 'lost'); return;}
   if (h === 'stun:play') {
     queue(m, 'finish', p);
-    if (sameCard(m, p.targetRef!) && eligible(m, p.target, r.actor)) drawDestiny(m, r.actor, p.card, 'stun', action('result', p));
+    if (sameUndercoverCard(m, p.targetRef!) && eligible(m, p.target, r.actor)) drawDestiny(m, r.actor, p.card, 'stun', action('result', p));
   } else if (h === 'stun:result') {
     // Compare the completed total with current ability, including zero for a
     // Droid. Equality and failed draws do not return anything to hand.
-    if (sameCard(m, p.targetRef!) && eligible(m, p.target, r.actor) && p.draw!.value !== null && p.draw!.value > ability(m, p.target)) {
+    if (sameUndercoverCard(m, p.targetRef!) && eligible(m, p.target, r.actor) && p.draw!.value !== null && p.draw!.value > ability(m, p.target)) {
       queue(m, 'return', p);
       openWindow(m, 'response', other(r.actor), {kind: 'about-to-return-to-hand', card: p.target, source: p.card});
     }
   } else if (h === 'stun:return') {
-    if (sameCard(m, p.targetRef!) && eligible(m, p.target, r.actor)) {
+    if (sameUndercoverCard(m, p.targetRef!) && eligible(m, p.target, r.actor)) {
       const site = m.cards[p.target].location!, cards = returnToHand(m, [p.target]);
       openWindow(m, 'response', other(r.actor), {kind: 'returned-to-hand', card: p.target, cards, source: p.card, site});
     }

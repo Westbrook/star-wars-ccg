@@ -1,3 +1,5 @@
+import {undercoverTargetable} from './undercover-state';
+import {hasCharacterSubtype} from './characteristics';
 import {isDisarmed} from './disarmed-state';
 import {protectedDevice} from './bionic-hand';
 import {fusionGenerator} from './power-support';
@@ -32,13 +34,13 @@ export const topLevel = (w: Window) => optionalActionWindow(w);
 const burySite = (m: Match, side: Side, site: string) => system(m, site) === 'Tatooine' && (cardDefinition(m, site).icons as string[]).includes('Exterior') && mining(m, side, site).length > 0;
 function validHost(m: Match, blueprint: string, host: string, side: Side): boolean {
   const c = m.cards[host], def = cardDefinition(m, host);
-  if (c.zone !== 'table' || c.owner !== side || def.type !== 'Character' || !c.location) return false;
+  if (c.zone !== 'table'&&!undercoverTargetable(m,c.id) || c.owner !== side || def.type !== 'Character' || !c.location) return false;
   if (blueprint === '5_12') return isDisarmed(m,host);
   if (blueprint === '1_201') return true;
   if (blueprint === '1_35' || fusionGenerator(blueprint) || weapons[blueprint]) return isWarrior(m, host);
-  if (blueprint === '1_40') return ['Rebel', 'Alien'].includes(def.subType);
-  if (blueprint === '1_207') return ['Imperial', 'Alien'].includes(def.subType);
-  if (isArmorDevice(blueprint)) return ['Imperial', 'Alien'].includes(def.subType) && !hasPersona(m,host,'VADER') && !hasPersona(m,host,'BOBA_FETT');
+  if (blueprint === '1_40') return (hasCharacterSubtype(m,host,'Rebel') || hasCharacterSubtype(m,host,'Alien'));
+  if (blueprint === '1_207') return (hasCharacterSubtype(m,host,'Imperial') || hasCharacterSubtype(m,host,'Alien'));
+  if (isArmorDevice(blueprint)) return (hasCharacterSubtype(m,host,'Imperial') || hasCharacterSubtype(m,host,'Alien')) && !hasPersona(m,host,'VADER') && !hasPersona(m,host,'BOBA_FETT');
   return isTraining(blueprint) && (isWarrior(m, host) || def.subType !== 'Droid');
 }
 function deployActions(m: Match, side: Side, reactSite?: string, via?: string): Action[] {

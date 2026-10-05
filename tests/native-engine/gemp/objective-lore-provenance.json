@@ -1,0 +1,358 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "registry": "data/native-engine/objective-lore.json",
+  "registrySha256": "a80601746fb3aed99a6efa015d0674cc9cb0ad29b997266fb16f1c34d5c5d1f3",
+  "method": "Exact Java setLore string literals, concatenated in source order; no inferred printed characteristics. ISB explicitly matches whole lore words case-insensitively.",
+  "characters": [
+    {
+      "blueprint": "101_2",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/light/Card101_002.java",
+      "sourceSha256": "481f063a677df5d8145a64934de8a7d4cf0fe0d9a1a94667aa18d9289bc56d21"
+    },
+    {
+      "blueprint": "101_5",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set101/dark/Card101_005.java",
+      "sourceSha256": "79231df7e91620a7d245159dfcfb321f9fefe6b9cd3275e003f96c405ac21733"
+    },
+    {
+      "blueprint": "1_12",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_012.java",
+      "sourceSha256": "0c5ecb94b93cc9922909259da7545f3db524bf84df31ea7916711dd7aa74bbb8"
+    },
+    {
+      "blueprint": "1_170",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_170.java",
+      "sourceSha256": "1b3f6203205ce5ed6b22e780f34639e9c64a001310e36493815b55521730fd15"
+    },
+    {
+      "blueprint": "1_18",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_018.java",
+      "sourceSha256": "d9f423f4cbf1670ed5b36329fa03c729bc94eb051daaf9ae114b29bcd5d463d2"
+    },
+    {
+      "blueprint": "1_181",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_181.java",
+      "sourceSha256": "d68557dcdbb839b42e9eab19d8fb9214c234cb31e4d2534c5d6872009656bb6e"
+    },
+    {
+      "blueprint": "1_182",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_182.java",
+      "sourceSha256": "bd6f8640a830e0c6e3a06b802d75b537fb247ce0f8adeb5c97dfd016d9bd0a46"
+    },
+    {
+      "blueprint": "1_186",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_186.java",
+      "sourceSha256": "1317240bae1e00dcf8631ccffb949dea3c536aca101549a15a09ecabe292d4be"
+    },
+    {
+      "blueprint": "1_194",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_194.java",
+      "sourceSha256": "3a2d95241ba9a4d27a6ec182ad6a8b0a85c848186477c6efdf8a58b30c3cbd6d"
+    },
+    {
+      "blueprint": "1_196",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_196.java",
+      "sourceSha256": "19350026984f5499951dbaeaed370c89296fb6e4633c19058157e0939278b433"
+    },
+    {
+      "blueprint": "1_26",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_026.java",
+      "sourceSha256": "90833a1eeb00985d206dcf29c0f5ff66dfc8fe078c6ae84b380992db2197b7ee"
+    },
+    {
+      "blueprint": "1_28",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_028.java",
+      "sourceSha256": "0fac54a2832d33d4d9832092804db5c4457f07674a51a59728813757b84d5f3e"
+    },
+    {
+      "blueprint": "1_30",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_030.java",
+      "sourceSha256": "b8cb71604c11d1ac4fdc2eb45858a83204ff23248e1635a8bd08a430e3bd806a"
+    },
+    {
+      "blueprint": "1_31",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_031.java",
+      "sourceSha256": "9fd969f6c68f4e7adc9ffeaf8ec1deed211150cda2bc394a1e7ce61a785c88e0"
+    },
+    {
+      "blueprint": "1_6",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_006.java",
+      "sourceSha256": "61accdbd3e52869998764041d5293be09bbc1e96e3b90dc4a62c6ea6c8fedce3"
+    },
+    {
+      "blueprint": "1_5",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_005.java",
+      "sourceSha256": "26d8ac1038c20302c7422eb7d0dbab63020ce2bf4e42067898ccc6da3f8a19d5"
+    },
+    {
+      "blueprint": "2_14",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_014.java",
+      "sourceSha256": "cf3dffd38eee4df3506c01310149169cda326f805e568bc6740f147102e61727"
+    },
+    {
+      "blueprint": "1_11",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_011.java",
+      "sourceSha256": "c661cb63645f827e8cda7c2275d0d592fe8f19fc05b0337c702dcea06eb88431"
+    },
+    {
+      "blueprint": "5_5",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/light/Card5_005.java",
+      "sourceSha256": "67ae42f53449f4482df3ac695139907eeac1ea93efae9f84694fd8cebedb40b9"
+    },
+    {
+      "blueprint": "4_103",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_103.java",
+      "sourceSha256": "537dcbee2eb72a24fcb1c7489e5aa714ffc31f9815d822d6e2fe42c37de670ad"
+    },
+    {
+      "blueprint": "8_108",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/dark/Card8_108.java",
+      "sourceSha256": "bf14badd43606482ee14e4c44e63cfafc5ce8f1ddb908ac408658803bc7da0ed"
+    },
+    {
+      "blueprint": "8_114",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/dark/Card8_114.java",
+      "sourceSha256": "d18fdad92e27683b37a04fc7f7a4e886af1e717ffc82e22113594e04bc925022"
+    },
+    {
+      "blueprint": "1_195",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_195.java",
+      "sourceSha256": "fdf0118d0e7274f417feb829906a3c0bbf7d95924b99cb315fd175df4024e690"
+    },
+    {
+      "blueprint": "1_184",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_184.java",
+      "sourceSha256": "d02c7f4faaad314a8849b23065490b421c3adbe639994cf24171c5742175c4fa"
+    },
+    {
+      "blueprint": "1_171",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_171.java",
+      "sourceSha256": "025e3737f6bea1f6d5dc025078da3ff7e39f8ce9e98929c5c1ab740dc2cebca6"
+    },
+    {
+      "blueprint": "1_4",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_004.java",
+      "sourceSha256": "d46def5e5928b2ac1b9ead37f392c4ab611cd16b01180c6e572793cef47b7216"
+    },
+    {
+      "blueprint": "2_108",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_108.java",
+      "sourceSha256": "fb9e578ab7cfe181dad7686bc1b1cc31169bc8c932fd886bea7de947e8b93bab"
+    },
+    {
+      "blueprint": "3_16",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_016.java",
+      "sourceSha256": "ac15d6030ee1653d1399101e9e68a3bc4e08f3f6a9739c009f518b8db7cdcfa8"
+    },
+    {
+      "blueprint": "3_91",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_091.java",
+      "sourceSha256": "0beb610c40b05b9c9eae3d88cefad49407ec9f8d8289b7a6d4b4187391cdc757"
+    },
+    {
+      "blueprint": "1_172",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_172.java",
+      "sourceSha256": "7c216bb7c8583d66c4d05e1a5612140d9020fad96d68474d174400bc44489b14"
+    },
+    {
+      "blueprint": "3_6",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_006.java",
+      "sourceSha256": "0552af9f9e0cc71c85132b5e74800001eb7691a85326c328cb535b6e15533bdb"
+    },
+    {
+      "blueprint": "1_19",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_019.java",
+      "sourceSha256": "eaa2f136673bc5e8384ddfdb264b9534010de4717766ac2f72d7a824fd7b7db8"
+    },
+    {
+      "blueprint": "3_3",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_003.java",
+      "sourceSha256": "fed5d2b7affc8b935b93bcc557431256467b1b186a6a1f58a2012dcd33d9513d"
+    },
+    {
+      "blueprint": "1_21",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_021.java",
+      "sourceSha256": "aa520ceaad1f9e1cac0157c5c7932b9298096cdb0533049332d53abdb5d00cfc"
+    },
+    {
+      "blueprint": "5_99",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set5/dark/Card5_099.java",
+      "sourceSha256": "5b8bf8f5e4d6a17f28aceab222b66d0504a562b2dc15a56a657b067b2258eb1b"
+    },
+    {
+      "blueprint": "4_1",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_001.java",
+      "sourceSha256": "4835e659ef4129a44476bf63e40541d60a06567d42016bba26c7872dfb405b2f"
+    },
+    {
+      "blueprint": "4_2",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_002.java",
+      "sourceSha256": "d6be130c5690d40faa9d4644ab96c93b740e80f05196218daf339f319c13acfe"
+    },
+    {
+      "blueprint": "9_109",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/dark/Card9_109.java",
+      "sourceSha256": "9e17eed634bfa2b83cc33d3f1022daeb392a0ecf2fe99ef2d80046468ba4a48b"
+    },
+    {
+      "blueprint": "9_24",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set9/light/Card9_024.java",
+      "sourceSha256": "f726a65d6a5601efc6ceb33b118cba96a6c9100a313e54f412842eab7b67c9d9"
+    },
+    {
+      "blueprint": "1_168",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_168.java",
+      "sourceSha256": "479ed59ad20b3347565588fa6548ffe5b949bee6eaced4ec15a103068cf7f826"
+    },
+    {
+      "blueprint": "14_9",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set14/light/Card14_009.java",
+      "sourceSha256": "99fc8e64f14478aae7259877406a7b9d9b91dc123dcbd8c2c96fe0ec2d2e4dd2"
+    },
+    {
+      "blueprint": "8_5",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set8/light/Card8_005.java",
+      "sourceSha256": "2aa06709d83a41086f5d3eee32b8c57a4ccab626bd07795b557898c281520001"
+    },
+    {
+      "blueprint": "3_9",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_009.java",
+      "sourceSha256": "10012cfd98c768606eca9964ec5cac2a43f40a7ddd61b6be13124c820f948296"
+    },
+    {
+      "blueprint": "3_86",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/dark/Card3_086.java",
+      "sourceSha256": "7aa95aa626ba0410a57034b45ae14c8c56a40b1890eab2b17bad0eaf3c752294"
+    },
+    {
+      "blueprint": "1_167",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_167.java",
+      "sourceSha256": "09a69d9bb221e0c860f5f221d3005ba552ffdee733d79daf1ff686721469a09b"
+    },
+    {
+      "blueprint": "1_179",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_179.java",
+      "sourceSha256": "a000a9d8b0d905be2863e4e751dba35462f77bbf4efaa0a62d3fb7ae45d7c64e"
+    },
+    {
+      "blueprint": "1_2",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_002.java",
+      "sourceSha256": "5e2868211917a74102e65ccb754dc1c3ef73da14d27b2cb454d10a26c00cd8e3"
+    },
+    {
+      "blueprint": "1_22",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_022.java",
+      "sourceSha256": "732ea47d304728dd158dbcd0f1aa547d40281d82177d3c9dd039afe721d63b86"
+    },
+    {
+      "blueprint": "1_8",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_008.java",
+      "sourceSha256": "3e5accec5ed9201b498c8d499ace79fe4c63406eac27cf738f8886afaa55c5bb"
+    },
+    {
+      "blueprint": "1_174",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_174.java",
+      "sourceSha256": "aca008ed3aa62b4385796f89c061bb588a3d9133d12007b6683e7fc3965749cb"
+    },
+    {
+      "blueprint": "1_24",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_024.java",
+      "sourceSha256": "360388960f3a0f097a4d17075dde7635c50d48795d956d5886d9345ed16245a6"
+    },
+    {
+      "blueprint": "2_15",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_015.java",
+      "sourceSha256": "2ee2368cdd2d9740a02e938da901bdd817f15791ed8a1acbc92d6ef54dcc6035"
+    },
+    {
+      "blueprint": "2_101",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_101.java",
+      "sourceSha256": "fa5f3894e1af7b53f6c1e695255cf9b9fb682e05b24c708cbedcdb0cdc141db1"
+    },
+    {
+      "blueprint": "1_3",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_003.java",
+      "sourceSha256": "1c69875eb6bfb299b1fb43ace40fb15b588f0dce6603279e152c0063fdf7545c"
+    },
+    {
+      "blueprint": "2_23",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_023.java",
+      "sourceSha256": "7c22882137cbb78608cb9949106c7a7288eff45f15ff2da2cf108577b84f46cb"
+    },
+    {
+      "blueprint": "1_173",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_173.java",
+      "sourceSha256": "573813936d2cb44bfff021ad970cc96111cb3682d64889e953b6785fbc21475d"
+    },
+    {
+      "blueprint": "1_13",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_013.java",
+      "sourceSha256": "a3352ef76fb15da8538a51bde6b7fc1273c7c65acf95a58616e6a1cbae32c02e"
+    },
+    {
+      "blueprint": "3_8",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set3/light/Card3_008.java",
+      "sourceSha256": "67258e6ed1e51d9f3ee22f45582d2a95a3e632ddb7b4697c23e77d2da300901d"
+    },
+    {
+      "blueprint": "1_175",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_175.java",
+      "sourceSha256": "18b6aadcbeec8a0b21cf71fd26bcaeb35ad890c67ba510bee42161e0e11de530"
+    },
+    {
+      "blueprint": "106_1",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_001.java",
+      "sourceSha256": "dd95b80eaec2fe887f6a1f999a4830ff07af104f0e7610792a82802a0e9bf337"
+    },
+    {
+      "blueprint": "106_6",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/light/Card106_006.java",
+      "sourceSha256": "d9ebfea9d9a67a967677845aefc50c212948f03c19839277880edf05009d81e0"
+    },
+    {
+      "blueprint": "106_11",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_011.java",
+      "sourceSha256": "6119ec6686fdca909fa5e43ce30c420fc175afc6163f831c4c030e48ff9253d0"
+    },
+    {
+      "blueprint": "106_16",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_016.java",
+      "sourceSha256": "f153e5f559fcfb21bdf5a507fd6477beedae51626b4f03e43a1dd9bb630929d5"
+    },
+    {
+      "blueprint": "1_17",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_017.java",
+      "sourceSha256": "d4a56c82182ce9a1562504cbf2e0deb07649e014256e82c6cdaee68fccc61b94"
+    },
+    {
+      "blueprint": "2_3",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_003.java",
+      "sourceSha256": "7a7cc7ee3b4e473fe1b803f6c7e0fc57dd46c838023da800ad0e222832ce043b"
+    },
+    {
+      "blueprint": "1_166",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_166.java",
+      "sourceSha256": "cc0ec2398567fa670fd005cad2f80a160dc6a0c8a98bf03ad95cb14ead340cb6"
+    },
+    {
+      "blueprint": "104_6",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set104/dark/Card104_006.java",
+      "sourceSha256": "6cb47f72cf60b3b6199b2f7d240300481482a0a48cfb08c20b1432ce25e3b140"
+    },
+    {
+      "blueprint": "1_165",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_165.java",
+      "sourceSha256": "b42639f905b8c99123a0c30eadcb1d7bc9c4526c405d3e0e8cf4b324e6c0443a"
+    },
+    {
+      "blueprint": "1_10",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_010.java",
+      "sourceSha256": "1cc88456a9cacbd685d4d9f078629cdc226fa335bf934c0cc799b60b12f2838a"
+    },
+    {
+      "blueprint": "102_11",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set102/dark/Card102_011.java",
+      "sourceSha256": "70c79a25a57c41bf6aa19b8472c29575083d619d9ae0fc4e01247f78245ad83d"
+    }
+  ]
+}

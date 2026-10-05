@@ -3814,3 +3814,84 @@ controlled capture foundations are identified explicitly. Full catalog admission
 nonempty theft-response equivalence, Gate geometry/endpoint loss and the unresolved
 failed-Obsession arithmetic remain outstanding. No additional Rules Lab study or
 Sites publication is included.
+
+
+### First Objective, Undercover and original Chewbacca
+
+ISB Operations / Empire's Sinister Agents (`7_299`) is the first concrete Objective
+implementation. It replaces the ordinary starting-location choice with mandatory
+Coruscant deployment before opening hands. A missing required location fails the
+Objective without granting its remainder-of-game text or an ordinary starting
+fallback. Successful setup grants the specified lore-based ISB agent/spy traits
+and bypasses only location deployment restrictions. Reviewed constructor lore is
+required for every character in an ISB fixture; arbitrary prose is not treated as
+a general character-trait source.
+
+The same physical Objective flips with four active ISB agents or qualifying
+control of two Rebel Base locations, and flips back when no active agents remain.
+Before/after-flip responses, face history and refresh validation are serialized.
+The back face supplies its own battleground-site drain bonus, the opponent's
+related-location reduction, and once-per-own-Draw-phase ISB-agent retrieval.
+Undercover agents do not count toward its active-agent conditions.
+`gemp/isb-objective-provenance.json` binds seven executed observations of actual
+starting setup/failure, flips and retrieval. Later board/pile arrangements are
+controlled; Tarl is a metadata-only filter fixture, not certified card behavior.
+
+Light and Dark Undercover (`2_40`, `2_129`) retain the spy's owner and physical
+identity, disembark an aboard spy, remove ordinary presence and prevent the
+opponent's Force drain there. The inactive spy can use its own text and retain
+active personal attachments under the official exceptions. Owner-paid landspeed
+and docking-bay transit occur during the opponent's Move phase. Voluntary
+breaking cover occurs during the owner's Deploy phase; loss of the enabling
+source or Spy characteristic also exposes the character. Cover is a state change,
+not a fresh deployment. Ordinary captives do not inherit these exceptions.
+
+Supported targeting paths include eligible Interrupts outside ordinary battles,
+weapon/device deployment, creature defense and temporary duel activation. Native
+tests exercise actual card actions, persistent target references and restoration
+of inactive status after a duel. The three executed GEMP Undercover cycles cover
+Effect deployment, disembarkation, paid opponent-turn landspeed and breaking cover;
+they do not certify docking-bay transit or every targeting exception. Those
+additional paths have separate native tests and primary-rule review. Missing
+character rules and wider catalog interactions remain unfinished.
+
+The implemented Chewbacca is the original **A New Hope `2_3`**, not a Premiere
+card. Actual deployment pays 4 Force; active pilot text supplies 2 power to the
+craft and 1 additional maneuver to Falcon. Han at the same location grants
+Chewbacca 1 power. Current errata sends your hit vehicles, starships and droids
+at the same site to Used when they are about to be lost, preserving any already
+applied forfeiture credit. Attachments and crew retain their separate loss and
+ordering rules. Chewbacca's Alien/Rebel classification satisfies either subtype
+without inventing trooper or other unrelated qualifications; Wookiee, smuggler
+and CHEWIE identity are explicit metadata.
+
+Ten executed Chewbacca pilot/stat observations agree with native. Eight loss
+observations isolate two pinned GEMP discrepancies: active Chewbacca correctly
+changes actual forfeiture to Used, but its generic-loss trigger constructs an
+action and fails to return it. Native follows the official about-to-be-lost
+errata, and preserves those two divergent raw observations unchanged. A separate
+native integration and phone browser continuation execute a real blaster shot,
+hit, forfeiture and mandatory recovery; controlled hit/exclusion fixtures are
+identified separately. These results do not certify other Chewbacca versions.
+
+Colonel Wullf Yularen (`1_166`) and introductory Veers (`104_6`) implement their
+printed same-site modifiers and deployment restrictions. Veers' prohibition on
+deployment with three opposing unique characters on table survives the
+Objective's location-restriction bypass. Their Warrior icons do not grant pilot
+capability. Thirteen executed GEMP observations are retained; Chief Bast and
+General Dodonna remain metadata-only named partners whose own text is not
+certified by these fixtures. Dual-subtype tests also exercise existing Rebel and
+alien consumers with the real Chewbacca definition rather than mutating a
+synthetic card.
+
+Computer policy `native-cpu-34` evaluates offered retrieval and Undercover choices
+using the seat's visible projection, including preserving a useful drain block.
+Server actions remain authoritative. Responsive match cards display the current
+Objective face and Undercover status, with inspection and persisted both-seat
+refresh exercised in browser continuations. Evidence remains separated into
+native tests, bounded executed GEMP comparisons and browser/service checks; this
+wave adds no complete shuffled-game conformance claim. Production admission stays
+closed. Previously documented failed-Obsession arithmetic, Gate geometry/loss,
+nonempty theft responses, official-rule/GEMP differences and all remaining
+engine/product scope remain open. No standalone study or Sites publication is
+part of this work.

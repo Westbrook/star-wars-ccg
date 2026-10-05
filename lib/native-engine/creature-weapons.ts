@@ -1,3 +1,4 @@
+import {undercoverReference,sameUndercoverCard} from './undercover-state';
 import {supportedCreature} from './creature-profile';
 import {cardDefinition} from './definitions';
 import {creatureAttack} from './creature-attack';
@@ -18,7 +19,7 @@ const action=(step:string,p:Payload):Action=>({id:'creature-weapon:'+step+':'+p.
 export function creatureWeaponActions(m:Match,w:Window,side:Side):Action[]{
  const a=creatureAttack(m),e=w.event as {kind?:string;serial?:number}|undefined;
  if(!a||a.stage!=='weapons'||w.timing!=='response'||e?.kind!=='attack-weapons'||e.serial!==a.serial||a.shipSide!==side||!sameCard(m,a.slug)||a.hit)return [];
- return Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&weapons[c.blueprint]&&c.attachedTo&&gameTextActive(m,c.id)&&isWarrior(m,c.attachedTo)&&characterPresent(m,c.attachedTo)&&canUseWeapon(m,c.id)&&a.ships.some(r=>r.id===c.attachedTo&&sameCard(m,r)&&m.cards[r.id].location===a.site.id)&&!shots(m).some(s=>s.attack===a.serial&&s.weapon.id===c.id&&sameCard(m,s.weapon))).map(c=>{
+ return Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&weapons[c.blueprint]&&c.attachedTo&&gameTextActive(m,c.id)&&isWarrior(m,c.attachedTo)&&characterPresent(m,c.attachedTo)&&canUseWeapon(m,c.id)&&a.ships.some(r=>r.id===c.attachedTo&&sameUndercoverCard(m,r)&&m.cards[r.id].location===a.site.id)&&!shots(m).some(s=>s.attack===a.serial&&s.weapon.id===c.id&&sameCard(m,s.weapon))).map(c=>{
   const p={serial:a.serial,index:shots(m).length,weapon:referenceCard(m,c.id),host:referenceCard(m,c.attachedTo!),target:a.slug};return {...action('fire',p),label:'Fire '+name(m,c.id)+' at '+name(m,a.slug.id),payment:{[side]:weapons[c.blueprint].fire}};
  });
 }
@@ -47,7 +48,7 @@ export function assertCreatureWeapons(m:Match):void{
  const ss=shots(m);if(!Array.isArray(ss))throw Error('Invalid creature shots.');
  if(new Set(ss.map(s=>[s.attack,s.weapon?.id,s.weapon?.version].join(':'))).size!==ss.length)throw Error('Duplicate creature firing record.');
  for(const s of ss){
-  for(const r of [s.weapon,s.host,s.target]){assertCardReference(m,r);if(r.zone!=='table')throw Error('Invalid shot reference zone.');}
+  for(const r of [s.weapon,s.host,s.target]){assertCardReference(m,r);if(r.zone!=='table'&&!(r===s.host&&undercoverReference(m,r)))throw Error('Invalid shot reference zone.');}
   if(!supportedCreature(m,s.target.id)||cardDefinition(m,s.host.id).type!=='Character'||!weapons[m.cards[s.weapon.id].blueprint]||!sides.includes(s.side)||m.cards[s.weapon.id].owner!==s.side||m.cards[s.host.id].owner!==s.side||!Number.isSafeInteger(s.attack)||s.attack<1||s.attack>m.serial||s.draw!==undefined&&!validDraw(m,s.draw,s.side)||s.total!==undefined&&s.total!==null&&(!Number.isFinite(s.total)||s.total<0)||s.defense!==undefined&&(!Number.isFinite(s.defense)||s.defense<0)||s.hit!==undefined&&typeof s.hit!=='boolean')throw Error('Invalid creature shot record.');
  }
  for(const f of m.stack){

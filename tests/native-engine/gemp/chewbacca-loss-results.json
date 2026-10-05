@@ -1,0 +1,74 @@
+[
+  {
+    "used": true,
+    "mode": "forfeit",
+    "chewieCanceled": false,
+    "lost": false,
+    "kind": "droid",
+    "hitAfter": false,
+    "zone": "TOP_OF_USED_PILE"
+  },
+  {
+    "used": false,
+    "mode": "forfeit",
+    "chewieCanceled": true,
+    "lost": true,
+    "kind": "droid",
+    "hitAfter": false,
+    "zone": "TOP_OF_LOST_PILE"
+  },
+  {
+    "used": false,
+    "mode": "exclude",
+    "chewieCanceled": false,
+    "lost": true,
+    "kind": "droid",
+    "hitAfter": false,
+    "zone": "TOP_OF_LOST_PILE"
+  },
+  {
+    "used": false,
+    "mode": "exclude",
+    "chewieCanceled": true,
+    "lost": true,
+    "kind": "droid",
+    "hitAfter": false,
+    "zone": "TOP_OF_LOST_PILE"
+  },
+  {
+    "used": true,
+    "mode": "forfeit",
+    "chewieCanceled": false,
+    "lost": false,
+    "kind": "vehicle",
+    "hitAfter": false,
+    "zone": "TOP_OF_USED_PILE"
+  },
+  {
+    "used": false,
+    "mode": "forfeit",
+    "chewieCanceled": true,
+    "lost": true,
+    "kind": "vehicle",
+    "hitAfter": false,
+    "zone": "TOP_OF_LOST_PILE"
+  },
+  {
+    "used": false,
+    "mode": "exclude",
+    "chewieCanceled": false,
+    "lost": true,
+    "kind": "vehicle",
+    "hitAfter": false,
+    "zone": "TOP_OF_LOST_PILE"
+  },
+  {
+    "used": false,
+    "mode": "exclude",
+    "chewieCanceled": true,
+    "lost": true,
+    "kind": "vehicle",
+    "hitAfter": false,
+    "zone": "TOP_OF_LOST_PILE"
+  }
+]

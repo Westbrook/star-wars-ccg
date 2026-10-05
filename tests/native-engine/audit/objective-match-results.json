@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "classification": "Native-only continuous service integration; not GEMP conformance or production admission",
+  "fixture": "tests/native-engine/objective-match-fixture.mjs",
+  "tests": "tests/native-engine/objective-match.test.mjs",
+  "deckSize": 60,
+  "sides": ["dark", "light"],
+  "commands": 2426,
+  "sqliteCommandReceipts": 2427,
+  "initialRevision": 1,
+  "turns": 55,
+  "result": {"winner": "dark", "loser": "light", "reason": "life-force"},
+  "actions": {
+    "objectiveStartingDeployment": 1,
+    "objectiveFlip": 1,
+    "objectiveRetrieval": 16,
+    "actualAgentRetrieved": 16,
+    "undercoverDeployment": 2,
+    "undercoverOpponentTurnMovement": 1,
+    "breakCover": 2
+  },
+  "persistedResumeOffsets": {"opening": 6, "undercover": 88, "undercover-move": 250, "flip": 357, "retrieval": 379},
+  "initialization": "Two authored physical 60-card decks enter real service create/join and Objective/starting-location setup. Recorded Fisher-Yates choices preserve the authored opening order; no game state, pile, destiny, Force total, custody or result is patched before or after setup.",
+  "method": "A deterministic cooperative coverage policy receives only the acting player's public/private projection and selects offered legal actions. CPU34 independently receives that same projection and its proposed action is checked for legality at every step. Each command uses a fresh nativeMatchService over SQLiteD1 and is compared with an exact runtime replay using the recorded entropy and time.",
+  "retrievalExplanation": "Yularen enters Lost initially through a real hand loss to the opposing Force drain. Later retrieval places him in Used, normal recirculation returns him to Reserve, and subsequent legal top-of-Reserve Force losses allow later retrievals of the same physical card. No synthetic casualty or retrieval target is inserted.",
+  "validation": [
+    "All 2426 commands persisted through SQLite and matched their exact runtime result",
+    "Complete transcript replays from initial setup to identical final Match",
+    "Five reached saved states resume to identical final Match",
+    "Mutated unavailable Undercover movement command is rejected",
+    "Objective setup, flip, selected retrieval and both sides' Undercover deployment/break plus opposing-turn movement are required assertions"
+  ],
+  "limitations": [
+    "A single authored integration trajectory; not exhaustive Objective, card or timing coverage",
+    "The driver is a cooperative coverage policy, not an evaluation of strategic CPU strength",
+    "No matching complete GEMP trajectory was executed for this fixture",
+    "Full native production admission remains closed"
+  ]
+}

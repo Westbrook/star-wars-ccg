@@ -1,3 +1,4 @@
+import {undercoverTargetable,undercoverReference,sameUndercoverCard} from './undercover-state';
 import {ability} from './ability';
 import {cardDefinition,isWarrior,name} from './board';
 import {weapons} from './battle';
@@ -33,7 +34,7 @@ function profile(m:Match,weapon:string,host:string){
  if(bp==='1_157'&&hasPersona(m,host,'OBIWAN')||bp==='1_324'&&hasPersona(m,host,'VADER'))return {count:2,cost:0,bonus:0};
 }
 function available(m:Match,weapon:string,side:Side):string[]{
- const c=m.cards[weapon],host=c?.attachedTo;if(!c||c.owner!==side||c.zone!=='table'||!host||m.cards[host].owner!==side||!characterPresent(m,host)||!gameTextActive(m,weapon)||!canUseWeapon(m,weapon))return [];
+ const c=m.cards[weapon],host=c?.attachedTo;if(!c||c.owner!==side||c.zone!=='table'||!host||m.cards[host].owner!==side||!(m.cards[host].zone==='table'||undercoverTargetable(m,host))||!characterPresent(m,host)||!gameTextActive(m,weapon)||!canUseWeapon(m,weapon))return [];
  const rule=profile(m,weapon,host),site=m.cards[host].location;
  return rule&&site&&rule.cost<=m.players[side].force.length?laserGateTargetsAt(m,site,side):[];
 }
@@ -62,7 +63,7 @@ export function snipingInitiate(m:Match,r:Resolution):void{
 }
 export function snipingChoices(m:Match,d:Decision){
  const p=d.payload as unknown as Payload;if(d.handler!=='sniping:target')throw Error('Invalid sniping choice.');
- const targets=sameCard(m,p.weaponRef!)&&sameCard(m,p.hostRef!)&&m.cards[p.weapon].attachedTo===p.hostRef!.id?available(m,p.weapon,d.side):[];
+ const targets=sameCard(m,p.weaponRef!)&&sameUndercoverCard(m,p.hostRef!)&&m.cards[p.weapon].attachedTo===p.hostRef!.id?available(m,p.weapon,d.side):[];
  return targets.length?targets.map(id=>({id:'sniping:target:'+id,label:'Fire at '+name(m,id)})):[{id:'sniping:no-target',label:'No legal target remains'}];
 }
 export function snipingChoose(m:Match,d:Decision,choice:string):void{
@@ -110,7 +111,7 @@ export function assertSniping(m:Match):void{
  if(m.data.snipingShots!==undefined&&!Array.isArray(m.data.snipingShots))throw Error('Invalid sniping history.');
  for(const s of shots(m)){
   for(const ref of [s.source,s.weapon,s.host,s.target,s.site])assertCardReference(m,ref);
-  if(s.source.zone!=='playing'||[s.weapon,s.host,s.target,s.site].some(ref=>ref.zone!=='table')||!sides.includes(s.side)||m.cards[s.source.id].blueprint!==blueprint(s.side)||m.cards[s.source.id].owner!==s.side||m.cards[s.weapon.id].owner!==s.side||m.cards[s.target.id].blueprint!=='2_113'||m.cards[s.target.id].owner===s.side||!Array.isArray(s.draws)||s.draws.length>(weapons[m.cards[s.weapon.id].blueprint]?1:2)||s.draws.some(d=>!validDraw(m,d,s.side))||s.total!==null&&(!Number.isFinite(s.total)||s.total<0)||!['pending','canceled','invalid','miss','hit'].includes(s.outcome)||!['drawing','result','complete'].includes(s.stage)||!Array.isArray(s.bonusWindows)||new Set(s.bonusWindows).size!==s.bonusWindows.length||s.bonusWindows.some(n=>!Number.isSafeInteger(n)||n<1))throw Error('Invalid sniping shot.');
+  if(s.source.zone!=='playing'||[s.weapon,s.target,s.site].some(ref=>ref.zone!=='table')||s.host.zone!=='table'&&!undercoverReference(m,s.host)||!sides.includes(s.side)||m.cards[s.source.id].blueprint!==blueprint(s.side)||m.cards[s.source.id].owner!==s.side||m.cards[s.weapon.id].owner!==s.side||m.cards[s.target.id].blueprint!=='2_113'||m.cards[s.target.id].owner===s.side||!Array.isArray(s.draws)||s.draws.length>(weapons[m.cards[s.weapon.id].blueprint]?1:2)||s.draws.some(d=>!validDraw(m,d,s.side))||s.total!==null&&(!Number.isFinite(s.total)||s.total<0)||!['pending','canceled','invalid','miss','hit'].includes(s.outcome)||!['drawing','result','complete'].includes(s.stage)||!Array.isArray(s.bonusWindows)||new Set(s.bonusWindows).size!==s.bonusWindows.length||s.bonusWindows.some(n=>!Number.isSafeInteger(n)||n<1))throw Error('Invalid sniping shot.');
   assertDestinyScope(m,s.scope,s.side,s.weapon.id,'weapon');
   if(!supportedWeapon(m,s.weapon.id)||m.cards[s.host.id].owner!==s.side||cardDefinition(m,s.site.id).subType!=='Site'||s.outcome==='hit'&&(s.total===null||s.total<=3)||['miss','hit'].includes(s.outcome)&&s.draws.length!==(weapons[m.cards[s.weapon.id].blueprint]?1:2)||s.stage==='drawing'&&(s.outcome!=='pending'||s.total!==null)||s.stage==='complete'&&s.outcome==='pending')throw Error('Invalid sniping hit.');
  }
@@ -123,7 +124,7 @@ export function assertSniping(m:Match):void{
   const p=(act?act.payload:(f as Decision).payload) as unknown as Payload,side=f.kind==='resolution'?f.actor:(f as Decision).side;
   if(!p||m.cards[p.card]?.blueprint!==blueprint(side)||m.cards[p.card].owner!==side||!['play','target','cleanup','bonus','fire','draw','result','hit','loss-before','lose','lost','finish'].some(n=>h==='sniping:'+n))throw Error('Invalid sniping continuation.');
   for(const [ref,id] of [[p.sourceRef,p.card],[p.weaponRef,p.weapon],[p.hostRef,undefined]] as const)assertCardReference(m,ref!,id);
-  if(p.sourceRef!.zone!=='playing'||p.weaponRef!.zone!=='table'||p.hostRef!.zone!=='table'||!supportedWeapon(m,p.weapon)||m.cards[p.weapon].owner!==side||m.cards[p.hostRef!.id].owner!==side)throw Error('Invalid sniping references.');
+  if(p.sourceRef!.zone!=='playing'||p.weaponRef!.zone!=='table'||p.hostRef!.zone!=='table'&&!undercoverReference(m,p.hostRef!)||!supportedWeapon(m,p.weapon)||m.cards[p.weapon].owner!==side||m.cards[p.hostRef!.id].owner!==side)throw Error('Invalid sniping references.');
   if(act&&(act.id!==action(h.slice(8),p).id||act.source!==action(h.slice(8),p).source||act.payment!==undefined||act.unrespondable!==undefined))throw Error('Invalid sniping action.');
   if(!act&&h!=='sniping:target')throw Error('Invalid sniping decision.');
   if(!['sniping:play','sniping:target','sniping:cleanup'].includes(h)){

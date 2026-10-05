@@ -1,4 +1,6 @@
 import identities from '../../data/native-engine/identities.json';
+import type {objectiveView} from './objectives';
+import type {undercoverView} from './undercover';
 import type {occupancyView} from './occupancy';
 import type {publicValues} from './public-values';
 import type {vehicleReactView} from './vehicle-react';
@@ -10,7 +12,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-33';
+export const computerPolicy = 'native-cpu-34';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -22,14 +24,14 @@ export function chooseComputerAction(view: View, side: Side): string | null {
   if (view.status === 'finished' || !p || p.side !== side || !p.choices.length) return null;
   const own = view.players[side], opponent = other(side);
   const visible = [...view.table, ...own.hand, ...own.lost, ...own.destiny];
-  const rules = view.rules as {vehicleReact?:ReturnType<typeof vehicleReactView>['vehicleReact']; laserGates?:ReturnType<typeof laserGatesView>['laserGates']; capturedShips?:ReturnType<typeof capturedShipView>['capturedShips'];battleDrawPolicy?:Record<Side,{count:number;limit:number|null}>;forceLossCredits?:Record<string,number>;values?: ReturnType<typeof publicValues>; vessels?:ReturnType<typeof occupancyView>['vessels']; battle?: Battle | null} | undefined;
+  const rules = view.rules as {objectives?:ReturnType<typeof objectiveView>['objectives'];undercoverSpies?:ReturnType<typeof undercoverView>['undercoverSpies'];vehicleReact?:ReturnType<typeof vehicleReactView>['vehicleReact']; laserGates?:ReturnType<typeof laserGatesView>['laserGates']; capturedShips?:ReturnType<typeof capturedShipView>['capturedShips'];battleDrawPolicy?:Record<Side,{count:number;limit:number|null}>;forceLossCredits?:Record<string,number>;values?: ReturnType<typeof publicValues>; vessels?:ReturnType<typeof occupancyView>['vessels']; battle?: Battle | null} | undefined;
   const battle = rules?.battle?.stage === 'damage' ? rules.battle : null;
   const cards = new Map(visible.map(c => [c.id, c]));
   const stat = (id: string, field: string) => {
     const c = cards.get(id);if (!c) return 0;
     const current = rules?.values?.characters[id];
     if (current && field in current) return current[field as keyof typeof current];
-    const n = Number((definition(c.blueprint).stats as Record<string,string>)[field]);
+    const n = Number((definition(c.blueprint,c.face).stats as Record<string,string>)[field]);
     return Number.isFinite(n) ? n : 0;
   };
   const at = (site: string, seat: Side) => view.table.filter(c => c.zone === 'table' && c.owner === seat && c.location === site && !c.attachedTo && definition(c.blueprint).type === 'Character');
@@ -112,6 +114,26 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     const [kind,a,b] = c.id.split(':');
     if (c.id === 'concede') return -Infinity;
     if (c.id === 'pass') return 0;
+    if(kind==='objective'&&a==='retrieve'){
+      const eligible=rules?.objectives?.find(x=>x.card===b)?.retrievable??[];
+      return eligible.length?30+Math.max(...eligible.map(value)):-5;
+    }
+    if(kind==='undercover'){
+      const id=a==='deploy'?c.id.split(':')[3]:b,spy=cards.get(id),site=spy?.location;
+      if(!spy||!site)return -5;
+      const ours=strength(site,side),theirs=strength(site,opponent);
+      if(a==='deploy')return theirs>0&&ours<=theirs?55+icons(site,side)*5:-5;
+      if(a==='break')return theirs===0&&at(site,side).length===0?30:ours>theirs&&theirs>0?25:-5;
+      if(a==='move'){
+        const to=c.id.split(':')[3];
+        // Undercover movement takes place on the opponent's turn. Preserve
+        // a useful drain block instead of repeatedly following empty sites.
+        const blockedHere=theirs>0?icons(site,side):0;
+        const blockedThere=strength(to,opponent)>0?icons(to,side):0;
+        return blockedThere>blockedHere?25+(blockedThere-blockedHere)*5:-5;
+      }
+      return p.mandatory?1:-5;
+    }
     if(kind==='starship-effect'&&a==='deploy'){
       const host=c.id.split(':')[3],card=cards.get(host),vessel=rules?.vessels?.[host];
       if(!card||card.owner!==side||!vessel?.operational)return -5;

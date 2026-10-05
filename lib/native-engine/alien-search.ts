@@ -1,6 +1,6 @@
 import {cardDefinition} from './definitions';
 import {otsdAlienLeader} from './otsd-characters';
-import {nonUnique} from './characteristics';
+import {hasCharacterSubtype,nonUnique} from './characteristics';
 import {gameTextActive} from './game-text';
 import {crewActive} from './occupancy';
 import {assertCardReference,referenceCard,sameCard,type CardReference} from './identity';
@@ -13,7 +13,7 @@ import {other,type Action,type Decision,type Json,type Match,type Resolution,typ
 type Payload={source:CardReference;window:number;target?:CardReference};
 const data=(f:Resolution|Decision)=>('action' in f?f.action.payload:f.payload) as unknown as Payload;
 const search=(m:Match,id:string):Search=>({blueprint:m.cards[id].blueprint,side:m.cards[id].owner,function:'alien:upload',owner:m.cards[id].owner,pile:'reserve'});
-const candidates=(m:Match,side:Side)=>m.players[side].reserve.filter(id=>cardDefinition(m,id).subType==='Alien'&&nonUnique(m,id)).sort();
+const candidates=(m:Match,side:Side)=>m.players[side].reserve.filter(id=>hasCharacterSubtype(m,id,'Alien')&&nonUnique(m,id)).sort();
 const key=(p:Payload)=>'alien-search:'+p.source.id+':'+p.source.version;
 const action=(step:string,p:Payload):Action=>({id:'alien-search:'+step+':'+p.source.id,handler:'alien-search:'+step,source:p.source.id,label:step,payload:p as unknown as Json});
 const queue=(m:Match,step:string,p:Payload)=>m.stack.push({kind:'resolution',actor:m.cards[p.source.id].owner,cancelled:false,action:action(step,p)});
@@ -68,7 +68,7 @@ export function assertAlienSearch(m:Match):void {
   const event=w?.event as {kind?:string;card?:string;cards?:string[]}|undefined;
   if(w?.timing!=='response'||event?.kind!=='deployed'||!(event.cards??[event.card]).includes(p.source.id)||!((m.data.deployments??[]) as unknown as Deployment[]).some(d=>d.card.id===p.source.id&&d.card.version===p.source.version&&d.serial<=w.serial))throw Error('Invalid alien search origin.');
   if(!otsdAlienLeader(m.cards[p.source.id].blueprint)||p.source.zone!=='table'||!w||m.stack.indexOf(w)>=m.stack.indexOf(f)||!w.completed.includes(key(p))||actor!==(h==='alien-search:verify'?other(owner):owner)||!(f.kind==='decision'?['alien-search:choose','alien-search:verify']:['alien-search:begin','alien-search:search','alien-search:take','alien-search:shuffle']).includes(h))throw Error('Invalid alien search continuation.');
-  if(h==='alien-search:take'){assertCardReference(m,p.target!);if(p.target!.zone!=='reserve'||m.cards[p.target!.id].owner!==owner||cardDefinition(m,p.target!.id).subType!=='Alien'||!nonUnique(m,p.target!.id))throw Error('Invalid searched alien.');}else if(p.target)throw Error('Unexpected alien target.');
+  if(h==='alien-search:take'){assertCardReference(m,p.target!);if(p.target!.zone!=='reserve'||m.cards[p.target!.id].owner!==owner||!hasCharacterSubtype(m,p.target!.id,'Alien')||!nonUnique(m,p.target!.id))throw Error('Invalid searched alien.');}else if(p.target)throw Error('Unexpected alien target.');
   if(h==='alien-search:verify'&&candidates(m,owner).length)throw Error('A successful search cannot be verified as failed.');
   if(f.kind==='resolution'&&(f.action.source!==p.source.id||f.action.id!==action(h.slice('alien-search:'.length),p).id))throw Error('Invalid alien search action.');
  }

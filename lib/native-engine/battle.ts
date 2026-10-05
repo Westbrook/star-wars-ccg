@@ -1,3 +1,4 @@
+import {activeUndercoverSpy} from './undercover-state';
 import {beginBesieged,endBesieged} from './besieged';
 import type {HitDepartureEvent} from './hit-departure';
 import {besiegedParticipant,type BesiegedBattle} from './captured-ship-state';
@@ -146,7 +147,7 @@ export const weapons: Record<string, {deploy: number; fire: number; bonus: numbe
   '1_152': {deploy: 1, fire: 1, bonus: 0}, '1_317': {deploy: 1, fire: 1, bonus: 0},
   '1_153': {deploy: 2, fire: 2, bonus: 1}, '1_312': {deploy: 2, fire: 2, bonus: 1},
 };
-const warrior = isWarrior;
+const warrior = (m: Match, id: string) => isWarrior(m, id);
 export function weaponBonus(m: Match, id: string): number {
   return weapons[m.cards[id].blueprint].bonus + weaponDrawBonus(m, id);
 }
@@ -156,7 +157,7 @@ export function battleActions(m: Match, w: Window, side: Side): Action[] {
     if (m.turn.phase === 'deploy') for (const c of Object.values(m.cards)) {
       const rule = weapons[c.blueprint]; if (!rule || c.owner !== side || !['hand', 'table'].includes(c.zone)) continue;
       const transfer = c.zone === 'table';
-      for (const host of Object.values(m.cards).filter(h => h.owner === side && h.zone === 'table' && h.location && warrior(m, h.id))) {
+      for (const host of Object.values(m.cards).filter(h => h.owner === side && (h.zone === 'table'||activeUndercoverSpy(m,h.id)) && h.location && warrior(m, h.id))) {
         if (transfer && (!c.attachedTo || host.id === c.attachedTo || host.location !== c.location)) continue;
         actions.push(act((transfer ? 'transfer:' : 'equip:') + c.id + ':' + host.id, (transfer ? 'Transfer ' : 'Deploy ') + name(m, c.id) + ' to ' + name(m, host.id), 'equip', {card: c.id, target: host.id}, {[side]: rule.deploy}, c.id));
       }
@@ -316,7 +317,7 @@ export function battleResolve(m: Match, r: Resolution): void {
   }
   if (kind === 'battle:equip') {
     const c = m.cards[p.card!], host = m.cards[p.target!];
-    if (!validAttachmentAttempt(m, p.attachment!) || host.zone !== 'table' || host.owner !== side || !warrior(m, host.id)) {if (c.zone === 'playing') moveCard(m, c.id, 'lost'); return;}
+    if (!validAttachmentAttempt(m, p.attachment!) || host.zone !== 'table'&&!activeUndercoverSpy(m,host.id) || host.owner !== side || !warrior(m, host.id)) {if (c.zone === 'playing') moveCard(m, c.id, 'lost'); return;}
     if (c.zone === 'playing') moveCard(m, c.id, 'table'); c.attachedTo = host.id; c.location = host.location;
     if (p.attachment!.transfer) openWindow(m, 'response', other(side), {kind: 'weapon-transferred', card: c.id});
     else deployed(m, c.id); return;

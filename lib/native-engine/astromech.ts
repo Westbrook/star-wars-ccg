@@ -1,3 +1,4 @@
+import {activeUndercoverSpy,undercoverReference} from './undercover-state';
 import {crewActive} from './occupancy';
 import {destinyInWindow, destinyResponseHandlers} from './destiny-response';
 import {gameTextActive} from './game-text';
@@ -19,8 +20,8 @@ function eligible(m: Match, w: Window, side: Side): Payload['branch'] | undefine
 }
 export function astromechActions(m: Match, w: Window, side: Side): Action[] {
   const branch = eligible(m,w,side); if (!branch) return [];
-  return Object.values(m.cards).filter(c=>c.owner===side && c.blueprint==='2_14' && crewActive(m,c.id) && gameTextActive(m,c.id) &&
-    (groundPresent(m,c.id)&&(cardDefinition(m,c.location!).icons as string[]|undefined)?.includes('Scomp Link')||!!c.aboardRole&&!!c.attachedTo&&(cardDefinition(m,c.attachedTo).icons as string[]).includes('Scomp Link')) && !w.completed.includes(key(c.id))).map(c=>({
+  return Object.values(m.cards).filter(c=>c.owner===side && c.blueprint==='2_14' && (crewActive(m,c.id)||activeUndercoverSpy(m,c.id)) && gameTextActive(m,c.id) &&
+    ((groundPresent(m,c.id)||activeUndercoverSpy(m,c.id))&&(cardDefinition(m,c.location!).icons as string[]|undefined)?.includes('Scomp Link')||!!c.aboardRole&&!!c.attachedTo&&(cardDefinition(m,c.attachedTo).icons as string[]).includes('Scomp Link')) && !w.completed.includes(key(c.id))).map(c=>({
       id:'r2:'+c.id+':'+branch,label:'R2-D2 · '+(branch==='activate'?'activate 1 Force':'draw top card of Reserve Deck'),
       source:c.id,handler:'astromech:respond',payload:{source:referenceCard(m,c.id),window:w.serial,branch} as unknown as Json,
     }));
@@ -50,7 +51,7 @@ export function assertAstromech(m: Match): void {
     const handler=destinyResponseHandlers[(w?.event as {kind:string})?.kind];
     if (parent?.kind!=='resolution' || parent.action.handler!==handler || parent.actor===f.actor || !w || m.stack.indexOf(w)>=m.stack.indexOf(f) || !w.completed.includes(key(p.source.id)) ||
       !['destiny-drawn','battle-destiny-drawn','weapon-destiny-drawn'].includes((w.event as {kind:string})?.kind) ||
-      p.source.zone!=='table' || m.cards[p.source.id].blueprint!=='2_14' || m.cards[p.source.id].owner!==f.actor || f.action.source!==p.source.id)
+      p.source.zone!=='table'&&!(p.source.zone==='inactive'&&undercoverReference(m,p.source)) || m.cards[p.source.id].blueprint!=='2_14' || m.cards[p.source.id].owner!==f.actor || f.action.source!==p.source.id)
       throw Error('Invalid astromech source or trigger.');
   }
 }

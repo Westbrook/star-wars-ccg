@@ -4,11 +4,21 @@ import {other, sides, type Match, type Prompt, type Side, type StartingLocation}
 import type {Entropy} from './random';
 
 export type Placement = {id: string; label: string; order: string[]};
-/** This path handles ordinary starting locations. A package must explicitly
- * reject decks needing Objectives, Starting Effects/Interrupts or other setup
- * effects until their separate starting-card sequence is implemented. */
+export type ObjectiveSetup={order:Side[];resolved:number;opening?:Record<Side,{hand:number;reserve:number}>};
+/** Providers own required deployments, failure rollback and delayed persistent
+ * text. The protocol owns mandatory selection, secrecy and resolution order. */
+export interface ObjectiveSetupRules {
+  isObjective(match:Match,id:string):boolean;
+  begin(match:Match,id:string):void;
+  choices(match:Match,id:string):Prompt['choices'];
+  apply(match:Match,id:string,choice:string,entropy:Entropy):void;
+  complete(match:Match,id:string):boolean;
+  validate(match:Match):void;
+}
+/** A package must reject unimplemented special setup effects. */
 export interface LocationSetupRules {
   ordinarySetup(match: Match): boolean;
+  objectives?:ObjectiveSetupRules;
   interrupts?: StartingInterruptRules;
   firstPlayer?(match: Match): Side;
   invalidStarting?(match: Match): string[];
@@ -21,7 +31,15 @@ export interface LocationSetupRules {
 }
 
 const selected = (m: Match) => sides.flatMap(side => m.setup!.selected[side] ? [m.setup!.selected[side]!] : []);
+const selectedLocations=(m:Match,rules:LocationSetupRules)=>selected(m).filter(id=>rules.location(m,id));
+function objectives(m:Match,rules:LocationSetupRules,side:Side):string[]{
+  const ids=Object.values(m.cards).filter(c=>c.owner===side&&rules.objectives?.isObjective(m,c.id)).map(c=>c.id);
+  if(ids.length>1)throw Error('A deck may contain at most one Objective.');
+  if(m.status==='setup'&&ids.some(id=>m.cards[id].face!==undefined))throw Error('An Objective must start on its front side.');
+  return ids;
+}
 const candidates = (m: Match, rules: LocationSetupRules, side: Side) => {
+  const required=objectives(m,rules,side);if(required.length)return required.filter(id=>m.cards[id].zone==='reserve');
   const rejected = new Set([...m.setup!.rejected.flat(),...(m.setup!.setAside??[])]);
   return m.players[side].reserve.filter(id => !rejected.has(id) && rules.location(m, id));
 };
@@ -38,12 +56,35 @@ export function initializeSetup(m: Match, rules: LocationSetupRules): void {
 }
 
 function placements(m: Match, rules: LocationSetupRules) {
-  const ids = [...selected(m),...(m.setup!.additional??[])];
+  const ids = [...selectedLocations(m,rules),...(m.setup!.additional??[])];
   if (m.setup!.covered || ids.length < 2) return {side: 'dark' as Side, choices: [{id: 'place', label: 'Place starting locations', order: ids}]};
   const result = rules.placements(m, ids);
   if (!sides.includes(result.side) || !result.choices.length || new Set(result.choices.map(c => c.id)).size !== result.choices.length || result.choices.some(c =>
     !c.id || c.order.length !== ids.length || new Set(c.order).size !== ids.length || c.order.some(id => !ids.includes(id)))) throw Error('Invalid starting placement rules.');
   return result;
+}
+
+function finishObjectives(m:Match,rules:LocationSetupRules):void {
+  const s=m.setup!;
+  if(s.objectives)s.objectives.opening=Object.fromEntries(sides.map(side=>[side,{hand:m.players[side].hand.length,reserve:m.players[side].reserve.length}])) as ObjectiveSetup['opening'];
+  s.stage='shuffle';beginStartingInterrupts(m,rules.interrupts);
+}
+function advanceObjectives(m:Match,rules:LocationSetupRules):void {
+  const s=m.setup!,o=s.objectives!,r=rules.objectives!;
+  while(o.resolved<o.order.length){
+    const id=s.selected[o.order[o.resolved]]!;
+    if(!r.complete(m,id)){s.stage='objective-resolve';return;}
+    o.resolved++;if(o.resolved<o.order.length)r.begin(m,s.selected[o.order[o.resolved]]!);
+  }
+  finishObjectives(m,rules);
+}
+function beginObjectives(m:Match,rules:LocationSetupRules):void {
+  const s=m.setup!,first=rules.firstPlayer?.(m)??'dark';
+  if(!sides.includes(first))throw Error('Invalid first player for Objective setup.');
+  const order=[first,other(first)].filter(side=>s.selected[side]&&rules.objectives?.isObjective(m,s.selected[side]!));
+  if(!order.length){finishObjectives(m,rules);return;}
+  if(s.objectives)throw Error('Objectives have already begun.');
+  s.objectives={order,resolved:0};s.stage='objective-resolve';rules.objectives!.begin(m,s.selected[order[0]]!);advanceObjectives(m,rules);
 }
 
 export function setupPrompt(m: Match, rules: LocationSetupRules, seat: Side): Prompt {
@@ -54,7 +95,7 @@ export function setupPrompt(m: Match, rules: LocationSetupRules, seat: Side): Pr
   if (setup.stage === 'choose') {
     side = !setup.committed[seat] ? seat : !setup.committed.dark ? 'dark' : 'light';
     if (side === seat) choices = candidates(m, rules, side).map(id => ({id: 'select:' + id, card: id,
-      label: rules.name(m, id), forceIcons: {...rules.location(m, id)!.icons}}));
+      label: rules.name(m, id), ...(rules.location(m,id)?{forceIcons: {...rules.location(m, id)!.icons}}:{})}));
   } else if (setup.stage === 'reveal') {
     side = 'dark'; choices = [{id: 'reveal', label: 'Reveal starting choices together'}];
   } else if (setup.stage === 'conversion') {
@@ -64,6 +105,9 @@ export function setupPrompt(m: Match, rules: LocationSetupRules, seat: Side): Pr
     choices = options.choices.map(({id, label}) => ({id: 'place:' + id, label}));
   } else if (setup.stage === 'additional') {
     const options=rules.additionalOptions?.(m);if(!options||!options.choices.length)throw Error('Missing required starting deployment.');side=options.side;choices=options.choices.map(({id,label,card})=>({id,label,...(card?{card,forceIcons:{...rules.location(m,card)!.icons}}:{})}));
+  } else if(setup.stage==='objective-resolve'){
+    side=setup.objectives!.order[setup.objectives!.resolved];choices=rules.objectives!.choices(m,setup.selected[side]!);
+    if(!choices.length||new Set(choices.map(c=>c.id)).size!==choices.length)throw Error('Objective needs a legal setup choice.');
   } else if (setup.stage === 'shuffle') {
     side = 'dark'; choices = [{id: 'begin', label: 'Shuffle both decks and draw opening hands'}];
   }
@@ -81,9 +125,10 @@ export function applySetup(m: Match, rules: LocationSetupRules, seat: Side, choi
     const invalid=rules.invalidStarting?.(m)??[];
     if(invalid.length){s.setAside=[...(s.setAside??[]),...invalid];for(const id of invalid){const side=m.cards[id].owner;s.selected[side]=null;s.committed[side]=false;}s.revealed=false;s.stage='choose';prepareChoices(m,rules);return;}
     s.revealed = true;
-    const ids = selected(m);
+    const ids = selectedLocations(m,rules);
     s.stage = ids.length === 2 && rules.location(m, ids[0])!.identity === rules.location(m, ids[1])!.identity ? 'conversion' : rules.additionalOptions?.(m)?'additional':'placement';
     s.priority = 'dark';
+    if(s.stage==='placement'&&!ids.length&&selected(m).some(id=>rules.objectives?.isObjective(m,id)))beginObjectives(m,rules);
   } else if (s.stage === 'conversion') {
     if (choice === 'accept') {s.covered = s.selected[seat]; s.stage = 'placement';}
     else if (seat === 'dark') s.priority = 'light';
@@ -95,7 +140,7 @@ export function applySetup(m: Match, rules: LocationSetupRules, seat: Side, choi
   } else if (s.stage === 'placement') {
     const placement = placements(m, rules).choices.find(p => 'place:' + p.id === choice)!;
     if (s.covered) {
-      const covered = s.covered, converting = selected(m).find(id => id !== covered)!;
+      const covered = s.covered, converting = selectedLocations(m,rules).find(id => id !== covered)!;
       const convertible = rules.location(m, covered)!.convertible;
       moveCard(m, covered, 'table');
       if (convertible) {
@@ -110,9 +155,13 @@ export function applySetup(m: Match, rules: LocationSetupRules, seat: Side, choi
       m.locations = [...placement.order];
     }
     s.stage = rules.additionalOptions?.(m)?'additional':'shuffle';
-    if(s.stage==='shuffle')beginStartingInterrupts(m,rules.interrupts);
+    if(s.stage==='shuffle')beginObjectives(m,rules);
   } else if(s.stage==='additional'){
     if(!rules.deployAdditional)throw Error('Missing starting deployment rules.');rules.deployAdditional(m,choice,entropy);s.stage=rules.additionalOptions?.(m)?'additional':'placement';
+  } else if(s.stage==='objective-resolve'){
+    const o=s.objectives!,side=o.order[o.resolved],id=s.selected[side]!;
+    if(seat!==side||!rules.objectives!.choices(m,id).some(c=>c.id===choice))throw Error('Invalid Objective setup choice.');
+    rules.objectives!.apply(m,id,choice,entropy);advanceObjectives(m,rules);
   } else if (s.stage === 'shuffle') {
     for (const side of sides) shufflePile(m, side, 'reserve', entropy);
     for (const side of sides) {
@@ -124,10 +173,11 @@ export function applySetup(m: Match, rules: LocationSetupRules, seat: Side, choi
 
 export function projectSetup(m: Match, rules: LocationSetupRules, seat: Side) {
   const s = m.setup!;
-  const card = (id: string | null) => id ? {...m.cards[id], name: rules.name(m, id), forceIcons: {...rules.location(m, id)!.icons}} : null;
+  const card = (id: string | null) => id ? {...m.cards[id], name: rules.name(m, id), ...(rules.location(m,id)?{forceIcons: {...rules.location(m, id)!.icons}}:{})} : null;
   return {
     ...(s.interrupts?{interrupts:projectStartingInterrupts(m,seat,rules.name)}:{}),
     stage: s.stage, committed: {...s.committed},
+    ...(s.objectives?{objectives:{order:[...s.objectives.order],resolved:s.objectives.resolved}}:{}),
     selected: Object.fromEntries(sides.map(side => [side, s.revealed || side === seat ? card(s.selected[side]) : null])),
     rejected: s.rejected.map(pair => pair.map(card)),
     setAside:(s.setAside??[]).map(card),
@@ -137,7 +187,7 @@ export function projectSetup(m: Match, rules: LocationSetupRules, seat: Side) {
 
 export function assertSetup(m: Match, rules: LocationSetupRules): void {
   const s = m.setup;
-  if (!s || !['choose', 'reveal', 'conversion', 'placement', 'additional', 'starting-choice', 'starting-reveal', 'starting-resolve', 'shuffle', 'complete'].includes(s.stage) || !sides.includes(s.priority) || typeof s.revealed !== 'boolean' || !Array.isArray(s.rejected)) throw Error('Invalid starting setup.');
+  if (!s || !['choose', 'reveal', 'conversion', 'placement', 'additional', 'objective-resolve', 'starting-choice', 'starting-reveal', 'starting-resolve', 'shuffle', 'complete'].includes(s.stage) || !sides.includes(s.priority) || typeof s.revealed !== 'boolean' || !Array.isArray(s.rejected)) throw Error('Invalid starting setup.');
   assertStartingInterrupts(m,rules.interrupts,rules.firstPlayer?.(m)??'dark');
   const rejected = s.rejected.flat();
   for(const field of ['setAside','additional'] as const){const ids=s[field];if(ids!==undefined&&(!Array.isArray(ids)||new Set(ids).size!==ids.length||ids.some(id=>!rules.location(m,id))))throw Error('Invalid starting supplements.');}
@@ -146,13 +196,23 @@ export function assertSetup(m: Match, rules: LocationSetupRules): void {
       rules.location(m, pair[0])!.identity !== rules.location(m, pair[1])!.identity)) throw Error('Invalid rejected starting cards.');
   for (const side of sides) {
     const id = s.selected[side];
-    if (typeof s.committed[side] !== 'boolean' || id !== null && (m.cards[id]?.owner !== side || !rules.location(m, id) || !s.committed[side] || rejected.includes(id) || s.setAside?.includes(id))) throw Error('Invalid starting selection.');
+    const mandatory=objectives(m,rules,side)[0];
+    if (typeof s.committed[side] !== 'boolean' || id !== null && (m.cards[id]?.owner !== side || !rules.location(m, id)&&!rules.objectives?.isObjective(m,id) || mandatory&&id!==mandatory || !s.committed[side] || rejected.includes(id) || s.setAside?.includes(id)) || mandatory&&s.committed[side]&&id!==mandatory) throw Error('Invalid starting selection.');
   }
   const both = sides.every(side => s.committed[side]);
   if ((s.stage === 'choose' ? both : !both) || s.revealed !== !['choose', 'reveal'].includes(s.stage)) throw Error('Invalid setup disclosure.');
-  const ids = selected(m), collision = ids.length === 2 && rules.location(m, ids[0])!.identity === rules.location(m, ids[1])!.identity;
+  const ids = selectedLocations(m,rules), collision = ids.length === 2 && rules.location(m, ids[0])!.identity === rules.location(m, ids[1])!.identity;
   if (s.stage === 'conversion' && !collision || s.covered !== null && (!collision || !ids.includes(s.covered) || !['placement', 'additional', 'starting-choice', 'starting-reveal', 'starting-resolve', 'shuffle', 'complete'].includes(s.stage))) throw Error('Invalid starting conversion.');
   if (collision && ['placement', 'additional', 'starting-choice', 'starting-reveal', 'starting-resolve', 'shuffle', 'complete'].includes(s.stage) && !s.covered) throw Error('Starting conversion needs consent.');
+  const objectiveIds=selected(m).filter(id=>rules.objectives?.isObjective(m,id)),o=s.objectives;
+  if(o){
+    const first=rules.firstPlayer?.(m)??'dark',order=[first,other(first)].filter(side=>s.selected[side]&&objectiveIds.includes(s.selected[side]!));
+    if(!rules.objectives||!objectiveIds.length||!['objective-resolve','starting-choice','starting-reveal','starting-resolve','shuffle','complete'].includes(s.stage)||!Array.isArray(o.order)||JSON.stringify(o.order)!==JSON.stringify(order)||!Number.isSafeInteger(o.resolved)||o.resolved<0||o.resolved>order.length||s.stage==='objective-resolve'&&o.resolved>=order.length||s.stage!=='objective-resolve'&&o.resolved!==order.length)throw Error('Invalid Objective setup sequence.');
+    for(let n=0;n<o.order.length;n++)if((n<o.resolved)!==rules.objectives.complete(m,s.selected[o.order[n]]!))throw Error('Objective setup completion was skipped.');
+    if((s.stage==='objective-resolve')===!!o.opening)throw Error('Invalid Objective opening accounting.');
+    if(o.opening)for(const side of sides){const p=o.opening[side];if(!p||![p.hand,p.reserve].every(n=>Number.isSafeInteger(n)&&n>=0&&n<=m.deckSize)||p.hand+p.reserve>m.deckSize)throw Error('Invalid Objective opening counts.');}
+  }else if(s.stage==='objective-resolve'||objectiveIds.length&&['starting-choice','starting-reveal','starting-resolve','shuffle','complete'].includes(s.stage))throw Error('Missing Objective setup sequence.');
+  rules.objectives?.validate(m);
   // After setup, characters may move and locations may convert. The historical
   // starting choice is retained without asserting that its board is immutable.
   if (s.stage === 'complete' && m.status !== 'setup') return;
@@ -160,6 +220,14 @@ export function assertSetup(m: Match, rules: LocationSetupRules): void {
   const pending=rules.additionalOptions?.(m);
   if(s.stage==='additional'&&(!pending||!pending.choices.length)||['starting-choice','starting-reveal','starting-resolve','shuffle','complete'].includes(s.stage)&&pending)throw Error('Required starting deployment was skipped.');
   if(s.interrupts?.revealed)return;
+  // The Objective provider validates exact provisional deployments, rollback,
+  // delayed text and source identity. Generic opening accounting still prevents
+  // premature hand draws or skipping the required Objective sequence.
+  if(o){
+    if(o.opening)for(const side of sides){const p=o.opening[side],drawn=s.stage==='complete'?Math.min(8,p.reserve):0;if(m.players[side].hand.length!==p.hand+drawn||m.players[side].reserve.length!==p.reserve-drawn)throw Error('Unexpected Objective opening piles.');}
+    else if(sides.some(side=>m.players[side].hand.length||m.players[side].force.length||m.players[side].used.length||m.players[side].lost.length||m.players[side].destiny.length))throw Error('Gameplay entered Objective setup.');
+    return;
+  }
   const extra=s.additional??[];
   const placed = ['starting-choice','starting-reveal','starting-resolve','shuffle','complete'].includes(s.stage), drawn = s.stage === 'complete';
   for (const side of sides) {

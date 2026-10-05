@@ -1,3 +1,4 @@
+import {undercoverTargetable,undercoverReference,undercoverRecords,sameUndercoverCard,activateUndercoverDuel,restoreUndercoverDuel} from './undercover-state';
 import {lossPrevented} from './loss-prevention';
 import {duelModifier} from './duel-modifiers';
 import {beginDestinySequence, assertDestinyScope} from './destiny-limits';
@@ -9,10 +10,11 @@ import {openWindow} from './runtime';
 import {moveCard} from './state';
 import {loseFromTable} from './table';
 import {markRunPlayed, travelState} from './travel';
-import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
+import {assertCardReference, referenceCard, type CardReference} from './identity';
 import {other, sides, type Action, type Json, type Match, type Resolution, type Side, type Window} from './types';
 
 export type Duel = {
+  undercoverParticipants?: CardReference[];
   serial?: number; drawCounts?: Partial<Record<Side, number>>;
   source: string; site: string; characters: Record<Side, string>;
   participantRefs: Record<Side, CardReference>;
@@ -39,7 +41,7 @@ const usage = (m: Match): Usage => {
 };
 const action = (step: string, p: Payload, label = step): Action => ({id: 'duel:' + step + ':' + p.card + (p.target ? ':' + p.target : ''), label, handler: 'duel:' + step, source: p.card, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: Payload, actor: Side = 'dark') => m.stack.push({kind: 'resolution', actor, cancelled: false, action: action(step, p)});
-const together = (m: Match, d: Pick<Duel, 'characters' | 'site' | 'participantRefs'>) => sides.every(side => sameCard(m, d.participantRefs[side]) && m.cards[d.characters[side]]?.zone === 'table' && m.cards[d.characters[side]].location === d.site);
+const together = (m: Match, d: Pick<Duel, 'characters' | 'site' | 'participantRefs'>) => sides.every(side => sameUndercoverCard(m, d.participantRefs[side]) && (m.cards[d.characters[side]]?.zone === 'table' || undercoverTargetable(m,d.characters[side])) && m.cards[d.characters[side]].location === d.site);
 function boundary(m: Match, step: string, kind: string, p: Payload, priority: Side = 'light'): void {
   queue(m, step, p); openWindow(m, 'response', priority, {kind, source: p.card});
 }
@@ -57,8 +59,8 @@ export function duelActions(m: Match, w: Window, side: Side): Action[] {
   if (side !== 'dark' || m.turn.side !== side || m.turn.phase !== 'move' || usage(m).obsession || d && d.stage !== 'complete' ||
       e?.kind !== 'moved' || !e.from || !e.site || !adjacent(m, e.from, e.site)) return result;
   for (const vader of e.cards ?? (e.card ? [e.card] : [])) {
-    if (m.cards[vader]?.blueprint !== '101_5' || m.cards[vader].owner !== side || m.cards[vader].zone !== 'table' || m.cards[vader].location !== e.site) continue;
-    for (const luke of Object.values(m.cards).filter(c => c.blueprint === '101_2' && c.owner === 'light' && c.zone === 'table' && c.location === e.site))
+    if (m.cards[vader]?.blueprint !== '101_5' || m.cards[vader].owner !== side || !(m.cards[vader].zone === 'table' || undercoverTargetable(m,vader)) || m.cards[vader].location !== e.site) continue;
+    for (const luke of Object.values(m.cards).filter(c => c.blueprint === '101_2' && c.owner === 'light' && (c.zone === 'table' || undercoverTargetable(m,c.id)) && c.location === e.site))
       for (const card of m.players.dark.hand.filter(id => m.cards[id].blueprint === '101_6'))
         result.push(action('obsession', {card, vader, luke: luke.id, site: e.site}, 'Vader’s Obsession · duel Luke'));
   }
@@ -96,6 +98,8 @@ export function duelResolve(m: Match, r: Resolution): void {
     const d: Duel = {serial: ++m.serial, source: p.card, site: p.site!, characters: {dark: p.vader!, light: p.luke!}, participantRefs: structuredClone(p.participantRefs!), stage: 'begin', draws: {dark: [], light: []}, total: {dark: null, light: null}, winner: null, difference: 0, interrupted: false};
     if (!together(m, d)) return;
     m.data.duel = d as unknown as Json;
+    const activated=activateUndercoverDuel(m,sides.map(side=>d.characters[side]));
+    if(activated.length){d.undercoverParticipants=activated;for(const side of sides)d.participantRefs[side]=referenceCard(m,d.characters[side]);}
     boundary(m, 'draws-before', 'duel-initiated', p); return;
   }
   if (h === 'duel:cleanup') {moveCard(m, p.card, 'lost'); return;}
@@ -149,7 +153,7 @@ export function duelResolve(m: Match, r: Resolution): void {
     queue(m, 'end', p); openWindow(m, 'response', 'light', {kind: 'character-lost', card: p.target!, source: p.card, site: d.site, cause: 'duel'});
   }
   else if (h === 'duel:end') end(m, p);
-  else if (h === 'duel:complete') {d.stage = 'complete'; openWindow(m, 'response', 'light', {kind: 'duel-ended', source: p.card, winner: d.winner});}
+  else if (h === 'duel:complete') {restoreUndercoverDuel(m,d.undercoverParticipants??[]); d.stage = 'complete'; openWindow(m, 'response', 'light', {kind: 'duel-ended', source: p.card, winner: d.winner});}
   else throw Error('Unknown duel continuation.');
 }
 export function duelView(m: Match): Json {
@@ -159,8 +163,9 @@ export function duelView(m: Match): Json {
 }
 function assertParticipants(m: Match, refs: Record<Side, CardReference> | undefined, characters: Record<Side, string>): void {
   for (const side of sides) {
-    if (refs?.[side]?.zone !== 'table') throw Error('Invalid duel participant reference.');
-    assertCardReference(m, refs[side], characters[side]);
+    const ref=refs?.[side];
+    if (!ref || ref.zone !== 'table' && !undercoverReference(m,ref)) throw Error('Invalid duel participant reference.');
+    assertCardReference(m, ref, characters[side]);
   }
 }
 export function assertDuel(m: Match): void {
@@ -176,6 +181,11 @@ export function assertDuel(m: Match): void {
     if (d.destinyTotals && sides.some(side => d.destinyTotals![side] !== null && (!Number.isFinite(d.destinyTotals![side]) || d.destinyTotals![side]! < 0))) throw Error('Invalid duel destiny totals.');
     if (m.cards[d.characters.dark].blueprint !== '101_5' || m.cards[d.characters.light].blueprint !== '101_2') throw Error('Invalid duel participants.');
     assertParticipants(m, d.participantRefs, d.characters);
+    if(d.undercoverParticipants!==undefined){
+      if(!Array.isArray(d.undercoverParticipants)||new Set(d.undercoverParticipants.map(r=>r.id)).size!==d.undercoverParticipants.length)throw Error('Invalid undercover duel participants.');
+      for(const ref of d.undercoverParticipants){assertCardReference(m,ref);if(ref.zone!=='table'||!undercoverReference(m,ref)||!sides.some(side=>JSON.stringify(d.participantRefs[side])===JSON.stringify(ref)))throw Error('Invalid undercover duel activation.');}
+    }
+    if(d.stage!=='complete'&&undercoverRecords(m).some(p=>p.duel&&!p.ended&&sides.some(side=>d.characters[side]===p.card.id)&&!d.undercoverParticipants?.some(ref=>ref.id===p.duel!.id&&ref.version===p.duel!.version)))throw Error('Missing undercover duel restoration.');
     if (d.difference === null && (d.stage !== 'result' || d.draws.dark.some(x => x.value !== null) === d.draws.light.some(x => x.value !== null))) throw Error('Invalid unverified duel amount.');
     if (['result', 'losses'].includes(d.stage) && sides.some(side => d.draws[side].length !== (d.drawCounts?.[side] ?? 2) || d.total[side] === null)) throw Error('Incomplete duel result.');
     // A recovered save must not turn the unresolved failed-destiny amount into

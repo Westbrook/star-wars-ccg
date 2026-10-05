@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "kind": "official-rule-native-integration",
+  "cards": ["2_40", "2_129"],
+  "sources": [
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+      "printedPages": [62, 173, 174],
+      "purpose": "Undercover inactivity, own text, attachments, targeting exceptions, movement, presence, breaking cover, duels and creature defense"
+    },
+    {
+      "url": "https://res.starwarsccg.org/cards/ANewHope-Light/large/undercover.gif",
+      "purpose": "Light Undercover deployment, voluntary breaking cover and Alter immunity"
+    },
+    {
+      "url": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/undercover.gif",
+      "purpose": "Dark Undercover deployment, voluntary breaking cover and Alter immunity"
+    }
+  ],
+  "verification": {
+    "command": "node --test tests/native-engine/undercover.test.mjs tests/native-engine/identity.test.mjs tests/native-engine/ground-creatures.test.mjs tests/native-engine/labria.test.mjs tests/native-engine/astromech.test.mjs",
+    "testCount": 163,
+    "undercoverTestCount": 14,
+    "result": "passed",
+    "coverage": [
+      "actual Light and Dark Undercover Effect deployment and persistence",
+      "inactive spy retains original owner and physical identity without ordinary presence",
+      "opponent Force drain prevention and own deploy-phase breaking cover",
+      "opponent-turn landspeed with owner Force payment",
+      "opponent-turn docking-bay transit with durable party selection and owner cost",
+      "going undercover disembarks from an enclosed vehicle; subsequent boarding prohibited",
+      "actual weapon and device deployment on inactive spies with retained active attachments",
+      "automatic exposure when Spy characteristic is removed",
+      "instance-bound modifiers survive going undercover and expire on departure",
+      "saved-state corruption of ownership, activation and source bindings rejected",
+      "undercover Labria reveal and Leia Death Star passive text",
+      "ordinary inactive captives do not gain Undercover identity privileges"
+    ]
+  },
+  "gempConformance": {
+    "command": "node --test tests/native-engine/undercover.test.mjs tests/native-engine/undercover-conformance.test.mjs",
+    "testCount": 18,
+    "result": "passed",
+    "comparisonCases": ["light", "dark", "light-aboard"],
+    "receipt": "gemp/undercover-provenance.json",
+    "results": "gemp/undercover-results.json",
+    "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+    "productionFilesCompared": 6820,
+    "productionFilesChanged": 0,
+    "scope": "Actual Effect deployment, inactive spy without presence, unavailable opponent Force drain, opponent-turn regular landspeed and owner cost, voluntary breaking cover and retained device. The aboard case uses Luke's X-34 Landspeeder 1_149 and verifies disembarking.",
+    "notCompared": ["docking-bay transit", "duels and targeting", "ISB thresholds", "isolated deployment-anchor behavior", "GEMP display-side fields and private drain-control flags"]
+  },
+  "limitations": [
+    "Fixtures use controlled table and phase setup with public runtime actions for the covered transitions; these are not certified complete starter matches.",
+    "Only existing supported card providers and reviewed targeting exceptions are covered; no full-catalog Undercover interaction certification is claimed.",
+    "Missing-character rules are not implemented by this engine checkpoint.",
+    "Undercover's common-site movement uses the native engine's existing supported landspeed and docking-bay movement scope."
+  ],
+  "productionAdmission": "closed"
+}

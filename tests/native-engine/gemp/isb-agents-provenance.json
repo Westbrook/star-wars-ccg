@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "kind": "executed-gemp-card-integration",
+  "cards": [
+    "1_166",
+    "104_6"
+  ],
+  "reference": {
+    "repository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+    "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+    "productionEdited": false,
+    "classes": [
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_166.java",
+        "sha256": "cc0ec2398567fa670fd005cad2f80a160dc6a0c8a98bf03ad95cb14ead340cb6"
+      },
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set104/dark/Card104_006.java",
+        "sha256": "6cb47f72cf60b3b6199b2f7d240300481482a0a48cfb08c20b1432ce25e3b140"
+      },
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/conditions/AtSameSiteAsCondition.java",
+        "sha256": "a175c778fbc1c65e7b77b19475e164b5826f25f694c721b1afd33707667c4c33"
+      },
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/conditions/OnTableCondition.java",
+        "sha256": "cedc4b8fbc88985702d981a4f16d03966ba78ffac61b0398a15a5c29b6695017"
+      }
+    ]
+  },
+  "execution": {
+    "image": "maven:3.9.6-eclipse-temurin-21",
+    "network": "none",
+    "command": "docker run --rm --network none --hostname swccg-oracle -v /private/tmp/swccg-engine-reference:/opt/gemp-swccg -v swccg-official-maven:/root/.m2 -w /opt/gemp-swccg/src maven:3.9.6-eclipse-temurin-21 mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineIsbAgentsOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+    "exitCode": 0,
+    "junitTests": 3,
+    "observations": 13,
+    "log": "/private/tmp/swccg-isb-agents-oracle.log"
+  },
+  "artifacts": {
+    "tests/native-engine/gemp/NativeEngineIsbAgentsOracleTests.java": {
+      "sha256": "c87a61ce2a3c400cde426f61017367312ab713ae5fe96da3c8877c2819eb04ed"
+    },
+    "tests/native-engine/gemp/isb-agents-results.json": {
+      "sha256": "1b8c3f8c3d0ea39e9d66d8a20c45a3d0027d18bd7652470528b9ab82368ff5ac"
+    },
+    "tests/native-engine/gemp/isb-agents-receipt.json": {
+      "sha256": "c8385e5e03f43825afc99f05aa65b0e2df9c9ac0494be64cef75a8572c98da24"
+    }
+  },
+  "native": {
+    "command": "node --test tests/native-engine/isb-agents.test.mjs",
+    "tests": 22,
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "log": "/private/tmp/swccg-isb-agents-native3.log",
+    "comparison": "All 13 retained observations are deep-compared by name; the reference file is mandatory.",
+    "additionalCoverage": [
+      "ISB location-restriction bypass preserves Veers opposing-unique-character prohibition.",
+      "Hoth orbit is not on Hoth; aboard deployment there requires the Objective bypass.",
+      "Characters aboard enclosed vehicles still count as on table for the deployment prohibition and same-site stat effects.",
+      "Opponent General Dodonna supplies Yularen power; multiple partners do not multiply the modifier.",
+      "Snowtrooper bonus has no ownership restriction.",
+      "Source suppression/departure and excluded source/partner queries disable the correct modifier.",
+      "Both source modifiers work for Besieged selected participants and stop for barred participants.",
+      "Veers may remain and move outside Hoth after deployment.",
+      "Both new agents have Warrior, not Pilot, icons.",
+      "Exact constructor lore enables Objective ISB/SPY grants for both new characters."
+    ]
+  },
+  "rulesSources": [
+    {
+      "url": "https://res.starwarsccg.org/cards/Premiere-Dark/large/colonelwullfyularen.gif",
+      "authority": "Printed card link retained from catalog; source constructor text independently inspected."
+    },
+    {
+      "url": "https://res.starwarsccg.org/cards/EmpireStrikesBackIntroductoryTwoPlayerGame-Dark/large/veers.gif",
+      "authority": "Printed card link retained from catalog; source constructor text independently inspected."
+    },
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+      "printedPages": [
+        23,
+        43,
+        60,
+        90,
+        163
+      ],
+      "scope": "Canceled game text, at/on prepositions, exclusion, enclosed occupancy, and Besieged site context."
+    }
+  ],
+  "scope": [
+    "Yularen and Veers full printed behaviors implemented for the represented native card/state model.",
+    "Chief Bast1_165 and General Dodonna1_10 are metadata-only supporting named partners; their own game text is not certified or deployed by these fixtures.",
+    "GEMP initial placements and aboard slots are controlled fixtures; Veers deployment uses real card actions and payment.",
+    "Native source suppression, ownership changes, battle barriers and Hoth-to-Tatooine relocation are controlled provider/state interventions, not claims about naturally available source cards.",
+    "Besieged integration uses real selection/battle progression from controlled capture and placement; no executed GEMP Besieged oracle is claimed.",
+    "Production full-match admission remains closed."
+  ]
+}

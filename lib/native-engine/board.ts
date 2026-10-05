@@ -1,4 +1,8 @@
 import {laserGateSeparates} from './laser-gate';
+import {chewbaccaPowerBonus} from './chewbacca-state';
+import {objectiveDrainModifier,objectiveIgnoresLocationDeploymentRestrictions} from './objectives';
+import {undercoverAt} from './undercover-state';
+import {isbAgentPowerBonus,isbAgentForfeitBonus,isbAgentDeploymentProhibited} from './isb-agents';
 import {shipSite} from './ship-sites';
 import {bionicHandBonus} from './bionic-hand';
 import {disarmedByEffect} from './weapon-carrying';
@@ -31,7 +35,7 @@ import {ability} from './ability';
 import {canPlayCard, isUnique, hasPersona} from './persona';
 import {cardDefinition} from './definitions';
 export {cardDefinition, definition} from './definitions';
-import {hasCharacteristic, isSpecies, nonUnique} from './characteristics';
+import {hasCharacteristic,hasCharacterSubtype, isSpecies, nonUnique} from './characteristics';
 import {premiereLocations} from './premiere-setup';
 import {other, type Match, type Payment, type Side} from './types';
 import {equipmentState, nighttimeSites} from './equipment-state';
@@ -83,7 +87,7 @@ function equipmentBonus(m: Match, id: string, stat: 'power' | 'forfeit'): number
   return bonus;
 }
 
-export const deployWithoutPresence = (m:Match,side:Side,site:string):boolean => side==='light'&&m.cards[site]?.blueprint==='1_125'&&gameTextActive(m,site);
+export const deployWithoutPresence = (m:Match,side:Side,site:string):boolean => undercoverAt(m,side,site).length>0 || side==='light'&&m.cards[site]?.blueprint==='1_125'&&gameTextActive(m,site);
 
 export function deploymentPayment(m: Match, id: string, site: string, aboard = false, ignorePresence = false): Payment | null {
   if (cardDefinition(m, id).status === 'metadata-only') return null;
@@ -91,13 +95,17 @@ export function deploymentPayment(m: Match, id: string, site: string, aboard = f
   if (shieldDeployment(m,id,site)) return null;
   if (def.type !== 'Character' || !m.locations.includes(site) || !aboard && !isSite(m,site)) return null;
   const side = card.owner, blueprint = card.blueprint;
-  if (!ignorePresence && !deployWithoutPresence(m,side,site) && !forceIcons(m,site,side) && !presence(m, side, site)) return null;
+  if (!ignorePresence && !hasCharacteristic(m,id,'SPY') && !deployWithoutPresence(m,side,site) && !forceIcons(m,site,side) && !presence(m, side, site)) return null;
   const onTable = Object.values(m.cards).filter(c => c.zone === 'table');
   if (!canPlayCard(m, id)) return null;
+  if (isbAgentDeploymentProhibited(m,id)) return null;
   if (['101_2', '101_5'].includes(blueprint) && onTable.filter(c => c.owner === other(side) && cardDefinition(m, c.id).type === 'Character' && isUnique(m, c.id)).length >= 2) return null;
-  if ((isJawa(blueprint) || blueprint === '1_196' || blueprint === '101_2') && system(m, site) !== 'Tatooine') return null;
-  if(blueprint==='3_6'&&system(m,site)!=='Hoth')return null;
-  if (['1_170', '101_5'].includes(blueprint) && system(m, site) !== 'Death Star') return null;
+  if (!objectiveIgnoresLocationDeploymentRestrictions(m,id)) {
+    if ((isJawa(blueprint) || blueprint === '1_196' || blueprint === '101_2') && system(m, site) !== 'Tatooine') return null;
+    if(blueprint==='3_6'&&system(m,site)!=='Hoth')return null;
+    if(blueprint==='104_6'&&(!(isSite(m,site)||sectorKind(m,site)==='cloud')||system(m,site)!=='Hoth'))return null;
+    if (['1_170', '101_5'].includes(blueprint) && system(m, site) !== 'Death Star') return null;
+  }
   if (sunsdownSpyFree(m,id,site)||otsdRecruitFree(m,id,site)) return {[side]:0};
   if (isJawa(blueprint)) {
     const ownCamp = m.cards[site].blueprint === (side === 'light' ? '1_131' : '1_292');
@@ -111,7 +119,7 @@ export function deploymentPayment(m: Match, id: string, site: string, aboard = f
   if (blueprint === '1_22' && cardDefinition(m,site).name === "Tatooine: Lars' Moisture Farm") cost = 0;
   if (['1_28', '1_194'].includes(blueprint)) {
     const faction = side === 'light' ? 'Rebel' : 'Imperial';
-    if (atSite(m, site).some(c => c.owner === side && cardDefinition(m, c.id).subType === faction && ability(m, c.id) > 2)) cost = 0;
+    if (atSite(m, site).some(c => c.owner === side && hasCharacterSubtype(m,c.id,faction) && ability(m, c.id) > 2)) cost = 0;
   }
   return {[side]: Math.max(0, cost)};
 }
@@ -142,7 +150,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   if (blueprint === '9_24' && armedWithLightsaber(m,id)) value+=2;
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
   if(disarmedByEffect(m,id))value--;
-  value+=bionicHandBonus(m,id);
+  value+=bionicHandBonus(m,id)+chewbaccaPowerBonus(m,id)+isbAgentPowerBonus(m,id,active);
   return Math.max(0, value);
 }
 
@@ -152,7 +160,7 @@ export function forfeit(m: Match, id: string, active: (id: string) => boolean = 
   if (site && card.owner === 'dark' && isSpecies(m, id, 'TUSKEN_RAIDER') && m.cards[site].blueprint === '1_293') bonuses.push(1);
   if (site && card.blueprint === '1_12' && m.cards[site].blueprint === '1_292') bonuses.push(-1);
   if(site&&isJawa(card.blueprint)&&isSite(m,site)&&(cardDefinition(m,site).icons as string[]).includes('Exterior')&&unitsAt(m,site).some(c=>['1_150','1_309'].includes(c.blueprint)&&operational(m,c.id)&&gameTextActive(m,c.id)&&active(c.id)))bonuses.push(1);
-  bonuses.push(corulagStatBonus(m,id),hothForfeitModifier(m,id),squadronForfeitBonus(m,id,active),equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active),larsForfeitBonus(m,id,active));
+  bonuses.push(corulagStatBonus(m,id),hothForfeitModifier(m,id),squadronForfeitBonus(m,id,active),equipmentBonus(m,id,'forfeit'),mosEisleyBonus(m,id),protocolForfeitBonus(m,id,active),larsForfeitBonus(m,id,active),isbAgentForfeitBonus(m,id,active));
   return currentForfeit(m,id,printed(m,id,'forfeit'),bonuses);
 }
 
@@ -179,14 +187,14 @@ export function drainAmount(m: Match, side: Side, site: string): number {
   if(sectorFamily(m,site)==='clouds'&&m.cards[site].owner!==side&&gameTextActive(m,site)&&controls(m,side,site))value++;
   const blueprint = m.cards[site].blueprint;
   if(['1_125','1_283'].includes(blueprint)&&side==='light'&&gameTextActive(m,site)&&controls(m,side,site))value++;
-  value+=hothDrainModifier(m,side,site)+otsdDrainModifier(m,side,site)+executorDrainModifier(m,side,site);
+  value+=hothDrainModifier(m,side,site)+otsdDrainModifier(m,side,site)+executorDrainModifier(m,side,site)+objectiveDrainModifier(m,side,site);
   if(sectorFamily(m,site)==='big-one'&&gameTextActive(m,site)&&controls(m,side,site)){
     if(m.cards[site].owner===side)value+=sectorsAt(m,sectorSystem(m,site)!,'asteroid').filter(id=>sectorFamily(m,id)==='field').length;
     else if(blueprint==='4_82')value++;
   }
   if (side === 'dark' && blueprint === '3_60' && controls(m,side,site) && atSite(m,site).some(c=>c.owner===side && cardDefinition(m,c.id).subType==='Imperial')) value++;
   if (side === 'light' && blueprint === '1_284' || side === 'dark' && blueprint === '1_293') value++;
-  if (side === 'light' && blueprint === '101_4' && atSite(m, site).some(c => c.owner === side && cardDefinition(m, c.id).subType === 'Rebel' && ability(m, c.id) > 2)) value += 2;
+  if (side === 'light' && blueprint === '101_4' && atSite(m, site).some(c => c.owner === side && hasCharacterSubtype(m,c.id,'Rebel') && ability(m, c.id) > 2)) value += 2;
   return value;
 }
 

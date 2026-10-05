@@ -58,7 +58,15 @@ test('invalid characteristics and forged saved references fail validation',()=>{
 
 test('explicit metadata covers every defined card without deriving traits from misleading text',()=>{
  const additional=JSON.parse(fs.readFileSync(new URL('../../data/native-engine/additional-cards.json',import.meta.url)));
- assert.deepEqual(Object.keys(metadata).sort(),[...new Set([...manifest.cards,...additional].map(c=>c.gempId))].sort());
+ const faces=JSON.parse(fs.readFileSync(new URL('../../data/native-engine/objective-faces.json',import.meta.url))),reverseFaces=new Set(Object.values(faces));
+ // A reverse Objective face is definition data for its physical front, not a
+ // separately playable card or independent identity.
+ assert.deepEqual(Object.keys(metadata).sort(),[...new Set([...manifest.cards,...additional].filter(c=>!reverseFaces.has(c.gempId)).map(c=>c.gempId))].sort());
+ const definitions=new Map([...manifest.cards,...additional].map(c=>[c.gempId,c]));
+ for(const [front,back] of Object.entries(faces)){
+  assert.equal(definitions.get(front)?.type,'Objective');assert.equal(definitions.get(back)?.type,'Objective');assert.equal(definitions.get(front).side,definitions.get(back).side);assert.ok(metadata[front]);assert.equal(metadata[back],undefined);
+  assert.throws(()=>fresh({[definitions.get(back).side]:[back]}),/Reverse faces are not separate physical deck cards/);
+ }
  let m=fresh({light:['1_4','1_147','3_16']});for(const bp of ['1_4','1_147','3_16']){const id=pull(m,'light',bp,'hand');assert.equal(traits.hasCharacteristic(m,id,'SMUGGLER'),false);assert.equal(traits.hasCharacteristic(m,id,'GAMBLER'),false)}
  const scout=Object.values(m.cards).find(c=>c.blueprint==='3_16');assert.equal(traits.hasCharacteristic(m,scout.id,'SCOUT'),true);assert.equal(traits.hasCharacteristic(m,scout.id,'TROOPER'),false);assert.equal(traits.nonUnique(m,scout.id),true);
 });

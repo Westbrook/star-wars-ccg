@@ -1,3 +1,4 @@
+import {activeUndercoverSpy} from './undercover-state';
 import {executorControlPowerBonus} from './executor-sites';
 import {starshipEffectBonus} from './starship-effects';
 import {liftTube,liftTubeDestination} from './lift-tube';
@@ -100,7 +101,7 @@ export function capacityFits(m:Match,host:string,crew:{id:string;role:AboardRole
  return n.driver<=r.drivers&&(r.unlimited===true||n.vehicle<=(r.vehicles??0)&&n.starship<=(r.starships??0)&&Math.max(0,n.pilot-r.pilots)+Math.max(0,n.passenger-r.passengers)<=r.shared);
 }
 export function roleAvailable(m:Match,host:string,id:string,role:AboardRole):boolean {
- return !capturedShipFor(m,host)&&capacityFits(m,host,[...occupants(m,host).filter(c=>c.id!==id).map(c=>({id:c.id,role:c.aboardRole!})),{id,role}]);
+ return !activeUndercoverSpy(m,id)&&!capturedShipFor(m,host)&&capacityFits(m,host,[...occupants(m,host).filter(c=>c.id!==id).map(c=>({id:c.id,role:c.aboardRole!})),{id,role}]);
 }
 export function vesselPower(m:Match,id:string):number {
  if(!operational(m,id))return 0;

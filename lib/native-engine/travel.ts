@@ -1,3 +1,5 @@
+import {undercoverAt,activeUndercoverSpy,undercoverReference} from './undercover-state';
+import {hasCharacterSubtype} from './characteristics';
 import {shieldMovement} from './hoth';
 import {laserGateAllowsPassage} from './laser-gate';
 import {unitsAt,isVessel,characterPresent,belowDecks} from './occupancy';
@@ -30,7 +32,8 @@ function decision(m: Match, side: Side, handler: string, p: Payload): void {m.st
 function then(m: Match, side: Side, handler: string, p: Payload, respondable = false): void {
   m.stack.push({kind: 'resolution', actor: side, cancelled: false, ...(respondable ? {awaitingResponses: true} : {}), action: action('travel-step:' + handler, handler, handler, p)});
 }
-export const transitEligible = (m: Match, side: Side, from: string, to?: string) => unitsAt(m, from).filter(c => !shieldMovement(m,side,from,to)&&c.owner === side && !c.attachedTo && canMove(m,c.id) && (!isVessel(m,c.id)||cardDefinition(m,c.id).type==='Vehicle'&&(!to||vehicleDestination(m,c.id,to)))).map(c=>c.id);
+export const transitEligible = (m: Match, side: Side, from: string, to?: string, undercoverOnly=false) => (undercoverOnly?undercoverAt(m,side,from):unitsAt(m,from).filter(c=>!activeUndercoverSpy(m,c.id))).filter(c => !shieldMovement(m,side,from,to)&&c.owner === side && !c.attachedTo && canMove(m,c.id) && (!isVessel(m,c.id)||cardDefinition(m,c.id).type==='Vehicle'&&(!to||vehicleDestination(m,c.id,to)))).map(c=>c.id);
+const transitPartyEligible=(m:Match,side:Side,from:string,to?:string)=>transitEligible(m,side,from,to,side!==m.turn.side);
 const bays = (m: Match) => m.locations.filter(id => bayCosts[m.cards[id].blueprint]);
 /** The whole party pays once. Explicitly free movement cannot be increased (AR pp66,70). */
 export function transitCost(m: Match, side: Side, from: string, to: string, party?:string[]): number {
@@ -47,12 +50,12 @@ const battleInitiation = (m: Match, w: Window) => {
 const runEligible = (m: Match, id: string, to: string) => m.cards[id]?.zone === 'table' && m.cards[id].blueprint === '101_2' && !m.cards[id].attachedTo && !!m.cards[id].location && adjacent(m, m.cards[id].location!, to) && laserGateAllowsPassage(m,id,m.cards[id].location!,to) && canLandspeed(m, id) && !battleHistory(m).participants.includes(id);
 export function travelActions(m: Match, w: Window, side: Side): Action[] {
   const result: Action[] = [];
-  if (w.timing === 'phase' && side === m.turn.side) {
+  if (w.timing === 'phase') {
     if (m.turn.phase === 'move') for (const from of bays(m)) {
-      if (!transitEligible(m, side, from).length) continue;
-      for (const to of bays(m).filter(id => id !== from && transitEligible(m,side,from,id).some(card=>m.players[side].force.length >= transitCost(m, side, from, id,[card])))) result.push(action('transit:' + from + ':' + to, 'Docking-bay transit · ' + name(m, from) + ' → ' + name(m, to), 'party', {from, to, selected: []}));
+      if (!transitPartyEligible(m, side, from).length) continue;
+      for (const to of bays(m).filter(id => id !== from && transitPartyEligible(m,side,from,id).some(card=>m.players[side].force.length >= transitCost(m, side, from, id,[card])))) result.push(action('transit:' + from + ':' + to, 'Docking-bay transit · ' + name(m, from) + ' → ' + name(m, to), 'party', {from, to, selected: []}));
     }
-    if (m.turn.phase === 'deploy' && side === 'dark' && m.players.dark.reserve.length && canSearch(m, baySearch))
+    if (side===m.turn.side && m.turn.phase === 'deploy' && side === 'dark' && m.players.dark.reserve.length && canSearch(m, baySearch))
       for (const room of m.locations.filter(id => m.cards[id].blueprint === '101_4' && controls(m, 'dark', id)))
         result.push(action('search:' + room, 'Search Reserve for a docking bay', 'search', {room}));
   }
@@ -72,7 +75,7 @@ export function travelActions(m: Match, w: Window, side: Side): Action[] {
           const def = cardDefinition(m, id);
           return def.type !== 'Character' && !(def.type === 'Vehicle' && (def.stats as Record<string, string>).landspeed !== undefined);
         })) continue;
-        const rebels = members(m, side).filter(id => characterPresent(m, id) && cardDefinition(m, id).subType === 'Rebel' && ability(m, id) > 2);
+        const rebels = members(m, side).filter(id => characterPresent(m, id) && hasCharacterSubtype(m,id,'Rebel') && ability(m, id) > 2);
         for (const target of rebels) result.push(action('escape:' + card + (rebels.length > 1 ? ':' + target : ''),
           'Narrow Escape · target ' + name(m, target) + ' and attempt to move your cards with ability away', 'escape',
           {card, target, from: b.site, remaining}));
@@ -110,7 +113,7 @@ export function travelResolve(m: Match, r: Resolution, context: Context): void {
   const p = data(r), handler = r.action.handler;
   if (r.cancelled) {if (p.card && m.cards[p.card].zone === 'playing') moveCard(m, p.card, 'lost'); return;}
   if (handler === 'travel:transit') {
-    const moved = p.selected!.filter(id => sameCard(m, p.memberRefs?.[id]!) && transitEligible(m, r.actor, p.from!, p.to!).includes(id));
+    const moved = p.selected!.filter(id => sameCard(m, p.memberRefs?.[id]!) && transitPartyEligible(m, r.actor, p.from!, p.to!).includes(id));
     for (const id of moved) {moveWithAttachments(m, id, p.to!); record(m).moved.push(id);}
     if (moved.length) openWindow(m, 'response', other(r.actor), {kind: 'moved', cards: moved, from: p.from!, site: p.to!});
   } else if (handler === 'travel:search') {
@@ -145,7 +148,7 @@ export function travelResolve(m: Match, r: Resolution, context: Context): void {
 export function travelChoices(m: Match, d: Decision): {id: string; label: string}[] {
   const p = data(d);
   if (d.handler === 'travel:party') return [
-    ...transitEligible(m, d.side, p.from!, p.to!).map(id => ({id: 'toggle:' + id, label: (p.selected!.includes(id) ? 'Remove ' : 'Add ') + name(m, id)})),
+    ...transitPartyEligible(m, d.side, p.from!, p.to!).map(id => ({id: 'toggle:' + id, label: (p.selected!.includes(id) ? 'Remove ' : 'Add ') + name(m, id)})),
     ...(p.selected!.length && transitCost(m,d.side,p.from!,p.to!,p.selected)<=m.players[d.side].force.length ? [{id: 'confirm', label: 'Move party · ' + transitCost(m, d.side, p.from!, p.to!,p.selected) + ' Force total'}] : []),
     {id: 'cancel', label: 'Cancel transit'},
   ];
@@ -217,13 +220,13 @@ export function assertTravel(m: Match): void {
     const group = h === 'travel:transit' ? p.selected : ['travel:escape', 'travel:escape-next'].includes(h) ? p.remaining : undefined;
     if (['travel:transit', 'travel:escape', 'travel:escape-next'].includes(h)) {
       if (!Array.isArray(group) || !p.memberRefs || typeof p.memberRefs !== 'object' || Array.isArray(p.memberRefs) || Object.keys(p.memberRefs).length < group.length || new Set(group).size !== group.length) throw Error('Invalid movement group references.');
-      for (const [id, ref] of Object.entries(p.memberRefs)) {assertCardReference(m, ref, id); if (ref.zone !== 'table' || m.cards[id].owner !== (f.kind === 'decision' ? f.side : (f as Resolution).actor)) throw Error('Invalid movement group target.');}
+      for (const [id, ref] of Object.entries(p.memberRefs)) {assertCardReference(m, ref, id); if ((ref.zone !== 'table'&&!(h==='travel:transit'&&ref.zone==='inactive'&&undercoverReference(m,ref))) || m.cards[id].owner !== (f.kind === 'decision' ? f.side : (f as Resolution).actor)) throw Error('Invalid movement group target.');}
       if (group.some(id => !p.memberRefs![id])) throw Error('Missing movement group target.');
     }
   }
   for (const d of m.stack) if (d.kind === 'decision' && d.handler.startsWith('travel:')) {
     const p = data(d);
-    if (d.handler === 'travel:party' && (d.side !== m.turn.side || m.turn.phase !== 'move' || !bays(m).includes(p.from!) || !bays(m).includes(p.to!) || p.from === p.to || !Array.isArray(p.selected) || new Set(p.selected).size !== p.selected.length || p.selected.some(id => !transitEligible(m, d.side, p.from!, p.to!).includes(id)))) throw Error('Invalid transit party.');
+    if (d.handler === 'travel:party' && (m.turn.phase !== 'move' || !bays(m).includes(p.from!) || !bays(m).includes(p.to!) || p.from === p.to || !Array.isArray(p.selected) || new Set(p.selected).size !== p.selected.length || p.selected.some(id => !transitPartyEligible(m, d.side, p.from!, p.to!).includes(id)))) throw Error('Invalid transit party.');
     if (['travel:search', 'travel:verify', 'travel:place'].includes(d.handler) && (m.turn.side !== 'dark' || m.turn.phase !== 'deploy' || !p.room || !m.cards[p.room] || m.cards[p.room].blueprint !== '101_4')) throw Error('Invalid Reserve search.');
     if (d.handler === 'travel:verify' && (canSearch(m, baySearch) || searchCandidates(m).length || d.side !== 'light')) throw Error('Invalid failed search verification.');
     if (d.handler === 'travel:place' && (!searchCandidates(m).includes(p.card!) || d.side !== 'dark')) throw Error('Invalid docking bay selection.');

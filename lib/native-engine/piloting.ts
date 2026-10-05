@@ -11,7 +11,7 @@ import {hasPersona} from './persona';
 import {crewActive,landed,operational,occupants} from './occupancy';
 import type {Match} from './types';
 
-const powerBonuses:Record<string,number>={'1_13':2,'1_3':2,'2_23':3,'1_173':3,'1_8':2,'1_174':3,'106_1':2,'106_11':2,'1_11':2,'5_5':2,'1_4':3,'1_172':2,'1_19':3,'3_3':3,'5_99':2,'4_1':2,'9_24':2,'1_168':3,'1_167':2,'1_179':2};
+const powerBonuses:Record<string,number>={'2_3':2,'1_13':2,'1_3':2,'2_23':3,'1_173':3,'1_8':2,'1_174':3,'106_1':2,'106_11':2,'1_11':2,'5_5':2,'1_4':3,'1_172':2,'1_19':3,'3_3':3,'5_99':2,'4_1':2,'9_24':2,'1_168':3,'1_167':2,'1_179':2};
 const matchingShips:Record<string,{persona?:string;blueprint?:string;maneuver:number}>={
  '1_11':{persona:'FALCON',maneuver:2},
  '1_8':{persona:'GOLD_1',maneuver:1},'1_174':{persona:'BLACK_3',maneuver:1},
@@ -34,7 +34,7 @@ export const pilotPowerBonus=(m:Match,id:string)=>actingPilot(m,id)&&gameTextAct
 export function vesselManeuver(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).maneuver;if(raw===undefined)return null;
  if(!Number.isFinite(Number(raw)))throw Error('Maneuver needs a printed-value provider.');
- return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+starshipEffectBonus(m,id,'maneuver')+cloudStatModifier(m,id)+otsdShipBonus(m,id,'maneuver')+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+matchingPilotManeuver(m,c.id)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0)+(c.blueprint==='1_168'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'VADERS_CUSTOM_TIE')?3:0),0)):0;
+ return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+starshipEffectBonus(m,id,'maneuver')+cloudStatModifier(m,id)+otsdShipBonus(m,id,'maneuver')+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+matchingPilotManeuver(m,c.id)+(c.blueprint==='2_3'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'FALCON')?1:0)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0)+(c.blueprint==='1_168'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'VADERS_CUSTOM_TIE')?3:0),0)):0;
 }
 const keywords:Record<string,{keywords:string[]}>=identities;
 export function squadronPilot(m:Match,id:string,squadron:string):boolean {

@@ -39,3 +39,15 @@ own starship. Control Station separates the player moving Executor from its owne
 and charges that player. Legal ship-site placement, saved response continuations,
 and CPU choices have focused coverage. These are engine components; complete
 native match admission remains closed.
+
+The current Objective/Undercover integration adds ISB Operations / Empire's
+Sinister Agents starting setup, both flip conditions, drain modifiers and Draw-phase
+retrieval. Both Undercover Effects now preserve a spy's owner and identity while
+applying the official inactivity, movement and targeting exceptions. Original
+A New Hope Chewbacca (`2_3`) adds real deployment, Falcon pilot integration and
+hit-card recovery; Colonel Wullf Yularen and introductory Veers add their printed
+restrictions and modifiers. Dual Alien/Rebel eligibility, computer policy
+`native-cpu-34`, and responsive Objective/Undercover displays connect these
+components to continuing play. Focused native tests, bounded GEMP observations
+and browser continuations are recorded separately; this wave does not claim a new
+complete-match receipt or full-catalog admission.

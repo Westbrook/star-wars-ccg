@@ -1,3 +1,4 @@
+import {hasCharacterSubtype} from './characteristics';
 import {gameTextActive} from './game-text';
 import {groundPresent} from './participation';
 import {cardDefinition} from './definitions';
@@ -9,7 +10,7 @@ export function protocolPowerBonus(m: Match, side: Side, site: string, active: (
   const cards = Object.values(m.cards).filter(c => c.owner === side && c.location === site && groundPresent(m,c.id) && active(c.id));
   if (!cards.some(c => c.blueprint === '1_5' && gameTextActive(m,c.id))) return 0;
   return 2 * Math.min(cards.filter(c => cardDefinition(m,c.id).subType === 'Droid').length,
-    cards.filter(c => cardDefinition(m,c.id).subType === 'Rebel').length);
+    cards.filter(c => hasCharacterSubtype(m,c.id,'Rebel')).length);
 }
 /** This text names R2-D2, not only an own R2-D2. Duplicate sources do not stack. */
 export function protocolForfeitBonus(m: Match, id: string, active: (id: string) => boolean): number {

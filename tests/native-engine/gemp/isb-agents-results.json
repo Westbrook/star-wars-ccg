@@ -1,0 +1,63 @@
+[
+  {
+    "name": "yularen-lone",
+    "power": 1.0
+  },
+  {
+    "name": "yularen-tarkin",
+    "power": 2.0
+  },
+  {
+    "name": "yularen-bast",
+    "power": 2.0
+  },
+  {
+    "name": "yularen-dodonna",
+    "power": 2.0
+  },
+  {
+    "name": "yularen-all",
+    "power": 2.0
+  },
+  {
+    "name": "yularen-other-site",
+    "power": 1.0
+  },
+  {
+    "name": "yularen-aboard",
+    "power": 2.0
+  },
+  {
+    "snowForfeit": 4,
+    "name": "veers-same-site",
+    "trooperForfeit": 2
+  },
+  {
+    "snowForfeit": 3,
+    "name": "veers-other-site",
+    "trooperForfeit": 2
+  },
+  {
+    "snowForfeit": 4,
+    "name": "veers-aboard",
+    "trooperForfeit": 2
+  },
+  {
+    "name": "veers-deploy-0",
+    "offered": true,
+    "hothOffered": true,
+    "tatooineOffered": false,
+    "cost": 3
+  },
+  {
+    "name": "veers-deploy-2",
+    "offered": true,
+    "hothOffered": true,
+    "tatooineOffered": false,
+    "cost": 3
+  },
+  {
+    "name": "veers-deploy-3",
+    "offered": false
+  }
+]

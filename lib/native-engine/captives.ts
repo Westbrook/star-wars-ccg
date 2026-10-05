@@ -1,3 +1,4 @@
+import {activeUndercoverSpy} from './undercover-state';
 import {capturedShipFor} from './captured-ship-state';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './definitions';
@@ -120,7 +121,7 @@ export function assertCaptives(m:Match):void{
    else if('prison' in p){if(Object.keys(p).length!==1||p.prison!==c.location)throw Error('Invalid imprisoned captive.');}
    else if(Object.keys(p).length!==2||p.release!==true||!pending.has(c.id))throw Error('Orphaned captive release.');
   }else if(c.captivity!==undefined)throw Error('Captivity requires an inactive captive.');
-  if(c.zone==='inactive'&&!capturedShipFor(m,c.id)){
+  if(c.zone==='inactive'&&!activeUndercoverSpy(m,c.id)&&!capturedShipFor(m,c.id)){
    let host=m.cards[c.attachedTo!],seen=new Set<string>([c.id]);while(host?.zone==='inactive'){if(seen.has(host.id))throw Error('Cyclic inactive attachment.');seen.add(host.id);host=m.cards[host.attachedTo!];}
    if(!host||host.zone!=='captive'||c.location!==host.location||c.aboardRole)throw Error('Inactive attachment needs a captive.');
   }

@@ -1,7 +1,7 @@
 import {cardDefinition} from './definitions';
 import {controls} from './board';
 import {gameTextActive} from './game-text';
-import {isSpecies,nonUnique} from './characteristics';
+import {hasCharacterSubtype,isSpecies,nonUnique} from './characteristics';
 import {groundPresent} from './participation';
 import type {Match,Side} from './types';
 
@@ -10,7 +10,7 @@ const controlledCorulag=(m:Match,side:Side)=>m.locations.some(id=>m.cards[id].bl
  * not require the affected character to be at Corulag or owned by its controller. */
 export function corulagStatBonus(m:Match,id:string):number {
  const d=cardDefinition(m,id);if(d.type!=='Character'||!nonUnique(m,id))return 0;
- return d.subType==='Rebel'&&controlledCorulag(m,'light')||d.subType==='Imperial'&&controlledCorulag(m,'dark')?1:0;
+ return hasCharacterSubtype(m,id,'Rebel')&&controlledCorulag(m,'light')||hasCharacterSubtype(m,id,'Imperial')&&controlledCorulag(m,'dark')?1:0;
 }
 export function corulagAllowsGuardMove(m:Match,id:string):boolean {
  const bp=m.cards[id]?.blueprint;return bp==='1_26'&&controlledCorulag(m,'light')||bp==='1_181'&&controlledCorulag(m,'dark');

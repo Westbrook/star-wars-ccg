@@ -1,3 +1,4 @@
+import {hasCharacterSubtype} from './characteristics';
 import {optionalActionWindow} from './action-timing';
 import {cardDefinition, name} from './board';
 import {openWindow} from './runtime';
@@ -7,7 +8,7 @@ import {other, type Action, type Decision, type Json, type Match, type Resolutio
 type Payload = {card: string; cards?: string[]; target?: string};
 const action = (step: string, p: Payload): Action => ({id: 'scan:' + step + ':' + p.card, label: 'Resolve Scanning Crew', handler: 'scan:' + step, source: p.card, payload: p as unknown as Json});
 const queue = (m: Match, step: string, p: Payload) => m.stack.push({kind: 'resolution', actor: m.cards[p.card].owner, cancelled: false, action: action(step, p)});
-const rebel = (m: Match, id: string) => m.cards[id]?.owner === 'light' && m.cards[id].zone === 'hand' && cardDefinition(m, id).type === 'Character' && cardDefinition(m, id).subType === 'Rebel';
+const rebel = (m: Match, id: string) => m.cards[id]?.owner === 'light' && m.cards[id].zone === 'hand' && cardDefinition(m, id).type === 'Character' && hasCharacterSubtype(m,id,'Rebel');
 const candidates = (m: Match, p: Payload) => p.cards!.filter(id => rebel(m, id));
 
 export function scanActions(m: Match, w: Window, side: Side): Action[] {
@@ -79,7 +80,7 @@ export function assertScan(m: Match): void {
       (f.kind === 'resolution' ? f.actor : (f as Decision).side) !== 'dark' ||
       !(f.kind === 'resolution' ? ['scan:play','scan:inspect','scan:put','scan:finish'] : ['scan:peek','scan:select']).includes(h)) throw Error('Invalid pending Scanning Crew.');
     if (f.kind === 'decision' && (!Array.isArray(p.cards) || !p.cards.length || new Set(p.cards).size !== p.cards.length || p.cards.some(id => m.cards[id]?.owner !== 'light'))) throw Error('Invalid Scanning Crew inspection.');
-    if (h === 'scan:select' && p.cards!.some(id => cardDefinition(m, id).type !== 'Character' || cardDefinition(m, id).subType !== 'Rebel')) throw Error('Invalid Scanning Crew selection.');
-    if (h === 'scan:put' && (m.cards[p.target!]?.owner !== 'light' || cardDefinition(m, p.target!).type !== 'Character' || cardDefinition(m, p.target!).subType !== 'Rebel')) throw Error('Invalid Scanning Crew target.');
+    if (h === 'scan:select' && p.cards!.some(id => cardDefinition(m, id).type !== 'Character' || !hasCharacterSubtype(m,id,'Rebel'))) throw Error('Invalid Scanning Crew selection.');
+    if (h === 'scan:put' && (m.cards[p.target!]?.owner !== 'light' || cardDefinition(m, p.target!).type !== 'Character' || !hasCharacterSubtype(m,p.target!,'Rebel'))) throw Error('Invalid Scanning Crew target.');
   }
 }

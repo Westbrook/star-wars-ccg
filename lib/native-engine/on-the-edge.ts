@@ -1,3 +1,5 @@
+import {undercoverTargetable,undercoverReference} from './undercover-state';
+import {hasCharacterSubtype} from './characteristics';
 import {lossPrevented} from './loss-prevention';
 import {mayContributeToRetrieval} from './retrieval-contributors';
 import {ability} from './ability';
@@ -17,7 +19,7 @@ const action = (step: string,p: Payload): Action => ({id:'edge:'+step+':'+p.card
 const queue = (m: Match,step: string,p: Payload) => m.stack.push({kind:'resolution',actor:m.cards[p.card].owner,cancelled:false,action:action(step,p)});
 export function edgeActions(m: Match,w: Window,side: Side): Action[] {
   if(!topLevel(w)||!m.players[side].force.length)return [];
-  const targets=Object.keys(m.cards).filter(id=>groundPresent(m,id)&&cardDefinition(m,id).subType==='Rebel'&&ability(m,id)>2);
+  const targets=Object.keys(m.cards).filter(id=>(m.cards[id].zone==='table'&&groundPresent(m,id)||undercoverTargetable(m,id))&&hasCharacterSubtype(m,id,'Rebel')&&ability(m,id)>2);
   // Printed text targets a Rebel, not necessarily one owned by the player.
   return m.players[side].hand.filter(id=>m.cards[id].blueprint==='1_101').flatMap(card=>targets.map(id=>({...action('play',{card,target:referenceCard(m,id)}),label:'On The Edge · risk '+name(m,id)})));
 }
@@ -36,12 +38,12 @@ export function edgeResolve(m: Match,r: Resolution): void {
     if(p.draw!.value!==null&&p.draw!.value>p.chosen!){
       if(mayContributeToRetrieval(m,p.target.id))m.stack.push({kind:'decision',side:r.actor,handler:'edge:retrieve',payload:p as unknown as Json});
     }
-    else if(m.cards[p.target.id].zone==='table'&&!lossPrevented(m,p.target.id)){
+    else if((m.cards[p.target.id].zone==='table'||undercoverTargetable(m,p.target.id))&&!lossPrevented(m,p.target.id)){
       p.site=m.cards[p.target.id].location;queue(m,'lose',p);
       openWindow(m,'response',other(r.actor),{kind:'about-to-lose',card:p.target.id,source:p.card,...(p.site?{site:p.site}:{}),cause:'on-the-edge'});
     }
   } else if(h==='edge:lose'){
-    if(m.cards[p.target.id].zone==='table'&&!lossPrevented(m,p.target.id)){
+    if((m.cards[p.target.id].zone==='table'||undercoverTargetable(m,p.target.id))&&!lossPrevented(m,p.target.id)){
       p.cards=tableLossCards(m,[p.target.id]);queue(m,'lost',p);loseFromTable(m,[p.target.id]);
     }
   } else if(h==='edge:lost')openWindow(m,'response',other(r.actor),{kind:'character-lost',card:p.target.id,cards:p.cards!,source:p.card,...(p.site?{site:p.site}:{}),cause:'on-the-edge'});
@@ -69,7 +71,7 @@ export function assertEdge(m: Match): void {
     const p=(f.kind==='resolution'?f.action.payload:(f as Decision).payload) as unknown as Payload;
     if(!p||m.cards[p.card]?.blueprint!=='1_101'||m.cards[p.card].zone!=='playing'||(f.kind==='resolution'?f.actor:(f as Decision).side)!==m.cards[p.card].owner)throw Error('Invalid On The Edge source.');
     assertCardReference(m,p.target);
-    if(p.target.zone!=='table'||cardDefinition(m,p.target.id).subType!=='Rebel')throw Error('Invalid On The Edge target.');
+    if(p.target.zone!=='table'&&!undercoverReference(m,p.target)||!hasCharacterSubtype(m,p.target.id,'Rebel'))throw Error('Invalid On The Edge target.');
     if(f.kind==='resolution'){
       if(!['edge:play','edge:result','edge:lose','edge:lost','edge:finish'].includes(h)||f.action.source!==p.card||f.action.id!==action(h.slice(5),p).id)throw Error('Invalid On The Edge resolution.');
       if(h==='edge:play'&&(p.chosen===undefined?!f.awaitingResponses||f.action.payment!==undefined:f.action.payment?.[f.actor]!==1||(f.action.payment?.[other(f.actor)]??0)!==0))throw Error('Invalid On The Edge cost.');

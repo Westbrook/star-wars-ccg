@@ -1,0 +1,85 @@
+[
+  {
+    "mode": "setup",
+    "objectiveZone": "SIDE_OF_TABLE",
+    "complete": true,
+    "openingDark": 8,
+    "openingLight": 8,
+    "veersSpy": true,
+    "veersAgent": true
+  },
+  {
+    "mode": "missing",
+    "objectiveZone": "OUT_OF_PLAY",
+    "complete": false,
+    "openingDark": 8,
+    "openingLight": 8,
+    "veersSpy": false,
+    "veersAgent": false
+  },
+  {
+    "mode": "four-agents",
+    "objectiveZone": "SIDE_OF_TABLE",
+    "complete": true,
+    "openingDark": 8,
+    "openingLight": 8,
+    "veersSpy": true,
+    "veersAgent": true,
+    "flipped": true,
+    "darkDrainAtAgent": 2.0,
+    "lightDrainRelatedSite": 2.0,
+    "lightDrainRelatedSystem": 2.0,
+    "flippedBack": true,
+    "remainderSpy": true
+  },
+  {
+    "mode": "two-bases",
+    "objectiveZone": "SIDE_OF_TABLE",
+    "complete": true,
+    "openingDark": 8,
+    "openingLight": 8,
+    "veersSpy": true,
+    "veersAgent": true,
+    "flipped": true,
+    "darkDrainAtAgent": 1.0,
+    "lightDrainRelatedSite": 1.0,
+    "lightDrainRelatedSystem": 1.0
+  },
+  {
+    "mode": "drains",
+    "objectiveZone": "SIDE_OF_TABLE",
+    "complete": true,
+    "openingDark": 8,
+    "openingLight": 8,
+    "veersSpy": true,
+    "veersAgent": true,
+    "flipped": true,
+    "darkDrainAtAgent": 2.0,
+    "lightDrainRelatedSite": 1.0,
+    "lightDrainRelatedSystem": 1.0
+  },
+  {
+    "mode": "retrieve",
+    "objectiveZone": "SIDE_OF_TABLE",
+    "complete": true,
+    "openingDark": 8,
+    "openingLight": 8,
+    "veersSpy": true,
+    "veersAgent": true,
+    "flipped": true,
+    "darkDrainAtAgent": 2.0,
+    "lightDrainRelatedSite": 2.0,
+    "lightDrainRelatedSystem": 2.0,
+    "retrievedToUsed": true
+  },
+  {
+    "mode": "veers-restriction",
+    "objectiveZone": "SIDE_OF_TABLE",
+    "complete": true,
+    "openingDark": 8,
+    "openingLight": 8,
+    "veersSpy": true,
+    "veersAgent": true,
+    "coruscantAllowed": true
+  }
+]

@@ -8,6 +8,8 @@ export type Json = null | boolean | number | string | Json[] | {[key: string]: J
 export type Card = {
   id: string;
   blueprint: string;
+  /** A flip preserves the same physical card instance; front is the default. */
+  face?: 'back';
   owner: Side;
   /** Printed deck ownership remains stable when a stolen card changes sides. */
   originalOwner?: Side;
@@ -58,7 +60,8 @@ export type Decision = {kind: 'decision'; side: Side; handler: string; payload: 
 export type Frame = Window | Resolution | Decision;
 export type StartingLocation = {identity: string; group: string; icons: Record<Side, number>; convertible: boolean};
 export type Setup = {
-  stage: 'choose' | 'reveal' | 'conversion' | 'placement' | 'additional' | 'starting-choice' | 'starting-reveal' | 'starting-resolve' | 'shuffle' | 'complete';
+  stage: 'choose' | 'reveal' | 'conversion' | 'placement' | 'additional' | 'objective-resolve' | 'starting-choice' | 'starting-reveal' | 'starting-resolve' | 'shuffle' | 'complete';
+  objectives?: import('./setup').ObjectiveSetup;
   interrupts?: import('./starting-interrupts').StartingInterruptSetup;
   setAside?: string[];
   additional?: string[];

@@ -1,0 +1,53 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68",
+  "harness": "NativeEngineChewbaccaLossOracleTests.java",
+  "helper": "NativeEngineHitDepartureOracleTests.java",
+  "results": "chewbacca-loss-results.json",
+  "log": "chewbacca-loss-reference.log",
+  "execution": {
+    "exitCode": 1,
+    "junitTests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observedCases": 8,
+    "classSucceeded": true,
+    "note": "The Chewbacca loss class passed all eight C-3PO/vehicle cases. Batched Maven process failed only in the separate ISB Objective retrieval driver. Per-class Surefire summary retained."
+  },
+  "scope": "Controlled board, Force, text-cancellation fixture; production HitCardEffect and ExcludeFromBattleEffect injected during an actually initiated battle. Forfeit cases select real mandatory damage-segment forfeit actions. No claim of named weapon/exclusion card-play coverage.",
+  "discrepancy": {
+    "cases": [
+      "droid/exclude/active-Chewbacca",
+      "vehicle/exclude/active-Chewbacca"
+    ],
+    "observed": "Hit target goes to Lost Pile following exclusion despite active Chewbacca at the same site.",
+    "source": "Card2_003.getGameTextRequiredAfterTriggers constructs a required replacement action but falls through to return null; its independent ForfeitedToUsedPileModifier succeeds in actual forfeiture cases.",
+    "nativePolicy": "Follow official current errata: your hit vehicle, starship, or droid about to be lost at same site goes to Used Pile; do not copy the missing-return bug.",
+    "officialSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=106"
+  },
+  "sourceFiles": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_003.java",
+      "sha256": "7a7cc7ee3b4e473fe1b803f6c7e0fc57dd46c838023da800ad0e222832ce043b"
+    }
+  ],
+  "attempts": [
+    "First driver did not recognize mandatory Choose a card from battle to forfeit wording; no completed observations.",
+    "Second run recognizes observed forfeit wording and completes all eight cases.",
+    "Aligned droid fixture from 2X-3KPR to already-supported C-3PO1_5; retained original observations outside repository.",
+    "C-3PO changes battle power; driver now handles observed opposing mandatory Force loss. All eight corrected cases passed in batched execution, whose ISB class failed independently."
+  ],
+  "harnessSha256": "ad05db73f25e2512d88b3e8f42be183ee11d88b5564e7bc5f11f26f1c76421fb",
+  "helperSha256": "466a5994db2889ed1e7d6a54ae1dabfc12a2d87dede0796ca5160fbfb23e9b49",
+  "resultsSha256": "09fea3bf5885537f479faae4c3dacd9790e207eea605fc85f33ad34f8c2b1161",
+  "logSha256": "6ded4a6c392b12a49db8764f4588cc328e8a48c09ae2ab0c52eb949e084b86e5",
+  "junit": "chewbacca-loss-junit.txt",
+  "junitSha256": "2f5b3945871a52f4410c26a0bcdf4c73af24ebacd0ef518d173a8bc21e679e46",
+  "fixtureTargets": {
+    "droid": "1_5",
+    "vehicle": "1_149"
+  }
+}

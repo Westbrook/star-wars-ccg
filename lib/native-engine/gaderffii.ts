@@ -1,3 +1,4 @@
+import {activeUndercoverSpy,undercoverTargetable} from './undercover-state';
 import {characterPresent} from './occupancy';
 import {deployed} from './deployment';
 import {isSpecies} from './characteristics';
@@ -23,7 +24,7 @@ export function gaderffiiActions(m: Match, w: Window, side: Side): Action[] {
   for (const card of Object.values(m.cards).filter(c => c.blueprint === '1_315' && c.owner === side)) {
     if (w.timing === 'phase' && m.turn.side === side && m.turn.phase === 'deploy' && ['hand','table'].includes(card.zone)) {
       const transfer = card.zone === 'table';
-      for (const target of Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && c.location && raider(m, c.id))) {
+      for (const target of Object.values(m.cards).filter(c => c.owner === side && (c.zone === 'table'||activeUndercoverSpy(m,c.id)) && c.location && raider(m, c.id))) {
         if (transfer && (!card.attachedTo || target.id === card.attachedTo || target.location !== card.location)) continue;
         actions.push({...action('equip', {card: card.id, target: target.id, site: target.location, transfer}), payment: {[side]: 2}});
       }
@@ -31,7 +32,7 @@ export function gaderffiiActions(m: Match, w: Window, side: Side): Action[] {
     if (reactSite && card.zone === 'hand' && canDeployAsReact(m, card.id)) {
       const sources = reactionSources(m, reactSite, side);
       const options = [...(sources.some(id => m.cards[id].blueprint === '1_6') ? [undefined] : []), ...sources.filter(id => m.cards[id].blueprint === '1_201')];
-      for (const via of options) for (const target of Object.values(m.cards).filter(c => c.owner === side && c.zone === 'table' && c.location === reactSite && raider(m, c.id))) {
+      for (const via of options) for (const target of Object.values(m.cards).filter(c => c.owner === side && (c.zone === 'table'||undercoverTargetable(m,c.id)) && c.location === reactSite && raider(m, c.id))) {
         const a = action('equip', {card: card.id, target: target.id, site: reactSite, transfer: false, react: true, ...(via ? {via} : {})});
         a.id += ':react' + (via ? ':via:' + via : ''); a.label += ' as a react on ' + name(m, target.id); a.payment = {[side]: 2}; actions.push(a);
       }
@@ -55,7 +56,7 @@ export function gaderffiiResolve(m: Match, r: Resolution): void {
   const p = r.action.payload as Payload, h = r.action.handler, side = r.actor;
   if (h === 'gaffi:equip') {
     const card = m.cards[p.card], target = m.cards[p.target!];
-    if (r.cancelled || !validAttachmentAttempt(m, p.attachment!) || card.zone !== (p.transfer ? 'table' : 'playing') || target.zone !== 'table' || target.owner !== side || !raider(m, target.id) || !target.location || p.react && target.location !== p.site || p.transfer && (card.zone !== 'table' || card.location !== target.location)) {if (card.zone === 'playing') moveCard(m, card.id, 'lost'); return;}
+    if (r.cancelled || !validAttachmentAttempt(m, p.attachment!) || card.zone !== (p.transfer ? 'table' : 'playing') || target.zone !== 'table'&&!activeUndercoverSpy(m,target.id) || target.owner !== side || !raider(m, target.id) || !target.location || p.react && target.location !== p.site || p.transfer && (card.zone !== 'table' || card.location !== target.location)) {if (card.zone === 'playing') moveCard(m, card.id, 'lost'); return;}
     if (card.zone === 'playing') moveCard(m, card.id, 'table'); card.attachedTo = target.id; card.location = target.location;
     if (p.transfer) openWindow(m, 'response', other(side), {kind: 'weapon-transferred', card: card.id}); else deployed(m, card.id); return;
   }

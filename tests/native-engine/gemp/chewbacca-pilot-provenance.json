@@ -1,0 +1,53 @@
+{
+  "scope": "Original Chewbacca from A New Hope2_3, not Premiere: paid ground/aboard deployment, normal printed continuous text, Falcon persona interactions and mandatory hit-card loss replacement. Pending definition; no production admission.",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-05T14:31:08.099892+00:00",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineChewbaccaPilotOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "execution": {
+    "exitCode": 0,
+    "junitTests": 1,
+    "observations": 10,
+    "errors": 0,
+    "failures": 0
+  },
+  "files": {
+    "NativeEngineChewbaccaPilotOracleTests.java": "81a823c2e9c0583e34f6802e6e50e524b6a568ab23d43ba1c7dcef58a488d1f0",
+    "chewbacca-pilot-results.json": "5f3a1d0e08485af0ff79561ce8c497ff0e909db489dc42e358044f70db4c8d2b",
+    "chewbacca-pilot-junit.txt": "c9af176e71a6f670149b3b3a4593aa20ccf836f558efb271ef72e093ae9b6f7e"
+  },
+  "sourceReview": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_003.java",
+      "sha256": "7a7cc7ee3b4e473fe1b803f6c7e0fc57dd46c838023da800ad0e222832ce043b"
+    }
+  ],
+  "officialRules": [
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=106",
+      "rule": "Chewbacca errata clarifies your hit vehicles, starships and droids at the same site about to be lost go to Used instead; printed continuous bonuses are unchanged."
+    },
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=78",
+      "rule": "Chewbacca is both an alien and a Rebel; type checks consider either required icon independently."
+    }
+  ],
+  "method": [
+    "Chewbacca deployment executes as a real player action and pays4Force. Initial host ships, pilot/passenger placement of Han and optional attached Special Modifications are controlled fixtures.",
+    "Ten exact native stat rows compare Chewie power, ship power/maneuver/forfeit/immunity and deployment cost for Falcon, Han same location, canceled Han text, canceled Chewie text, Special Modifications, another ship, passenger, landed, ground and Han at a different site.",
+    "Native-only tests execute an actual Imperial Blaster shot at C-3PO and mandatory hit forfeiture to Used. Other loss tests use controlled hit/exclusion foundations followed by the real hit-departure scheduler and required response.",
+    "The dual Rebel/Alien type helper and existing eligible card behavior are verified separately in the parent checkpoint. Wookiee species, smuggler keyword and CHEWIE persona are explicit metadata rather than lore inference."
+  ],
+  "lossReference": "chewbacca-loss-provenance.json binds eight separately executed production-hit/forfeit/exclusion rows. Its two active-Chewie generic-loss rows expose a pinned GEMP missing-return defect; native follows the official current errata and tests this precise divergence without altering raw evidence.",
+  "limitations": [
+    "No other Chewbacca versions, speculative Wookiee abilities or unrelated card interactions are admitted.",
+    "Controlled hit/exclusion foundations are not named weapon/exclusion card-play claims; the separate native actual-blaster case is explicitly identified.",
+    "No complete match or full catalog conformance claim. Broader behaviors remain gated."
+  ],
+  "productionIntegrity": {
+    "productionFilesCompared": 6820,
+    "productionFilesChanged": 0,
+    "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68",
+    "verification": "Final pinned-archive byte comparison after Objective, Undercover and Chewbacca oracle executions; all 6,820 production source files unchanged."
+  }
+}

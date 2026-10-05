@@ -1,3 +1,4 @@
+import {undercoverReference} from './undercover-state';
 import {cardDefinition,name} from './board';
 import {gameTextActive} from './game-text';
 import {assertCardReference,referenceCard,sameCard,type CardReference} from './identity';
@@ -68,12 +69,12 @@ export function labriaView(m:Match):Json {
 }
 export function assertLabria(m:Match):void {
   const h=history(m);
-  if(m.data.labriaUses!==undefined){if(!h||!Number.isSafeInteger(h.turn)||h.turn<1||h.turn>m.turn.number||!Array.isArray(h.cards)||new Set(h.cards.map(ref=>ref.id+':'+ref.version)).size!==h.cards.length)throw Error('Invalid Labria usage.');for(const ref of h.cards){assertCardReference(m,ref);if(ref.zone!=='table'||m.cards[ref.id].blueprint!=='1_184'||m.cards[ref.id].owner!=='dark')throw Error('Invalid Labria source.');}}
+  if(m.data.labriaUses!==undefined){if(!h||!Number.isSafeInteger(h.turn)||h.turn<1||h.turn>m.turn.number||!Array.isArray(h.cards)||new Set(h.cards.map(ref=>ref.id+':'+ref.version)).size!==h.cards.length)throw Error('Invalid Labria usage.');for(const ref of h.cards){assertCardReference(m,ref);if(ref.zone!=='table'&&!(ref.zone==='inactive'&&undercoverReference(m,ref))||m.cards[ref.id].blueprint!=='1_184'||m.cards[ref.id].owner!=='dark')throw Error('Invalid Labria source.');}}
   for(const f of m.stack){
     const step=f.kind==='resolution'?f.action.handler:f.kind==='decision'?f.handler:'';if(!step.startsWith('labria:'))continue;
     const p=(f.kind==='resolution'?f.action.payload:(f as Decision).payload) as unknown as Payload;
     if(!p||m.cards[p.card]?.blueprint!=='1_184'||m.cards[p.card].owner!=='dark'||(f.kind==='resolution'?f.actor:(f as Decision).side)!==(step==='labria:acknowledge'?'light':'dark'))throw Error('Invalid Labria continuation.');
-    assertCardReference(m,p.ref!,p.card);if(p.ref!.zone!=='table'||!uses(m).some(ref=>ref.id===p.ref!.id&&ref.version===p.ref!.version))throw Error('Missing Labria usage.');
+    assertCardReference(m,p.ref!,p.card);if(p.ref!.zone!=='table'&&!(p.ref!.zone==='inactive'&&undercoverReference(m,p.ref!))||!uses(m).some(ref=>ref.id===p.ref!.id&&ref.version===p.ref!.version))throw Error('Missing Labria usage.');
     if(f.kind==='resolution'){if(!['labria:reveal','labria:lose','labria:finish'].includes(step)||f.action.source!==p.card||f.action.id!==action(step.slice(7),p).id)throw Error('Invalid Labria action.');}
     else if(f.kind!=='decision'||!['labria:return','labria:acknowledge'].includes(step))throw Error('Invalid Labria decision.');
     if(step==='labria:reveal'){if(p.reveal!==undefined)throw Error('Premature Labria reveal.');}

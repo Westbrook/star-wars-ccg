@@ -1,3 +1,4 @@
+import {activeUndercoverSpy} from './undercover-state';
 import {besiegedParticipant} from './captured-ship-state';
 import {characterPresent} from './occupancy';
 import {cardDefinition} from './definitions';
@@ -9,6 +10,7 @@ import type {Match, Side} from './types';
  * Type-only dependencies keep attribute queries independent of action handlers. */
 export const barred = (m: Match, id: string) => (((m.data.ground as GroundState | undefined)?.barriers ?? {})[id] ?? 0) >= m.turn.number;
 export function battleProhibited(m:Match,id:string):boolean {
+ if(activeUndercoverSpy(m,id))return true;
  const seen=new Set<string>();let c=m.cards[id];while(c){if(seen.has(c.id))throw Error('Cyclic battle carrier.');seen.add(c.id);if(barred(m,c.id))return true;c=m.cards[c.attachedTo!];}return false;
 }
 export function battleMembers(m: Match, side: Side): string[] {

@@ -6,6 +6,7 @@ import {creatureBlocksLandspeed} from './ground-creatures';
 import {registerSector,registerCave,convertSectorRelationships} from './sectors';
 import {gameTextActive} from './game-text';
 import {crewActive} from './occupancy';
+import {undercoverPreventsDrain} from './undercover-state';
 import {barred} from './participation';
 export {barred} from './participation';
 import {lightsaberDrainBonus} from './lightsabers';
@@ -59,7 +60,7 @@ export function reactionSources(m: Match, site: string, side: Side): string[] {
 export function pendingReactSite(m: Match, w: Window, side: Side): string | null {
   const p = pending(m);
   if (m.turn.side===side || w.timing !== 'response' || !p || p.awaitingResponses || p.cancelled || p.actor === side) return null;
-  if (p.action.handler === 'ground:drain') {const site = payload(p.action).site!; return controls(m, p.actor, site) ? site : null;}
+  if (p.action.handler === 'ground:drain') {const site = payload(p.action).site!; return controls(m, p.actor, site) && !undercoverPreventsDrain(m,p.actor,site) ? site : null;}
   return p.action.handler === 'battle:begin' && !(m.data.battle as {besieged?:unknown}|undefined)?.besieged ? payload(p.action).site! : null;
 }
 const action = (id: string, label: string, handler: string, data: Payload, payment?: Payment, source?: string): Action =>
@@ -86,7 +87,7 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
       }
     }
     if (m.turn.phase === 'control') for (const site of m.locations) {
-      if (controls(m, side, site) && !usage(m).drained.includes(site)) {const cost=forceDrainCost(m,side,site);actions.push(action('drain:' + site, 'Force drain at ' + name(m, site)+(cost?' · use '+cost+' Force':''), 'drain', {site},cost?{[side]:cost}:undefined));}
+      if (controls(m, side, site) && !undercoverPreventsDrain(m,side,site) && !usage(m).drained.includes(site)) {const cost=forceDrainCost(m,side,site);actions.push(action('drain:' + site, 'Force drain at ' + name(m, site)+(cost?' · use '+cost+' Force':''), 'drain', {site},cost?{[side]:cost}:undefined));}
     }
     if (m.turn.phase === 'move' && m.players[side].force.length) {
       for (const site of m.locations) for (const card of atSite(m, site)) {
@@ -104,7 +105,7 @@ export function groundActions(m: Match, window: Window, side: Side): Action[] {
   const parent = pending(m);
   if (parent?.action.handler === 'ground:drain' && !parent.cancelled && side !== parent.actor) {
     const site = payload(parent.action).site!;
-    if (controls(m, parent.actor, site)) {
+    if (controls(m, parent.actor, site) && !undercoverPreventsDrain(m,parent.actor,site)) {
       actions.push(...reactionActions(m, site, side));
     }
   }
@@ -212,7 +213,7 @@ export function groundResolve(m: Match, resolution: Resolution): void {
   } else if (kind === 'ground:expire') {
     delete record(m).barriers[data.target!];
   } else if (kind === 'ground:drain') {
-    if (controls(m, side, data.site!)) queueForceLoss(m, {side: other(side), remaining: drainAmount(m, side, data.site!) + (data.sectorBonus??0) + lightsaberDrainBonus(m, data as {site: string}), source: 'drain', site: data.site!, reductionUsed: false});
+    if (controls(m, side, data.site!) && !undercoverPreventsDrain(m,side,data.site!)) queueForceLoss(m, {side: other(side), remaining: drainAmount(m, side, data.site!) + (data.sectorBonus??0) + lightsaberDrainBonus(m, data as {site: string}), source: 'drain', site: data.site!, reductionUsed: false});
   } else if (kind === 'ground:force-loss') {
     const loss = resolution.action.payload as Loss;
     loss.remaining = remainingForceLoss(m, loss);

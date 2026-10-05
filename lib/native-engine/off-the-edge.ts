@@ -1,3 +1,4 @@
+import {undercoverTargetable,undercoverReference} from './undercover-state';
 import {lossPrevented} from './loss-prevention';
 import {cardDefinition, name, printed} from './board';
 import {drawDestiny, validDraw, type Draw} from './destiny';
@@ -17,7 +18,7 @@ type Payload = {card: string; target: CardReference; draw?: Draw; printedValue?:
 const action = (step: string,p: Payload): Action => ({id:'off-edge:'+step+':'+p.card+':'+p.target.id,label:'Resolve Off The Edge',handler:'off-edge:'+step,source:p.card,payload:p as unknown as Json});
 const queue = (m: Match,step: string,p: Payload) => m.stack.push({kind:'resolution',actor:m.cards[p.card].owner,cancelled:false,action:action(step,p)});
 function targetable(m: Match,id: string,side: Side): boolean {
-  const c=m.cards[id];if(c.owner!==side||!groundPresent(m,id))return false;
+  const c=m.cards[id];if(c.owner!==side||!(m.cards[id].zone==='table'&&groundPresent(m,id)||undercoverTargetable(m,id)))return false;
   const site=cardDefinition(m,c.location!);return site.type==='Location'&&site.subType==='Site'&&site.name.startsWith('Cloud City: ');
 }
 export function offEdgeActions(m: Match,w: Window,side: Side): Action[] {
@@ -42,12 +43,12 @@ export function offEdgeResolve(m: Match,r: Resolution): void {
       const difference=Math.abs(drawn-value);
       if(drawn>value)retrieve(m,r.actor,p.card,difference,null,'used',undefined,{contributors:[p.target.id]});
       else queueForceLoss(m,{side:r.actor,remaining:difference,source:p.card,site:m.cards[p.target.id].location??null,reductionUsed:false});
-    } else if(m.cards[p.target.id].zone==='table'&&!lossPrevented(m,p.target.id)){
+    } else if((m.cards[p.target.id].zone==='table'||undercoverTargetable(m,p.target.id))&&!lossPrevented(m,p.target.id)){
       p.site=m.cards[p.target.id].location;queue(m,'lose',p);
       openWindow(m,'response',other(r.actor),{kind:'about-to-lose',card:p.target.id,source:p.card,...(p.site?{site:p.site}:{}),cause:'off-the-edge'});
     }
   } else if(h==='off-edge:lose'){
-    if(m.cards[p.target.id].zone==='table'&&!lossPrevented(m,p.target.id)){p.cards=tableLossCards(m,[p.target.id]);queue(m,'lost',p);loseFromTable(m,[p.target.id]);}
+    if((m.cards[p.target.id].zone==='table'||undercoverTargetable(m,p.target.id))&&!lossPrevented(m,p.target.id)){p.cards=tableLossCards(m,[p.target.id]);queue(m,'lost',p);loseFromTable(m,[p.target.id]);}
   } else if(h==='off-edge:lost')openWindow(m,'response',other(r.actor),{kind:'character-lost',card:p.target.id,cards:p.cards!,source:p.card,...(p.site?{site:p.site}:{}),cause:'off-the-edge'});
   else if(h==='off-edge:finish')moveCard(m,p.card,'lost');
   else throw Error('Unknown Off The Edge continuation.');
@@ -66,7 +67,7 @@ export function assertOffEdge(m: Match): void {
     const p=(f.kind==='resolution'?f.action.payload:(f as Decision).payload) as unknown as Payload;
     if(!p||m.cards[p.card]?.blueprint!=='5_59'||m.cards[p.card].zone!=='playing'||(f.kind==='resolution'?f.actor:(f as Decision).side)!==m.cards[p.card].owner)throw Error('Invalid Off The Edge source.');
     assertCardReference(m,p.target);
-    if(p.target.zone!=='table'||m.cards[p.target.id].owner!==m.cards[p.card].owner||cardDefinition(m,p.target.id).type!=='Character')throw Error('Invalid Off The Edge target.');
+    if(p.target.zone!=='table'&&!undercoverReference(m,p.target)||m.cards[p.target.id].owner!==m.cards[p.card].owner||cardDefinition(m,p.target.id).type!=='Character')throw Error('Invalid Off The Edge target.');
     if(f.kind==='resolution'){
       if(!['off-edge:play','off-edge:result','off-edge:compare','off-edge:lose','off-edge:lost','off-edge:finish'].includes(h)||f.action.source!==p.card||f.action.id!==action(h.slice(9),p).id||f.action.payment!==undefined)throw Error('Invalid Off The Edge resolution.');
     } else if(h!=='off-edge:value'||!alternateDestinies(m,p.target.id).length||p.printedValue!==undefined)throw Error('Invalid Off The Edge value choice.');
