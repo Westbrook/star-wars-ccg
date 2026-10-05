@@ -1,4 +1,7 @@
 import {ability} from './ability';
+import {groundPresent} from './participation';
+import type {Battle} from './battle';
+import {gameTextActive} from './game-text';
 import {cardDefinition} from './definitions';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {other, sides, type Match, type Side} from './types';
@@ -30,10 +33,14 @@ export function assertLocationAbility(m: Match): void {
 export const isJedi = (m: Match, id: string, side: Side) => m.cards[id]?.zone === 'table' &&
   cardDefinition(m, id).type === 'Character' && cardDefinition(m, id).side === side && ability(m, id) >= 6;
 function affectMind(m: Match, side: Side, site: string): boolean {
-  if (!m.locations.includes(site) || cardDefinition(m, site).subType !== 'Site') return false;
-  const present = Object.values(m.cards).filter(c => c.zone === 'table' && c.location === site && !c.attachedTo);
+  const b=m.data.battle as Battle|undefined,besieged=b?.stage!=='complete'&&!!b?.besieged&&b.site===site;
+  if (!m.locations.includes(site) || !besieged&&cardDefinition(m, site).subType !== 'Site') return false;
+  // Only the selected boarding party and trapped defenders share Besieged's
+  // virtual site. Outside characters at the physical bay/system cannot supply
+  // a Dark Jedi or an Affect Mind bearer to this separate battle.
+  const present = Object.values(m.cards).filter(c => c.location === site && groundPresent(m,c.id));
   if (present.some(c => isJedi(m, c.id, 'dark'))) return false;
-  return Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '1_43' && other(c.owner) === side &&
+  return Object.values(m.cards).some(c => c.blueprint === '1_43' && gameTextActive(m,c.id) && other(c.owner) === side &&
     !!c.attachedTo && present.some(host => host.id === c.attachedTo));
 }
 /** Caller supplies the correct contributing group (all at site, eligible battle

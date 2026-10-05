@@ -1,23 +1,26 @@
 {
-  "cards": ["2_113", "2_138"],
+  "cards": [
+    "2_113",
+    "2_138"
+  ],
   "name": "Laser Gate and Retract The Bridge interaction",
   "status": "partial native implementation; official-rule review; no executed GEMP parity",
   "officialSources": [
     {
       "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
       "printedPage": 119,
-      "section": "Appendix A — Laser Gate errata",
+      "section": "Appendix A \u2014 Laser Gate errata",
       "finding": "Interior mobile-site deployment, current power-plus-ability passage threshold, Lift Tube exception, other vehicle restriction, and defense 3 when targeted as a character by a character weapon from either side."
     },
     {
       "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
       "printedPage": 152,
-      "section": "Appendix B — Retract The Bridge",
+      "section": "Appendix B \u2014 Retract The Bridge",
       "finding": "Rearrangement preserves a legal location layout. Each Death Star Laser Gate has an optional relocation opportunity between interior Death Star sites. The continuation must offer a decline choice."
     },
     {
       "url": "https://res.starwarsccg.org/cardlists/ANewHopeName.html",
-      "finding": "PC official card list identifies Laser Gate with two restriction dots. The repository catalog independently retains title '••Laser Gate' and uniqueness '**'."
+      "finding": "PC official card list identifies Laser Gate with two restriction dots. The repository catalog independently retains title '\u2022\u2022Laser Gate' and uniqueness '**'."
     },
     {
       "url": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/lasergate.gif",
@@ -35,7 +38,7 @@
   "nativeScope": [
     "Free own-deploy-phase Gate deployment between adjacent interior mobile sites, including restricted-two admission and deployment cancellation.",
     "Persistent exact-instance Gate and two-site references; source departure or site departure cannot revive an old binding.",
-    "Current power plus ability is checked on passage, in both directions; other vehicles are blocked. Lift Tube exception is expressed in the helper but full Lift Tube support is not claimed.",
+    "Current power plus ability is checked on passage, in both directions; other vehicles are blocked. Lift Tube passage is now exercised through both printed vehicles, enclosed carrying, ordinary movement and reacts; see lift-tube-review.json.",
     "Gate game-text suppression disables passage restrictions and the Gate's weapon-target permission. Public view exposes both endpoints and active state.",
     "Real ground movement resolves eligible Luke passage and rejects a weaker Rebel Trooper. Real location conversion rebinds the same physical gap to the new location card.",
     "Retract removes the blanket Laser Gate exclusion for supported arrangements. Existing Gate pairs must remain adjacent; each Gate then receives a persisted optional relocation decision, with a decline choice.",
@@ -55,10 +58,19 @@
   "requiredRemaining": [
     "Resolve official layout semantics when site insertion or Retract separates a Gate's original pair. Current insertion guard and pair-preserving arrangement filter are conservative restrictions, not full rules coverage.",
     "Resolve Gate lifecycle when an endpoint site leaves play or is blown away. The validator rejects a live Gate with stale endpoints rather than allowing an invisible active card; automatic dependent loss is not claimed.",
-    "Complete Lift Tube deployment, carrying, movement and conformance before claiming the exception is playable end-to-end.",
+    "Lift Tube deployment, carrying, movement and react integration now has native, browser and focused GEMP evidence (lift-tube-review.json). Wider card interactions still need admission review; Gate interactions are native/browser evidence because GEMP lacks Gate.",
     "Resolve normal-battle weapon targeting timing separately; the card's as-if-character targeting permission alone does not establish battle participation or unrestricted firing timing.",
     "Obtain independent conformance evidence if the reference implements these cards. Native tests and official-rule review are not GEMP parity.",
     "Keep card metadata pending and production admission closed until all reachable behavior and required timing are verified."
   ],
-  "historicalEvidence": "retract-bridge-review.json records the prior checkpoint and is not rewritten. Its original blanket-gate limitation is superseded only within the explicitly bounded native scope above."
+  "historicalEvidence": "retract-bridge-review.json records the prior checkpoint and is not rewritten. Its original blanket-gate limitation is superseded only within the explicitly bounded native scope above.",
+  "followUpReview": {
+    "date": "2026-10-05",
+    "finding": "Re-read AR Laser Gate errata, Retract The Bridge and blown-away rules. They do not establish the position of a declined Gate after pair-separating rearrangement or the loss destination of a between-site Gate when one endpoint disappears. No inferred attachment or mandatory relocation rule was implemented. Focus shifted to the explicitly documented Lift Tube passage exception.",
+    "liftTubeEvidence": "lift-tube-review.json",
+    "unchangedOpenScope": [
+      "Pair-separating Retract geometry and ordinary insertion through a Gate gap.",
+      "Endpoint disappearance or blown-away lifecycle."
+    ]
+  }
 }

@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-05T12:31:21.190823+00:00",
+  "status": "native-regression-verified",
+  "source": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "printedPages": [
+    172,
+    173
+  ],
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "referenceSourceReview": [
+    "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/filters/Filters.java: side filter uses current owner; Imperial_starship combines Dark owner with allegiance icons",
+    "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_304.java: TIE deploy discount tests Imperial capital starship"
+  ],
+  "changes": [
+    "Historical deployment records retain their initiating side when a card is stolen; current or recorded original ownership is accepted without resetting per-turn limits.",
+    "Completed starship shot history survives battle-end theft of its target or its source weapon. Ownership exceptions require resolved shots, original ownership and a departed participant in an ending/completed battle; active firing ownership checks remain.",
+    "TIE Fighter deployment discount recognizes a stolen Rebel capital as Imperial using current ownership."
+  ],
+  "nativeEvidence": [
+    "captured-ships.test.mjs: steal a previously played unique ship, refresh, lose/return to hand, preserve the existing turn allowance.",
+    "captured-ships.test.mjs: actual capture/theft of Corvette, remove old carrier, deploy TIE using discount, then remove stolen Corvette and verify discount disappears.",
+    "captured-ship-shot-history.test.mjs: both sides fire, pay battle losses, capture with Tractor Beam, automatically steal ship and its fired weapon, complete battle and refresh.",
+    "Negative historical shot cases reject pending shots, missing original ownership, missing departure/participant evidence and incorrect timing."
+  ],
+  "limits": [
+    "Controlled initial boards and arranged destiny draws; not a complete shuffled capture match.",
+    "Native tests and primary/reference source review only; no new executed GEMP comparison for these ownership fixes.",
+    "Supported permanent-pilot vessels currently have no unique permanent character personas. Broader unique-persona replacement remains required when those cards are implemented.",
+    "Full production admission remains closed."
+  ],
+  "fingerprints": {
+    "lib/native-engine/persona.ts": "e2849834c2c1dee5d9594307e8428efee8a390d6a11c6a69e26ad4daf076d3f3",
+    "lib/native-engine/otsd-ships.ts": "2594f57c81e9afce202a6d72fc9d655e360aad4e12a58788aeee6de25cf2a7d0",
+    "lib/native-engine/starship-weapons.ts": "54cc4c7594b49c92d02a945edb634e3737f6e2b206ba544617ab78d8cd749a73",
+    "tests/native-engine/captured-ships.test.mjs": "fa96b635f339210ca1e078f0d5e62e93f28d73daced6ee06e08d8935600afe76",
+    "tests/native-engine/captured-ship-shot-history.test.mjs": "1dc57dccf4a3398471a0be8f1c504e42e7b38aecbd4ae5841c1f090eb4a7844d"
+  }
+}

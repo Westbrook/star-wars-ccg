@@ -1,3 +1,4 @@
+import {liftTube,liftTubeDestination} from './lift-tube';
 import {launchBay,launchBayDeployModifier} from './launch-bay';
 import {attachmentGroup,capturedShips} from './captured-ship-state';
 import {deployWithoutPresence} from './board';
@@ -28,6 +29,7 @@ const label=(m:Match,id:string)=>cardDefinition(m,id).name;
 const hasDeployPresence=(m:Match,id:string,side:Side)=>deployWithoutPresence(m,side,id)||!!forceIcons(m,id,side)||presence(m,side,id);
 export function vesselDeploysAt(m:Match,id:string,location:string,withPilot=false,ignorePresence=false):boolean{
  const r=vesselRule(m,id);if(!r||shieldDeployment(m,id,location)||!m.locations.includes(location)||!ignorePresence&&!hasDeployPresence(m,location,m.cards[id].owner))return false;
+ if(liftTube(m,id))return liftTubeDestination(m,location);
  const d=cardDefinition(m,location),exterior=d.subType==='Site'&&(d.icons as string[]).includes('Exterior');
  return cardDefinition(m,id).type==='Starship'?(d.subType==='System'||sectorAdmits(m,id,location))&&(r.permanent>0||withPilot)||!capital(m,id)&&exterior&&(bayCosts[m.cards[location].blueprint]!==undefined||launchBay(m,location)):(exterior||sectorAdmits(m,id,location))&&(!r.world||system(m,location)===r.world);
 }

@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "status": "verified-no-divergence",
+  "recordedAt": "2026-10-05T12:26:09.139119+00:00",
+  "productionAdmission": "closed",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "scope": "Played Rebel Barrier excludes a deployed Stormtrooper before Friendly Fire eligibility and casualty selection. Two controlled boards use a legal Stormtrooper Imperial Blaster bearer, followed by actual deploy, Barrier, battle and accident actions.",
+  "finding": "No native defect. One participating opposing character plus one barred character does not offer Friendly Fire. Two participating opposing characters plus one barred character do offer it; only participating characters are casualty choices and the barred character remains at the site.",
+  "execution": {
+    "runtime": "maven:3.9.6-eclipse-temurin-21",
+    "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineStarterBarrierReachabilityOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+    "junitTests": 1,
+    "failures": 0,
+    "errors": 0,
+    "cases": 2,
+    "surefireXmlSha256": "fc18a3e74afcfb6397ea585b1c6ca64466d4bee1989ae2f93bcbbbc74481d3c2",
+    "nativeCommand": "node --test tests/native-engine/starter-timing-reachability-barrier.test.mjs",
+    "nativeTests": 3,
+    "nativePassed": 3
+  },
+  "productionVerification": {
+    "verifiedFiles": 6820,
+    "allUnchanged": true,
+    "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68"
+  },
+  "fingerprints": {
+    "tests/native-engine/gemp/NativeEngineStarterBarrierReachabilityOracleTests.java": "32be5b80bbced46cefb17e9232a2b52b37feb8bafaf685d6ad87ca4cf3be1f30",
+    "tests/native-engine/gemp/starter-timing-reachability-barrier-results.json": "5f46810fd868cfa5bc68a7820acc23cd4a0640886fe0b74b953a69a58f16f592",
+    "tests/native-engine/starter-timing-reachability-barrier-fixture.mjs": "636342d874c4cb09db63820364d62d5f5463697fb3130d852a42d6227eca3b8f",
+    "tests/native-engine/starter-timing-reachability-barrier.test.mjs": "a6917faded6486bb3c8a6a8677112dea4a4297a042a26621ef3c586bc7e865cd"
+  },
+  "limits": [
+    "Controlled initial boards, not a full shuffled match; native uses exact starter physical counts, GEMP uses supporting/filler decks.",
+    "Only Friendly Fire and Rebel Barrier paths here; broader accident/Barrier interactions remain covered separately or unverified.",
+    "Prior failed drivers are superseded: attached weapons are excluded from the character count, a legal warrior bears the weapon, and the actual battle-initiated response is asserted.",
+    "Full starter admission remains closed; this closes only the pending initial-target eligibility investigation."
+  ]
+}

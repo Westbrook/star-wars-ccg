@@ -3007,5 +3007,16 @@
     "uniqueness": "UNRESTRICTED",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_139.java"
+  },
+  "1_308": {
+    "keywords": [
+      "ENCLOSED"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_308.java"
   }
 }

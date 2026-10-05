@@ -16,8 +16,28 @@
       "landspeed": "3"
     },
     "icons": [],
-    "status": "metadata-only",
+    "status": "pending",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_148.java"
+  },
+  {
+    "gempId": "1_308",
+    "name": "Lift Tube",
+    "side": "dark",
+    "type": "Vehicle",
+    "subType": "Transport",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/lifttube.gif",
+    "text": "May carry 4 passengers. Deploy and move only at interior mobile sites. May move without presence aboard. Also, may move as a 'react' only to a battle or Force drain (if within range).",
+    "stats": {
+      "deploy": "1",
+      "power": "0",
+      "destiny": "6",
+      "forfeit": "1",
+      "maneuver": "1",
+      "landspeed": "3"
+    },
+    "icons": [],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_308.java"
   },
   {
     "gempId": "1_5",

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "kind": "official-rule-native-integration",
+  "cards": [
+    "2_117",
+    "4_37",
+    "1_43"
+  ],
+  "sources": [
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+      "printedPages": [
+        23,
+        60,
+        90,
+        93,
+        163
+      ],
+      "purpose": "Canceled game text supplies no modifiers or triggered actions; excluded characters are inactive; Besieged uses a separate selected character group and battles as if at a site. Open-vehicle occupants are present; enclosed occupants are not, although enclosed drivers retain battle-destiny ability."
+    },
+    {
+      "url": "https://res.starwarsccg.org/cards/Dagobah-Light/large/scramble.gif",
+      "purpose": "Distinguishes opposing pilots present at sites for battle-destiny prevention from pilots at sites for mandatory cancellation; Vader exemption affects the former only."
+    },
+    {
+      "url": "https://res.starwarsccg.org/cards/Premiere-Light/large/affectmind.gif",
+      "purpose": "Reduces opposing total ability where the bearer is present unless a Dark Jedi is present."
+    }
+  ],
+  "gempSourceReview": {
+    "pinnedCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+    "files": [
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/light/Card4_037.java",
+        "sha256": "36d69d6dd2156161dd2557bc6b814fb525aa0b805a99743c9c09448d8864f67e"
+      },
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_043.java",
+        "sha256": "52547eb94a1ed96e01db2a7f9cc3291f27494950823fe5412ad599488ca647e1"
+      }
+    ],
+    "finding": "Scramble uses presentAt(site) for prevention and at(site), including excluded cards, for cancellation. Affect Mind uses wherePresent(self) and a present Dark Jedi suppression condition."
+  },
+  "verification": {
+    "focusedCommand": "node --test tests/native-engine/besieged-modifiers.test.mjs",
+    "focusedTests": 19,
+    "focusedResult": "19 passed; no failed, skipped, or canceled tests.",
+    "focusedLog": "/private/tmp/swccg-besieged-modifiers-final4.log",
+    "coverage": [
+      "Selected attached pilots apply no battle-destiny ability under Scramble, retaining ordinary ability and presence.",
+      "Vader stays exempt but keeps Scramble active as a pilot.",
+      "Unselected system crew cannot keep Scramble active through virtual presence.",
+      "Departure and completion remove virtual presence and allow automatic cancellation.",
+      "Affect Mind reduces total ability in both system and docking-bay Besieged battles.",
+      "Unselected/outside and battle-prohibited Jedi or bearers cannot supply modifiers to the distinct trapped-crew battle.",
+      "Selected Dark Jedi suppress Affect Mind according to current individual ability.",
+      "Source loss, bearer deactivation, canceled text, and temporary source-duration suppression disable the correct continuous modifiers.",
+      "Suppressed or canceled Scramble does not trigger its own mandatory cancellation.",
+      "Serialized refresh preserves both-seat projections and validates saved state.",
+      "An opposing pilot riding an open vehicle is prevented by Scramble; an enclosed driver is not, although both still keep the Effect on table."
+    ],
+    "regressionNote": "Earlier consolidated ability, location-ability, and Besieged site-context regression run passed all 73 preexisting cases. Subsequent open-vehicle predicate change is covered by the final 19-case focused run; parent performs consolidated broad verification."
+  },
+  "limitations": [
+    "No executed GEMP Besieged oracle is claimed; pinned source review and official Besieged rules establish the integration interpretation.",
+    "Fixtures control initial placement, capture, source departures, game-text suppression/cancellation records, battle prohibitions, and stolen Landspeeder ownership. Besieged deployment, participant selection, initiation, optional passes, and normal completion use runtime commands.",
+    "Generic suppression tests validate trusted engine state/provider behavior; they do not claim a particular suppression card can naturally target either Effect.",
+    "This does not certify every named-location or remote continuous modifier during Besieged.",
+    "Full native deck admission remains closed."
+  ],
+  "productionAdmission": "closed"
+}

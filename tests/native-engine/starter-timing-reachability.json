@@ -1270,7 +1270,7 @@
     "The exact participants/table effects need not occur simultaneously in every legal game. Conditional providers are furnished favorable targets/Force; proof of exclusion comes from timing, not absence on this board.",
     "All post-result loss/retrieval responses remain legal where offered. Their timing cannot change a pre-result duel or an already-compared accident target group.",
     "Failed-Obsession arithmetic, other official/reference differences, wider deck providers and full production admission remain separate obligations.",
-    "Separate initial-target candidate remains pending: played Barrier followed by Friendly Fire. No gameplay divergence established. Correct the diagnostic character-only participant count and verify the actual battle-initiated menu before drawing a conclusion. Unverified harness and fixture are preserved only in /private/tmp/swccg-starter-barrier-pending, outside committed evidence."
+    "Separate initial-target candidate closed with executed GEMP/native agreement: played Rebel Barrier excludes a Stormtrooper from Friendly Fire eligibility and casualty choices. See gemp/starter-timing-reachability-barrier-review.json; this does not certify broader accident/starter coverage."
   ],
   "nativeRuntimeInputs": {
     "lib/native-engine/action-timing.ts": "b8ee41c769cc09fc96614995508c7ca7ef8a6a5bae7033ed9a096639628cbe12",
@@ -1297,7 +1297,7 @@
     "lib/native-engine/equipment-state.ts": "594144f2c08cbb26d6380b77b24d00e8e5bb8b58f3fbcb277f7067ac89e0ec77",
     "lib/native-engine/forfeiture.ts": "1214e54a4afa9783cf873ed326bfb4b43573e147bb4c93fa1222808269fa1377",
     "lib/native-engine/identity.ts": "af9d0426edef52eda915ffba675d30b0b05442648381b2f7826db0ba6933f42a",
-    "lib/native-engine/persona.ts": "cca0fbd56fd890c14e71b642b44546fe36d578e5ee72771c667b8c6e832dfae3",
+    "lib/native-engine/persona.ts": "e2849834c2c1dee5d9594307e8428efee8a390d6a11c6a69e26ad4daf076d3f3",
     "lib/native-engine/runtime.ts": "0e75a8308ac9bc7534d60f1c36ccc140052019b4db0d0ff51fe1a30143019387",
     "lib/native-engine/premiere-rules.ts": "22267100b310c891ba07cffac2e520c068bbea4d26dc8b4ec27f57eb67ec3f49"
   },
@@ -1309,14 +1309,23 @@
     "verifiedAt": "2026-10-05T12:11:35.604426+00:00",
     "scope": "Six inventories, actual post-accident Kintan path, and fingerprints/coverage. Native source fingerprints identify executed inputs, not a claim that every broader source branch was exercised."
   },
-  "separateOpenInvestigations": [
+  "separateOpenInvestigations": [],
+  "separateClosedInvestigations": [
     {
       "scope": "Initial Friendly Fire/Barrier target eligibility, separate from pending-action mutation reachability.",
-      "status": "pending-driver-correction",
-      "snapshotDirectory": "/private/tmp/swccg-starter-barrier-pending",
-      "finding": "No gameplay divergence established. Earlier absence observations used an invalid non-warrior weapon bearer or earlier exclusion window. Latest corrected probe failed because getCardsParticipating includes an attached weapon, not only characters.",
-      "next": "Filter participant inventory to characters; reach actual battle-initiated response; then compare offered accident and barred casualty selection using the legal warrior bearer.",
-      "admissionImpact": "Candidate remains open; this review is not full accident/starter certification."
+      "status": "verified-no-divergence",
+      "evidence": "tests/native-engine/gemp/starter-timing-reachability-barrier-review.json",
+      "finding": "No native defect. One participating opposing character plus one barred character does not offer Friendly Fire. Two participating opposing characters plus one barred character do offer it; only participating characters are casualty choices and the barred character remains at the site.",
+      "admissionImpact": "No runtime change required; full production admission stays closed."
+    }
+  ],
+  "continuationReviews": [
+    {
+      "reviewedAt": "2026-10-05T12:32:11.664754+00:00",
+      "files": [
+        "lib/native-engine/persona.ts"
+      ],
+      "conclusion": "persona.ts now permits recorded original ownership after theft without modifying action generation, per-turn counts or response timing. The exact starter pair has no stealing provider or starships. The six executed reference timing traces and native response predicates remain applicable to their recorded scope; no new complete-match certification claimed."
     }
   ]
 }

@@ -1,3 +1,4 @@
+import {liftTube,liftTubeDestination} from './lift-tube';
 import {relatedShip} from './ship-sites';
 import {laserGateAllowsPassage} from './laser-gate';
 import {launchBayVesselRoutes,launchBayUnlimitedMove,launchBay} from './launch-bay';
@@ -23,6 +24,7 @@ type Payload={card:CardReference;path:CardReference[];method:Method;index:number
 const exterior=(m:Match,id:string)=>cardDefinition(m,id).subType==='Site'&&(cardDefinition(m,id).icons as string[]).includes('Exterior');
 const stat=(m:Match,id:string,key:string)=>Number((cardDefinition(m,id).stats as Record<string,string>)[key]??0);
 export function vehicleDestination(m:Match,id:string,to:string):boolean{
+ if(liftTube(m,id))return liftTubeDestination(m,to);
  if(!exterior(m,to))return false;
  // Both printed Sandcrawlers prohibit nonplanet/mobile destinations.
  return !['1_150','1_309'].includes(m.cards[id].blueprint)||(cardDefinition(m,to).icons as string[]).includes('Planet')&&!bellySlug(m,to);

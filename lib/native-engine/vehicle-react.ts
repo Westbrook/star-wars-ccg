@@ -3,7 +3,7 @@ import {gameTextActive} from './game-text';
 import {barred,canMove,usage,record,registerReact,pendingReactSite,cancelDrainAfterReact} from './ground';
 import {vesselRoutes} from './vessel-travel';
 import {occupants,roleAvailable,crewActive,type AboardRole} from './occupancy';
-import {battleHistory} from './battle';
+import {battleHistory,members} from './battle';
 import {referenceCard,sameCard,assertCardReference,type CardReference} from './identity';
 import {openWindow} from './runtime';
 import {other,type Match,type Side,type Action,type Window,type Resolution,type Decision,type Json} from './types';
@@ -13,11 +13,13 @@ const payload=(f:Resolution|Decision)=>('action' in f?f.action.payload:f.payload
 const action=(step:string,p:ReactMove):Action=>({id:'vehicle-react:'+p.card+':'+p.path.at(-1)!.id,handler:'vehicle-react:'+step,source:p.card,label:'React with vehicle',payload:p as unknown as Json});
 const alive=(m:Match,p:ReactMove)=>sameCard(m,p.cardRef)&&p.path.every(r=>sameCard(m,r))&&!m.cards[p.card].attachedTo&&m.cards[p.card].location===p.path[p.index].id&&!barred(m,p.card);
 const routeValid=(m:Match,p:ReactMove)=>alive(m,p)&&vesselRoutes(m,p.card).some(r=>r.method==='landspeed'&&r.path.join('|')===p.path.slice(p.index).map(r=>r.id).join('|'));
-const eligible=(m:Match,id:string)=>!usage(m).reacted.includes(id)&&!battleHistory(m).participants.includes(id)&&!barred(m,id)&&crewActive(m,id);
+// Carried passengers join the current battle on arrival. That participation
+// must not erase the react's explicit permission to disembark just afterward.
+const eligible=(m:Match,id:string,arrived=false)=>!usage(m).reacted.includes(id)&&(!battleHistory(m).participants.includes(id)||arrived&&members(m,m.cards[id].owner).includes(id))&&!barred(m,id)&&crewActive(m,id);
 export function vehicleReactActions(m:Match,w:Window,side:Side):Action[]{
  if(m.turn.side===side)return [];
  const site=pendingReactSite(m,w,side);if(!site)return [];
- return Object.values(m.cards).filter(c=>c.owner===side&&(c.blueprint!=='3_69'||system(m,site)==='Hoth')&&['1_149','1_151','1_310','3_69'].includes(c.blueprint)&&gameTextActive(m,c.id)&&canMove(m,c.id)&&eligible(m,c.id)).flatMap(c=>vesselRoutes(m,c.id).filter(r=>r.method==='landspeed'&&r.path.at(-1)===site&&r.cost<=m.players[side].force.length).map(r=>{
+ return Object.values(m.cards).filter(c=>c.owner===side&&(c.blueprint!=='3_69'||system(m,site)==='Hoth')&&['1_148','1_308','1_149','1_151','1_310','3_69'].includes(c.blueprint)&&gameTextActive(m,c.id)&&canMove(m,c.id)&&eligible(m,c.id)).flatMap(c=>vesselRoutes(m,c.id).filter(r=>r.method==='landspeed'&&r.path.at(-1)===site&&r.cost<=m.players[side].force.length).map(r=>{
   const p:ReactMove={card:c.id,cardRef:referenceCard(m,c.id),path:r.path.map(id=>referenceCard(m,id)),index:0,cost:r.cost,participants:[c.id]};
   return {...action('begin',p),label:'React with '+name(m,c.id)+' to '+name(m,site)+' · '+(r.cost?r.cost+' Force':'free'),payment:{[side]:r.cost},unrespondable:true};
  }));
@@ -28,7 +30,7 @@ type CrewChoice={id:string;label:string;card:string;role?:AboardRole};
 function crewChoices(m:Match,p:ReactMove,side:Side,before:boolean):CrewChoice[]{
  if(!alive(m,p))return [];
  const candidates=before?Object.values(m.cards).filter(c=>c.zone==='table'&&!c.attachedTo&&c.location===p.path[0].id):occupants(m,p.card);
- return candidates.filter(c=>c.owner===side&&cardDefinition(m,c.id).type==='Character'&&!barred(m,c.id)&&crewActive(m,c.id)&&(p.participants.includes(c.id)||eligible(m,c.id))).flatMap(c=>before?(['pilot','driver','passenger'] as AboardRole[]).filter(role=>roleAvailable(m,p.card,c.id,role)).map(role=>({id:'board:'+c.id+':'+role,label:'Embark '+name(m,c.id)+' as '+role,card:c.id,role})):[{id:'exit:'+c.id,label:'Disembark '+name(m,c.id)+' at '+name(m,p.path.at(-1)!.id),card:c.id}]);
+ return candidates.filter(c=>c.owner===side&&cardDefinition(m,c.id).type==='Character'&&!barred(m,c.id)&&crewActive(m,c.id)&&(p.participants.includes(c.id)||eligible(m,c.id,!before))).flatMap(c=>before?(['pilot','driver','passenger'] as AboardRole[]).filter(role=>roleAvailable(m,p.card,c.id,role)).map(role=>({id:'board:'+c.id+':'+role,label:'Embark '+name(m,c.id)+' as '+role,card:c.id,role})):[{id:'exit:'+c.id,label:'Disembark '+name(m,c.id)+' at '+name(m,p.path.at(-1)!.id),card:c.id}]);
 }
 function crewWindow(m:Match,side:Side,p:ReactMove,before:boolean){
  if(!alive(m,p))return;
@@ -82,7 +84,7 @@ export function vehicleReactView(m:Match){
 export function assertVehicleReact(m:Match){
  let count=0;for(const f of m.stack){if(f.kind==='window')continue;const h=f.kind==='decision'?f.handler:f.action.handler;if(!h.startsWith('vehicle-react:'))continue;
   const p=payload(f),side=f.kind==='decision'?f.side:f.actor;
-  if(++count>1||!['begin','board','move','step','exit','crew'].some(s=>h==='vehicle-react:'+s)||f.kind==='decision'&&!['vehicle-react:board','vehicle-react:exit'].includes(h)||!p||m.cards[p.card]?.owner!==side||!['1_149','1_151','1_310','3_69'].includes(m.cards[p.card].blueprint))throw Error('Invalid vehicle react continuation.');
+  if(++count>1||!['begin','board','move','step','exit','crew'].some(s=>h==='vehicle-react:'+s)||f.kind==='decision'&&!['vehicle-react:board','vehicle-react:exit'].includes(h)||!p||m.cards[p.card]?.owner!==side||!['1_148','1_308','1_149','1_151','1_310','3_69'].includes(m.cards[p.card].blueprint))throw Error('Invalid vehicle react continuation.');
   assertCardReference(m,p.cardRef,p.card);if(p.cardRef.zone!=='table'||!Array.isArray(p.path)||p.path.length<2||!Number.isSafeInteger(p.index)||p.index<0||p.index>=p.path.length||![0,1].includes(p.cost)||!Array.isArray(p.participants)||p.participants[0]!==p.card||new Set(p.participants).size!==p.participants.length||p.participants.some(id=>m.cards[id]?.owner!==side||!usage(m).reacted.includes(id)))throw Error('Invalid vehicle react history.');
   for(const ref of p.path){assertCardReference(m,ref);if(ref.zone!=='table'||cardDefinition(m,ref.id).subType!=='Site')throw Error('Invalid vehicle react route.');}
   if(new Set(p.path.map(r=>r.id)).size!==p.path.length||['vehicle-react:begin','vehicle-react:board','vehicle-react:move'].includes(h)&&p.index!==0||h==='vehicle-react:step'&&p.index>=p.path.length-1||h==='vehicle-react:exit'&&p.index!==p.path.length-1||['vehicle-react:move','vehicle-react:step','vehicle-react:exit'].includes(h)&&p.react!==true)throw Error('Invalid vehicle react stage.');

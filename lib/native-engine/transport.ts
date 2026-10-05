@@ -1,3 +1,4 @@
+import {liftTube} from './lift-tube';
 import {launchBay,launchBayShuttleDestinations,launchBayShuttleFree} from './launch-bay';
 import {relatedShip} from './ship-sites';
 import {deployWithoutPresence} from './board';
@@ -35,7 +36,7 @@ function options(m:Match,side:Side,checkUsage=true):Payload[]{
  const out:Payload[]=[],ships=carriers(m,side),add=(id:string,to:string,mode:Mode,roles:AboardRole[])=>{for(const role of roles)if(roleAvailable(m,to,id,role))out.push(selected(m,id,to,mode,role));};
  for(const c of Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&!barred(m,c.id))){
   const d=cardDefinition(m,c.id),isCharacter=d.type==='Character';
-  if((isCharacter||d.type==='Vehicle')&&(!checkUsage||canMove(m,c.id))){
+  if((isCharacter||d.type==='Vehicle'&&!liftTube(m,c.id))&&(!checkUsage||canMove(m,c.id))){
    for(const to of launchBayShuttleDestinations(m,c.id).filter(to=>isCharacter||vehicleDestination(m,c.id,to)))out.push(selected(m,c.id,to,'shuttle'));
    if(!c.attachedTo&&c.location&&exterior(m,c.location))for(const ship of ships.filter(h=>cardDefinition(m,h.location!).subType==='System'&&system(m,h.location!)===system(m,c.location!)))add(c.id,ship.id,'shuttle',isCharacter?characterRoles:['vehicle']);
    if(c.attachedTo&&cardDefinition(m,c.location!).subType==='System'&&ships.some(h=>h.id===c.attachedTo))for(const site of m.locations.filter(site=>exterior(m,site)&&system(m,site)===system(m,c.location!)&&(isCharacter||vehicleDestination(m,c.id,site))))out.push(selected(m,c.id,site,'shuttle'));
@@ -53,7 +54,7 @@ function options(m:Match,side:Side,checkUsage=true):Payload[]{
  return out.filter(p=>p.mode!=='shuttle'||!shieldMovement(m,side,m.cards[p.card.id].location!,p.location.id));
 }
 export function cargoDeploysAt(m:Match,id:string,host:string,ignorePresence=false,role?:AboardRole):boolean {
- const ship=m.cards[host],r=vesselRule(m,id);if(!r||!ship||shieldDeployment(m,id,ship.location!)||!carriers(m,m.cards[id].owner).some(h=>h.id===host))return false;
+ const ship=m.cards[host],r=vesselRule(m,id);if(liftTube(m,id)||!r||!ship||shieldDeployment(m,id,ship.location!)||!carriers(m,m.cards[id].owner).some(h=>h.id===host))return false;
  if(r.world&&(system(m,ship.location!)!==r.world||cardDefinition(m,ship.location!).subType!=='Site'))return false;
  return !!(ignorePresence||deployWithoutPresence(m,m.cards[id].owner,ship.location!)||forceIcons(m,ship.location!,m.cards[id].owner)||presence(m,m.cards[id].owner,ship.location!))&&cargoRoles(m,id,host).some(r=>(!role||r===role)&&roleAvailable(m,host,id,r));
 }

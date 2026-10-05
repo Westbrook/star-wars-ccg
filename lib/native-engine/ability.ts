@@ -1,4 +1,6 @@
-import {isVessel,permanentAbility,enclosedOccupant,landed} from './occupancy';
+import {isVessel,permanentAbility,enclosedOccupant,landed,characterPresent} from './occupancy';
+import {besiegedParticipant} from './captured-ship-state';
+import {gameTextActive} from './game-text';
 import {cardDefinition} from './definitions';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import {hasPersona} from './persona';
@@ -54,14 +56,16 @@ export function ability(m: Match, id: string): number {
 }
 export const mayBeHighestAbility = (m: Match, id: string) => !active(m, id).some(p => p.kind === 'highest-exclude');
 export const mayApplySenseAbility = (m: Match, id: string) => !active(m, id).some(p => p.kind === 'sense-prevent');
-export const pilotAtSite = (m: Match, id: string) => m.cards[id]?.zone === 'table' && !!m.cards[id].location && m.locations.includes(m.cards[id].location!) && cardDefinition(m,m.cards[id].location!).subType==='Site' &&
+// Besieged participants battle as if at a site without changing their physical
+// system/custody location. Unselected crew do not acquire this virtual context.
+export const pilotAtSite = (m: Match, id: string) => m.cards[id]?.zone === 'table' && !!m.cards[id].location && m.locations.includes(m.cards[id].location!) && (cardDefinition(m,m.cards[id].location!).subType==='Site'||besiegedParticipant(m,id)) &&
   cardDefinition(m, id).type === 'Character' && (cardDefinition(m, id).icons as string[]).includes('Pilot');
 export function abilityForBattleDestiny(m: Match, id: string): number {
   if(isVessel(m,id))return landed(m,id)?0:permanentAbility(m,id);
   const aboard=m.cards[id];if(enclosedOccupant(m,id)&&(aboard.aboardRole==='passenger'||landed(m,aboard.attachedTo!)))return 0;
   if (cardDefinition(m, id).subType === 'Droid') return 0; // AR p77: unmodifiable zero.
   const mods = active(m, id), card = m.cards[id];
-  const scramble = pilotAtSite(m, id) && !card.attachedTo && !hasPersona(m, id, 'VADER') && Object.values(m.cards).some(c => c.zone === 'table' && c.blueprint === '4_37' && c.owner !== card.owner);
+  const scramble = pilotAtSite(m, id) && characterPresent(m,id) && !hasPersona(m, id, 'VADER') && Object.values(m.cards).some(c => c.blueprint === '4_37' && c.owner !== card.owner && gameTextActive(m,c.id));
   if (scramble || mods.some(p => p.kind === 'battle-prevent')) return 0;
   return Math.max(0, ability(m, id) + mods.filter(p => p.kind === 'battle-add').reduce((n,p) => n + p.amount, 0));
 }

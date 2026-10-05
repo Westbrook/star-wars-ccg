@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "status": "implemented pending full admission; focused executed GEMP comparisons",
+  "recordedAt": "2026-10-05T12:37:22.366355+00:00",
+  "cards": [
+    "1_148",
+    "1_308"
+  ],
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionAdmission": "closed",
+  "officialSources": [
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+      "printedPages": [
+        45,
+        68,
+        92,
+        93,
+        119,
+        148,
+        170,
+        171
+      ],
+      "findings": [
+        "Lift Tube is enclosed, carries four passengers and never counts as unpiloted. It may exist only at interior mobile sites.",
+        "Moving the vehicle consumes its regular move and carries its passengers without using their regular moves.",
+        "React permits predeparture boarding and postarrival disembarking. Arrival with presence cancels the drain; empty arrival supplies no presence.",
+        "Laser Gate permits passage in a Lift Tube. This interaction is native-only because the pinned reference has no Laser Gate implementation."
+      ]
+    }
+  ],
+  "execution": {
+    "runtime": "maven:3.9.6-eclipse-temurin-21",
+    "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineLiftTubeOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+    "junitTests": 2,
+    "failures": 0,
+    "errors": 0,
+    "cases": 5,
+    "log": "/private/tmp/swccg-lift-tube-gemp3.log",
+    "surefireXmlSha256": "d53cea802441b5f42c3a037ac04119b327de551ff52028bee6f59e8978b2c954"
+  },
+  "productionVerification": {
+    "verifiedFiles": 6820,
+    "allUnchanged": true,
+    "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68"
+  },
+  "nativeScope": [
+    "Both prints deploy for 1 Force at legal interior mobile sites with ordinary deployment presence.",
+    "Four passenger-only slots, enclosed presence and battle contribution rules, no fabricated pilot or ability.",
+    "Driverless regular movement and either-side reaction use the existing durable payment, response and intermediate-arrival pipeline.",
+    "Capacity recovery rejects fifth passengers and forged driver/pilot assignments. Never-exist rules reject nonmobile/exterior-only/system and cargo placements, including while text is suppressed.",
+    "Carried battle passengers retain postarrival disembarking permission after current-battle participation history is recorded. Prior-react participants remain ineligible.",
+    "Weak passengers traverse Laser Gate while aboard Lift Tube; gate-crossing is verified natively and in browser, not claimed as GEMP parity."
+  ],
+  "nativeVerification": {
+    "focusedCommand": "node --test tests/native-engine/lift-tube.test.mjs tests/native-engine/vehicle-react.test.mjs tests/native-engine/vessels.test.mjs tests/native-engine/vessel-travel.test.mjs tests/native-engine/transport.test.mjs",
+    "focusedPassed": 76,
+    "focusedFailed": 0,
+    "focusedLog": "/private/tmp/swccg-lift-tube-focused2.log",
+    "finalFeaturePassed": 11,
+    "finalFeatureLog": "/private/tmp/swccg-lift-tube-final.log",
+    "conformanceCommand": "node --test tests/native-engine/lift-tube-conformance.test.mjs",
+    "conformancePassed": 6,
+    "conformanceFailed": 0,
+    "conformanceLog": "/private/tmp/swccg-lift-tube-conformance.log"
+  },
+  "fingerprints": {
+    "tests/native-engine/gemp/NativeEngineLiftTubeOracleTests.java": "631cb0e32308eb081faef77dead7869e3f6ff87ffe7ee423b775082a0c8ff9aa",
+    "tests/native-engine/gemp/lift-tube-results.json": "256643ace6bf308b854960df8ab8e135aca93c73f810e836089a4e34ce1c24e7",
+    "tests/native-engine/lift-tube-fixture.mjs": "59b2dd3e7986c5383f4223e524ee1de1474bc744422b1d9a02c84c1de31bb22e",
+    "tests/native-engine/lift-tube.test.mjs": "85f45d1f627c4e36e78f9dce5529ceca3a05815778fa338929ae915530128e72",
+    "tests/native-engine/lift-tube-conformance.test.mjs": "b50b29c25399e6a2eb257647f844d02b9fc9b77cff79f44229ab810a9bf266a0"
+  },
+  "limits": [
+    "Controlled initial boards and filler decks, not an exhaustive shuffled match. Native and GEMP compare selected outcomes, not exact intermediate empty-window counts.",
+    "Both printed sides have executed deployment/empty-movement comparisons; the three executed GEMP react variants use Light Lift Tube. Dark react is covered by native and browser integration tests.",
+    "Laser Gate endpoint-loss and pair-separating geometry remain unverified; see laser-gate-review.json.",
+    "Arbitrary wider card interactions and production deck admission remain closed."
+  ],
+  "supersededAttempts": "First two oracle executions failed in test drivers: same-system starting placement was incomplete, a duplicate location setup was invalid, and a mandatory Force-loss choice could not be passed. Final third execution corrects these fixture/driver problems without changing GEMP production code."
+}

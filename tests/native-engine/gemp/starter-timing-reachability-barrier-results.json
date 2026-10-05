@@ -1,0 +1,96 @@
+[
+  {
+    "case": "one-active-plus-barred",
+    "actualBattleInitiatedResponse": true,
+    "barrierPlayed": true,
+    "barrierUsed": true,
+    "darkParticipantsBeforeAccident": 1,
+    "barredParticipates": false,
+    "friendlyFireOffered": false,
+    "barredSelectable": false,
+    "activeSelectable": false,
+    "barredStillAtSite": true,
+    "interruptLost": false,
+    "menus": [
+      {
+        "actions": [],
+        "side": "dark",
+        "text": "ABOUT_TO_BE_EXCLUDED_FROM_BATTLE - Optional responses"
+      },
+      {
+        "actions": [],
+        "side": "light",
+        "text": "ABOUT_TO_BE_EXCLUDED_FROM_BATTLE - Optional responses"
+      },
+      {
+        "actions": [],
+        "side": "dark",
+        "text": "EXCLUDED_FROM_BATTLE - Optional responses"
+      },
+      {
+        "actions": [],
+        "side": "light",
+        "text": "EXCLUDED_FROM_BATTLE - Optional responses"
+      },
+      {
+        "actions": [],
+        "side": "light",
+        "text": "BATTLE_INITIATED - Optional responses"
+      },
+      {
+        "actions": [],
+        "side": "dark",
+        "text": "BATTLE_INITIATED - Optional responses"
+      },
+      {
+        "actions": [
+          "Fire Imperial Blaster"
+        ],
+        "side": "dark",
+        "text": "Choose weapons segment action to play or Pass"
+      }
+    ]
+  },
+  {
+    "case": "two-active-plus-barred",
+    "actualBattleInitiatedResponse": true,
+    "barrierPlayed": true,
+    "barrierUsed": true,
+    "darkParticipantsBeforeAccident": 2,
+    "barredParticipates": false,
+    "friendlyFireOffered": true,
+    "barredSelectable": false,
+    "activeSelectable": true,
+    "barredStillAtSite": true,
+    "interruptLost": true,
+    "menus": [
+      {
+        "actions": [],
+        "side": "dark",
+        "text": "ABOUT_TO_BE_EXCLUDED_FROM_BATTLE - Optional responses"
+      },
+      {
+        "actions": [],
+        "side": "light",
+        "text": "ABOUT_TO_BE_EXCLUDED_FROM_BATTLE - Optional responses"
+      },
+      {
+        "actions": [],
+        "side": "dark",
+        "text": "EXCLUDED_FROM_BATTLE - Optional responses"
+      },
+      {
+        "actions": [],
+        "side": "light",
+        "text": "EXCLUDED_FROM_BATTLE - Optional responses"
+      },
+      {
+        "actions": [
+          "Play"
+        ],
+        "side": "light",
+        "text": "Battle just initiated at \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_129\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e - Optional responses"
+      }
+    ]
+  }
+]

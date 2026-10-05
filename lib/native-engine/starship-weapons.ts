@@ -128,8 +128,15 @@ export function starshipWeaponResolve(m:Match,r:Resolution):void{
 }
 export function assertStarshipWeapons(m:Match):void{
  const b=battle(m);if(b?.starshipShots!==undefined&&!Array.isArray(b.starshipShots))throw Error('Invalid starship weapon history.');
+ // A Tractor Beam can steal a departing ship (and its mounted weapons) after
+ // firing has finished. The saved shot still belongs to its original actor.
+ // This exception is historical only: active firing continuations below retain
+ // their current-owner checks, and the ship must have left that side's battle.
+ const shotOwner=(id:string,ship:string,side:Side,historical:boolean)=>m.cards[id]?.owner===side||
+  historical&&m.cards[id]?.originalOwner===side&&!!b&&['end','complete'].includes(b.stage)&&
+  !!b.departed?.includes(ship)&&b.participants[side].includes(ship);
  for(const s of b?.starshipShots??[]){
-  if(!s||!starshipWeapons[m.cards[s.weapon]?.blueprint]||!sides.includes(s.side)||m.cards[s.weapon].owner!==s.side||(!starship(m,s.host)&&!mobileSystem(m,s.host))||!starship(m,s.target)||m.cards[s.target].owner===s.side||!Array.isArray(s.draws)||s.draws.length>starshipWeapons[m.cards[s.weapon].blueprint].draws||s.draws.some(d=>!validDraw(m,d,s.side))||s.total!==null&&(!Number.isFinite(s.total)||s.total<0)||![0,1,2,-1,-2,-5].includes(s.modifier)||!['pending','canceled','invalid','miss','hit','ionized'].includes(s.outcome)||s.defense!==undefined&&(!Number.isFinite(s.defense)||s.defense<0))throw Error('Invalid starship weapon record.');
+  if(!s||!starshipWeapons[m.cards[s.weapon]?.blueprint]||!sides.includes(s.side)||!shotOwner(s.weapon,s.host,s.side,s.outcome!=='pending')||(!starship(m,s.host)&&!mobileSystem(m,s.host))||!starship(m,s.target)||!shotOwner(s.target,s.target,other(s.side),s.outcome!=='pending')||!Array.isArray(s.draws)||s.draws.length>starshipWeapons[m.cards[s.weapon].blueprint].draws||s.draws.some(d=>!validDraw(m,d,s.side))||s.total!==null&&(!Number.isFinite(s.total)||s.total<0)||![0,1,2,-1,-2,-5].includes(s.modifier)||!['pending','canceled','invalid','miss','hit','ionized'].includes(s.outcome)||s.defense!==undefined&&(!Number.isFinite(s.defense)||s.defense<0))throw Error('Invalid starship weapon record.');
   if(s.outcome==='hit'&&['1_318','2_81'].includes(m.cards[s.weapon].blueprint))throw Error('Ion cannons do not hit ships.');
   if(s.ionWeapons!==undefined){
    if(s.outcome!=='ionized'||!['1_318','2_81'].includes(m.cards[s.weapon].blueprint)||!Array.isArray(s.ionWeapons)||new Set(s.ionWeapons.map(r=>r.id)).size!==s.ionWeapons.length)throw Error('Invalid ion weapon targets.');

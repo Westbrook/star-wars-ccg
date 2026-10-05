@@ -1,0 +1,58 @@
+[
+  {
+    "mode": "light-deploy-move",
+    "interiorAvailable": true,
+    "planetAvailable": false,
+    "outsideAvailable": false,
+    "deployCost": 1,
+    "passengerCapacity": 4,
+    "power": 0,
+    "presence": false,
+    "emptyMoveAvailable": true,
+    "moveCost": 1,
+    "regularMoveUsed": true
+  },
+  {
+    "mode": "dark-deploy-move",
+    "interiorAvailable": true,
+    "planetAvailable": false,
+    "outsideAvailable": false,
+    "deployCost": 1,
+    "passengerCapacity": 4,
+    "power": 0,
+    "presence": false,
+    "emptyMoveAvailable": true,
+    "moveCost": 1,
+    "regularMoveUsed": true
+  },
+  {
+    "mode": "board-drain",
+    "cost": 1,
+    "arrived": true,
+    "boarded": true,
+    "exited": true,
+    "aboard": false,
+    "lostToDrain": 0,
+    "regularMoveUsed": true
+  },
+  {
+    "mode": "empty-drain",
+    "cost": 1,
+    "arrived": true,
+    "boarded": false,
+    "exited": false,
+    "aboard": false,
+    "lostToDrain": 1,
+    "regularMoveUsed": true
+  },
+  {
+    "mode": "carried-battle",
+    "cost": 1,
+    "arrived": true,
+    "boarded": false,
+    "exited": true,
+    "aboard": false,
+    "lostToDrain": 0,
+    "regularMoveUsed": true
+  }
+]

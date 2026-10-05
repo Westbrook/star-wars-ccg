@@ -64,5 +64,9 @@ export function assertCardPlays(m: Match): void {
   const h = m.data.cardPlays as unknown as History | undefined;
   if (h === undefined) return;
   if (!h || !Number.isSafeInteger(h.turn) || h.turn < 1 || h.turn > m.turn.number || !Array.isArray(h.cards) ||
-    h.cards.some(p => !p || !sides.includes(p.side) || !m.cards[p.card] || m.cards[p.card].owner !== p.side || m.cards[p.card].blueprint !== p.blueprint || !registry[p.blueprint])) throw Error('Invalid card play history.');
+    // Ownership can change after a play (AR stealing). Preserve the initiating
+    // side in the ledger; theft does not grant another per-turn play allowance.
+    h.cards.some(p => !p || !sides.includes(p.side) || !m.cards[p.card] ||
+      m.cards[p.card].owner !== p.side && m.cards[p.card].originalOwner !== p.side ||
+      m.cards[p.card].blueprint !== p.blueprint || !registry[p.blueprint])) throw Error('Invalid card play history.');
 }

@@ -1,3 +1,4 @@
+import {liftTube,liftTubeDestination} from './lift-tube';
 import {capturedShipFor,besiegedParticipant,besiegedActiveCard} from './captured-ship-state';
 import {escorted} from './captives';
 import {otsdShipBonus,tie,vehicleCargoCompatible} from './otsd-ships';
@@ -26,6 +27,8 @@ export const vesselRules:Record<string,VesselRule>={
  '106_15':{pilots:0,drivers:0,passengers:0,shared:0,permanent:2,enclosed:true},
  '3_69':{pilots:0,drivers:0,passengers:0,shared:1,permanent:1,enclosed:true},
  '3_155':{pilots:1,drivers:0,passengers:8,shared:0,permanent:2,enclosed:true},
+ '1_148':{pilots:0,drivers:0,passengers:4,shared:0,permanent:0,enclosed:true},
+ '1_308':{pilots:0,drivers:0,passengers:4,shared:0,permanent:0,enclosed:true},
  '1_149':{pilots:0,drivers:1,passengers:2,shared:0,permanent:0,enclosed:false},
  '1_151':{pilots:0,drivers:1,passengers:3,shared:0,permanent:0,enclosed:true},
  '1_310':{pilots:0,drivers:1,passengers:2,shared:0,permanent:0,enclosed:true},
@@ -61,7 +64,7 @@ export function crewActive(m:Match,id:string):boolean {
 }
 export const permanentPilot=(m:Match,id:string)=>!!vesselRule(m,id)&&(cardDefinition(m,id).icons as string[]).some(icon=>/^Pilot(?: x[0-9]+)?$/.test(icon));
 export const pilotAboard=(m:Match,id:string)=>permanentPilot(m,id)||occupants(m,id).some(c=>c.aboardRole==='pilot'&&crewActive(m,c.id));
-export const operational=(m:Match,id:string)=>m.cards[id]?.zone==='table'&&!!vesselRule(m,id)&&!landed(m,id)&&(pilotAboard(m,id)||occupants(m,id).some(c=>c.aboardRole==='driver'&&crewActive(m,c.id)));
+export const operational=(m:Match,id:string)=>m.cards[id]?.zone==='table'&&!!vesselRule(m,id)&&!landed(m,id)&&(liftTube(m,id)||pilotAboard(m,id)||occupants(m,id).some(c=>c.aboardRole==='driver'&&crewActive(m,c.id)));
 export const enclosedOccupant=(m:Match,id:string)=>!besiegedParticipant(m,id)&&!!m.cards[id]?.aboardRole&&!!vesselRule(m,m.cards[id].attachedTo!)?.enclosed;
 export const characterPresent=(m:Match,id:string)=>cardDefinition(m,id).type==='Character'&&(besiegedParticipant(m,id)||!belowDecks(m,id)&&!enclosedOccupant(m,id)&&(!m.cards[id].attachedTo||!!m.cards[id].aboardRole));
 export const unitsAt=(m:Match,location:string):Card[]=>Object.values(m.cards).filter(c=>c.zone==='table'&&c.location===location&&!c.coveredBy&&(artillery(m,c.id)||cardDefinition(m,c.id).type==='Character'&&!belowDecks(m,c.id)&&(!c.attachedTo||!!c.aboardRole)||isVessel(m,c.id)&&(!c.attachedTo||inCargo(m,c.id))));
@@ -100,9 +103,10 @@ export function assertOccupancy(m:Match):void {
   if(c.aboardRole!==undefined&&(!['pilot','driver','passenger','vehicle','starship'].includes(c.aboardRole)||!(c.zone==='table'||c.zone==='inactive'&&capturedShipFor(m,c.id))||!c.attachedTo||!vesselRule(m,c.attachedTo)||m.cards[c.attachedTo].zone!==c.zone&&!besiegedActiveCard(m,c.id)||m.cards[c.attachedTo].owner!==c.owner||c.location!==m.cards[c.attachedTo].location))throw Error('Invalid aboard capacity role.');
   if(c.zone==='table'&&cardDefinition(m,c.id).type==='Character'&&c.attachedTo&&isVessel(m,c.attachedTo)&&!c.aboardRole)throw Error('Aboard character needs a capacity role.');
   if(c.zone==='table'&&vesselRule(m,c.id)){
+   if(liftTube(m,c.id)&&(!c.location||!liftTubeDestination(m,c.location)||c.attachedTo))throw Error('Lift Tube must be at an interior mobile site.');
    if(!c.location||!m.locations.includes(c.location))throw Error('Vessel needs an active location.');
    if(c.attachedTo&&!inCargo(m,c.id))throw Error('Vessel needs cargo capacity.');
-   belowDecks(m,c.id);if(capital(m,c.id)&&cardDefinition(m,c.location).subType!=='System'&&!sectorAdmits(m,c.id,c.location))throw Error('Capital ship needs a system.');const d=cardDefinition(m,c.location);if(!inCargo(m,c.id)&&!sectorAdmits(m,c.id,c.location)&&(cardDefinition(m,c.id).type==='Vehicle'?(d.subType!=='Site'||!(d.icons as string[]).includes('Exterior')):!(d.subType==='System'||d.subType==='Site'&&(d.icons as string[]).includes('Exterior'))))throw Error('Invalid vessel location.');
+   belowDecks(m,c.id);if(capital(m,c.id)&&cardDefinition(m,c.location).subType!=='System'&&!sectorAdmits(m,c.id,c.location))throw Error('Capital ship needs a system.');const d=cardDefinition(m,c.location);if(!liftTube(m,c.id)&&!inCargo(m,c.id)&&!sectorAdmits(m,c.id,c.location)&&(cardDefinition(m,c.id).type==='Vehicle'?(d.subType!=='Site'||!(d.icons as string[]).includes('Exterior')):!(d.subType==='System'||d.subType==='Site'&&(d.icons as string[]).includes('Exterior'))))throw Error('Invalid vessel location.');
    if(!capacityFits(m,c.id,occupants(m,c.id).map(x=>({id:x.id,role:x.aboardRole!})))&&!capacityPending(m,c.id))throw Error('Vessel capacity exceeded.');
   }
  }

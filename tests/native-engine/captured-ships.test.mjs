@@ -90,3 +90,34 @@ test('captured-ship reference receipt binds the unchanged engine and exact outpu
  const p=JSON.parse(fs.readFileSync(new URL('./gemp/captured-ship-provenance.json',import.meta.url)));assert.equal(p.referenceCommit,'bbd94d183b29c2e82458293df0327c3b946f3d85');assert.equal(p.productionFilesChanged,0);assert.equal(p.productionFilesCompared,6820);assert.equal(observed.length,6);
  for(const [file,hash]of Object.entries(p.files))assert.equal(createHash('sha256').update(fs.readFileSync(new URL('./gemp/'+file,import.meta.url))).digest('hex'),hash);
 });
+
+test('stealing preserves the original deployment ledger through refresh and replay limits',()=>{
+ const f=fixture(0),persona=mod('persona');f.m.cards[f.ship].blueprint='1_141';
+ // A deployment earlier in this turn belongs to the player who initiated it,
+ // even when its physical card changes ownership later in the turn.
+ persona.recordCardPlay(f.m,f.ship);
+ let m=promptAt(step(f.m,'pass'),'captured-ship:steal');
+ m=step(m,'captured-ship:launch:'+f.site);refresh(m);
+ assert.equal(m.cards[f.ship].owner,'dark');
+ assert.deepEqual(m.data.cardPlays.cards.at(-1),{card:f.ship,blueprint:'1_141',side:'light'});
+ assert.equal(persona.canPlayThisTurn(m,f.ship),false);
+ mod('table').loseFromTable(m,[f.ship]);m=seek(m,x=>!x.stack.some(f=>f.kind==='decision'&&f.handler==='table:lost-order'));
+ state.moveCard(m,f.ship,'hand');refresh(m);
+ assert.equal(persona.canPlayThisTurn(m,f.ship),false);
+ const bad=clone(m);delete bad.cards[f.ship].originalOwner;
+ assert.throws(()=>persona.assertCardPlays(bad),/play history/);
+});
+
+test('stolen Rebel capital ship supplies the Imperial capital ship TIE discount',()=>{
+ const f=fixture(0);let m=promptAt(step(f.m,'pass'),'captured-ship:steal');m=step(m,'captured-ship:launch:'+f.site);
+ // Remove the original Imperial carrier so only the stolen Corvette can supply
+ // the discount. All ownership changes use the actual steal continuation.
+ mod('table').loseFromTable(m,[f.host]);m=seek(m,x=>!x.stack.some(f=>f.kind==='decision'&&f.handler==='table:lost-order'));
+ const tie=pull(m,'dark','1_194','hand');m.cards[tie].blueprint='1_304';refresh(m);
+ assert.equal(mod('otsd-ships').otsdDeployModifier(m,tie,f.site),-1);
+ m=phase(m,'dark','deploy');m=seek(m,x=>ids(x).includes('vessel:deploy:'+tie+':'+f.site));
+ const forceBefore=m.players.dark.force.length;m=step(m,'vessel:deploy:'+tie+':'+f.site);m=seek(m,x=>x.cards[tie].zone==='table');refresh(m);
+ assert.equal(m.players.dark.force.length,forceBefore,'stolen Imperial capital supplies the actual free deployment');
+ mod('table').loseFromTable(m,[f.ship]);m=seek(m,x=>!x.stack.some(f=>f.kind==='decision'&&f.handler==='table:lost-order'));refresh(m);
+ assert.equal(mod('otsd-ships').otsdDeployModifier(m,tie,f.site),0);
+});

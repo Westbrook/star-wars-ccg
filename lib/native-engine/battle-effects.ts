@@ -1,5 +1,6 @@
 import {deployed} from './deployment';
 import {locationAbility} from './location-ability';
+import {gameTextActive} from './game-text';
 import {abilityForBattleDestiny, pilotAtSite} from './ability';
 import {battle, members, participatingAbility} from './battle';
 import {name} from './board';
@@ -24,7 +25,7 @@ export const tradedPower = (m: Match, side: Side): number => (battle(m)?.ability
  * defense and other ability queries continue to use ordinary current ability. */
 export const battleAbility = (m: Match, side: Side): number => battle(m) ? locationAbility(m, side, battle(m)!.site,
   members(m, side).reduce((n, id) => n + abilityForBattleDestiny(m, id), 0), -tradedPower(m, side)) : 0;
-const scrambleExpires = (m: Match, id: string) => !Object.values(m.cards)
+const scrambleExpires = (m: Match, id: string) => gameTextActive(m,id) && !Object.values(m.cards)
   .some(c => c.owner !== m.cards[id].owner && pilotAtSite(m, c.id));
 
 export function battleEffectActions(m: Match, w: Window, side: Side): Action[] {
