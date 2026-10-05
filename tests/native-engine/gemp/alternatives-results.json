@@ -1,0 +1,27 @@
+[
+  {
+    "regularMoveUsed": false,
+    "shipStolen": true,
+    "cost": 0,
+    "mode": "remote",
+    "cardLost": true,
+    "gunAttached": true,
+    "crewReleased": true
+  },
+  {
+    "cardLost": true,
+    "mode": "battle",
+    "battleEnded": true,
+    "cost": 3
+  },
+  {
+    "gunAttached": false,
+    "passengerReleased": true,
+    "shipStolen": true,
+    "pilotReleased": true,
+    "cardLost": true,
+    "mode": "same-bay-observation",
+    "cost": 0,
+    "gunZone": "AT_LOCATION"
+  }
+]

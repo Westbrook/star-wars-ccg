@@ -83,5 +83,11 @@ export function assertBesieged(m:Match):void {
  const b=battle(m),p=b?.besieged;if(!b||!p)return;
  for(const r of [p.ship,p.effect,p.host,...p.selected,...p.activated])assertCardReference(m,r);
  if(!p.selected.length||b.initiator!=='dark'||p.ship.zone!=='inactive'||p.effect.zone!=='table'||p.host.zone!=='table'||m.cards[p.effect.id].blueprint!=='2_117'||cardDefinition(m,p.ship.id).type!=='Starship'||new Set(p.selected.map(r=>r.id)).size!==p.selected.length||new Set(p.activated.map(r=>r.id)).size!==p.activated.length||JSON.stringify(b.participants.dark)!==JSON.stringify(p.selected.map(r=>r.id))||p.activated.some(r=>r.zone!=='table'||['Starship','Vehicle'].includes(cardDefinition(m,r.id).type))||[...b.participants.dark,...b.participants.light].some(id=>cardDefinition(m,id).type!=='Character')||b.participants.light.some(id=>!p.activated.some(r=>r.id===id)))throw Error('Invalid Besieged battle.');
- if(b.stage!=='complete'&&sameCard(m,p.ship))for(const r of p.activated)if(sameCard(m,r)&&(capturedShipFor(m,r.id)?.id!==p.ship.id||!b.participants.light.some(id=>attachmentGroup(m,id).some(c=>c.id===r.id))||cardDefinition(m,r.id).type==='Character'&&!b.participants.light.includes(r.id)))throw Error('Invalid activated trapped card.');
+ if(b.stage!=='complete'&&sameCard(m,p.ship))for(const r of p.activated)if(sameCard(m,r)){
+  // A release can move an active Besieged participant and its personal cards
+  // without changing their table instance. Keep that departure in the battle
+  // history instead of requiring the released group to remain trapped aboard.
+  const participant=b.participants.light.find(id=>attachmentGroup(m,id).some(c=>c.id===r.id));
+  if(!participant||capturedShipFor(m,r.id)?.id!==p.ship.id&&!b.departed?.includes(participant)||cardDefinition(m,r.id).type==='Character'&&!b.participants.light.includes(r.id))throw Error('Invalid activated trapped card.');
+ }
 }

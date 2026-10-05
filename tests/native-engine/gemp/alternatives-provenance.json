@@ -1,0 +1,31 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68",
+  "harness": "NativeEngineAlternativesOracleTests.java",
+  "harnessSha256": "4eb9dc8da4db090e5fd181cb40197e2931b6f1e0c82bb156dba3b92434e8ef9d",
+  "results": "alternatives-results.json",
+  "resultsSha256": "47c0d7a686d13bd1268214dcfa6607a802e628f6a319d01f5a3be8f21c5962e7",
+  "log": "alternatives-reference.log",
+  "logSha256": "a8b20354c3e043a50aab4c654ba44518da5edd37481bfd315839b68ae4a98ef8",
+  "execution": {
+    "exitCode": 1,
+    "junitTests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "completedPositiveCases": [
+      "remote",
+      "battle"
+    ],
+    "diagnosticCase": "same-bay-observation",
+    "failedAssertion": "same-bay weaponAttached",
+    "interpretation": "Both characters release and the empty ship is stolen at zero Force cost. The attached blaster is incorrectly selected as a separate card and detached at the same docking bay."
+  },
+  "sourceFinding": {
+    "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_044.java",
+    "explanation": "The collection named characters is filtered by your/aboardExceptRelatedSites without Filters.character. At the same docking bay, Filters.at(dockingBay) then admits the personal weapon. RelocateBetweenLocationsEffect moves it independently. Before and after capture the diagnostic confirms the weapon is attached to the same pilot; after relocation it has AT_LOCATION and no parent.",
+    "nativePolicy": "Retain personal attachments when their character moves. Native follows the explicit characters-only card text; do not emulate this pinned GEMP defect."
+  }
+}

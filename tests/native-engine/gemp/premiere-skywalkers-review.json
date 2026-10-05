@@ -22,7 +22,7 @@
     "Both definitions marked pending to permit test-admitted legal paid ground and aboard deployment."
   ],
   "limitations": [
-    "Vader's Custom TIE has no native definition; its +4 power/+3 maneuver branch remains unimplemented.",
+    "At this review checkpoint Vader's Custom TIE had no native definition. Superseded by the pending 1_306 integration documented in custom-tie-provenance.json; this original review did not execute that branch.",
     "Vader-specific game text modification, total-instead-of-each-draw replacement and other unimplemented full-catalog interactions are not certified.",
     "Focused native integration and pinned source review do not claim complete card or full-match GEMP conformance."
   ],

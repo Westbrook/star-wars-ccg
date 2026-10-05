@@ -72,5 +72,32 @@
       "Pair-separating Retract geometry and ordinary insertion through a Gate gap.",
       "Endpoint disappearance or blown-away lifecycle."
     ]
+  },
+  "boundedGeometryReview": {
+    "date": "2026-10-05",
+    "result": "Unresolved. No gameplay semantics changed. The current insertion guard and pair-preserving Retract filter remain conservative incomplete coverage, not asserted official restrictions.",
+    "additionalPrimarySources": [
+      {
+        "url": "https://res.starwarsccg.org/rules/swccgglossary.pdf",
+        "finding": "Legacy official glossary Retract The Bridge repeats optional Gate relocation; it does not define the retained gap after separated endpoints or endpoint departure."
+      },
+      {
+        "url": "https://forum.starwarsccg.org/viewtopic.php?p=977214",
+        "finding": "Indexed official current-rulings archive explains the as-if-character weapon targeting errata. It supplies no gap insertion or endpoint-loss rule."
+      }
+    ],
+    "implementationReviewed": [
+      "lib/native-engine/laser-gate.ts",
+      "lib/native-engine/retract-bridge.ts",
+      "lib/native-engine/board.ts",
+      "Pinned GEMP AbstractLocationLayout.java"
+    ],
+    "referenceFinding": "Pinned GEMP has no Laser Gate2_113 or Retract2_138 card classes and no identified between-site Gate layout lifecycle. No new GEMP execution performed.",
+    "preciseOpenQuestions": [
+      "On deployment of a new site into a Gate gap, which resulting gap retains the Gate and who chooses?",
+      "After Retract separates old endpoints, where does a declined Gate remain?",
+      "When one endpoint disappears or is blown away, what happens to the Gate?"
+    ],
+    "nextConcreteImplementation": "Executor Main Corridor4_162: source-supported free regular location-text travel to Executor and Executor sites, suppressed Dark text while Light controls. This avoids inventing an answer to the unrelated Gate geometry questions."
   }
 }

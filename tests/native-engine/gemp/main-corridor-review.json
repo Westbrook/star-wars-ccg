@@ -1,0 +1,49 @@
+{
+  "card": "4_162",
+  "name": "Executor: Main Corridor",
+  "status": "Implemented native card text; primary rules and pinned source review; no executed GEMP oracle for this card. Production admission remains closed.",
+  "officialSource": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+  "officialPages": [
+    68,
+    85
+  ],
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "sourceFiles": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_162.java",
+      "sha256": "005fbd2bfaa1364a7aed973d9b728a59b61103883135e62eefb5ccb07165d4a3"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/actions/MoveUsingLocationTextAction.java",
+      "sha256": "48d650c59a4dc3f74766c3a1a5573c310d4f3d485bf123cb1df620444a233aab"
+    },
+    {
+      "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/filters/Filters.java",
+      "sha256": "b8906f47b4001ec6c53538c6fe41a59e20f03e6b393a1f2e0b8f452377def2c1"
+    }
+  ],
+  "semantics": [
+    "Free regular movement during Dark own move phase from Main Corridor to Executor or any other named Executor site, and vice versa. Site-site movement does not require Executor on table or adjacency.",
+    "Light control cancels the Dark-side permission while control persists. Whole-site text suppression also removes the Dark permission.",
+    "Executor_site uses siteOfStarshipOrVehicle(EXECUTOR,true) in pinned Filters, so nonunique Star Destroyer: Launch Bay is not an Executor site for the named text even while associated with Executor.",
+    "Ordinary move restrictions, one regular move, own hull capacity, pilots/drivers and current destination restrictions still apply. Lift Tube may travel between the interior mobile sites, never aboard the hull.",
+    "Continuation binds physical moving card, source/destination, originating location, and exact Main Corridor source. Returned source/hull/mover cannot inherit the initiated transfer. Movement is revalidated after responses."
+  ],
+  "nativeTests": [
+    "tests/native-engine/main-corridor.test.mjs",
+    "tests/native-engine/unique-ship-site-travel.test.mjs",
+    "tests/native-engine/executor-sites.test.mjs"
+  ],
+  "limitations": [
+    "This receipt does not assert executed GEMP parity.",
+    "Future card interactions, other Executor site texts, and underlying full-catalog movement restrictions remain subject to their own admission coverage.",
+    "Laser Gate endpoint and rearrangement geometry remains separately unresolved; no guessed layout behavior was added."
+  ],
+  "verification": {
+    "testsPassed": 62,
+    "testsFailed": 0,
+    "log": "/private/tmp/swccg-main-corridor-focused3.log",
+    "command": "node --test tests/native-engine/main-corridor.test.mjs tests/native-engine/unique-ship-site-travel.test.mjs tests/native-engine/executor-sites.test.mjs tests/native-engine/ship-sites.test.mjs tests/native-engine/ship-sites-edge.test.mjs",
+    "newMainCorridorTests": 9
+  }
+}

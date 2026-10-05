@@ -1,4 +1,5 @@
 import {cardDefinition} from './definitions';
+import {controls} from './board';
 import {gameTextActive} from './game-text';
 import {hasPersona} from './persona';
 import type {Match,Side} from './types';
@@ -12,3 +13,7 @@ export function executorGenerationModifier(m:Match,side:Side,site:string):number
  return Number(cards.some(c=>hasPersona(m,c.id,'VADER')))+Number(cards.some(c=>hasPersona(m,c.id,'SIDIOUS')&&/\bEmperor\b/.test(cardDefinition(m,c.id).name)));
 }
 export const executorDrainModifier=(m:Match,side:Side,site:string)=>side==='light'&&m.cards[site]?.blueprint==='4_161'&&gameTextActive(m,site)?1:0;
+/** Light control cancels only the Dark side of Main Corridor's text. Losing
+ * control restores that permission; canceling the whole site's text also
+ * removes the Light suppression, without recreating its Dark permission. */
+export const mainCorridorActive=(m:Match,id:string)=>m.cards[id]?.blueprint==='4_162'&&gameTextActive(m,id)&&!controls(m,'light',id);

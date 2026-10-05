@@ -10,7 +10,7 @@ import type {Action,Json,Match,Resolution,Side,Window} from './types';
 type Link={site:CardReference;host:CardReference};
 type Deploy={card:CardReference;host?:CardReference;persona?:'EXECUTOR';index:number};
 const links=(m:Match)=>(m.data.shipSites??{}) as unknown as Record<string,Link>;
-export const uniqueShipSitePersona=(m:Match,id:string)=>m.cards[id]?.blueprint==='4_161'?'EXECUTOR':undefined;
+export const uniqueShipSitePersona=(m:Match,id:string)=>['4_161','4_162'].includes(m.cards[id]?.blueprint)?'EXECUTOR':undefined;
 export const shipSite=(m:Match,id:string)=>m.cards[id]?.blueprint==='4_165'||!!uniqueShipSitePersona(m,id);
 export const starDestroyer=(m:Match,id:string)=>!!m.cards[id]&&['IMPERIAL_CLASS_STAR_DESTROYER','VICTORY_CLASS_STAR_DESTROYER','SUPER_CLASS_STAR_DESTROYER','VENATOR_CLASS_STAR_DESTROYER'].some(model=>isModel(m,id,model));
 export function relatedShip(m:Match,site:string):string|undefined {const persona=uniqueShipSitePersona(m,site);if(persona)return Object.values(m.cards).find(c=>c.zone==='table'&&!c.coveredBy&&cardDefinition(m,c.id).type==='Starship'&&hasPersona(m,c.id,persona))?.id;const p=links(m)[site];return p&&sameCard(m,p.site)&&sameCard(m,p.host)?p.host.id:undefined;}

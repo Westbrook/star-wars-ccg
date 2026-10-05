@@ -1,0 +1,82 @@
+[
+  {
+    "mode": "matched",
+    "cost": 8,
+    "power": 6,
+    "maneuver": 6,
+    "hyperspeed": 2,
+    "immunity": 4.0,
+    "operational": true,
+    "navigation": true
+  },
+  {
+    "mode": "pilot-canceled",
+    "cost": 8,
+    "power": 2,
+    "maneuver": 3,
+    "hyperspeed": 2,
+    "immunity": 4.0,
+    "operational": true,
+    "navigation": true
+  },
+  {
+    "mode": "ship-canceled",
+    "cost": 8,
+    "power": 6,
+    "maneuver": 6,
+    "hyperspeed": 2,
+    "immunity": 0.0,
+    "operational": true,
+    "navigation": true
+  },
+  {
+    "mode": "landed",
+    "cost": 8,
+    "power": 0,
+    "maneuver": 0,
+    "hyperspeed": 2,
+    "immunity": 0.0,
+    "operational": false,
+    "navigation": true
+  },
+  {
+    "mode": "unpiloted",
+    "cost": 2,
+    "power": 0,
+    "maneuver": 0,
+    "hyperspeed": 2,
+    "immunity": 0.0,
+    "operational": false,
+    "navigation": true
+  },
+  {
+    "mode": "pilot-departed",
+    "cost": 8,
+    "power": 0,
+    "maneuver": 0,
+    "hyperspeed": 2,
+    "immunity": 0.0,
+    "operational": false,
+    "navigation": true
+  },
+  {
+    "mode": "other-pilot",
+    "cost": 6,
+    "power": 4,
+    "maneuver": 3,
+    "hyperspeed": 2,
+    "immunity": 0.0,
+    "operational": true,
+    "navigation": true
+  },
+  {
+    "mode": "other-ship",
+    "cost": 7,
+    "power": 4,
+    "maneuver": 4,
+    "hyperspeed": null,
+    "immunity": 0.0,
+    "operational": true,
+    "navigation": false
+  }
+]

@@ -1,7 +1,7 @@
 import type {Battle} from './battle';
 import {battleMembers} from './participation';
 import {gameTextActive} from './game-text';
-import {redFiveImmunity,redTwoImmunity} from './piloting';
+import {redFiveImmunity,redTwoImmunity,customTieImmunity} from './piloting';
 import {armedWithLightsaber} from './weapon-state';
 import {attachedArmor} from './armor-equipment';
 import {cardDefinition} from './definitions';
@@ -51,7 +51,7 @@ export function attritionImmunityValues(m: Match,id: string): {lessThan:number;e
   const mods=active(m,id);
   if(mods.some(p=>p.kind==='immunity-cancel') && !mods.some(p=>p.kind==='immunity-uncancelable'))return none;
   const fixed:Record<string,number>={'1_171':3,'1_4':3,'3_3':3,'1_21':5,'4_1':4};
-  let value=Math.max(c.blueprint==='1_17'&&gameTextActive(m,id)?2:0,c.blueprint==='3_155'&&gameTextActive(m,id)?4:0,c.blueprint==='4_167'&&gameTextActive(m,id)?12:0,fixed[c.blueprint]??0,gameTextActive(m,id)?({'1_19':3,'1_168':5} as Record<string,number>)[c.blueprint]??0:0,redFiveImmunity(m,id),redTwoImmunity(m,id));
+  let value=Math.max(c.blueprint==='1_17'&&gameTextActive(m,id)?2:0,c.blueprint==='3_155'&&gameTextActive(m,id)?4:0,c.blueprint==='4_167'&&gameTextActive(m,id)?12:0,fixed[c.blueprint]??0,gameTextActive(m,id)?({'1_19':3,'1_168':5} as Record<string,number>)[c.blueprint]??0:0,redFiveImmunity(m,id),redTwoImmunity(m,id),customTieImmunity(m,id));
   if(c.blueprint==='4_103' && c.location)value=Object.values(m.cards).filter(o=>o.zone==='table' && o.location===c.location && !o.attachedTo && o.owner!==c.owner && cardDefinition(m,o.id).subType==='Alien').length;
   if(c.blueprint==='9_24'){
     const alone=!!c.location && !Object.values(m.cards).some(o=>o.id!==id && o.zone==='table' && o.owner===c.owner && o.location===c.location && !o.attachedTo && ['Character','Vehicle','Starship'].includes(cardDefinition(m,o.id).type));

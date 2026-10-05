@@ -1,0 +1,63 @@
+{
+  "scope": "Pending Premiere Vader's Custom TIE 1_306 and matching Darth Vader1_168 pilot integration. Production admission remains closed.",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-05T13:29:06.876172+00:00",
+  "junitTests": 1,
+  "observations": 8,
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineCustomTieOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "environment": "maven:3.9.6-eclipse-temurin-21; offline, network none",
+  "files": {
+    "NativeEngineCustomTieOracleTests.java": "939d1bf8f7f22e8bc6d60bbc6810c3adb09d199c2ae07c8c09f095cad7f2cf06",
+    "custom-tie-results.json": "9a79be6370df59a96437613d71eae7f59dfb7cb197e3acaca447cb6938a03c86"
+  },
+  "sourceReview": [
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_306.java",
+      "sha256": "f6ed2702a80fcc0d46f9d0a9b87b1ac030b167cd7b6542cc203237b3b3af28c2"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_168.java",
+      "sha256": "479ed59ad20b3347565588fa6548ffe5b949bee6eaced4ec15a103068cf7f826"
+    },
+    {
+      "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set106/dark/Card106_010.java",
+      "sha256": "96ee1801eb38e63864ad041cb9d24dc7306c898443f54b550aca85b166016b0a"
+    }
+  ],
+  "officialRules": {
+    "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "pages": [
+      "90: landed craft are considered unpiloted",
+      "92: unpiloted power, maneuver and hyperspeed are unmodifiable zero",
+      "108: Darth Vader matching craft adds4power and3maneuver"
+    ]
+  },
+  "method": [
+    "Reference uses actual paid craft deployment, including simultaneous pilot deployment. Starting locations, Force and cards in hand are controlled fixtures. Native also executes legal deployment commands, costs and JSON recovery.",
+    "Eight reference observations cover matched Vader, canceled pilot text, canceled ship text, landed, no pilot, pilot departure, nonmatching pilot Tarkin and nonmatching craft Black2. Source departure and text cancellation are trusted fixture effects; they do not certify a named cancellation card.",
+    "Custom TIE holds one pilot, has printed Nav Computer and grants immunity to attrition<4 when Vader pilots it. Ship immunity follows Vader identity even if his text is canceled; matching stat bonuses follow Vader text even if ship text is canceled.",
+    "Native-only integration also verifies real free docking bay landing, pilot capacity, uniqueness, OTSD106_10 distinction, battle participation and strict immunity threshold, excluded pilot and missing pilot branches."
+  ],
+  "officialRuleDivergence": {
+    "modes": [
+      "landed",
+      "unpiloted",
+      "pilot-departed"
+    ],
+    "reference": "Pinned GEMP getHyperspeed returns raw2 while isPiloted is false. The executed results are retained unchanged.",
+    "native": "Official AR current usable hyperspeed is unmodifiable zero, with no hyperspace movement. A landed ship with a pilot may still take off. Tests explicitly allow only this named stat difference; all other observation fields match exactly.",
+    "relatedRegression": "navigation-provenance.json records the same correction for historical landed/unpiloted astromech rows."
+  },
+  "limitations": [
+    "A component oracle and native integration do not establish whole-match or full-catalog conformance; 1_306 stays pending.",
+    "Current Vader is the supported matching pilot. Other unimplemented Vader versions and card-specific game text modifiers are not certified.",
+    "Generic identity and state fixture alterations are not player actions and are named as such; browser verification and consolidated build are tracked by the parent checkpoint."
+  ],
+  "unchangedProductionFiles": 6820,
+  "productionVerification": {
+    "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+    "productionFilesCompared": 6820,
+    "productionFilesChanged": 0,
+    "archiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68"
+  }
+}

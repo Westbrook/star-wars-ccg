@@ -21,7 +21,7 @@ test('Red 5 combines Luke maneuver, Artoo matching bonuses and conditional attri
 test('Canceling Artoo text removes bonuses, and canceling Luke text removes only Luke bonuses',()=>{
  const f=fixture('red5-r2'),m=prepared(f);m.data.canceledGameText=[identity.referenceCard(m,f.r2)];assert.deepEqual(values(m,f.ship),{power:6,maneuver:6,hyperspeed:5,navigation:true});m.data.canceledGameText=[identity.referenceCard(m,f.lukePilot)];assert.deepEqual(values(m,f.ship),{power:6,maneuver:7,hyperspeed:8,navigation:true});assert.equal(combat.immuneToAttrition(m,f.ship,3),true);
 });
-for(const mode of ['unpiloted','landed'])test('Unpiloted or landed ships retain hyperspeed but cannot use it: '+mode,()=>{const f=fixture(mode),m=prepared(f);assert.deepEqual(values(m,f.ship),{power:0,maneuver:0,hyperspeed:7,navigation:true});assert.ok(!travel.vesselRoutes(m,f.ship).some(r=>r.method==='hyperspace'));});
+for(const mode of ['unpiloted','landed'])test('Official AR unpiloted or landed ships have hyperspeed zero: '+mode,()=>{const f=fixture(mode),m=prepared(f);assert.deepEqual(values(m,f.ship),{power:0,maneuver:0,hyperspeed:0,navigation:true});assert.ok(!travel.vesselRoutes(m,f.ship).some(r=>r.method==='hyperspace'));});
 test('Extended-range movement pays once and restores before and after arrival with crew attached',()=>{
  const f=fixture(),initial=prepared(f);let m=priority(phase(initial,'move'),'light');const before=m.players.light.force.length;m=step(m,'voyage:hyperspace:'+f.ship+':'+f.death);m=seek(m,x=>x.stack.at(-1)?.event?.kind==='vessel-moving');assert.equal(m.cards[f.ship].location,f.planet);assert.equal(m.players.light.force.length,before-1);m=seek(clone(m),x=>x.stack.at(-1)?.event?.kind==='moved');for(const id of [f.ship,f.r2,f.lukePilot])assert.equal(m.cards[id].location,f.death);assert.equal(m.players.light.force.length,before-1);assert.ok(ground.usage(m).moved.includes(f.ship));rules.validate(m);
 });
@@ -35,12 +35,18 @@ const evidence=new URL('./gemp/navigation-results.json',import.meta.url);
 for(const expected of JSON.parse(fs.readFileSync(evidence)))test('Executed GEMP navigation outcome: '+expected.mode,()=>{
  const f=fixture(expected.mode);const before=f.m.players.light.force.length;let m=prepared(f);const cost=before-m.players.light.force.length;
  if(f.mode.endsWith('text-canceled'))gameText.suppressGameText(m,f.planet,f.mode.startsWith('r2')?f.astromech:f.ship);
- const row={mode:f.mode,deploy:cost,...values(m,f.ship),scomp:f.mode!=='no-droid',astromechCapacity:occ.vesselRule(m,f.ship).astromechs??0,immunity:combat.attritionImmunity(m,f.ship),droidNavigation:pilot.hasAstromechNavigation(m,f.ship)};m=priority(phase(m,'move'),'light');const choice='voyage:hyperspace:'+f.ship+':'+f.death;row.canMove=ids(m).includes(choice);const force=m.players.light.force.length;if(row.canMove){m=seek(step(m,choice),x=>x.stack.at(-1)?.event?.kind==='vessel-moving');if(f.mode==='departure')table.returnToHand(m,[f.astromech]);m=seek(m,x=>x.stack.at(-1)?.event?.kind==='moved');}row.arrived=m.cards[f.ship].location===f.death;row.moveCost=force-m.players.light.force.length;row.afterHyperspeed=pilot.vesselHyperspeed(m,f.ship);assert.deepEqual(row,expected);
+ const row={mode:f.mode,deploy:cost,...values(m,f.ship),scomp:f.mode!=='no-droid',astromechCapacity:occ.vesselRule(m,f.ship).astromechs??0,immunity:combat.attritionImmunity(m,f.ship),droidNavigation:pilot.hasAstromechNavigation(m,f.ship)};m=priority(phase(m,'move'),'light');const choice='voyage:hyperspace:'+f.ship+':'+f.death;row.canMove=ids(m).includes(choice);const force=m.players.light.force.length;if(row.canMove){m=seek(step(m,choice),x=>x.stack.at(-1)?.event?.kind==='vessel-moving');if(f.mode==='departure')table.returnToHand(m,[f.astromech]);m=seek(m,x=>x.stack.at(-1)?.event?.kind==='moved');}row.arrived=m.cards[f.ship].location===f.death;row.moveCost=force-m.players.light.force.length;row.afterHyperspeed=pilot.vesselHyperspeed(m,f.ship);if(['unpiloted','landed'].includes(f.mode)){
+ // Preserve the executed GEMP raw getter observation. Official AR p90/p92
+ // instead defines an unpiloted ship's usable hyperspeed as unmodifiable zero.
+ assert.equal(expected.hyperspeed,7);assert.equal(expected.afterHyperspeed,7);
+ assert.equal(row.hyperspeed,0);assert.equal(row.afterHyperspeed,0);assert.equal(row.canMove,false);
+ assert.deepEqual(row,{...expected,hyperspeed:0,afterHyperspeed:0});
+ }else assert.deepEqual(row,expected);
 });
 
 for(const duration of ['turn','source'])test('Text suppression survives recovery and expires by '+duration,()=>{
  const f=fixture();let m=prepared(f);gameText.suppressGameText(m,f.lukePilot,f.r2,duration);m=priority(settled(step(m,'pass')),'light');assert.equal(pilot.vesselHyperspeed(m,f.ship),5);
- table.returnToHand(m,[f.lukePilot]);assert.equal(pilot.vesselHyperspeed(m,f.ship),duration==='turn'?5:7);if(duration==='turn'){m.turn.number++;assert.equal(pilot.vesselHyperspeed(m,f.ship),7);}rules.validate(m);
+ table.returnToHand(m,[f.lukePilot]);assert.equal(pilot.vesselHyperspeed(m,f.ship),0);state.moveCard(m,f.lukePilot,'table');Object.assign(m.cards[f.lukePilot],{attachedTo:f.ship,aboardRole:'pilot',location:f.planet});assert.equal(pilot.vesselHyperspeed(m,f.ship),duration==='turn'?5:7);if(duration==='turn'){m.turn.number++;assert.equal(pilot.vesselHyperspeed(m,f.ship),7);}rules.validate(m);
 });
 test('A returned target never inherits its previous text suppression',()=>{
  const f=fixture(),m=prepared(f);gameText.suppressGameText(m,f.ship,f.r2);table.returnToHand(m,[f.r2]);state.moveCard(m,f.r2,'table');Object.assign(m.cards[f.r2],{attachedTo:f.ship,aboardRole:'passenger',location:f.planet});assert.equal(pilot.vesselHyperspeed(m,f.ship),7);rules.validate(m);

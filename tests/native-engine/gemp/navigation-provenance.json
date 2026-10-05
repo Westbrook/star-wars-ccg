@@ -14,15 +14,22 @@
   "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf pp79,89-93",
   "scope": "Actual astromech deployment and hyperspace movement, reserved passenger slots, current power/maneuver/hyperspeed, matching Red 5/Artoo/Luke, immunity, droid navigation and Scomp link queries, noncumulative copies, canceled text and source departure after movement begins.",
   "method": [
-    "Starting ships, planets, pilots and Force are controlled fixtures. Droid deployments and ship movement use real GEMP actions. All eleven complete result rows compare with native command sequences and JSON round trips.",
+    "Starting ships, planets, pilots and Force are controlled fixtures. Droid deployments and ship movement use real GEMP actions. Eleven native rows compare with these retained reference observations; the later official-rule correction below explicitly isolates two hyperspeed getter divergences.",
     "GEMP text cancellation is a trusted until-end-of-turn production modifier. Native uses the reference-bound suppressGameText effect API with the same turn lifetime; neither is a claim of a particular cancellation card implementation.",
     "The departure row removes Artoo to hand during the actual MOVING_USING_HYPERSPEED response. GEMP still completes the initiated route after hyperspeed falls from 7 to 5; native agrees.",
-    "Native current hyperspeed retains bonuses while landed/unpiloted, matching GEMP. Movement still requires an operational ship. Power and maneuver remain zero in those states."
+    "At the original execution, native current hyperspeed retained bonuses while landed/unpiloted, matching the raw GEMP query. See the subsequent official-rule correction; historical GEMP observations remain unchanged."
   ],
   "limitations": [
     "Component coverage; full production match admission stays false. Red 5 Attack Run bonus remains unimplemented and unverified. Broader matching pilots, navigation-icon cancellation/grants, general vessel modifiers, sectors, capture and full engine/product scope remain.",
     "Navigation source query is verified independently of permanent icons; these fixtures do not remove printed navigation icons. No complete icon-cancellation feature claim.",
     "Scomp-link presence is queried in GEMP; native tests additionally execute actual Artoo activation/draw responses aboard a ship.",
     "Refresh/browser recovery, malformed suppression state, stale instances, excluded droids, capacity overflow and conditional immunity boundaries have additional native-only tests."
-  ]
+  ],
+  "officialRuleCorrection": {
+    "date": "2026-10-05",
+    "rule": "Official Advanced Rulebook printed p90 treats landed craft as unpiloted; printed p92 makes unpiloted hyperspeed unmodifiable zero.",
+    "nativeBehavior": "Current hyperspeed is zero while unpiloted, including landed craft. Bonuses do not change zero; hyperspace movement remains unavailable. A landed ship with a pilot may still take off.",
+    "referenceDifference": "Pinned GEMP getHyperspeed returns raw modified values (7 for these landed and unpiloted rows) even though movement is forbidden. Native tests assert only hyperspeed and afterHyperspeed differ to zero for those two named rows; every other field still equals the immutable executed result.",
+    "tests": "tests/native-engine/navigation.test.mjs"
+  }
 }

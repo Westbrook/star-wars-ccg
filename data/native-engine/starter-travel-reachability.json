@@ -359,6 +359,7 @@
     "lib/native-engine/activation.ts": "1a9775a0c4a2eea4ceda52f33492307ec2b304bf58fc00c1389d37366f0ce8f7",
     "lib/native-engine/admission.ts": "4e1effa4d6e0f28508f30be48cd56cc3f7433755d42e92e4d17d46398314cc30",
     "lib/native-engine/alien-search.ts": "7e96d29bce038925f4c8f3f6abf3ee5abf02df385c6bb76155d1eb1e85d56b8c",
+    "lib/native-engine/alternatives.ts": "db66756d2b3b5350d111aadad449721351512e78aa9b149827ebe01c2e51f394",
     "lib/native-engine/anger.ts": "741ff99c0fb1a239fc3a29a27d708f354c7fc768ebc75c7291377dbcdf890f70",
     "lib/native-engine/armor-equipment.ts": "d3190df210e188fa118816e998eb77674edca693c1b5d099924401ab2e660b32",
     "lib/native-engine/artillery.ts": "9338a6a6b2c82bb75efb0361bf696bca20a6d4b545bc170f2bcafc8555d990e1",
@@ -374,7 +375,7 @@
     "lib/native-engine/battle-power.ts": "a9d909dc013ba5a420164a2a74487af1c1f2c694f45480581983998959f82ce0",
     "lib/native-engine/battle.ts": "e646cd719b3a5c69754ad965b2318e17d66c2d68287152561e2f41db48a70222",
     "lib/native-engine/beru-stew.ts": "1f93fbc1229ae26330a54f38118484f11e4cd233babdb90979d2f1f5603d153b",
-    "lib/native-engine/besieged.ts": "353b9b17c44eaf53e23df1203d122a49a7dbcfea0b4c6cf7fb31df34ae3d8ddf",
+    "lib/native-engine/besieged.ts": "748725ed697d45e77b2406eecf612be237f90733678ccc28e1ac8ab345763c13",
     "lib/native-engine/bespin.ts": "0b2f838ab0a2e4d5f296212eb4a88dac29b605de3e3b689963c9273f1eeb0b2d",
     "lib/native-engine/bionic-hand.ts": "fee56fd2fefd40297200b296bde23ddb67bc08394cda1f105adbbff9bfdfbd71",
     "lib/native-engine/blown-away.ts": "ce9205ee25e580472f2ca045a55a190eedaa04933ffae30d517abda820ae0d67",
@@ -392,9 +393,9 @@
     "lib/native-engine/character-weapon-total.ts": "dec1e3b53a7881c0dd4b4c3cfe4cfbb2d282b95453d6964850ec59cfa8134e45",
     "lib/native-engine/characteristics.ts": "a3f12f0f5b08fc157eb28f9816033bf45a1ebdc214e749bc25d81221d98012bc",
     "lib/native-engine/client.ts": "0619a4d641a8b58a2a169704bd16df1ade9216dda516ea323ba3d1210157a9d7",
-    "lib/native-engine/combat-modifiers.ts": "7a36d1110d2f1ef9e3068acf7f3aa800fcc8664292e67e4bdbe110194075362e",
+    "lib/native-engine/combat-modifiers.ts": "ec033a1ae5c9d6f4e8a175360c576a23d8dcbecd2f9d1614fc7e8f9b2a504c9b",
     "lib/native-engine/compactor.ts": "c3fc9774a17735657713299ad5982c0714543fea6d8dc874ac82414e46edb349",
-    "lib/native-engine/computer.ts": "c1588048e585c78884bf67e0c7c712393c8e821c57a2553463d147802ac48cd4",
+    "lib/native-engine/computer.ts": "91756ba260e30726aaacc30fb3ff8da07b70133f6341167e8eadcaf2e1359718",
     "lib/native-engine/creature-attack.ts": "0820b6c993ff79ab5aec603e25f1e974916624b2ca177e08a7a59af1c27dbdb8",
     "lib/native-engine/creature-encounters.ts": "26e00b6cda587de49df933057b06f76710e0c8b4d8b1043eb15b4b0fc5610883",
     "lib/native-engine/creature-profile.ts": "50988eda23382e12b8581ea3752278705275ce42b6fbfce8ba29dc3167604508",
@@ -422,7 +423,7 @@
     "lib/native-engine/effect-search.ts": "80cd6cb4ad588bb0e801e8d4c4c6c8ce12146b2bad933d570cf576ac1352b48e",
     "lib/native-engine/equipment-state.ts": "594144f2c08cbb26d6380b77b24d00e8e5bb8b58f3fbcb277f7067ac89e0ec77",
     "lib/native-engine/equipment.ts": "5f2fa84982fbf0775e3a001da8785c64c34d03210486d10363d97b2658fcc68f",
-    "lib/native-engine/executor-sites.ts": "98cabf202f2827d36bf4b4aef4c9b608af1e1782923b52913ee8488fdd9796da",
+    "lib/native-engine/executor-sites.ts": "a4923647428981a235ab21dba0ebcab5b951a16f708114afa08abc9fbb9a46fb",
     "lib/native-engine/farm-devices.ts": "375f750a21c3d499885085bba3a9fe0ba2142d6d6c5ad5b58a1f18bb546fd9d3",
     "lib/native-engine/fighter-trouble.ts": "75b4e9cda58825cb7d2aab83c2f87737469177ac4293c630d5249abbf6ac7f93",
     "lib/native-engine/force-effects.ts": "2f2f50578daeba465ebb710b8cf3362164e5a5ea555e8d420b7621077ea82267",
@@ -474,7 +475,7 @@
     "lib/native-engine/nighttime.ts": "2823417ddf5d8cd48366f6196f288dd2e85deeea4db5cfd289ca246cf61c3136",
     "lib/native-engine/noble-sacrifice.ts": "52dcdf41843a519867f8f43419dc721923212e6dadbba14fc13835c1bec7fbde",
     "lib/native-engine/obi-wan.ts": "89158b6320584b63c16290a8b0b1e737c8d8db9283fd088b816fd3e4adc887aa",
-    "lib/native-engine/occupancy.ts": "4a9e2b5a9446481fee269efb9b885cb07f80adf3abfceabcfa03df60b83c3061",
+    "lib/native-engine/occupancy.ts": "cca9e39f7097150d83eb451ba23ff4739c1df873271e99e313c64c00ac3ff0b6",
     "lib/native-engine/off-the-edge.ts": "25d9a6da74b43d1f08d119c6833b39d8b4089d1ebc8a563197506c004ede696b",
     "lib/native-engine/on-the-edge.ts": "9cc0c661b83aa29bbf2eb0ccb622178b0f9c8220216d8f78681ffd5ff792468e",
     "lib/native-engine/otsd-characters.ts": "846a650513d925c9359c325093f4b4f36c0be9347da631c6628b032eb2cb451e",
@@ -482,15 +483,15 @@
     "lib/native-engine/otsd-orders.ts": "890c627a14e3cb201cda8552b308a494525bf64e198a5cb7b76bbd324e25019e",
     "lib/native-engine/otsd-ships.ts": "2594f57c81e9afce202a6d72fc9d655e360aad4e12a58788aeee6de25cf2a7d0",
     "lib/native-engine/participation.ts": "25f392f56f2b445a430c6912a5a1f62963342e714253c6419935adca5a498ce6",
-    "lib/native-engine/persona.ts": "e2849834c2c1dee5d9594307e8428efee8a390d6a11c6a69e26ad4daf076d3f3",
+    "lib/native-engine/persona.ts": "2819ad46f8d9c88ef4cab3252012d0b1188a31d427c53a00f298633f447f387b",
     "lib/native-engine/phase-effects.ts": "a6f45817855d7470aa14abb00664cb087c5e42de1e7ee48b341f346e9ca32f44",
     "lib/native-engine/pile-reveal.ts": "d39574ec0ba75588037d2146ffd27655d9311b2c60e1e56a932756ec387ab191",
     "lib/native-engine/pilot-deploy.ts": "a6eee44dd03b9f44623b7a7a4ac6c3d182b635128c80324a83fb9803dc50c8da",
-    "lib/native-engine/piloting.ts": "7cb2d0a9d518ed12e54c4491e8919f7b66a2eb8a28fcf5a120f4fb1911b1b03a",
+    "lib/native-engine/piloting.ts": "2c54e3aa5d07fcd6a60e0240d30bdc2dbfc09cb214e414f423800f726783face",
     "lib/native-engine/power-droid.ts": "840cafaffae1d41cf530580aae22a45e8bd1aae8ac951206f6e0e1d5df9014bc",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
-    "lib/native-engine/premiere-rules.ts": "22267100b310c891ba07cffac2e520c068bbea4d26dc8b4ec27f57eb67ec3f49",
-    "lib/native-engine/premiere-setup.ts": "8c9853b76b40bba66a12fffb1bb9e6b4b3827cebccff490e1c28e1cbebc6deb4",
+    "lib/native-engine/premiere-rules.ts": "cb7231f59d07f2df72e98a6501c311d8e8a76b0d6ec68e6f53eaeb1410a51f76",
+    "lib/native-engine/premiere-setup.ts": "74b079b43352af1e2736954ff51546caa1c251d35fc1351f49851697f3e07fc2",
     "lib/native-engine/preparation-destiny.ts": "65eb82c08526d45e8478eb87c343a8c0e212ea93badb9044b92ee439a567d617",
     "lib/native-engine/preparation-starting.ts": "0b0d4bd2056abe1989002ca7ed2992efd7b4c43d6da25194681fa6882433b828",
     "lib/native-engine/prisoner-ship.ts": "b2782b33b69756095525b9e8aab28565c3092cf7681eda2107882b239d608f6c",
@@ -519,7 +520,7 @@
     "lib/native-engine/server.ts": "9cc5cea13d0e4c5a8945e428fe1abb654a14bb81cccea946e68c96f1e89e117e",
     "lib/native-engine/service.ts": "b8c8cc93b8eaef8f23a446872067f1e2ec0ef398862187a02c3b6478b12db197",
     "lib/native-engine/setup.ts": "3a94caef7e5db7520c3620297efea07e4a675ce655b5de03f40968e27e1cc173",
-    "lib/native-engine/ship-sites.ts": "e294b913f85f8684de1cb686c8fdf42c2a596e527cb9974cb525518a6ba210a2",
+    "lib/native-engine/ship-sites.ts": "6711bc77be68e450064a0ede8c9587f3d1e2a4686c8a50ec4d5c944971658f73",
     "lib/native-engine/sniping.ts": "ff33a5b1a9f3d7c94fb3a0ff85675365297331f5133b14cfacd86bb66bff2ac9",
     "lib/native-engine/space-slug.ts": "acbe32b85da9dc1809c62321b007fb3ec14514c1ae1fcb3692574c5751c6ba07",
     "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
@@ -534,7 +535,7 @@
     "lib/native-engine/tallon-roll.ts": "1b9817342cd3d0825e229ed25a6bd47366e3886bd2c5a03a99279901477619e8",
     "lib/native-engine/telepathy.ts": "b28dd1038bf933e4f9fb23e950e7dc8e7144ebb6a1861a266d75d5a26e7b2373",
     "lib/native-engine/tractor-beam.ts": "ed39e37c51595dab26a44c6aeb80705181c0f5bd94d00ecffa3fba2ed730f074",
-    "lib/native-engine/transport.ts": "3f5ebc69dae7058ebdd85367e755f3e8f19c4ccc4830e07f2b090a2392728279",
+    "lib/native-engine/transport.ts": "3cdeba0ea88692a16b34a28f924041973ff6c3250f26daf394c1c1870f584c74",
     "lib/native-engine/travel.ts": "5ceb1bf6cff5d2296618dbc3689813d5ba08ecf39a911c025a2da50429ac7ca6",
     "lib/native-engine/trooper-assault.ts": "8edfc640154988a5e4e2b2a95117be389122187fbbfc3ed431e768a6a40be05f",
     "lib/native-engine/try-effects.ts": "73c02d7b5780a9f1fc0435608d8b20299259f1d5f57c1dc4b2f5f1737d889d20",
@@ -1210,7 +1211,121 @@
         "lib/native-engine/power-droid.ts": "840cafaffae1d41cf530580aae22a45e8bd1aae8ac951206f6e0e1d5df9014bc",
         "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c"
       }
+    },
+    {
+      "reviewedAt": "2026-10-05T13:28:40.008077+00:00",
+      "scope": "Alternatives To Fighting, Besieged release departure, Custom TIE matching pilot/unpiloted hyperspeed, Main Corridor movement/setup and CPU policy32",
+      "files": [
+        "lib/native-engine/alternatives.ts",
+        "lib/native-engine/besieged.ts",
+        "lib/native-engine/combat-modifiers.ts",
+        "lib/native-engine/computer.ts",
+        "lib/native-engine/executor-sites.ts",
+        "lib/native-engine/occupancy.ts",
+        "lib/native-engine/persona.ts",
+        "lib/native-engine/piloting.ts",
+        "lib/native-engine/premiere-rules.ts",
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/ship-sites.ts",
+        "lib/native-engine/transport.ts",
+        "data/native-engine/additional-cards.json",
+        "data/native-engine/identities.json"
+      ],
+      "method": "Source review after runtime owners declared freeze; exact-provider absence checked against unchanged 68-definition manifest. Current source binding is separate from historical reference execution.",
+      "absentExactPairProviders": [
+        "2_44",
+        "2_117",
+        "1_306",
+        "1_168",
+        "4_162",
+        "4_167"
+      ],
+      "conclusions": [
+        "Alternatives To Fighting2_44 is absent from both exact decks. Its new routing, action-play history registration and validators are handler-specific. Battle cancellation additionally requires a system/sector; other modes require absent Besieged/captured-ship state. The pair cannot invoke its release/relocation or cancellation windows.",
+        "Besieged departure validation runs only for a Besieged battle and permits already-recorded departed participants and personal attachments after release. No ordinary starter battle membership, forfeiture or loss rule is changed.",
+        "Custom TIE1_306 is absent. Added capacity, ship-supplied Vader immunity and Premiere Vader1_168 matching bonuses require that ship/persona combination. Intro Vader101_5 is a different definition. Generic vesselHyperspeed now returns unmodifiable zero without an operational vessel; the exact pair contains no starship/vehicle, so this creates no starter action or timing branch. The official rule versus pinned raw GEMP getter discrepancy is retained rather than described as exact parity.",
+        "Main Corridor4_162 is absent. New site/setup/persona registration is blueprint-specific. Corridor routes require its active Dark text during Dark Move, consume the existing regular-move allowance, and retain current source/origin/destination restrictions. Named Executor site grouping excludes generic Launch Bay for this text. Existing unrelated starter transport gates and action keys are unchanged when no corridor source exists.",
+        "CPU policy32 only scores offered Alternatives actions using projected public state; it adds no permission or private information and its new branches cannot be offered without absent2_44. No changed starter menu ordering follows when that provider returns an empty action list.",
+        "Exact deck/card fingerprints and reviewed response predicates retain their scope: no new pending travel original-return/late-arrival, pre-result duel return or pending accident target change is introduced. Failed Obsession numerical difference and full native admission remain guarded. Full catalog/custom-deck work remains required."
+      ],
+      "discrepancy": "Custom TIE unpiloted/landed native hyperspeed zero follows the official unpiloted restriction. Pinned reference raw hyperspeed getter can report printed hyperspeed; this review does not assert identical getter values or fresh GEMP execution.",
+      "previousFingerprints": {
+        "lib/native-engine/alternatives.ts": null,
+        "lib/native-engine/besieged.ts": "353b9b17c44eaf53e23df1203d122a49a7dbcfea0b4c6cf7fb31df34ae3d8ddf",
+        "lib/native-engine/combat-modifiers.ts": "7a36d1110d2f1ef9e3068acf7f3aa800fcc8664292e67e4bdbe110194075362e",
+        "lib/native-engine/computer.ts": "c1588048e585c78884bf67e0c7c712393c8e821c57a2553463d147802ac48cd4",
+        "lib/native-engine/executor-sites.ts": "98cabf202f2827d36bf4b4aef4c9b608af1e1782923b52913ee8488fdd9796da",
+        "lib/native-engine/occupancy.ts": "4a9e2b5a9446481fee269efb9b885cb07f80adf3abfceabcfa03df60b83c3061",
+        "lib/native-engine/persona.ts": "e2849834c2c1dee5d9594307e8428efee8a390d6a11c6a69e26ad4daf076d3f3",
+        "lib/native-engine/piloting.ts": "7cb2d0a9d518ed12e54c4491e8919f7b66a2eb8a28fcf5a120f4fb1911b1b03a",
+        "lib/native-engine/premiere-rules.ts": "22267100b310c891ba07cffac2e520c068bbea4d26dc8b4ec27f57eb67ec3f49",
+        "lib/native-engine/premiere-setup.ts": "8c9853b76b40bba66a12fffb1bb9e6b4b3827cebccff490e1c28e1cbebc6deb4",
+        "lib/native-engine/ship-sites.ts": "e294b913f85f8684de1cb686c8fdf42c2a596e527cb9974cb525518a6ba210a2",
+        "lib/native-engine/transport.ts": "3f5ebc69dae7058ebdd85367e755f3e8f19c4ccc4830e07f2b090a2392728279"
+      },
+      "reviewedFingerprints": {
+        "lib/native-engine/alternatives.ts": "79da0415f4a75e8d41d0c87d044981e2c37c20eb59ecc9b3c5a97b2ddf94274e",
+        "lib/native-engine/besieged.ts": "748725ed697d45e77b2406eecf612be237f90733678ccc28e1ac8ab345763c13",
+        "lib/native-engine/combat-modifiers.ts": "ec033a1ae5c9d6f4e8a175360c576a23d8dcbecd2f9d1614fc7e8f9b2a504c9b",
+        "lib/native-engine/computer.ts": "91756ba260e30726aaacc30fb3ff8da07b70133f6341167e8eadcaf2e1359718",
+        "lib/native-engine/executor-sites.ts": "a4923647428981a235ab21dba0ebcab5b951a16f708114afa08abc9fbb9a46fb",
+        "lib/native-engine/occupancy.ts": "cca9e39f7097150d83eb451ba23ff4739c1df873271e99e313c64c00ac3ff0b6",
+        "lib/native-engine/persona.ts": "2819ad46f8d9c88ef4cab3252012d0b1188a31d427c53a00f298633f447f387b",
+        "lib/native-engine/piloting.ts": "2c54e3aa5d07fcd6a60e0240d30bdc2dbfc09cb214e414f423800f726783face",
+        "lib/native-engine/premiere-rules.ts": "cb7231f59d07f2df72e98a6501c311d8e8a76b0d6ec68e6f53eaeb1410a51f76",
+        "lib/native-engine/premiere-setup.ts": "74b079b43352af1e2736954ff51546caa1c251d35fc1351f49851697f3e07fc2",
+        "lib/native-engine/ship-sites.ts": "6711bc77be68e450064a0ede8c9587f3d1e2a4686c8a50ec4d5c944971658f73",
+        "lib/native-engine/transport.ts": "3cdeba0ea88692a16b34a28f924041973ff6c3250f26daf394c1c1870f584c74"
+      },
+      "providerMetadataFingerprints": {
+        "data/native-engine/additional-cards.json": "f1720272176f5b30de909bf2e1ab9851f401c68af22d406e8dfe5c6f8360af7c",
+        "data/native-engine/identities.json": "4951326a0ec287e64f62adb80f89a8071c11931faf66a484ba7b93aa9375f3f8"
+      },
+      "limits": "Scope is continuation reachability review, not full card/deck certification. Existing reference observations, source hashes and execution timestamps are not rewritten.",
+      "focusedVerification": {
+        "executedAt": "2026-10-05T13:29:24.302654+00:00",
+        "command": "node --test tests/native-engine/starter-readiness.test.mjs tests/native-engine/starter-timing-reachability.test.mjs tests/native-engine/starter-timing-reachability-barrier.test.mjs",
+        "tests": 16,
+        "passed": 16,
+        "failed": 0,
+        "log": "/private/tmp/swccg-starter-audit-alternatives-corridor.log",
+        "scope": "Focused current-runtime readiness, travel source binding, six timing inventories, post-accident Kintan and Barrier regressions. No new reference execution or full-deck admission."
+      },
+      "reviewedEvidenceReconciliation": {
+        "path": "tests/native-engine/gemp/premiere-skywalkers-review.json",
+        "previousSha256": "8f6c5aecd23268e9a437b91b0eab296f150720d57eb53ada6144c7e8f83c62cf",
+        "currentSha256": "33022ac65dec0788a9dc4b2dc5c582201f26673505487a232bf0dde60c1737f3",
+        "review": "Only the historical missing Custom TIE limitation was clarified as superseded by pending integration. Original review still explicitly did not execute that branch; no source execution/result claim changed."
+      }
+    },
+    {
+      "reviewedAt": "2026-10-05T13:34:44.201662+00:00",
+      "scope": "Alternatives release preserves immediate loss of hit Besieged participants",
+      "files": [
+        "lib/native-engine/alternatives.ts"
+      ],
+      "absentExactPairProviders": [
+        "2_44",
+        "2_117"
+      ],
+      "conclusion": "Release captures hit character identities before generic battle synchronization drops departed hit status. After relocation, a dedicated serialized Alternatives hit-loss continuation preserves those exact table-instance references, opens ordinary about-to-lose responses, and removes surviving bound hit targets with their personal attachments. Cancellation/changed target instances are revalidated. Only Alternatives release creates this continuation; no shared battle/table timing function changed. Alternatives and Besieged/captured-starship state are absent from the exact starter pair, so no starter movement, duel/accident response or hit-loss permission changes. Failed Obsession and full admission guards remain.",
+      "previousFingerprints": {
+        "lib/native-engine/alternatives.ts": "79da0415f4a75e8d41d0c87d044981e2c37c20eb59ecc9b3c5a97b2ddf94274e"
+      },
+      "reviewedFingerprints": {
+        "lib/native-engine/alternatives.ts": "db66756d2b3b5350d111aadad449721351512e78aa9b149827ebe01c2e51f394"
+      },
+      "verification": "Source inspected after owner freeze; owner reports16/16 Alternatives tests. Current starter audit rerun recorded separately. No new GEMP execution or replacement of historical reference receipts.",
+      "focusedVerification": {
+        "executedAt": "2026-10-05T13:35:06.232567+00:00",
+        "command": "node --test tests/native-engine/starter-readiness.test.mjs tests/native-engine/starter-timing-reachability.test.mjs tests/native-engine/starter-timing-reachability-barrier.test.mjs",
+        "tests": 16,
+        "passed": 16,
+        "failed": 0,
+        "log": "/private/tmp/swccg-starter-audit-alternatives-hit-final.log",
+        "scope": "Final frozen Alternatives hit-loss continuation: current readiness, timing inventory and Barrier regression checks; no new reference execution or full starter certification."
+      }
     }
   ],
-  "latestSemanticReviewAt": "2026-10-05T13:10:24.763784+00:00"
+  "latestSemanticReviewAt": "2026-10-05T13:34:44.201662+00:00"
 }

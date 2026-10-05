@@ -64,5 +64,11 @@ for(const expected of JSON.parse((await import('node:fs')).readFileSync(new URL(
   if(mode==='duplicates')m=play(settled(m),f.few2,target);
   if(['combined','dark','no-hyperdrive'].includes(mode))m=play(settled(m),f.dark,target);
  }
- const v=values(m,target);assert.deepEqual({mode,...v,maneuver:v.maneuver??0,hit:m.data.battle?.hits.includes(target)??false,fewUsed:m.cards[f.few].zone==='used',darkUsed:m.cards[f.dark].zone==='used'},expected);
+ const v=values(m,target),observed={mode,...v,maneuver:v.maneuver??0,hit:m.data.battle?.hits.includes(target)??false,fewUsed:m.cards[f.few].zone==='used',darkUsed:m.cards[f.dark].zone==='used'};
+ if(['unpiloted','landed'].includes(mode)){
+  // Official AR p90/p92 has unmodifiable zero; preserve GEMP's raw getter row.
+  assert.equal(expected.hyperspeed,mode==='unpiloted'?5:4);assert.equal(observed.hyperspeed,0);
+  assert.equal(mod('vessel-travel').vesselRoutes(m,target).some(r=>r.method==='hyperspace'),false);
+  assert.deepEqual(observed,{...expected,hyperspeed:0});
+ }else assert.deepEqual(observed,expected);
 });

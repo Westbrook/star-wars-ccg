@@ -1,0 +1,966 @@
+[
+  {
+    "limitation": "Controlled initial placements and prepared destiny 6; no complete match claim. Current GEMP changes attached Effect owner, in conflict with official rule retained by native.",
+    "finalEffect": {
+      "blueprint": "1_65",
+      "owner": "Dark Side Player",
+      "zone": "ATTACHED",
+      "attachedTo": "1_147",
+      "captured": false
+    },
+    "finalShip": {
+      "blueprint": "1_147",
+      "owner": "Dark Side Player",
+      "zone": "AT_LOCATION",
+      "atLocation": "1_127",
+      "captured": false
+    },
+    "trace": [
+      {
+        "text": "Use 2 Force - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "Use 2 Force - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "null - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "null - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "COST_TO_DRAW_DESTINY_CARD - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "ABOUT_TO_DRAW_DESTINY_CARD - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "DESTINY_DRAWN - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "Just drew \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00277_219\u0027\u003e•A Day Long Remembered\u003c/div\u003e for tractor beam destiny - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "actionText": [
+            "Add 2 to maneuver and 1 to power"
+          ],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "cardId": [
+            "158"
+          ],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [
+            "0"
+          ],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "inPlay"
+          ],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "COMPLETE_DESTINY_DRAW - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "DRAWING_DESTINY_COMPLETE - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "ABOUT_TO_BE_CAPTURED - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "ABOUT_TO_BE_CAPTURED - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "ABOUT_TO_BE_STOLEN - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_302",
+          "captured": true
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "ABOUT_TO_BE_STOLEN - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_302",
+          "captured": true
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Light Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "STOLEN - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Dark Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_302",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Dark Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "STOLEN - Optional responses",
+        "side": "Dark Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "true"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Dark Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_302",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Dark Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      },
+      {
+        "text": "CAPTURED_STARSHIP - Optional responses",
+        "side": "Light Side Player",
+        "parameters": {
+          "horizontal": [],
+          "actionText": [],
+          "noPass": [
+            "false"
+          ],
+          "backSideTestingText": [],
+          "cardId": [],
+          "yourTurn": [
+            "false"
+          ],
+          "noLongDelay": [
+            "true"
+          ],
+          "actionId": [],
+          "autoPassEligible": [
+            "false"
+          ],
+          "testingText": [],
+          "blueprintId": [],
+          "revertEligible": [
+            "false"
+          ]
+        },
+        "ship": {
+          "blueprint": "1_147",
+          "owner": "Dark Side Player",
+          "zone": "AT_LOCATION",
+          "atLocation": "1_127",
+          "captured": false
+        },
+        "effect": {
+          "blueprint": "1_65",
+          "owner": "Dark Side Player",
+          "zone": "ATTACHED",
+          "attachedTo": "1_147",
+          "captured": false
+        }
+      }
+    ],
+    "positiveTopLevelBaseline": {
+      "text": "Choose Battle action or Pass",
+      "parameters": {
+        "horizontal": [
+          "false",
+          "false"
+        ],
+        "actionText": [
+          "Shuffle card pile",
+          "Add 2 to maneuver and 1 to power"
+        ],
+        "noPass": [
+          "false"
+        ],
+        "backSideTestingText": [
+          "null",
+          "null"
+        ],
+        "cardId": [
+          "157",
+          "158"
+        ],
+        "yourTurn": [
+          "true"
+        ],
+        "noLongDelay": [
+          "false"
+        ],
+        "actionId": [
+          "0",
+          "1"
+        ],
+        "autoPassEligible": [
+          "true"
+        ],
+        "testingText": [
+          "null",
+          "null"
+        ],
+        "blueprintId": [
+          "inPlay",
+          "inPlay"
+        ],
+        "revertEligible": [
+          "true"
+        ]
+      }
+    },
+    "name": "special-modifications-owner-and-supported-response-menus"
+  }
+]

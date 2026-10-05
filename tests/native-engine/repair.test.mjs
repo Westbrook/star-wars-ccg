@@ -5,7 +5,7 @@ import {fixture,endControl,repair,finish,state,step,seek,priority,prompt,ids,rul
 const mod=n=>load(new URL('../../lib/native-engine/'+n+'.ts',import.meta.url));
 const ion=(m,id)=>mod('stat-modifiers').ionizedShip(m,id),power=(m,id)=>mod('occupancy').vesselPower(m,id),maneuver=(m,id)=>mod('piloting').vesselManeuver(m,id),hyper=(m,id)=>mod('piloting').vesselHyperspeed(m,id);
 for(const side of ['light','dark'])for(const mode of ['fighter','capital','landed'])test('required R5 repair timing '+side+' '+mode,()=>{
- const f=fixture(side,mode);assert.ok(ion(f.m,f.ship));assert.ok(!ids(f.m).some(id=>id.startsWith('ion-repair:')));let m=endControl(f.m);assert.ok(prompt(m).mandatory);assert.ok(!ids(m).includes('pass'));m=finish(repair(clone(m)));assert.equal(ion(m,f.ship),false);assert.ok(hyper(m,f.ship)>0);assert.equal(m.cards[f.droid].attachedTo,f.ship);
+ const f=fixture(side,mode);assert.ok(ion(f.m,f.ship));assert.ok(!ids(f.m).some(id=>id.startsWith('ion-repair:')));let m=endControl(f.m);assert.ok(prompt(m).mandatory);assert.ok(!ids(m).includes('pass'));m=finish(repair(clone(m)));assert.equal(ion(m,f.ship),false);if(mode==='landed'){assert.equal(hyper(m,f.ship),0);assert.equal(mod('vessel-travel').vesselRoutes(m,f.ship).some(r=>r.method==='hyperspace'),false);}else assert.ok(hyper(m,f.ship)>0);assert.equal(m.cards[f.droid].attachedTo,f.ship);
 });
 for(const side of ['light','dark'])for(const mode of ['fighter','capital'])test('R5 aboard bonuses and noncumulative copies '+side+' '+mode,()=>{
  const f=fixture(side,mode,1,false),p=power(f.m,f.ship),h=hyper(f.m,f.ship),man=maneuver(f.m,f.ship);state.moveCard(f.m,f.droid,'hand');assert.equal(power(f.m,f.ship),p-1);if(man!==null)assert.equal(maneuver(f.m,f.ship),man-1);assert.equal(hyper(f.m,f.ship),h);
@@ -37,5 +37,10 @@ for(const row of JSON.parse(fs.readFileSync(new URL('./gemp/repair-results.json'
  if(row.mode==='suppressed')mod('game-text').suppressGameText(m,f.planet,f.droid);
  if(row.mode==='weapon-leaves')state.moveCard(m,f.weapon,'lost');
  const values=(m,prefix)=>({[prefix+'Power']:power(m,f.ship),[prefix+'Maneuver']:maneuver(m,f.ship)??0,[prefix+'Hyperspeed']:hyper(m,f.ship),[prefix+'Defense']:mod('defense').defenseValue(m,f.ship)});
- const before=values(m,'before');m=seek(m,x=>x.turn.phase==='deploy');const observed={side:row.side,mode:row.mode,deploymentCost,...before,...values(m,'after'),aboard:m.cards[f.droid].attachedTo===f.ship,droidNavigation:mod('piloting').hasAstromechNavigation(m,f.ship)};assert.deepEqual(observed,row);
+ const before=values(m,'before');m=seek(m,x=>x.turn.phase==='deploy');const observed={side:row.side,mode:row.mode,deploymentCost,...before,...values(m,'after'),aboard:m.cards[f.droid].attachedTo===f.ship,droidNavigation:mod('piloting').hasAstromechNavigation(m,f.ship)};if(row.mode==='landed'){
+  // Repair clears ion damage, but official AR p90/p92 still makes a landed
+  // ship's hyperspeed zero. GEMP's immutable raw getter restores printed speed.
+  assert.equal(row.afterHyperspeed,row.side==='light'?4:5);assert.equal(observed.afterHyperspeed,0);
+  assert.equal(ion(m,f.ship),false);assert.deepEqual(observed,{...row,afterHyperspeed:0});
+ }else assert.deepEqual(observed,row);
 });

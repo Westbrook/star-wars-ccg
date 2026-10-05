@@ -15,12 +15,19 @@
   "method": [
     "Initial ships, pilots, Force and destiny order are controlled fixtures. Plays and weapon shots execute through unmodified production GEMP code.",
     "GEMP zero for absent maneuver is normalized against native null. Absent hyperspeed is explicitly null in both evidence rows.",
-    "All eleven result rows are compared with native commands. Used pile checks include its face-up top-card zone."
+    "All eleven result rows are compared with native commands. Used pile checks include its face-up top-card zone. The later official-rule correction below isolates the exact hyperspeed divergences without modifying historical observations."
   ],
   "limitations": [
     "Component coverage only. Full native admission remains false. Tallon Roll and other not-yet-implemented maneuver-targeting draws are not covered.",
     "Expiry, malformed state, target return, Sense cancellation, loss of pilot, long hyperspace movement and browser refresh have additional native tests; not all are separate GEMP observations.",
     "Broader ship statistic reset/definition effects, missing card providers, capture, Objectives/setup and full engine/product scope remain."
   ],
-  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf; A Few Maneuvers and Dark Maneuvers card rulings"
+  "officialRules": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf; A Few Maneuvers and Dark Maneuvers card rulings",
+  "officialRuleCorrection": {
+    "date": "2026-10-05",
+    "rule": "Official Advanced Rulebook printed p90 treats landed craft as unpiloted; printed p92 makes unpiloted hyperspeed unmodifiable zero.",
+    "referenceResults": "Historical executed GEMP result files and hashes are unchanged. Its getter returns raw modified hyperspeed rather than the native usable value.",
+    "preciseDivergence": "Only unpiloted and landed rows differ in hyperspeed: native0 versus GEMP raw5 and4. Every other field matches the immutable reference; hyperspace movement remains unavailable.",
+    "tests": "tests/native-engine/maneuvers.test.mjs"
+  }
 }

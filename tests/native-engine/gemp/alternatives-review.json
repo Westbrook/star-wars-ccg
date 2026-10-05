@@ -1,0 +1,56 @@
+{
+  "card": "2_44",
+  "title": "Alternatives To Fighting",
+  "status": "pending",
+  "officialSource": {
+    "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "printedPage": 103,
+    "section": "Appendix A - Errata",
+    "additionalSections": [
+      {
+        "printedPage": 96,
+        "section": "Weapons - hit"
+      }
+    ]
+  },
+  "sourceReview": {
+    "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+    "files": [
+      {
+        "path": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_044.java",
+        "sha256": "8f604b892d5bdda562cc2de47c4486f91bc2662e89869ef0e3afd8f45abd74e5"
+      },
+      {
+        "path": "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/RelocateBetweenLocationsEffect.java",
+        "sha256": "cc05d191bd0f9befdf927aeab65c237b34cfb120a4eecceaa54f8427c3ad4cda"
+      }
+    ]
+  },
+  "implemented": [
+    "Use 3 Force to cancel a system or sector battle just initiated; the same option does not cancel a Besieged site battle.",
+    "Cancel Besieged while deploying or on table. Canceling the Effect does not cancel an already underway battle.",
+    "Release all eligible own trapped characters to any docking bay, including the occupied bay holding the captured ship. Personal attachments accompany the characters, and regular movement use remains unchanged.",
+    "Captured ship with its final trapped character released follows mandatory theft rules. Original targets cannot be revived by leaving and returning during responses.",
+    "A hit character leaving its Besieged battle by release is immediately lost, with a saved loss-prevention response for the character and personal equipment."
+  ],
+  "nativeTests": "tests/native-engine/alternatives.test.mjs",
+  "referenceHarness": "tests/native-engine/gemp/NativeEngineAlternativesOracleTests.java",
+  "referenceStatus": "Executed remote release and battle cancellation match; same-bay diagnostic retained a failing weapon-attachment assertion. See raw results and provenance; no blanket GEMP-equivalence claim.",
+  "limitations": [
+    "Pinned GEMP does not implement Besieged2_117, so Besieged-specific modes are official-card-text plus native-integration coverage, not executed GEMP equivalence.",
+    "Full production-match admission remains closed."
+  ],
+  "nativeEvidence": {
+    "newTests": 16,
+    "result": "pass",
+    "log": "/private/tmp/swccg-alternatives-hit3.log",
+    "relatedPriorBatch": {
+      "tests": 51,
+      "result": "pass",
+      "log": "/private/tmp/swccg-alternatives4.log",
+      "scope": "15 Alternatives cases plus Besieged and captured-ship regressions before the additional hit-release correction"
+    }
+  },
+  "referenceResults": "tests/native-engine/gemp/alternatives-results.json",
+  "referenceReceipt": "tests/native-engine/gemp/alternatives-provenance.json"
+}

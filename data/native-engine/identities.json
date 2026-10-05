@@ -3042,5 +3042,38 @@
       "EXECUTOR"
     ],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_167.java"
+  },
+  "1_306": {
+    "keywords": [
+      "BLACK_SQUADRON"
+    ],
+    "species": [],
+    "models": [
+      "TIE_ADVANCED_X1"
+    ],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [
+      "VADERS_CUSTOM_TIE"
+    ],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_306.java"
+  },
+  "4_162": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": false,
+    "uniqueness": "UNIQUE",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_162.java"
+  },
+  "2_44": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "personas": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_044.java"
   }
 }

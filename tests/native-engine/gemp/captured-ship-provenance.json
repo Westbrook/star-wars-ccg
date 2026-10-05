@@ -13,7 +13,7 @@
   ],
   "limitations": [
     "Related ship sites, cargo destinations, trapped disembarkation, Besieged battles and unique permanent-persona handling remain required.",
-    "Native theft preserves attached Effect ownership per official rules; pinned GEMP source sets ownership recursively without that exclusion. This difference needs a dedicated executed comparison.",
+    "Native theft preserves attached Effect ownership per official rules. A later dedicated executed Special Modifications comparison confirms pinned GEMP instead changes the Effect owner; see theft-response-provenance.json. This is an explicit rules/GEMP disagreement, not parity.",
     "No complete shuffled capture match is claimed. Production admission and retained discrepancies remain unchanged."
   ]
 }

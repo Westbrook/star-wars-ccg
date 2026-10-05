@@ -1,5 +1,43 @@
 [
   {
+    "gempId": "2_44",
+    "name": "Alternatives To Fighting",
+    "side": "light",
+    "type": "Interrupt",
+    "subType": "Lost",
+    "image": "https://res.starwarsccg.org/cards/ANewHope-Light/large/alternativestofighting.gif",
+    "text": "Use 3 Force to cancel a battle just initiated at a system or sector. OR Cancel Besieged. OR Release (move for free) all your characters from a captured starship to your side of any docking bay site.",
+    "stats": {
+      "destiny": "3"
+    },
+    "icons": [
+      "A New Hope"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/light/Card2_044.java"
+  },
+  {
+    "gempId": "4_162",
+    "name": "Executor: Main Corridor",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Dagobah-Dark/large/executormaincorridor.gif",
+    "text": "Dark: During your move phase, you may move free between here and Executor or any Executor site. Light: If you control, opponent's Main Corridor game text is canceled.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Interior",
+      "Mobile",
+      "Starship",
+      "Scomp Link",
+      "Dagobah"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_162.java"
+  },
+  {
     "gempId": "4_167",
     "name": "Executor",
     "side": "dark",
@@ -4103,5 +4141,27 @@
     ],
     "status": "pending",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_139.java"
+  },
+  {
+    "gempId": "1_306",
+    "name": "Vader's Custom TIE",
+    "side": "dark",
+    "type": "Starship",
+    "subType": "Starfighter: TIE Advanced x1",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/vaderscustomtie.gif",
+    "text": "May add 1 pilot. If Vader is pilot, Custom TIE is immune to attrition < 4. Must have pilot aboard to use power, maneuver or hyperspeed.",
+    "stats": {
+      "deploy": "2",
+      "power": "2",
+      "maneuver": "3",
+      "hyperspeed": "2",
+      "destiny": "2",
+      "forfeit": "4"
+    },
+    "icons": [
+      "Nav Computer"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_306.java"
   }
 ]

@@ -27,12 +27,12 @@ export function matchingPilotManeuver(m:Match,id:string):number {
  const c=m.cards[id],rule=matchingShips[c?.blueprint];
  return rule&&actingPilot(m,id)&&gameTextActive(m,id)&&(rule.persona?hasPersona(m,c.attachedTo!,rule.persona):m.cards[c.attachedTo!].blueprint===rule.blueprint)?rule.maneuver:0;
 }
-export const pilotPowerBonus=(m:Match,id:string)=>actingPilot(m,id)&&gameTextActive(m,id)?powerBonuses[m.cards[id].blueprint]??0:0;
+export const pilotPowerBonus=(m:Match,id:string)=>actingPilot(m,id)&&gameTextActive(m,id)?m.cards[id].blueprint==='1_168'&&hasPersona(m,m.cards[id].attachedTo!,'VADERS_CUSTOM_TIE')?4:powerBonuses[m.cards[id].blueprint]??0:0;
 /** Missing maneuver stays missing. Unpiloted maneuver is unmodifiable zero. */
 export function vesselManeuver(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).maneuver;if(raw===undefined)return null;
  if(!Number.isFinite(Number(raw)))throw Error('Maneuver needs a printed-value provider.');
- return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+cloudStatModifier(m,id)+otsdShipBonus(m,id,'maneuver')+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+matchingPilotManeuver(m,c.id)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0),0)):0;
+ return operational(m,id)?vesselStatValue(m,id,'maneuver',Number(raw)+cloudStatModifier(m,id)+otsdShipBonus(m,id,'maneuver')+vesselStatBonus(m,id,'maneuver')+repairDroidBonus(m,id)+aboardStarfighterBonus(m,id)+occupants(m,id).reduce((n,c)=>n+matchingPilotManeuver(m,c.id)+(c.blueprint==='1_19'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'RED_5')?2:0)+(c.blueprint==='1_168'&&actingPilot(m,c.id)&&gameTextActive(m,c.id)&&hasPersona(m,id,'VADERS_CUSTOM_TIE')?3:0),0)):0;
 }
 const keywords:Record<string,{keywords:string[]}>=identities;
 export function squadronPilot(m:Match,id:string,squadron:string):boolean {
@@ -64,10 +64,12 @@ export function aboardStarfighterBonus(m:Match,id:string):number {
  }
  return [...contributions.values()].reduce((a,b)=>a+b,0);
 }
+/** Official AR p90/p92: landed craft are unpiloted; hyperspeed is unmodifiable zero.
+ * The pinned GEMP raw getter retains printed bonuses, but movement cannot use them. */
 export function vesselHyperspeed(m:Match,id:string):number|null {
  const raw=(cardDefinition(m,id).stats as Record<string,string>).hyperspeed;
  if(raw===undefined)return null;
- return vesselStatValue(m,id,'hyperspeed',Number(raw)+aboardStarfighterBonus(m,id)+vesselStatBonus(m,id,'hyperspeed'));
+ return operational(m,id)?vesselStatValue(m,id,'hyperspeed',Number(raw)+aboardStarfighterBonus(m,id)+vesselStatBonus(m,id,'hyperspeed')):0;
 }
 export function redFiveImmunity(m:Match,id:string):number {
  return m.cards[id].blueprint==='2_71'&&gameTextActive(m,id)&&occupants(m,id).some(c=>actingPilot(m,c.id)&&hasPersona(m,c.id,'LUKE'))?4:0;
@@ -92,4 +94,9 @@ export const repairCrew=(m:Match,id:string)=>occupants(m,id).filter(c=>['2_15','
 
 export function redTwoImmunity(m:Match,id:string):number {
  return m.cards[id].blueprint==='2_70'&&gameTextActive(m,id)&&occupants(m,id).some(c=>actingPilot(m,c.id)&&hasPersona(m,c.id,'WEDGE'))?3:0;
+}
+
+/** The ship supplies immunity from Vader's identity, independently of his text. */
+export function customTieImmunity(m:Match,id:string):number {
+ return m.cards[id].blueprint==='1_306'&&gameTextActive(m,id)&&occupants(m,id).some(c=>actingPilot(m,c.id)&&hasPersona(m,c.id,'VADER'))?4:0;
 }

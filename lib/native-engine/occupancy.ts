@@ -40,6 +40,7 @@ export const vesselRules:Record<string,VesselRule>={
  '1_141':{pilots:0,drivers:0,passengers:0,shared:2,permanent:0,enclosed:true},
  '2_72':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '2_70':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true,astromechs:1},
+ '1_306':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '1_299':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '1_300':{pilots:1,drivers:0,passengers:0,shared:0,permanent:0,enclosed:true},
  '1_140':{pilots:3,drivers:0,passengers:4,shared:0,permanent:1,enclosed:true,vehicles:1},

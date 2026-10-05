@@ -21,3 +21,12 @@ The native match engine now distinguishes an inactive captive and its retained a
 Subsequent integration added We Have A Prisoner, Tractor Beam, captured-ship custody, Besieged and ship sites. A complete shuffled capture game now replays 1,677 legal native commands through a 28-turn Life Force victory, matching 162 settled GEMP checkpoints. Saved custody states resume to the same result, and six desktop/phone browser flows exercise capture, crew seizure, escape and theft through the real service. GEMP's intermediate ownership-before-placement response ordering remains a documented limitation: the recorded windows are empty, and nonempty responses are not certified.
 
 Executor and its Holotheatre site now support unlimited printed capacity, persistent unique-site relationships, current Holotheatre errata and free regular hull/site transfers. The [native engine notes](lib/native-engine/README.md) and test receipts describe the exact coverage and remaining limits. Production admission remains closed; full catalog and complete native gameplay requirements remain unfinished. Sites publication is on hold; completed checkpoints are delivered on GitHub `main`.
+
+The next capture/space batch adds Alternatives To Fighting (space-battle cancellation,
+Besieged cancellation, and captured-crew release), Premiere Vader’s Custom TIE with
+its matching Vader pilot, and Executor: Main Corridor’s free movement permission.
+Official unpiloted/landed hyperspeed is zero even though the pinned GEMP raw getter
+retains a printed/modified value. A dedicated GEMP theft execution also confirms
+that its attached-Effect ownership behavior differs from the official rule; native
+keeps the Effect’s original owner. These differences remain explicit in the receipts,
+and neither widens production admission.

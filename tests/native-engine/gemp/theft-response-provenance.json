@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineTheftResponseOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "files": {
+    "NativeEngineTheftResponseOracleTests.java": "fcae74fe43829386446e19d2bf6d440b7de058be20c4d996ce21b652573abb3a",
+    "theft-response-results.json": "0edc229b28e3502921ffc7c4701ba3b78c82cbd2e3b2968088d542b1d005d92b"
+  },
+  "executedCases": 1,
+  "rules": {
+    "source": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=173",
+    "printedPage": 173,
+    "interpretation": "When a ship is stolen, attached Effects stay attached and retain their existing ownership. Vehicles/starships carried aboard and their weapons/devices are stolen. Native must retain the official Effect rule despite pinned GEMP divergence."
+  },
+  "outcomes": {
+    "shipStolen": true,
+    "effectOwnerGemp": "Dark Side Player",
+    "effectOwnerOfficial": "Light Side Player",
+    "effectStillAttached": true,
+    "theftResponseMenus": 4,
+    "theftOptionalActions": 0,
+    "sameShuffleCardAvailableAfterTheft": true
+  },
+  "candidateCardsInHand": {
+    "light": [
+      "1_71",
+      "1_109",
+      "1_115",
+      "1_113",
+      "1_90",
+      "1_88"
+    ],
+    "dark": [
+      "1_234",
+      "1_267",
+      "1_262",
+      "1_241",
+      "2_142",
+      "1_268"
+    ]
+  },
+  "sourceFindings": [
+    "StealCapturedStarshipToLocationEffect recursively assigns new owner to all attached cards, including Effects; executed Special Modifications case confirms the discrepancy.",
+    "Generic Alter, shuffle and card actions are top-level actions, not freely usable responses to theft. Explicit pinned just-stolen handlers are device-specific Binders and saber-specific recovery/protection; they do not target the ship in this fixture.",
+    "A positive post-theft top-level baseline offers the same in-hand shuffle action that was absent from both STOLEN response menus."
+  ],
+  "limitations": [
+    "Controlled initial ship placement, Force activation and prepared destiny6; actual deployments, battle and beam action afterward. No injected capture/theft action and no production source override.",
+    "No non-empty theft response was executed. These candidate menus are a bounded negative result, not proof every possible card interaction has empty responses.",
+    "Reference snapshot contains ownership-before-placement STOLEN state. Raw data remains unchanged.",
+    "Attached Effect ownership is an explicitly retained rules/GEMP disagreement, not conformance."
+  ],
+  "inspectedSourceHashes": {
+    "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_071.java": "43f65436c28f7360dbd803e3fd899105f83fb996e0b0eddcad4d614dd3fa273d",
+    "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_262.java": "2e0c30e58fc33f9cad1bd08f6ad2e6fdebe0f99fc9194264c35ca88c5d38e190",
+    "src/gemp-swccg-logic/src/main/java/com/gempukku/swccgo/logic/effects/choose/StealCapturedStarshipToLocationEffect.java": "623c7ef32726b9851138089d103d846d1a4e04910ecfa12205f02c71a20cdb78",
+    "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_065.java": "71c4768ffe03a219111a684d5222d043ccd35bffadde77368c96e3a70c6ce810"
+  }
+}

@@ -3723,3 +3723,52 @@ site propagation, exceptional capture/stealing, nonempty theft responses, failed
 Obsession arithmetic, Gate rearrangement/loss semantics and all wider engine
 and product scope remain required. No new Rules Lab study or Sites publication
 was added.
+
+
+### Capture counterplay and additional Executor movement
+
+Alternatives To Fighting (`2_44`) supports all three current text functions:
+use 3 Force to cancel a just-initiated system/sector battle, cancel Besieged while
+being played or on table, and release eligible trapped characters with personal
+attachments to a docking bay. Release is free and preserves regular movement;
+Besieged participants retain departure history; released hit cards are lost on
+leaving battle. The emptied hull continues through the required theft decision. Canceling an already-deployed Besieged does
+not cancel a battle already in progress. Physical source/target references and
+saved continuation checks prevent an unrelated returned card from satisfying the
+original action.
+
+Premiere Vader’s Custom TIE (`1_306`) is distinct from the OTSD Black Squadron TIE.
+Premiere Vader (`1_168`) supplies its matching power/maneuver bonuses; an acting
+Vader pilot grants the ship’s printed attrition immunity. Pilot departure, landed
+state and suppression affect the appropriate source. The official unpiloted rule
+also sets computed hyperspeed to an unmodifiable zero. Historical GEMP raw getter
+results are preserved and the tests assert this specific difference explicitly;
+movement permission was already blocked while unpiloted.
+
+Executor: Main Corridor (`4_162`) grants Dark free regular movement between itself,
+Executor and other named Executor sites. Light control suppresses that permission.
+Site-to-site movement works without the hull and retains ordinary capacity,
+pilot/driver and destination constraints. A nonunique Star Destroyer: Launch Bay
+attached to Executor is not a named Executor site for this text. This implementation
+has primary-rule/pinned-source review and automated integration coverage, not an
+executed GEMP parity claim.
+
+The dedicated `theft-response-provenance.json` records an actual GEMP Tractor Beam
+capture/theft with Special Modifications attached. GEMP transfers that Effect’s
+ownership; official rules retain its owner, as native does. All four tested theft
+response menus are empty despite candidate cards in hand; the same shuffle card
+becomes available afterward at a normal action opportunity. This is a bounded
+negative result, not proof that every possible theft response is empty. Special
+Modifications is used by the reference fixture; its native card text is not added
+by this checkpoint.
+
+An executed Alternatives comparison also finds a same-bay attachment discrepancy:
+GEMP moves a personal weapon independently to the location, detaching it from the
+released character. Its remote release and space-battle cancellation observations
+agree with native. The strict reference attachment assertion failed and that failure
+is retained as evidence; native keeps the weapon attached to its character.
+
+Laser Gate gap insertion, pair-separating rearrangements and endpoint-loss semantics
+remain unresolved by the reviewed primary sources. Full native production admission
+stays closed, and all outstanding catalog, timing, match and product scope remains.
+No additional standalone study or Sites publication accompanies this batch.

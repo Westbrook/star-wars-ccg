@@ -10,7 +10,7 @@ import {premiereLocations,premiereSites,premiereSystems} from './premiere-setup'
 import type {project} from './runtime';
 import {other, type Side} from './types';
 
-export const computerPolicy = 'native-cpu-31';
+export const computerPolicy = 'native-cpu-32';
 type View = ReturnType<typeof project>;
 
 /** A deterministic, conservative opponent, not a rules implementation. Its only
@@ -112,6 +112,32 @@ export function chooseComputerAction(view: View, side: Side): string | null {
     const [kind,a,b] = c.id.split(':');
     if (c.id === 'concede') return -Infinity;
     if (c.id === 'pass') return 0;
+    if(kind==='alternatives'){
+      const target=c.id.split(':')[3],destination=c.id.split(':')[4];
+      if(b==='battle'){
+        const active=rules?.battle;if(!active||active.stage!=='begin'||active.besieged)return -5;
+        const deficit=strength(active.site,opponent,active.initiator===side)-strength(active.site,side,active.initiator!==side);
+        // Spend the three Force only to avoid a visibly unfavorable battle;
+        // unknown destiny remains unknown, never estimated from hidden piles.
+        return deficit>0?65+Math.min(20,deficit):-5;
+      }
+      if(b==='deployment')return rules?.capturedShips?.some(ship=>ship.crew.some(id=>cards.get(id)?.owner===side))?55:-5;
+      if(b==='effect'){
+        const ship=rules?.capturedShips?.find(ship=>ship.id===cards.get(target)?.attachedTo);
+        // Canceling an existing Besieged prevents future attacks, but does not
+        // cancel a battle already underway or itself free the trapped crew.
+        return ship?.crew.some(id=>cards.get(id)?.owner===side)?45:-5;
+      }
+      if(b==='release'){
+        const ship=rules?.capturedShips?.find(ship=>ship.id===target),crew=ship?.crew.filter(id=>cards.get(id)?.owner===side)??[];
+        if(!crew.length||!destination)return -5;
+        const crewPower=crew.reduce((sum,id)=>sum+stat(id,'power'),0),enemy=strength(destination,opponent);
+        const active=rules?.battle,alreadyCounted=active&&active.stage!=='complete'&&active.site===destination?crew.filter(id=>active.participants[side].includes(id)).reduce((sum,id)=>sum+stat(id,'power'),0):0;
+        if(enemy>strength(destination,side)+crewPower-alreadyCounted)return -5;
+        const newPresence=!at(destination,side).some(card=>stat(card.id,'ability')>0)&&crew.some(id=>stat(id,'ability')>0);
+        return 80+Math.min(15,crewPower)+icons(destination,opponent)*3+(newPresence?5:0)-enemy*4;
+      }
+    }
     if(kind==='besieged'){
       if(a==='deploy'||a==='select')return siegeBalance(c.id.split(':')[3])>=0?(a==='deploy'?32:40):-5;
       if(a==='add')return 90+stat(b,'power')+stat(b,'ability');

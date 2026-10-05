@@ -16,12 +16,19 @@
   "method": [
     "Initial ship board, Force, persistent ion resets and ionization flags are fixtures matching IonizeStarshipEffect. This fixture does not fire an ion cannon; separate ion-provenance.json verifies actual firing.",
     "R5 deployments, phase flow, required actions and stat restoration execute through real GEMP player decisions. Cancellation is a controlled established game-text-canceled flag plus its corresponding persistent modifier.",
-    "All sixteen complete outcome records compared with native command replays; each native step verifies JSON-round-trip projections and immutable prior state."
+    "All sixteen complete outcome records compared with native command replays; each native step verifies JSON-round-trip projections and immutable prior state. The later official-rule correction below isolates the exact hyperspeed divergences without modifying historical observations."
   ],
   "limitations": [
     "No full deck/match admission. Related ship sites, opponent-owned boarding, additional repair cards/ion effects, broader capture/targeting and full catalog interactions remain required.",
     "Pending source/target departure, unrelated modifiers, corruption, multi-ship ordering and service reload have additional native checks; no separate executed GEMP comparison is claimed for those branches.",
     "Two copies on one ship compare resulting values; identical internal no-op trigger counts/order are not claimed.",
     "The reference has no production edits; all 6820 src/main files match the pinned archive."
-  ]
+  ],
+  "officialRuleCorrection": {
+    "date": "2026-10-05",
+    "rule": "Official Advanced Rulebook printed p90 treats landed craft as unpiloted; printed p92 makes unpiloted hyperspeed unmodifiable zero.",
+    "referenceResults": "Historical executed GEMP result files and hashes are unchanged. Its getter returns raw modified hyperspeed rather than the native usable value.",
+    "preciseDivergence": "Only the light and dark landed rows differ in afterHyperspeed: native0 versus GEMP raw4 and5. Repair still clears ion damage. Every other field matches the immutable reference.",
+    "tests": "tests/native-engine/repair.test.mjs"
+  }
 }
