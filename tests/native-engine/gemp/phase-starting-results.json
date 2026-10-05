@@ -1,0 +1,6564 @@
+[
+  {
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "first": "dark",
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49
+      }
+    },
+    "lostObservedOrder": [
+      "dark",
+      "light"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "5_110"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "5_110"
+          ]
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "first": "dark",
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49
+      }
+    },
+    "lostObservedOrder": [
+      "dark",
+      "light"
+    ],
+    "immune": true,
+    "effects": true,
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "5_110",
+            "4_134"
+          ],
+          "cardText": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "5_110",
+            "4_134"
+          ]
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1",
+            "4_21"
+          ],
+          "cardText": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1",
+            "4_21"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "three": true,
+    "table": [],
+    "first": "dark",
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 50
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 50
+      }
+    },
+    "lostObservedOrder": [
+      "dark",
+      "light"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to deploy from Reserve Deck\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40",
+            "temp41",
+            "temp42",
+            "temp43",
+            "temp44",
+            "temp45",
+            "temp46",
+            "temp47",
+            "temp48",
+            "temp49",
+            "temp50",
+            "temp51",
+            "temp52",
+            "temp53",
+            "temp54",
+            "temp55",
+            "temp56",
+            "temp57"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "5_110",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "5_110",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51",
+          "eligible": []
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to deploy from Reserve Deck\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40",
+            "temp41",
+            "temp42",
+            "temp43",
+            "temp44",
+            "temp45",
+            "temp46",
+            "temp47",
+            "temp48",
+            "temp49",
+            "temp50",
+            "temp51",
+            "temp52",
+            "temp53",
+            "temp54",
+            "temp55",
+            "temp56",
+            "temp57"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "5_110",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "5_110",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51",
+          "eligible": []
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to deploy from Reserve Deck\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40",
+            "temp41",
+            "temp42",
+            "temp43",
+            "temp44",
+            "temp45",
+            "temp46",
+            "temp47",
+            "temp48",
+            "temp49",
+            "temp50",
+            "temp51",
+            "temp52",
+            "temp53",
+            "temp54",
+            "temp55",
+            "temp56",
+            "temp57"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "102_1",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "102_1",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51",
+          "eligible": []
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to deploy from Reserve Deck\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40",
+            "temp41",
+            "temp42",
+            "temp43",
+            "temp44",
+            "temp45",
+            "temp46",
+            "temp47",
+            "temp48",
+            "temp49",
+            "temp50",
+            "temp51",
+            "temp52",
+            "temp53",
+            "temp54",
+            "temp55",
+            "temp56",
+            "temp57"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "102_1",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "102_1",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51",
+          "eligible": []
+        }
+      }
+    ]
+  },
+  {
+    "three": true,
+    "table": [
+      "4_134",
+      "4_21"
+    ],
+    "first": "dark",
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 49
+      }
+    },
+    "lostObservedOrder": [
+      "dark",
+      "light"
+    ],
+    "immune": true,
+    "effects": true,
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      }
+    ]
+  },
+  {
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "first": "light",
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49
+      }
+    },
+    "lostObservedOrder": [
+      "light",
+      "dark"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1"
+          ]
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "5_110"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "5_110"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "first": "light",
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49
+      }
+    },
+    "lostObservedOrder": [
+      "light",
+      "dark"
+    ],
+    "immune": true,
+    "effects": true,
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1",
+            "4_21"
+          ],
+          "cardText": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1",
+            "4_21"
+          ]
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2"
+          ],
+          "selectable": [
+            "true",
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "4_134",
+            "5_110"
+          ],
+          "cardText": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "4_134",
+            "5_110"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "three": true,
+    "table": [],
+    "first": "light",
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 50
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 50
+      }
+    },
+    "lostObservedOrder": [
+      "light",
+      "dark"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to deploy from Reserve Deck\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40",
+            "temp41",
+            "temp42",
+            "temp43",
+            "temp44",
+            "temp45",
+            "temp46",
+            "temp47",
+            "temp48",
+            "temp49",
+            "temp50",
+            "temp51",
+            "temp52",
+            "temp53",
+            "temp54",
+            "temp55",
+            "temp56",
+            "temp57"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "102_1",
+            "102_1",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51",
+          "eligible": []
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to deploy from Reserve Deck\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40",
+            "temp41",
+            "temp42",
+            "temp43",
+            "temp44",
+            "temp45",
+            "temp46",
+            "temp47",
+            "temp48",
+            "temp49",
+            "temp50",
+            "temp51",
+            "temp52",
+            "temp53",
+            "temp54",
+            "temp55",
+            "temp56",
+            "temp57"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "102_1",
+            "102_1",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28",
+            "1_28"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51",
+          "eligible": []
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to deploy from Reserve Deck\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40",
+            "temp41",
+            "temp42",
+            "temp43",
+            "temp44",
+            "temp45",
+            "temp46",
+            "temp47",
+            "temp48",
+            "temp49",
+            "temp50",
+            "temp51",
+            "temp52",
+            "temp53",
+            "temp54",
+            "temp55",
+            "temp56",
+            "temp57"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "5_110",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "5_110",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51",
+          "eligible": []
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Verify Reserve Deck after unsuccessful attempt to \u0027Choose card to deploy from Reserve Deck\u0027",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "0"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1",
+            "temp2",
+            "temp3",
+            "temp4",
+            "temp5",
+            "temp6",
+            "temp7",
+            "temp8",
+            "temp9",
+            "temp10",
+            "temp11",
+            "temp12",
+            "temp13",
+            "temp14",
+            "temp15",
+            "temp16",
+            "temp17",
+            "temp18",
+            "temp19",
+            "temp20",
+            "temp21",
+            "temp22",
+            "temp23",
+            "temp24",
+            "temp25",
+            "temp26",
+            "temp27",
+            "temp28",
+            "temp29",
+            "temp30",
+            "temp31",
+            "temp32",
+            "temp33",
+            "temp34",
+            "temp35",
+            "temp36",
+            "temp37",
+            "temp38",
+            "temp39",
+            "temp40",
+            "temp41",
+            "temp42",
+            "temp43",
+            "temp44",
+            "temp45",
+            "temp46",
+            "temp47",
+            "temp48",
+            "temp49",
+            "temp50",
+            "temp51",
+            "temp52",
+            "temp53",
+            "temp54",
+            "temp55",
+            "temp56",
+            "temp57"
+          ],
+          "selectable": [
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false",
+            "false"
+          ],
+          "testingText": [
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "5_110",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "5_110",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194",
+            "1_194"
+          ],
+          "cardText": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "9_139",
+          "light": "9_51",
+          "eligible": []
+        }
+      }
+    ]
+  },
+  {
+    "three": true,
+    "table": [
+      "4_134",
+      "4_21"
+    ],
+    "first": "light",
+    "piles": {
+      "dark": {
+        "hand": 8,
+        "lost": [
+          "9_139"
+        ],
+        "reserve": 49
+      },
+      "light": {
+        "hand": 8,
+        "lost": [
+          "9_51"
+        ],
+        "reserve": 49
+      }
+    },
+    "lostObservedOrder": [
+      "dark",
+      "light"
+    ],
+    "immune": true,
+    "effects": true,
+    "trace": [
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_51"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      },
+      {
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "9_139"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0",
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        }
+      }
+    ]
+  }
+]

@@ -36,7 +36,7 @@ export const premiereSetup: LocationSetupRules = {
   firstPlayer: match => match.setup?.selected.dark && match.cards[match.setup.selected.dark]?.blueprint==='2_143' ? 'light' : 'dark',
   // Ordinary locations plus the two implemented preparation Interrupts and
   // their eligible Effects. Other special starting sequences remain gated.
-  ordinarySetup: match => Object.values(match.cards).every(card => definitions.has(card.blueprint)||['6_77','6_160','9_139','9_51','4_21','4_134','6_58','6_147','8_35','8_118','102_1','102_6','2_143'].includes(card.blueprint)),
+  ordinarySetup: match => Object.values(match.cards).every(card => definitions.has(card.blueprint)||['6_77','6_160','9_139','9_51','4_21','4_134','6_58','6_147','8_35','8_118','102_1','102_6','5_110','2_143'].includes(card.blueprint)),
   location: (match, id) => {
     const blueprint = match.cards[id]?.blueprint, site = premiereLocations[blueprint];
     return site && !caveDefinitions[blueprint] && (!sectorDefinitions[blueprint] || sectorDefinitions[blueprint].unique) ? {identity: definition(blueprint).name, group: site.system, icons: site.icons, convertible: true} : null;

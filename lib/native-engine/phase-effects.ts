@@ -1,4 +1,5 @@
 import {ability} from './ability';
+import {gameTextActive} from './game-text';
 import {deployed, deployedAbilityDuringPhase} from './deployment';
 import {queueForceLoss} from './ground';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
@@ -10,20 +11,22 @@ import {other, type Action, type Json, type Match, type Resolution, type Side, t
 
 type Payload = {card: string; reference?: CardReference};
 const blueprint = '5_110';
+export const phaseEffectBlueprints = [blueprint];
 const count = (m: Match, side: Side) => Object.values(m.cards).filter(c => c.zone === 'table' && c.owner === side && ability(m, c.id) > 0).length;
 const outnumbered = (m: Match, card: string) => count(m, other(m.cards[card].owner)) > count(m, m.cards[card].owner);
 function action(step: string, p: Payload, label: string): Action {
   return {id: 'phase-effect:' + step + ':' + p.card + (p.reference ? ':' + p.reference.version : ''),
     handler: 'phase-effect:' + step, source: p.card, label, payload: p as unknown as Json};
 }
+export const phaseEffectDeployment = (m: Match, card: string) => action('deploy', {card}, 'Deploy Ability, Ability, Ability');
 export function phaseEffectActions(m: Match, w: Window, side: Side): Action[] {
   if (w.timing !== 'phase' || m.turn.side !== side || m.turn.phase !== 'deploy') return [];
   return m.players[side].hand.filter(id => m.cards[id].blueprint === blueprint)
-    .map(card => action('deploy', {card}, 'Deploy Ability, Ability, Ability'));
+    .map(card => phaseEffectDeployment(m, card));
 }
 export function phaseEffectAutomatic(m: Match, w: Window): RequiredAction[] {
   const event = w.event as {kind?: string; phase?: string; side?: Side; sources?: CardReference[]} | undefined;
-  return Object.values(m.cards).filter(c => c.zone === 'table' && c.blueprint === blueprint).flatMap(c => {
+  return Object.values(m.cards).filter(c => gameTextActive(m, c.id) && c.blueprint === blueprint).flatMap(c => {
     const p = {card: c.id, reference: referenceCard(m, c.id)};
     if (outnumbered(m, c.id)) return [{...action('lost', p, 'Lose Ability, Ability, Ability · opponent has more cards with ability'), actor: c.owner, unrespondable: true as const}];
     if (event?.kind === 'phase-end' && event.phase === 'deploy' && event.side === other(c.owner) && event.sources?.some(ref => ref.id === c.id && sameCard(m, ref)) &&

@@ -1,0 +1,26 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "files": {
+    "NativeEnginePhaseStartingOracleTests.java": "9e20bac1a9021f11abe9205c063274fed3d5c79deb551359e35f3e958c20d30d",
+    "NativeEnginePhaseStartFlowOracleTests.java": "3b41b7932da546be48d993c37d678fc9e2603209b2d20eae40eb665d4209549b",
+    "NativeEnginePhaseTextOracleTests.java": "20a21961d7c0bbd641e6765375c6f74735618f73b4f4d6d1c05e0d4e3bbee3d0",
+    "phase-starting-results.json": "a7085c87170ad504007c697207c41eaa6713964c1ce1599f216a212ed2ab5733",
+    "phase-start-flow-results.json": "343e8cf8b2bc27025a4ed2e1b3ff515229ab071ba09ae516fc993278c090971f",
+    "phase-text-results.json": "165626156c3cb366b1c75ae529e505e6394a4fd3aa12a326aad00eb426e46203"
+  },
+  "startingBranches": 8,
+  "flowBranches": 6,
+  "gameTextBranches": 4,
+  "scope": "Ordinary 60-card starting setups, then legal activation/deployment choices through first Light Battle. No manual table, pile or phase corrections in starting/flow clients. Controlled canceled-text components separately use production modifiers.",
+  "rules": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf: Canceling Game Text p23, setup pp35-36",
+    "Pinned Card5_110 deploys on OPPONENTS side of table. Advisor permits it; Prepared Defenses requires table or YOUR side, despite unconditional Alter immunity."
+  ],
+  "limitations": [
+    "Setup compares offered blueprints and final pile counts, not random shuffle order. GEMP may automatically deploy a sole eligible Effect; native explicitly asks.",
+    "Flow compares actual deployments, required loss count and Effect loss, not identical private card order or full matches.",
+    "Canceled text spanning a new Deploy phase with a previous phase observation is not included. Full production admission and all existing discrepancies remain unchanged."
+  ]
+}

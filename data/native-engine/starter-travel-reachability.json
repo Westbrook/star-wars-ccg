@@ -399,7 +399,7 @@
     "lib/native-engine/definitions.ts": "ecfec7747cd2f48238e949f8205443c56ff33e518b86d47016bdbf59ad6f594b",
     "lib/native-engine/deploy-costs.ts": "89a1cbe5a927f97495f68abd872614c4bd1819bd0a4ef6834b106c85acecff98",
     "lib/native-engine/deploy-effects.ts": "2352333a4e5839c7502e60aacb57ff4b819cc66207048621db8e9cdcc67dc7ea",
-    "lib/native-engine/deployment.ts": "93363727f97ac49f26d37782d380d027c33cb437f39d5df00b942944825b9487",
+    "lib/native-engine/deployment.ts": "c9d1345fe13235bc874573f2cd755cc8f60d95305acb49160587b2f32d9f389a",
     "lib/native-engine/destiny-limits.ts": "3397fdd436216fb3f5d14b9763720420d0fbe003287b1c0c94d3f7c511f822f7",
     "lib/native-engine/destiny-response.ts": "28d68c1a9b830ce6a4091b44e6a196a4b90ec1218c15531819e2c317a7346707",
     "lib/native-engine/destiny-selection.ts": "c95c6077d360f35895a215ffb25bbcb324b97642bc94c444f593dca2058aa2b5",
@@ -471,14 +471,14 @@
     "lib/native-engine/otsd-ships.ts": "84f4f10e29c9000e4e36f49e9ec19472300a014548ebbd4dba957ba0ad17641f",
     "lib/native-engine/participation.ts": "4cdccab18a835123acb7e2cad7f06b16b1af7276d00254c4566dc384a96cc108",
     "lib/native-engine/persona.ts": "eac0acbc1cfb429f9edff74a1d7cf150c3dcc0f6b16ee3d84ffcd496d718f7c0",
-    "lib/native-engine/phase-effects.ts": "5f5bc6a8b407d9b2533e21d204ba9506d018052b42784a076352facb8b15b2f2",
+    "lib/native-engine/phase-effects.ts": "a6f45817855d7470aa14abb00664cb087c5e42de1e7ee48b341f346e9ca32f44",
     "lib/native-engine/pile-reveal.ts": "d39574ec0ba75588037d2146ffd27655d9311b2c60e1e56a932756ec387ab191",
     "lib/native-engine/pilot-deploy.ts": "53895a50cbe1f8cf78eb89495f370acea3f4a2cd4b134975ed66aee392ace302",
     "lib/native-engine/piloting.ts": "7cb2d0a9d518ed12e54c4491e8919f7b66a2eb8a28fcf5a120f4fb1911b1b03a",
     "lib/native-engine/power-droid.ts": "1becb318be54bf9f467396c88a579e7fcd0607ebf3b058cbf469aca81c30d65e",
     "lib/native-engine/power-support.ts": "003a6a88b7ab33726d63cdfd189ffd277e385d91c203a8cd4e2617fa512adc0c",
     "lib/native-engine/premiere-rules.ts": "37d7e05ceb5857909649b3b9ccf0923c2df3f04b0cf56a9413281e7fbb70860e",
-    "lib/native-engine/premiere-setup.ts": "dd63ca240a79a7abe2601fd1b1cca9feeca3000d0d9b3da4e35e1f13c4690f2e",
+    "lib/native-engine/premiere-setup.ts": "bca285b30d4969d067af11afdf2e6755a3e7c9462a51ceecb48a1454472dd57f",
     "lib/native-engine/preparation-destiny.ts": "65eb82c08526d45e8478eb87c343a8c0e212ea93badb9044b92ee439a567d617",
     "lib/native-engine/preparation-starting.ts": "0b0d4bd2056abe1989002ca7ed2992efd7b4c43d6da25194681fa6882433b828",
     "lib/native-engine/protocol-droid.ts": "b4057bd27173cd88ea96d58b1584322365ac7f3194f401e3199c108864e6a1e6",
@@ -506,7 +506,7 @@
     "lib/native-engine/space-slug.ts": "acbe32b85da9dc1809c62321b007fb3ec14514c1ae1fcb3692574c5751c6ba07",
     "lib/native-engine/stakes.ts": "e897b498a7acb941cd7c89e286c05d245a69cc3b433a4551ba7110f727ff3319",
     "lib/native-engine/starship-weapons.ts": "2dcc5aab948f116be351b6af603550921c3f0401e425bc4dfd07398b10c70992",
-    "lib/native-engine/starting-effects.ts": "36bc43f66298cc1d1d4ace7144bec3a7091b6a0df96d24f3c12f39db735e6cd5",
+    "lib/native-engine/starting-effects.ts": "c207e99d2a1a7592a6e935bde65c87ca4cd671cb621790b365b25049f787cf07",
     "lib/native-engine/starting-interrupts.ts": "359b11981e7601b7f7e373878745e92bbb878b40a91242ce13300087c2b3654e",
     "lib/native-engine/stat-modifiers.ts": "4ba087331dbe58da7a5db1e252fea5e44007f28822afa535d1f648756ec363d5",
     "lib/native-engine/state.ts": "1d853ee58ddd1ca3022eeeb9d9a182472f41d04c2ad445f04eb999d216ca10a3",
@@ -935,6 +935,21 @@
         "tests/native-engine/force-starting.test.mjs",
         "tests/native-engine/force-effects.test.mjs",
         "tests/native-engine/gemp/force-starting-provenance.json"
+      ]
+    },
+    {
+      "at": "2026-10-05T07:50:30.891193+00:00",
+      "files": [
+        "lib/native-engine/deployment.ts",
+        "lib/native-engine/phase-effects.ts",
+        "lib/native-engine/premiere-setup.ts",
+        "lib/native-engine/starting-effects.ts"
+      ],
+      "reason": "Ability, Ability, Ability5_110 is absent from the exact intro pair. Its normal free starting adapter is permitted only for Signal/Advisor, since opponent-side wording excludes Prepared Defenses. Canceled text suppresses new phase triggers and deployment observations; existing initiated actions remain independent. Deployment history adds optional inactive observer references, consumed only by this phase Effect. No movement, return or late-arrival action/permission is added to the exact pair. Production admission remains closed; all existing discrepancies retained.",
+      "evidence": [
+        "tests/native-engine/phase-starting.test.mjs",
+        "tests/native-engine/phase-effects.test.mjs",
+        "tests/native-engine/gemp/phase-starting-provenance.json"
       ]
     }
   ]

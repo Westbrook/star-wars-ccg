@@ -1,0 +1,7283 @@
+[
+  {
+    "first": "dark",
+    "piles": {
+      "dark": {
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49,
+        "hand": 8
+      },
+      "light": {
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49,
+        "hand": 8
+      }
+    },
+    "lostObservedOrder": [
+      "dark",
+      "light"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "5_110"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "5_110"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      }
+    ],
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "mode": "none",
+    "flow": {
+      "lightLost": 2,
+      "trace": [
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "113"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "0",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "3"
+            ],
+            "defaultValue": [
+              "3"
+            ]
+          },
+          "text": "Choose amount of Force to activate",
+          "answer": "1",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "88"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false"
+            ],
+            "actionText": [
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "cardId": [
+              "127",
+              "128",
+              "129",
+              "130",
+              "131",
+              "132",
+              "133",
+              "134"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Battle action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Battle action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Move action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Move action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Draw card into hand from Force Pile"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "113"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Draw action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Draw action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "30"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "4"
+            ],
+            "defaultValue": [
+              "4"
+            ]
+          },
+          "text": "Choose amount of Force to activate",
+          "answer": "1",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "39"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false"
+            ],
+            "actionText": [
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "cardId": [
+              "135",
+              "136",
+              "137",
+              "138",
+              "139",
+              "140",
+              "141",
+              "142"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "FORCE_LOSS_INITIATED - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "FORCE_LOSS_INITIATED - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "min": [
+              "1"
+            ],
+            "max": [
+              "1"
+            ],
+            "cardId": [
+              "39",
+              "30",
+              "135",
+              "136",
+              "137",
+              "138",
+              "139",
+              "140",
+              "141",
+              "142"
+            ]
+          },
+          "text": "Choose Force to lose",
+          "answer": "39",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "min": [
+              "1"
+            ],
+            "max": [
+              "1"
+            ],
+            "cardId": [
+              "20",
+              "30",
+              "135",
+              "136",
+              "137",
+              "138",
+              "139",
+              "140",
+              "141",
+              "142"
+            ]
+          },
+          "text": "Choose Force to lose",
+          "answer": "20",
+          "side": "light"
+        }
+      ],
+      "effectLost": false,
+      "deployed": []
+    }
+  },
+  {
+    "first": "dark",
+    "piles": {
+      "dark": {
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49,
+        "hand": 8
+      },
+      "light": {
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49,
+        "hand": 8
+      }
+    },
+    "lostObservedOrder": [
+      "dark",
+      "light"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "5_110"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "5_110"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      }
+    ],
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "mode": "light",
+    "flow": {
+      "lightLost": 0,
+      "trace": [
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "110"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "0",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "3"
+            ],
+            "defaultValue": [
+              "3"
+            ]
+          },
+          "text": "Choose amount of Force to activate",
+          "answer": "1",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "81"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false"
+            ],
+            "actionText": [
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "cardId": [
+              "127",
+              "128",
+              "130",
+              "131",
+              "132",
+              "133",
+              "134"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Battle action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Battle action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Move action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Move action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Draw card into hand from Force Pile"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "110"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Draw action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Draw action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "37"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "4"
+            ],
+            "defaultValue": [
+              "4"
+            ]
+          },
+          "text": "Choose amount of Force to activate",
+          "answer": "1",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "26"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false"
+            ],
+            "actionText": [
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "cardId": [
+              "135",
+              "136",
+              "137",
+              "138",
+              "139",
+              "140",
+              "141",
+              "142"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "1"
+            ],
+            "cardId": [
+              "121",
+              "122"
+            ]
+          },
+          "text": "Choose where to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_28\u0027\u003eRebel Trooper\u003c/div\u003e, or click \u0027Done\u0027 to cancel",
+          "answer": "121",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "light"
+        }
+      ],
+      "effectLost": true,
+      "deployed": [
+        "light"
+      ]
+    }
+  },
+  {
+    "first": "dark",
+    "piles": {
+      "dark": {
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49,
+        "hand": 8
+      },
+      "light": {
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49,
+        "hand": 8
+      }
+    },
+    "lostObservedOrder": [
+      "dark",
+      "light"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_291"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "On which side of \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_291\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Docking Bay 94\u003c/div\u003e do you want to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_132\u0027 data-horizontal\u003d\u0027true\u0027\u003e•Tatooine: Lars\u0027 Moisture Farm\u003c/div\u003e",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "Left",
+            "Right"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "5_110"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "5_110"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      }
+    ],
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "mode": "both",
+    "flow": {
+      "lightLost": 0,
+      "trace": [
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "84"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "0",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "3"
+            ],
+            "defaultValue": [
+              "3"
+            ]
+          },
+          "text": "Choose amount of Force to activate",
+          "answer": "1",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "99"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false"
+            ],
+            "actionText": [
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "cardId": [
+              "127",
+              "128",
+              "129",
+              "130",
+              "131",
+              "132",
+              "133",
+              "134"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "0",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "1"
+            ],
+            "cardId": [
+              "121",
+              "122"
+            ]
+          },
+          "text": "Choose where to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_194\u0027\u003eStormtrooper\u003c/div\u003e, or click \u0027Done\u0027 to cancel",
+          "answer": "121",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Battle action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Battle action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Move action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Move action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Draw action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Draw action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "RECIRCULATED - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "RECIRCULATED - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "34"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "4"
+            ],
+            "defaultValue": [
+              "4"
+            ]
+          },
+          "text": "Choose amount of Force to activate",
+          "answer": "1",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "56"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false"
+            ],
+            "actionText": [
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "cardId": [
+              "135",
+              "136",
+              "137",
+              "138",
+              "139",
+              "140",
+              "141",
+              "142"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "1"
+            ],
+            "cardId": [
+              "121",
+              "122"
+            ]
+          },
+          "text": "Choose where to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_28\u0027\u003eRebel Trooper\u003c/div\u003e, or click \u0027Done\u0027 to cancel",
+          "answer": "121",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "light"
+        }
+      ],
+      "effectLost": false,
+      "deployed": [
+        "light",
+        "dark"
+      ]
+    }
+  },
+  {
+    "first": "light",
+    "piles": {
+      "dark": {
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49,
+        "hand": 8
+      },
+      "light": {
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49,
+        "hand": 8
+      }
+    },
+    "lostObservedOrder": [
+      "light",
+      "dark"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "5_110"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "5_110"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      }
+    ],
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "mode": "none",
+    "flow": {
+      "lightLost": 2,
+      "trace": [
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "25"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "3"
+            ],
+            "defaultValue": [
+              "3"
+            ]
+          },
+          "text": "Choose amount of Force to activate",
+          "answer": "1",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "58"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false"
+            ],
+            "actionText": [
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "cardId": [
+              "127",
+              "128",
+              "129",
+              "130",
+              "131",
+              "132",
+              "133",
+              "134"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "FORCE_LOSS_INITIATED - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "FORCE_LOSS_INITIATED - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "min": [
+              "1"
+            ],
+            "max": [
+              "1"
+            ],
+            "cardId": [
+              "58",
+              "25",
+              "127",
+              "128",
+              "129",
+              "130",
+              "131",
+              "132",
+              "133",
+              "134"
+            ]
+          },
+          "text": "Choose Force to lose",
+          "answer": "58",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_LOSE_FORCE_NOT_FROM_BATTLE_DAMAGE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "min": [
+              "1"
+            ],
+            "max": [
+              "1"
+            ],
+            "cardId": [
+              "40",
+              "25",
+              "127",
+              "128",
+              "129",
+              "130",
+              "131",
+              "132",
+              "133",
+              "134"
+            ]
+          },
+          "text": "Choose Force to lose",
+          "answer": "40",
+          "side": "light"
+        }
+      ],
+      "effectLost": false,
+      "deployed": []
+    }
+  },
+  {
+    "first": "light",
+    "piles": {
+      "dark": {
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49,
+        "hand": 8
+      },
+      "light": {
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49,
+        "hand": 8
+      }
+    },
+    "lostObservedOrder": [
+      "light",
+      "dark"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "5_110"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "5_110"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      }
+    ],
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "mode": "light",
+    "flow": {
+      "lightLost": 0,
+      "trace": [
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "48"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "3"
+            ],
+            "defaultValue": [
+              "3"
+            ]
+          },
+          "text": "Choose amount of Force to activate",
+          "answer": "1",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "26"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false"
+            ],
+            "actionText": [
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "cardId": [
+              "127",
+              "128",
+              "129",
+              "130",
+              "131",
+              "132",
+              "133",
+              "134"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "1"
+            ],
+            "cardId": [
+              "122"
+            ]
+          },
+          "text": "Choose where to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_28\u0027\u003eRebel Trooper\u003c/div\u003e, or click \u0027Done\u0027 to cancel",
+          "answer": "122",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "light"
+        }
+      ],
+      "effectLost": true,
+      "deployed": [
+        "light"
+      ]
+    }
+  },
+  {
+    "first": "light",
+    "piles": {
+      "dark": {
+        "lost": [
+          "6_160"
+        ],
+        "reserve": 49,
+        "hand": 8
+      },
+      "light": {
+        "lost": [
+          "6_77"
+        ],
+        "reserve": 49,
+        "hand": 8
+      }
+    },
+    "lostObservedOrder": [
+      "light",
+      "dark"
+    ],
+    "immune": false,
+    "effects": true,
+    "trace": [
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "light",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "MULTIPLE_CHOICE",
+        "side": "dark",
+        "text": "Select OK to start game",
+        "parameters": {
+          "defaultIndex": [
+            "-1"
+          ],
+          "results": [
+            "OK"
+          ]
+        },
+        "answer": "0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "true"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "1_132"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting location",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "2_143"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_77"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "none",
+          "light": "none"
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose starting interrupt",
+        "parameters": {
+          "horizontal": [
+            "false"
+          ],
+          "min": [
+            "0"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null"
+          ],
+          "preselected": [
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0"
+          ],
+          "selectable": [
+            "true"
+          ],
+          "testingText": [
+            "null"
+          ],
+          "blueprintId": [
+            "6_160"
+          ],
+          "cardText": [
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "102_1",
+            "102_1"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "light",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "102_1",
+            "102_1"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      },
+      {
+        "revealed": {
+          "dark": "6_160",
+          "light": "6_77",
+          "eligible": [
+            "5_110",
+            "5_110"
+          ]
+        },
+        "type": "ARBITRARY_CARDS",
+        "side": "dark",
+        "text": "Choose card to deploy from Reserve Deck",
+        "parameters": {
+          "horizontal": [
+            "false",
+            "false"
+          ],
+          "min": [
+            "1"
+          ],
+          "max": [
+            "1"
+          ],
+          "backSideTestingText": [
+            "null",
+            "null"
+          ],
+          "preselected": [
+            "false",
+            "false"
+          ],
+          "returnAnyChange": [
+            "false"
+          ],
+          "cardId": [
+            "temp0",
+            "temp1"
+          ],
+          "selectable": [
+            "true",
+            "true"
+          ],
+          "testingText": [
+            "null",
+            "null"
+          ],
+          "blueprintId": [
+            "5_110",
+            "5_110"
+          ],
+          "cardText": [
+            "",
+            ""
+          ]
+        },
+        "answer": "temp0"
+      }
+    ],
+    "three": false,
+    "table": [
+      "102_1",
+      "5_110"
+    ],
+    "mode": "both",
+    "flow": {
+      "lightLost": 0,
+      "trace": [
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "57"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "3"
+            ],
+            "defaultValue": [
+              "3"
+            ]
+          },
+          "text": "Choose amount of Force to activate",
+          "answer": "1",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false"
+            ],
+            "actionText": [
+              "Activate Force"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null"
+            ],
+            "cardId": [
+              "16"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Activate action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Control action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false",
+              "false"
+            ],
+            "actionText": [
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy",
+              "Deploy"
+            ],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "cardId": [
+              "127",
+              "128",
+              "129",
+              "130",
+              "131",
+              "132",
+              "133",
+              "134"
+            ],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7"
+            ],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null",
+              "null"
+            ],
+            "blueprintId": [
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay",
+              "inPlay"
+            ],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "0",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "min": [
+              "0"
+            ],
+            "max": [
+              "1"
+            ],
+            "cardId": [
+              "122"
+            ]
+          },
+          "text": "Choose where to deploy \u003cdiv class\u003d\u0027cardHint\u0027 value\u003d\u00271_28\u0027\u003eRebel Trooper\u003c/div\u003e, or click \u0027Done\u0027 to cancel",
+          "answer": "122",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "Use 1 Force - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "ABOUT_TO_BE_LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "LOST_FROM_TABLE - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "true"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "false"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "false"
+            ]
+          },
+          "text": "PLAY - Optional responses",
+          "answer": "",
+          "side": "light"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "false"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "dark"
+        },
+        {
+          "parameters": {
+            "horizontal": [],
+            "actionText": [],
+            "noPass": [
+              "false"
+            ],
+            "backSideTestingText": [],
+            "cardId": [],
+            "yourTurn": [
+              "true"
+            ],
+            "noLongDelay": [
+              "false"
+            ],
+            "actionId": [],
+            "autoPassEligible": [
+              "true"
+            ],
+            "testingText": [],
+            "blueprintId": [],
+            "revertEligible": [
+              "true"
+            ]
+          },
+          "text": "Choose Deploy action or Pass",
+          "answer": "",
+          "side": "light"
+        }
+      ],
+      "effectLost": true,
+      "deployed": [
+        "light"
+      ]
+    }
+  }
+]

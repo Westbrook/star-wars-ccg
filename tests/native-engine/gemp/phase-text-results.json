@@ -1,0 +1,26 @@
+[
+  {
+    "name": "suppressed",
+    "loss": 0.0,
+    "effectLost": false,
+    "phase": "BATTLE"
+  },
+  {
+    "name": "suppressed-outnumbered",
+    "loss": 0.0,
+    "effectLost": false,
+    "phase": "BATTLE"
+  },
+  {
+    "name": "restore-after-deploy",
+    "loss": 2.0,
+    "effectLost": false,
+    "phase": "DEPLOY"
+  },
+  {
+    "name": "restore-no-deploy",
+    "loss": 2.0,
+    "effectLost": false,
+    "phase": "DEPLOY"
+  }
+]
