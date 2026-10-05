@@ -82,3 +82,13 @@ test('a deployment observed before text cancellation remains observed when text 
 test('canceled text stops new triggers but not an already initiated phase loss',()=>{const f=ready();f.m=seek(f.m,m=>ids(m).some(id=>id.startsWith('phase-effect:loss:')));f.m=step(f.m,ids(f.m)[0]);module('game-text').suppressGameText(f.m,f.site,f.effect);assert.equal(finish(f).loss,2);});
 test('outnumbered Effect is lost after its text returns',()=>{const f=ready();module('game-text').suppressGameText(f.m,f.site,f.effect);deploy(f);deploy(f);assert.equal(f.m.cards[f.effect].zone,'table');f.m.data.gameTextSuppressions=[];assert.ok(ids(f.m).some(id=>id.startsWith('phase-effect:lost:')));f.m=settled(step(f.m,ids(f.m)[0]));assert.equal(f.m.cards[f.effect].zone,'lost');});
 for(const mode of ['missing-observer','duplicate','not-array'])test('inactive deployment observation rejects '+mode,()=>{const f=ready();module('game-text').suppressGameText(f.m,f.site,f.effect);deploy(f);const d=f.m.data.deployments.at(-1);assert.equal(d.inactiveObservers[0].id,f.effect);if(mode==='missing-observer')d.inactiveObservers[0]=module('identity').referenceCard(f.m,f.m.players.light.hand[0]??f.m.players.light.reserve[0]);if(mode==='duplicate')d.inactiveObservers.push(d.inactiveObservers[0]);if(mode==='not-array')d.inactiveObservers='forged';assert.throws(()=>prompt(f.m),/deployment/);});
+
+for(const row of JSON.parse(fs.readFileSync(new URL('./gemp/phase-carry-results.json',import.meta.url))))test('previous-turn deployment never waives current penalty: '+row.name,()=>{
+ const f=ready();deploy(f);assert.equal(finish(f).loss,0);
+ const canceled=row.name==='canceled-at-start';if(canceled)module('game-text').suppressGameText(f.m,f.site,f.effect,'source');
+ f.m=phase(f.m,'deploy','dark');f.m=phase(f.m);f.m=clone(f.m);f.m.data.gameTextSuppressions=[];
+ assert.equal(deployment.deployedAbilityDuringPhase(f.m,f.effect,'light','deploy'),false);assert.equal(finish(f).loss,2);
+ // Pinned GEMP only resets its internal marker while game text is active.
+ // Keep this disagreement explicit; do not reuse a prior turn's deployment.
+ assert.equal(row.observedAfterStart,canceled);assert.equal(row.loss,canceled?0:2);
+});

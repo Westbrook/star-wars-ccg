@@ -1,0 +1,16 @@
+[
+  {
+    "name": "active-at-start",
+    "loss": 2.0,
+    "effectLost": false,
+    "phase": "DEPLOY",
+    "observedAfterStart": false
+  },
+  {
+    "name": "canceled-at-start",
+    "loss": 0.0,
+    "effectLost": false,
+    "phase": "BATTLE",
+    "observedAfterStart": true
+  }
+]

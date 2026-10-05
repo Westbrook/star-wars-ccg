@@ -1,0 +1,43 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "files": {
+    "NativeEnginePhaseEffectsMatchOracleTests.java": "580081c71c047d9ffb97a1ed38852114f384e50a4ec8fe1764d6cec100aaf553",
+    "NativeEnginePhaseCarryOracleTests.java": "37e75a0f2b6141457b9e0981cde286be77b59e4356e41062873dcc1b32a4f8f1",
+    "phase-carry-results.json": "1af1685c9aef9e88a736eda1dd776ac1686f8d1836c5725d9d9202f7bfcbfa58",
+    "complete-matches/phase-effects-battle-decks.json": "920a0d1a2fdd25bbf192e07349600224088881ab1f6ddc7f1046ada334692abd",
+    "complete-matches/phase-effects-battle.json.gz": "b85ffff33d826a3fa6807045aef203a96d22f529109366614f502be762fbfbe1"
+  },
+  "jsonSha256": "fbd70202dc8e427ebc91d3a68fde7a0daae23fbfff78a578184ec68a4232d53a",
+  "referenceDecisions": 1222,
+  "scope": "Ordinary60-card match from starting location/Interrupt/Effect choices through Life Force victory. Read-only penalty source and deployment-observation evidence; no board, pile, destiny or phase corrections.",
+  "clientPolicy": "Light declines character deployment on its first two turns, deploys up to one character on its third, then deploys freely. Dark deploys up to three characters. Battles start from the fourth Light turn onward. Legal activation, site deployment, movement, drains, draws and loss selections complete the game.",
+  "validationNotes": [
+    "Initial legal client completed a23-turn match with observed penalties. Added direct deployment-observation receipts and public loss-source getter; final fresh reference run completed24turns. No favorable-shuffle selection or manual state intervention.",
+    "Stronger receipt verification initially omitted GEMP TOP_OF_FORCE_PILE/TOP_OF_RESERVE_DECK enum variants. Added explicit mapping and reverified all pending penalties; runtime unchanged."
+  ],
+  "rules": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=23",
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=102"
+  ],
+  "differences": [
+    {
+      "id": "phase-effect-canceled-start-stale-observation",
+      "status": "open",
+      "probe": "phase-carry-results.json:canceled-at-start",
+      "reference": "Canceled text at the next opponent Deploy start prevents clearing the previous-turn internal flag. Restoring text later produces no loss, even though no card deployed during the current phase.",
+      "native": "Deployment history remains bound to current turn/phase; restoring text with no current deployment produces2 Force loss.",
+      "interpretation": "The official card checks the current opponent Deploy phase. The prior-turn flag appears to be a reference implementation artifact. Native behavior is retained, but this controlled discrepancy is not claimed as conformance or admitted production reachability."
+    }
+  ],
+  "limitations": [
+    "Single exact game and deck profile, not all branches or full catalog certification.",
+    "The two carry probes use controlled fixture placements and a synthetic production cancellation modifier; separate from the ordinary complete match.",
+    "Full native production admission remains closed; every prior discrepancy remains open."
+  ],
+  "nativeCommands": 1752,
+  "comparedCheckpoints": 176,
+  "turns": 24,
+  "winner": "light"
+}

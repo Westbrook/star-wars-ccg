@@ -3546,3 +3546,40 @@ This is one exact complete game, not all reachable combinations. It contains no
 Sense cancellation of these searches; the earlier actual component cancellation
 checks remain separate. The full-engine goal, wider Effect deployment adapters,
 other card families and outstanding rule discrepancies remain unfinished.
+
+### Ability, Ability, Ability: starts and continuous matches
+
+`5_110` uses its real free Effect deployment during Twi'lek Advisor setup. It is
+excluded from Prepared Defenses: immunity to Alter does not override its printed
+opponent-side deployment wording. Canceled game text suppresses new triggers and
+successful-deployment observations; restoring text does not retroactively observe
+a deployment. Already initiated losses remain independent of their source.
+`phase-starting-provenance.json` records eight ordinary starting setups, six
+setup-to-first-Light-Battle flows and four separate canceled-text comparisons.
+
+The `phase-effects-battle-v1` complete-game receipt records 1,222 real GEMP
+client decisions and replays 1,752 native commands through the same turn-24 Light
+Life Force victory, matching 176 exact checkpoints. The actual loss source is
+read from GEMP's `LoseForceEffect`; its live deployment flag is also recorded.
+Light pays two separate two-Force penalties, then avoids a penalty by deploying,
+and later removes the Effect by controlling more cards with ability. Native
+replay verifies pending loss source/amount, actual pile transitions and exact
+continuing match state. Twelve browser continuations use HTTP/service/SQLite D1
+at 1440, 834 and 390 pixels, including pending/resolved refresh from both seats.
+
+The client deliberately declines Light character deployment on its first two
+turns, limits its third turn to one character, and then deploys freely. Dark
+keeps up to three characters. This exercises the card through legal decisions,
+without changing shuffled hands, piles, phases, board state or destiny results.
+The receipt binds exact decks, exporter, trace and 6,820 unchanged pinned GEMP
+production files. It proves this game, not every branch or full admission.
+
+A separate controlled probe found an unresolved GEMP discrepancy when text is
+canceled at the start of a later Deploy phase. GEMP retains its previous-turn
+observation flag, and restoring text later waives the current penalty despite
+no current deployment. Native history remains bound to the current turn and
+phase, consistent with the card's phase-specific condition. See
+`phase-effects-match-provenance.json` and `phase-carry-results.json`: the ordinary
+match agrees; the controlled canceled-start branch does not. Do not count that
+branch as conformance or admit its broader reachability. All previous differences,
+remaining card families and full-engine requirements remain outstanding.
