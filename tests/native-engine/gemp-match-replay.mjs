@@ -14,11 +14,13 @@ const ability=load(new URL('../../lib/native-engine/ability.ts',import.meta.url)
 const losses=load(new URL('../../lib/native-engine/loss.ts',import.meta.url));
 const combat=load(new URL('../../lib/native-engine/battle.ts',import.meta.url));
 const {premiereLocations}=load(new URL('../../lib/native-engine/premiere-setup.ts',import.meta.url));
+const identities=JSON.parse(fs.readFileSync(new URL('../../data/native-engine/identities.json',import.meta.url)));
+const isSaber=bp=>identities[bp]?.keywords.includes('LIGHTSABER');
 const copy=x=>JSON.parse(JSON.stringify(x));
 const phases=['activate','control','deploy','battle','move','draw'];
 
 /** Encode a recorded lawful shuffle as Fisher-Yates choices. This supplies only
- * setup entropy: no card/pile changes are made after setup or during replay. */
+ * shuffle entropy: no direct card/pile corrections are made during replay. */
 export function shuffleEntropy(before,after){
  assert.deepEqual([...before].sort(),[...after].sort());
  const working=[...before],values=[];
@@ -53,6 +55,10 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
+ if(kind==='mentor-search'){
+  const i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Missing search action answer');assert.equal(row.parameters.actionText[i].toLowerCase(),'take lightsaber into hand from reserve deck');assert.ok(row.state.players[row.semantic.side].hand.includes(row.semantic.card));return;
+ }
+
  if(kind==='obi-use'){
   const i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Missing Obi-Wan action answer');
   assert.equal(row.parameters.actionText[i].toLowerCase(),'make a character move away or be lost','Wrong Obi-Wan action');
@@ -164,6 +170,31 @@ export function assertInterruptTargets(rows,index,cards){
  return s.targets;
 }
 
+/** A search result and reshuffle belong to this exact paid Interrupt. The
+ * observer reads physical identities from GEMP's actual private choice; pile
+ * order is reproduced later with legal entropy, never by replacing state. */
+export function assertSearchEvidence(rows,index,cards,final){
+ const row=rows[index],s=row?.semantic,o=row?.searchOutcome;assert.equal(s?.kind,'mentor-search');assertReferenceAction(row);assert.equal(cards[s.card]?.blueprint,'1_82');assert.equal(cards[s.card]?.owner,s.side);
+ assert.ok(o&&o.source===s.card,'Search completion source differs');assert.ok(Number.isSafeInteger(o.afterDecision)&&o.afterDecision>=index&&o.afterDecision<rows.length,'Invalid search outcome boundary');
+ const before=row.state.players[s.side],branch=rows.slice(index+1,o.afterDecision+1),after=rows[o.afterDecision+1]?.state??final;
+ assert.ok(branch.every(r=>!r.semantic||['pass','search-selection','search-verify'].includes(r.semantic.kind)),'Search completion crosses another action');
+ const selections=branch.filter(r=>r.semantic?.kind==='search-selection'),verifications=branch.filter(r=>r.semantic?.kind==='search-verify'),selected=row.selection?.card;
+ const pile=before.reserve.map(id=>cards[id].blueprint).sort();
+ const checkPacket=r=>{assert.equal(r.type,'ARBITRARY_CARDS');assert.deepEqual([...r.parameters.blueprintId].sort(),pile,'Private search packet differs from Reserve contents');assert.equal(r.semantic.initiation,index,'Search choice borrowed another action');assert.deepEqual(r.state.players[s.side].reserve,before.reserve,'Reserve changed before selection');};
+ if(selected){
+  assert.equal(selections.length,1);assert.equal(verifications.length,0);const c=selections[0],p=row.selection;checkPacket(c);assert.equal(c.semantic.card,selected);assert.equal(c.semantic.side,s.side);assert.equal(p.atDecision,rows.indexOf(c));assert.equal(c.text,'Choose card to take into hand');assert.equal(p.answer,c.answer);assert.equal(p.blueprint,cards[selected]?.blueprint);assert.ok(isSaber(p.blueprint)&&before.reserve.includes(selected),'Selected card is not a lightsaber in Reserve');
+  assert.deepEqual(c.parameters.min,['1']);assert.deepEqual(c.parameters.max,['1']);const j=c.parameters.cardId.indexOf(c.answer);assert.ok(j>=0,'Search answer missing');assert.equal(c.parameters.selectable[j],'true');assert.equal(c.parameters.blueprintId[j],p.blueprint);
+  for(let k=0;k<c.parameters.cardId.length;k++)assert.equal(c.parameters.selectable[k],String(!!isSaber(c.parameters.blueprintId[k])),'Incorrect selectable lightsaber');
+ }else{
+  assert.equal(selections.length,0);assert.equal(verifications.length,2);assert.ok(before.reserve.every(id=>!isSaber(cards[id].blueprint)),'Failed search contained an eligible lightsaber');assert.deepEqual(verifications.map(r=>r.semantic.side).sort(),['dark','light']);
+  for(const c of verifications){checkPacket(c);assert.equal(c.semantic.card,s.card);assert.equal(c.text,"Verify Reserve Deck after unsuccessful attempt to 'Choose card to take into hand'");assert.equal(c.answer,'');assert.deepEqual(c.parameters.min,['0']);assert.deepEqual(c.parameters.max,['0']);assert.ok(c.parameters.selectable.every(v=>v==='false'));}
+ }
+ assert.ok(before.force.length>0,'Search cost requires Force');assert.deepEqual(after.players[s.side].force,before.force.slice(1),'Search must use exactly one Force');assert.deepEqual(after.players[s.side].used,[before.force[0],...before.used],'Search payment must enter Used in order');
+ const remaining=before.reserve.filter(id=>id!==selected);assert.deepEqual([...o.reserve].sort(),[...remaining].sort(),'Shuffle changes card membership');assert.equal(new Set(o.reserve).size,o.reserve.length);
+ const hand=[...before.hand.filter(id=>id!==s.card),...(selected?[selected]:[])].sort();assert.deepEqual([...o.hand].sort(),hand,'Search hand change differs');assert.deepEqual(after.players[s.side].reserve,o.reserve,'Shuffle not observed immediately');assert.deepEqual([...after.players[s.side].hand].sort(),hand);assert.ok(after.players[s.side].lost.includes(s.card),'Search Interrupt has not finished');
+ return {source:s.card,side:s.side,selected,order:o.reserve,selectionIndex:selected?row.selection.atDecision:null,verificationIndices:verifications.map(r=>rows.indexOf(r)),afterDecision:o.afterDecision};
+}
+
 /** Bind Obi-Wan's opponent choice and immediate outcome to the selected
  * primary target. Never infer a route or casualty from a later battle. */
 export function assertObiOutcome(rows,index,cards,final){
@@ -227,7 +258,7 @@ export function inspectionChoice(rows,index,canMove){
 export function replayGempMatch(record,{onCheckpoint}={}){
  assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7,8].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
- const profiles={'mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
+ const profiles={'search-battle-v1':'search-battle-decks.json','mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
  if(record.deckProfile!==undefined)assert.ok(Object.hasOwn(profiles,record.deckProfile),'Unknown fixed reference deck profile');
  const profile=record.deckProfile===undefined?null:JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/'+profiles[record.deckProfile],import.meta.url)));
  if(profile)assert.equal(record.deckProfile,profile.id,'Unknown fixed reference deck profile');
@@ -235,9 +266,22 @@ export function replayGempMatch(record,{onCheckpoint}={}){
  const auditRules=profile?{...starterRules,supports:bp=>decks.some(d=>d.cards.includes(bp)),starting:{...starterRules.starting,ordinarySetup:m=>Object.values(m.cards).every(c=>decks.some(d=>d.side===c.owner&&d.cards.includes(c.blueprint)))}}:starterRules;
  assert.deepEqual(Object.fromEntries(decks.map(d=>[d.side,d.cards])),record.decks);
  let m=runtime.createMatch('gemp-complete-match',60,decks,auditRules),commands=0,checkpoints=0;
- const transcript=[];
+ const transcript=[],searchPlans=new Map();
  const prompt=()=>{const p=runtime.prompt(m,auditRules,'dark');return p?.choices.length?p:runtime.prompt(m,auditRules,'light');};
- function command(choice,entropy=()=>0){const p=prompt();const c={revision:m.revision,choice};m=runtime.applyCommand(copy(m),auditRules,p.side,c,entropy,1800000000000+commands++);transcript.push({side:p.side,...c});}
+ function command(choice,suppliedEntropy){
+  const p=prompt(),c={revision:m.revision,choice},values=[];let shuffle=null,expected=null,used=0;
+  const entropy=suppliedEntropy??(()=>{
+   if(!shuffle){
+    const pending=[...m.stack].reverse().find(f=>f.kind==='resolution'&&f.action.handler==='mentor:shuffle'||f.kind==='decision'&&f.handler==='mentor:verify');
+    assert.ok(pending,'Unexpected runtime entropy outside a verified search');const source=pending.kind==='resolution'?pending.action.payload.card:pending.payload.card;shuffle=searchPlans.get(source);assert.ok(shuffle&&!shuffle.consumed,'Unknown or repeated search shuffle');
+    const before=m.players[shuffle.side].reserve;assert.ok(!shuffle.selected||!before.includes(shuffle.selected),'Shuffle began before the selected card left Reserve');expected=shuffleEntropy(before,shuffle.order);
+   }
+   assert.ok(used<expected.length,'Extra search entropy request');const value=expected[used++];values.push(value);return value;
+  });
+  m=runtime.applyCommand(copy(m),auditRules,p.side,c,entropy,1800000000000+commands++);
+  if(shuffle){assert.equal(used,expected.length,'Incomplete search shuffle');assert.deepEqual(m.players[shuffle.side].reserve,shuffle.order);shuffle.consumed=true;}
+  transcript.push({side:p.side,...c,...(values.length?{entropy:values}:{})});
+ }
  while(m.status==='setup'){
   const p=prompt();
   if(m.setup.stage==='choose')command('select:'+record.setup.locations.find(id=>id.startsWith(p.side+'-')));
@@ -253,7 +297,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
    const p=prompt();
    if(m.turn.number===row.state.turn&&m.turn.phase===phase&&p.side===row.semantic.side){const wanted=(typeof choices==='function'?choices():choices).find(id=>p.choices.some(c=>c.id===id));if(wanted)return wanted;}
    if(m.turn.number>row.state.turn||m.turn.number===row.state.turn&&phases.indexOf(m.turn.phase)>phases.indexOf(phase))throw Error('Native passed reference action '+JSON.stringify({semantic:row.semantic,native:m.turn,prompt:p}));
-   const automatic=p.choices.find(c=>c.id==='pass')??p.choices.find(c=>c.id==='draw-destiny')??p.choices.find(c=>c.id==='continue-react')??(p.mandatory&&p.choices.length===1?p.choices[0]:null);
+   const automatic=p.choices.find(c=>c.id==='mentor:not-found')??p.choices.find(c=>c.id==='pass')??p.choices.find(c=>c.id==='draw-destiny')??p.choices.find(c=>c.id==='continue-react')??(p.mandatory&&p.choices.length===1?p.choices[0]:null);
    if(!automatic)throw Error('Unmapped native decision before '+JSON.stringify({semantic:row.semantic,frame:m.stack.at(-1),prompt:p}));
    command(automatic.id);
   }
@@ -268,8 +312,13 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     assert.deepEqual(row.parameters.min,['0']);assert.deepEqual(row.parameters.max,['0']);assert.equal(row.answer,'');
     assert.ok(row.parameters.selectable.every(v=>v==='false'));continue;
    }
+   if(s.kind==='search-verify'&&s.side===m.cards[s.card]?.owner){const proof=assertSearchEvidence(rows,s.initiation,m.cards,record.final);assert.ok(proof.verificationIndices.includes(index));continue;}
    assertReferenceAction(row);
    let choices=[];
+   if(s.kind==='mentor-search'){const proof=assertSearchEvidence(rows,index,m.cards,record.final);assert.ok(!searchPlans.has(s.card)||searchPlans.get(s.card).consumed||searchPlans.get(s.card).order.length<2,'Previous search has not shuffled');searchPlans.set(s.card,proof);choices=['mentor:play:'+s.card+':search'];}
+   if(s.kind==='search-selection'){const proof=assertSearchEvidence(rows,s.initiation,m.cards,record.final);assert.equal(proof.selectionIndex,index);choices=['mentor:take:'+proof.selected];}
+   if(s.kind==='search-verify'){const proof=assertSearchEvidence(rows,s.initiation,m.cards,record.final);assert.ok(proof.verificationIndices.includes(index));choices=['mentor:verified'];}
+
    if(s.kind==='obi-use'){
     const proof=assertObiOutcome(rows,index,m.cards,record.final);choices=['obi:use:'+s.card+':'+proof.target];
    }
@@ -363,11 +412,16 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
-   if(['obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
+   if(['mentor-search','search-selection','search-verify','obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
     // observer from changing either the reference or the continuing replay.
     onCheckpoint?.({index,row:copy(row),match:copy(m)});
+   }
+   if(s.kind==='search-selection'){
+    const source=rows[s.initiation].semantic.card,owner=s.side,frame=m.stack.at(-1);assert.equal(frame?.handler,'mentor:choose');assert.equal(frame.payload.card,source);
+    assert.equal(runtime.project(m,auditRules,owner==='light'?'dark':'light').rules.mentorSearch,null,'Opponent cannot inspect a private search');
+    assert.deepEqual(runtime.project(m,auditRules,owner).rules.mentorSearch.cards.map(c=>c.id).sort(),[...m.players[owner].reserve].sort());
    }
    if(s.kind==='inspection'){
     assert.ok(row.text.toLowerCase().startsWith('top card')&&row.text.toLowerCase().includes('reserve'));
@@ -388,6 +442,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
    const p=prompt(),next=p.choices.find(c=>c.id==='pass')??(p.mandatory&&p.choices.length===1?p.choices[0]:null);
    if(!next)throw Error('Unmapped final native decision '+JSON.stringify(p));command(next.id);
   }
+  for(const plan of searchPlans.values())assert.ok(plan.consumed||plan.order.length<2,'Verified search never consumed shuffle entropy');
   assert.equal(m.status,'finished');assert.equal(m.result.winner,record.winner);
   assert.deepEqual(normalizedCheckpoint(snapshot(m,record.final,record.snapshotVersion),m.cards),normalizedCheckpoint(record.final,m.cards));
   return {commands,checkpoints,state:m,transcript};

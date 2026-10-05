@@ -348,6 +348,12 @@
       "scope": "Custom decks outside exact intro pair: eleven Obi-Wan reactions,paired Gift Of The Mentor and named cancellation. Does not close exact-starter or full-engine admission.",
       "receipt": "tests/native-engine/gemp/mentor-match-provenance.json",
       "verification": "2273nativecommands,253matchedcheckpoints,23turns,LightLifeForcevictory;6free moves and5voluntarylosses."
+    },
+    {
+      "profile": "search-battle-v1",
+      "scope": "Custom decks outside exact intro pair: successful and failed Gift Of The Mentor searches, actual Reserve reshuffles, later lightsaber deployment and weapon attacks. Does not close exact-starter or full-engine admission.",
+      "receipt": "tests/native-engine/gemp/search-match-provenance.json",
+      "verification": "2864 native commands, 316 matched checkpoints, 35 turns, Dark Life Force victory; two retrieved sabers, three searches and eight weapon attacks."
     }
   ]
 }
