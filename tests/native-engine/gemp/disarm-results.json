@@ -1,0 +1,139 @@
+[
+  {
+    "mode": "hit",
+    "gunLost": true,
+    "operable": true,
+    "patientLost": true
+  },
+  {
+    "mode": "source-left",
+    "gunLost": true,
+    "operable": true,
+    "patientLost": true
+  },
+  {
+    "mode": "decline",
+    "gunLost": false,
+    "operable": true,
+    "patientLost": false
+  },
+  {
+    "side": "light",
+    "offered": false,
+    "mode": "no-target-gun"
+  },
+  {
+    "side": "dark",
+    "offered": false,
+    "mode": "no-target-gun"
+  },
+  {
+    "side": "light",
+    "turn": "light",
+    "mode": "normal",
+    "cost": 0,
+    "power": 0.0,
+    "gunLost": true,
+    "spareLost": false,
+    "deviceRetained": true,
+    "operable": true,
+    "patientLost": true,
+    "effectLost": true
+  },
+  {
+    "side": "light",
+    "turn": "light",
+    "mode": "two-weapons",
+    "cost": 0,
+    "power": 0.0,
+    "gunLost": true,
+    "spareLost": true,
+    "deviceRetained": true,
+    "operable": true,
+    "patientLost": true,
+    "effectLost": true
+  },
+  {
+    "side": "light",
+    "turn": "dark",
+    "mode": "normal",
+    "cost": 0,
+    "power": 0.0,
+    "gunLost": true,
+    "spareLost": false,
+    "deviceRetained": true,
+    "operable": true,
+    "patientLost": true,
+    "effectLost": true
+  },
+  {
+    "side": "light",
+    "turn": "dark",
+    "mode": "two-weapons",
+    "cost": 0,
+    "power": 0.0,
+    "gunLost": true,
+    "spareLost": true,
+    "deviceRetained": true,
+    "operable": true,
+    "patientLost": true,
+    "effectLost": true
+  },
+  {
+    "side": "dark",
+    "turn": "light",
+    "mode": "normal",
+    "cost": 0,
+    "power": 0.0,
+    "gunLost": true,
+    "spareLost": false,
+    "deviceRetained": true,
+    "operable": true,
+    "patientLost": true,
+    "effectLost": true
+  },
+  {
+    "side": "dark",
+    "turn": "light",
+    "mode": "two-weapons",
+    "cost": 0,
+    "power": 0.0,
+    "gunLost": true,
+    "spareLost": true,
+    "deviceRetained": true,
+    "operable": true,
+    "patientLost": true,
+    "effectLost": true
+  },
+  {
+    "side": "dark",
+    "turn": "dark",
+    "mode": "normal",
+    "cost": 0,
+    "power": 0.0,
+    "gunLost": true,
+    "spareLost": false,
+    "deviceRetained": true,
+    "operable": true,
+    "patientLost": true,
+    "effectLost": true
+  },
+  {
+    "side": "dark",
+    "turn": "dark",
+    "mode": "two-weapons",
+    "cost": 0,
+    "power": 0.0,
+    "gunLost": true,
+    "spareLost": true,
+    "deviceRetained": true,
+    "operable": true,
+    "patientLost": true,
+    "effectLost": true
+  },
+  {
+    "cost": 2,
+    "bonus": 2.0,
+    "mode": "pilot"
+  }
+]

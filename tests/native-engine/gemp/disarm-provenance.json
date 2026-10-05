@@ -1,0 +1,27 @@
+{
+  "referenceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "executedAt": "2026-10-05T02:01:59.445475+00:00",
+  "runtime": "maven:3.9.6-eclipse-temurin-21",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineDisarmOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "harness": "NativeEngineDisarmOracleTests.java",
+  "harnessSha256": "ebfee087ba0bf226495b157a8166f3f5dbfc94429887dbc42e3c769a1a1da118",
+  "results": "disarm-results.json",
+  "resultsSha256": "b0863434fa00011b932a2623a039955784bcfc51794195cee81ab858b61ed832",
+  "observations": 14,
+  "junitTests": 4,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": [
+    "Both Disarmed cards deploy during either Control phase, cost zero, reduce power by one and lose one or multiple weapons before the Disarmed response.",
+    "Actual optional Evazan operation on friendly or enemy Disarmed characters, and characters hit by an actual weapon attack; declining retains the hit character until later battle handling.",
+    "An initiated operation resolves after controlled source departure; attached weapons and Effects are lost with the patient.",
+    "Normal Evazan deployment as a pilot costs two Force and adds two power."
+  ],
+  "limitations": [
+    "Controlled component boards with prepared Force, attachments and weapon destiny; not complete-match GEMP conformance.",
+    "Source departure is a controlled intervention, not a demonstrated ordinary-match sequence.",
+    "Native-only persistence, CPU, identity, cancellation and browser tests are not additional GEMP observations.",
+    "Full engine remains unfinished; production native admission stays closed."
+  ]
+}

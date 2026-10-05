@@ -478,7 +478,7 @@
       "Pilot",
       "Warrior"
     ],
-    "status": "metadata-only",
+    "status": "component-coverage-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_172.java"
   },
   {
@@ -3647,5 +3647,35 @@
       "destiny": "3"
     },
     "icons": []
+  },
+  {
+    "gempId": "1_48",
+    "name": "Disarmed",
+    "side": "light",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Light/large/disarmed.gif",
+    "text": "If both players have a character with a weapon present at same site, deploy on that opponent's character during any control phase. Character loses all weapons, is power -1 and may no longer carry weapons. (Immune to Alter.)",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_048.java"
+  },
+  {
+    "gempId": "1_214",
+    "name": "Disarmed",
+    "side": "dark",
+    "type": "Effect",
+    "subType": "",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/disarmed.gif",
+    "text": "If both players have a character with a weapon present at same site, deploy on that opponent's character during any control phase. Character loses all weapons, is power -1 and may no longer carry weapons. (Immune to Alter.)",
+    "stats": {
+      "destiny": "5"
+    },
+    "icons": [],
+    "status": "component-coverage-only",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_214.java"
   }
 ]

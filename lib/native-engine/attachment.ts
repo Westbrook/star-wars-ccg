@@ -1,3 +1,5 @@
+import {cardDefinition} from './definitions';
+import {canCarryWeapon} from './weapon-carrying';
 import {assertCardReference, referenceCard, sameCard, type CardReference} from './identity';
 import type {Match} from './types';
 
@@ -7,7 +9,7 @@ export function attachmentAttempt(m: Match, card: string, host: string): Attachm
   return {cardRef: referenceCard(m, card), hostRef: referenceCard(m, host), transfer: m.cards[card].zone === 'table', fromHost: m.cards[card].attachedTo ?? null};
 }
 export function validAttachmentAttempt(m: Match, a: AttachmentAttempt): boolean {
-  return !!a && sameCard(m, a.cardRef) && sameCard(m, a.hostRef) && a.hostRef.zone === 'table' &&
+  return !!a && (cardDefinition(m,a.cardRef.id).type!=='Weapon'||canCarryWeapon(m,a.hostRef.id)) && sameCard(m, a.cardRef) && sameCard(m, a.hostRef) && a.hostRef.zone === 'table' &&
     (a.transfer ? a.cardRef.zone === 'table' && m.cards[a.cardRef.id].attachedTo === a.fromHost && m.cards[a.cardRef.id].location === m.cards[a.hostRef.id].location : a.cardRef.zone === 'playing');
 }
 export function assertAttachmentAttempt(m: Match, a: AttachmentAttempt, card: string, host: string): void {

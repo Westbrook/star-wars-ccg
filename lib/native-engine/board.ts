@@ -1,3 +1,4 @@
+import {disarmedByEffect} from './weapon-carrying';
 import {leiaPowerBonus} from './leia';
 import {corulagStatBonus,otsdDrainModifier} from './otsd-locations';
 import {otsdAlienDiscount,otsdRecruitFree} from './otsd-characters';
@@ -136,6 +137,7 @@ export function power(m: Match, id: string, defending = false, active: (id: stri
   if (attachedArmor(m,id).length) value += 2;
   if (blueprint === '9_24' && armedWithLightsaber(m,id)) value+=2;
   if (blueprint === '1_31' && site && nighttimeSites(m).includes(site)) value += 2;
+  if(disarmedByEffect(m,id))value--;
   return Math.max(0, value);
 }
 

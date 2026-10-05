@@ -2789,5 +2789,29 @@
     "uniqueness": "UNIQUE",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_232.java"
+  },
+  "1_48": {
+    "keywords": [
+      "DISARMING_CARD",
+      "DEPLOYS_ON_CHARACTERS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/light/Card1_048.java"
+  },
+  "1_214": {
+    "keywords": [
+      "DISARMING_CARD",
+      "DEPLOYS_ON_CHARACTERS"
+    ],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_214.java"
   }
 }
