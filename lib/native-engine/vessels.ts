@@ -1,3 +1,4 @@
+import {launchBay,launchBayDeployModifier} from './launch-bay';
 import {attachmentGroup,capturedShips} from './captured-ship-state';
 import {deployWithoutPresence} from './board';
 import {otsdDeployModifier} from './otsd-ships';
@@ -28,7 +29,7 @@ const hasDeployPresence=(m:Match,id:string,side:Side)=>deployWithoutPresence(m,s
 export function vesselDeploysAt(m:Match,id:string,location:string,withPilot=false,ignorePresence=false):boolean{
  const r=vesselRule(m,id);if(!r||shieldDeployment(m,id,location)||!m.locations.includes(location)||!ignorePresence&&!hasDeployPresence(m,location,m.cards[id].owner))return false;
  const d=cardDefinition(m,location),exterior=d.subType==='Site'&&(d.icons as string[]).includes('Exterior');
- return cardDefinition(m,id).type==='Starship'?(d.subType==='System'||sectorAdmits(m,id,location))&&(r.permanent>0||withPilot)||!capital(m,id)&&exterior&&bayCosts[m.cards[location].blueprint]!==undefined:(exterior||sectorAdmits(m,id,location))&&(!r.world||system(m,location)===r.world);
+ return cardDefinition(m,id).type==='Starship'?(d.subType==='System'||sectorAdmits(m,id,location))&&(r.permanent>0||withPilot)||!capital(m,id)&&exterior&&(bayCosts[m.cards[location].blueprint]!==undefined||launchBay(m,location)):(exterior||sectorAdmits(m,id,location))&&(!r.world||system(m,location)===r.world);
 }
 const trappedExit=(m:Match,id:string,host:string)=>{const c=m.cards[id],h=m.cards[host],site=h?.capturedShip?.host;return !!c&&c.zone==='inactive'&&c.owner==='light'&&c.attachedTo===host&&!!c.aboardRole&&!!site&&m.locations.includes(site)&&cardDefinition(m,site).subType==='Site'&&!presence(m,'dark',site)&&!barred(m,id)&&!h.capturedShip?.pending;};
 const action=(step:string,p:Payload,label:string,payment?:Partial<Record<Side,number>>):Action=>({id:'vessel:'+step+':'+p.card+':'+p.target.id+(p.role?':'+p.role:'')+(p.react?':react:via:'+p.grant!.id:''),handler:'vessel:'+step,source:p.card,payload:p as unknown as Json,label,...(payment?{payment}:{})});
@@ -53,7 +54,7 @@ function deployActions(m:Match,side:Side,react:Pick<Payload,'react'|'grant'|'rea
  const suffix=react.react?' as a react using '+label(m,react.grant!.id):'';
  for(const id of m.players[side].hand){
   if(!canPlayCard(m,id)||react.react&&!canDeployAsReact(m,id))continue;
-  if(vesselRule(m,id))for(const target of (site?[site]:m.locations).filter(target=>vesselDeploysAt(m,id,target))){const cost=Math.max(0,deployValue(m,id)+bespinDeployModifier(m,id,target)+hothDeployModifier(m,id,target)+otsdDeployModifier(m,id,target));if(cost<=m.players[side].force.length)out.push(action('deploy',{card:id,target:referenceCard(m,target),...react},'Deploy '+label(m,id)+' to '+label(m,target)+suffix,{[side]:cost}));}
+  if(vesselRule(m,id))for(const target of (site?[site]:m.locations).filter(target=>vesselDeploysAt(m,id,target))){const cost=Math.max(0,deployValue(m,id)+bespinDeployModifier(m,id,target)+hothDeployModifier(m,id,target)+otsdDeployModifier(m,id,target)+launchBayDeployModifier(m,id,target));if(cost<=m.players[side].force.length)out.push(action('deploy',{card:id,target:referenceCard(m,target),...react},'Deploy '+label(m,id)+' to '+label(m,target)+suffix,{[side]:cost}));}
   if(cardDefinition(m,id).type==='Character')for(const host of hosts){const pay=deploymentPayment(m,id,host.location!,true);if(!pay||Object.entries(pay).some(([s,n])=>m.players[s as Side].force.length<n!))continue;for(const role of roles.filter(role=>roleAvailable(m,host.id,id,role)))out.push(action('aboard',{card:id,target:referenceCard(m,host.id),role,...react},'Deploy '+label(m,id)+' aboard '+label(m,host.id)+' as '+role+suffix,pay));}
  }return out;
 }

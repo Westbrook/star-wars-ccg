@@ -1,3 +1,4 @@
+import {captureDestinations} from './ship-sites';
 import {cardDefinition} from './definitions';
 import {name} from './board';
 import {isModel} from './characteristics';
@@ -76,17 +77,24 @@ export function tractorBeamResolve(m:Match,r:Resolution):void {
    queue(m,p,'capture');openWindow(m,'response','light',{kind:'about-to-capture',card:p.target!.id,cardRef:p.target!,source:p.card.id} as unknown as Json);
   }
  }else if(h==='tractor:capture'){
-  if(sameCard(m,p.target!)&&sameCard(m,p.host)&&sameCard(m,p.card)&&m.cards[p.card.id].attachedTo===p.host.id&&targetEligible(m,p.target!.id,firingLocation(m,p)!))captureStarship(m,p.target!.id,p.host.id);
+  if(sameCard(m,p.target!)&&sameCard(m,p.host)&&sameCard(m,p.card)&&m.cards[p.card.id].attachedTo===p.host.id&&targetEligible(m,p.target!.id,firingLocation(m,p)!)){
+   const choices=captureDestinations(m,p.host.id);
+   if(choices.length===1)captureStarship(m,p.target!.id,choices[0]);
+   else m.stack.push({kind:'decision',side:'dark',handler:'tractor:custody',payload:p as unknown as Json});
+  }
  }else throw Error('Unknown Tractor Beam continuation.');
 }
 export function tractorBeamChoices(m:Match,d:Decision){
  const p=d.payload as unknown as Payload;
+ if(d.handler==='tractor:custody')return (p.target&&sameCard(m,p.target)&&sameCard(m,p.host)&&sameCard(m,p.card)&&m.cards[p.card.id].attachedTo===p.host.id&&targetEligible(m,p.target.id,firingLocation(m,p)!)?captureDestinations(m,p.host.id):[]).map((id,i,a)=>({id:'tractor:custody:'+id,label:'Hold '+name(m,p.target!.id)+' at '+name(m,id)+(a.length>1?' · bay '+(i+1)+' of '+a.length:'')}));
  const targets=sameCard(m,p.card)&&sameCard(m,p.host)&&m.cards[p.card.id].attachedTo===p.host.id&&m.players.dark.force.length>=2?Object.values(m.cards).filter(t=>targetEligible(m,t.id,firingLocation(m,p)!)):[];
  return targets.map(t=>({id:'tractor:target:'+t.id,label:'Target '+name(m,t.id)+' · use 2 Force'}));
 }
 export function tractorBeamChoose(m:Match,d:Decision,choice:string):void {
  if(!tractorBeamChoices(m,d).some(c=>c.id===choice))throw Error('Invalid Tractor Beam target.');
- const p=d.payload as unknown as Payload,target=choice.slice('tractor:target:'.length);
+ const p=d.payload as unknown as Payload;
+ if(d.handler==='tractor:custody'){captureStarship(m,p.target!.id,choice.slice('tractor:custody:'.length));return;}
+ const target=choice.slice('tractor:target:'.length);
  const r:Resolution={kind:'resolution',actor:'dark',cancelled:false,awaitingResponses:true,action:{...action('fire',{...p,target:referenceCard(m,target)}),payment:{dark:2}}};
  m.stack.push(r);queueForcePayment(m,r,{dark:2});
 }
@@ -95,8 +103,8 @@ export function assertTractorBeams(m:Match):void {
  if(!Array.isArray(records)||new Set(records.map(u=>u.window+':'+u.card?.id+':'+u.card?.version)).size!==records.length)throw Error('Invalid Tractor Beam trigger use.');
  for(const u of records){assertCardReference(m,u.card);if(!Number.isSafeInteger(u.window)||u.window<1||u.window>m.serial||u.card.zone!=='table'||!beamCard(m,u.card.id))throw Error('Invalid Tractor Beam trigger history.');}
  for(const frame of m.stack)if(frame.kind==='resolution'&&frame.action.handler.startsWith('tractor:')||frame.kind==='decision'&&frame.handler.startsWith('tractor:')){
-  if(frame.kind==='decision'&&(frame.handler!=='tractor:target'||frame.side!=='dark'||!tractorBeamChoices(m,frame).length))throw Error('Invalid Tractor Beam targeting decision.');
-  const f:Resolution=frame.kind==='resolution'?frame:{kind:'resolution',actor:frame.side,cancelled:false,action:action('use',frame.payload as unknown as Payload)};
+  if(frame.kind==='decision'&&(!['tractor:target','tractor:custody'].includes(frame.handler)||frame.side!=='dark'||!tractorBeamChoices(m,frame).length))throw Error('Invalid Tractor Beam targeting decision.');
+  const f:Resolution=frame.kind==='resolution'?frame:{kind:'resolution',actor:frame.side,cancelled:false,action:action(frame.handler==='tractor:custody'?'capture':'use',frame.payload as unknown as Payload)};
   const p=f.action.payload as unknown as Payload,h=f.action.handler;
   if(!p||!['deploy','use','fire','draw','result','capture'].some(step=>h==='tractor:'+step)||f.actor!=='dark'||!beamCard(m,p.card?.id)||f.action.source!==p.card.id||f.action.id!==action(h.slice(8),p).id)throw Error('Invalid Tractor Beam action.');
   assertCardReference(m,p.card);assertCardReference(m,p.host);

@@ -1,0 +1,246 @@
+{
+  "schema": 1,
+  "auditedAt": "2026-10-05T11:17:43.660689+00:00",
+  "baseCommit": "ae5903574ad4c720b73694cff32558c6975966f0",
+  "scope": "Read-only audit of shortest verified route to a released complete native match. This is a milestone within the full-engine objective, not a reduction in scope or an admission certificate.",
+  "verification": "Code and stored receipt inspection only. No new runtime, browser, oracle or broad test run was performed. Concurrent ship-site implementation is uncommitted and not treated as completed evidence.",
+  "productionAdmission": "closed",
+  "exactPair": {
+    "source": "data/native-proof/manifest.json",
+    "definitions": 68,
+    "decks": [
+      {
+        "id": "intro-light",
+        "side": "light",
+        "size": 60,
+        "definitions": 33,
+        "orderedBlueprintsSha256": "49c5ec2c109f8edb1cfa7b9a471d5bb60301e78e1e60574565232cfe95541707"
+      },
+      {
+        "id": "intro-dark",
+        "side": "dark",
+        "size": 60,
+        "definitions": 35,
+        "orderedBlueprintsSha256": "277059fa0f510581ec4c59ba2f392ed6da9522e581a761706fc61815ac0063ec"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "priority": 1,
+      "id": "failed-obsession",
+      "classification": "demonstrated reachable starter rule guard",
+      "evidence": [
+        "lib/native-engine/duel.ts:116",
+        "lib/native-engine/duel.ts:130",
+        "tests/native-engine/duel.test.mjs:93",
+        "tests/native-engine/gemp/duel-provenance.json",
+        "tests/native-engine/gemp/NativeEngineDuelOracleTests.java",
+        "tests/native-engine/gemp/duel-results.json"
+      ],
+      "finding": "When exactly one side has no successful duel destiny, the official failed-draw winner is represented but Force difference is null and resolution throws. Empty Reserve does not imply no Life Force. Pinned GEMP winner differs in one direction, so copying its amount blindly is not justified.",
+      "next": "Resolve the official numerical difference and failed-draw semantics, preserve any documented GEMP divergence, implement and test both failing sides, both failed, partial draw, canceled destiny, retrieval/loss responses and save recovery. Reuse existing oracle before generating additional full-match paths."
+    },
+    {
+      "priority": 2,
+      "id": "reachable-card-matrix",
+      "classification": "required verification gap",
+      "evidence": [
+        "data/native-engine/starter-coverage.json",
+        "data/native-engine/starter-readiness.json",
+        "tests/native-engine/gemp/complete-match-provenance.json:85",
+        "tests/native-engine/gemp/battle-response-match-provenance.json",
+        "tests/native-engine/gemp-match-replay.mjs:632"
+      ],
+      "finding": "All 68 starter definitions remain component-coverage-only. Full-match receipts demonstrate selected complete paths, not all legal choices/timing. The compound-card-interactions branch still aggregates the entire deck rather than naming uncovered obligations. Native randomized runs recorded no Obsession.",
+      "next": "Turn existing per-card functions into an explicit obligation matrix: action eligibility, cost, target, response/cancellation, result, identity, expiry and loss. Map each obligation to current component or whole-match evidence; mark absent providers via exact-deck reachability evidence. Add only tests for remaining material gaps, especially low-Reserve duels and combined response/loss branches. Do not run random full games merely to accumulate counts."
+    },
+    {
+      "priority": 3,
+      "id": "deck-context-admission",
+      "classification": "architecture requirement before exact-pair release",
+      "evidence": [
+        "lib/native-engine/runtime.ts:23",
+        "lib/native-engine/runtime.ts:65",
+        "lib/native-engine/service.ts:66",
+        "lib/native-engine/service.ts:202",
+        "lib/native-engine/stakes.ts:48",
+        "data/native-engine/starter-readiness.json"
+      ],
+      "finding": "Admission is currently a per-card supports predicate. Marking the 68 starter blueprints true would also allow arbitrary copy counts and mixes of those cards in custom 40/60 decks. The nested Chances exclusion relies on one physical copy per side and would cease to hold. A card allowlist cannot express exact-pair certification.",
+      "next": "After evidence closure, add a server-owned deck/pair profile admission contract with exact canonical counts and format/opponent constraints checked at creation, join and runtime construction. Keep generalized supports false until whole-card coverage is justified. Test forged/mixed/multi-copy lists, mismatched opponents, both seats and save-version behavior. Preserve custom-deck/full-catalog obligations; do not remove cards from existing starters to avoid unresolved rules."
+    },
+    {
+      "priority": 4,
+      "id": "production-match-release",
+      "classification": "integration already implemented; final release validation needed",
+      "evidence": [
+        "lib/native-engine/service.ts",
+        "lib/native-engine/http.ts",
+        "lib/native-engine/client.ts",
+        "app/matches/screen.tsx",
+        "tests/native-engine/service.test.mjs",
+        "tests/native-engine/service-d1-smoke.mjs",
+        "tests/native-engine/client-browser.mjs",
+        "tests/native-engine/match-clock.test.mjs",
+        "tests/native-engine/computer.test.mjs"
+      ],
+      "finding": "Saved matches, CPU dispatch, PvP seats/invites, idempotent receipts/CAS, clocks, refresh recovery and responsive client already exist behind closed admission. Rebuilding these is not the shortest route. Current browser fixtures override admission, so they are not production admission proof.",
+      "next": "Once the exact profile is certified, run real HTTP/service/SQLite D1 complete-match coverage for CPU and PvP, both-seat refresh during decisions and terminal result, then responsive 1440/834/390 checks and owner-private deployment smoke. Reuse established harnesses and perform broad suite/build once after integration settles."
+    }
+  ],
+  "discrepancyTriage": [
+    {
+      "id": "nested-chances",
+      "pairStatus": "Outside exact pair according to copy counts; still a custom/full-engine blocker.",
+      "evidence": [
+        "lib/native-engine/stakes.ts:48",
+        "data/native-engine/starter-readiness.json"
+      ]
+    },
+    {
+      "id": "travel-return-and-late-arrival",
+      "pairStatus": "Current reachability audit excludes controlled return/late-arrival interventions; 26 executed response decisions in three cases are empty. This classification is fingerprint-bound and must be re-reviewed after provider changes.",
+      "evidence": [
+        "data/native-engine/starter-travel-reachability.json",
+        "tests/native-engine/starter-readiness.test.mjs:29",
+        "tests/native-engine/gemp/travel-response-provenance.json"
+      ]
+    },
+    {
+      "id": "sense-force-effects-return",
+      "pairStatus": "Sense/Alter and Force Effects providers absent from exact pair. Their original-instance discrepancy remains required for custom matches.",
+      "evidence": [
+        "data/native-engine/starter-readiness.json",
+        "tests/native-engine/gemp/cancellation-provenance.json",
+        "tests/native-engine/gemp/force-effects-provenance.json"
+      ]
+    },
+    {
+      "id": "bionic-hand-transfer-and-multiple",
+      "pairStatus": "Bionic Hand 5_12 absent from exact pair. Transfer and multiple-source reference discrepancy remain custom/full-engine requirements.",
+      "evidence": [
+        "tests/native-engine/gemp/bionic-hand-provenance.json",
+        "tests/native-engine/gemp/bionic-match-provenance.json"
+      ]
+    },
+    {
+      "id": "phase-start-canceled-text",
+      "pairStatus": "Ability, Ability, Ability is absent from exact pair. Canceled text spanning Deploy with prior observation remains a broader requirement.",
+      "evidence": [
+        "tests/native-engine/gemp/phase-starting-provenance.json"
+      ]
+    },
+    {
+      "id": "official-over-reference-differences",
+      "pairStatus": "Do not silently label documented rulebook divergences as parity: empty Electrobinoculars peek; optional Tusken Scavengers search and turn-player ordering; noncumulative repeated Its Worse. Verify exact-deck reachability and retain official citations instead of requiring bug-compatible results.",
+      "evidence": [
+        "tests/native-engine/gemp/mine-identity-provenance.json",
+        "tests/native-engine/gemp/scavenge-provenance.json",
+        "tests/native-engine/gemp/worse-provenance.json"
+      ]
+    }
+  ],
+  "staleNotes": [
+    {
+      "note": "The firstGroundMatchReview aggregate says eleven complete GEMP/native paths.",
+      "correction": "Later battle-response and travel-match receipts exist; treat eleven as historical, not the current full corpus size. Do not aggregate custom and exact-pair paths into one certification claim.",
+      "evidence": [
+        "data/native-engine/starter-coverage.json",
+        "tests/native-engine/gemp/battle-response-match-provenance.json",
+        "tests/native-engine/gemp/travel-match-provenance.json"
+      ]
+    },
+    {
+      "note": "travel-match-provenance says starter target-return reachability remains unproven.",
+      "correction": "Later dedicated starter-travel-reachability audit supersedes that statement for the exact pair, subject to fingerprint re-review. Historical receipt should retain its original limitations.",
+      "evidence": [
+        "tests/native-engine/gemp/travel-match-provenance.json",
+        "data/native-engine/starter-travel-reachability.json"
+      ]
+    },
+    {
+      "note": "Older component receipts say native service/UI integration is incomplete or absent.",
+      "correction": "Current service.ts/http.ts/client.ts and /matches implementation exist; admission and comprehensive rules evidence remain incomplete.",
+      "evidence": [
+        "tests/native-engine/gemp/worse-provenance.json",
+        "tests/native-engine/gemp/scavenge-provenance.json",
+        "lib/native-engine/service.ts",
+        "app/matches/screen.tsx"
+      ]
+    }
+  ],
+  "parallelPlan": [
+    {
+      "owner": "duel implementation",
+      "files": [
+        "lib/native-engine/duel.ts",
+        "tests/native-engine/duel.test.mjs",
+        "tests/native-engine/gemp/NativeEngineDuelOracleTests.java"
+      ],
+      "task": "Close failed-destiny amount with official-rule evidence. Own isolated duel changes; coordinate shared destiny/runtime needs."
+    },
+    {
+      "owner": "starter obligation audit",
+      "files": [
+        "data/native-engine/starter-coverage.json",
+        "data/native-engine/starter-readiness.json"
+      ],
+      "task": "Replace catch-all remaining starter branch with evidence-backed function/timing obligations; coordinate fingerprint edits with integrator."
+    },
+    {
+      "owner": "service and recovery",
+      "files": [
+        "tests/native-engine/service.test.mjs",
+        "tests/native-engine/client-browser.mjs"
+      ],
+      "task": "Prepare exact-profile release checks and capacity/recovery evidence; no admission bypass."
+    },
+    {
+      "owner": "engine integration",
+      "files": [
+        "lib/native-engine/runtime.ts",
+        "lib/native-engine/premiere-rules.ts",
+        "lib/native-engine/table.ts",
+        "lib/native-engine/board.ts"
+      ],
+      "task": "Keep shared rules ownership centralized; integrate current ship/capture lane and later profile admission only after verified evidence."
+    }
+  ],
+  "verificationBatching": [
+    "Run lane-specific focused tests as implementation changes; avoid every lane independently running the full engine suite, compiler and production build.",
+    "Batch unchanged-reference oracle classes into one Maven invocation after harnesses are ready; retain separate result files/hashes and unchanged production-source verification.",
+    "Integrator freezes shared runtime inputs, reviews reachability fingerprints once, then runs one broad test suite plus typecheck/build and one browser matrix. Re-run only affected checks after subsequent changes; never reuse verification after material unreviewed edits."
+  ],
+  "retainedFullScope": [
+    "Full catalog and all reachable timing",
+    "Objectives and special setup",
+    "Vehicles, pilots, passengers, space and captures",
+    "Open 40/60 customization and sealed",
+    "CPU/PvP strategy, durable saves/deep links, clocks and capacity",
+    "Responsive gameplay and preserved GEMP/Rules Lab paths"
+  ],
+  "evidenceFingerprints": {
+    "data/native-engine/starter-readiness.json": "1ad14017c6564bbb692f22529edfb3dd4dd692b17b850c18155883861e18c490",
+    "data/native-engine/starter-coverage.json": "5816090d930f488aa4826a175296c06a50c52f0fa444506267f78401248f841a",
+    "tests/native-engine/gemp/duel-provenance.json": "e213f3b3b181ec85d08e007b3ea3b1319e46cb3709b9a40be6311dff00944d73",
+    "tests/native-engine/gemp/complete-match-provenance.json": "96287427f199a41712fa112f397844fef40e31406e2424833fb2c663bbff0203",
+    "tests/native-engine/gemp/battle-response-match-provenance.json": "b81d5c53f8283fb372944d80531351c72f3b96a42815ce7ffbdc42f027ebc5ee",
+    "tests/native-engine/gemp/travel-response-provenance.json": "775984059f0614709bfcb8bdca3063c03f302a3d88237b680e684add4c2c9cfc"
+  },
+  "admissionDesign": {
+    "recommendation": "Implement default-disabled profile infrastructure now; enabling any profile is a separate evidence-driven release decision.",
+    "newModule": "lib/native-engine/admission.ts",
+    "contract": "Immutable server-owned profiles bind id, rules version, enabled flag, format, size, exact side-specific card multiplicities and evidence version. Pure admission evaluator accepts either globally supported cards or a complete enabled exact-pair profile. Profile-only cards remain unsupported for arbitrary custom decks.",
+    "integration": {
+      "lib/native-engine/runtime.ts": "Rules admission metadata and createMatch full-pair enforcement; callers cannot supply a permissive profile or bypass the runtime invariant.",
+      "lib/native-engine/service.ts": "Owner-only waiting PvP creation may identify candidate profiles; CPU creation and PvP join must validate both actual decks together. Update starter eligibility from card-level every(supports) to exact profile status. Sealed cannot inherit open-profile exemptions.",
+      "lib/native-engine/server.ts": "Server-owned all-disabled initial configuration, bound to immutable rules version.",
+      "lib/native-decks.ts": "Keep general card certification separate from exact-pair eligibility; drafts are not certificates.",
+      "tests/native-engine/admission.test.mjs": "Default closed; canonical count/permutation; arbitrary duplication; mismatched opponent; unsupported size/format; no client-selected enablement.",
+      "tests/native-engine/service.test.mjs": "CPU creation, waiting owner, join mismatch, idempotent replay, pinned old rules and forged requests."
+    },
+    "savedState": "Freeze profile identity/evidence version with rules version or persisted admission snapshot. Current catalog edits must not retroactively redefine an already admitted match.",
+    "ownership": "Runtime/service/rules edits require coordination with the central engine integrator; this audit did not modify them."
+  }
+}

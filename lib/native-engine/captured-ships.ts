@@ -1,3 +1,4 @@
+import {relatedShip,beamCustodyHosts} from './ship-sites';
 import {premiereSystems} from './premiere-setup';
 import identities from '../../data/native-engine/identities.json';
 import {cardDefinition} from './definitions';
@@ -12,13 +13,13 @@ import type {Decision,Json,Match,Resolution} from './types';
 
 const registry=identities as Record<string,{keywords:string[]}>;
 export const tractorBeam=(m:Match,id:string)=>m.cards[id]?.zone==='table'&&!!registry[m.cards[id].blueprint]?.keywords.includes('TRACTOR_BEAM');
-const held=(m:Match,id:string)=>Object.values(m.cards).some(c=>c.attachedTo===m.cards[id].capturedShip?.host&&tractorBeam(m,c.id));
+const held=(m:Match,id:string)=>Object.values(m.cards).some(c=>beamCustodyHosts(m,m.cards[id].capturedShip!.host).includes(c.attachedTo??'')&&tractorBeam(m,c.id));
 type Transition={target:CardReference;mode:'release'|'steal'};
 /** Capturing callers resolve the capture response window before invoking this
  * effect. Custody need not fit ordinary cargo capacity. */
 export function captureStarship(m:Match,id:string,host:string):void {
  const c=m.cards[id],h=m.cards[host];
- if(!c||c.zone!=='table'||c.owner!=='light'||cardDefinition(m,id).type!=='Starship'||cardDefinition(m,id).subType.includes('Mon Calamari')||c.attachedTo||!h||h.zone!=='table'||cardDefinition(m,host).type==='Starship'&&h.owner!=='dark'||!['Starship','Location'].includes(cardDefinition(m,host).type)||cardDefinition(m,host).type==='Location'&&cardDefinition(m,host).subType!=='Site'||!Object.values(m.cards).some(b=>b.attachedTo===host&&tractorBeam(m,b.id)))throw Error('Invalid starship capture.');
+ if(!c||c.zone!=='table'||c.owner!=='light'||cardDefinition(m,id).type!=='Starship'||cardDefinition(m,id).subType.includes('Mon Calamari')||c.attachedTo||!h||h.zone!=='table'||cardDefinition(m,host).type==='Starship'&&h.owner!=='dark'||!['Starship','Location'].includes(cardDefinition(m,host).type)||cardDefinition(m,host).type==='Location'&&cardDefinition(m,host).subType!=='Site'||!Object.values(m.cards).some(b=>beamCustodyHosts(m,host).includes(b.attachedTo??'')&&tractorBeam(m,b.id)))throw Error('Invalid starship capture.');
  const location=cardDefinition(m,host).type==='Location'?host:h.location;
  if(!location||!m.locations.includes(location))throw Error('Captured starship needs a location.');
  const group=attachmentGroup(m,id);if(group.some(x=>x.zone!=='table'))throw Error('Invalid captured ship group.');
@@ -37,6 +38,7 @@ export function captureStarship(m:Match,id:string,host:string):void {
  * return to their current system/sector. Placement is not movement. */
 function launchLocations(m:Match,id:string):string[]{
  const c=m.cards[id],at=c.location;if(!at)return [];
+ const related=relatedShip(m,at);if(related){const space=m.cards[related].location;return space&&['System','Sector'].includes(cardDefinition(m,space).subType)?[space]:[];}
  const d=cardDefinition(m,at);if(d.subType==='System'||d.subType==='Sector')return [at];
  return m.locations.filter(loc=>cardDefinition(m,loc).subType==='System'&&premiereSystems[m.cards[loc].blueprint]?.system===system(m,at)&&!!system(m,at));
 }

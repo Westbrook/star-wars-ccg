@@ -1,3 +1,4 @@
+import {admissionCandidates, admitsDeck, globallySupportedDeck, pairAdmission, assertAdmissionCandidates, type AdmissionStamp, type AdmissionFormat} from './admission';
 import {buildSealedComputerDeck,sealedDeckPolicy} from '../sealed-computer-deck';
 import {nativeSealedService} from '../native-sealed';
 import {assertClock, createClock, expiredClock, moveClock, projectClock, validClockMinutes, type MatchClock} from './match-clock';
@@ -30,9 +31,17 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
   function seat(row: Row, actor: string): Side {user(actor);if (row.owner === actor) return row.owner_side;if (row.mode === 'pvp' && row.guest === actor) return other(row.owner_side);return fail('This private match was not found.', 404, 'NOT_FOUND');}
   // Legacy open games store an array. Sealed games freeze their pool binding
   // beside the owner's cards in the same immutable creation snapshot.
-  function ownerSnapshot(row: Row): {cards:string[];poolId?:string} {
+  function ownerSnapshot(row: Row): {cards:string[];poolId?:string;admissionCandidates?:AdmissionStamp[]} {
     const value=JSON.parse(row.owner_deck);
-    if(Array.isArray(value))return {cards:value};
+    if(Array.isArray(value)){
+      if(!globallySupportedDeck(rulesFor(row.rules_version),{side:row.owner_side,cards:value}))throw Error('Missing waiting admission snapshot.');
+      return {cards:value};
+    }
+    if(value?.schema===2&&value.format==='open'){
+      if(!Array.isArray(value.cards)||Object.keys(value).sort().join(',')!=='admissionCandidates,cards,format,schema')throw Error('Invalid open admission snapshot.');
+      assertAdmissionCandidates(rulesFor(row.rules_version),value.admissionCandidates,{side:row.owner_side,cards:value.cards},row.deck_size);
+      return {cards:value.cards,admissionCandidates:value.admissionCandidates};
+    }
     if(value?.schema!==1||value.format!=='otsd'||!validId(value.poolId)||!Array.isArray(value.cards)||row.deck_size!==40)throw Error('Invalid sealed match binding.');
     if(row.mode==='cpu'&&(typeof value.computerPolicy!=='string'||!Array.isArray(value.computerDeck)||value.computerDeck.length!==40))throw Error('Missing computer sealed snapshot.');
     return {cards:value.cards,poolId:value.poolId};
@@ -42,7 +51,16 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     const m = JSON.parse(row.state) as Match;
     if (m.id !== row.id || m.revision !== row.version || m.rules !== row.rules_version || m.deckSize !== row.deck_size) throw Error('Saved match metadata mismatch.');
     // Projection invokes all runtime and rules validators before any state is used.
-    project(m, rulesFor(row.rules_version), row.owner_side, now());return m;
+    const rules = rulesFor(row.rules_version);
+    project(m, rules, row.owner_side, now());
+    if(m.data.nativeAdmission!==undefined){
+      const snapshot=ownerSnapshot(row);
+      if(snapshot.poolId)throw Error('An open admission profile cannot authorize a sealed match.');
+      assertAdmissionCandidates(rules,[m.data.nativeAdmission],{side:row.owner_side,cards:snapshot.cards},row.deck_size);
+      const selected=m.data.nativeAdmission as unknown as AdmissionStamp;
+      if(snapshot.admissionCandidates&&!snapshot.admissionCandidates.some(p=>p.profileId===selected.profileId))throw Error('Saved match changed its waiting admission profile.');
+    }
+    return m;
   }
   function clockSeat(m: Match): Side | null {
     if (m.status !== 'playing') return null;
@@ -64,10 +82,10 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
       ...(actor === row.owner && !row.guest && row.mode === 'pvp' ? {inviteToken: row.invite_token} : {}),
       game: m ? project(m, rulesFor(row.rules_version), side, time) : null};
   }
-  function deck(input: unknown, side: Side, size: number, rules: Rules): Deck {
+  function deck(input: unknown, side: Side, size: number, rules: Rules, format: AdmissionFormat = 'open'): Deck {
     if (!Array.isArray(input) || input.length !== size || input.some(bp => typeof bp !== 'string' || !/^\d+_\d+$/.test(bp) || bp.length > 40)) fail('Choose a complete deck for this format.');
     const cards = input as string[];
-    if (cards.some(bp => !rules.supports(bp))) fail('These cards are not yet verified for native matches.', 422, 'DECK_NOT_ADMITTED');
+    if (!admitsDeck(rules,{side,cards},size,format)) fail('These cards are not yet verified for native matches.', 422, 'DECK_NOT_ADMITTED');
     if (cards.some(bp => rules.definition(bp).side !== side)) fail('Every card must belong to your chosen side.');
     return {side, cards: [...cards]};
   }
@@ -110,15 +128,17 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     const hash = await digest({...(minutes !== null ? {clockMinutes:minutes} : {}),actor,mode,side,deckSize,...(body.poolId?{poolId:body.poolId}:{}),deck:body.deck,computerDeck:body.computerDeck ?? null,rules:options.currentRules});
     const existing = await find(id as string);
     if (existing) {if (existing.owner !== actor || existing.creation_hash !== hash) fail('That match ID was already used.', 409, 'MATCH_ID_REUSED');return read(existing.id, actor);}
-    const rules = rulesFor(options.currentRules), ownerDeck = deck(body.deck, side as Side, deckSize as number, rules);
+    const rules = rulesFor(options.currentRules), format = body.poolId ? 'otsd' : 'open', ownerDeck = deck(body.deck, side as Side, deckSize as number, rules,format);
     let computerInput=body.computerDeck;
     if(body.poolId){
       const sealed=nativeSealedService(db),pool=await sealed.checkDeck(body.poolId as string,actor,side,deckSize,ownerDeck.cards);
       if(pool.mode!==mode)fail('Use the opponent assigned to this sealed table.',422,'SEALED_FORMAT');
       if(mode==='cpu'){const inventory=await sealed.computerInventory(pool.id,actor);computerInput=buildSealedComputerDeck(inventory.cards,inventory.side,rules);}
     }
-    const snapshot=body.poolId?{schema:1,format:'otsd',poolId:body.poolId,cards:ownerDeck.cards,...(mode==='cpu'?{computerPolicy:sealedDeckPolicy,computerDeck:computerInput}:{})}:ownerDeck.cards;
-    const state = mode === 'cpu' ? createMatch(id as string, deckSize as 40 | 60, [ownerDeck,deck(computerInput,other(side as Side),deckSize as number,rules)],rules) : null;
+    const snapshot=body.poolId?{schema:1,format:'otsd',poolId:body.poolId,cards:ownerDeck.cards,...(mode==='cpu'?{computerPolicy:sealedDeckPolicy,computerDeck:computerInput}:{})}:globallySupportedDeck(rules,ownerDeck)?ownerDeck.cards:{schema:2,format:'open',cards:ownerDeck.cards,admissionCandidates:admissionCandidates(rules,ownerDeck,deckSize as number)};
+    const computerDeck = mode === 'cpu' ? deck(computerInput,other(side as Side),deckSize as number,rules,format) : undefined;
+    if(computerDeck){try{pairAdmission(rules,[ownerDeck,computerDeck],deckSize as number,format);}catch{fail('Choose the verified opposing deck for this match.',422,'DECK_PAIR_NOT_ADMITTED');}}
+    const state = computerDeck ? createMatch(id as string, deckSize as 40 | 60, [ownerDeck,computerDeck],rules,format) : null;
     const time = now(), c = minutes === null ? null : createClock(minutes as number,time), invite = mode === 'pvp' ? uuid() + uuid() : null;
     await db.prepare('INSERT INTO native_matches (id,owner,guest,owner_side,mode,rules_version,deck_size,owner_deck,invite_token,creation_hash,state,clock,version,created,updated) VALUES (?,?,NULL,?,?,?,?,?,?,?,?,?,0,?,?) ON CONFLICT(id) DO NOTHING').bind(id,actor,side,mode,rules.id,deckSize,JSON.stringify(snapshot),invite,hash,state ? JSON.stringify(state) : null,c ? JSON.stringify(c) : null,time,time).run();
     const row = await rowFor(id as string);if (row.owner !== actor || row.creation_hash !== hash) fail('That match ID was already used.', 409, 'MATCH_ID_REUSED');
@@ -137,13 +157,15 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     if (row.guest || row.state) fail('Both seats are already occupied.', 409, 'SEAT_OCCUPIED');
     const side = other(row.owner_side), rules = rulesFor(row.rules_version);
     const snapshot=ownerSnapshot(row);
-    const guestDeck = deck(body.deck, side, row.deck_size, rules), ownerDeck = deck(snapshot.cards,row.owner_side,row.deck_size,rules);
+    const format = snapshot.poolId ? 'otsd' : 'open';
+    const guestDeck = deck(body.deck, side, row.deck_size, rules,format), ownerDeck = deck(snapshot.cards,row.owner_side,row.deck_size,rules,format);
+    try{const selected=pairAdmission(rules,[ownerDeck,guestDeck],row.deck_size,format);if(snapshot.admissionCandidates&&(!selected||!snapshot.admissionCandidates.some(p=>p.profileId===selected.profileId)))throw Error('Admission profile changed.');}catch{fail('Choose the verified opposing deck for this match.',422,'DECK_PAIR_NOT_ADMITTED');}
     if(snapshot.poolId){
       const sealed=nativeSealedService(db);
       await sealed.checkDeck(snapshot.poolId,actor,side,row.deck_size,guestDeck.cards);
       await sealed.checkDeck(snapshot.poolId,row.owner,row.owner_side,row.deck_size,ownerDeck.cards);
     }
-    const state = createMatch(id,row.deck_size,[ownerDeck,guestDeck],rules);state.revision = row.version + 1;
+    const state = createMatch(id,row.deck_size,[ownerDeck,guestDeck],rules,format);state.revision = row.version + 1;
     const won = await commit(row,state,principal,key,hash,actor);row = await rowFor(id);
     if (!won) {const accepted = await prior(key);if (!accepted) fail('Another player joined first.',409,'SEAT_OCCUPIED');sameReceipt(accepted,principal,hash);}
     return {...response(row,seat(row,actor),actor),duplicate:!won,acceptedRevision:state.revision};
@@ -199,7 +221,7 @@ export function nativeMatchService(db: Database, options: {currentRules: string;
     return {...result,computer:{policy:computerPolicy,status,steps}};
   }
   return {create,join,read,advanceComputer,
-    starters: () => starterManifest.decks.map(d => ({id:d.id,side:d.side,size:d.size,admitted:d.main.every(bp => rulesFor(options.currentRules).supports(bp))})),
+    starters: () => starterManifest.decks.map(d => ({id:d.id,side:d.side,size:d.size,admitted:admitsDeck(rulesFor(options.currentRules),{side:d.side as Side,cards:d.main},d.size)})),
     list: async (actor: string) => {user(actor);return (await db.prepare("SELECT id,mode,CASE WHEN owner = ? THEN owner_side WHEN owner_side = 'dark' THEN 'light' ELSE 'dark' END AS side,rules_version AS rules,deck_size AS deckSize,version AS revision,created,updated FROM native_matches WHERE owner = ? OR guest = ? ORDER BY updated DESC LIMIT 30").bind(actor,actor,actor).all()).results;},
     command: (id: string, actor: string, body: Body) => {user(actor);return command(id,actor,body);},
     // Internal diagnostics/dispatcher only; never accept client-selected CPU moves.

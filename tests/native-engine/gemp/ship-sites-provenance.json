@@ -1,0 +1,15 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": "Four executed GEMP outcomes: real Launch Bay deployment and Tractor Beam capture, multiple-bay custody choice, last-beam release to related system, host loss with site/residents, and late bay deployment retaining original custody. Controlled initial placement; not a complete shuffled match.",
+  "files": {
+    "NativeEngineShipSitesOracleTests.java": "c3e7c9d69eea5656bcc1bdda6245b074a993892d08d2087bc5884754a6af434a",
+    "ship-sites-results.json": "17cf9011bc6dcc42061d223f893fac249b26d47c52dfb2985ed2d7dcbc8d0c85"
+  },
+  "limitations": [
+    "Launch Bay remaining movement/deployment text and Besieged require further integration; no full card admission.",
+    "Direct cargo release destinations differ from Advanced Rulebook launch wording and remain unresolved.",
+    "Unique ship sites, complete capture matches and broader catalog remain required."
+  ]
+}

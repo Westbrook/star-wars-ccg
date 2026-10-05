@@ -1,0 +1,25 @@
+[
+  {
+    "forfeit": 4,
+    "damageAfter": 4,
+    "damageBefore": 8,
+    "targetRestored": true,
+    "forceSpent": 1,
+    "targetParticipating": true,
+    "name": "talz-old-ben",
+    "returned": true,
+    "returnedParticipating": false,
+    "interruptLost": true
+  },
+  {
+    "retrieved": true,
+    "mineLost": true,
+    "forceSpent": 1,
+    "allVictimsLost": true,
+    "name": "mine-kintan",
+    "interruptLost": true,
+    "retrievedBetweenCasualties": true,
+    "minePresentDuringRetrieval": true,
+    "remainingCasualtiesBeforeResume": 2
+  }
+]

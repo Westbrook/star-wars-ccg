@@ -1,3 +1,4 @@
+import {shipSite} from './ship-sites';
 import {bionicHandBonus} from './bionic-hand';
 import {disarmedByEffect} from './weapon-carrying';
 import {leiaPowerBonus} from './leia';
@@ -41,10 +42,10 @@ export function printed(m: Match, id: string, property: string): number {
   return Number(value);
 }
 export const name = (m: Match, id: string) => cardDefinition(m, id).name;
-export const system = (m: Match, site: string) => isCave(m,site) ? undefined : sectorKind(m,site) ? (sectorKind(m,site)==='cloud'?sectorSystem(m,site):undefined) : premiereLocations[m.cards[site]?.blueprint]?.system;
+export const system = (m: Match, site: string) => shipSite(m,site)||isCave(m,site) ? undefined : sectorKind(m,site) ? (sectorKind(m,site)==='cloud'?sectorSystem(m,site):undefined) : premiereLocations[m.cards[site]?.blueprint]?.system;
 export const atSite = (m: Match, site: string) => Object.values(m.cards).filter(c => c.zone === 'table' && c.location === site && characterPresent(m,c.id));
 export const isSite = (m:Match,id:string) => !!m.cards[id] && cardDefinition(m,id).subType==='Site';
-export const adjacent = (m: Match, a: string, b: string) => !isCave(m,a) && !isCave(m,b) && isSite(m,a) && isSite(m,b) && m.locations.includes(a) && m.locations.includes(b) && system(m, a) === system(m, b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
+export const adjacent = (m: Match, a: string, b: string) => !isCave(m,a) && !isCave(m,b) && isSite(m,a) && isSite(m,b) && m.locations.includes(a) && m.locations.includes(b) && locationGroup(m,a)!==undefined && locationGroup(m,a)===locationGroup(m,b) && Math.abs(m.locations.indexOf(a) - m.locations.indexOf(b)) === 1;
 export const abilityAt = (m: Match, side: Side, site: string) => locationAbility(m, side, site, unitsAt(m, site).filter(c => c.owner === side).reduce((sum, c) => sum + ability(m, c.id), 0));
 export const presence = (m: Match, side: Side, site: string) => abilityAt(m, side, site) >= 1;
 export const generation = (m: Match, side: Side) => 1 + m.locations.reduce((sum, id) => sum + forceIcons(m,id,side)+hothGenerationModifier(m,side,id), 0);
@@ -220,7 +221,7 @@ export function citySitesTogether(m: Match, order: string[]): boolean {
   return city.every((i, n) => !n || i === city[n - 1] + 1);
 }
 export function sitePlacements(m: Match, id: string): {id: string; label: string; replace?: string; index?: number; sector?:string;cave?:string}[] {
-  if (!premiereLocations[m.cards[id].blueprint]||!generatorAllowed(m,id)) return [];
+  if (shipSite(m,id)||!premiereLocations[m.cards[id].blueprint]||!generatorAllowed(m,id)) return [];
   if(isCave(m,id))return cavePlacements(m,id);
   if(sectorKind(m,id))return sectorPlacements(m,id);
   const duplicate = m.locations.find(at => name(m, at) === name(m, id));

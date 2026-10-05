@@ -1,3 +1,4 @@
+import {assertMatchAdmission, pairAdmission, type AdmissionProfile, type AdmissionFormat} from './admission';
 import {assertLossPreventions,resolveWithLossPrevention} from './loss-prevention';
 import {resumeStartingInterrupts} from './starting-interrupts';
 import {mayActivateNormally,needsDeclaration,askActivationAmount,activationAmountChoices,chooseActivationAmount,resolveDeclaredActivation,assertDeclaredActivation,declaration,opposingInserts} from './declared-activation';
@@ -21,6 +22,7 @@ export interface Rules {
   starting?: LocationSetupRules;
   definition(blueprint: string): Definition;
   supports(blueprint: string): boolean;
+  admissionProfiles?: readonly AdmissionProfile[];
   setupComplete(match: Match): boolean;
   generation(match: Match, side: Side): number;
   automatic(match: Match, window: Window): RequiredAction[];
@@ -42,6 +44,7 @@ const core = (id: string, label: string): Action => ({id, label, handler: id, pa
 
 function validate(match: Match, rules: Rules): void {
   assertState(match);
+  assertMatchAdmission(match,rules);
   assertActivations(match);
   assertLossPreventions(match);
   assertDeclaredActivation(match);
@@ -61,10 +64,10 @@ function validate(match: Match, rules: Rules): void {
   if (match.status === 'playing' && !match.stack.length) throw Error('A playing match needs a continuation.');
 }
 
-export function createMatch(id: string, size: 40 | 60, decks: readonly Deck[], rules: Rules): Match {
-  const unsupported = [...new Set(decks.flatMap(deck => [...deck.cards]))].filter(id => !rules.supports(id));
-  if (unsupported.length) throw Error('Unimplemented card behavior: ' + unsupported.join(', '));
+export function createMatch(id: string, size: 40 | 60, decks: readonly Deck[], rules: Rules, format: AdmissionFormat = 'open'): Match {
+  const admission = pairAdmission(rules,decks,size,format);
   const match = initialState(id, size, decks, rules.id, rules.definition);
+  if (admission) match.data.nativeAdmission = admission as unknown as Json;
   if (rules.starting) initializeSetup(match, rules.starting);
   validate(match, rules);
   return match;

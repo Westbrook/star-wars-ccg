@@ -1,3 +1,4 @@
+import {shipSite,shipSiteGroup} from './ship-sites';
 import {cardDefinition} from './definitions';
 import {gameTextActive} from './game-text';
 import {assertCardReference,referenceCard,sameCard,type CardReference} from './identity';
@@ -15,7 +16,7 @@ export const isCave=(m:Match,id:string)=>!!caveDefinitions[m.cards[id]?.blueprin
 export const caveSector=(m:Match,id:string)=>caves(m).find(c=>c.card.id===id&&sameCard(m,c.card)&&sameCard(m,c.sector))?.sector.id;
 export const sectorSystem=(m:Match,id:string)=>sectorDefinitions[m.cards[id]?.blueprint]?.system||records(m).find(s=>s.card.id===id&&sameCard(m,s.card))?.system;
 /** Physical table grouping is distinct from being part of a named planet. */
-export const locationGroup=(m:Match,id:string):string|undefined=>isCave(m,id)?sectorSystem(m,caveSector(m,id)??''):sectorSystem(m,id)??(premiereSystems[m.cards[id]?.blueprint]??premiereSites[m.cards[id]?.blueprint])?.system;
+export const locationGroup=(m:Match,id:string):string|undefined=>shipSite(m,id)?shipSiteGroup(m,id):isCave(m,id)?sectorSystem(m,caveSector(m,id)??''):sectorSystem(m,id)??(premiereSystems[m.cards[id]?.blueprint]??premiereSites[m.cards[id]?.blueprint])?.system;
 export function registerSector(m:Match,id:string,system:string):void{
  m.data.sectors=[...records(m).filter(s=>s.card.id!==id),{card:referenceCard(m,id),system}] as unknown as Json;
 }

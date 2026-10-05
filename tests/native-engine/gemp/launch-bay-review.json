@@ -1,0 +1,42 @@
+{
+  "reviewedAt": "2026-10-05T11:33:22.734088+00:00",
+  "classification": "Official-rule and reference-source review with native integration tests; not executed GEMP movement parity",
+  "sources": [
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=153",
+      "scope": "Launch Bay deployment/landing/takeoff, alternate shuttle and docking transfer, unlimited Dark embark/disembark and capture destination clarification"
+    },
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf#page=85",
+      "scope": "Nonunique ship-site binding, below-decks occupancy, host departure"
+    },
+    {
+      "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+      "source": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_165.java",
+      "scope": "Per-TIE discount, free shuttle/transfer/docking and unlimited takeoff modifiers; unlimited landing remains TODO in reference"
+    }
+  ],
+  "verified": [
+    "Native actual actions for TIE and paired deployment discounts",
+    "Structural landing/takeoff for either side and active-text Dark unlimited movement",
+    "Free regular shuttle with side/system/barrier constraints",
+    "Free docking and transfers with capacity, barriers and stable related-host references",
+    "Serialized continuation validation, changed-host location and source departure"
+  ],
+  "tests": "136 initial integration checks passed; expanded run139/140 (new fixture used unsupported Vader); corrected fixture15/15 Launch Bay checks passed. Shared full regression pending.",
+  "limitations": [
+    "New movement behavior has native action coverage and official/source review, not an executed GEMP trace. Ship-site capture/departure parity is recorded separately.",
+    "Pinned reference lacks unlimited landing modifier; native follows explicit official rule.",
+    "Besieged, Revolution target integration, unique ship sites and broader related-site rules remain required.",
+    "Full card and native match admission remain closed."
+  ],
+  "sourceFingerprints": {
+    "lib/native-engine/launch-bay.ts": "59cb2f2f1317825c1947e815f38dbfae99705a5e63d057796b80ace72f5fcd09",
+    "lib/native-engine/vessels.ts": "c515a6b90d70bda89f8a41ee7a19dd53103144da4aca6359a5b8f8411e632e2e",
+    "lib/native-engine/vessel-travel.ts": "27503ec4adf5e719308da6976a4f260ae5d3e47d7973427ce10f553ef9b07176",
+    "lib/native-engine/transport.ts": "a32f176defa2effdee777854ba55de842742a16cb7e7569de92c5febb2a6f23b",
+    "lib/native-engine/docking.ts": "6cc9906d404b5b830422ee7de28cdda8e6f6567fdc9ee101d70a2a3a29518cf6",
+    "lib/native-engine/pilot-deploy.ts": "a6eee44dd03b9f44623b7a7a4ac6c3d182b635128c80324a83fb9803dc50c8da",
+    "tests/native-engine/launch-bay.test.mjs": "28fd8e1ac4316b307a41341621f7d08f963e658c17cdef4dcc9a89dc09098a77"
+  }
+}

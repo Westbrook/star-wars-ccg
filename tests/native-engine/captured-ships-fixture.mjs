@@ -2,8 +2,7 @@ import assert from 'node:assert/strict';
 import {mod,runtime,state,rules,pull,phase,step,ids} from './prisoner-fixture.mjs';
 const ships=mod('captured-ships');
 export const shipDecks=()=>['light','dark'].map(side=>({side,cards:[...(side==='light'?['1_127','1_140','1_19','1_28','1_152','1_40','1_109','1_13','1_147']:['1_302','2_115','2_142','1_168','1_241']),...Array(60).fill(side==='light'?'1_28':'1_194')].slice(0,60)}));
-export function fixture(crew=2,{capture=true,beamInHand=false}={}){
- const decks=shipDecks();
+export function fixture(crew=2,{capture=true,beamInHand=false,decks=shipDecks()}={}){
  let m=runtime.createMatch('captured-ships',60,decks,rules);
  const site=pull(m,'light','1_127');m.locations.push(site);
  const ship=pull(m,'light','1_140','table',site),host=pull(m,'dark','1_302','table',site),beam=pull(m,'dark','2_115','table',site);m.cards[beam].attachedTo=host;

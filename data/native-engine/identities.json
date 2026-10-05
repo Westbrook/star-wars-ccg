@@ -2953,5 +2953,23 @@
     "uniqueness": "UNIQUE",
     "personas": [],
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_283.java"
+  },
+  "4_165": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "personas": [],
+    "nonUnique": true,
+    "uniqueness": "RESTRICTED_3",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set4/dark/Card4_165.java"
+  },
+  "2_138": {
+    "keywords": [],
+    "species": [],
+    "models": [],
+    "nonUnique": true,
+    "uniqueness": "UNRESTRICTED",
+    "personas": [],
+    "sourceClass": null
   }
 }

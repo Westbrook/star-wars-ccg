@@ -1,3 +1,4 @@
+import {launchBayDeployModifier} from './launch-bay';
 import {pendingReactSite,reactionSources,canDeployAsReact,registerReact,resolveCancelledReact,cancelDrainAfterReact} from './ground';
 import {cardDefinition,name,deploymentPayment} from './board';
 import {hasCharacteristic} from './characteristics';
@@ -27,7 +28,7 @@ export function pilotDeployActions(m:Match,w:Window,side:Side):Action[]{
   const cargo=cardDefinition(m,target).type==='Starship',site=cargo?m.cards[target].location!:target;
   if(reactSite&&vesselDeploysAt(m,card,site,false,true))continue;
   const spy=hasCharacteristic(m,pilot,'SPY');if(cargo?!cargoDeploysAt(m,card,target,spy):!vesselDeploysAt(m,card,site,true,spy))continue;
-  const cost=deploymentPayment(m,pilot,site,true,spy);if(!cost)continue;cost[side]=(cost[side]??0)+deployValue(m,card);
+  const cost=deploymentPayment(m,pilot,site,true,spy);if(!cost)continue;cost[side]=(cost[side]??0)+Math.max(0,deployValue(m,card)+(cargo?0:launchBayDeployModifier(m,card,site)));
   if(Object.entries(cost).some(([s,n])=>m.players[s as Side].force.length<n!))continue;
   const p:Pair={card,ship:referenceCard(m,card),pilot:referenceCard(m,pilot),target:referenceCard(m,target),location:referenceCard(m,site),...(cargo?{cargo:true as const}:{}),...(grant?{react:true as const,grant:referenceCard(m,grant)}:{})};
   result.push({id:key(p),handler:'pair:deploy',source:card,payload:p as unknown as Json,payment:cost,label:'Deploy '+name(m,card)+' with '+name(m,pilot)+' to '+name(m,target)+' · '+cost[side]+' Force'+(grant?' as a react using '+name(m,grant):'')});

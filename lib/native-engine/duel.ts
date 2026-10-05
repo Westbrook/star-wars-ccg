@@ -26,6 +26,13 @@ export type Duel = {
 type Payload = {card: string; vader?: string; luke?: string; participantRefs?: Record<Side, CardReference>; site?: string; side?: Side; draw?: Draw; target?: string; total?: number | null};
 type Usage = {turn: number; obsession: boolean};
 export const duel = (m: Match) => m.data.duel as Duel | undefined;
+function outcome(d: Pick<Duel, 'destinyTotals' | 'total'>): Pick<Duel, 'winner' | 'difference'> {
+  if (!d.destinyTotals) throw Error('Missing duel destiny totals.');
+  const successful = (side: Side) => d.destinyTotals![side] !== null;
+  const winner = !successful('dark') ? successful('light') ? 'light' : null : !successful('light') ? 'dark'
+    : d.total.dark! === d.total.light! ? null : d.total.dark! > d.total.light! ? 'dark' : 'light';
+  return {winner, difference: successful('dark') !== successful('light') ? null : winner ? Math.round(Math.abs(d.total.dark! - d.total.light!)) : 0};
+}
 const usage = (m: Match): Usage => {
   const s = m.data.duelUsage as Usage | undefined;
   return s?.turn === m.turn.number ? s : {turn: m.turn.number, obsession: false};
@@ -114,16 +121,13 @@ export function duelResolve(m: Match, r: Resolution): void {
     else boundary(m, 'totals', 'duel-destiny-complete', {card: p.card});
   } else if (h === 'duel:totals') {
     if (!d.destinyTotals) throw Error('Missing duel destiny totals.');
-    const successful = (side: Side) => d.destinyTotals![side] !== null;
     for (const side of sides) d.total[side] = Math.max(0, power(m, d.characters[side]) + (d.destinyTotals?.[side] ?? 0) + duelModifier(m, side, 'total'));
     // AR Failed Destiny Draws: no successful draw loses the action, even
     // against lower power. When both fail there is neither winner nor loser.
-    d.winner = !successful('dark') ? successful('light') ? 'light' : null : !successful('light') ? 'dark'
-      : d.total.dark! === d.total.light! ? null : d.total.dark! > d.total.light! ? 'dark' : 'light';
     // The AR determines the winner when exactly one side fails, but the pinned
     // GEMP result contradicts that rule. Do not invent the Force-difference
     // amount from a nonexistent destiny total; keep this case explicitly gated.
-    d.difference = successful('dark') !== successful('light') ? null : d.winner ? Math.round(Math.abs(d.total.dark! - d.total.light!)) : 0;
+    Object.assign(d, outcome(d));
     d.stage = 'result'; boundary(m, 'retrieve', 'duel-result', {card: p.card});
   } else if (h === 'duel:retrieve') {
     assertParticipants(m, d.participantRefs, d.characters);
@@ -174,6 +178,15 @@ export function assertDuel(m: Match): void {
     assertParticipants(m, d.participantRefs, d.characters);
     if (d.difference === null && (d.stage !== 'result' || d.draws.dark.some(x => x.value !== null) === d.draws.light.some(x => x.value !== null))) throw Error('Invalid unverified duel amount.');
     if (['result', 'losses'].includes(d.stage) && sides.some(side => d.draws[side].length !== (d.drawCounts?.[side] ?? 2) || d.total[side] === null)) throw Error('Incomplete duel result.');
+    // A recovered save must not turn the unresolved failed-destiny amount into
+    // a numeric payment, or change a determined winner. Recompute from the
+    // saved final totals rather than current power, which can change afterward.
+    if (['result', 'losses'].includes(d.stage) || ['end', 'complete'].includes(d.stage) && !d.interrupted) {
+      if (!d.destinyTotals || sides.some(side => d.total[side] === null || d.destinyTotals![side] === undefined)) throw Error('Incomplete duel result.');
+      if (sides.some(side => (d.destinyTotals![side] === null) !== !d.draws[side].some(draw => draw.value !== null))) throw Error('Invalid duel result.');
+      const expected = outcome(d);
+      if (d.winner !== expected.winner || d.difference !== expected.difference) throw Error('Invalid duel result.');
+    }
   }
   for (const f of m.stack) if (f.kind === 'resolution' && f.action.handler.startsWith('duel:')) {
     const p = f.action.payload as unknown as Payload;

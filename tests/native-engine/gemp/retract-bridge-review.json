@@ -1,0 +1,60 @@
+{
+  "card": "2_138",
+  "name": "Retract The Bridge",
+  "status": "native implementation with official rules review; GEMP parity unavailable",
+  "officialSources": [
+    {
+      "url": "https://res.starwarsccg.org/cards/ANewHope-Dark/large/retractthebridge.gif",
+      "purpose": "Official card image; card text also retained in public/catalog/cards.json. Own deploy phase, use Force equal to the number of interior Death Star sites to rearrange them; cards stay with their sites. Alternative: cancel On The Edge.",
+      "verification": "Catalog card text inspected; direct web image retrieval was unavailable during this review."
+    },
+    {
+      "url": "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+      "printedPage": 151,
+      "section": "Appendix B — Retract The Bridge",
+      "purpose": "Rearranged Death Star sites must retain a legal location layout, including Docking Bay 327 at an end. Laser Gates may be relocated between interior Death Star sites."
+    },
+    {
+      "url": "https://res.starwarsccg.org/cards/Premiere-Dark/large/deathstarcentralcore.gif",
+      "purpose": "Central Core card text grants free Retract The Bridge while Dark controls the site. Its text provides no immunity from Interrupt cancellation.",
+      "verification": "Catalog text and unchanged pinned Card1_283 implementation inspected."
+    }
+  ],
+  "reference": {
+    "repository": "https://github.com/PlayersCommittee/gemp-swccg-public",
+    "commit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+    "cardClass": null,
+    "finding": "No Card2_138 implementation exists in the pinned reference source. References to the title in Central Core and cancellation cards do not implement Retract The Bridge itself.",
+    "executedGempParity": false,
+    "claim": "Native tests and official rules review are not executed GEMP conformance evidence."
+  },
+  "nativeScope": [
+    "Own deploy phase rearrangement with Force cost fixed at initiation.",
+    "Central Core free play retained when control or the source changes after initiation.",
+    "Sequential durable site ordering with Docking Bay 327 restricted to legal endpoints.",
+    "Cards, attachments, captives and markers retain their physical site IDs as location order changes.",
+    "On The Edge cancellation binds the original pending action and response window before destiny resolves.",
+    "Skywalker and Sense can cancel the Interrupt; free Core play does not grant cancellation immunity.",
+    "Serialized physical references, layout snapshots, cost receipts and validators reject stale sources, incomplete target lists and unsupported free prices."
+  ],
+  "verification": {
+    "newTestFile": "tests/native-engine/retract-bridge.test.mjs",
+    "newTestsPassed": 11,
+    "batchedTestsPassed": 70,
+    "batchedTestsFailed": 0,
+    "batchScope": [
+      "Retract The Bridge",
+      "Named cancellation",
+      "On The Edge",
+      "Central Core"
+    ],
+    "log": "/private/tmp/swccg-retract-bridge-tests4.log",
+    "browserEvidence": "Owned by separate browser integration work; not included in these counts."
+  },
+  "requiredRemaining": [
+    "Implement Laser Gate and its relocation choices. Rearrangement is currently unavailable while a Laser Gate is on the table, so this is explicitly incomplete card coverage.",
+    "Obtain independent conformance evidence for Retract The Bridge if a reference implementation becomes available; the pinned GEMP checkout cannot supply it.",
+    "Keep card metadata pending and full native deck admission closed until every reachable behavior and required timing window is verified."
+  ],
+  "historicalEvidence": "Existing central-core-provenance.json describes the earlier checkpoint and remains unchanged."
+}

@@ -1,0 +1,22 @@
+{
+  "reviewedAt": "2026-10-05T11:18:45.044099+00:00",
+  "status": "numerical-failure-amount-unresolved",
+  "rulesSources": [
+    "https://res.starwarsccg.org/rules/SWCCG_2023_AdvancedRulebook.pdf",
+    "https://forum.starwarsccg.org/viewtopic.php?t=77226"
+  ],
+  "referenceEvidence": "duel-provenance.json and duel-results.json; reused executed observations, no new GEMP execution claimed",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "findings": [
+    "AR Failed Destiny Draws determines the winner when exactly one side completes any destiny draw and specifies no winner when both fail.",
+    "AR distinguishes an absent total from a successful zero. Neither the reviewed rulebook entry nor the reviewed PC ruling supplies a numerical Vader\u2019s Obsession difference for the absent total.",
+    "Pinned Card101_006 retains base power when no destiny succeeds. Its executed outcomes disagree with the official failed-destiny winner in the recorded Dark-failure and both-fail cases; that cannot establish the missing arithmetic.",
+    "The native unresolved amount guard remains. Recovered result validation now prevents replacing that null with a number or changing the absent destiny total to zero. Determined winners and differences are validated against saved final totals without re-reading subsequently changed power."
+  ],
+  "nativeTests": [
+    "obsession-failure.test.mjs",
+    "duel.test.mjs",
+    "duel-modifiers.test.mjs"
+  ],
+  "limits": "This is a rules review and durable-state integrity fix, not resolution of the numerical ambiguity, new gameplay conformance, or production deck admission. Existing full-engine obligations remain."
+}

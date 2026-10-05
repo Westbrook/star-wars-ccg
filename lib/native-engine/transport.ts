@@ -1,3 +1,5 @@
+import {launchBay,launchBayShuttleDestinations,launchBayShuttleFree} from './launch-bay';
+import {relatedShip} from './ship-sites';
 import {deployWithoutPresence} from './board';
 import {otsdDeployModifier,cargoRoles} from './otsd-ships';
 import {forceIcons} from './location-icons';
@@ -20,20 +22,21 @@ import {moveCard} from './state';
 import {openWindow} from './runtime';
 import {other,type Match,type Action,type Side,type Window,type Resolution,type Json} from './types';
 type Mode='shuttle'|'embark'|'disembark'|'bridge'|'deploy';
-type Payload={card:CardReference;origin:CardReference;target:CardReference;location:CardReference;role?:AboardRole;previous?:AboardRole;mode:Mode;react?:true;grant?:CardReference};
+type Payload={card:CardReference;origin:CardReference;target:CardReference;location:CardReference;role?:AboardRole;previous?:AboardRole;mode:Mode;react?:true;grant?:CardReference;bay?:CardReference;carrier?:CardReference};
 const characterRoles:AboardRole[]=['pilot','driver','passenger'];
 const exterior=(m:Match,id:string)=>cardDefinition(m,id).subType==='Site'&&(cardDefinition(m,id).icons as string[]).includes('Exterior');
 const flightPilot=pilotAboard;
 const carriers=(m:Match,side:Side)=>Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&!c.attachedTo&&capital(m,c.id)&&c.location&&spaceLocation(m,c.location));
 const key=(p:Payload)=>'transport:'+p.mode+':'+p.card.id+':'+p.target.id+(p.role?':'+p.role:'')+(p.react?':react:via:'+p.grant!.id:'');
 function selected(m:Match,id:string,target:string,mode:Mode,role?:AboardRole):Payload{
- const c=m.cards[id];return {card:referenceCard(m,id),origin:referenceCard(m,c.attachedTo??c.location??target),target:referenceCard(m,target),location:referenceCard(m,cardDefinition(m,target).type==='Location'?target:m.cards[target].location!),mode,...(role?{role}:{}),...(c.aboardRole?{previous:c.aboardRole}:{})};
+ const c=m.cards[id],bay=mode==='shuttle'?[c.location,target].find(site=>!!site&&launchBay(m,site)):undefined;return {...(bay?{bay:referenceCard(m,bay),carrier:referenceCard(m,relatedShip(m,bay)!)}:{}),card:referenceCard(m,id),origin:referenceCard(m,c.attachedTo??c.location??target),target:referenceCard(m,target),location:referenceCard(m,cardDefinition(m,target).type==='Location'?target:m.cards[target].location!),mode,...(role?{role}:{}),...(c.aboardRole?{previous:c.aboardRole}:{})};
 }
 function options(m:Match,side:Side,checkUsage=true):Payload[]{
  const out:Payload[]=[],ships=carriers(m,side),add=(id:string,to:string,mode:Mode,roles:AboardRole[])=>{for(const role of roles)if(roleAvailable(m,to,id,role))out.push(selected(m,id,to,mode,role));};
  for(const c of Object.values(m.cards).filter(c=>c.owner===side&&c.zone==='table'&&!barred(m,c.id))){
   const d=cardDefinition(m,c.id),isCharacter=d.type==='Character';
   if((isCharacter||d.type==='Vehicle')&&(!checkUsage||canMove(m,c.id))){
+   for(const to of launchBayShuttleDestinations(m,c.id).filter(to=>isCharacter||vehicleDestination(m,c.id,to)))out.push(selected(m,c.id,to,'shuttle'));
    if(!c.attachedTo&&c.location&&exterior(m,c.location))for(const ship of ships.filter(h=>cardDefinition(m,h.location!).subType==='System'&&system(m,h.location!)===system(m,c.location!)))add(c.id,ship.id,'shuttle',isCharacter?characterRoles:['vehicle']);
    if(c.attachedTo&&cardDefinition(m,c.location!).subType==='System'&&ships.some(h=>h.id===c.attachedTo))for(const site of m.locations.filter(site=>exterior(m,site)&&system(m,site)===system(m,c.location!)&&(isCharacter||vehicleDestination(m,c.id,site))))out.push(selected(m,c.id,site,'shuttle'));
   }
@@ -65,14 +68,14 @@ export function transportActions(m:Match,w:Window,side:Side):Action[]{
  if(!site&&(w.timing!=='phase'||side!==m.turn.side||!['deploy','move'].includes(m.turn.phase)))return [];
  const choices=site?reactionSources(m,site,side).flatMap(grant=>deployOptions(m,side,site,grant)):m.turn.phase==='deploy'?deployOptions(m,side):options(m,side);
  return choices.map(p=>{
-  const cost=p.mode==='deploy'?Math.max(0,deployValue(m,p.card.id)+bespinDeployModifier(m,p.card.id,p.location.id)+hothDeployModifier(m,p.card.id,p.location.id)+otsdDeployModifier(m,p.card.id,p.location.id)):p.mode==='shuttle'&&!movesFree(m,p.card.id,p.location.id)?1+sectorsAt(m,system(m,p.location.id)!,'cloud').length:0;
+  const cost=p.mode==='deploy'?Math.max(0,deployValue(m,p.card.id)+bespinDeployModifier(m,p.card.id,p.location.id)+hothDeployModifier(m,p.card.id,p.location.id)+otsdDeployModifier(m,p.card.id,p.location.id)):p.mode==='shuttle'&&!launchBayShuttleFree(m,p.card.id,p.location.id)&&!movesFree(m,p.card.id,p.location.id)?1+sectorsAt(m,system(m,p.location.id)!,'cloud').length:0;
   const verb={deploy:'Deploy',shuttle:'Shuttle',embark:'Embark',disembark:'Disembark',bridge:'Move'}[p.mode];
   return {id:key(p),handler:p.mode==='deploy'?'transport:deploy':'transport:begin',source:p.card.id,payload:p as unknown as Json,payment:{[side]:cost},label:verb+' '+name(m,p.card.id)+' to '+name(m,p.target.id)+(p.role?' as '+p.role:'')+' · '+(cost?cost+' Force':'free')+(p.react?' as a react using '+name(m,p.grant!.id):'')};
  }).filter(a=>(a.payment[side]??0)<=m.players[side].force.length);
 }
 export function transportInitiate(m:Match,r:Resolution){if(r.action.handler==='transport:deploy'){const p=r.action.payload as unknown as Payload;if(p.react)registerReact(m,p.card.id);moveCard(m,p.card.id,'playing');}}
 const destinationStill=(m:Match,p:Payload)=>sameCard(m,p.target)&&sameCard(m,p.location)&&(cardDefinition(m,p.target.id).type==='Location'||m.cards[p.target.id].location===p.location.id);
-const bound=(m:Match,p:Payload)=>sameCard(m,p.card)&&sameCard(m,p.origin)&&destinationStill(m,p)&&(m.cards[p.card.id].attachedTo??m.cards[p.card.id].location)===p.origin.id&&m.cards[p.card.id].aboardRole===p.previous;
+const bound=(m:Match,p:Payload)=>(!p.bay||sameCard(m,p.bay)&&sameCard(m,p.carrier!)&&relatedShip(m,p.bay.id)===p.carrier!.id)&&sameCard(m,p.card)&&sameCard(m,p.origin)&&destinationStill(m,p)&&(m.cards[p.card.id].attachedTo??m.cards[p.card.id].location)===p.origin.id&&m.cards[p.card.id].aboardRole===p.previous;
 const available=(m:Match,side:Side,p:Payload)=>options(m,side,false).some(x=>key(x)===key(p));
 export function transportResolve(m:Match,r:Resolution){
  if(resolveCancelledReact(m,r))return;
@@ -98,6 +101,7 @@ export function assertTransport(m:Match){
   const p=f.action.payload as unknown as Payload;if(!p||!['transport:begin','transport:finish','transport:deploy'].includes(f.action.handler)||!['shuttle','embark','disembark','bridge','deploy'].includes(p.mode))throw Error('Invalid transport continuation.');
   for(const ref of [p.card,p.origin,p.target,p.location])assertCardReference(m,ref);
   if(m.cards[p.card.id].owner!==f.actor||f.action.source!==p.card.id||f.action.id!==key(p)||p.location.zone!=='table'||cardDefinition(m,p.location.id).type!=='Location'||p.origin.zone!=='table'||p.target.zone!=='table'||p.card.zone!==(p.mode==='deploy'?'hand':'table')||(p.mode==='deploy')!==(f.action.handler==='transport:deploy'))throw Error('Invalid transport binding.');
+  if(p.bay){assertCardReference(m,p.bay);assertCardReference(m,p.carrier!);if(p.mode!=='shuttle'||p.bay.zone!=='table'||m.cards[p.bay.id].blueprint!=='4_165'||p.carrier!.zone!=='table'||sameCard(m,p.bay)&&sameCard(m,p.carrier!)&&relatedShip(m,p.bay.id)!==p.carrier!.id||![p.origin.id,p.target.id].includes(p.bay.id))throw Error('Invalid Launch Bay shuttle binding.');}else if(p.carrier)throw Error('Unexpected Launch Bay carrier.');
   if(p.react!==undefined){if(p.react!==true||p.mode!=='deploy'||!p.grant)throw Error('Invalid cargo deployment react.');assertCardReference(m,p.grant);if(p.grant.zone!=='table'||m.cards[p.grant.id].owner!==f.actor||!['1_6','1_201'].includes(m.cards[p.grant.id].blueprint))throw Error('Invalid cargo react permission.');}else if(p.grant)throw Error('Unexpected cargo react permission.');
   const targetLocation=cardDefinition(m,p.target.id).type==='Location';
   if(targetLocation?p.role!==undefined:!vesselRule(m,p.target.id)||m.cards[p.target.id].owner!==f.actor||p.role===undefined)throw Error('Invalid transport destination.');

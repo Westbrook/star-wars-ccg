@@ -1,0 +1,46 @@
+{
+  "reference": "https://github.com/PlayersCommittee/gemp-swccg-public/tree/bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recoveredReceipt": true,
+  "executedAt": "2026-10-05T11:29:41.347162+00:00",
+  "executionTimeSource": "Completion timestamp from the recovered Surefire XML filesystem modification time; successful oracle was not rerun.",
+  "recordedAt": "2026-10-05T11:33:59.772042+00:00",
+  "command": "mvn -o -q -pl gemp-swccg-server -am test -Dtest=NativeEngineStarterCompoundOracleTests -Dsurefire.failIfNoSpecifiedTests=false",
+  "workingDirectory": "/opt/gemp-swccg/src",
+  "runtime": {
+    "javaVersion": "21.0.3",
+    "javaVendor": "Eclipse Adoptium",
+    "osName": "Linux"
+  },
+  "junit": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "testCases": [
+      "talzThenOldBen",
+      "mineThenKintanBetweenCasualties"
+    ],
+    "reportSha256": "c71fe2d7e2e79e92535714c15933a48de800dd138ec85fb6263f2ee9a686a038"
+  },
+  "observations": 2,
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "extraProductionFiles": 0,
+  "sourceArchiveSha256": "73fac499fa3fd93bc14f9bfa90dee35ff88d6f99474a82d5bcf9509a07963b68",
+  "productionVerification": "Every archive member under src/main/ was compared byte-for-byte against the executed reference checkout; all 6820 matched, with no additional src/main files. Repository harness bytes also matched the executed Java source.",
+  "files": {
+    "NativeEngineStarterCompoundOracleTests.java": "a8a1424776efd1978e5cc9858f639fe0bf1fa59d9aeb5a9c16035c786ce01f43",
+    "starter-compound-results.json": "e1750a133bba909c87ec9241dbeb0f14d07682e84cfc25a22a32a2d8cc1b4bba"
+  },
+  "scope": [
+    "Actual blaster hit followed by Talz forfeiture cost, Old Ben return during that forfeiture response, then the pending Talz restoration. Confirms retained damage credit, restored target participation, returned Talz nonparticipation, one Force paid and Lost Interrupt.",
+    "Actual Timer Mine detonation with three Rebel Troopers. Kintan retrieves a Stormtrooper after the first owner-chosen casualty and before the remaining casualty choices; the mine stays on table through retrieval and becomes Lost after all casualties."
+  ],
+  "fixtureMethod": "Isolated component boards use filler decks, explicit card placement and prepared Force/reserve piles. Native comparisons serialize state before every command and compare both-seat projections across serialization; GEMP uses its real card actions and unmodified production engine.",
+  "limitations": [
+    "These two compound component traces do not prove a complete shuffled starter match or every reachable timing window.",
+    "Native fixture rules bypass normal deck admission only for these tests; production full-deck admission remains gated.",
+    "No live HTTP or browser session is claimed by these receipts; additional cancellation, prevention, replacement and cross-card interactions remain outside this comparison."
+  ]
+}

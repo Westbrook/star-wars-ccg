@@ -1,0 +1,31 @@
+[
+  {
+    "name": "release",
+    "heldAtBay": true,
+    "choseBay": false,
+    "beamOnShip": true,
+    "releasedAtSystem": true
+  },
+  {
+    "name": "two-bays",
+    "heldAtBay": true,
+    "choseBay": true,
+    "beamOnShip": true
+  },
+  {
+    "name": "host-loss",
+    "heldAtBay": true,
+    "choseBay": false,
+    "beamOnShip": true,
+    "bayLost": true,
+    "shipLost": true,
+    "gunLost": true
+  },
+  {
+    "name": "late-bay",
+    "heldAtBay": false,
+    "choseBay": false,
+    "beamOnShip": true,
+    "retainedOriginalCustody": true
+  }
+]

@@ -1,3 +1,4 @@
+import {shipSite,shipSiteDependents,relatedShip} from './ship-sites';
 import {lossPrevented} from './loss-prevention';
 import {carrierCaptives,releaseForDepartures} from './captives';
 import {bellyLossCards} from './space-slug';
@@ -14,21 +15,23 @@ type Ordering = {remaining: string[]; used?: string[]};
 function tableGroup(m: Match, hosts: string[], loss = false): Set<string> {
   const excluded=new Set(loss ? Object.keys(m.cards).filter(id=>lossPrevented(m,id)) : []);
   for(let changed=true;changed;){changed=false;for(const c of Object.values(m.cards))if(c.attachedTo&&excluded.has(c.attachedTo)&&!excluded.has(c.id)){excluded.add(c.id);changed=true;}}
-  const ids = new Set(hosts.filter(id=>!excluded.has(id)));
+  const ids = new Set(hosts.filter(id=>!excluded.has(id))),siteDependents=new Set<string>();
   for (let changed = true; changed;) {
     changed = false;
+    for(const id of shipSiteDependents(m,ids)){siteDependents.add(id);if(!ids.has(id)&&!excluded.has(id)){ids.add(id);changed=true;}}
     for(const id of carrierCaptives(m,ids))if(!ids.has(id)&&!excluded.has(id)){ids.add(id);changed=true;}
     for (const c of Object.values(m.cards)) if ((c.attachedTo || c.stackedOn) && ids.has((c.attachedTo || c.stackedOn)!) && !ids.has(c.id) && !excluded.has(c.id)) {ids.add(c.id); changed = true;}
   }
-  if ([...ids].some(id => !['table','stacked','captive','inactive'].includes(m.cards[id]?.zone) || m.locations.includes(id))) throw Error('Invalid table loss.');
+  if ([...ids].some(id => !['table','stacked','captive','inactive','buried'].includes(m.cards[id]?.zone) || m.cards[id].zone==='buried'&&!siteDependents.has(id) || m.locations.includes(id)&&!shipSite(m,id))) throw Error('Invalid table loss.');
   return ids;
 }
 function removeGroup(m: Match, ids: Set<string>, zone: 'leaving' | 'hand'): void {
   // Remove descendants before their host to satisfy the primitive invariant.
   releaseForDepartures(m,ids);
   const waiting = new Set(ids);
+  m.locations=m.locations.filter(id=>!ids.has(id));
   while (waiting.size) {
-    const id = [...waiting].find(id => ![...waiting].some(child => m.cards[child].attachedTo === id || m.cards[child].stackedOn === id));
+    const id = [...waiting].find(id => ![...waiting].some(child => m.cards[child].attachedTo === id || m.cards[child].stackedOn === id || m.cards[child].location === id || relatedShip(m,child)===id));
     if (!id) throw Error('Cyclic table loss.');
     moveCard(m, id, zone); waiting.delete(id);
   }
@@ -36,7 +39,7 @@ function removeGroup(m: Match, ids: Set<string>, zone: 'leaving' | 'hand'): void
 /** Snapshot the complete affected group for response targeting before removal. */
 export const tableLossCards = (m: Match, hosts: string[]): string[] => [...tableGroup(m,[...hosts,...bellyLossCards(m,hosts)],true)];
 export function loseFromTable(m: Match, hosts: string[]): string[] {
-  const ids = tableGroup(m, [...hosts,...bellyLossCards(m,hosts)],true), references = [...ids].map(id=>referenceCard(m,id));
+  const ids = tableGroup(m, [...hosts,...bellyLossCards(m,hosts)],true), references = [...ids].filter(id=>m.cards[id].zone!=='buried').map(id=>referenceCard(m,id));
   removeGroup(m, ids, 'leaving');
   recordTableLossOrigins(m,references);
   orderNext(m, [...ids]);
@@ -57,7 +60,7 @@ export function losePlayingCards(m:Match,cards:string[]):void {
 /** Placement in Used changes only the host's destination. Descendants
  * still leave simultaneously and are ordered in Lost before the host enters Used. */
 export function placeInUsedFromTable(m: Match, host: string): void {
-  const ids = tableGroup(m,[host]), references = [...ids].filter(id=>id!==host).map(id=>referenceCard(m,id));
+  const ids = tableGroup(m,[host]), references = [...ids].filter(id=>id!==host&&m.cards[id].zone!=='buried').map(id=>referenceCard(m,id));
   removeGroup(m,ids,'leaving');
   if (references.length) recordTableLossOrigins(m,references);
   orderNext(m,[...ids].filter(id => id !== host),[host]);
@@ -79,7 +82,7 @@ export const forfeitToUsed = placeInUsedFromTable;
  * not sacrificed; their ordering must finish before the parent can respond. */
 export function placeOutFromTable(m: Match, host: string): string[] {
   const ids = tableGroup(m, [host],true), lost = [...ids].filter(id => id !== host);
-  const references = lost.map(id => referenceCard(m, id));
+  const references = lost.filter(id=>m.cards[id].zone!=='buried').map(id => referenceCard(m, id));
   removeGroup(m, ids, 'leaving');
   moveCard(m, host, 'out');
   if (references.length) recordTableLossOrigins(m, references);
@@ -92,7 +95,7 @@ export function returnToHand(m: Match, hosts: string[]): string[] {
   const ids = tableGroup(m, hosts);
   const lost = new Set(hosts.filter(id=>isVessel(m,id)).flatMap(id=>[...tableGroup(m,[id])].filter(child=>child!==id)));
   if(lost.size){
-    const refs=[...lost].map(id=>referenceCard(m,id));
+    const refs=[...lost].filter(id=>m.cards[id].zone!=='buried').map(id=>referenceCard(m,id));
     removeGroup(m,ids,'leaving');for(const id of ids)if(!lost.has(id))moveCard(m,id,'hand');
     recordTableLossOrigins(m,refs);orderNext(m,[...lost]);
   }else removeGroup(m, ids, 'hand');
