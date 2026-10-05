@@ -1,8 +1,8 @@
 import {mod,runtime,state,rules,pull,phase,step,seek,ids} from './prisoner-fixture.mjs';
 import {ending} from './captured-ships-fixture.mjs';
 export const siteDecks=()=>['light','dark'].map(side=>({side,cards:[...(side==='light'?['1_124','1_140','1_19','1_28','1_152','1_13']:['1_285','2_143','1_302','2_111','1_168','1_175','1_241','2_142']),...Array(60).fill(side==='light'?'1_28':'1_194')].slice(0,60)}));
-export function siteFixture(lightBay=false){
- let m=runtime.createMatch('site-capture',60,siteDecks(),rules);
+export function siteFixture(lightBay=false,decks=siteDecks()){
+ let m=runtime.createMatch('site-capture',60,decks,rules);
  const bay=pull(m,lightBay?'light':'dark',lightBay?'1_124':'1_285'),site=pull(m,'dark','2_143');m.locations.push(bay,site);
  const ship=pull(m,'light','1_140','table',site),host=pull(m,'dark','1_302','table',site),beam=pull(m,'dark','2_111','hand'),characters=[pull(m,'light','1_19','table',site),pull(m,'light','1_28','table',site)],gun=pull(m,'light','1_152','table',site);
  for(const [i,id]of characters.entries()){m.cards[id].attachedTo=ship;m.cards[id].aboardRole=i?'passenger':'pilot';}m.cards[gun].attachedTo=characters[0];

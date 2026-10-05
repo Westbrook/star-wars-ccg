@@ -175,7 +175,7 @@ export function drainAmount(m: Match, side: Side, site: string): number {
   let value = forceIcons(m,site,other(side));
   if(sectorFamily(m,site)==='clouds'&&m.cards[site].owner!==side&&gameTextActive(m,site)&&controls(m,side,site))value++;
   const blueprint = m.cards[site].blueprint;
-  if(blueprint==='1_125'&&side==='light'&&gameTextActive(m,site)&&controls(m,side,site))value++;
+  if(['1_125','1_283'].includes(blueprint)&&side==='light'&&gameTextActive(m,site)&&controls(m,side,site))value++;
   value+=hothDrainModifier(m,side,site)+otsdDrainModifier(m,side,site);
   if(sectorFamily(m,site)==='big-one'&&gameTextActive(m,site)&&controls(m,side,site)){
     if(m.cards[site].owner===side)value+=sectorsAt(m,sectorSystem(m,site)!,'asteroid').filter(id=>sectorFamily(m,id)==='field').length;

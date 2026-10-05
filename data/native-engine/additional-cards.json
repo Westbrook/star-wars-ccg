@@ -3911,5 +3911,24 @@
     ],
     "status": "metadata-only",
     "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set2/dark/Card2_111.java"
+  },
+  {
+    "gempId": "1_283",
+    "name": "Death Star: Central Core",
+    "side": "dark",
+    "type": "Location",
+    "subType": "Site",
+    "image": "https://res.starwarsccg.org/cards/Premiere-Dark/large/deathstarcentralcore.gif",
+    "text": "Dark: If you control, Wrong Turn and Retract The Bridge deploy for free. Light: If you control, Force drain +1 here and Death Star Tractor Beam is canceled.",
+    "stats": {
+      "destiny": "0"
+    },
+    "icons": [
+      "Interior",
+      "Mobile",
+      "Scomp Link"
+    ],
+    "status": "pending",
+    "sourceClass": "src/gemp-swccg-cards/src/main/java/com/gempukku/swccgo/cards/set1/dark/Card1_283.java"
   }
 ]

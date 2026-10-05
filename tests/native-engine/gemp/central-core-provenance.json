@@ -1,0 +1,14 @@
+{
+  "referenceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "scope": "Eight executed GEMP comparisons: real Wrong Turn deployment under four Core control states, beam deployment cancellation after payment, capture followed by actual Core movement and Launch/Escape release, and two holding beams canceled separately before release. Controlled placement, not a full shuffled match.",
+  "files": {
+    "NativeEngineCentralCoreOracleTests.java": "58a321da80e610af9978caa2e81d6a10f01dcffb9a95b7cb0d57512f4fb75c5d",
+    "central-core-results.json": "eb504b7e9147efec7b8add1e686e347202a8463fbdea83c253236df72a1d1529"
+  },
+  "limitations": [
+    "Retract The Bridge has no pinned GEMP implementation and remains unimplemented in native rules. No full Core or starter admission.",
+    "Broader capture, continuous complete shuffled capture matches and all prior discrepancies remain required."
+  ]
+}

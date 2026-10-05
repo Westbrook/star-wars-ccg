@@ -1,0 +1,60 @@
+[
+  {
+    "name": "unoccupied",
+    "wrongCost": 3,
+    "drain": 1.0
+  },
+  {
+    "name": "dark",
+    "wrongCost": 0,
+    "drain": 1.0
+  },
+  {
+    "name": "light",
+    "wrongCost": 3,
+    "drain": 2.0
+  },
+  {
+    "name": "contested",
+    "wrongCost": 3,
+    "drain": 1.0
+  },
+  {
+    "gunUsed": false,
+    "heldAfterFirst": false,
+    "beamLost": true,
+    "extraLost": false,
+    "gunAttached": true,
+    "name": "launch",
+    "atSystem": true,
+    "captured": false,
+    "shipUsed": false
+  },
+  {
+    "gunUsed": true,
+    "heldAfterFirst": false,
+    "beamLost": true,
+    "extraLost": false,
+    "gunAttached": false,
+    "name": "escape",
+    "atSystem": false,
+    "captured": false,
+    "shipUsed": true
+  },
+  {
+    "gunUsed": false,
+    "heldAfterFirst": true,
+    "beamLost": true,
+    "extraLost": true,
+    "gunAttached": true,
+    "name": "two-beams",
+    "atSystem": true,
+    "captured": false,
+    "shipUsed": false
+  },
+  {
+    "name": "deploy-canceled",
+    "cost": 2,
+    "beamLost": true
+  }
+]
