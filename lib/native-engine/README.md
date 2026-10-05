@@ -3449,3 +3449,38 @@ service and SQLite D1 at1440/834/390. Recovery checks freeze only the browser cl
 to isolate saved-state reloads from the separately verified automatic-pass timer.
 A reserved developer-only bottom strip keeps the Progress Report link clear of
 actions; unflagged matches retain their normal layout.
+
+### Complete match with three starting Effects and initiation costs
+
+`gemp/complete-matches/preparation-battle.json.gz` records an ordinary shuffled
+60-card game with both printed preparation Interrupts and all six starting
+Effects. The legal reference client deploys and moves troops, pays for drains,
+chooses both paid and free battles, and reaches Life Force victory on turn34.
+It never moves a card directly, sets Force, changes destiny or patches a pile.
+The native replay executes2378 legal commands and matches207 exact checkpoints,
+including the opening table and piles, through the same Light victory.
+
+Setup verification maps temporary chooser IDs to the actual GEMP physical cards
+using a read-only decision observation. It validates the chosen blueprint,
+physical instance, owner, Reserve membership, selectable flag, actual deployment
+before the next choice, Lost placement of both Interrupts, three unique Effects
+per side and exact opening shuffle/piles. Battle choice labels bind the recorded
+paid/free option; native action costs must match the actual GEMP initiation-cost
+query, and later checkpoints verify payment in the continuing match.
+
+`preparation-match.test.mjs` rejects altered selection IDs, physical mappings,
+card owners/types/zones, deployment outcomes, opening piles, costs and free-battle
+labels. `gemp/preparation-match-provenance.json` binds the executed harness, exact
+profile and compressed trace against6820 unchanged production files.
+
+This is one complete-game receipt, not every-branch or full-catalog certification.
+Resistance/Ultimatum are present, but this game does not demonstrate a drain
+above2 being capped, insert losses, or Sense/Alter consequences. Their component
+receipts remain separate; combined reachable interactions remain required.
+All four existing discrepancies and full engine scope remain open. Native
+production admission stays closed; no additional Rules Lab study is added.
+
+Nine Playwright flows resume actual paid-drain, paid-battle and free-battle
+checkpoints from this fully replayed game through HTTP/service/SQLite D1 at
+1440/834/390. Each follows the recorded legal command sequence, refreshes while
+pending, and compares the exact resulting saved state with the reference replay.

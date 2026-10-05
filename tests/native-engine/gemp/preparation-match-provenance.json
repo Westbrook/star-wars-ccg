@@ -1,0 +1,49 @@
+{
+  "sourceRepository": "https://github.com/PlayersCommittee/gemp-swccg",
+  "sourceCommit": "bbd94d183b29c2e82458293df0327c3b946f3d85",
+  "recordedAt": "2026-10-05T06:15:11.667228+00:00",
+  "files": {
+    "NativeEnginePreparationMatchOracleTests.java": "3dbcc4fc9428909056f019747bfe4b4bc3eb5b8a816cef49e8e395fc9d57b8fb",
+    "complete-matches/preparation-battle-decks.json": "63448751ca290301b44b3063ce9bbf316c2d2a79bfaf04a6ac7e59d852d0f137",
+    "complete-matches/preparation-battle.json.gz": "c400f473c583da4d589956e7b5816724c7170780e43680c0632cdb6c0997abbc"
+  },
+  "jsonSha256": "ccb2cc729077225e45c6adf4094440d89b8b479d3e4b2b7d366f2ce134372f8d",
+  "productionFilesCompared": 6820,
+  "productionFilesChanged": 0,
+  "junitTests": 1,
+  "referenceDecisions": 1624,
+  "nativeCommands": 2378,
+  "comparedCheckpoints": 207,
+  "turns": 34,
+  "winner": "light",
+  "actions": {
+    "untagged": 12,
+    "site-placement": 2,
+    "setup-interrupt": 2,
+    "setup-effect": 6,
+    "activate": 31,
+    "activate-count": 62,
+    "pass": 1291,
+    "deploy": 23,
+    "deploy-target": 23,
+    "site": 4,
+    "battle": 17,
+    "forfeit": 13,
+    "move": 19,
+    "move-target": 19,
+    "drain": 15,
+    "lose": 52,
+    "draw": 33
+  },
+  "scope": [
+    "Ordinary60-card setup through Life Force victory using only legal reference-client actions.",
+    "Actual temporary-selection ID mappings observed through read-only GEMP decision API reflection; no inferred duplicate identity.",
+    "Both Starting Interrupts and all six distinct eligible Effects, exact opening shuffle/piles, ordinary movement, paid drains and paid/free battles.",
+    "Native replay supplies only recorded shuffle entropy and legal commands; no board or pile correction."
+  ],
+  "limits": [
+    "One exact custom-deck game does not prove all reachable branches or full catalog coverage.",
+    "The new loss-limit Effects are present; this game does not demonstrate reduction of a drain above2, nor insert losses or Sense/Alter consequences. Their component receipts remain separate.",
+    "Failed-Obsession, nested-Chances, Bionic transfer and multiple-Hand discrepancies stay open; production admission remains closed."
+  ]
+}

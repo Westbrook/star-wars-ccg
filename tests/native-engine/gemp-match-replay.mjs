@@ -352,10 +352,35 @@ export function inspectionChoice(rows,index,canMove){
  assert.ok(['0','1'].includes(target.answer),'Invalid inspection answer');return target.answer==='0'?'to-force':'keep';
 }
 
+/** Setup selections are actual recorded client answers, not inferred from the
+ * eventual table. Every chosen Effect must resolve before the next selection. */
+export function assertStartingSetupEvidence(record,cards){
+ const boundary=record.trace.findIndex(r=>r.state.phase==='activate');assert.ok(boundary>0,'Missing opening setup boundary');
+ assert.deepEqual(record.trace[boundary].state,record.setup,'Opening snapshot must be observed');
+ const plan={interrupts:{},effects:{dark:[],light:[]},boundary};
+ const rows=record.trace.slice(0,boundary);
+ for(let i=0;i<rows.length;i++){
+  const row=rows[i],s=row.semantic;if(!s||!['setup-interrupt','setup-effect'].includes(s.kind))continue;
+  assert.equal(row.side,s.side);assert.equal(cards[s.card]?.owner,s.side);const choice=row.parameters.cardId.indexOf(row.answer);assert.ok(choice>=0,'Setup answer must be offered');assert.equal(row.parameters.blueprintId[choice],cards[s.card].blueprint);assert.ok(row.state.players[s.side].reserve.includes(s.card),'Chosen setup card must be in Reserve');
+  assert.equal(row.setupOffered?.length,row.parameters.cardId.length);assert.equal(row.setupOffered[choice],s.card);for(let j=0;j<row.setupOffered.length;j++){const id=row.setupOffered[j];assert.equal(cards[id]?.owner,s.side);assert.equal(cards[id]?.blueprint,row.parameters.blueprintId[j]);assert.ok(row.state.players[s.side].reserve.includes(id));}assert.equal(row.parameters.selectable[choice],'true');
+  if(s.kind==='setup-interrupt'){
+   assert.ok(row.text.toLowerCase().includes('starting interrupt'));assert.equal(cards[s.card].blueprint,s.side==='dark'?'9_139':'9_51');assert.equal(plan.interrupts[s.side],undefined,'Duplicate Starting Interrupt');plan.interrupts[s.side]=s.card;
+  }else{
+   assert.ok(row.text.toLowerCase().includes('deploy from reserve'));assert.ok(plan.interrupts[s.side]);assert.ok((s.side==='dark'?['4_134','6_147','8_118']:['4_21','6_58','8_35']).includes(cards[s.card].blueprint),'Unsupported setup Effect');
+   assert.ok(!plan.effects[s.side].some(id=>cards[id].blueprint===cards[s.card].blueprint),'Duplicate unique starting Effect');
+   if(row.parameters.selectableCardId)assert.ok(row.parameters.selectableCardId.includes(row.answer));
+   const next=rows.findIndex((r,j)=>j>i&&r.semantic?.kind==='setup-effect');const end=next<0?boundary:next;
+   assert.ok(record.trace.slice(i+1,end+1).some(r=>r.state.table.some(c=>c.id===s.card)),'Starting deployment result not observed before next choice');plan.effects[s.side].push(s.card);
+  }
+ }
+ for(const side of ['dark','light']){assert.ok(plan.interrupts[side]);assert.equal(plan.effects[side].length,3);assert.deepEqual(record.setup.players[side].lost,[plan.interrupts[side]]);assert.equal(record.setup.players[side].hand.length,8);assert.equal(record.setup.players[side].reserve.length,47);for(const card of plan.effects[side])assert.ok(record.setup.table.some(c=>c.id===card));}
+ assert.equal(record.setup.table.length,6);return plan;
+}
+
 export function replayGempMatch(record,{onCheckpoint}={}){
  assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7,8,9].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
- const profiles={'bionic-battle-v1':'bionic-battle-decks.json','disarm-battle-v1':'disarm-battle-decks.json','search-battle-v1':'search-battle-decks.json','mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
+ const profiles={'preparation-battle-v1':'preparation-battle-decks.json','bionic-battle-v1':'bionic-battle-decks.json','disarm-battle-v1':'disarm-battle-decks.json','search-battle-v1':'search-battle-decks.json','mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
  if(record.deckProfile!==undefined)assert.ok(Object.hasOwn(profiles,record.deckProfile),'Unknown fixed reference deck profile');
  const profile=record.deckProfile===undefined?null:JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/'+profiles[record.deckProfile],import.meta.url)));
  if(profile)assert.equal(record.deckProfile,profile.id,'Unknown fixed reference deck profile');
@@ -379,14 +404,19 @@ export function replayGempMatch(record,{onCheckpoint}={}){
   if(shuffle){assert.equal(used,expected.length,'Incomplete search shuffle');assert.deepEqual(m.players[shuffle.side].reserve,shuffle.order);shuffle.consumed=true;}
   transcript.push({side:p.side,...c,...(values.length?{entropy:values}:{})});
  }
+ const startingPlan=record.deckProfile==='preparation-battle-v1'?assertStartingSetupEvidence(record,m.cards):null,startingIndices={dark:0,light:0};
  while(m.status==='setup'){
   const p=prompt();
-  if(m.setup.stage==='choose')command('select:'+record.setup.locations.find(id=>id.startsWith(p.side+'-')));
+  const f=m.stack.at(-1);
+  if(startingPlan&&m.setup.stage==='starting-choice')command('starting-select:'+startingPlan.interrupts[p.side]);
+  else if(startingPlan&&f?.handler==='prep-start:choose'){const card=startingPlan.effects[p.side][startingIndices[p.side]++];assert.ok(card);assert.equal(runtime.project(m,auditRules,p.side==='dark'?'light':'dark').rules.startingSearch.cards.length,0);command('prep-start:deploy:'+card);}
+  else if(m.setup.stage==='choose')command('select:'+record.setup.locations.find(id=>id.startsWith(p.side+'-')));
   else if(m.setup.stage==='shuffle'){
    const values=['dark','light'].flatMap(side=>shuffleEntropy(m.players[side].reserve,[...record.setup.players[side].hand,...record.setup.players[side].reserve]));let used=0;
    command('begin',()=>{assert.ok(used<values.length);return values[used++];});assert.equal(used,values.length);
   }else command(p.choices[0].id);
  }
+ if(startingPlan){for(const side of ['dark','light'])assert.equal(startingIndices[side],3);assert.deepEqual(normalizedCheckpoint(snapshot(m,record.setup,record.snapshotVersion),m.cards),normalizedCheckpoint(record.setup,m.cards),'Opening setup must reproduce all exact card locations and piles');}
  function seek(row,choices){
   const phase=row.state.phase==='between_turns'?'activate':row.state.phase;
   for(let i=0;i<1000;i++){
@@ -403,7 +433,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
  try{
   const rows=record.trace;
   for(let index=0;index<rows.length;index++){
-   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target','escape-destination','obi-destination','crew-capacity'].includes(s.kind))continue;
+   const row=rows[index],s=row.semantic;if(startingPlan&&index<startingPlan.boundary)continue;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target','escape-destination','obi-destination','crew-capacity'].includes(s.kind))continue;
    if(s.kind==='recovery-verify'){
     assert.equal(row.type,'ARBITRARY_CARDS');assert.equal(row.text,"Verify Lost Pile after unsuccessful attempt to 'Choose card to retrieve'");
     assert.deepEqual(row.parameters.min,['0']);assert.deepEqual(row.parameters.max,['0']);assert.equal(row.answer,'');
@@ -501,7 +531,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
    if(s.kind==='maneuver'){const target=assertInterruptTarget(rows,index,m.cards);choices=['maneuver:'+s.card+':'+target];}
    if(s.kind==='hyperspace'){const target=followingTarget(rows,index,'move-target');choices=['voyage:hyperspace:'+s.card+':'+target.semantic.card];}
    if(s.kind==='vehicle-react'){const target=followingTarget(rows,index,'move-target');choices=['vehicle-react:'+s.card+':'+target.semantic.card];}
-   if(s.kind==='battle')choices=['battle:'+s.card];
+   if(s.kind==='battle'){if(startingPlan){assert.equal(typeof row.free,'boolean');assert.equal(row.parameters.actionText[row.parameters.actionId.indexOf(row.answer)].toLowerCase(),row.free?'initiate battle for free':'initiate battle');}choices=[(row.free?'battle-free:':'battle:')+s.card];}
    if(s.kind==='drain')choices=['drain:'+s.card];
    if(s.kind==='reduce'){const amount=followingTarget(rows,index,'reduce-amount').count;choices=['reduce:'+s.card+':'+amount,'battle-reduce:'+s.card+':'+amount];}
    if(s.kind==='barrier')choices=['barrier:'+s.card+':'+s.target];
@@ -514,6 +544,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
+   if(startingPlan&&['battle','drain'].includes(s.kind)){const a=auditRules.actions(m,m.stack.at(-1),s.side).find(a=>a.id===choice);assert.ok(a);assert.equal(a.payment?.[s.side]??0,row.initiationCost,'Actual initiation cost differs from GEMP');}
    if(['bionic-deploy','bionic-trigger','weapon-total','disarm-deploy','evazan','disarm-trigger','mentor-search','search-selection','search-verify','obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
