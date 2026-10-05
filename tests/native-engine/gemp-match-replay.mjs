@@ -128,7 +128,7 @@ export function assertInterruptTarget(rows,index,cards,{playing=false}={}){
  if(playing){
   assert.equal(s.kind,'named-cancel');assert.equal(o.afterDecision,index,'Playing-card cancellation must observe its bound target immediately');
   const previous=rows.slice(0,index).findLast(r=>r.semantic&&!['pass','interrupt-target'].includes(r.semantic.kind));
-  assert.equal(previous?.semantic.kind,'battle-add','Cancellation must bind the pending addition');assert.equal(previous.semantic.card,s.target,'Cancellation target differs from pending source');
+  assert.ok(['battle-add','mentor-search'].includes(previous?.semantic.kind),'Cancellation must bind the pending Interrupt');assert.equal(previous.semantic.card,s.target,'Cancellation target differs from pending source');
   assert.ok(!row.state.table.some(c=>c.id===s.target)&&!Object.values(row.state.players).some(p=>Object.values(p).some(pile=>pile.includes(s.target))),'Cancellation target is not being played');
  }else assert.ok(row.state.table.some(c=>c.id===s.target),'Target must be on table at initiation');
  if(o.afterDecision!==index){
@@ -170,11 +170,25 @@ export function assertInterruptTargets(rows,index,cards){
  return s.targets;
 }
 
+/** Read the actual canceled flag and bound cancellation target. No private
+ * search dialog or shuffle may appear after this paid play was canceled. */
+export function assertCanceledSearch(rows,index,cards,final){
+ const row=rows[index],s=row?.semantic,o=row?.searchOutcome;
+ assert.equal(s?.kind,'mentor-search');assertReferenceAction(row);assert.equal(cards[s.card]?.blueprint,'1_82');assert.equal(cards[s.card]?.owner,s.side);
+ assert.equal(o?.canceled,true);assert.equal(o.source,s.card);assert.ok(Number.isSafeInteger(o.afterDecision)&&o.afterDecision>index&&o.afterDecision<rows.length,'Invalid canceled search boundary');assert.equal(row.selection,undefined,'Canceled search must not expose a selection');
+ const branch=rows.slice(index+1,o.afterDecision+1),cancels=branch.filter(r=>r.semantic?.kind==='named-cancel');
+ assert.ok(branch.every(r=>!r.semantic||['pass','named-cancel'].includes(r.semantic.kind)),'Canceled search crosses another action or private inspection');assert.equal(cancels.length,1);
+ const cancel=cancels[0],j=rows.indexOf(cancel);assertReferenceAction(cancel);assert.equal(cards[cancel.semantic.card]?.blueprint,'1_235');assert.notEqual(cancel.semantic.side,s.side);assert.equal(cards[cancel.semantic.card]?.owner,cancel.semantic.side);assert.equal(assertInterruptTarget(rows,j,cards,{playing:true}),s.card);
+ const before=row.state.players[s.side],after=(rows[o.afterDecision+1]?.state??final).players[s.side];
+ assert.deepEqual(o.reserve,before.reserve,'Canceled search must not shuffle');assert.deepEqual(after.reserve,before.reserve,'Immediate Reserve order differs');assert.deepEqual([...o.hand].sort(),before.hand.filter(id=>id!==s.card).sort());assert.deepEqual([...after.hand].sort(),[...o.hand].sort());assert.deepEqual(after.force,before.force.slice(1));assert.ok(before.force.length);assert.deepEqual(after.used,[before.force[0],...before.used]);assert.ok(after.lost.includes(s.card));
+ return {source:s.card,side:s.side,canceled:true,cancellationIndex:j,afterDecision:o.afterDecision,consumed:true};
+}
+
 /** A search result and reshuffle belong to this exact paid Interrupt. The
  * observer reads physical identities from GEMP's actual private choice; pile
  * order is reproduced later with legal entropy, never by replacing state. */
 export function assertSearchEvidence(rows,index,cards,final){
- const row=rows[index],s=row?.semantic,o=row?.searchOutcome;assert.equal(s?.kind,'mentor-search');assertReferenceAction(row);assert.equal(cards[s.card]?.blueprint,'1_82');assert.equal(cards[s.card]?.owner,s.side);
+ const row=rows[index],s=row?.semantic,o=row?.searchOutcome;if(o?.canceled===true)return assertCanceledSearch(rows,index,cards,final);assert.equal(s?.kind,'mentor-search');assertReferenceAction(row);assert.equal(cards[s.card]?.blueprint,'1_82');assert.equal(cards[s.card]?.owner,s.side);
  assert.ok(o&&o.source===s.card,'Search completion source differs');assert.ok(Number.isSafeInteger(o.afterDecision)&&o.afterDecision>=index&&o.afterDecision<rows.length,'Invalid search outcome boundary');
  const before=row.state.players[s.side],branch=rows.slice(index+1,o.afterDecision+1),after=rows[o.afterDecision+1]?.state??final;
  assert.ok(branch.every(r=>!r.semantic||['pass','search-selection','search-verify'].includes(r.semantic.kind)),'Search completion crosses another action');
@@ -273,7 +287,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
   const entropy=suppliedEntropy??(()=>{
    if(!shuffle){
     const pending=[...m.stack].reverse().find(f=>f.kind==='resolution'&&f.action.handler==='mentor:shuffle'||f.kind==='decision'&&f.handler==='mentor:verify');
-    assert.ok(pending,'Unexpected runtime entropy outside a verified search');const source=pending.kind==='resolution'?pending.action.payload.card:pending.payload.card;shuffle=searchPlans.get(source);assert.ok(shuffle&&!shuffle.consumed,'Unknown or repeated search shuffle');
+    assert.ok(pending,'Unexpected runtime entropy outside a verified search');const source=pending.kind==='resolution'?pending.action.payload.card:pending.payload.card;shuffle=searchPlans.get(source);assert.ok(shuffle&&!shuffle.canceled&&!shuffle.consumed,'Unknown, canceled or repeated search shuffle');
     const before=m.players[shuffle.side].reserve;assert.ok(!shuffle.selected||!before.includes(shuffle.selected),'Shuffle began before the selected card left Reserve');expected=shuffleEntropy(before,shuffle.order);
    }
    assert.ok(used<expected.length,'Extra search entropy request');const value=expected[used++];values.push(value);return value;
