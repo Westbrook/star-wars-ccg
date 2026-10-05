@@ -342,6 +342,12 @@
       "scope": "Custom decks outside exact intro pair: paired battle additions and named cancellation chains. Does not close exact-starter or full-engine admission.",
       "receipt": "tests/native-engine/gemp/paired-match-provenance.json",
       "verification": "2627 native commands,280 matched checkpoints,30 turns,Dark Life Force victory."
+    },
+    {
+      "profile": "mentor-battle-v1",
+      "scope": "Custom decks outside exact intro pair: eleven Obi-Wan reactions,paired Gift Of The Mentor and named cancellation. Does not close exact-starter or full-engine admission.",
+      "receipt": "tests/native-engine/gemp/mentor-match-provenance.json",
+      "verification": "2273nativecommands,253matchedcheckpoints,23turns,LightLifeForcevictory;6free moves and5voluntarylosses."
     }
   ]
 }

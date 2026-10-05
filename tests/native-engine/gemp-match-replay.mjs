@@ -53,6 +53,12 @@ function snapshot(m,expected,version){
  * normal Draw action. The reference's chosen command must support its tag. */
 export function assertReferenceAction(row){
  const kind=row.semantic?.kind;
+ if(kind==='obi-use'){
+  const i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Missing Obi-Wan action answer');
+  assert.equal(row.parameters.actionText[i].toLowerCase(),'make a character move away or be lost','Wrong Obi-Wan action');
+  assert.ok(row.text.startsWith('Battle just initiated at '),'Obi-Wan must respond to battle initiation');return;
+ }
+
  if(['battle-add','named-cancel'].includes(kind)){
   const i=row.parameters.actionId?.indexOf(row.answer);assert.ok(i>=0,'Reference action answer missing');
   const label=row.parameters.actionText[i].toLowerCase();
@@ -158,6 +164,33 @@ export function assertInterruptTargets(rows,index,cards){
  return s.targets;
 }
 
+/** Bind Obi-Wan's opponent choice and immediate outcome to the selected
+ * primary target. Never infer a route or casualty from a later battle. */
+export function assertObiOutcome(rows,index,cards,final){
+ const row=rows[index],s=row?.semantic,o=row?.obiOutcome;
+ assert.equal(s?.kind,'obi-use');assertReferenceAction(row);assert.equal(cards[s.card]?.blueprint,'1_21');
+ const target=assertInterruptTarget(rows,index,cards),source=row.state.table.find(c=>c.id===s.card),initial=row.state.table.find(c=>c.id===target);
+ assert.ok(source&&initial);assert.equal(source.location,initial.location,'Obi-Wan target must be present');assert.equal(initial.stats.ability,1);
+ assert.ok(o&&o.card===target&&o.blueprint===cards[target]?.blueprint,'Missing Obi-Wan outcome binding');assert.equal(o.from,initial.location);
+ assert.ok(Number.isSafeInteger(o.afterDecision)&&o.afterDecision>=index&&o.afterDecision<rows.length,'Invalid Obi-Wan outcome boundary');
+ const after=rows[o.afterDecision+1]?.state??final,branch=rows.slice(index+1,o.afterDecision+1);
+ assert.ok(branch.every(r=>!r.semantic||['pass','interrupt-target','obi-choice','obi-destination','loss-order'].includes(r.semantic.kind)),'Obi-Wan outcome crosses another action');
+ const choices=branch.filter(r=>r.semantic?.kind==='obi-choice');assert.ok(choices.length<=1,'Repeated Obi-Wan opponent choice');
+ const selected=choices[0],destinations=branch.filter(r=>r.semantic?.kind==='obi-destination');
+ if(selected){
+  const c=selected.semantic;assert.equal(c.initiation,index,'Obi-Wan choice borrowed another action');assert.equal(c.source,s.card);assert.equal(c.card,target);assert.notEqual(c.side,s.side);assert.equal(c.side,cards[target].owner);
+  assert.equal(selected.type,'MULTIPLE_CHOICE');assert.deepEqual(selected.parameters.results,['Yes','No']);assert.ok(['0','1'].includes(selected.answer),'Invalid move-or-loss answer');
+  assert.ok(selected.text.toLowerCase().startsWith('do you want to have ')&&selected.text.includes("value='"+cards[target].blueprint+"'")&&selected.text.endsWith(' move away?'),'Wrong move-or-loss prompt');
+  assert.equal(o.lost,selected.answer==='1','Observed outcome differs from opponent choice');
+ }else assert.equal(o.lost,true,'Movement needs an opponent choice');
+ if(o.lost){assert.equal(o.to,undefined);assert.ok(after.players[cards[target].owner].lost.includes(target),'Loss not observed immediately');assert.ok(!after.table.some(c=>c.id===target));assert.equal(destinations.length,0);}
+ else{
+  assert.ok(row.state.locations.includes(o.to)&&o.to!==o.from,'Invalid move-away endpoint');assert.equal(after.table.find(c=>c.id===target)?.location,o.to,'Move not observed immediately');assert.ok(destinations.length<=1);
+  for(const d of destinations){assert.equal(d.semantic.side,selected.semantic.side);assert.equal(d.semantic.card,o.to);assert.equal(d.type,'CARD_SELECTION');const j=d.parameters.cardId.indexOf(d.answer);assert.ok(j>=0);assert.equal(d.parameters.blueprintId[j],cards[o.to].blueprint);if(d.parameters.selectable)assert.equal(d.parameters.selectable[j],'true');}
+ }
+ return {target,outcome:o,choiceIndex:selected?rows.indexOf(selected):null,choice:selected?(o.lost?'obi:lose':'obi:move:'+o.to):null};
+}
+
 /** A chosen move-away card and its observed arrival belong to one decision,
  * not an arbitrary later appearance at a convenient destination. */
 export function assertReferenceMove(rows,index,cards,final){
@@ -194,7 +227,7 @@ export function inspectionChoice(rows,index,canMove){
 export function replayGempMatch(record,{onCheckpoint}={}){
  assert.equal(record.schema,1,'Unsupported reference schema');assert.ok([2,3,4,5,6,7,8].includes(record.snapshotVersion),'Reference must contain stat and loss evidence');
  assert.equal(record.finished,true,'Reference match must finish');assert.ok(['dark','light'].includes(record.winner),'Reference winner missing');
- const profiles={'paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
+ const profiles={'mentor-battle-v1':'mentor-battle-decks.json','paired-battle-v1':'paired-battle-decks.json','hoth-vehicles-v1':'hoth-vehicles-decks.json','space-pilots-v1':'space-pilots-decks.json','space-crew-v1':'space-crew-decks.json','armed-space-v1':'armed-space-decks.json'};
  if(record.deckProfile!==undefined)assert.ok(Object.hasOwn(profiles,record.deckProfile),'Unknown fixed reference deck profile');
  const profile=record.deckProfile===undefined?null:JSON.parse(fs.readFileSync(new URL('./gemp/complete-matches/'+profiles[record.deckProfile],import.meta.url)));
  if(profile)assert.equal(record.deckProfile,profile.id,'Unknown fixed reference deck profile');
@@ -229,7 +262,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
  try{
   const rows=record.trace;
   for(let index=0;index<rows.length;index++){
-   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target','escape-destination','crew-capacity'].includes(s.kind))continue;
+   const row=rows[index],s=row.semantic;if(!s||['pass','deploy-target','fire-target','move-target','site-placement','inspection-force','reduce-amount','activate-count','recovery-selection','recovery-placement','interrupt-target','escape-destination','obi-destination','crew-capacity'].includes(s.kind))continue;
    if(s.kind==='recovery-verify'){
     assert.equal(row.type,'ARBITRARY_CARDS');assert.equal(row.text,"Verify Lost Pile after unsuccessful attempt to 'Choose card to retrieve'");
     assert.deepEqual(row.parameters.min,['0']);assert.deepEqual(row.parameters.max,['0']);assert.equal(row.answer,'');
@@ -237,9 +270,16 @@ export function replayGempMatch(record,{onCheckpoint}={}){
    }
    assertReferenceAction(row);
    let choices=[];
+   if(s.kind==='obi-use'){
+    const proof=assertObiOutcome(rows,index,m.cards,record.final);choices=['obi:use:'+s.card+':'+proof.target];
+   }
+   if(s.kind==='obi-choice'){
+    assert.ok(Number.isSafeInteger(s.initiation)&&s.initiation>=0&&s.initiation<index);
+    const proof=assertObiOutcome(rows,s.initiation,m.cards,record.final);assert.equal(proof.choiceIndex,index);choices=[proof.choice];
+   }
    if(s.kind==='battle-add'){
     const targets=assertInterruptTargets(rows,index,m.cards),bp=m.cards[s.card].blueprint;
-    assert.ok(['1_110','1_76','1_116'].includes(bp),'Unsupported paired addition source');
+    assert.ok(['1_82','1_110','1_76','1_116'].includes(bp),'Unsupported paired addition source');
     const label=row.parameters.actionText[row.parameters.actionId.indexOf(row.answer)].toLowerCase();
     assert.equal(label,bp==='1_116'?'add battle destiny':'add two battle destiny');
     choices=()=>auditRules.actions(m,m.stack.at(-1),s.side).filter(a=>a.handler==='battle-add:play'&&a.source===s.card&&JSON.stringify(a.payload.targets.map(t=>t.id).sort())===JSON.stringify([...targets].sort())).map(a=>a.id);
@@ -323,7 +363,7 @@ export function replayGempMatch(record,{onCheckpoint}={}){
     else {const pile=row.lossZone.includes('RESERVE')?'reserve':row.lossZone.includes('FORCE')?'force':row.lossZone.includes('USED')?'used':null;assert.ok(pile,row.lossZone);choices=['lose:'+pile,'battle-lose:'+pile];}
    }
    assert.ok(typeof choices==='function'||choices.length,s.kind);const choice=seek(row,choices);
-   if(['battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
+   if(['obi-use','obi-choice','battle-add','named-cancel','activate','draw','deploy','equip','fire','site','move','battle','drain','forfeit','lose','loss-order','explode','barrier','mine-victims','reduce','macroscan','peek','inspection','kintan','old-ben','stun','dice','takeel','run-luke','escape','escape-card','vehicle-react','hyperspace','maneuver'].includes(s.kind)){
     try{assert.deepEqual(normalizedCheckpoint(snapshot(m,row.state,record.snapshotVersion),m.cards),normalizedCheckpoint(row.state,m.cards));}catch(e){e.message='Checkpoint '+index+' '+JSON.stringify(s)+'\n'+e.message;throw e;}checkpoints++;
     // Browser fixtures may resume a verified checkpoint. Copies prevent the
     // observer from changing either the reference or the continuing replay.
